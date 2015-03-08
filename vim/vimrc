@@ -1,0 +1,68 @@
+set nocompatible                " désactive la compatibilité avec vi
+
+" Interface
+set mouse=a                     " active la souris pour tous les modes
+set novisualbell                " désactive les notifications sonores et visuelles
+set noerrorbells                
+
+" Coloration syntaxique
+set syntax=on
+
+" Indentation
+set smartindent                 " indentation intelligente
+set autoindent			        " conserve l'indentation courante
+set tabstop=4                   " taille des indentations
+set softtabstop=4
+set shiftwidth=4
+
+" Tabulation
+set smarttab                    " tabulation intelligente
+set expandtab			        " remplace les tabulations par des espaces
+set shiftround			        " indentation a la marque Tab la plus proche
+
+" Folding
+set foldmethod=indent           " mode de folding
+set foldlevel=20                " ouverture des folds jusqu'au niveau
+
+" Recherche
+set incsearch			        " affiche le résultat en cours de recherche
+set hlsearch                    " surlignement des termes recherchés
+set smartcase                   " recherche intelligente
+set ignorecase                  " recherche insensible à la casse
+
+" Affichage
+set number 				        " affiche les numéros de ligne
+set ruler                       " affiche la position du curseur
+set wildmenu                    " complétion des commandes
+set wildmode=list:longest
+set showmode			        " affiche le mode édition
+set showmatch			        " affiche la parenthèse correspondante
+set so=5                        " marge lors des déplacements verticaux
+set laststatus=2                " affiche toujours la ligne de status
+
+" Processus
+set autoread			        " relecture automatiquement un fichier modifié en dehors de vim
+set encoding=utf-8              " encodage par défaut
+set ffs=unix,dos,mac            " type de fichier par défaut
+
+" Sauvegarde et historique
+set nowb
+set nobackup
+set noswapfile
+set history=150                 " taille de l'historique
+set undolevels=150              " niveau de retour en arrière
+
+" Suffixes à cacher
+set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
+
+" Plugins
+filetype on
+filetype plugin on
+filetype indent indent on
+filetype indent plugin on
+call pathogen#infect()
+
+" Raccourcis
+nnoremap <F1> :NERDTreeToggle<CR>
+nnoremap <A-Left> :tabprevious<CR>
+nnoremap <A-Right> :tabnext<CR>

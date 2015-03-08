@@ -1,0 +1,15 @@
+{
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Alignment",
+		"All Autocomplete",
+		"Anaconda",
+		"Emmet",
+		"GitGutter",
+		"Package Control",
+		"SideBarEnhancements"
+	]
+}
