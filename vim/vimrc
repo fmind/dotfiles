@@ -1,68 +1,94 @@
-set nocompatible                " désactive la compatibilité avec vi
+set nocompatible                " disable vi compatibility
+filetype off                    " no file type detection
+set nomodeline                  " security advice
 
-" Interface
-set mouse=a                     " active la souris pour tous les modes
-set novisualbell                " désactive les notifications sonores et visuelles
-set noerrorbells                
+" INTERFACE
+set so=10                       " activate a margin on vertical scrolling
+set title                       " activate vim title on the current xterm
+set mouse=a                     " activate mouse selection for every mode
+set wildmenu                    " activate a menu for autocompletion
+set wildmode=list:longest       "   (menu behaviour)
+set nospell                     " activate inline spell check
+set spelllang=en                "   (spelling language)
+colorscheme darkblue            " activate colorscheme
 
-" Coloration syntaxique
-set syntax=on
+" DISPLAY
+set ruler                       " display cursor location
+set syntax=on                   " display syntaxic coloration
+set number 				        " display line numbers (gutter)
+set showmode			        " display the current mode
+set showmatch			        " display matching parenthesis
+set laststatus=2                " display the status line (always)
 
-" Indentation
-set smartindent                 " indentation intelligente
-set autoindent			        " conserve l'indentation courante
-set tabstop=4                   " taille des indentations
-set softtabstop=4
-set shiftwidth=4
+" INDENTATION
+set expandtab                   " insert spaces when hitting TABs
+set shiftround                  " round indent to multiple of 'shiftwidth'
+set autoindent                  " align the new line indent with the previous line
+set textwidth=79                " lines longer than 79 columns will be broken
+set tabstop=4                   " a hard TAB displays as 4 columns
+set shiftwidth=4                " operation >> indents 4 columns; << unindents 4 columns
+set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACKSPACE
+set backspace=indent,eol,start  " allow backspacing over everything in insert mode 
 
-" Tabulation
-set smarttab                    " tabulation intelligente
-set expandtab			        " remplace les tabulations par des espaces
-set shiftround			        " indentation a la marque Tab la plus proche
+" SEARCH
+set incsearch			        " show match as the search proceeds
+set hlsearch                    " search highlighting
+set ignorecase                  " case insensitivity
+set smartcase                   "   (only when no caps is used)
 
-" Folding
-set foldmethod=indent           " mode de folding
-set foldlevel=20                " ouverture des folds jusqu'au niveau
+" FOLDING
+set foldlevel=20                " folding level
+set foldmethod=indent           " folding behaviour
 
-" Recherche
-set incsearch			        " affiche le résultat en cours de recherche
-set hlsearch                    " surlignement des termes recherchés
-set smartcase                   " recherche intelligente
-set ignorecase                  " recherche insensible à la casse
+" READ/WRITE
+set encoding=utf-8              " default encoding
+set ffs=unix,dos,mac            " default newline
 
-" Affichage
-set number 				        " affiche les numéros de ligne
-set ruler                       " affiche la position du curseur
-set wildmenu                    " complétion des commandes
-set wildmode=list:longest
-set showmode			        " affiche le mode édition
-set showmatch			        " affiche la parenthèse correspondante
-set so=5                        " marge lors des déplacements verticaux
-set laststatus=2                " affiche toujours la ligne de status
+" SAVING/BACKUP
+set hidden                      " buffers can exist in background
+set nowb                        " no backup before overriding
+set nobackup                    " no backup files
+set noswapfile                  " no .swp files
+set history=100                 " history size
+set undolevels=100              " undo size
 
-" Processus
-set autoread			        " relecture automatiquement un fichier modifié en dehors de vim
-set encoding=utf-8              " encodage par défaut
-set ffs=unix,dos,mac            " type de fichier par défaut
-
-" Sauvegarde et historique
-set nowb
-set nobackup
-set noswapfile
-set history=150                 " taille de l'historique
-set undolevels=150              " niveau de retour en arrière
-
-" Suffixes à cacher
+" EXCLUSION
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
 
-" Plugins
-filetype on
-filetype plugin on
-filetype indent indent on
-filetype indent plugin on
-call pathogen#infect()
+" PLUGINS
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-" Raccourcis
-nnoremap <F1> :NERDTreeToggle<CR>
-nnoremap <A-Left> :tabprevious<CR>
-nnoremap <A-Right> :tabnext<CR>
+" let Vundle Manage Vundle
+Bundle 'gmarik/vundle'
+
+Bundle 'scrooloose/nerdtree'
+Bundle 'sjl/badwolf'
+
+" all the of your plugins must be added before the following line
+call vundle#end()
+filetype plugin on
+filetype indent on
+
+" SHORTCUTS
+let mapleader="\<Space>"        " set map leader (user extension shortcut)_
+" Basic
+nnoremap <leader>w :w<CR>
+nnoremap <leader>x :x<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>h :nohl<CR>
+nnoremap <leader>l :so %<CR>
+nnoremap <leader>t :tabedit 
+nnoremap <leader>? :help 
+" Copy & Paste
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+" Plugins
+nnoremap <leader>B :BundleInstall<CR>
+nnoremap <leader>U :BundleUpdate<CR>
+nnoremap <leader>` :NERDTreeToggle<CR>

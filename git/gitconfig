@@ -1,0 +1,21 @@
+[user]
+    name = Freaxmind
+    email = freaxmind@users.noreply.github.com
+
+[core]
+    editor = vim
+    excludesfile = ~/.gitignore
+
+[merge]
+    tool = vimdiff
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+
+[alias]
+    st = status
+    ci = commit
+    rm = remove
