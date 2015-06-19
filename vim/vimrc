@@ -41,6 +41,7 @@ set foldlevel=20                " folding level
 set foldmethod=indent           " folding behaviour
 
 " READ/WRITE
+set nowrap                      " don't wrap text
 set encoding=utf-8              " default encoding
 set ffs=unix,dos,mac            " default newline
 
@@ -64,7 +65,6 @@ call vundle#begin()
 Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/nerdtree'
-Bundle 'sjl/badwolf'
 
 " all the of your plugins must be added before the following line
 call vundle#end()
@@ -78,8 +78,9 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>h :nohl<CR>
-nnoremap <leader>l :so %<CR>
 nnoremap <leader>t :tabedit 
+nnoremap <leader>V :tabedit $MYVIMRC<CR>
+nnoremap <leader>L :source $MYVIMRC<CR>
 nnoremap <leader>? :help 
 " Copy & Paste
 vmap <Leader>y "+y
@@ -89,6 +90,6 @@ nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
 " Plugins
-nnoremap <leader>B :BundleInstall<CR>
-nnoremap <leader>U :BundleUpdate<CR>
+nnoremap <leader>B :PluginInstall<CR>
+nnoremap <leader>U :PluginUpdate<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>

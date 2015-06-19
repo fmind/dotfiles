@@ -1,0 +1,10 @@
+# Python #
+##########
+*.pyc
+*.pyo
+
+# Others #
+##########
+*.log
+*.sql
+*.sqlite
