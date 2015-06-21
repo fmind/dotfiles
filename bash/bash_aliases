@@ -11,8 +11,8 @@ alias vir="vim -R"
 alias vis="sudo vim"
 
 # Alias: ADVANCED
-alias ipy="ipython --profile=freaxmind"
-alias pynote="ipy notebook"
+alias py="ipython --profile=freaxmind"
+alias pynote="py notebook"
 alias anaswitch="export PATH=\"~/anaconda/bin:$PATH\""
 
 # Alias: DISTRIBUTION (Ubuntu)

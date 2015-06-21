@@ -13,9 +13,15 @@ _proxy = os.getenv('http_proxy') or os.getenv('HTTP_PROXY')
 
 def _link(src, dst):
     """ Create a link from the git conf. (src) to the program conf. (dst) """
-    # returns if already a link
+    # returns if exists and already a link
     if os.path.exists(dst) and os.path.islink(dst):
         return
+
+    if not os.path.exists(os.path.dirname(dst)):
+        print "\t>> Please launch the application related to this file, then press Enter: {0}".format(dst)
+        raw_input()
+
+    print "\tLinking {0} with {1}".format(src, dst)
 
     # removes if not a link
     if os.path.exists(dst) and not os.path.islink(dst):
@@ -131,16 +137,24 @@ def ipython():
 
 def security():
     print "[*] Performing Security Checks ..."
-    # TODO: absolute path (home), permissions
-    pass
+    print "\t[-] Files wih references to /home"
+    local('rgrep /home .')
 
-def deploy():
+    print "\t[-] Files wih 'Group' and 'Others' permissions set"
+    local('find . -perm -011')
+
+def deploy_packages():
     apt()
     pip()
+
+def deploy_conf():
     bash()
     byobu()
     vim()
     git()
     xfce()
     ipython()
-    security()
+
+def deploy_all():
+    deploy_packages()
+    deploy_conf()
