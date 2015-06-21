@@ -65,6 +65,16 @@ call vundle#begin()
 Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/nerdtree'
+Bundle 'ivanov/vim-ipython'
+source $HOME/.vim/bundle/vim-ipython/ftplugin/python/ipy.vim
+let g:ipy_perform_mappings = 0
+nmap  <buffer> <silent> <C-p>       :python run_this_line()<CR>
+vmap  <buffer> <silent> <C-P>       :python run_these_lines()<CR>
+nmap  <buffer> <silent> <S-p>       :python run_this_file()<CR>
+"map  <buffer> <silent> <LocalLeader>d <Plug>(IPython-OpenPyDoc)
+"map  <buffer> <silent> <LocalLeader>s <Plug>(IPython-UpdateShell)
+"map  <buffer> <silent> <S-F9>         <Plug>(IPython-ToggleReselect)
+"map  <buffer>          <C-F5>         <Plug>(IPython-ToggleSendOnSave)
 
 " all the of your plugins must be added before the following line
 call vundle#end()
@@ -79,8 +89,10 @@ nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>h :nohl<CR>
 nnoremap <leader>t :tabedit 
-nnoremap <leader>V :tabedit $MYVIMRC<CR>
+nnoremap <leader>T :tabedit $MYVIMRC<CR>
 nnoremap <leader>L :source $MYVIMRC<CR>
+nnoremap <leader>V :vsplit 
+nnoremap <leader>H :hsplit 
 nnoremap <leader>? :help 
 " Copy & Paste
 vmap <Leader>y "+y
