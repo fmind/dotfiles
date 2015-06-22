@@ -134,6 +134,11 @@ def ipython():
 
     _link(profile_config_src, profile_config_dst)
 
+def fonts():
+    fonts_src = os.path.join(_curdir, 'fonts/')
+    fonts_dst = os.path.expanduser('~/.fonts')
+
+    _link(fonts_src, fonts_dst)
 
 def security():
     print "[*] Performing Security Checks ..."
@@ -154,6 +159,7 @@ def deploy_conf():
     git()
     xfce()
     ipython()
+    fonts()
 
 def deploy_all():
     deploy_packages()

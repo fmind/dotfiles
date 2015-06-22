@@ -10,7 +10,9 @@ set wildmenu                    " activate a menu for autocompletion
 set wildmode=list:longest       "   (menu behaviour)
 set nospell                     " activate inline spell check
 set spelllang=en                "   (spelling language)
-colorscheme darkblue            " activate colorscheme
+set background=dark             " always have dark background
+colorscheme twilight256         " activate colorscheme
+set t_Co=256                    " add more colors
 
 " DISPLAY
 set ruler                       " display cursor location
@@ -64,17 +66,13 @@ call vundle#begin()
 " let Vundle Manage Vundle
 Bundle 'gmarik/vundle'
 
+Bundle 'flazz/vim-colorschemes'
 Bundle 'scrooloose/nerdtree'
 Bundle 'ivanov/vim-ipython'
-source $HOME/.vim/bundle/vim-ipython/ftplugin/python/ipy.vim
-let g:ipy_perform_mappings = 0
-nmap  <buffer> <silent> <C-p>       :python run_this_line()<CR>
-vmap  <buffer> <silent> <C-P>       :python run_these_lines()<CR>
-nmap  <buffer> <silent> <S-p>       :python run_this_file()<CR>
-"map  <buffer> <silent> <LocalLeader>d <Plug>(IPython-OpenPyDoc)
-"map  <buffer> <silent> <LocalLeader>s <Plug>(IPython-UpdateShell)
-"map  <buffer> <silent> <S-F9>         <Plug>(IPython-ToggleReselect)
-"map  <buffer>          <C-F5>         <Plug>(IPython-ToggleSendOnSave)
+Bundle 'bling/vim-airline' 
+Bundle 'powerline/fonts'
+let g:airline_powerline_fonts=1
+let g:airline_theme='raven'
 
 " all the of your plugins must be added before the following line
 call vundle#end()
