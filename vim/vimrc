@@ -1,6 +1,6 @@
 set nocompatible                " disable vi compatibility
-filetype off                    " no file type detection
-set nomodeline                  " security advice
+set nomodeline                  " security advice !
+filetype off                    " no ext detection
 
 " INTERFACE
 set so=10                       " activate a margin on vertical scrolling
@@ -11,7 +11,7 @@ set wildmode=list:longest       "   (menu behaviour)
 set nospell                     " activate inline spell check
 set spelllang=en                "   (spelling language)
 set background=dark             " always have dark background
-colorscheme twilight256         " activate colorscheme
+colorscheme molokai             " activate colorscheme
 set t_Co=256                    " add more colors
 
 " DISPLAY
@@ -26,7 +26,6 @@ set laststatus=2                " display the status line (always)
 set expandtab                   " insert spaces when hitting TABs
 set shiftround                  " round indent to multiple of 'shiftwidth'
 set autoindent                  " align the new line indent with the previous line
-set textwidth=79                " lines longer than 79 columns will be broken
 set tabstop=4                   " a hard TAB displays as 4 columns
 set shiftwidth=4                " operation >> indents 4 columns; << unindents 4 columns
 set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACKSPACE
@@ -66,13 +65,40 @@ call vundle#begin()
 " let Vundle Manage Vundle
 Bundle 'gmarik/vundle'
 
+Bundle 'easymotion/vim-easymotion'
 Bundle 'flazz/vim-colorschemes'
+Bundle 'Raimondi/delimitMate'
+Bundle 'scrooloose/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_python_flake8_args = "--ignore=E501,F403"
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 Bundle 'scrooloose/nerdtree'
+Bundle 'honza/vim-snippets'
 Bundle 'ivanov/vim-ipython'
 Bundle 'bling/vim-airline' 
-Bundle 'powerline/fonts'
+let g:airline#extensions#tabline#enabled=0
 let g:airline_powerline_fonts=1
-let g:airline_theme='raven'
+let g:airline_theme='simple'
+Bundle 'ervandew/supertab'
+Bundle 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+Bundle 'powerline/fonts'
+Bundle 'kien/ctrlp.vim'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll|pyc|jpeg|jpg|gif|png)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+let g:ctrlp_working_path_mode = 'c'
 
 " all the of your plugins must be added before the following line
 call vundle#end()

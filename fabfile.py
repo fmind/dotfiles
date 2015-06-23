@@ -3,7 +3,6 @@
 
 from fabric.api import *
 import shutil
-import sys
 import os
 
 _fpkg = lambda x: ' '.join(x)
@@ -35,9 +34,9 @@ def _link(src, dst):
 
 def apt():
     print "[*] Installing new system packages (apt) ..."
-    packages = ['vim', 'vim-gui-common', 'byobu', 'python-dev', 'python-pip',
+    packages = ['vim', 'vim-gui-common', 'byobu', 'python-dev', 'python-pip', 'python-flake8',
                 'python-zmq', 'ipython', 'python-matplotlib', 'curl', 'git', 'zsh']
-    local('sudo apt-get install {packages}'.format(packages=_fpkg(packages))) 
+    local('sudo apt-get install {packages}'.format(packages=_fpkg(packages)))
 
 
 def pip():
@@ -102,7 +101,7 @@ def git():
     gitconfig_dst = os.path.expanduser('~/.gitconfig')
     gitignore_src = os.path.join(_curdir, 'git', 'gitignore')
     gitignore_dst = os.path.expanduser('~/.gitignore')
-    
+
     _link(gitconfig_src, gitconfig_dst)
     _link(gitignore_src, gitignore_dst)
 
@@ -134,11 +133,13 @@ def ipython():
 
     _link(profile_config_src, profile_config_dst)
 
+
 def fonts():
     fonts_src = os.path.join(_curdir, 'fonts/')
     fonts_dst = os.path.expanduser('~/.fonts')
 
     _link(fonts_src, fonts_dst)
+
 
 def security():
     print "[*] Performing Security Checks ..."
@@ -148,9 +149,11 @@ def security():
     print "\t[-] Files wih 'Group' and 'Others' permissions set"
     local('find . -perm -011')
 
+
 def deploy_packages():
     apt()
     pip()
+
 
 def deploy_conf():
     bash()
@@ -160,6 +163,7 @@ def deploy_conf():
     xfce()
     ipython()
     fonts()
+
 
 def deploy_all():
     deploy_packages()
