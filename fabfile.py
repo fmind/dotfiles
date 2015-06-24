@@ -35,7 +35,7 @@ def _link(src, dst):
 def apt():
     print "[*] Installing new system packages (apt) ..."
     packages = ['vim', 'vim-gui-common', 'byobu', 'python-dev', 'python-pip', 'python-flake8',
-                'python-zmq', 'ipython', 'python-matplotlib', 'curl', 'git', 'zsh']
+                'python-zmq', 'ipython', 'python-matplotlib', 'curl', 'git', 'zsh', 'exuberant-ctags']
     local('sudo apt-get install {packages}'.format(packages=_fpkg(packages)))
 
 
