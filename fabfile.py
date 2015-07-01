@@ -5,140 +5,173 @@ from fabric.api import *
 import shutil
 import os
 
-_fpkg = lambda x: ' '.join(x)
+_hidden = lambda s: '.' + s
+_pkg_line = lambda l: ' '.join(l)
+_homedir = os.path.expanduser('~')
 _curdir = os.path.dirname(os.path.realpath(__file__))
 _proxy = os.getenv('http_proxy') or os.getenv('HTTP_PROXY')
 
 
 def _link(src, dst):
-    """ Create a link from the git conf. (src) to the program conf. (dst) """
-    # returns if exists and already a link
+    """ Create a link from the git repository (src) to the program directory (dst) """
+    # returns if the link is already created
     if os.path.exists(dst) and os.path.islink(dst):
         return
 
+    # ask to launch the application so the base directories can be created
     if not os.path.exists(os.path.dirname(dst)):
-        print "\t>> Please launch the application related to this file, then press Enter: {0}".format(dst)
+        print "\t>> Please launch the application associated to this file. Then press Enter: {0}".format(dst)
         raw_input()
 
     print "\tLinking {0} with {1}".format(src, dst)
 
-    # removes if not a link
+    # removes the current directory/file if it's not  a link
     if os.path.exists(dst) and not os.path.islink(dst):
         if os.path.isfile(dst):
             os.remove(dst)
         else:
             shutil.rmtree(dst)
 
+    # create the symbolic link
     os.symlink(src, dst)
 
 
 def apt():
-    print "[*] Installing new system packages (apt) ..."
+    print "[*] Installing new system packages (using apt) ..."
     packages = ['vim', 'vim-gui-common', 'byobu', 'python-dev', 'python-pip', 'python-flake8',
                 'python-zmq', 'ipython', 'python-matplotlib', 'curl', 'git', 'zsh', 'exuberant-ctags']
-    local('sudo apt-get install {packages}'.format(packages=_fpkg(packages)))
+    local('sudo apt-get install {packages}'.format(packages=_pkg_line(packages)))
 
 
 def pip():
-    print "[*] Installing new Python libraries (pip) ..."
+    print "[*] Installing new Python libraries (using pip) ..."
     packages = ['flake8']
     proxy = '--proxy {0}'.format(_proxy) if _proxy else ''
-    local('pip install --user --upgrade {proxy} {packages}'.format(packages=_fpkg(packages), proxy=proxy))
+    local('pip install --user --upgrade {proxy} {packages}'.format(packages=_pkg_line(packages), proxy=proxy))
 
 
-def bash():
-    print "[*] Deploying bash ..."
-    bash_aliases_src = os.path.join(_curdir, 'bash', 'bash_aliases')
-    bash_aliases_dst = os.path.expanduser('~/.bash_aliases')
-    bash_logout_src = os.path.join(_curdir, 'bash', 'bash_logout')
-    bash_logout_dst = os.path.expanduser('~/.bash_logout')
-    bashrc_src = os.path.join(_curdir, 'bash', 'bashrc')
-    bashrc_dst = os.path.expanduser('~/.bashrc')
-    profile_src = os.path.join(_curdir, 'bash', 'profile')
-    profile_dst = os.path.expanduser('~/.profile')
-    intputrc_src = os.path.join(_curdir, 'bash', 'inputrc')
-    intputrc_dst = os.path.expanduser('~/.inputrc')
-    face_src = os.path.join(_curdir, 'face')
-    face_dst = os.path.expanduser('~/.face')
+def zsh():
+    print "[*] Deploying zsh ..."
+    # base
+    src = os.path.join(_curdir, 'zsh')
+    dst = os.path.join(_homedir)
+    # file configs
+    zshrc = 'zshrc'
+    inputrc = 'inputrc'
+    # directory configs
+    ohmyzsh = 'oh-my-zsh'
 
-    _link(bash_aliases_src, bash_aliases_dst)
-    _link(bash_logout_src, bash_logout_dst)
-    _link(bashrc_src, bashrc_dst)
-    _link(profile_src, profile_dst)
-    _link(intputrc_src, intputrc_dst)
-    _link(face_src, face_dst)
+    # change the default shell to zsh
+    if not 'zsh' in os.getenv('SHELL'):
+        local('chsh -s /usr/bin/zsh')
+
+    _link(os.path.join(src, zshrc), os.path.join(dst, _hidden(zshrc)))
+    _link(os.path.join(src, inputrc), os.path.join(dst, _hidden(inputrc)))
+    _link(os.path.join(src, ohmyzsh), os.path.join(dst, _hidden(ohmyzsh)))
 
 
 def byobu():
     print "[*] Deploying byobu ..."
-    byobu_status_src = os.path.join(_curdir, 'byobu', 'status')
-    byobu_status_dst = os.path.expanduser('~/.byobu/status')
-    byobu_layouts_src = os.path.join(_curdir, 'byobu', 'layouts')
-    byobu_layouts_dst = os.path.expanduser('~/.byobu/layouts')
+    # base
+    dirname = 'byobu'
+    src = os.path.join(_curdir, dirname)
+    dst = os.path.join(_homedir, _hidden(dirname))
+    # file configs
+    status = 'status'
+    backend = 'backend'
+    # directory configs
+    layouts = 'layouts'
 
-    _link(byobu_status_src, byobu_status_dst)
-    _link(byobu_layouts_src, byobu_layouts_dst)
+    _link(os.path.join(src, status), os.path.join(dst, status))
+    _link(os.path.join(src, backend), os.path.join(dst, backend))
+    _link(os.path.join(src, layouts), os.path.join(dst, layouts))
 
 
-def vim():
+def vim(skip_plugins=False):
     print "[*] Deploying vim ..."
-    vimdc_src = os.path.join(_curdir, 'vim')
-    vimdc_dst = os.path.expanduser('~/.vim')
-    vimrc_src = os.path.join(vimdc_src, 'vimrc')
-    vimrc_dst = os.path.expanduser('~/.vimrc')
+    # base
+    src = os.path.join(_curdir, 'vim')
+    dst = os.path.join(_homedir)
+    # file configs
+    vimrc = 'vimrc'
+    # directory configs
+    vimdc = 'vim'
+    # executable
+    font_installer = os.path.join(src, vimdc, 'bundle', 'fonts', 'install.sh')
 
-    _link(vimdc_src, vimdc_dst)
-    _link(vimrc_src, vimrc_dst)
+    _link(os.path.join(src, vimdc), os.path.join(dst, _hidden(vimdc)))
+    _link(os.path.join(src, vimrc), os.path.join(dst, _hidden(vimrc)))
 
-    # install/update all plugins
-    local('vim +PluginInstall +qall')
-    local('vim +PluginUpdate +qall')
+    # install/update all vim plugins
+    if not skip_plugins:
+        local('vim +PluginInstall +qall')
+        local('vim +PluginUpdate +qall')
+
+    # install powerline fonts
+    local(font_installer)
 
 
 def git():
     print "[*] Deploying git ..."
-    gitconfig_src = os.path.join(_curdir, 'git', 'gitconfig')
-    gitconfig_dst = os.path.expanduser('~/.gitconfig')
-    gitignore_src = os.path.join(_curdir, 'git', 'gitignore')
-    gitignore_dst = os.path.expanduser('~/.gitignore')
+    # base
+    src = os.path.join(_curdir, 'git')
+    dst = os.path.join(_homedir)
+    # file configs
+    gitconfig = 'gitconfig'
+    gitignore = 'gitignore'
 
-    _link(gitconfig_src, gitconfig_dst)
-    _link(gitignore_src, gitignore_dst)
+    _link(os.path.join(src, gitconfig), os.path.join(dst, _hidden(gitconfig)))
+    _link(os.path.join(src, gitignore), os.path.join(dst, _hidden(gitignore)))
 
 
-def xfce():
+def xfce(pull=False):
     print "[*] Deploying xfce ..."
-    terminal_src = os.path.join(_curdir, 'xfce', 'terminalrc')
-    terminal_dst = os.path.expanduser('~/.config/xfce4/terminal/terminalrc')
-    shortcuts_src = os.path.join(_curdir, 'xfce', 'xfce4-keyboard-shortcuts.xml')
-    shortcuts_dst = os.path.expanduser('~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml')
+    # base
+    src = os.path.join(_curdir, 'xfce')
+    dst = os.path.join(_homedir, '.config', 'xfce4')
+    # file configs
+    terminal = os.path.join('terminal', 'terminalrc')
+    shortcuts = os.path.join('xfconf', 'xfce-perchannel-xml', 'xfce4-keyboard-shortcuts.xml')
 
-    _link(terminal_src, terminal_dst)
-    _link(shortcuts_src, shortcuts_dst)
+    if pull:
+        print "\tPulling xfce files ..."
+        shutil.copy(os.path.join(dst, terminal), os.path.join(src, terminal))
+        shutil.copy(os.path.join(dst, shortcuts), os.path.join(src, shortcuts))
+    else:
+        print "\tPushing xfce files ..."
+        shutil.copy(os.path.join(src, terminal), os.path.join(dst, terminal))
+        shutil.copy(os.path.join(src, shortcuts), os.path.join(dst, shortcuts))
 
 
 def ipython():
     print "[*] Deploying ipython ..."
-    profile_freaxmind = os.path.expanduser('~/.config/ipython/profile_freaxmind/')
-    profile_default = os.path.expanduser('~/.config/ipython/profile_default')
-    profile_config_src = os.path.join(_curdir, 'ipython', 'profile_freaxmind', 'ipython_config.py')
-    profile_config_dst = os.path.join(profile_freaxmind, 'ipython_config.py')
+    # base
+    src = os.path.join(_curdir, 'ipython')
+    dst = os.path.join(_homedir, '.config', 'ipython')
+    # profile informations
+    profile_name = 'freaxmind'
+    profile_dir = 'profile_{0}'.format(profile_name)
+    # file configs
+    config = 'ipython_config.py'
+    # directory configs
+    profile_dir_src = os.path.join(src, profile_dir)
+    profile_dir_dst = os.path.join(dst, profile_dir)
 
-    # create a new profile (if it does not already exists)
-    if not os.path.exists(profile_freaxmind):
-        local('ipython profile create freaxmind')
+    # create a new profile if it does not already exist
+    if not os.path.exists(profile_dir_dst):
+        local('ipython profile create {profile_name}'.format(profile_name=profile_name))
 
-    if os.path.exists(profile_default):
-        shutil.rmtree(profile_default)
-
-    _link(profile_config_src, profile_config_dst)
+    _link(os.path.join(profile_dir_src, config), os.path.join(profile_dir_dst, config))
 
 
 def fonts():
-    fonts_src = os.path.join(_curdir, 'fonts/')
-    fonts_dst = os.path.expanduser('~/.fonts')
+    print "[*] Deploying fonts ..."
+    # directory configs
+    dirname = 'fonts'
+    src = os.path.join(_curdir, dirname)
+    dst = os.path.join(_homedir, _hidden(dirname))
 
-    _link(fonts_src, fonts_dst)
+    _link(src, dst)
 
 
 def security():
@@ -156,7 +189,7 @@ def deploy_packages():
 
 
 def deploy_conf():
-    bash()
+    zsh()
     byobu()
     vim()
     git()

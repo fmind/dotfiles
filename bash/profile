@@ -1,8 +1,0 @@
-# ~/.profile: executed for login shells.
-
-# include .bashrc if it exists
-if [ -f "$HOME/.bashrc" ]; then
-. "$HOME/.bashrc"
-fi
-
-_byobu_sourced=1 . /usr/bin/byobu-launch

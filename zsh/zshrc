@@ -1,0 +1,79 @@
+### ZSH Configuration ###
+
+# Path to your oh-my-zsh installation.
+export ZSH=/home/mederic/.oh-my-zsh
+
+# Set name of the theme to load.
+ZSH_THEME="freaxmind"
+
+# Uncomment the following line if you want to change the command execution time
+HIST_STAMPS="yyyy-mm-dd"
+
+# Would you like to use another custom folder than $ZSH/custom?
+ZSH_CUSTOM=$ZSH/custom/
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+plugins=(python, fabric, pip, git, github, wd, vi-mode)
+
+### User configuration ###
+
+# set PATH
+export PATH="~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# set PROXY
+[ -f ~/ENABLE_PROXY ] && {
+    export HTTP_PROXY=`cat ~/ENABLE_PROXY`
+    export http_proxy=$HTTP_PROXY
+    export HTTPS_PROXY=$HTTP_PROXY
+    export https_proxy=$HTTP_PROXY
+    export FTP_PROXY=$HTTP_PROXY
+    export ftp_proxy=$HTTP_PROXY
+    export no_proxy=localhost
+    export NO_PROXY=localhost
+}
+
+# set umask
+umask 0077
+
+# Make ZSH Awesome !
+source $ZSH/oh-my-zsh.sh
+
+# Load Byoby on startup
+_byobu_sourced=1 . /usr/bin/byobu-launch
+
+# Preferred language for local and remote sessions
+export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+export EDITOR='vim'
+bindkey -v
+
+### Alias Configuration ###
+
+# Alias: BASICS
+alias c="cd"
+alias x="exit"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias back="cd $OLDPWD"
+alias vi="vim"
+alias vir="vim -R"
+alias vis="sudo vim"
+
+# Alias: ADVANCED
+alias py="ipython console --profile=freaxmind"
+alias pyn="ipython notebook --profile=freaxmind"
+alias pyk="ipython kernel --profile=freaxmind"
+alias anaswitch='export PATH="~/anaconda/bin:$PATH"'
+
+# Alias: DISTRIBUTION (Ubuntu)
+alias install="sudo apt-get install"
+alias remove="sudo apt-get remove --purge"
+alias update="sudo apt-get update"
+alias upgrade="sudo apt-get upgrade"
+alias clean="sudo apt-get clean"
+alias autoclean="sudo apt-get autoclean"
+alias autoremove="sudo apt-get autoremove --purge"
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'

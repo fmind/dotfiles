@@ -82,7 +82,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'honza/vim-snippets'
 Bundle 'ivanov/vim-ipython'
 Bundle 'bling/vim-airline' 
-let g:airline#extensions#tabline#enabled=0
+let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline_theme='simple'
 Bundle 'ervandew/supertab'
@@ -113,6 +113,7 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>h :nohl<CR>
+nnoremap <leader>r :r !
 nnoremap <leader>t :tabedit 
 nnoremap <leader>T :tabedit $MYVIMRC<CR>
 nnoremap <leader>L :source $MYVIMRC<CR>
