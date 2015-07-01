@@ -62,8 +62,8 @@ def zsh():
     ohmyzsh = 'oh-my-zsh'
 
     # change the default shell to zsh
-    if not 'zsh' in os.getenv('SHELL'):
-        local('chsh -s /usr/bin/zsh')
+    #if not 'zsh' in os.getenv('SHELL'):
+    #    local('chsh -s /usr/bin/zsh')
 
     _link(os.path.join(src, zshrc), os.path.join(dst, _hidden(zshrc)))
     _link(os.path.join(src, inputrc), os.path.join(dst, _hidden(inputrc)))
