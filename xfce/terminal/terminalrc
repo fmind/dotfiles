@@ -31,7 +31,6 @@ CommandLoginShell=TRUE
 ColorBackground=#000000000000
 ColorForeground=#ffffffffffff
 DropdownToggleFocus=FALSE
-BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
 FontAllowBold=FALSE
 TitleMode=TERMINAL_TITLE_REPLACE
 
