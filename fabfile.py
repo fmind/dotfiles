@@ -25,9 +25,9 @@ def _link(src, dst):
 
     print "\tLinking {0} with {1}".format(src, dst)
 
-    # removes the current directory/file if it's not  a link
-    if os.path.exists(dst) and not os.path.islink(dst):
-        if os.path.isfile(dst):
+    # removes the current directory/file if it's not a link or if the link is broken
+    if (os.path.exists(dst) and not os.path.islink(dst)) or (os.path.islink(dst) and not os.path.exists(dst)):
+        if os.path.isfile(dst) or os.path.islink(dst):
             os.remove(dst)
         else:
             shutil.rmtree(dst)
