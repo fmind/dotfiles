@@ -18,7 +18,7 @@ plugins=(python, fabric, pip, git, github, wd, vi-mode)
 ### User configuration ###
 
 # set PATH
-export PATH="~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # set PROXY
 [ -f ~/ENABLE_PROXY ] && {
