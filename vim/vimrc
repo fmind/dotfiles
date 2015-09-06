@@ -66,6 +66,7 @@ call vundle#begin()
 Bundle 'gmarik/vundle'
 
 Bundle 'easymotion/vim-easymotion'
+Bundle 'Valloric/YouCompleteMe'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
@@ -77,6 +78,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+Bundle 'JuliaLang/julia-vim'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'honza/vim-snippets'
@@ -85,7 +87,7 @@ Bundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline_theme='simple'
-Bundle 'ervandew/supertab'
+Bundle 'majutsushi/tagbar'
 Bundle 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -100,6 +102,7 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 let g:ctrlp_working_path_mode = 'c'
+Bundle 'fatih/vim-go'
 
 " all the of your plugins must be added before the following line
 call vundle#end()
@@ -131,3 +134,4 @@ vmap <Leader>P "+P
 nnoremap <leader>B :PluginInstall<CR>
 nnoremap <leader>U :PluginUpdate<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
+nnoremap <leader>S :TagbarToggle<CR>
