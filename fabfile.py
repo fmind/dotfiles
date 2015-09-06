@@ -106,7 +106,7 @@ def vim(skip_plugins=False):
     if not skip_plugins:
         local('vim +PluginInstall +qall')
         local('vim +PluginUpdate +qall')
-        local('python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer --golang-completer')
+        local('python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer --gocode-completer')
 
     # install powerline fonts
     local(font_installer)
@@ -148,7 +148,7 @@ def ipython():
     print "[*] Deploying ipython ..."
     # base
     src = os.path.join(_curdir, 'ipython')
-    dst = os.path.join(_homedir, '.config', 'ipython')
+    dst = os.path.join(_homedir, '.ipython')
     # profile informations
     profile_name = 'freaxmind'
     profile_dir = 'profile_{0}'.format(profile_name)
