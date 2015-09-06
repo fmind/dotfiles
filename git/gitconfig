@@ -22,3 +22,4 @@
     st = status
     ci = commit
     rm = remove
+    addall = add --all
