@@ -38,8 +38,8 @@ def _link(src, dst):
 
 def apt():
     print "[*] Installing new system packages (using apt) ..."
-    packages = ['vim', 'vim-gui-common', 'byobu', 'python-dev', 'python-pip', 'python-flake8',
-                'python-zmq', 'ipython', 'python-matplotlib', 'curl', 'git', 'zsh', 'exuberant-ctags']
+    packages = ['vim', 'vim-gui-common', 'byobu', 'python-dev', 'python-pip', 'python-flake8', 'build-essential',
+                'python-zmq', 'ipython', 'python-matplotlib', 'curl', 'git', 'zsh', 'exuberant-ctags', 'cmake']
     local('sudo apt-get install {packages}'.format(packages=_pkg_line(packages)))
 
 
@@ -106,6 +106,7 @@ def vim(skip_plugins=False):
     if not skip_plugins:
         local('vim +PluginInstall +qall')
         local('vim +PluginUpdate +qall')
+        local('python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer --golang-completer')
 
     # install powerline fonts
     local(font_installer)
@@ -164,12 +165,30 @@ def ipython():
     _link(os.path.join(profile_dir_src, config), os.path.join(profile_dir_dst, config))
 
 
+def julia():
+    print "[*] Deploying ipython ..."
+
+    # installing packages
+    local("julia -e 'Pkg.add(\"IJulia\")'")
+    local("julia -e 'Pkg.add(\"Distributions\")'")
+    local("julia -e 'Pkg.add(\"DataFrames\")'")
+    local("julia -e 'Pkg.add(\"Gadfly\")'")
+    local("julia -e 'Pkg.add(\"Stats\")'")
+    local("julia -e 'Pkg.add(\"GLM\")'")
+
+    # updating packages
+    local("julia -e 'Pkg.update()'")
+
+
 def fonts():
     print "[*] Deploying fonts ..."
     # directory configs
     dirname = 'fonts'
     src = os.path.join(_curdir, dirname)
     dst = os.path.join(_homedir, _hidden(dirname))
+
+    # update fonts cache
+    # sudo fc0cache fv
 
     _link(src, dst)
 
@@ -195,6 +214,7 @@ def deploy_conf():
     git()
     xfce()
     ipython()
+    julia()
     fonts()
 
 
