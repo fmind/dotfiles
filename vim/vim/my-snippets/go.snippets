@@ -1,0 +1,28 @@
+snippet errh "generic error handling"
+if err != nil {
+	${0}
+}
+endsnippet
+
+snippet script "Script template for a new go file"
+package main
+
+import (
+	"flag"
+	"log"
+)
+
+func init() {
+	log.Print("Parsing arguments ...")
+
+	flag.Parse()
+}
+
+func main() {
+	log.Print("Running script ...")
+
+	${0}
+
+	log.Print("Done.")
+}
+endsnippet

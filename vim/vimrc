@@ -33,7 +33,7 @@ set backspace=indent,eol,start  " allow backspacing over everything in insert mo
 
 " SEARCH
 set incsearch			        " show match as the search proceeds
-set hlsearch                    " search highlighting
+set nohlsearch                  " search highlighting
 set ignorecase                  " case insensitivity
 set smartcase                   "   (only when no caps is used)
 
@@ -70,6 +70,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
+let g:syntastic_go_checkers=['']
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -92,6 +93,7 @@ Bundle 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 Bundle 'powerline/fonts'
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_map = '<c-p>'
@@ -103,6 +105,7 @@ let g:ctrlp_custom_ignore = {
   \ }
 let g:ctrlp_working_path_mode = 'c'
 Bundle 'fatih/vim-go'
+let g:go_bin_path = expand("~/bin/")
 
 " all the of your plugins must be added before the following line
 call vundle#end()

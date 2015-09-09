@@ -69,8 +69,7 @@ alias pyn="ipython notebook --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
 
 # Alias: PROGRAMMING
-alias godefpath="export GOPATH=$HOME/lib/golang/"
-alias gopath="export GOPATH="$PWD":$HOME/lib/golang/"
+alias gopath="export GOPATH=$PWD"
 
 # Alias: DISTRIBUTION (Ubuntu)
 alias search="apt-cache search"
