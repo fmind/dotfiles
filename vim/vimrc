@@ -31,6 +31,9 @@ set shiftwidth=4                " operation >> indents 4 columns; << unindents 4
 set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACKSPACE
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode 
 
+" COMPLETION
+set completeopt-=preview        " disable the completion window
+
 " SEARCH
 set incsearch			        " show match as the search proceeds
 set nohlsearch                  " search highlighting
@@ -79,10 +82,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-Bundle 'JuliaLang/julia-vim'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'scrooloose/nerdtree'
-Bundle 'honza/vim-snippets'
+"Bundle 'honza/vim-snippets'
 Bundle 'ivanov/vim-ipython'
 Bundle 'bling/vim-airline' 
 let g:airline#extensions#tabline#enabled=1
@@ -104,8 +106,6 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 let g:ctrlp_working_path_mode = 'c'
-Bundle 'fatih/vim-go'
-let g:go_bin_path = expand("~/bin/")
 
 " all the of your plugins must be added before the following line
 call vundle#end()

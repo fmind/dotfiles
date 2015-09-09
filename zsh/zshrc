@@ -13,12 +13,12 @@ HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$ZSH/custom/
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(python, fabric, pip, git, github, wd, vi-mode)
+plugins=(python, virtualenv, fabric, pip, git, github, wd, vi-mode)
 
 ### User configuration ###
 
 # set PATH
-export PATH="$HOME/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # set PROXY
 [ -f ~/ENABLE_PROXY ] && {
@@ -63,13 +63,11 @@ alias vi="vim"
 alias vir="vim -R"
 alias vis="sudo vim"
 
-# Alias: ADVANCED
+# Alias: PROGRAMMING
 alias py="ipython console --profile=freaxmind"
 alias pyn="ipython notebook --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
-
-# Alias: PROGRAMMING
-alias gopath="export GOPATH=$PWD"
+alias pyv="source venv/bin/activate"
 
 # Alias: DISTRIBUTION (Ubuntu)
 alias search="apt-cache search"

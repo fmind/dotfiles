@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from fabric.api import *
+from fabric.api import local
 import shutil
 import os
 
@@ -36,16 +36,22 @@ def _link(src, dst):
     os.symlink(src, dst)
 
 
-def apt():
+def apt(update_packages=""):
     print "[*] Installing new system packages (using apt) ..."
-    packages = ['vim', 'vim-gui-common', 'byobu', 'python-dev', 'python-pip', 'python-flake8', 'build-essential',
-                'python-zmq', 'ipython', 'python-matplotlib', 'curl', 'git', 'zsh', 'exuberant-ctags', 'cmake']
+    packages = ['zsh', 'byobu', 'vim', 'git', 'git', 'libpng12-dev', 'libfreetype6-dev',
+                'python-dev', 'python-pip', 'build-essential', 'exuberant-ctags']
+
+    if update_packages:
+        local('sudo apt-get update')
+        local('sudo apt-get upgrade')
+
     local('sudo apt-get install {packages}'.format(packages=_pkg_line(packages)))
 
 
 def pip():
     print "[*] Installing new Python libraries (using pip) ..."
-    packages = ['flake8']
+    packages = ['jupyter', 'flake8', 'pymongo', 'redis', 'mongoengine', 'seaborn', 'pandas',
+                'beautifulsoup', 'flask', 'fabric', 'virtualenv', 'bokeh', 'wheel']
     proxy = '--proxy {0}'.format(_proxy) if _proxy else ''
     local('pip install --user --upgrade {proxy} {packages}'.format(packages=_pkg_line(packages), proxy=proxy))
 
@@ -87,7 +93,7 @@ def byobu():
     _link(os.path.join(src, layouts), os.path.join(dst, layouts))
 
 
-def vim(skip_plugins=False):
+def vim(update_plugins=""):
     print "[*] Deploying vim ..."
     # base
     src = os.path.join(_curdir, 'vim')
@@ -103,8 +109,9 @@ def vim(skip_plugins=False):
     _link(os.path.join(src, vimrc), os.path.join(dst, _hidden(vimrc)))
 
     # install/update all vim plugins
-    if not skip_plugins:
-        local('vim +PluginInstall +qall')
+    local('vim +PluginInstall +qall')
+
+    if update_plugins:
         local('vim +PluginUpdate +qall')
         local('python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer --gocode-completer')
 
@@ -165,22 +172,7 @@ def ipython():
     _link(os.path.join(profile_dir_src, config), os.path.join(profile_dir_dst, config))
 
 
-def julia():
-    print "[*] Deploying ipython ..."
-
-    # installing packages
-    local("julia -e 'Pkg.add(\"IJulia\")'")
-    local("julia -e 'Pkg.add(\"Distributions\")'")
-    local("julia -e 'Pkg.add(\"DataFrames\")'")
-    local("julia -e 'Pkg.add(\"Gadfly\")'")
-    local("julia -e 'Pkg.add(\"Stats\")'")
-    local("julia -e 'Pkg.add(\"GLM\")'")
-
-    # updating packages
-    local("julia -e 'Pkg.update()'")
-
-
-def fonts():
+def fonts(update_cache=""):
     print "[*] Deploying fonts ..."
     # directory configs
     dirname = 'fonts'
@@ -188,7 +180,8 @@ def fonts():
     dst = os.path.join(_homedir, _hidden(dirname))
 
     # update fonts cache
-    # sudo fc0cache fv
+    if update_cache:
+        local('sudo fc0cache fv')
 
     _link(src, dst)
 
@@ -214,7 +207,6 @@ def deploy_conf():
     git()
     xfce()
     ipython()
-    julia()
     fonts()
 
 
