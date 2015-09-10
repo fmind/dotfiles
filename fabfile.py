@@ -58,7 +58,7 @@ def apt(update_packages=False):
 
 def pip():
     print("[*] Installing/Updating Python libraries (using pip) ...")
-    packages = ['cookiecutter', 'virtualenv', 'fabric', 'wheel', 'pytest'           # programming environment
+    packages = ['cookiecutter', 'virtualenv', 'fabric', 'wheel', 'pytest',          # programming environment
                 'frosted', 'pep8', 'py3kwarn',                                      # syntax checker
                 'jupyter', 'pandas', 'seaborn', 'bokeh',                            # data analysis
                 'pymongo', 'redis', 'mongoengine',                                  # databases
