@@ -13,7 +13,7 @@ HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$ZSH/custom/
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(python, virtualenv, fabric, pip, git, github, wd, vi-mode)
+plugins=(vi-mode, command-not-found)
 
 ### User configuration ###
 
@@ -64,7 +64,8 @@ alias vir="vim -R"
 alias vis="sudo vim"
 
 # Alias: PROGRAMMING
-alias py="ipython console --profile=freaxmind"
+alias cookie="cookiecutter"
+alias py="ipython --profile=freaxmind"
 alias pyn="ipython notebook --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
 alias pyv="source venv/bin/activate"
@@ -79,6 +80,10 @@ alias clean="sudo apt-get clean"
 alias autoclean="sudo apt-get autoclean"
 alias autoremove="sudo apt-get autoremove --purge"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# QUICK ACCESS
+alias zshrc='$EDITOR ~/.zshrc'
+alias zshsrc='source ~/.zshrc'
 
 ### Shortcuts Configuration ###
 [[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"    history-beginning-search-backward

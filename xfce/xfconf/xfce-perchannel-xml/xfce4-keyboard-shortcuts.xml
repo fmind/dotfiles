@@ -40,33 +40,22 @@
       <property name="XF86Explorer" type="string" value="exo-open --launch FileManager"/>
       <property name="&lt;Super&gt;t" type="string" value="exo-open --launch TerminalEmulator"/>
       <property name="&lt;Super&gt;p" type="string" value="xfce4-display-settings --minimal"/>
-      <property name="XF86HomePage" type="string" value="exo-open --launch WebBrowser"/>
       <property name="&lt;Super&gt;w" type="string" value="exo-open --launch WebBrowser"/>
       <property name="XF86Calculator" type="string" value="gnome-calculator"/>
       <property name="&lt;Alt&gt;Print" type="string" value="xfce4-screenshooter -w"/>
-      <property name="&lt;Super&gt;r" type="string" value="xfce4-appfinder"/>
-      <property name="&lt;Super&gt;1" type="string" value="gmusicbrowser"/>
       <property name="&lt;Alt&gt;F1" type="string" value="xfce4-popup-applicationsmenu"/>
-      <property name="&lt;Alt&gt;F3" type="string" value="xfce4-appfinder"/>
-      <property name="&lt;Alt&gt;F2" type="string" value="xfrun4"/>
       <property name="XF86WWW" type="string" value="exo-open --launch WebBrowser"/>
       <property name="&lt;Super&gt;e" type="string" value="mousepad"/>
-      <property name="&lt;Primary&gt;&lt;Alt&gt;Delete" type="string" value="xflock4"/>
       <property name="&lt;Super&gt;f" type="string" value="exo-open --launch FileManager"/>
-      <property name="XF86Mail" type="string" value="exo-open --launch MailReader"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;Escape" type="string" value="xkill"/>
-      <property name="XF86Music" type="string" value="gmusicbrowser"/>
-      <property name="XF86Display" type="string" value="xfce4-display-settings --minimal"/>
-      <property name="XF86Messenger" type="string" value="pidgin"/>
-      <property name="&lt;Super&gt;2" type="string" value="pidgin"/>
-      <property name="&lt;Super&gt;3" type="string" value="abiword"/>
-      <property name="&lt;Super&gt;4" type="string" value="gnumeric"/>
-      <property name="&lt;Super&gt;m" type="string" value="exo-open --launch MailReader"/>
       <property name="override" type="bool" value="true"/>
       <property name="&lt;Super&gt;x" type="string" value="xfce4-popup-whiskermenu"/>
       <property name="&lt;Shift&gt;Print" type="string" value="xfce4-screenshooter"/>
       <property name="Print" type="string" value="xfce4-screenshooter"/>
       <property name="F12" type="string" value="xfce4-terminal --drop-down"/>
+      <property name="&lt;Super&gt;l" type="string" value="xflock4"/>
+      <property name="&lt;Super&gt;y" type="string" value="skype"/>
+      <property name="&lt;Super&gt;c" type="string" value="gnome-calculator"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">

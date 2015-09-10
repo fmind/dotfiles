@@ -1,6 +1,6 @@
-set nocompatible                " disable vi compatibility
-set nomodeline                  " security advice !
-filetype off                    " no ext detection
+set nocompatible                " disable (old) vi compatibility
+set nomodeline                  " security best pratice !
+filetype off                    " no extension detection
 
 " INTERFACE
 set so=10                       " activate a margin on vertical scrolling
@@ -21,6 +21,7 @@ set number 				        " display line numbers (gutter)
 set showmode			        " display the current mode
 set showmatch			        " display matching parenthesis
 set laststatus=2                " display the status line (always)
+set lazyredraw                  " Don't redraw while executing macros (good performance config)
 
 " INDENTATION
 set expandtab                   " insert spaces when hitting TABs
@@ -32,11 +33,11 @@ set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACK
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode 
 
 " COMPLETION
-set completeopt-=preview        " disable the completion window
+set completeopt-=preview        " disable the preview completion window
 
 " SEARCH
 set incsearch			        " show match as the search proceeds
-set nohlsearch                  " search highlighting
+set nohlsearch                  " no search highlighting
 set ignorecase                  " case insensitivity
 set smartcase                   "   (only when no caps is used)
 
@@ -70,10 +71,14 @@ Bundle 'gmarik/vundle'
 
 Bundle 'easymotion/vim-easymotion'
 Bundle 'Valloric/YouCompleteMe'
+let g:jedi#show_call_signatures = "1"
+Bundle 'airblade/vim-gitgutter'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Raimondi/delimitMate'
+Bundle 'tpope/vim-surround'
 Bundle 'scrooloose/syntastic'
 let g:syntastic_go_checkers=['']
+let g:syntastic_python_checkers=['frosted', 'pep8', 'py3kwarn', 'python']
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -90,7 +95,6 @@ Bundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline_theme='simple'
-Bundle 'majutsushi/tagbar'
 Bundle 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -106,6 +110,8 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 let g:ctrlp_working_path_mode = 'c'
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 " all the of your plugins must be added before the following line
 call vundle#end()
@@ -119,7 +125,10 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>h :nohl<CR>
-nnoremap <leader>r :r !
+nnoremap <leader>R :r !
+nnoremap <leader>z za
+nnoremap <leader>g gt
+nnoremap <leader>G gT
 nnoremap <leader>t :tabedit 
 nnoremap <leader>T :tabedit $MYVIMRC<CR>
 nnoremap <leader>L :source $MYVIMRC<CR>
@@ -133,6 +142,11 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
+" Move around windows
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
 " Plugins
 nnoremap <leader>B :PluginInstall<CR>
 nnoremap <leader>U :PluginUpdate<CR>

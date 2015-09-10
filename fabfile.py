@@ -5,43 +5,51 @@ from fabric.api import local
 import shutil
 import os
 
-_hidden = lambda s: '.' + s
-_pkg_line = lambda l: ' '.join(l)
+
 _homedir = os.path.expanduser('~')
 _curdir = os.path.dirname(os.path.realpath(__file__))
 _proxy = os.getenv('http_proxy') or os.getenv('HTTP_PROXY')
 
 
+def _hidden(s):
+    return '.' + s
+
+
+def _pkg_line(l):
+    return ' '.join(l)
+
+
 def _link(src, dst):
-    """ Create a link from the git repository (src) to the program directory (dst) """
-    # returns if the link is already created
+    """ Create a symbolic link from the git repository (src) to the host directory (dst) """
+    # returning if the link is already created
     if os.path.exists(dst) and os.path.islink(dst):
         return
 
-    # ask to launch the application so the base directories can be created
+    # asking to launch the application so the base directories can be created
     if not os.path.exists(os.path.dirname(dst)):
-        print "\t>> Please launch the application associated to this file. Then press Enter: {0}".format(dst)
-        raw_input()
+        print("\t>> Please launch the application associated to this file: {0}".format(dst))
 
-    print "\tLinking {0} with {1}".format(src, dst)
+    print("\tLinking {0} to {1}".format(src, dst))
 
-    # removes the current directory/file if it's not a link or if the link is broken
+    # removing the current directory/file if it's not a link or if the link is broken
     if (os.path.exists(dst) and not os.path.islink(dst)) or (os.path.islink(dst) and not os.path.exists(dst)):
         if os.path.isfile(dst) or os.path.islink(dst):
             os.remove(dst)
         else:
             shutil.rmtree(dst)
 
-    # create the symbolic link
+    # creating a symbolic link
     os.symlink(src, dst)
 
 
-def apt(update_packages=""):
-    print "[*] Installing new system packages (using apt) ..."
-    packages = ['zsh', 'byobu', 'vim', 'git', 'git', 'libpng12-dev', 'libfreetype6-dev',
-                'python-dev', 'python-pip', 'build-essential', 'exuberant-ctags']
+def apt(update_packages=False):
+    print("[*] Installing new system packages (using apt-get) ...")
+    packages = ['zsh', 'byobu', 'vim', 'git', 'silversearcher-ag',                  # shell
+                'python-pip', 'python-dev', 'build-essential',                      # programming
+                'libpng12-dev', 'libfreetype6-dev']                                 # dependencies
 
     if update_packages:
+        print("[*] Updating system packages (using apt-get) ...")
         local('sudo apt-get update')
         local('sudo apt-get upgrade')
 
@@ -49,15 +57,18 @@ def apt(update_packages=""):
 
 
 def pip():
-    print "[*] Installing new Python libraries (using pip) ..."
-    packages = ['jupyter', 'flake8', 'pymongo', 'redis', 'mongoengine', 'seaborn', 'pandas',
-                'beautifulsoup', 'flask', 'fabric', 'virtualenv', 'bokeh', 'wheel']
+    print("[*] Installing/Updating Python libraries (using pip) ...")
+    packages = ['cookiecutter', 'virtualenv', 'fabric', 'wheel', 'pytest'           # programming environment
+                'frosted', 'pep8', 'py3kwarn',                                      # syntax checker
+                'jupyter', 'pandas', 'seaborn', 'bokeh',                            # data analysis
+                'pymongo', 'redis', 'mongoengine',                                  # databases
+                'flask', 'beautifulsoup']                                           # web
     proxy = '--proxy {0}'.format(_proxy) if _proxy else ''
     local('pip install --user --upgrade {proxy} {packages}'.format(packages=_pkg_line(packages), proxy=proxy))
 
 
-def zsh():
-    print "[*] Deploying zsh ..."
+def zsh(deploy_shell=False):
+    print("[*] Deploying zsh ...")
     # base
     src = os.path.join(_curdir, 'zsh')
     dst = os.path.join(_homedir)
@@ -67,34 +78,17 @@ def zsh():
     # directory configs
     ohmyzsh = 'oh-my-zsh'
 
-    # change the default shell to zsh
-    #if not 'zsh' in os.getenv('SHELL'):
-    #    local('chsh -s /usr/bin/zsh')
+    if deploy_shell and 'zsh' not in os.getenv('SHELL'):
+        print("[*] Changing default shell to zsh ...")
+        local('chsh -s /usr/bin/zsh')
 
     _link(os.path.join(src, zshrc), os.path.join(dst, _hidden(zshrc)))
     _link(os.path.join(src, inputrc), os.path.join(dst, _hidden(inputrc)))
     _link(os.path.join(src, ohmyzsh), os.path.join(dst, _hidden(ohmyzsh)))
 
 
-def byobu():
-    print "[*] Deploying byobu ..."
-    # base
-    dirname = 'byobu'
-    src = os.path.join(_curdir, dirname)
-    dst = os.path.join(_homedir, _hidden(dirname))
-    # file configs
-    status = 'status'
-    backend = 'backend'
-    # directory configs
-    layouts = 'layouts'
-
-    _link(os.path.join(src, status), os.path.join(dst, status))
-    _link(os.path.join(src, backend), os.path.join(dst, backend))
-    _link(os.path.join(src, layouts), os.path.join(dst, layouts))
-
-
-def vim(update_plugins=""):
-    print "[*] Deploying vim ..."
+def vim(update_plugins=False):
+    print("[*] Deploying vim ...")
     # base
     src = os.path.join(_curdir, 'vim')
     dst = os.path.join(_homedir)
@@ -108,19 +102,20 @@ def vim(update_plugins=""):
     _link(os.path.join(src, vimdc), os.path.join(dst, _hidden(vimdc)))
     _link(os.path.join(src, vimrc), os.path.join(dst, _hidden(vimrc)))
 
-    # install/update all vim plugins
     local('vim +PluginInstall +qall')
 
     if update_plugins:
+        print("[*] Updating vim plugins ...")
         local('vim +PluginUpdate +qall')
         local('python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer --gocode-completer')
 
     # install powerline fonts
+    print("[*] Installing powerline fonts ...")
     local(font_installer)
 
 
 def git():
-    print "[*] Deploying git ..."
+    print("[*] Deploying git ...")
     # base
     src = os.path.join(_curdir, 'git')
     dst = os.path.join(_homedir)
@@ -133,7 +128,7 @@ def git():
 
 
 def xfce(pull=False):
-    print "[*] Deploying xfce ..."
+    print("[*] Deploying xfce ...")
     # base
     src = os.path.join(_curdir, 'xfce')
     dst = os.path.join(_homedir, '.config', 'xfce4')
@@ -142,17 +137,17 @@ def xfce(pull=False):
     shortcuts = os.path.join('xfconf', 'xfce-perchannel-xml', 'xfce4-keyboard-shortcuts.xml')
 
     if pull:
-        print "\tPulling xfce files ..."
+        print("\tPulling xfce files ...")
         shutil.copy(os.path.join(dst, terminal), os.path.join(src, terminal))
         shutil.copy(os.path.join(dst, shortcuts), os.path.join(src, shortcuts))
     else:
-        print "\tPushing xfce files ..."
+        print("\tPushing xfce files ...")
         shutil.copy(os.path.join(src, terminal), os.path.join(dst, terminal))
         shutil.copy(os.path.join(src, shortcuts), os.path.join(dst, shortcuts))
 
 
 def ipython():
-    print "[*] Deploying ipython ..."
+    print("[*] Deploying ipython ...")
     # base
     src = os.path.join(_curdir, 'ipython')
     dst = os.path.join(_homedir, '.ipython')
@@ -172,8 +167,22 @@ def ipython():
     _link(os.path.join(profile_dir_src, config), os.path.join(profile_dir_dst, config))
 
 
-def fonts(update_cache=""):
-    print "[*] Deploying fonts ..."
+def cookie():
+    print("[*] Deploying cookiecutter ...")
+    # base
+    src = os.path.join(_curdir, 'cookiecutters')
+    dst = os.path.join(_homedir)
+    # file configs
+    cookierc = 'cookiecutterrc'
+    # directory configs
+    cookiedc = 'cookiecutters'
+
+    _link(os.path.join(src, cookiedc), os.path.join(dst, _hidden(cookiedc)))
+    _link(os.path.join(src, cookierc), os.path.join(dst, _hidden(cookierc)))
+
+
+def fonts(update_cache=False):
+    print("[*] Deploying fonts ...")
     # directory configs
     dirname = 'fonts'
     src = os.path.join(_curdir, dirname)
@@ -181,17 +190,18 @@ def fonts(update_cache=""):
 
     # update fonts cache
     if update_cache:
+        print("[*] Updating font-cache ...")
         local('sudo fc0cache fv')
 
     _link(src, dst)
 
 
 def security():
-    print "[*] Performing Security Checks ..."
-    print "\t[-] Files wih references to /home"
+    print("[*] Performing Security Checks ...")
+    print("\t[-] Files wih references to /home")
     local('rgrep /home .')
 
-    print "\t[-] Files wih 'Group' and 'Others' permissions set"
+    print("\t[-] Files wih 'Group' and 'Others' permissions set")
     local('find . -perm -011')
 
 
@@ -202,11 +212,11 @@ def deploy_packages():
 
 def deploy_conf():
     zsh()
-    byobu()
     vim()
     git()
     xfce()
     ipython()
+    cookie()
     fonts()
 
 

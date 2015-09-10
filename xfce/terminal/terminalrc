@@ -1,6 +1,6 @@
 [Configuration]
 ColorBackGround=#121212
-FontName=DejaVu Sans Mono for Powerline 11
+FontName=Hack 11
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBordersDefault=FALSE
@@ -25,12 +25,14 @@ ScrollingOnOutput=FALSE
 ScrollingLines=10000
 DropdownWidth=100
 DropdownAlwaysShowTabs=FALSE
-DropdownStatusIcon=FALSE
 DropdownKeepOpenDefault=TRUE
-CommandLoginShell=TRUE
 ColorBackground=#000000000000
 ColorForeground=#ffffffffffff
-DropdownToggleFocus=FALSE
 FontAllowBold=FALSE
 TitleMode=TERMINAL_TITLE_REPLACE
+ShortcutsNoMnemonics=TRUE
+DropdownStatusIcon=FALSE
+CommandUpdateRecords=FALSE
+ScrollingBar=TERMINAL_SCROLLBAR_NONE
+DropdownToggleFocus=FALSE
 

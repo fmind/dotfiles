@@ -6,20 +6,22 @@
     editor = vim
     excludesfile = ~/.gitignore
 
+[color]
+    ui = auto
+
 [push]
     default = simple
 
 [merge]
     tool = vimdiff
 
-[color]
-    diff = auto
-    status = auto
-    branch = auto
-    interactive = auto
-
 [alias]
     st = status
-    ci = commit
     rm = remove
+    co = checkout
+    ci = commit -m
     addall = add --all
+    logpretty = log --graph --decorate --pretty=oneline --abbrev-commit
+
+[url "https://github.com/"]
+    insteadOf = gh:
