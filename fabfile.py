@@ -44,9 +44,10 @@ def _link(src, dst):
 
 def apt(update_packages=False):
     print("[*] Installing new system packages (using apt-get) ...")
-    packages = ['zsh', 'byobu', 'vim', 'git', 'silversearcher-ag',                  # shell
-                'python-pip', 'python-dev', 'build-essential',                      # programming
-                'libpng12-dev', 'libfreetype6-dev']                                 # dependencies
+    packages = ['zsh', 'byobu', 'vim', 'git', 'silversearcher-ag', 'fabric',            # shell
+                'python3', 'python3-pip', 'python3-dev', 'build-essential',             # programming
+                'libpng12-dev', 'libfreetype6-dev', 'gfortran',                         # dependencies
+                'gfortran', 'libatlas-base-dev', 'liblapack-dev', 'libblas-dev']
 
     if update_packages:
         print("[*] Updating system packages (using apt-get) ...")
@@ -58,13 +59,13 @@ def apt(update_packages=False):
 
 def pip():
     print("[*] Installing/Updating Python libraries (using pip) ...")
-    packages = ['cookiecutter', 'virtualenv', 'fabric', 'wheel', 'pytest',          # programming environment
+    packages = ['cookiecutter', 'virtualenv', 'wheel', 'pytest',                    # programming environment
                 'frosted', 'pep8', 'py3kwarn',                                      # syntax checker
                 'jupyter', 'pandas', 'seaborn', 'bokeh',                            # data analysis
                 'pymongo', 'redis', 'mongoengine',                                  # databases
-                'flask', 'beautifulsoup']                                           # web
+                'flask', 'requests', 'httpie', 'beautifulsoup4']                    # web
     proxy = '--proxy {0}'.format(_proxy) if _proxy else ''
-    local('pip install --user --upgrade {proxy} {packages}'.format(packages=_pkg_line(packages), proxy=proxy))
+    local('pip3 install --user --upgrade {proxy} {packages}'.format(packages=_pkg_line(packages), proxy=proxy))
 
 
 def zsh(deploy_shell=False):
@@ -203,6 +204,11 @@ def security():
 
     print("\t[-] Files wih 'Group' and 'Others' permissions set")
     local('find . -perm -011')
+
+
+def clean_pip():
+    print("[*] Cleaning pip libs and bins ...")
+    local('rm -r ~/.local/bin ~/.local/lib')
 
 
 def deploy_packages():

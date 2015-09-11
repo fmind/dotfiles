@@ -1,3 +1,35 @@
+snippet pp "print($0)"
+print(${0})
+endsnippet
+
+snippet ft "'$0'.format()" i
+"${0}".format()
+endsnippet
+
 snippet coding "(for utf-8 files)"
 # -*- coding: utf-8 -*-
+endsnippet
+
+snippet pyscript "script template" b
+#!/usr/bin/env python
+
+"""Description
+"""
+
+import argparse
+import logging
+import sys
+
+
+def parse(arguments):
+    parser = argparse.ArgumentParser(description=__doc__)
+
+    return parser.parse_args(arguments)
+
+
+if __name__ == '__main__':
+    logging.basicConfig(format="[[%(levelname)s] %(asctime)s: %(message)s", level=logging.INFO)
+    args = parse(sys.argv[1:])
+    ${0}
+    logging.info('Done')
 endsnippet

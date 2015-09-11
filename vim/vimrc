@@ -58,6 +58,9 @@ set noswapfile                  " no .swp files
 set history=100                 " history size
 set undolevels=100              " undo size
 
+" remove unwanted trailing spaces
+autocmd BufWritePre *.py :%s/\s\+$//e
+
 " EXCLUSION
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
 
@@ -78,7 +81,7 @@ Bundle 'Raimondi/delimitMate'
 Bundle 'tpope/vim-surround'
 Bundle 'scrooloose/syntastic'
 let g:syntastic_go_checkers=['']
-let g:syntastic_python_checkers=['frosted', 'pep8', 'py3kwarn', 'python']
+let g:syntastic_python_checkers=['frosted', 'pep8', 'python']
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -95,6 +98,7 @@ Bundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline_theme='simple'
+Bundle 'majutsushi/tagbar'
 Bundle 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -152,3 +156,4 @@ nnoremap <leader>B :PluginInstall<CR>
 nnoremap <leader>U :PluginUpdate<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
 nnoremap <leader>S :TagbarToggle<CR>
+nnoremap <leader>! :SyntasticToggleMode<CR>
