@@ -71,6 +71,7 @@ alias py="ipython --profile=freaxmind"
 alias pyn="jupyter-notebook  --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
 alias pyv="source venv/bin/activate"
+alias pyv-create="virtualenv --distribute --no-site-packages venv"
 
 # Alias: DISTRIBUTION (Ubuntu)
 alias search="apt-cache search"

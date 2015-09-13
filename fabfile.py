@@ -59,11 +59,11 @@ def apt(update_packages=False):
 
 def pip():
     print("[*] Installing/Updating Python libraries (using pip) ...")
-    packages = ['cookiecutter', 'virtualenv', 'wheel', 'pytest',                    # programming environment
-                'frosted', 'pep8', 'py3kwarn',                                      # syntax checker
-                'jupyter', 'pandas', 'seaborn', 'bokeh',                            # data analysis
-                'pymongo', 'redis', 'mongoengine',                                  # databases
-                'flask', 'requests', 'httpie', 'beautifulsoup4']                    # web
+    packages = ['cookiecutter', 'virtualenv', 'wheel', 'pytest', 'pytest-cov', 'sphinx',    # programming environment
+                'frosted', 'pep8', 'py3kwarn',                                              # syntax checker
+                'jupyter', 'pandas', 'seaborn', 'bokeh',                                    # data analysis
+                'pymongo', 'redis', 'mongoengine',                                          # databases
+                'flask', 'requests', 'httpie', 'beautifulsoup4']                            # web
     proxy = '--proxy {0}'.format(_proxy) if _proxy else ''
     local('pip3 install --user --upgrade {proxy} {packages}'.format(packages=_pkg_line(packages), proxy=proxy))
 
