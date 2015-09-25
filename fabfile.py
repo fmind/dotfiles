@@ -45,7 +45,7 @@ def _link(src, dst):
 def apt(update_packages=False):
     print("[*] Installing new system packages (using apt-get) ...")
     packages = ['zsh', 'byobu', 'vim', 'git', 'silversearcher-ag', 'fabric',            # shell
-                'python3', 'python3-pip', 'python3-dev', 'build-essential',             # programming
+                'python3', 'python3-dev', 'python-dev', 'build-essential', 'cmake',     # programming
                 'libpng12-dev', 'libfreetype6-dev', 'gfortran',                         # dependencies
                 'gfortran', 'libatlas-base-dev', 'liblapack-dev', 'libblas-dev']
 
@@ -61,9 +61,15 @@ def pip():
     print("[*] Installing/Updating Python libraries (using pip) ...")
     packages = ['cookiecutter', 'virtualenv', 'wheel', 'pytest', 'pytest-cov', 'sphinx',    # programming environment
                 'frosted', 'pep8', 'py3kwarn',                                              # syntax checker
-                'jupyter', 'pandas', 'seaborn', 'bokeh',                                    # data analysis
+                'jupyter', 'pandas', 'seaborn', 'ipython',                                  # data analysis
                 'pymongo', 'redis', 'mongoengine',                                          # databases
                 'flask', 'requests', 'httpie', 'beautifulsoup4']                            # web
+
+    # install a standalone version of pip
+    local('wget https://bootstrap.pypa.io/get-pip.py')
+    local('python3 get-pip.py')
+    local('rm get-pip.py')
+
     proxy = '--proxy {0}'.format(_proxy) if _proxy else ''
     local('pip3 install --user --upgrade {proxy} {packages}'.format(packages=_pkg_line(packages), proxy=proxy))
 
@@ -126,25 +132,6 @@ def git():
 
     _link(os.path.join(src, gitconfig), os.path.join(dst, _hidden(gitconfig)))
     _link(os.path.join(src, gitignore), os.path.join(dst, _hidden(gitignore)))
-
-
-def xfce(pull=False):
-    print("[*] Deploying xfce ...")
-    # base
-    src = os.path.join(_curdir, 'xfce')
-    dst = os.path.join(_homedir, '.config', 'xfce4')
-    # file configs
-    terminal = os.path.join('terminal', 'terminalrc')
-    shortcuts = os.path.join('xfconf', 'xfce-perchannel-xml', 'xfce4-keyboard-shortcuts.xml')
-
-    if pull:
-        print("\tPulling xfce files ...")
-        shutil.copy(os.path.join(dst, terminal), os.path.join(src, terminal))
-        shutil.copy(os.path.join(dst, shortcuts), os.path.join(src, shortcuts))
-    else:
-        print("\tPushing xfce files ...")
-        shutil.copy(os.path.join(src, terminal), os.path.join(dst, terminal))
-        shutil.copy(os.path.join(src, shortcuts), os.path.join(dst, shortcuts))
 
 
 def ipython():
@@ -220,7 +207,6 @@ def deploy_conf():
     zsh()
     vim()
     git()
-    xfce()
     ipython()
     cookie()
     fonts()
