@@ -46,7 +46,7 @@ def apt(update_packages=False):
     print("[*] Installing new system packages (using apt-get) ...")
     packages = ['zsh', 'byobu', 'vim', 'git', 'silversearcher-ag', 'fabric',            # shell
                 'python3', 'python3-dev', 'python-dev', 'build-essential', 'cmake',     # programming
-                'libpng12-dev', 'libfreetype6-dev', 'gfortran',                         # dependencies
+                'libpng12-dev', 'libfreetype6-dev', 'gfortran', 'python3-setuptools',   # dependencies
                 'gfortran', 'libatlas-base-dev', 'liblapack-dev', 'libblas-dev']
 
     if update_packages:
@@ -67,7 +67,7 @@ def pip():
 
     # install a standalone version of pip
     local('wget https://bootstrap.pypa.io/get-pip.py')
-    local('python3 get-pip.py')
+    local('sudo -H python3 get-pip.py')
     local('rm get-pip.py')
 
     proxy = '--proxy {0}'.format(_proxy) if _proxy else ''

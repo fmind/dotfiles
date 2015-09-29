@@ -39,7 +39,7 @@ umask 0077
 source $ZSH/oh-my-zsh.sh
 
 # Load Byoby on startup
-_byobu_sourced=1 . /usr/bin/byobu-launch
+#_byobu_sourced=1 . /usr/bin/byobu-launch
 
 # Preferred language for local and remote sessions
 export LANG=en_US.UTF-8
@@ -83,6 +83,11 @@ alias clean="sudo apt-get clean"
 alias autoclean="sudo apt-get autoclean"
 alias autoremove="sudo apt-get autoremove --purge"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# HADOOP
+if [ -f ~/.hadooprc ]; then
+    source ~/.hadooprc
+fi
 
 # QUICK ACCESS
 alias f='thunar . &'

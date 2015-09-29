@@ -11,5 +11,5 @@ c.TerminalInteractiveShell.editor = 'vim'
 c.TerminalInteractiveShell.colors = 'Linux'
 c.TerminalIPythonApp.display_banner = False
 c.TerminalInteractiveShell.confirm_exit = False
-c.PromptManager.in_template = '{color.Green}Fx~{color.Cyan}In[{color.Yellow}\N{color.Cyan}]{color.normal}: '
-c.PromptManager.out_template = '  Out[{color.Yellow}\N{color.Cyan}]{color.normal}: '
+c.PromptManager.in_template = '{color.Green}Fx~{color.Cyan}In[{color.Yellow}\\N{color.Cyan}]{color.normal}: '
+c.PromptManager.out_template = '  Out[{color.Yellow}\\N{color.Cyan}]{color.normal}: '
