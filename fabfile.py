@@ -44,7 +44,7 @@ def _link(src, dst):
 
 def apt(update_packages=False):
     print("[*] Installing new system packages (using apt-get) ...")
-    packages = ['zsh', 'byobu', 'vim', 'git', 'silversearcher-ag', 'fabric',            # shell
+    packages = ['zsh', 'byobu', 'vim', 'vim-gtk', 'git', 'silversearcher-ag', 'fabric', # shell
                 'python3', 'python3-dev', 'python-dev', 'build-essential', 'cmake',     # programming
                 'libpng12-dev', 'libfreetype6-dev', 'gfortran', 'python3-setuptools',   # dependencies
                 'gfortran', 'libatlas-base-dev', 'liblapack-dev', 'libblas-dev']

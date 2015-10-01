@@ -39,7 +39,7 @@ umask 0077
 source $ZSH/oh-my-zsh.sh
 
 # Load Byoby on startup
-#_byobu_sourced=1 . /usr/bin/byobu-launch
+_byobu_sourced=1 . /usr/bin/byobu-launch
 
 # Preferred language for local and remote sessions
 export LANG=en_US.UTF-8
