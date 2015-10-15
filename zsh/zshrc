@@ -48,6 +48,9 @@ export LANG=en_US.UTF-8
 export EDITOR='vim'
 bindkey -v
 
+# remap caps lock key
+setxkbmap -option caps:escape
+
 ### Alias Configuration ###
 
 # Alias: BASICS
@@ -63,9 +66,14 @@ alias vi="vim"
 alias vir="vim -R"
 alias vis="sudo vim"
 
+# Alias: GLOBAL
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g L='| less'
+alias -g P=':$PATH'
+
 # Alias: PROGRAMMING
-alias python="python3"
-alias pip="pip3"
 alias cookie="cookiecutter"
 alias py="ipython --profile=freaxmind"
 alias pyn="jupyter-notebook  --profile=freaxmind"

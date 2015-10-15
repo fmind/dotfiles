@@ -44,10 +44,10 @@ def _link(src, dst):
 
 def apt(update_packages=False):
     print("[*] Installing new system packages (using apt-get) ...")
-    packages = ['zsh', 'byobu', 'vim', 'vim-gtk', 'git', 'silversearcher-ag', 'fabric', # shell
-                'python3', 'python3-dev', 'python-dev', 'build-essential', 'cmake',     # programming
-                'libpng12-dev', 'libfreetype6-dev', 'gfortran', 'python3-setuptools',   # dependencies
-                'gfortran', 'libatlas-base-dev', 'liblapack-dev', 'libblas-dev']
+    packages = ['zsh', 'byobu', 'vim', 'vim-gtk', 'git', 'silversearcher-ag', 'fabric',
+                'python3', 'python3-dev', 'python-dev', 'build-essential', 'cmake',
+                'libpng12-dev', 'libfreetype6-dev', 'gfortran', 'python3-setuptools',
+                'gfortran', 'libatlas-base-dev', 'liblapack-dev', 'libblas-dev', 'libssl-dev', 'libxslt1-dev', 'libxml2-dev']
 
     if update_packages:
         print("[*] Updating system packages (using apt-get) ...")
@@ -59,11 +59,11 @@ def apt(update_packages=False):
 
 def pip():
     print("[*] Installing/Updating Python libraries (using pip) ...")
-    packages = ['cookiecutter', 'virtualenv', 'wheel', 'pytest', 'pytest-cov', 'sphinx',    # programming environment
-                'frosted', 'pep8', 'py3kwarn',                                              # syntax checker
-                'jupyter', 'pandas', 'seaborn', 'ipython',                                  # data analysis
-                'pymongo', 'redis', 'mongoengine',                                          # databases
-                'flask', 'requests', 'httpie', 'beautifulsoup4']                            # web
+    packages = ['cookiecutter', 'virtualenv', 'wheel', 'pytest', 'pytest-cov', 'sphinx', 'ipdb',
+                'frosted', 'pep8', 'py3kwarn',
+                'jupyter', 'pandas', 'seaborn', 'ipython', 'ipyparallel',
+                'pymongo', 'redis', 'mongoengine',
+                'flask', 'requests', 'httpie', 'beautifulsoup4']
 
     # install a standalone version of pip
     local('wget https://bootstrap.pypa.io/get-pip.py')
