@@ -5,7 +5,6 @@ from fabric.api import local
 import shutil
 import os
 
-
 _homedir = os.path.expanduser('~')
 _curdir = os.path.dirname(os.path.realpath(__file__))
 _proxy = os.getenv('http_proxy') or os.getenv('HTTP_PROXY')
@@ -45,6 +44,7 @@ def _link(src, dst):
 def apt(update_packages=False):
     print("[*] Installing new system packages (using apt-get) ...")
     packages = ['zsh', 'byobu', 'vim', 'vim-gtk', 'git', 'silversearcher-ag', 'fabric',
+                'pandoc', 'exuberant-ctags',
                 'python3', 'python3-dev', 'python-dev', 'build-essential', 'cmake',
                 'libpng12-dev', 'libfreetype6-dev', 'gfortran', 'python3-setuptools',
                 'gfortran', 'libatlas-base-dev', 'liblapack-dev', 'libblas-dev', 'libssl-dev', 'libxslt1-dev', 'libxml2-dev']

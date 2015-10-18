@@ -21,7 +21,7 @@ set number 				        " display line numbers (gutter)
 set showmode			        " display the current mode
 set showmatch			        " display matching parenthesis
 set laststatus=2                " display the status line (always)
-set lazyredraw                  " Don't redraw while executing macros (good performance config)
+set lazyredraw                  " don't redraw while executing macros (good performance config)
 
 " INDENTATION
 set expandtab                   " insert spaces when hitting TABs
@@ -40,6 +40,7 @@ set incsearch			        " show match as the search proceeds
 set nohlsearch                  " no search highlighting
 set ignorecase                  " case insensitivity
 set smartcase                   "   (only when no caps is used)
+set gdefault                    " replace all occurence by default
 
 " FOLDING
 set foldlevel=20                " folding level
@@ -64,6 +65,25 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 " EXCLUSION
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
 
+" FUNCTIONS
+function! ToggleWrap()
+    if (&wrap == 1)
+        set nowrap
+        set nolinebreak
+        set textwidth=0
+        set colorcolumn=0
+        set formatoptions-=t
+        echo "Mode: NoWrap"
+    else
+        set wrap
+        set linebreak
+        set textwidth=80
+        set colorcolumn=80
+        set formatoptions+=t
+        echo "Mode: Wrap"
+    endif
+endfunction
+
 " PLUGINS
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -71,10 +91,15 @@ call vundle#begin()
 
 " let Vundle Manage Vundle
 Bundle 'gmarik/vundle'
-
+Bundle 'vim-pandoc/vim-pandoc'
+Bundle 'vim-pandoc/vim-pandoc-syntax'
+let g:pandoc#modules#disabled = ["folding"]
 Bundle 'easymotion/vim-easymotion'
 Bundle 'Valloric/YouCompleteMe'
 let g:jedi#show_call_signatures = "1"
+let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, 'python':1 }
+Bundle 'beloglazov/vim-online-thesaurus'''
+let g:online_thesaurus_map_keys = 0
 Bundle 'airblade/vim-gitgutter'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Raimondi/delimitMate'
@@ -124,6 +149,14 @@ filetype indent on
 
 " SHORTCUTS
 let mapleader="\<Space>"        " set map leader (user extension shortcut)_
+nmap ; :
+vmap ; :
+noremap ;; ;
+" Break Bad Habits
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 " Basic
 nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
@@ -133,8 +166,11 @@ nnoremap <leader>R :r !
 nnoremap <leader>z za
 nnoremap <leader>g gt
 nnoremap <leader>G gT
+nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
 nnoremap <leader>t :tabedit 
 nnoremap <leader>T :tabedit $MYVIMRC<CR>
+nnoremap <leader>C :setlocal spell! spelllang=en_us<CR>
+nnoremap <leader>W :call ToggleWrap()<CR>
 nnoremap <leader>L :source $MYVIMRC<CR>
 nnoremap <leader>V :vsplit 
 nnoremap <leader>H :hsplit 
@@ -152,6 +188,9 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 " Plugins
+nnoremap <leader>M :Pandoc 
+nnoremap <leader>mh :Pandoc html
+nnoremap <leader>ml :Pandoc latex
 nnoremap <leader>B :PluginInstall<CR>
 nnoremap <leader>U :PluginUpdate<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
