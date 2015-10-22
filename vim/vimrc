@@ -19,9 +19,16 @@ set ruler                       " display cursor location
 set syntax=on                   " display syntaxic coloration
 set number 				        " display line numbers (gutter)
 set showmode			        " display the current mode
-set showmatch			        " display matching parenthesis
+set noshowmatch			        " don't display matching parenthesis
 set laststatus=2                " display the status line (always)
 set lazyredraw                  " don't redraw while executing macros (good performance config)
+set splitright                  " put new vertical window on the right of the current buffer
+set splitbelow                  " put horizontal window below of the current buffer
+
+" WRAPING
+set wrap                        " wrap text when text length > window size
+set linebreak                   " don't break line in a middle of a word
+set textwidth=0                 " don't use hard wrapping
 
 " INDENTATION
 set expandtab                   " insert spaces when hitting TABs
@@ -47,7 +54,6 @@ set foldlevel=20                " folding level
 set foldmethod=indent           " folding behaviour
 
 " READ/WRITE
-set nowrap                      " don't wrap text
 set encoding=utf-8              " default encoding
 set ffs=unix,dos,mac            " default newline
 
@@ -65,25 +71,6 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 " EXCLUSION
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
 
-" FUNCTIONS
-function! ToggleWrap()
-    if (&wrap == 1)
-        set nowrap
-        set nolinebreak
-        set textwidth=0
-        set colorcolumn=0
-        set formatoptions-=t
-        echo "Mode: NoWrap"
-    else
-        set wrap
-        set linebreak
-        set textwidth=80
-        set colorcolumn=80
-        set formatoptions+=t
-        echo "Mode: Wrap"
-    endif
-endfunction
-
 " PLUGINS
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -92,9 +79,12 @@ call vundle#begin()
 " let Vundle Manage Vundle
 Bundle 'gmarik/vundle'
 Bundle 'vim-pandoc/vim-pandoc'
-Bundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#modules#disabled = ["folding"]
+Bundle 'vim-pandoc/vim-pandoc-syntax'
+let g:pandoc#syntax#conceal#use=0
 Bundle 'easymotion/vim-easymotion'
+Bundle 'dhruvasagar/vim-table-mode'
+let g:table_mode_corner="|"
 Bundle 'Valloric/YouCompleteMe'
 let g:jedi#show_call_signatures = "1"
 let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, 'python':1 }
@@ -153,6 +143,11 @@ nmap ; :
 vmap ; :
 noremap ;; ;
 " Break Bad Habits
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap Q <nop>
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
@@ -161,19 +156,13 @@ noremap <Right> <NOP>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
-nnoremap <leader>h :nohl<CR>
-nnoremap <leader>R :r !
+nnoremap <leader>Q :q!<CR>
+nnoremap <leader>R :r!<CR>
 nnoremap <leader>z za
-nnoremap <leader>g gt
-nnoremap <leader>G gT
-nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
-nnoremap <leader>t :tabedit 
-nnoremap <leader>T :tabedit $MYVIMRC<CR>
+nnoremap <leader>e :tabedit 
+nnoremap <leader>E :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en_us<CR>
-nnoremap <leader>W :call ToggleWrap()<CR>
-nnoremap <leader>L :source $MYVIMRC<CR>
-nnoremap <leader>V :vsplit 
-nnoremap <leader>H :hsplit 
+nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
 nnoremap <leader>? :help 
 " Copy & Paste
 vmap <Leader>y "+y
@@ -187,12 +176,21 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
+nnoremap <leader>V :vsplit 
+nnoremap <leader>H :hsplit 
+nnoremap <leader>L :vnew<CR><c-w>h
 " Plugins
 nnoremap <leader>M :Pandoc 
+nnoremap <leader>md :Pandoc doc
+nnoremap <leader>mo :Pandoc odt
 nnoremap <leader>mh :Pandoc html
 nnoremap <leader>ml :Pandoc latex
-nnoremap <leader>B :PluginInstall<CR>
-nnoremap <leader>U :PluginUpdate<CR>
+nnoremap <leader>+i :PluginInstall<CR>
+nnoremap <leader>+u :PluginUpdate<CR>
+nnoremap <leader>+e :tabedit $MYVIMRC<CR>
+nnoremap <leader>+l :source $MYVIMRC<CR>
+nnoremap <leader>+sp :tabedit ~/.vim/my-snippets/python.snippets<CR>
+nnoremap <leader>+sg :tabedit ~/.vim/my-snippets/go.snippets<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
 nnoremap <leader>S :TagbarToggle<CR>
 nnoremap <leader>! :SyntasticToggleMode<CR>

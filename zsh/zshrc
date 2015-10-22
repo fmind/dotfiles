@@ -74,12 +74,17 @@ alias -g L='| less'
 alias -g P=':$PATH'
 
 # Alias: PROGRAMMING
-alias cookie="cookiecutter"
-alias py="ipython --profile=freaxmind"
+alias py2="python2"
+alias py3="python3"
+alias pyp="pip3"
+alias pys="ipython --profile=freaxmind"
 alias pyn="jupyter-notebook  --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
 alias pyv="source venv/bin/activate"
+alias pyh="pydoc"
+alias pyd="ipdb"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
+alias cookie="cookiecutter"
 
 # Alias: DISTRIBUTION (Ubuntu)
 alias search="apt-cache search"
