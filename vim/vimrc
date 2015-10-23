@@ -20,6 +20,7 @@ set syntax=on                   " display syntaxic coloration
 set number 				        " display line numbers (gutter)
 set showmode			        " display the current mode
 set noshowmatch			        " don't display matching parenthesis
+let loaded_matchparen = 1       " idem with nocompatible set
 set laststatus=2                " display the status line (always)
 set lazyredraw                  " don't redraw while executing macros (good performance config)
 set splitright                  " put new vertical window on the right of the current buffer
