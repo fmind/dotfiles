@@ -85,6 +85,10 @@ alias pyh="pydoc"
 alias pyd="ipdb"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 alias cookie="cookiecutter"
+alias dk="docker"
+
+# Alias: IMAGE
+alias imgwhite="convert -flatten "
 
 # Alias: DISTRIBUTION (Ubuntu)
 alias search="apt-cache search"

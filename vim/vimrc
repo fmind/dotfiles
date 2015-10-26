@@ -181,6 +181,7 @@ nnoremap <leader>V :vsplit
 nnoremap <leader>H :hsplit 
 nnoremap <leader>L :vnew<CR><c-w>h
 " Plugins
+nnoremap <leader>- :!make<CR>
 nnoremap <leader>M :Pandoc 
 nnoremap <leader>md :Pandoc doc
 nnoremap <leader>mo :Pandoc odt
