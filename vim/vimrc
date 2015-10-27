@@ -89,6 +89,7 @@ let g:table_mode_corner="|"
 Bundle 'Valloric/YouCompleteMe'
 let g:jedi#show_call_signatures = "1"
 let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, 'python':1 }
+let g:ycm_autoclose_preview_window_after_completion=1
 Bundle 'beloglazov/vim-online-thesaurus'''
 let g:online_thesaurus_map_keys = 0
 Bundle 'airblade/vim-gitgutter'
@@ -160,6 +161,8 @@ nnoremap <leader>q :q<CR>
 nnoremap <leader>Q :q!<CR>
 nnoremap <leader>R :r!<CR>
 nnoremap <leader>z za
+nnoremap <leader>b :buffer 
+nnoremap <leader>B :ls<CR>
 nnoremap <leader>e :tabedit 
 nnoremap <leader>E :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en_us<CR>
@@ -196,3 +199,4 @@ nnoremap <leader>+sg :tabedit ~/.vim/my-snippets/go.snippets<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
 nnoremap <leader>S :TagbarToggle<CR>
 nnoremap <leader>! :SyntasticToggleMode<CR>
+nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
