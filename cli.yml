@@ -61,7 +61,7 @@
     register: ipython_profile
 
   - name: Creating ipython profile
-    command: "ipython profile create freaxmind"
+    command: "~/.local/bin/ipython3 profile create freaxmind"
     when: ipython_profile.stat.exists == False
 
   - name: Deploying ipython profile
@@ -74,8 +74,10 @@
     register: shell_font
 
   - name: Installing additional fonts
-    command: "{{ansible_env.PWD}}/vim/vim/bundle/fonts/install.sh"
+    command: /bin/true
     when: shell_font.stat.exists == False
+    notify:
+        - install vim fonts
 
   handlers:
     - name: install vim plugins
@@ -83,3 +85,6 @@
 
     - name: install vim auto-completion
       command: "python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer"
+    
+    - name: install vim fonts
+      command: "{{ansible_env.PWD}}/vim/vim/bundle/fonts/install.sh"
