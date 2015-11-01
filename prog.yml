@@ -1,0 +1,84 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+  - name: Adding Docker repository key
+    apt_key: keyserver="hkp://pgp.mit.edu:80" id="58118E89F3A912897C070ADBF76221572C52609D"
+    become: yes
+
+  - name: Adding Docker repository
+    apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-trusty main" update_cache=yes
+    become: yes
+
+  - name: Adding Oracle Java repository and key
+    apt_repository: repo="ppa:webupd8team/java" update_cache=yes
+    become: yes
+
+  - name: Accepting Oracle License
+    shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+
+  - name: Installing dependencies (prog)
+    apt: pkg="{{item}}" state=latest
+    become: yes
+    with_items:
+      - gfortran
+      - libffi-dev
+      - libblas-dev
+      - libpng12-dev
+      - liblapack-dev
+      - libfreetype6-dev
+      - libatlas-base-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - python-setuptools
+
+  - name: Installing packages (prog)
+    apt: pkg="{{item}}" state=latest
+    become: yes
+    with_items:
+      - docker-engine
+      - oracle-java8-installer
+
+  - name: Installing pip3
+    easy_install: name="pip" executable="easy_install3"
+    become: yes
+
+  - name: Installing pip2
+    easy_install: name="pip" executable="easy_install-2.7"
+    become: yes
+
+  - name: Installing Python libraries (pip3)
+    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+    with_items:
+      # project
+      - ipdb
+      - wheel
+      - virtualenv
+      - cookiecutter
+      # syntax
+      - pep8
+      - frosted
+      - py3kwarn
+      # data analysis
+      - pandas
+      - ipython
+      - jupyter
+      - seaborn
+      - ipyparallel
+      # database
+      - redis
+      - pymongo
+      - mongoengine
+      # web
+      - flask
+      - httpie
+      - jinja2
+      - requests
+      - beautifulsoup4
+
+  - name: Installing Python libraries (pip2)
+    pip: name="{{item}}" executable="pip2" extra_args="--user" state=latest
+    with_items:
+      - scrapy
