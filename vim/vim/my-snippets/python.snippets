@@ -1,5 +1,9 @@
 snippet pp "print($0)"
-print(${0})
+pprint(${0})
+endsnippet
+
+snippet ppimp "import pprint"
+from pprint import pprint as pp
 endsnippet
 
 snippet ft "'$0'.format()" i
@@ -14,8 +18,12 @@ snippet ipdb "debugger breakpoint"
 import ipdb; ipdb.set_trace()
 endsnippet
 
+snippet bang "python 3 shellbang"
+#!/usr/bin/env python3
+endsnippet
+
 snippet pyscript "script template" b
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """Description
 """

@@ -121,6 +121,8 @@ let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
+Bundle 'mattn/emmet-vim'
+let g:user_emmet_leader_key=','
 Bundle 'powerline/fonts'
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_map = '<c-p>'

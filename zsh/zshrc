@@ -60,6 +60,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+alias chx="chmod u+x "
 alias back="cd $OLDPWD"
 alias o="xdg-open"
 alias vi="vim"
@@ -86,6 +87,7 @@ alias pyd="ipdb"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 alias cookie="cookiecutter"
 alias dk="docker"
+alias pjs="python3 -m json.tool"
 
 # Alias: IMAGE
 alias imgwhite="convert -flatten "
@@ -104,6 +106,11 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # HADOOP
 if [ -f ~/.hadooprc ]; then
     source ~/.hadooprc
+fi
+
+# GOOGLE
+if [ -f ~/.googlerc ]; then
+    source ~/.googlerc
 fi
 
 # QUICK ACCESS
