@@ -82,12 +82,13 @@ Bundle 'gmarik/vundle'
 Bundle 'vim-pandoc/vim-pandoc'
 let g:pandoc#modules#disabled = ["folding"]
 Bundle 'vim-pandoc/vim-pandoc-syntax'
-let g:pandoc#syntax#conceal#use=0
+let g:pandoc#syntax#conceal#use = 0
 Bundle 'easymotion/vim-easymotion'
 Bundle 'dhruvasagar/vim-table-mode'
-let g:table_mode_corner="|"
+let g:table_mode_corner = "|"
 Bundle 'Valloric/YouCompleteMe'
 let g:jedi#show_call_signatures = "1"
+let g:ycm_check_if_ycm_core_present = 0
 let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, 'python':1 }
 let g:ycm_autoclose_preview_window_after_completion=1
 Bundle 'beloglazov/vim-online-thesaurus'''
