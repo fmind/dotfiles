@@ -4,6 +4,10 @@
   gather_facts: no
   tasks:
 
+  - name: Adding Pypy repository
+    apt_repository: repo="ppa:pypy/ppa" update_cache=yes
+    become: yes
+
   - name: Adding Docker repository key
     apt_key: keyserver="hkp://pgp.mit.edu:80" id="58118E89F3A912897C070ADBF76221572C52609D"
     become: yes
@@ -38,6 +42,7 @@
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
+      - pypy
       - docker-engine
       - oracle-java8-installer
 
