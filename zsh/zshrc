@@ -1,12 +1,12 @@
 ### ZSH Configuration ###
 
-# Path to your oh-my-zsh installation.
+# Path to oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 ZSH_THEME="freaxmind"
 
-# Uncomment the following line if you want to change the command execution time
+# Uncomment the following line to change the command execution time
 HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
@@ -15,12 +15,12 @@ ZSH_CUSTOM=$ZSH/custom/
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(vi-mode, command-not-found)
 
-### User configuration ###
-
 # set PATH
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-# set PROXY
+## INCLUDES
+
+# Proxy settings
 [ -f ~/ENABLE_PROXY ] && {
     export HTTP_PROXY=`cat ~/ENABLE_PROXY`
     export http_proxy=$HTTP_PROXY
@@ -32,8 +32,12 @@ export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:/usr/local/sbin:/usr/l
     export NO_PROXY=localhost
 }
 
-# set umask
-umask 0077
+# Google settings
+if [ -f ~/.googlerc ]; then
+    source ~/.googlerc
+fi
+
+### User configuration ###
 
 # Make ZSH Awesome !
 source $ZSH/oh-my-zsh.sh
@@ -51,21 +55,10 @@ bindkey -v
 # remap caps lock key
 setxkbmap -option caps:escape
 
-### Alias Configuration ###
+# set umask
+umask 0077
 
-# Alias: BASICS
-alias c="cd"
-alias x="exit"
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias chx="chmod u+x "
-alias back="cd $OLDPWD"
-alias o="xdg-open"
-alias vi="vim"
-alias vir="vim -R"
-alias vis="sudo vim"
+### Alias Configuration ###
 
 # Alias: GLOBAL
 alias -g H='| head'
@@ -74,20 +67,44 @@ alias -g G='| grep'
 alias -g L='| less'
 alias -g P=':$PATH'
 
+# Alias: BASICS
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias back="cd $OLDPWD"
+alias vi="vim"
+alias vir="vim -R"
+alias vis="sudo vim"
+alias chx="chmod u+x "
+
+# Alias: QUICK ACCESS
+alias c="cd"
+alias v="vim"
+alias x="exit"
+alias o="xdg-open"
+alias f='nautilus . &'
+alias zshrc='$EDITOR ~/.zshrc'
+alias zshsrc='source ~/.zshrc'
+
 # Alias: PROGRAMMING
 alias py2="python2"
 alias py3="python3"
 alias pyp="pip3"
+alias pyd="ipdb"
+alias pyh="pydoc"
 alias pys="ipython --profile=freaxmind"
 alias pyn="jupyter-notebook  --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
 alias pyv="source venv/bin/activate"
-alias pyh="pydoc"
-alias pyd="ipdb"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 alias cookie="cookiecutter"
 alias dk="docker"
+
+# Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"
+alias pysparkn="docker run -p 8888:8888 -v $(pwd):/home/jovyan/work jupyter/pyspark-notebook"
+alias pyscipyn="docker run -p 8888:8888 -v $(pwd):/home/jovyan/work jupyter/scipy-notebook"
 
 # Alias: IMAGE
 alias imgwhite="convert -flatten "
@@ -103,21 +120,3 @@ alias autoclean="sudo apt-get autoclean"
 alias autoremove="sudo apt-get autoremove --purge"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# HADOOP
-if [ -f ~/.hadooprc ]; then
-    source ~/.hadooprc
-fi
-
-# GOOGLE
-if [ -f ~/.googlerc ]; then
-    source ~/.googlerc
-fi
-
-# QUICK ACCESS
-alias f='thunar . &'
-alias zshrc='$EDITOR ~/.zshrc'
-alias zshsrc='source ~/.zshrc'
-
-### Shortcuts Configuration ###
-[[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"    history-beginning-search-backward
-[[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}"  history-beginning-search-forward
