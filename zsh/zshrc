@@ -65,6 +65,7 @@ alias -g H='| head'
 alias -g T='| tail'
 alias -g G='| grep'
 alias -g L='| less'
+alias -g X='| xclip -selection c'
 alias -g P=':$PATH'
 
 # Alias: BASICS
@@ -84,6 +85,8 @@ alias v="vim"
 alias x="exit"
 alias o="xdg-open"
 alias f='nautilus . &'
+alias extip='curl icanhazip.com'
+alias serve='python -m SimpleHTTPServer'
 alias zshrc='$EDITOR ~/.zshrc'
 alias zshsrc='source ~/.zshrc'
 

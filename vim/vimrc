@@ -1,64 +1,66 @@
-set nocompatible                " disable (old) vi compatibility
-set nomodeline                  " security best pratice !
-filetype off                    " no extension detection
+" MAIN SETTINGS
 
-" INTERFACE
-set so=10                       " activate a margin on vertical scrolling
+"" compatibility
+set nocompatible                " disable vi compatibility
+set nomodeline                  " security best pratice
+
+"" interface
+set so=10                       " activate a margin for vertical scrolling
 set title                       " activate vim title on the current xterm
 set mouse=a                     " activate mouse selection for every mode
 set wildmenu                    " activate a menu for autocompletion
 set wildmode=list:longest       "   (menu behaviour)
-set nospell                     " activate inline spell check
-set spelllang=en                "   (spelling language)
-set background=dark             " always have dark background
-colorscheme molokai             " activate colorscheme
-set t_Co=256                    " add more colors
+set nospell                     " deactivate inline spell check
+set spelllang=en                "   (default spelling language)
+set background=dark             " activate editor theming
+colorscheme molokai             "   (set colorscheme)
+set t_Co=256                    "   (add more colors)
 
-" DISPLAY
+"" display
 set ruler                       " display cursor location
 set syntax=on                   " display syntaxic coloration
 set number 				        " display line numbers (gutter)
 set showmode			        " display the current mode
 set noshowmatch			        " don't display matching parenthesis
-let loaded_matchparen = 1       " idem with nocompatible set
+let loaded_matchparen = 1       "   (same with nocompatible set)
 set laststatus=2                " display the status line (always)
-set lazyredraw                  " don't redraw while executing macros (good performance config)
+set lazyredraw                  " don't display while executing macros (performance)
 set splitright                  " put new vertical window on the right of the current buffer
-set splitbelow                  " put horizontal window below of the current buffer
+set splitbelow                  " put horizontal window below the current buffer
 
-" WRAPING
+"" completion
+set completeopt-=preview        " disable the preview completion window
+
+"" indentation
+set expandtab                   " insert spaces when hitting TABs
+set shiftround                  " round indent value to a multiple of 'shiftwidth'
+set autoindent                  " align the new line indent with the previous line
+set tabstop=4                   " a hard TAB displays as 4 spaces
+set shiftwidth=4                " operation >> indents 4 spaces; << unindents 4 spaces
+set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACKSPACE
+set backspace=indent,eol,start  " allow backspacing over everything in insert mode 
+
+"" search
+set incsearch			        " show first match as the search proceeds
+set nohlsearch                  " deactivate search highlighting
+set ignorecase                  " case insensitivity
+set smartcase                   "   (only when no upper letter is used)
+set gdefault                    " replace all occurences in line by default (/g)
+
+"" wraping
 set wrap                        " wrap text when text length > window size
 set linebreak                   " don't break line in a middle of a word
 set textwidth=0                 " don't use hard wrapping
 
-" INDENTATION
-set expandtab                   " insert spaces when hitting TABs
-set shiftround                  " round indent to multiple of 'shiftwidth'
-set autoindent                  " align the new line indent with the previous line
-set tabstop=4                   " a hard TAB displays as 4 columns
-set shiftwidth=4                " operation >> indents 4 columns; << unindents 4 columns
-set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACKSPACE
-set backspace=indent,eol,start  " allow backspacing over everything in insert mode 
-
-" COMPLETION
-set completeopt-=preview        " disable the preview completion window
-
-" SEARCH
-set incsearch			        " show match as the search proceeds
-set nohlsearch                  " no search highlighting
-set ignorecase                  " case insensitivity
-set smartcase                   "   (only when no caps is used)
-set gdefault                    " replace all occurence by default
-
-" FOLDING
+"" folding
 set foldlevel=20                " folding level
 set foldmethod=indent           " folding behaviour
 
-" READ/WRITE
+"" read/write
 set encoding=utf-8              " default encoding
 set ffs=unix,dos,mac            " default newline
 
-" SAVING/BACKUP
+"" saving/backup
 set hidden                      " buffers can exist in background
 set nowb                        " no backup before overriding
 set nobackup                    " no backup files
@@ -66,39 +68,33 @@ set noswapfile                  " no .swp files
 set history=100                 " history size
 set undolevels=100              " undo size
 
-" remove unwanted trailing spaces
-autocmd BufWritePre *.py :%s/\s\+$//e
-
-" EXCLUSION
-set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
-
 " PLUGINS
-" set the runtime path to include Vundle and initialize
+"" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle Manage Vundle
+"" include plugins
 Bundle 'gmarik/vundle'
 Bundle 'vim-pandoc/vim-pandoc'
 let g:pandoc#modules#disabled = ["folding"]
 Bundle 'vim-pandoc/vim-pandoc-syntax'
-let g:pandoc#syntax#conceal#use = 0
+let g:pandoc#syntax#conceal#use = 0     " prevent text hiding
 Bundle 'easymotion/vim-easymotion'
 Bundle 'dhruvasagar/vim-table-mode'
-let g:table_mode_corner = "|"
+let g:table_mode_corner = "|"       " markdown compatiblity for tables
 Bundle 'Valloric/YouCompleteMe'
 let g:jedi#show_call_signatures = "1"
-let g:ycm_check_if_ycm_core_present = 0
+let g:ycm_check_if_ycm_core_present = 0     " prevent blocking warning on startup
 let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, 'python':1 }
 let g:ycm_autoclose_preview_window_after_completion=1
 Bundle 'beloglazov/vim-online-thesaurus'''
-let g:online_thesaurus_map_keys = 0
+let g:online_thesaurus_map_keys = 0     " disable default shortcuts
 Bundle 'airblade/vim-gitgutter'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Raimondi/delimitMate'
 Bundle 'tpope/vim-surround'
 Bundle 'scrooloose/syntastic'
-let g:syntastic_go_checkers=['']
+let g:syntastic_go_checkers=['']    " disable go checkers
 let g:syntastic_python_checkers=['frosted', 'pep8', 'python']
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -106,11 +102,11 @@ set statusline+=%*
 let g:syntastic_python_pep8_args = "--ignore=E265,E501,E702,F403"
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 Bundle 'tomtom/tcomment_vim'
 Bundle 'scrooloose/nerdtree'
-"Bundle 'honza/vim-snippets'
+"Bundle 'honza/vim-snippets'    " don't use default snippets
 Bundle 'ivanov/vim-ipython'
 Bundle 'bling/vim-airline' 
 let g:airline#extensions#tabline#enabled=1
@@ -131,33 +127,47 @@ let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll|pyc|jpeg|jpg|gif|png)$',
-  \ 'link': 'some_bad_symbolic_links',
   \ }
 let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-" all the of your plugins must be added before the following line
+"" all the of your plugins must be added before the following line
 call vundle#end()
 filetype plugin on
 filetype indent on
 
+" HOOKS
+
+"" remove unwanted trailing spaces in python file on save
+autocmd BufWritePre *.py :%s/\s\+$//e
+
+"" auto-compile tex file on save
+autocmd BufWritePost *.tex !pdflatex %
+
+"" exclusions
+set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
+
 " SHORTCUTS
-let mapleader="\<Space>"        " set map leader (user extension shortcut)_
+
+"" change leader characters
+let mapleader="\<Space>"
 nmap ; :
 vmap ; :
 noremap ;; ;
-" Break Bad Habits
+
+"" break bad Habits
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
-nnoremap Q <nop>
+nnoremap Q <NOP>
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
-" Basic
+
+"" basic actions
 nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
@@ -171,14 +181,16 @@ nnoremap <leader>E :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en_us<CR>
 nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
 nnoremap <leader>? :help 
-" Copy & Paste
+
+"" copy and paste
 vmap <Leader>y "+y
 vmap <Leader>d "+d
 nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
-" Move around windows
+
+"" move around windows
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
@@ -186,7 +198,8 @@ map <c-h> <c-w>h
 nnoremap <leader>V :vsplit 
 nnoremap <leader>H :hsplit 
 nnoremap <leader>L :vnew<CR><c-w>h
-" Plugins
+
+"" plugins
 nnoremap <leader>- :!make<CR>
 nnoremap <leader>M :Pandoc 
 nnoremap <leader>md :Pandoc doc
