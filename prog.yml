@@ -43,6 +43,7 @@
     become: yes
     with_items:
       - pypy
+      - latexmk
       - docker-engine
       - oracle-java8-installer
 
