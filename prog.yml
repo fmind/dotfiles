@@ -67,11 +67,15 @@
       - pep8
       - frosted
       - py3kwarn
+      - vocabulary
       # data analysis
+      - arrow
       - pandas
       - ipython
       - jupyter
       - seaborn
+      - jellyfish
+      - statsmodels
       - ipyparallel
       # database
       - redis

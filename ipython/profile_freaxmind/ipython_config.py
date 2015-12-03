@@ -3,6 +3,7 @@
 c = get_config()
 
 c.InteractiveShellApp.exec_lines = [
+    'from vocabulary import Vocabulary as vb',
     'import math',
     'import re',
 ]
