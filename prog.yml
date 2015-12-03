@@ -44,6 +44,7 @@
     with_items:
       - pypy
       - latexmk
+      - qemu-kvm
       - docker-engine
       - oracle-java8-installer
 
@@ -67,12 +68,16 @@
       - pep8
       - frosted
       - py3kwarn
+      - vocabulary
       # data analysis
+      - arrow
       - pandas
       - ipython
       - jupyter
       - seaborn
       - sklearn
+      - cairocffi
+      - jellyfish
       - statsmodels
       - ipyparallel
       # database

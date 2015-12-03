@@ -78,6 +78,12 @@ call vundle#begin()
 
 "" include plugins
 Bundle 'gmarik/vundle'
+Bundle 'LaTeX-Box-Team/LaTeX-Box'
+let g:LatexBox_latexmk_options = '-pdflatex="pdflatex -synctex=1 %O %S"'
+let g:LatexBox_latexmk_preview_continuously = 1
+let g:LatexBox_loaded_matchparen = 0
+let g:LatexBox_viewer='zathura'
+let g:LatexBox_quickfix = 2
 Bundle 'vim-pandoc/vim-pandoc'
 let g:pandoc#modules#disabled = ["folding"]
 Bundle 'vim-pandoc/vim-pandoc-syntax'
@@ -145,7 +151,7 @@ filetype plugin indent on
 autocmd BufWritePre *.py :%s/\s\+$//e
 
 "" automatic spell checking for the following files
-autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
+"autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
 
 "" exclusions
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc

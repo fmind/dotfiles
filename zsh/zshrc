@@ -17,6 +17,7 @@ plugins=(vi-mode, command-not-found)
 
 # set PATH
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PYTHONPATH="$HOME/lib:$PYTHONPATH"
 
 ## INCLUDES
 
@@ -101,12 +102,13 @@ alias pyn="jupyter-notebook  --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
 alias pyv="source venv/bin/activate"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
+alias anpl="ansible-playbook"
 alias cookie="cookiecutter"
 alias dk="docker"
 
 # Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"
-alias pysparkn="docker run -p 8888:8888 -v $(pwd):/home/jovyan/work jupyter/pyspark-notebook"
+alias pysparkn='docker run -p 8888:8888 -v "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
 alias pyscipyn="docker run -p 8888:8888 -v $(pwd):/home/jovyan/work jupyter/scipy-notebook"
 
 # Alias: IMAGE
