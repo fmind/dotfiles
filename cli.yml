@@ -69,6 +69,12 @@
     with_items:
       - {src: "ipython/profile_freaxmind/ipython_config.py", dest: "~/.ipython/profile_freaxmind/ipython_config.py"}
 
+  - name: Installing Python libraries (pip3)
+    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+    with_items:
+      # sysadmin
+      - glances
+
   - name: Checking if shell font exists
     stat: path="~/.fonts/Droid Sans Mono Slashed for Powerline.ttf"
     register: shell_font
