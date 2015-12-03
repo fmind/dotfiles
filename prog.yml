@@ -72,6 +72,8 @@
       - ipython
       - jupyter
       - seaborn
+      - sklearn
+      - statsmodels
       - ipyparallel
       # database
       - redis
