@@ -43,6 +43,7 @@
     become: yes
     with_items:
       - pypy
+      - qemu-kvm
       - docker-engine
       - oracle-java8-installer
 
@@ -71,6 +72,7 @@
       - ipython
       - jupyter
       - seaborn
+      - cairocffi
       - ipyparallel
       # database
       - redis
