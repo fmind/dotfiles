@@ -15,6 +15,7 @@ set spelllang=en,fr             "   (default spelling language)
 set background=dark             " activate editor theming
 colorscheme molokai             "   (set colorscheme)
 set t_Co=256                    "   (add more colors)
+set t_md=                       " no bold fonts
 
 "" display
 set ruler                       " display cursor location
@@ -78,12 +79,6 @@ call vundle#begin()
 
 "" include plugins
 Bundle 'gmarik/vundle'
-Bundle 'LaTeX-Box-Team/LaTeX-Box'
-let g:LatexBox_latexmk_options = '-pdflatex="pdflatex -synctex=1 %O %S"'
-let g:LatexBox_latexmk_preview_continuously = 1
-let g:LatexBox_loaded_matchparen = 0
-let g:LatexBox_viewer='zathura'
-let g:LatexBox_quickfix = 2
 Bundle 'vim-pandoc/vim-pandoc'
 let g:pandoc#modules#disabled = ["folding"]
 Bundle 'vim-pandoc/vim-pandoc-syntax'
@@ -151,10 +146,11 @@ filetype plugin indent on
 autocmd BufWritePre *.py :%s/\s\+$//e
 
 "" automatic spell checking for the following files
-"autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
+autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
 
 "" exclusions
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
+set wildignore+=*.fls,*.pdf,*.bbl,*.aux,*.dvi
 
 " SHORTCUTS
 
@@ -208,6 +204,8 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
+"noremap <c-i> <ESC>:tabprevious<CR>
+"noremap <c-o> <ESC>:tabnext<CR>
 nnoremap <leader>V :vsplit 
 nnoremap <leader>H :hsplit 
 nnoremap <leader>L :vnew<CR><c-w>h

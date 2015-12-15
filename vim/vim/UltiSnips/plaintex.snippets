@@ -11,6 +11,23 @@ snippet \par "Latex Paragraph"
 \paragraph{$0}
 endsnippet
 
+snippet \abs "Latex Abstract"
+\begin{abstract}
+
+\end{abstract}
+endsnippet
+
+# bibliography
+
+snippet \bib "Latex bibliography"
+\bibliographystyle{abbrv}
+\bibliography{references}
+endsnippet
+
+snippet \ci "Latex Citation"
+\cite{$0}
+endsnippet
+
 # lists
 snippet \bull "Latex Itemize"
 \begin{itemize}
@@ -30,7 +47,20 @@ snippet \desc "Latex Description"
 \end{description}
 endsnippet
 
+snippet \it "Latex List Item"
+\item $0
+endsnippet
+
 # figure
+
+snippet \figl "Latex figure (with width=linewidth)"
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{img/$0}
+\caption{}
+\label{fig::}
+\end{figure}
+endsnippet
 
 snippet \img "Latex Image"
 \includegraphics{img/$0}

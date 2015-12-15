@@ -1,3 +1,4 @@
+# string formating
 snippet pp "print($0)"
 pprint(${0})
 endsnippet
@@ -22,6 +23,15 @@ snippet bang "python 3 shellbang"
 #!/usr/bin/env python3
 endsnippet
 
+snippet yesno "function for CLI confirmation"
+def _yesno_question(question):
+    while True:
+        try:
+            return strtobool(input(question).lower())
+        except ValueError:
+            print("Please respond with 'y' or 'n'.\n")
+endsnippet
+
 snippet pyscript "script template" b
 #!/usr/bin/env python3
 
@@ -35,13 +45,16 @@ import sys
 
 def parse(arguments):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('-v', '--verbose', action='store_true', help="Set logging level to INFO")
 
     return parser.parse_args(arguments)
 
 
 if __name__ == '__main__':
-    logging.basicConfig(format="[[%(levelname)s] %(asctime)s: %(message)s", level=logging.INFO)
     args = parse(sys.argv[1:])
+    level = logging.INFO if args.verbose else logging.WARN
+    logging.basicConfig(format="[[%(levelname)s] %(asctime)s: %(message)s", level=logging.INFO)
+
     ${0}
     logging.info('Done')
 endsnippet

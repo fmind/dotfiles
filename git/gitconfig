@@ -17,7 +17,6 @@
 
 [alias]
     st = status
-    rm = remove
     co = checkout
     ci = commit -m
     addall = add --all
