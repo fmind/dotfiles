@@ -91,7 +91,7 @@ alias l="clear"
 alias o="xdg-open"
 alias f='nautilus . &'
 alias extip='curl icanhazip.com'
-alias serve='python -m SimpleHTTPServer'
+alias serve='python3 -m http.server'
 alias zshrc='$EDITOR ~/.zshrc'
 alias zshsrc='source ~/.zshrc'
 cls() { cd "$1"; ls;}

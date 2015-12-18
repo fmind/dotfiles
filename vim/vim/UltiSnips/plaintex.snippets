@@ -17,6 +17,10 @@ snippet \abs "Latex Abstract"
 \end{abstract}
 endsnippet
 
+snippet \in "Latex Input"
+\input{$0}
+endsnippet
+
 # bibliography
 
 snippet \bib "Latex bibliography"
@@ -49,6 +53,31 @@ endsnippet
 
 snippet \it "Latex List Item"
 \item $0
+endsnippet
+
+# mathematics
+
+snippet \mi "Latex Inline Math"
+\$ $0 \$
+endsnippet
+
+snippet \mb "Latex Block Math"
+\$\$
+$0
+\$\$
+endsnippet
+
+snippet \mcal "Latex Maths Cal symbols"
+\mathcal{$0}
+endsnippet
+
+snippet \bmat "Latex Border Matrix"
+\bordermatrix{
+\text{corner}&c_1&c_2&\ldots &c_n\cr
+r_1&a_{11} & 0 & \ldots & a_{1n}\cr
+r_2& 0  &  a_{22} & \ldots & a_{2n}\cr
+r_3& \vdots & \vdots & \ddots & \vdots\cr
+r_4& 0 & 0 &\ldots & a_{nn}}
 endsnippet
 
 # figure

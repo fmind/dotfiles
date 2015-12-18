@@ -35,7 +35,7 @@ endsnippet
 snippet pyscript "script template" b
 #!/usr/bin/env python3
 
-"""Description
+"""$0
 """
 
 import argparse
@@ -53,8 +53,7 @@ def parse(arguments):
 if __name__ == '__main__':
     args = parse(sys.argv[1:])
     level = logging.INFO if args.verbose else logging.WARN
-    logging.basicConfig(format="[[%(levelname)s] %(asctime)s: %(message)s", level=logging.INFO)
+    logging.basicConfig(format="[[%(levelname)s] %(asctime)s: %(message)s", level=level)
 
-    ${0}
     logging.info('Done')
 endsnippet

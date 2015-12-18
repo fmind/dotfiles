@@ -123,6 +123,7 @@ let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 Bundle 'mattn/emmet-vim'
+let g:user_emmet_mode = 'n'
 let g:user_emmet_leader_key=','
 Bundle 'powerline/fonts'
 Bundle 'kien/ctrlp.vim'
@@ -145,8 +146,12 @@ filetype plugin indent on
 "" remove unwanted trailing spaces in python file on save
 autocmd BufWritePre *.py :%s/\s\+$//e
 
-"" automatic spell checking for the following files
+" automatic spell checking for the following files
 autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
+
+"" automatic text wrapping on open, read and save
+autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal textwidth=80 whichwrap+=h,l,<,>,[,]
+"autocmd BufWritePre *.tex :normal gggqG
 
 "" exclusions
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
@@ -157,7 +162,7 @@ set wildignore+=*.fls,*.pdf,*.bbl,*.aux,*.dvi
 "" change leader characters
 let mapleader="\<Space>"
 let maplocalleader="\\"
-nmap ; :
+map ; :
 vmap ; :
 noremap ;; ;
 
@@ -186,6 +191,7 @@ nnoremap <leader>E :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
 nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
 nnoremap <leader>? :help 
+nnoremap <leader>g gggqG
 
 "" hex editor
 nnoremap <leader>#x :%!xxd<CR>
