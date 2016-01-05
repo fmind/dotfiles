@@ -50,8 +50,12 @@ _byobu_sourced=1 . /usr/bin/byobu-launch
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
+export KEYTIMEOUT=1
 export EDITOR='vim'
 bindkey -v
+
+# edit the command in vim
+bindkey -M vicmd v edit-command-line
 
 # remap caps lock key
 setxkbmap -option caps:escape
@@ -105,6 +109,7 @@ alias pyh="pydoc"
 alias pys="ipython --profile=freaxmind"
 alias pyn="jupyter-notebook  --profile=freaxmind"
 alias pyk="ipython kernel --profile=freaxmind"
+alias pyc="ipcluster start -n 8"
 alias pyv="source venv/bin/activate"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 alias anpl="ansible-playbook"

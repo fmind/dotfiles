@@ -46,6 +46,7 @@
       - latexmk
       - qemu-kvm
       - docker-engine
+      - texlive-math-extra
       - oracle-java8-installer
 
   - name: Installing pip3
