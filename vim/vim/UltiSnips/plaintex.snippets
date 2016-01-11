@@ -1,4 +1,15 @@
+# typography
+
+snippet \i "Latex italic"
+\textit{$0}
+endsnippet
+
+snippet \b "Latex bold"
+\textbf{$0}
+endsnippet
+
 # document structure
+
 snippet \sec "Latex Section"
 \section{$0}
 endsnippet
@@ -21,6 +32,10 @@ snippet \in "Latex Input"
 \input{$0}
 endsnippet
 
+snippet \oref "Latex auto reference"
+\autoref{$0}
+endsnippet
+
 # bibliography
 
 snippet \bib "Latex bibliography"
@@ -33,6 +48,7 @@ snippet \ci "Latex Citation"
 endsnippet
 
 # lists
+
 snippet \bull "Latex Itemize"
 \begin{itemize}
 	\item $0
@@ -80,10 +96,14 @@ r_3& \vdots & \vdots & \ddots & \vdots\cr
 r_4& 0 & 0 &\ldots & a_{nn}}
 endsnippet
 
+snippet \frac "Latex Fraction"
+\frac{$1}{$0}
+endsnippet
+
 # figure
 
 snippet \figl "Latex figure (with width=linewidth)"
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\linewidth]{img/$0}
 \caption{}
@@ -105,4 +125,12 @@ endsnippet
 
 snippet \imgs "Latex Image (with scale)"
 \includegraphics[scale=S]{img/$0}
+endsnippet
+
+# others
+
+snippet \env "Latex Environment"
+\begin{${1:env}}
+	${0}
+\end{$1}
 endsnippet

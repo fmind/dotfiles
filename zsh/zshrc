@@ -82,6 +82,7 @@ alias back="cd $OLDPWD"
 alias vi="vim"
 alias vir="vim -R"
 alias vis="sudo vim"
+alias vig="gvim "
 alias chx="chmod u+x "
 backup() { cp "$1"{,.bak};}
 alias cmount="mount | column -t"

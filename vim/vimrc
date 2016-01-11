@@ -66,6 +66,7 @@ set ffs=unix,dos,mac            " default newline
 "" saving/backup
 set hidden                      " buffers can exist in background
 set nowb                        " no backup before overriding
+set autowrite                   " write buffer on focus loss/make
 set nobackup                    " no backup files
 set noswapfile                  " no .swp files
 set history=100                 " history size
@@ -184,6 +185,7 @@ nnoremap <leader>q :q<CR>
 nnoremap <leader>Q :q!<CR>
 nnoremap <leader>R :r!<CR>
 nnoremap <leader>z za
+nnoremap <leader>r :reg
 nnoremap <leader>b :buffer 
 nnoremap <leader>B :ls<CR>
 nnoremap <leader>e :tabedit 
@@ -192,6 +194,7 @@ nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
 nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
 nnoremap <leader>? :help 
 nnoremap <leader>g gggqG
+nnoremap <leader>G gq
 
 "" hex editor
 nnoremap <leader>#x :%!xxd<CR>
@@ -210,8 +213,8 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
-"noremap <c-i> <ESC>:tabprevious<CR>
-"noremap <c-o> <ESC>:tabnext<CR>
+nnoremap H gT
+nnoremap L gt
 nnoremap <leader>V :vsplit 
 nnoremap <leader>H :hsplit 
 nnoremap <leader>L :vnew<CR><c-w>h

@@ -8,13 +8,13 @@ function dirinfos() {
     NDIR=`find . -maxdepth 1 -type d | wc -l`
     NFILE=`find . -maxdepth 1 -type f | wc -l`
     PERM=`stat -c %a /etc`
-    ISGIT=`git branch >/dev/null 2>/dev/null && echo '%{$fg_bold[magenta]%}∢ % %{$reset_color%}'`
+    ISGIT=`git branch >/dev/null 2>/dev/null && echo '∢'`
 
-    echo "${ISGIT} %{%b%}%{$fg[white]%}δ:${NDIR} φ:${NFILE} π:${PERM}%{$reset_color%}"
+    echo "%{$fg_bold[magenta]%}${ISGIT}% %{$reset_color%} %{%b%}%{$fg[white]%}δ:${NDIR} φ:${NFILE} π:${PERM}%{$reset_color%}"
 }
 
 
-PROMPT='%{$fg[green]%}∑%n%{$fg[red]%}∀%m%{$fg[blue]%}%{%B%}∧%3~%{$fg[white]%}%{%b%}%(!.√.∫)%{$reset_color%} '
+PROMPT='%{$fg[green]%}∑%n%{$fg[red]%}∀%m%{$fg[blue]%}%{%B%}∧%2~%{$fg[white]%}%{%b%}%(!.√.∫)%{$reset_color%} '
 RPROMPT='$(dirinfos)'
 
 zle -N zle-line-init
