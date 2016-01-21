@@ -193,8 +193,8 @@ nnoremap <leader>E :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
 nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
 nnoremap <leader>? :help 
-nnoremap <leader>G gggqG
 nnoremap <leader>g gqip
+nnoremap <leader>G gggqG
 
 "" hex editor
 nnoremap <leader>#x :%!xxd<CR>

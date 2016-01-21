@@ -8,8 +8,12 @@ snippet \b "Latex bold"
 \textbf{$0}
 endsnippet
 
-snippet \e "Latex emphatize"
+snippet \e "Latex emphasis"
 \emph{$0}
+endsnippet
+
+snippet \t "Latex text"
+\text{$0}
 endsnippet
 
 # document structure
@@ -75,6 +79,10 @@ snippet \it "Latex List Item"
 \item $0
 endsnippet
 
+snippet \id "Latex List Item (desciption)"
+\item{$1} $0
+endsnippet
+
 # mathematics
 
 snippet \mi "Latex Inline Math"
@@ -102,6 +110,20 @@ endsnippet
 
 snippet \frac "Latex Fraction"
 \frac{$1}{$0}
+endsnippet
+
+# pseudo-code
+
+snippet \S "Latex State"
+\State $ $0 $
+endsnippet
+
+snippet \Sx "Latex Statex"
+\Statex
+endsnippet
+
+snippet \Sc "Latex Call"
+\Call{$1}{$0}
 endsnippet
 
 # figure
