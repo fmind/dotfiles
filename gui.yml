@@ -37,3 +37,9 @@
       - virtualbox-5.0
       - unity-tweak-tool
       - google-chrome-stable
+
+  - name: Installing Python libraries (pip3)
+    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+    with_items:
+      - mendeley
+      - bibtexparser

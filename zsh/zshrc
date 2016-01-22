@@ -87,6 +87,7 @@ alias chx="chmod u+x "
 backup() { cp "$1"{,.bak};}
 alias cmount="mount | column -t"
 alias ipinfo="curl ifconfig.me && curl ifconfig.me/host"
+alias igrep="grep -i"
 
 # Alias: QUICK ACCESS
 alias c="cd"

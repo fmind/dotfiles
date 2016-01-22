@@ -11,17 +11,30 @@ snippet ft "'$0'.format()" i
 "${0}".format()
 endsnippet
 
+# class
+
+snippet init "Python Init method"
+def __init__(self):
+	$0
+endsnippet
+
+# script parts
+
+snippet bang "python 3 shellbang"
+#!/usr/bin/env python3
+endsnippet
+
 snippet coding "(for utf-8 files)"
 # -*- coding: utf-8 -*-
 endsnippet
+
+# debugging
 
 snippet ipdb "debugger breakpoint"
 import ipdb; ipdb.set_trace()
 endsnippet
 
-snippet bang "python 3 shellbang"
-#!/usr/bin/env python3
-endsnippet
+# cli
 
 snippet yesno "function for CLI confirmation"
 def _yesno_question(question):
@@ -30,6 +43,14 @@ def _yesno_question(question):
             return strtobool(input(question).lower())
         except ValueError:
             print("Please respond with 'y' or 'n'.\n")
+endsnippet
+
+# scripting
+
+snippet pymain "Python Main"
+if __name__ == '__main__':
+    args = sys.argv[1:]
+	$0
 endsnippet
 
 snippet pyscript "script template" b
@@ -53,7 +74,7 @@ def parse(arguments):
 if __name__ == '__main__':
     args = parse(sys.argv[1:])
     level = logging.INFO if args.verbose else logging.WARN
-    logging.basicConfig(format="[[%(levelname)s] %(asctime)s: %(message)s", level=level)
+    logging.basicConfig(format="[%(levelname)s] %(asctime)s: %(message)s", level=level)
 
     logging.info('Done')
 endsnippet

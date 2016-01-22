@@ -188,6 +188,7 @@ nnoremap <leader>z za
 nnoremap <leader>r :reg
 nnoremap <leader>b :buffer 
 nnoremap <leader>B :ls<CR>
+nnoremap <leader>E :edit<CR>
 nnoremap <leader>e :tabedit 
 nnoremap <leader>E :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
