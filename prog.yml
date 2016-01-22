@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  gather_facts: no
   tasks:
 
   - name: Adding Pypy repository
@@ -52,6 +51,14 @@
   - name: Installing pip3
     easy_install: name="pip" executable="easy_install3"
     become: yes
+
+  - name: Installing Clojure
+    get_url: dest=~/bin/lein mode=0700 url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+
+  - name: Deploying Leiningen configurations
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
+      - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}
 
   - name: Installing pip2
     easy_install: name="pip" executable="easy_install-2.7"
