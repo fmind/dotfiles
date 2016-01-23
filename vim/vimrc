@@ -150,7 +150,7 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 " automatic spell checking for the following files
 autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
 
-"" automatic text wrapping on open, read and save
+" automatic text wrapping on open, read and save
 autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal textwidth=80 whichwrap+=h,l,<,>,[,]
 "autocmd BufWritePre *.tex :normal gggqG
 

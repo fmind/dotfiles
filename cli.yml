@@ -49,7 +49,6 @@
   - name: Deploying project template configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - {src: "cookiecutters/cookiecutters", dest: "~/.cookiecutters"}
       - {src: "cookiecutters/cookiecutterrc", dest: "~/.cookiecutterrc"}
 
   - name: Changing user shell
