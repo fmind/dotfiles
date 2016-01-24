@@ -80,13 +80,13 @@ call vundle#begin()
 
 "" include plugins
 Bundle 'gmarik/vundle'
-Bundle 'vim-pandoc/vim-pandoc'
-let g:pandoc#modules#disabled = ["folding"]
-Bundle 'vim-pandoc/vim-pandoc-syntax'
-let g:pandoc#syntax#conceal#use = 0     " prevent text hiding
+"Bundle 'vim-pandoc/vim-pandoc'
+"let g:pandoc#modules#disabled = ["folding"]
+"Bundle 'vim-pandoc/vim-pandoc-syntax'
+"let g:pandoc#syntax#conceal#use = 0     " prevent text hiding
 Bundle 'easymotion/vim-easymotion'
-Bundle 'dhruvasagar/vim-table-mode'
-let g:table_mode_corner = "|"       " markdown compatiblity for tables
+"Bundle 'dhruvasagar/vim-table-mode'
+"let g:table_mode_corner = "|"       " markdown compatiblity for tables
 Bundle 'Valloric/YouCompleteMe'
 let g:jedi#show_call_signatures = "1"
 let g:ycm_check_if_ycm_core_present = 0     " prevent blocking warning on startup
@@ -94,10 +94,7 @@ let g:ycm_check_if_ycm_core_present = 0     " prevent blocking warning on startu
 let g:ycm_autoclose_preview_window_after_completion=1
 Bundle 'beloglazov/vim-online-thesaurus'''
 let g:online_thesaurus_map_keys = 0     " disable default shortcuts
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'guns/vim-clojure-highlight'
-Bundle 'guns/vim-clojure-static'
-Bundle 'tpope/vim-fireplace'
+"Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Raimondi/delimitMate'
@@ -116,7 +113,7 @@ let g:syntastic_check_on_wq = 0
 Bundle 'tomtom/tcomment_vim'
 Bundle 'scrooloose/nerdtree'
 "Bundle 'honza/vim-snippets'    " don't use default snippets
-Bundle 'ivanov/vim-ipython'
+"Bundle 'ivanov/vim-ipython'
 Bundle 'bling/vim-airline' 
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
@@ -160,12 +157,6 @@ autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal textwidth=80 whichwrap+=h,l,<
 
 " always open quickfix window to the right
 autocmd FileType qf wincmd L
-
-" enable rainbow parentheses for all files
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
 
 "" exclusions
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
@@ -234,11 +225,11 @@ nnoremap <leader>L :vnew<CR><c-w>h
 
 "" plugins
 nnoremap <leader>- :make<CR>
-nnoremap <leader>M :Pandoc 
-nnoremap <leader>md :Pandoc doc
-nnoremap <leader>mo :Pandoc odt
-nnoremap <leader>mh :Pandoc html
-nnoremap <leader>ml :Pandoc latex
+"nnoremap <leader>M :Pandoc 
+"nnoremap <leader>md :Pandoc doc
+"nnoremap <leader>mo :Pandoc odt
+"nnoremap <leader>mh :Pandoc html
+"nnoremap <leader>ml :Pandoc latex
 nnoremap <leader>+i :PluginInstall<CR>
 nnoremap <leader>+u :PluginUpdate<CR>
 nnoremap <leader>+e :tabedit $MYVIMRC<CR>

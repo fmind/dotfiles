@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Emacs
+Exec=/usr/local/bin/emacs
+Terminal=false
+Icon=emacs
+Type=Application
+Categories=IDE

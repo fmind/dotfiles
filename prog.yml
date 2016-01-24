@@ -33,6 +33,7 @@
       - liblapack-dev
       - libfreetype6-dev
       - libatlas-base-dev
+      - libssl-dev
       - libxml2-dev
       - libxslt1-dev
       - python-setuptools
@@ -54,7 +55,7 @@
   - name: Ensures ~/.lein directory exists
     file: path="~/.lein" state=directory
 
-  - name: Deploying Leiningen configurations
+  - name: Deploying Leiningen profiles
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
     - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}

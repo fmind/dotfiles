@@ -13,11 +13,10 @@ HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$ZSH/custom/
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(vi-mode, command-not-found)
+plugins=(command-not-found, docker, encode64, gitfast, jsontools, lein, wd)
 
 # set PATH
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PYTHONPATH="$HOME/lib:$PYTHONPATH"
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 ## INCLUDES
 
@@ -33,11 +32,6 @@ export PYTHONPATH="$HOME/lib:$PYTHONPATH"
     export NO_PROXY=localhost
 }
 
-# Google settings
-if [ -f ~/.googlerc ]; then
-    source ~/.googlerc
-fi
-
 ### User configuration ###
 
 # Make ZSH Awesome !
@@ -50,15 +44,16 @@ _byobu_sourced=1 . /usr/bin/byobu-launch
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export KEYTIMEOUT=1
-export EDITOR='vim'
-bindkey -v
+export EDITOR='emacs -nw'
+#export KEYTIMEOUT=1
+#export EDITOR='vim'
+#bindkey -v
 
 # edit the command in vim
-bindkey -M vicmd v edit-command-line
+#bindkey -M vicmd v edit-command-line
 
-# remap caps lock key
-setxkbmap -option caps:escape
+# remap caps lock backspace
+setxkbmap -option ctrl:backspace
 
 # set umask
 umask 0077
@@ -79,10 +74,6 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias back="cd $OLDPWD"
-alias vi="vim"
-alias vir="vim -R"
-alias vis="sudo vim"
-alias vig="gvim "
 alias chx="chmod u+x "
 backup() { cp "$1"{,.bak};}
 alias cmount="mount | column -t"
@@ -91,6 +82,13 @@ alias ipinfo="curl ifconfig.me && curl ifconfig.me/host"
 # Alias: QUICK ACCESS
 alias c="cd"
 alias v="vim"
+alias vi="vim"
+alias vir="vim -R"
+alias vis="sudo vim"
+alias vimrc='$EDITOR ~/.vimrc'
+alias e="emacs -nw"
+alias es="sudo emacs -nw"
+alias er="emacs --eval '(setq buffer-read-only t)'"
 alias x="exit"
 alias l="clear"
 alias o="xdg-open"
@@ -114,6 +112,7 @@ alias pyc="ipcluster start -n 8"
 alias pyv="source venv/bin/activate"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 alias anpl="ansible-playbook"
+alias anpls="ansible-playbook --ask-become"
 alias ck="cookiecutter"
 alias dk="docker"
 alias clji="lein repl"

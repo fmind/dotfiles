@@ -3,7 +3,7 @@
     email = freaxmind@users.noreply.github.com
 
 [core]
-    editor = vim
+    editor = emacs -nw
     excludesfile = ~/.gitignore
 
 [color]
