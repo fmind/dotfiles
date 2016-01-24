@@ -48,6 +48,17 @@
       - texlive-math-extra
       - oracle-java8-installer
 
+  - name: Installing Clojure
+    get_url: dest=~/bin/lein mode=0700 url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+
+  - name: Ensures ~/.lein directory exists
+    file: path="~/.lein" state=directory
+
+  - name: Deploying Leiningen configurations
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
+    - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}
+
   - name: Installing pip3
     easy_install: name="pip" executable="easy_install3"
     become: yes

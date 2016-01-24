@@ -94,6 +94,10 @@ let g:ycm_check_if_ycm_core_present = 0     " prevent blocking warning on startu
 let g:ycm_autoclose_preview_window_after_completion=1
 Bundle 'beloglazov/vim-online-thesaurus'''
 let g:online_thesaurus_map_keys = 0     " disable default shortcuts
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'guns/vim-clojure-highlight'
+Bundle 'guns/vim-clojure-static'
+Bundle 'tpope/vim-fireplace'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Raimondi/delimitMate'
@@ -153,6 +157,15 @@ autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
 " automatic text wrapping on open, read and save
 autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal textwidth=80 whichwrap+=h,l,<,>,[,]
 "autocmd BufWritePre *.tex :normal gggqG
+
+" always open quickfix window to the right
+autocmd FileType qf wincmd L
+
+" enable rainbow parentheses for all files
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 "" exclusions
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc

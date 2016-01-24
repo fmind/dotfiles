@@ -116,6 +116,8 @@ alias pyv-create="virtualenv --distribute --no-site-packages venv"
 alias anpl="ansible-playbook"
 alias ck="cookiecutter"
 alias dk="docker"
+alias clji="lein repl"
+alias clj="lein exec"
 
 # Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"
