@@ -89,6 +89,7 @@
       - httpie
       - jinja2
       - requests
+      - selenium
       - beautifulsoup4
 
   - name: Installing Python libraries (pip2)

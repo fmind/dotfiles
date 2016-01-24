@@ -1,7 +1,5 @@
 default_context:
     full_name: "Freaxmind"
-    email: "freaxmind@users.noreply.github.com"
     github_username: "freaxmind"
-    year: "2015"
-    version: "0.1.0"
+    email: "freaxmind@users.noreply.github.com"
 cookiecutters_dir: "~/.cookiecutters/"
