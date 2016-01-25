@@ -1,17 +1,16 @@
 ---
 
 - hosts: localhost
-  gather_facts: no
   tasks:
 
   - name: Adding repository keys (gui)
     apt_key: url="{{item}}"
     become: yes
     with_items:
-        - https://www.virtualbox.org/download/oracle_vbox.asc
-        - https://dl-ssl.google.com/linux/linux_signing_key.pub
-        - https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key
-      
+      - https://www.virtualbox.org/download/oracle_vbox.asc
+      - https://dl-ssl.google.com/linux/linux_signing_key.pub
+      - https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key
+
   - name: Adding repositories (gui)
     apt_repository: repo="{{item}}" update_cache=yes
     become: yes
