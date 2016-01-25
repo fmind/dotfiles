@@ -32,6 +32,10 @@ def _yesno_question(question):
             print("Please respond with 'y' or 'n'.\n")
 endsnippet
 
+snippet filedir "Path of current file directory"
+os.path.dirname(os.path.abspath(__file__))
+endsnippet
+
 snippet pyscript "script template" b
 #!/usr/bin/env python3
 

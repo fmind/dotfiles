@@ -37,11 +37,15 @@
       - install vim plugins
       - install vim auto-completion
 
+  - name: Cloning Spacemacs repository
+    git: repo=https://github.com/syl20bnr/spacemacs dest="{{ansible_env.PWD}}/emacs/emacs.d"
+
   - name: Deploying emacs configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "emacs/emacs.d", dest: "~/.emacs.d"}
       - {src: "emacs/spacemacs", dest: "~/.spacemacs"}
+      - {src: "emacs/spacemacs-private", dest: "~/.spacemacs-private"}
       - {src: "emacs/emacs.desktop", dest: "~/.local/share/applications/emacs.desktop"}
         
   - name: Deploying version control system configuration
