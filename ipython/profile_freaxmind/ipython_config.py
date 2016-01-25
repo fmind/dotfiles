@@ -6,6 +6,7 @@ c.InteractiveShellApp.exec_lines = [
     'from vocabulary import Vocabulary as vb',
     'import math',
     'import re',
+    'import os'
 ]
 
 c.TerminalInteractiveShell.editor = 'vim'

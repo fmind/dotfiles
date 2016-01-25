@@ -27,7 +27,7 @@ set syntax=on                   " display syntaxic coloration
 set laststatus=2                " display the status line (always)
 set lazyredraw                  " don't display while executing macros (performance)
 set splitright                  " put new vertical window on the right of the current buffer
-set splitbelow                  " put horizontal window below the current buffer
+"set splitbelow                  " put horizontal window below the current buffer
 set cmdheight=2                 " display more space for the command prompt
 set shortmess=a                 " use abbreviations for status messages
 
@@ -87,29 +87,29 @@ Bundle 'gmarik/vundle'
 Bundle 'easymotion/vim-easymotion'
 "Bundle 'dhruvasagar/vim-table-mode'
 "let g:table_mode_corner = "|"       " markdown compatiblity for tables
-Bundle 'Valloric/YouCompleteMe'
-let g:jedi#show_call_signatures = "1"
-let g:ycm_check_if_ycm_core_present = 0     " prevent blocking warning on startup
+"Bundle 'Valloric/YouCompleteMe'
+"let g:jedi#show_call_signatures = "1"
+"let g:ycm_check_if_ycm_core_present = 0     " prevent blocking warning on startup
 "let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, 'python':1 }
-let g:ycm_autoclose_preview_window_after_completion=1
-Bundle 'beloglazov/vim-online-thesaurus'''
-let g:online_thesaurus_map_keys = 0     " disable default shortcuts
-"Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'airblade/vim-gitgutter'
+"let g:ycm_autoclose_preview_window_after_completion=1
+"Bundle 'beloglazov/vim-online-thesaurus'''
+"let g:online_thesaurus_map_keys = 0     " disable default shortcuts
+Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'flazz/vim-colorschemes'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'Raimondi/delimitMate'
 Bundle 'tpope/vim-surround'
-Bundle 'scrooloose/syntastic'
-let g:syntastic_go_checkers=['']    " disable go checkers
-let g:syntastic_python_checkers=['frosted', 'pep8', 'python']
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_python_pep8_args = "--ignore=E265,E501,E702,F403"
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+"Bundle 'scrooloose/syntastic'
+"let g:syntastic_go_checkers=['']    " disable go checkers
+"let g:syntastic_python_checkers=['frosted', 'pep8', 'python']
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_python_pep8_args = "--ignore=E265,E501,E702,F403"
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 0
+"let g:syntastic_check_on_wq = 0
 Bundle 'tomtom/tcomment_vim'
 Bundle 'scrooloose/nerdtree'
 "Bundle 'honza/vim-snippets'    " don't use default snippets
@@ -118,15 +118,15 @@ Bundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline_theme='simple'
-Bundle 'majutsushi/tagbar'
+"Bundle 'majutsushi/tagbar'
 Bundle 'SirVer/ultisnips'
 let g:UltiSnipsEditSplit="horizontal"
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-Bundle 'mattn/emmet-vim'
-let g:user_emmet_mode = 'n'
-let g:user_emmet_leader_key=','
+"Bundle 'mattn/emmet-vim'
+"let g:user_emmet_mode = 'n'
+"let g:user_emmet_leader_key=','
 Bundle 'powerline/fonts'
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_map = '<c-p>'
@@ -146,17 +146,16 @@ filetype plugin indent on
 " HOOKS
 
 "" remove unwanted trailing spaces in python file on save
-autocmd BufWritePre *.py :%s/\s\+$//e
+"autocmd BufWritePre *.py :%s/\s\+$//e
 
 " automatic spell checking for the following files
 autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
 
 " automatic text wrapping on open, read and save
 autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal textwidth=80 whichwrap+=h,l,<,>,[,]
-"autocmd BufWritePre *.tex :normal gggqG
 
 " always open quickfix window to the right
-autocmd FileType qf wincmd L
+"autocmd FileType qf wincmd L
 
 "" exclusions
 set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
@@ -183,22 +182,22 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 "" basic actions
-nnoremap <leader>w :w<CR>
-nnoremap <leader>x :x<CR>
-nnoremap <leader>q :q<CR>
-nnoremap <leader>Q :q!<CR>
-nnoremap <leader>R :r!<CR>
+"nnoremap <leader>w :w<CR>
+"nnoremap <leader>x :x<CR>
+"nnoremap <leader>q :q<CR>
+"nnoremap <leader>Q :q!<CR>
 nnoremap <leader>z za
-nnoremap <leader>r :reg
+nnoremap <leader>R :r! 
+nnoremap <leader>r :reg<CR>
 nnoremap <leader>b :buffer 
 nnoremap <leader>B :ls<CR>
 nnoremap <leader>e :tabedit 
 nnoremap <leader>E :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
-nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
-nnoremap <leader>? :help 
+"nnoremap <leader>h :OnlineThesaurusCurrentWord<CR>
 nnoremap <leader>g gqip
 nnoremap <leader>G gggqG
+nnoremap <leader>? :help 
 
 "" hex editor
 nnoremap <leader>#x :%!xxd<CR>
@@ -236,6 +235,6 @@ nnoremap <leader>+e :tabedit $MYVIMRC<CR>
 nnoremap <leader>+l :source $MYVIMRC<CR>
 nnoremap <leader>+s :UltiSnipsEdit<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
-nnoremap <leader>S :TagbarToggle<CR>
-nnoremap <leader>! :SyntasticToggleMode<CR>
-nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"nnoremap <leader>S :TagbarToggle<CR>
+"nnoremap <leader>! :SyntasticToggleMode<CR>
+"nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>

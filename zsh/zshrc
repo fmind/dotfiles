@@ -13,14 +13,14 @@ HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$ZSH/custom/
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(command-not-found, docker, encode64, gitfast, jsontools, lein, wd)
+plugins=(catimg command-not-found docker encode64 httpie gitfast jsontools lein lol python sudo urltools web-search wd)
+
+## INCLUDES
 
 # set PATH
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-## INCLUDES
-
-# Proxy settings
+# set PROXY
 [ -f ~/ENABLE_PROXY ] && {
     export HTTP_PROXY=`cat ~/ENABLE_PROXY`
     export http_proxy=$HTTP_PROXY
@@ -37,7 +37,7 @@ export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin
 # Make ZSH Awesome !
 source $ZSH/oh-my-zsh.sh
 
-# Load Byoby on startup
+# Load Byobu on startup
 _byobu_sourced=1 . /usr/bin/byobu-launch
 
 # Preferred language for local and remote sessions
@@ -53,7 +53,7 @@ export EDITOR='emacs -nw'
 #bindkey -M vicmd v edit-command-line
 
 # remap caps lock backspace
-setxkbmap -option ctrl:backspace
+setxkbmap -option caps:escape
 
 # set umask
 umask 0077
@@ -75,24 +75,24 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias back="cd $OLDPWD"
 alias chx="chmod u+x "
-backup() { cp "$1"{,.bak};}
 alias cmount="mount | column -t"
 alias ipinfo="curl ifconfig.me && curl ifconfig.me/host"
+backup() { cp "$1"{,.bak};}
 
 # Alias: QUICK ACCESS
 alias c="cd"
-alias v="vim"
-alias vi="vim"
-alias vir="vim -R"
-alias vis="sudo vim"
-alias vimrc='$EDITOR ~/.vimrc'
-alias e="emacs -nw"
-alias es="sudo emacs -nw"
-alias er="emacs --eval '(setq buffer-read-only t)'"
 alias x="exit"
 alias l="clear"
 alias o="xdg-open"
 alias f='nautilus . &'
+alias v="vim"
+alias vi="vim"
+alias vir="vim -R"
+alias vis="sudo vim"
+alias vimrc='vi ~/.vimrc'
+alias e="emacs -nw"
+alias es="sudo emacs -nw"
+alias er="emacs --eval '(setq buffer-read-only t)'"
 alias extip='curl icanhazip.com'
 alias serve='python3 -m http.server'
 alias zshrc='$EDITOR ~/.zshrc'
@@ -115,8 +115,8 @@ alias anpl="ansible-playbook"
 alias anpls="ansible-playbook --ask-become"
 alias ck="cookiecutter"
 alias dk="docker"
-alias clji="lein repl"
 alias clj="lein exec"
+alias clji="lein repl"
 
 # Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"
