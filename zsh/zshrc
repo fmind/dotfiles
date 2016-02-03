@@ -13,15 +13,14 @@ HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$ZSH/custom/
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(vi-mode, command-not-found)
-
-# set PATH
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PYTHONPATH="$HOME/lib:$PYTHONPATH"
+plugins=(catimg command-not-found docker encode64 httpie gitfast jsontools lein lol python sudo urltools web-search wd)
 
 ## INCLUDES
 
-# Proxy settings
+# set PATH
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# set PROXY
 [ -f ~/ENABLE_PROXY ] && {
     export HTTP_PROXY=`cat ~/ENABLE_PROXY`
     export http_proxy=$HTTP_PROXY
@@ -33,31 +32,27 @@ export PYTHONPATH="$HOME/lib:$PYTHONPATH"
     export NO_PROXY=localhost
 }
 
-# Google settings
-if [ -f ~/.googlerc ]; then
-    source ~/.googlerc
-fi
-
 ### User configuration ###
 
 # Make ZSH Awesome !
 source $ZSH/oh-my-zsh.sh
 
-# Load Byoby on startup
+# Load Byobu on startup
 _byobu_sourced=1 . /usr/bin/byobu-launch
 
 # Preferred language for local and remote sessions
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export KEYTIMEOUT=1
-export EDITOR='vim'
-bindkey -v
+export EDITOR='emacs -nw'
+#export KEYTIMEOUT=1
+#export EDITOR='vim'
+#bindkey -v
 
 # edit the command in vim
-bindkey -M vicmd v edit-command-line
+#bindkey -M vicmd v edit-command-line
 
-# remap caps lock key
+# remap caps lock backspace
 setxkbmap -option caps:escape
 
 # set umask
@@ -79,23 +74,28 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias back="cd $OLDPWD"
-alias vi="vim"
-alias vir="vim -R"
-alias vis="sudo vim"
-alias vig="gvim "
 alias chx="chmod u+x "
-backup() { cp "$1"{,.bak};}
 alias cmount="mount | column -t"
 alias ipinfo="curl ifconfig.me && curl ifconfig.me/host"
 alias igrep="grep -i"
+backup() { cp "$1"{,.bak};}
 
 # Alias: QUICK ACCESS
 alias c="cd"
-alias v="vim"
 alias x="exit"
 alias l="clear"
 alias o="xdg-open"
 alias f='nautilus . &'
+alias v="vim"
+alias vi="vim"
+alias vir="vim -R"
+alias vis="sudo vim"
+alias vimrc='vi ~/.vimrc'
+alias e="emacs -nw"
+alias eg="emacs"
+alias egd="emacs . &"
+alias es="sudo emacs -nw"
+alias er="emacs -nw --eval '(setq buffer-read-only t)'"
 alias extip='curl icanhazip.com'
 alias serve='python3 -m http.server'
 alias zshrc='$EDITOR ~/.zshrc'
@@ -115,7 +115,8 @@ alias pyc="ipcluster start -n 8"
 alias pyv="source venv/bin/activate"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 alias anpl="ansible-playbook"
-alias cookie="cookiecutter"
+alias anpls="ansible-playbook --ask-become"
+alias ck="cookiecutter"
 alias dk="docker"
 alias clj="lein exec"
 alias clji="lein repl"
