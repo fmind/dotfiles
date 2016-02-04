@@ -37,19 +37,25 @@ values."
      html
      ipython-notebook
      javascript
-     latex
+     (latex :variables 
+            latex-enable-folding t
+            latex-enable-auto-fill t)
      markdown
-     org
+     ;;org
      (shell :variables
             shell-default-height 30
+            shell-default-shell 'eshell
             shell-default-position 'bottom)
      pandoc
      python
+     search-engine
      selectric
      shell-scripts
      spell-checking
-     syntax-checking
+     (syntax-checking :variables
+                      syntax-checking-enable-by-default t)
      version-control
+     vinegar
      yaml
      )
    ;; List of additional packages that will be installed without being
@@ -60,7 +66,7 @@ values."
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(
-                                    ;evil-search-highlight-persist
+                                    evil-search-highlight-persist
                                     )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
@@ -291,6 +297,12 @@ layers configuration. You are free to put any user code."
   ;; evil snipe to buffers instead of lines
   (setq evil-snipe-scope 'whole-buffer)
   (setq evil-snipe-repeat-scope 'buffer)
+  ;; default search engine
+
+  (require 'engine-mode)
+  (spacemacs/set-leader-keys "ag" 'engine/search-google)
+  (spacemacs/set-leader-keys "ah" 'engine/search-stack-overflow)
+  (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will

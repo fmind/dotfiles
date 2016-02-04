@@ -77,10 +77,8 @@
       - virtualenv
       - cookiecutter
       # syntax
-      - pep8
-      - frosted
-      - py3kwarn
-      - vocabulary
+      - yapf
+      - autoflake
       # data analysis
       - arrow
       - pandas

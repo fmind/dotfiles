@@ -106,6 +106,7 @@ cls() { cd "$1"; ls;}
 alias py2="python2"
 alias py3="python3"
 alias pyp="pip3"
+alias pypu="pip3 install --user"
 alias pyd="ipdb"
 alias pyh="pydoc"
 alias pys="ipython --profile=freaxmind"
