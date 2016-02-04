@@ -205,6 +205,7 @@ nnoremap <leader>#x :%!xxd<CR>
 nnoremap <leader>#t :%!xxd -r<CR>
 
 "" copy and paste
+nnoremap Y y$
 vmap <Leader>y "+y
 vmap <Leader>d "+d
 nmap <Leader>p "+p
