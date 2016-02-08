@@ -83,7 +83,8 @@ Bundle 'easymotion/vim-easymotion'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/nerdtree'
-Bundle 'bling/vim-airline' 
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline_theme='simple'

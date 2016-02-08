@@ -293,6 +293,8 @@ layers configuration. You are free to put any user code."
   (golden-ratio-mode 1)
   ;; disable current line highlight
   (global-hl-line-mode -1)
+  ;; always display line number
+  (global-linum-mode)
   ;; change bottom-line theme
   (setq powerline-default-separator 'brace)
   ;; evil snipe to buffers instead of lines
