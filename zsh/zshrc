@@ -44,7 +44,7 @@ _byobu_sourced=1 . /usr/bin/byobu-launch
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='emacs -nw'
+export EDITOR='e'
 #export KEYTIMEOUT=1
 #export EDITOR='vim'
 #bindkey -v
@@ -81,7 +81,7 @@ alias igrep="grep -i"
 backup() { cp "$1"{,.bak};}
 
 # Alias: QUICK ACCESS
-alias c="cd"
+c() { cd "$1"; ls;}
 alias x="exit"
 alias l="clear"
 alias o="xdg-open"
@@ -100,7 +100,6 @@ alias extip='curl icanhazip.com'
 alias serve='python3 -m http.server'
 alias zshrc='$EDITOR ~/.zshrc'
 alias zshsrc='source ~/.zshrc'
-cls() { cd "$1"; ls;}
 
 # Alias: PROGRAMMING
 alias py2="python2"
