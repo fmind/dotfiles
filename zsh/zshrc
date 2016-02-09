@@ -41,7 +41,9 @@ source $ZSH/oh-my-zsh.sh
 export TERM=xterm-256color
 
 # Load Byobu on startup
+if [[ -o login ]]; then
 _byobu_sourced=1 . /usr/bin/byobu-launch
+fi
 
 # Preferred language for local and remote sessions
 export LANG=en_US.UTF-8
