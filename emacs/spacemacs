@@ -47,7 +47,9 @@ values."
             shell-default-shell 'eshell
             shell-default-position 'bottom)
      pandoc
-     python
+     (python :variables
+             python-test-runner 'pytest
+             python-enable-yapf-format-on-save t)
      search-engine
      selectric
      shell-scripts

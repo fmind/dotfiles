@@ -37,6 +37,9 @@ export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin
 # Make ZSH Awesome !
 source $ZSH/oh-my-zsh.sh
 
+# Add support for 256 colors
+export TERM=xterm-256color
+
 # Load Byobu on startup
 _byobu_sourced=1 . /usr/bin/byobu-launch
 
@@ -44,13 +47,7 @@ _byobu_sourced=1 . /usr/bin/byobu-launch
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='e'
-#export KEYTIMEOUT=1
-#export EDITOR='vim'
-#bindkey -v
-
-# edit the command in vim
-#bindkey -M vicmd v edit-command-line
+export EDITOR='vim'
 
 # remap caps lock backspace
 setxkbmap -option caps:escape
