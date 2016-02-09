@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: yes-no-question
+# key: yesno
+# --
+def _yesno_question(question):
+    while True:
+        try:
+            return strtobool(input(question).lower())
+        except ValueError:
+            print("Please answer with 'y' or 'n'.\n")

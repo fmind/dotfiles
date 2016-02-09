@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: main
+# key: main
+# --
+if __name__ == '__main__':
+    args = sys.argv[1:]
+    $1

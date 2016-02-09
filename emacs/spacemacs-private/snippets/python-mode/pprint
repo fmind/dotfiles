@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: pprint
+# key: pp
+# --
+pprint($1{0}$1)

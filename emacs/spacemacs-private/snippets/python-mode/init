@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: init
+# key: init
+# --
+def __init__(self):
+    $1

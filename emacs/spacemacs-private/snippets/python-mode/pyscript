@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: pyscript
+# key: pyscript
+# --
+#!/usr/bin/env python3
+
+"""$0
+"""
+
+import argparse
+import logging
+import sys
+
+
+def parse(arguments):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('-v', '--verbose', action='store_true', help="Set logging level to INFO")
+
+    return parser.parse_args(arguments)
+
+
+if __name__ == '__main__':
+    args = parse(sys.argv[1:])
+    level = logging.INFO if args.verbose else logging.WARN
+    logging.basicConfig(format="[%(levelname)s] %(asctime)s: %(message)s", level=level)
+
+    logging.info('Done')

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: pdb
+# key: pdb
+# --
+import ipdb; ipdb.set_trace()

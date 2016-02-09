@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: fade-in
+# key: \fadin
+# --
+<p class="fade-in fragment">
+$1
+</p>

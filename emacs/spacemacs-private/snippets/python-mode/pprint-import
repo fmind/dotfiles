@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: pprint-import
+# key: ppimp
+# --
+from pprint import pprint as pp
