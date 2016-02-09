@@ -287,6 +287,15 @@ layers configuration. You are free to put any user code."
   ;; easy zooming
   (define-key global-map (kbd "C-+") 'text-scale-increase)
   (define-key global-map (kbd "C--") 'text-scale-decrease)
+  ;; close current buffer and window
+  (spacemacs/set-leader-keys "bq" (lambda () (interactive) (kill-this-buffer) (delete-window)))
+  ;; set bindings to search engines
+  (require 'engine-mode)
+  (defengine thesaurus "http://thesaurus.com/browse/%s")
+  (spacemacs/set-leader-keys "ah" 'engine/search-stack-overflow)
+  (spacemacs/set-leader-keys "at" 'engine/search-thesaurus)
+  (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
+  (spacemacs/set-leader-keys "ag" 'engine/search-google)
 
   ; CUSTOM
   ;; golden ratio mode by default
@@ -304,9 +313,7 @@ layers configuration. You are free to put any user code."
   (setq vc-follow-symlinks t)
   ;; continuous mode by default for doc-view
   (setq doc-view-continuous t)
-
-  (require 'engine-mode)
-  (spacemacs/set-leader-keys "ag" 'engine/search-google)
-  (spacemacs/set-leader-keys "ah" 'engine/search-stack-overflow)
-  (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
+  ;; change default margins
+  (setq smooth-scroll-margin 10)
+  (setq smooth-preserve-screen-position t)
 )
