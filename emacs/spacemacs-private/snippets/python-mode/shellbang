@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: shellbang
+# key: bang
+# --
+#!/usr/bin/env python3

@@ -35,7 +35,6 @@
       - {src: "vim/vimrc", dest: "~/.vimrc"}
     notify:
       - install vim plugins
-      - install vim auto-completion
 
   - name: Cloning Spacemacs repository
     git: repo=https://github.com/syl20bnr/spacemacs dest="{{ansible_env.PWD}}/emacs/emacs.d"
@@ -97,8 +96,5 @@
     - name: install vim plugins
       command: "vim +PluginInstall +qall"
 
-    #- name: install vim auto-completion
-    #  command: "python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer"
-    
     - name: install vim fonts
       command: "{{ansible_env.PWD}}/vim/vim/bundle/fonts/install.sh"

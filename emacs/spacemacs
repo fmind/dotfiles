@@ -42,7 +42,7 @@ values."
      html
      ipython-notebook
      javascript
-     (latex :variables 
+     (latex :variables
             latex-enable-folding t
             latex-enable-auto-fill t)
      markdown
@@ -52,7 +52,9 @@ values."
             shell-default-shell 'eshell
             shell-default-position 'bottom)
      ;;pandoc
-     python
+     (python :variables
+             python-test-runner 'pytest
+             python-enable-yapf-format-on-save t)
      search-engine
      selectric
      shell-scripts
@@ -271,14 +273,18 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
+
+  ;; removed warning messages at startup
+  (setq exec-path-from-shell-check-startup-files nil)
 )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  ; REQUIRE
+  ; REQUIRES
   (require 'engine-mode)
+  (defengine thesaurus "http://thesaurus.com/browse/%s")
 
   ; SHORTCUTS
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
@@ -295,29 +301,35 @@ layers configuration. You are free to put any user code."
   (spacemacs/set-leader-keys "ic" 'aya-create)
   (spacemacs/set-leader-keys "ie" 'aya-expand)
   (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
-  ;; engine-mode
-  (spacemacs/set-leader-keys "ag" 'engine/search-google)
+  ;; search engines
   (spacemacs/set-leader-keys "ah" 'engine/search-stack-overflow)
+  (spacemacs/set-leader-keys "at" 'engine/search-thesaurus)
   (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
+  (spacemacs/set-leader-keys "ag" 'engine/search-google)
+  ;; close current buffer and window
+  (spacemacs/set-leader-keys "bq" (lambda () (interactive) (kill-this-buffer) (delete-window)))
 
   ; yas reload all when snippet created
-  ; close buffer + window
 
   ; CUSTOM
-  ;; change bottom-line theme
-  (setq powerline-default-separator 'brace)
-  ;; removed warning messages at startup
-  (setq exec-path-from-shell-check-startup-files nil)
   ;; disable current line highlight everywhere
   (global-hl-line-mode -1)
   ;; enable golden ratio everywhere
   (golden-ratio-mode 1)
   ;; enable company mode everywhere
   (global-company-mode)
+  ;; always display line number
+  (global-linum-mode)
+  ;; always follow symlinks
+  (setq vc-follow-symlinks t)
+  ;; continuous mode by default for doc-view
+  (setq doc-view-continuous t)
+  ;; change default margins
+  (setq smooth-scroll-margin 10)
   ;; evil snipe to buffers instead of lines
   (setq evil-snipe-scope 'whole-buffer)
   (setq evil-snipe-repeat-scope 'buffer)
+  (setq smooth-preserve-screen-position t)
+  ;; change bottom-line theme
+  (setq powerline-default-separator 'brace)
 )
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.

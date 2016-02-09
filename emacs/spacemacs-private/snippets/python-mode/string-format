@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: string-format
+# key: fmt
+# --
+"{0}".format($1)

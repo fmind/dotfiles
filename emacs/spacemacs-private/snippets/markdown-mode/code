@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: code
+# key: \code
+# --
+```
+$1
+```
