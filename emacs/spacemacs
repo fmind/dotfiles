@@ -285,6 +285,7 @@ layers configuration. You are free to put any user code."
   ; REQUIRES
   (require 'engine-mode)
   (defengine thesaurus "http://thesaurus.com/browse/%s")
+
   ; SHORTCUTS
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
@@ -300,8 +301,10 @@ layers configuration. You are free to put any user code."
   (spacemacs/set-leader-keys "ic" 'aya-create)
   (spacemacs/set-leader-keys "ie" 'aya-expand)
   (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
-  ;; switch to test file
+  (spacemacs/set-leader-keys "ir" 'yas/reload-all)
+  ;; toogle between implementation and test
   (spacemacs/set-leader-keys "[" 'projectile-toggle-between-implementation-and-test)
+
   ;; search engines
   (spacemacs/set-leader-keys "ah" 'engine/search-stack-overflow)
   (spacemacs/set-leader-keys "at" 'engine/search-thesaurus)
