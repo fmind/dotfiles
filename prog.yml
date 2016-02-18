@@ -7,6 +7,10 @@
     apt_repository: repo="ppa:pypy/ppa" update_cache=yes
     become: yes
 
+  - name: Adding webupb8 repository
+    apt_repository: repo="ppa:nilarimogard/webupd8" update_cache=yes
+    become: yes
+
   - name: Adding Docker repository key
     apt_key: keyserver="hkp://pgp.mit.edu:80" id="58118E89F3A912897C070ADBF76221572C52609D"
     become: yes
@@ -48,6 +52,8 @@
       - docker-engine
       - texlive-math-extra
       - oracle-java8-installer
+      - android-tools-adb
+      - android-tools-fastboot
 
   - name: Installing Clojure
     get_url: dest=~/bin/lein mode=0700 url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein

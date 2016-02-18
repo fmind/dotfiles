@@ -81,6 +81,7 @@
     with_items:
       # sysadmin
       - glances
+      - mitmproxy
 
   - name: Checking if shell font exists
     stat: path="~/.fonts/Droid Sans Mono Slashed for Powerline.ttf"

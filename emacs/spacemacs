@@ -46,7 +46,7 @@ values."
             latex-enable-folding t
             latex-enable-auto-fill t)
      markdown
-     ;;org
+     org
      (shell :variables
             shell-default-height 30
             shell-default-shell 'eshell
@@ -285,7 +285,6 @@ layers configuration. You are free to put any user code."
   ; REQUIRES
   (require 'engine-mode)
   (defengine thesaurus "http://thesaurus.com/browse/%s")
-
   ; SHORTCUTS
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
@@ -311,8 +310,6 @@ layers configuration. You are free to put any user code."
   ;; close current buffer and window
   (spacemacs/set-leader-keys "bq" (lambda () (interactive) (kill-this-buffer) (delete-window)))
 
-  ; yas reload all when snippet created
-
   ; CUSTOM
   ;; disable current line highlight everywhere
   (global-hl-line-mode -1)
@@ -334,4 +331,14 @@ layers configuration. You are free to put any user code."
   (setq smooth-preserve-screen-position t)
   ;; change bottom-line theme
   (setq powerline-default-separator 'brace)
+  ;; change my name
+  (setq user-full-name "Freaxmind")
+
+  ;; active org-babel languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(;; other babel languages
+     (plantuml . t)))
+    (setq org-plantuml-jar-path
+        (expand-file-name "~/bin/plantuml.jar"))
 )

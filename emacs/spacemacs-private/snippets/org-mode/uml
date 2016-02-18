@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: uml
+# key: uml
+# --
+#+begin_src plantuml :file img/$1.svg
+#+end_src

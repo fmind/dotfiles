@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: projectdir
+# key: projectdir
+# --
+projectdir = os.path.dirname(os.path.dirname(os.path.realpath('__file__')))
