@@ -139,6 +139,7 @@ nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
 nnoremap <leader>g gqip
 nnoremap <leader>G gggqG
 nnoremap <leader>? :help 
+nnoremap <leader>O :set ro<CR>
 
 "" hex editor
 nnoremap <leader>#x :%!xxd<CR>
@@ -169,6 +170,6 @@ nnoremap <leader>- :make<CR>
 nnoremap <leader>+i :PluginInstall<CR>
 nnoremap <leader>+u :PluginUpdate<CR>
 nnoremap <leader>+c :PluginClean<CR>
-nnoremap <leader>+e :tabedit $MYVIMRC<CR>
+nnoremap <leader>+v :tabedit $MYVIMRC<CR>
 nnoremap <leader>+l :source $MYVIMRC<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>

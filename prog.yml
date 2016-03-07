@@ -106,6 +106,7 @@
       - jinja2
       - requests
       - selenium
+      - jsbeautifier
       - beautifulsoup4
 
   - name: Installing Python libraries (pip2)

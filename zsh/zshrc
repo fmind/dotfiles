@@ -89,11 +89,11 @@ alias vir="vim -R"
 alias vis="sudo vim"
 alias vimrc='vi ~/.vimrc'
 alias e="emacs -nw"
-alias eg="emacs"
-alias egd="emacs . &"
+alias ee="emacs . &"
 alias es="sudo emacs -nw"
 alias er="emacs -nw --eval '(setq buffer-read-only t)'"
 alias extip='curl icanhazip.com'
+alias kila='killall -9'
 alias serve='python3 -m http.server'
 alias zshrc='$EDITOR ~/.zshrc'
 alias zshsrc='source ~/.zshrc'
@@ -116,7 +116,7 @@ alias anpls="ansible-playbook --ask-become"
 alias ck="cookiecutter"
 alias dk="docker"
 alias clj="lein exec"
-alias clji="lein repl"
+alias clk="lein repl"
 
 # Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"

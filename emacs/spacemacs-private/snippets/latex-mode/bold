@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: bold
+# key: bf
+# --
+\textbf{$1}

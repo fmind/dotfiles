@@ -12,6 +12,7 @@
       - git
       - byobu
       - pandoc
+      - hexedit
       - python3
       - python-dev
       - python3-dev

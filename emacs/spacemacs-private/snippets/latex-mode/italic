@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: italic
+# key: it
+# --
+\textit{$1}
