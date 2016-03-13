@@ -70,6 +70,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
+                                      aggressive-indent
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(
@@ -337,6 +338,9 @@ layers configuration. You are free to put any user code."
   (setq powerline-default-separator 'brace)
   ;; change my name
   (setq user-full-name "Freaxmind")
+
+  ;; clojure
+  (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 
   ;; active org-babel languages
   (org-babel-do-load-languages
