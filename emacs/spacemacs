@@ -31,7 +31,8 @@ values."
                       auto-completion-private-snippets-directory "~/.spacemacs-private/snippets"
                       auto-completion-enable-snippets-in-popup t)
      better-defaults
-     clojure
+     (clojure :variables
+              cider-test-show-report t)
      colors
      emacs-lisp
      (evil-snipe :variables
@@ -46,7 +47,7 @@ values."
             latex-enable-folding t
             latex-enable-auto-fill t)
      markdown
-     org
+     ;org
      (shell :variables
             shell-default-height 30
             shell-default-shell 'eshell
@@ -65,14 +66,14 @@ values."
      vinegar
      yaml
      )
-   ;; List of additional packages that will be installed without being
-   ;; wrapped in a layer. If you need some configuration for these
-   ;; packages, then consider creating a layer. You can also put the
-   ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(
-                                      )
-   ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '(
+     ;; List of additional packages that will be installed without being
+     ;; wrapped in a layer. If you need some configuration for these
+     ;; packages, then consider creating a layer. You can also put the
+     ;; configuration in `dotspacemacs/user-config'.
+     dotspacemacs-additional-packages '(
+                                        )
+     ;; A list of packages and/or extensions that will not be install and loaded.
+     dotspacemacs-excluded-packages '(
                                     evil-search-highlight-persist
                                     )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -235,7 +236,7 @@ values."
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling t
+   dotspacemacs-smooth-scrolling nil
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
@@ -285,8 +286,21 @@ layers configuration. You are free to put any user code."
   ; REQUIRES
   (require 'engine-mode)
   (defengine thesaurus "http://thesaurus.com/browse/%s")
+  (defengine github "https://github.com/search?q=%s")
+  (defengine scholar "https://scholar.google.com/scholar?q=%s")
+  (defengine translate-en "https://translate.google.com/?hl=fr#fr/en/%s")
+  (defengine translate-fr "https://translate.google.com/?hl=fr#en/fr/%s")
 
   ; SHORTCUTS
+  ;; search engines
+  (spacemacs/set-leader-keys "af" 'engine/search-stack-overflow)
+  (spacemacs/set-leader-keys "az" 'engine/search-thesaurus)
+  (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
+  (spacemacs/set-leader-keys "ag" 'engine/search-google)
+  (spacemacs/set-leader-keys "ar" 'engine/search-translate-en)
+  (spacemacs/set-leader-keys "av" 'engine/search-translate-fr)
+  (spacemacs/set-leader-keys "ah" 'engine/search-github)
+  (spacemacs/set-leader-keys "al" 'engine/search-scholar)
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
@@ -304,15 +318,44 @@ layers configuration. You are free to put any user code."
   (spacemacs/set-leader-keys "ir" 'yas/reload-all)
   ;; toogle between implementation and test
   (spacemacs/set-leader-keys "[" 'projectile-toggle-between-implementation-and-test)
-  ;; search engines
-  (spacemacs/set-leader-keys "ah" 'engine/search-stack-overflow)
-  (spacemacs/set-leader-keys "at" 'engine/search-thesaurus)
-  (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
-  (spacemacs/set-leader-keys "ag" 'engine/search-google)
+  ;; put test in other window
+  (spacemacs/set-leader-keys "]" 'projectile-find-implementation-or-test-other-window)
   ;; close current buffer and window
-  (spacemacs/set-leader-keys "bq" (lambda () (interactive) (kill-this-buffer) (delete-window)))
+  (spacemacs/set-leader-keys "bq" (lambda () (kill-this-buffer) (delete-window)))
+  ;; evil-nc mapping switch
+  (spacemacs/set-leader-keys ";" 'evil-ex)
+  (spacemacs/set-leader-keys ":" 'evilnc-comment-operator)
   ;; for org mode
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "hh" 'org-html-export-to-html)
+  ;; for clojure mode
+  (defun my-cider-init-interface ()
+    "Init CIDER interface"
+    (interactive)
+    (cider-switch-to-repl-buffer)
+    (split-window-below-and-focus)
+    (switch-to-buffer "*cider-test-report*")
+    (select-window-1)
+    (split-window-below-and-focus)
+    (projectile-toggle-between-implementation-and-test)
+    (select-window-1))
+  (defun my-cider-load-impl-test ()
+    "Reload the implementation and the test buffer"
+    (interactive)
+    (cider-load-buffer)
+    (projectile-toggle-between-implementation-and-test)
+    (cider-load-buffer)
+    (projectile-toggle-between-implementation-and-test))
+
+  (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
+    (spacemacs/set-leader-keys-for-major-mode mode
+      "!" 'cider-jack-in
+      "p" 'cider-inspect
+      "k" 'cider-load-buffer
+      "K" 'my-cider-load-impl-test
+      "te" 'cider-test-run-tests
+      "tp" 'cider-test-run-project-tests
+      "tl" 'cider-test-run-loaded-tests
+      "TT" 'my-cider-init-interface))
 
   ; CUSTOM
   ;; disable current line highlight everywhere
