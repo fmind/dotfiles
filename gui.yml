@@ -16,8 +16,8 @@
     become: yes
     with_items:
       - deb http://archive.canonical.com/ trusty partner
-      - deb http://dl.google.com/linux/chrome/deb/ stable main
       - deb http://apt.insynchq.com/ubuntu trusty non-free contrib
+      - deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
       - deb http://download.virtualbox.org/virtualbox/debian trusty contrib
 
   - name: Installing packages (gui)
