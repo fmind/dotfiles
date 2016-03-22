@@ -26,6 +26,11 @@
   - name: Creating a CUSTOM folder in $HOME
     file: path="~/.CUSTOM" state=directory
 
+  - name: Deploying ansible configuration
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
+      - {src: "ansible.cfg", dest: "~/.ansible.cfg"}
+
   - name: Checking if oh-my-zsh exists
     stat: path="~/.oh-my-zsh"
     register: oh_my_zsh
