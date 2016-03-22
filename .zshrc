@@ -1,0 +1,1 @@
+/home/mederic/workspace/my-projects/tools-settings/zsh/zshrc

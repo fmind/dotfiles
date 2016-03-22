@@ -13,7 +13,6 @@ set wildmode=list:longest       "   (menu behaviour)
 set nospell                     " deactivate inline spell check
 set spelllang=en,fr             "   (default spelling language)
 set background=dark             " activate editor theming
-colorscheme molokai             "   (set colorscheme)
 set t_Co=256                    "   (add more colors)
 set t_md=                       " no bold fonts
 
@@ -173,3 +172,6 @@ nnoremap <leader>+c :PluginClean<CR>
 nnoremap <leader>+v :tabedit $MYVIMRC<CR>
 nnoremap <leader>+l :source $MYVIMRC<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
+
+"" theme
+colorscheme molokai

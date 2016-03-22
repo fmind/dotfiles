@@ -23,30 +23,42 @@
       - build-essential
       - imagemagick
 
+  - name: Creating a CUSTOM folder in $HOME
+    file: path="~/.CUSTOM" state=directory
+
+  - name: Checking if oh-my-zsh exists
+    stat: path="~/.oh-my-zsh"
+    register: oh_my_zsh
+
+  - name: Installing oh-my-zsh
+    shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    when: oh_my_zsh.stat.exists == False
+
   - name: Deploying shell configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - {src: "zsh/oh-my-zsh", dest: "~/.oh-my-zsh"}
+      - {src: "zsh/zsh-custom", dest: "~/.CUSTOM/zsh"}
       - {src: "zsh/inputrc", dest: "~/.inputrc"}
       - {src: "zsh/zshrc", dest: "~/.zshrc"}
+
+  - name: Cloning Vundle repository (vim plugins)
+    git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim
 
   - name: Deploying vim configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - {src: "vim/vim", dest: "~/.vim"}
       - {src: "vim/vimrc", dest: "~/.vimrc"}
     notify:
       - install vim plugins
 
   - name: Cloning Spacemacs repository
-    git: repo=https://github.com/syl20bnr/spacemacs dest="{{ansible_env.PWD}}/emacs/emacs.d"
+    git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d"
 
   - name: Deploying emacs configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - {src: "emacs/emacs.d", dest: "~/.emacs.d"}
       - {src: "emacs/spacemacs", dest: "~/.spacemacs"}
-      - {src: "emacs/spacemacs-private", dest: "~/.spacemacs-private"}
+      - {src: "emacs/spacemacs-custom", dest: "~/.CUSTOM/spacemacs"}
       - {src: "emacs/emacs.desktop", dest: "~/.local/share/applications/emacs.desktop"}
         
   - name: Deploying version control system configuration
