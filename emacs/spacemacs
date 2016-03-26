@@ -377,6 +377,7 @@ layers configuration. You are free to put any user code."
       "p" 'cider-inspect
       "k" 'cider-load-buffer
       "K" 'my-cider-load-impl-test
+      "n" 'cider-repl-set-ns
       "te" 'cider-test-run-tests
       "tp" 'cider-test-run-project-tests
       "tl" 'cider-test-run-loaded-tests
