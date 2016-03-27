@@ -37,11 +37,11 @@ export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin
 # Make ZSH Awesome !
 source $ZSH/oh-my-zsh.sh
 
+# Enable Byobu
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+
 # Add support for 256 colors
 export TERM=screen-256color
-
-# Load Byobu on startup
-_byobu_sourced=1 . /usr/bin/byobu-launch
 
 # Preferred language for local and remote sessions
 export LANG=en_US.UTF-8
