@@ -3,41 +3,23 @@
 - hosts: localhost
   tasks:
 
-  - name: Adding repository keys (gui)
-    apt_key: url="{{item}}"
-    become: yes
-    with_items:
-      - https://www.virtualbox.org/download/oracle_vbox.asc
-      - https://dl-ssl.google.com/linux/linux_signing_key.pub
-      - https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key
-
-  - name: Adding repositories (gui)
-    apt_repository: repo="{{item}}" update_cache=yes
-    become: yes
-    with_items:
-      - deb http://archive.canonical.com/ trusty partner
-      - deb http://apt.insynchq.com/ubuntu trusty non-free contrib
-      - deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-      - deb http://download.virtualbox.org/virtualbox/debian trusty contrib
+  - name: Installing Fedy Installer
+    get_url: dest=~/bin/fedy-installer mode=0700 url=http://folkswithhats.org/fedy-installer
 
   - name: Installing packages (gui)
-    apt: pkg="{{item}}" state=latest
+    dnf: pkg="{{item}}" state=latest
     become: yes
     with_items:
       - vlc
+      - anki
       - gimp
       - guake
-      - skype
-      - insync
-      - insync-nautilus
+      - emacs
+      - unison
       - keepassx
-      - zathura
-      - virtualbox-5.0
-      - unity-tweak-tool
-      - google-chrome-stable
+      - gnome-tweak-tool
 
-  - name: Installing Python libraries (pip3)
-    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+  - name: Deploying Guake configuration
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - mendeley
-      - bibtexparser
+      - {src: "guake", dest: "~/.config/gconf/apps/guake"}

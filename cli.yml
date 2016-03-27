@@ -12,9 +12,9 @@
       - git
       - tree
       - byobu
-      - emacs
       - pandoc
       - hexedit
+      - emacs-nox
       - GraphicsMagick
       - the_silver_searcher
       - python3-setuptools
@@ -41,9 +41,13 @@
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "zsh/zsh-custom", dest: "~/.CUSTOM/zsh"}
+      - {src: "zsh/face.icon", dest: "~/.face.icon"}
       - {src: "zsh/inputrc", dest: "~/.inputrc"}
       - {src: "zsh/zshrc", dest: "~/.zshrc"}
-      - {src: "zsh/face.icon", dest: "~/.face.icon"}
+
+  - name: Deploying Byobu configuration
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
       - {src: "zsh/tmux.conf", dest: "~/.byobu/.tmux.conf"}
 
   - name: Cloning Vundle repository (vim plugins)
@@ -64,7 +68,6 @@
     with_items:
       - {src: "emacs/spacemacs", dest: "~/.spacemacs"}
       - {src: "emacs/spacemacs-custom", dest: "~/.CUSTOM/spacemacs"}
-      - {src: "emacs/emacs.desktop", dest: "~/.local/share/applications/emacs.desktop"}
         
   - name: Deploying version control system configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
