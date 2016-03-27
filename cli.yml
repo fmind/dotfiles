@@ -17,6 +17,7 @@
       - emacs-nox
       - GraphicsMagick
       - the_silver_searcher
+      - adobe-source-code-pro-fonts
       - python3-setuptools
       - python3-devel
       - python3
