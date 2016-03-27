@@ -25,6 +25,9 @@
   - name: Creating a CUSTOM folder in $HOME
     file: path="~/.CUSTOM" state=directory
 
+  - name: Creating a .byobu folder in $HOME
+    file: path="~/.byobu" state=directory
+
   - name: Deploying ansible configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
@@ -85,12 +88,6 @@
     command: chsh -s /usr/bin/zsh "{{ansible_env.USER}}"
     become: yes
     when: ansible_user_shell != "/usr/bin/zsh"
-
-  - name: Installing Python libraries (pip3)
-    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
-    with_items:
-      # sysadmin
-      - glances
 
   - name: Checking if shell font exists
     stat: path="~/.fonts/Droid Sans Mono Slashed for Powerline.ttf"

@@ -6,11 +6,13 @@
   - name: Installing Fedy Installer
     get_url: dest=~/bin/fedy-installer mode=0700 url=http://folkswithhats.org/fedy-installer
 
+  - name: Creating a gconf folder in $HOME
+    file: path="~/.config/gconf/apps/" state=directory
+
   - name: Installing packages (gui)
     dnf: pkg="{{item}}" state=latest
     become: yes
     with_items:
-      - vlc
       - anki
       - gimp
       - guake
