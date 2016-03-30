@@ -3,8 +3,13 @@
 - hosts: localhost
   tasks:
 
-  - name: Installing packages (cli)
-    dnf: pkg="{{item}}" state=latest
+  - name: Deploying ansible configuration
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
+      - {src: "ansible.cfg", dest: "~/.ansible.cfg"}
+
+  - name: Installing ubuntu packages
+    apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
       - zsh
@@ -14,48 +19,32 @@
       - byobu
       - pandoc
       - hexedit
-      - emacs-nox
-      - GraphicsMagick
-      - the_silver_searcher
-      - adobe-source-code-pro-fonts
-      - python3-setuptools
-      - python3-devel
       - python3
+      - emacs-nox
+      - imagemagick
+      - silversearcher-ag
 
-  - name: Creating a CUSTOM folder in $HOME
-    file: path="~/.CUSTOM" state=directory
+  - name: Cloning oh-my-zsh repository (zsh plugins)
+    git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=~/.oh-my-zsh depth=1
 
-  - name: Creating a .byobu folder in $HOME
-    file: path="~/.byobu" state=directory
+  - name: Cloning Vundle repository (vim plugins)
+    git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim depth=1
+    notify:
+      - install vim plugins
 
-  - name: Deploying ansible configuration
+  - name: Cloning Spacemacs repository (emacs plugins)
+    git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d" depth=1
+
+  - name: Creating "my-config" folder in $HOME
+    file: path="~/.my-config" state=directory
+
+  - name: Deploying zsh configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - {src: "ansible.cfg", dest: "~/.ansible.cfg"}
-
-  - name: Checking if oh-my-zsh exists
-    stat: path="~/.oh-my-zsh"
-    register: oh_my_zsh
-
-  - name: Installing oh-my-zsh
-    shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    when: oh_my_zsh.stat.exists == False
-
-  - name: Deploying shell configuration
-    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
-    with_items:
-      - {src: "zsh/zsh-custom", dest: "~/.CUSTOM/zsh"}
+      - {src: "zsh/zsh-custom", dest: "~/.my-config/zsh"}
       - {src: "zsh/face.icon", dest: "~/.face.icon"}
       - {src: "zsh/inputrc", dest: "~/.inputrc"}
       - {src: "zsh/zshrc", dest: "~/.zshrc"}
-
-  - name: Deploying Byobu configuration
-    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
-    with_items:
-      - {src: "zsh/tmux.conf", dest: "~/.byobu/.tmux.conf"}
-
-  - name: Cloning Vundle repository (vim plugins)
-    git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim
 
   - name: Deploying vim configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
@@ -64,22 +53,19 @@
     notify:
       - install vim plugins
 
-  - name: Cloning Spacemacs repository
-    git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d"
-
   - name: Deploying emacs configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
+      - {src: "emacs/spacemacs-custom", dest: "~/.my-config/spacemacs"}
       - {src: "emacs/spacemacs", dest: "~/.spacemacs"}
-      - {src: "emacs/spacemacs-custom", dest: "~/.CUSTOM/spacemacs"}
         
-  - name: Deploying version control system configuration
+  - name: Deploying git configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "git/gitconfig", dest: "~/.gitconfig"}
       - {src: "git/gitignore", dest: "~/.gitignore"}
 
-  - name: Deploying project template configuration
+  - name: Deploying cookiecutters configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "cookiecutters/cookiecutterrc", dest: "~/.cookiecutterrc"}
@@ -89,15 +75,9 @@
     become: yes
     when: ansible_user_shell != "/usr/bin/zsh"
 
-  - name: Checking if shell font exists
+  - name: Checking additional fonts
     stat: path="~/.fonts/Droid Sans Mono Slashed for Powerline.ttf"
     register: shell_font
-
-  - name: Installing additional fonts
-    command: /bin/true
-    when: shell_font.stat.exists == False
-    notify:
-        - install vim fonts
 
   handlers:
     - name: install vim plugins

@@ -3,39 +3,53 @@
 - hosts: localhost
   tasks:
 
-  - name: Installing dependencies (prog)
-    dnf: pkg="{{item}}" state=latest
+  - name: Adding Docker repository key
+    apt_key: keyserver="hkp://pgp.mit.edu:80" id="58118E89F3A912897C070ADBF76221572C52609D"
     become: yes
-    with_items:
-        - gcc
-        - gcc-c++
-        - make
-        - automake
-        - kernel-devel
-        - blas-devel
-        - atlas-devel
-        - lapack-devel
-        - openblas-devel
-        - agg-devel
-        - libffi-devel
-        - freetype-devel
-        - libxml2-devel
-        - libxslt-devel
-        - openssl-devel
-        - redhat-rpm-config
-        - python3-setuptools
 
-  - name: Installing packages (prog)
-    dnf: pkg="{{item}}" state=latest
+  - name: Adding Docker repository
+    apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-wily main" update_cache=yes
+    become: yes
+
+  - name: Adding Oracle Java repository
+    apt_repository: repo="ppa:webupd8team/java" update_cache=yes
+    become: yes
+
+  - name: Accepting Oracle License (java)
+    shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+
+  - name: Installing programming dependencies
+    apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
-      - pypy
-      - docker
+      - gfortran
+      - libffi-dev
+      - libblas-dev
+      - libpng12-dev
+      - liblapack-dev
+      - libfreetype6-dev
+      - libatlas-base-dev
+      - libssl-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - python3-dev
+      - python3-setuptools
+
+  - name: Installing ubuntu packages
+    apt: pkg="{{item}}" state=latest
+    become: yes
+    with_items:
       - latexmk
       - qemu-kvm
-      - android-tools
-      - java-1.8.0-openjdk
-      - texlive-collection-mathextra
+      - python3-pip
+      - docker-engine
+      - build-essential
+      - exuberant-ctags
+      - android-tools-adb
+      - android-tools-fastboot
+      - oracle-java8-installer
+      - texlive-math-extra
+      - texlive
 
   - name: Installing Clojure
     get_url: dest=~/bin/lein mode=0700 url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
@@ -43,7 +57,7 @@
   - name: Ensures ~/.lein directory exists
     file: path="~/.lein" state=directory
 
-  - name: Deploying Leiningen profiles
+  - name: Deploying Leiningen configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
     - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}
@@ -52,7 +66,7 @@
     easy_install: name="pip" executable="easy_install3"
     become: yes
 
-  - name: Installing Python libraries (pip3)
+  - name: Installing Python libraries
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
       # project
@@ -96,7 +110,7 @@
     command: "~/.local/bin/ipython3 profile create freaxmind"
     when: ipython_profile.stat.exists == False
 
-  - name: Deploying ipython profile
+  - name: Deploying ipython configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "ipython/profile_freaxmind/ipython_config.py", dest: "~/.ipython/profile_freaxmind/ipython_config.py"}

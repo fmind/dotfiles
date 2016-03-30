@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "[*] Installing git and ansible ..."
-sudo dnf install -y git ansible python-dnf
+sudo apt-get install -y git ansible
 
 echo
 read -p "Do you want to clone my-tools-settings now [Y/y] ? " -n 1 -r

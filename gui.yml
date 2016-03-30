@@ -3,25 +3,36 @@
 - hosts: localhost
   tasks:
 
-  - name: Installing Fedy Installer
-    get_url: dest=~/bin/fedy-installer mode=0700 url=http://folkswithhats.org/fedy-installer
-
-  - name: Creating a gconf folder in $HOME
-    file: path="~/.config/gconf/apps/" state=directory
-
-  - name: Installing packages (gui)
-    dnf: pkg="{{item}}" state=latest
+  - name: Adding repository keys
+    apt_key: url="{{item}}"
     become: yes
     with_items:
+      - https://dl-ssl.google.com/linux/linux_signing_key.pub
+      - https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key
+
+  - name: Adding additional repositories
+    apt_repository: repo="{{item}}" update_cache=yes
+    become: yes
+    with_items:
+      - ppa:eugenesan/ppa
+      - ppa:gnome3-team/gnome3
+      - ppa:gnome3-team/gnome3-staging
+      - deb http://archive.canonical.com/ubuntu wily partner
+      - deb http://apt.insynchq.com/ubuntu wily non-free contrib
+      - deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+
+  - name: Installing ubuntu packages
+    apt: pkg="{{item}}" state=latest
+    become: yes
+    with_items:
+      - vlc
       - anki
       - gimp
       - guake
       - emacs
       - unison
+      - insync
       - keepassx
+      - virtualbox
       - gnome-tweak-tool
-
-  - name: Deploying Guake configuration
-    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
-    with_items:
-      - {src: "guake", dest: "~/.config/gconf/apps/guake"}
+      - google-chrome-stable
