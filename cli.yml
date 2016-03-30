@@ -20,7 +20,6 @@
       - pandoc
       - hexedit
       - python3
-      - emacs-nox
       - imagemagick
       - silversearcher-ag
 

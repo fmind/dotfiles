@@ -32,6 +32,7 @@
       - emacs
       - unison
       - insync
+      - emacs24
       - keepassx
       - virtualbox
       - gnome-tweak-tool
