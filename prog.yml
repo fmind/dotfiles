@@ -33,7 +33,6 @@
       - libxml2-dev
       - libxslt1-dev
       - python3-dev
-      - python3-setuptools
 
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
@@ -41,7 +40,6 @@
     with_items:
       - latexmk
       - qemu-kvm
-      - python3-pip
       - docker-engine
       - build-essential
       - exuberant-ctags
@@ -61,10 +59,6 @@
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
     - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}
-
-  - name: Installing pip3
-    easy_install: name="pip" executable="easy_install3"
-    become: yes
 
   - name: Installing Python libraries
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
