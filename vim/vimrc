@@ -11,7 +11,7 @@ set mouse=a                     " activate mouse selection for every mode
 set wildmenu                    " activate a menu for autocompletion
 set wildmode=list:longest       "   (menu behaviour)
 set nospell                     " deactivate inline spell check
-set spelllang=en,fr             "   (default spelling language)
+set spelllang=en                "   (default spelling language)
 set background=dark             " activate editor theming
 set t_Co=256                    "   (add more colors)
 set t_md=                       " no bold fonts
@@ -96,7 +96,7 @@ filetype plugin indent on
 " HOOKS
 
 "" automatic spell checking for the following files
-autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en,fr
+autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en
 
 "" automatic text wrapping on open, read and save for the following files
 autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal textwidth=80 whichwrap+=h,l,<,>,[,]

@@ -19,6 +19,7 @@
     st = status
     co = checkout
     ci = commit -m
+    sm = submodule
     addall = add --all
     logpretty = log --graph --decorate --pretty=oneline --abbrev-commit
 

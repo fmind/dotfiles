@@ -52,7 +52,7 @@ values."
             shell-default-height 30
             shell-default-shell 'eshell
             shell-default-position 'bottom)
-     ;;pandoc
+     pandoc
      (python :variables
              python-test-runner 'pytest
              python-enable-yapf-format-on-save t)
@@ -284,7 +284,7 @@ in `dotspacemacs/user-config'."
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
-  ; GLOBAL CUSTOM
+                                        ; GLOBAL CUSTOM
   ;; disable current line highlight everywhere
   (global-hl-line-mode -1)
   ;; enable golden ratio everywhere
@@ -308,7 +308,7 @@ layers configuration. You are free to put any user code."
   ;; continuous mode by default for doc-view
   (setq doc-view-continuous t)
 
-  ; GLOBAL SHORTCUTS
+                                        ; GLOBAL SHORTCUTS
   ;; evil-mode motions
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
@@ -324,15 +324,19 @@ layers configuration. You are free to put any user code."
   ;; auto-yasnippet
   (spacemacs/set-leader-keys "ic" 'aya-create)
   (spacemacs/set-leader-keys "ie" 'aya-expand)
-  (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
   (spacemacs/set-leader-keys "ir" 'yas-reload-all)
+  (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
   ;; buffers and windows
-  (spacemacs/set-leader-keys "bq" (lambda () (kill-this-buffer) (delete-window)))
+  (defun kill-window-and-buffer ()
+    (interactive)
+    (kill-this-buffer)
+    (delete-window))
+  (spacemacs/set-leader-keys "bq" 'kill-window-and-buffer)
   ;; swap evil-nc and evil-ex mappings
   (spacemacs/set-leader-keys ";" 'evil-ex)
   (spacemacs/set-leader-keys ":" 'evilnc-comment-operator)
 
-  ; SEARCH ENGINES
+                                        ; SEARCH ENGINES
   (require 'engine-mode)
   ;; new engines
   (defengine thesaurus "http://thesaurus.com/browse/%s")
@@ -350,7 +354,7 @@ layers configuration. You are free to put any user code."
   (spacemacs/set-leader-keys "ah" 'engine/search-github)
   (spacemacs/set-leader-keys "al" 'engine/search-scholar)
 
-  ; CLOJURE MODE
+                                        ; CLOJURE MODE
   ;; functions
   (defun my-cider-init-interface ()
     "Init CIDER interface"
@@ -384,7 +388,16 @@ layers configuration. You are free to put any user code."
   ;; hook
   (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 
-  ; ORG MODE
+                                        ; PANDOC MODE
+  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+  (add-hook 'pandoc-mode-hook (lambda ()
+                                (add-hook 'after-save-hook (lambda () (pandoc-run-pandoc nil))
+                                          nil 'make-it-local)))
+  (spacemacs/set-leader-keys-for-minor-mode 'pandoc-mode
+    "Pr" 'pandoc-run-pandoc
+    "Pp" 'pandoc-convert-to-pdf)
+
+                                        ; ORG MODE
   ;; active org-babel languages
   (org-babel-do-load-languages
    'org-babel-load-languages

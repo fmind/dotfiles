@@ -141,3 +141,6 @@ alias autoclean="sudo apt-get autoclean"
 alias autoremove="sudo apt-get autoremove --purge"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# Alias: PROJECT
+alias slides="git clone git@github.com:freaxmind/my-slides"
+alias httpserve="python3 -m http.server"

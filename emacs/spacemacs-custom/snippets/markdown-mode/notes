@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: notes
+# key: notes
+# --
+<aside class="notes">
+$1
+</aside>

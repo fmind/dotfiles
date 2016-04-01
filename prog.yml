@@ -73,6 +73,7 @@
       # syntax
       - yapf
       - autoflake
+      - vocabulary
       # data analysis
       - arrow
       - pandas
