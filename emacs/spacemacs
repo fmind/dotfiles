@@ -325,7 +325,7 @@ layers configuration. You are free to put any user code."
   (spacemacs/set-leader-keys "ic" 'aya-create)
   (spacemacs/set-leader-keys "ie" 'aya-expand)
   (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
-  (spacemacs/set-leader-keys "ir" 'yas/reload-all)
+  (spacemacs/set-leader-keys "ir" 'yas-reload-all)
   ;; buffers and windows
   (spacemacs/set-leader-keys "bq" (lambda () (kill-this-buffer) (delete-window)))
   ;; swap evil-nc and evil-ex mappings

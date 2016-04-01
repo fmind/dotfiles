@@ -16,6 +16,7 @@
       - vim
       - git
       - tree
+      - htop
       - byobu
       - pandoc
       - hexedit

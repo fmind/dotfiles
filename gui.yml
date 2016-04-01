@@ -35,5 +35,6 @@
       - emacs24
       - keepassx
       - virtualbox
+      - xbacklight
       - gnome-tweak-tool
       - google-chrome-stable

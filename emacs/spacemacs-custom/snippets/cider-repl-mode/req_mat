@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: req_mat
+# key: req_mat
+# --
+(require '[clojure.core.matrix :as mat])

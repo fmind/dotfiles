@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: req_dat
+# key: req_dat
+# --
+(require '[clojure.core.matrix.dataset :as dat])

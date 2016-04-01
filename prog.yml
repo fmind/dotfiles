@@ -41,6 +41,7 @@
     with_items:
       - latexmk
       - qemu-kvm
+      - graphviz
       - python3-pip
       - docker-engine
       - build-essential
