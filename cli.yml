@@ -29,8 +29,6 @@
 
   - name: Cloning Vundle repository (vim plugins)
     git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim depth=1
-    notify:
-      - install vim plugins
 
   - name: Cloning Spacemacs repository (emacs plugins)
     git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d" depth=1
@@ -50,8 +48,9 @@
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "vim/vimrc", dest: "~/.vimrc"}
-    notify:
-      - install vim plugins
+
+  - name: Updating vim Plugins
+    command: "vim +PluginInstall +qall"
 
   - name: Deploying emacs configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
@@ -80,8 +79,6 @@
     register: shell_font
 
   handlers:
-    - name: install vim plugins
-      command: "vim +PluginInstall +qall"
 
     - name: install vim fonts
       command: "~/.vim/bundle/fonts/install.sh"
