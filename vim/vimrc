@@ -119,7 +119,7 @@ nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
-nnoremap Q <NOP>
+nnoremap Q g
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>

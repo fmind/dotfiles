@@ -12,6 +12,7 @@
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
+      - sl
       - zsh
       - vim
       - git
@@ -19,8 +20,11 @@
       - htop
       - byobu
       - pandoc
+      - ranger
+      - ipcalc
       - hexedit
       - python3
+      - parallel
       - imagemagick
       - silversearcher-ag
 

@@ -96,6 +96,8 @@ alias e="emacs -nw"
 alias ee="emacs . &"
 alias es="sudo emacs -nw"
 alias er="emacs -nw --eval '(setq buffer-read-only t)'"
+alias g="git"
+alias f="ranger"
 alias extip='curl icanhazip.com'
 alias kila='killall -9'
 alias serve='python3 -m http.server'
@@ -139,6 +141,7 @@ alias upgrade="sudo apt-get upgrade"
 alias clean="sudo apt-get clean"
 alias autoclean="sudo apt-get autoclean"
 alias autoremove="sudo apt-get autoremove --purge"
+alias dist-upgrade="sudo apt-get dist-upgrade"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias: PROJECT
