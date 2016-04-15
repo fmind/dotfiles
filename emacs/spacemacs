@@ -76,6 +76,7 @@ values."
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(
                                     evil-search-highlight-persist
+                                    evil-jumper
                                     )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
@@ -90,6 +91,7 @@ You should not put any user code in there besides modifying the variable
 values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
+
   (setq-default
    ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
@@ -120,7 +122,7 @@ values."
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-lists '(projects recents)
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
    dotspacemacs-startup-recent-list-size 10
@@ -265,8 +267,6 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
-
-
    ))
 
 (defun dotspacemacs/user-init ()
@@ -307,6 +307,9 @@ layers configuration. You are free to put any user code."
   (setq smooth-preserve-screen-position t)
   ;; continuous mode by default for doc-view
   (setq doc-view-continuous t)
+  ;; backups
+  (setq backup-by-copying t)
+  (setq backup-directory-alist `(("." . "~/.cache/emacs/")))
 
                                         ; GLOBAL SHORTCUTS
   ;; evil-mode motions
@@ -355,6 +358,8 @@ layers configuration. You are free to put any user code."
   (spacemacs/set-leader-keys "al" 'engine/search-scholar)
 
                                         ; CLOJURE MODE
+  ;; settings
+  (setq cider-repl-clear-help-banner nil)
   ;; functions
   (defun my-cider-init-interface ()
     "Init CIDER interface"
@@ -377,11 +382,16 @@ layers configuration. You are free to put any user code."
   (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
     (spacemacs/set-leader-keys-for-major-mode mode
       "!" 'cider-jack-in
+      "b" 'cider-pop-back
       "p" 'cider-inspect
       "k" 'cider-load-buffer
       "K" 'my-cider-load-impl-test
       "n" 'cider-repl-set-ns
+      "v" 'cider-find-var
       "te" 'cider-test-run-tests
+      "fv" 'cider-toggle-trace-var
+      "fn" 'cider-toggle-trace-ns
+      "tn" 'cider-test-run-ns-tests
       "tp" 'cider-test-run-project-tests
       "tl" 'cider-test-run-loaded-tests
       "TT" 'my-cider-init-interface))

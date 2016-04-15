@@ -1,8 +1,6 @@
 # -*- mode: snippet -*-
 # contributor: Freaxmind
-# name: code
-# key: \code
+# name: use-repl
+# key: use-repl
 # --
-~~~
-$1
-~~~
+(use 'clojure.repl)

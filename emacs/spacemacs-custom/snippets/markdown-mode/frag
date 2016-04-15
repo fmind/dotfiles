@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: frag
+# key: frag
+# --
+<div class="fragment fade-in">
+$1
+</div>

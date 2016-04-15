@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: use_combo
+# key: use_combo
+# --
+(use 'clojure.math.combinatorics)

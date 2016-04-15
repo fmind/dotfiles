@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: use-trace
+# key: use-trace
+# --
+(use 'clojure.tools.trace)

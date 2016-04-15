@@ -84,7 +84,6 @@ backup() { cp "$1"{,.bak};}
 # Alias: QUICK ACCESS
 c() { cd "$1"; ls;}
 alias x="exit"
-alias l="clear"
 alias o="xdg-open"
 alias f='nautilus . &'
 alias v="vim"
