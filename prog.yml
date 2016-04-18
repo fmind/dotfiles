@@ -48,8 +48,9 @@
       - android-tools-adb
       - android-tools-fastboot
       - oracle-java8-installer
-      - texlive-math-extra
       - texlive-latex-extra
+      - texlive-math-extra
+      - texlive-science
       - texlive
 
   - name: Installing Clojure
