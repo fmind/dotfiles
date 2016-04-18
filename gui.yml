@@ -33,6 +33,7 @@
       - unison
       - insync
       - emacs24
+      - vim-gtk
       - keepassx
       - virtualbox
       - xbacklight
