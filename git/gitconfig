@@ -17,11 +17,17 @@
 
 [alias]
     st = status
-    co = checkout
-    ci = commit -m
-    sm = submodule
+    ss = status -s
     aa = add --all
-    logpretty = log --graph --decorate --pretty=oneline --abbrev-commit
+    ci = commit -m
+    ca = commit -am
+    ph = push
+    pl = pull
+    co = checkout
+    sm = submodule
+    lo = log --oneline
+    lg = log --graph
+    lp = log --graph --decorate --pretty=oneline --abbrev-commit
 
 [url "https://github.com/"]
     insteadOf = gh:
