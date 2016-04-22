@@ -388,6 +388,8 @@ layers configuration. You are free to put any user code."
       "K" 'my-cider-load-impl-test
       "n" 'cider-repl-set-ns
       "v" 'cider-find-var
+      "c" 'cider-repl-clear-buffer
+      "u" 'cider-switch-to-repl-buffer
       "te" 'cider-test-run-tests
       "fv" 'cider-toggle-trace-var
       "fn" 'cider-toggle-trace-ns
