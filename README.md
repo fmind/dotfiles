@@ -7,5 +7,6 @@ Configurations and Plugins associated to my favorite tools:
 * ipython
 * vim
 * git
+* emacs
 
 Enjoy !
