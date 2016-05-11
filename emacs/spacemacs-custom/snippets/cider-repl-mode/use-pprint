@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: use-pprint
+# key: use-pprint
+# --
+(use 'clojure.pprint)

@@ -1,19 +1,28 @@
 {
- :repl {:dependencies [[org.clojure/tools.nrepl "0.2.12"]]        
-        :plugins [[cider/cider-nrepl "0.12.0-SNAPSHOT"]
-                  [refactor-nrepl "2.3.0-SNAPSHOT"]]}
-
  :user {:plugins [[lein-exec "0.3.6"]
-                  [lein-kibit "0.1.2"]
-                  [lein-cljfmt "0.4.1"]
-                  [lein-gorilla "0.3.6"]
-                  [lein-ancient "0.6.8"]
-                  [lein-bikeshed "0.3.0"]
-                  [lein-cloverage "1.0.6"]
-                  [jonase/eastwood "0.2.3"]]
-        :dependencies [[slamhound "1.5.5"]]
-        :aliases {"slamhound" ["run" "-m" "slam.hound"]}}
+                  [lein-cljfmt "0.5.3"]
+                  [lein-ancient "0.6.10"]]
+        :dependencies [[alembic "0.3.2"]
+                       [spyscope "0.1.5"]
+                       [im.chit/vinyasa "0.4.3"]
+                       [io.aviso/pretty "0.1.26"]
+                       [org.clojure/tools.nrepl "0.2.12"]
+                       [org.clojure/tools.namespace "0.2.10"]
+                       [leiningen #=(leiningen.core.main/leiningen-version)]]
+        :injections [(require 'spyscope.core)
+                     (require 'io.aviso.repl)
+                     (require '[vinyasa.inject :as inject])
+                     (inject/in
+                      [vinyasa.inject :refer [inject [in inject-in]]]
+                      [vinyasa.lein :exclude [*project*]]
+                      [alembic.still [distill pull]]
+                      clojure.core [vinyasa.reflection .> .? .* .% .%> .& .>ns .>var]
+                      clojure.core > [clojure.pprint pprint] [clojure.java.shell sh])]
+        }
 
- :selenium {:dependencies [[clj-webdriver/clj-webdriver "0.7.2"]
-                           [org.seleniumhq.selenium/selenium-java "2.52.0"]]}
-}
+ :selenium [:user
+            {:dependencies [[clj-webdriver/clj-webdriver "0.7.2"]
+                           [org.seleniumhq.selenium/selenium-java "2.52.0"]]
+            :injections [(use 'clj-webdriver.taxi)
+                         (set-driver! {:browser :firefox})]}]
+ }

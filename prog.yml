@@ -73,6 +73,7 @@
       - virtualenv
       - cookiecutter
       # syntax
+      - hy
       - yapf
       - autoflake
       - vocabulary

@@ -79,7 +79,7 @@ alias chx="chmod u+x "
 alias cmount="mount | column -t"
 alias ipinfo="curl ifconfig.me && curl ifconfig.me/host"
 alias igrep="grep -i"
-backup() { cp "$1"{,.bak};}
+backup() { cp "$1"{,.bak}; }
 
 # Alias: QUICK ACCESS
 c() { cd "$1"; ls;}
@@ -95,7 +95,6 @@ alias e="emacs -nw"
 alias ee="emacs . &"
 alias es="sudo emacs -nw"
 alias er="emacs -nw --eval '(setq buffer-read-only t)'"
-alias g="git"
 alias f="ranger"
 alias extip='curl icanhazip.com'
 alias kila='killall -9'
@@ -104,6 +103,7 @@ alias zshrc='$EDITOR ~/.zshrc'
 alias zshsrc='source ~/.zshrc'
 
 # Alias: PROGRAMMING
+## Python
 alias py2="python2"
 alias py3="python3"
 alias pyp="pip3"
@@ -116,12 +116,21 @@ alias pyk="ipython kernel --profile=freaxmind"
 alias pyc="ipcluster start -n 8"
 alias pyv="source venv/bin/activate"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
+## Clojure
+alias cljp="$EDITOR ~/.lein/profiles.clj"
+alias clja="lein ancient"
+alias cljap="lein ancient check-profiles"
+alias clje="lein exec"
+alias cljr="lein repl"
+cljrp() { lein with-profile "$1" repl } 
+## Ansible
 alias anpl="ansible-playbook"
 alias anpls="ansible-playbook --ask-become"
+## Others
 alias ck="cookiecutter"
 alias dk="docker"
-alias clj="lein exec"
-alias clk="lein repl"
+alias g="git"
+alias grc="$EDITOR ~/.gitconfig"
 
 # Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"
