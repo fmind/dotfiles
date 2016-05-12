@@ -40,6 +40,7 @@
     become: yes
     with_items:
       - latexmk
+      - dvipng # latex generation of anki
       - qemu-kvm
       - graphviz
       - docker-engine
