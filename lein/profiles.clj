@@ -49,8 +49,7 @@
          :injections [(use 'cheshire.core)
                       (use 'clojure.data.xml)
                       (use 'clojure-csv.core)]}]
-
- :music [:user
-         {:dependencies [[overtone "0.10.1"]]
-          :injections [(use 'overtone.live)]}]
+ :graph [:user
+         {:dependencies [[aysylu/loom "0.6.0"]]
+          :injections [(use '[loom graph alg gen attr label io derived])]}]
 }
