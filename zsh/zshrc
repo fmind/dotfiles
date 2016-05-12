@@ -117,7 +117,7 @@ alias pyc="ipcluster start -n 8"
 alias pyv="source venv/bin/activate"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 ## Clojure
-alias cljp="$EDITOR ~/.lein/profiles.clj"
+alias cljrc="$EDITOR ~/.lein/profiles.clj"
 alias clja="lein ancient"
 alias cljap="lein ancient check-profiles"
 alias clje="lein exec"

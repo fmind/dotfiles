@@ -25,4 +25,10 @@
                            [org.seleniumhq.selenium/selenium-java "2.52.0"]]
             :injections [(use 'clj-webdriver.taxi)
                          (set-driver! {:browser :firefox})]}]
- }
+
+ :maths [:user
+         {:dependencies [[org.clojure/math.combinatorics "0.1.1"]
+                         [org.clojure/math.numeric-tower "0.0.4"]]
+          :injections [(use 'clojure.math.combinatorics)
+                       (use 'clojure.math.numeric-tower)]}]
+}
