@@ -8,7 +8,7 @@
     become: yes
 
   - name: Adding Docker repository
-    apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-wily main" update_cache=yes
+    apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
     become: yes
 
   - name: Adding Oracle Java repository
@@ -23,6 +23,7 @@
     become: yes
     with_items:
       - gfortran
+      - libxft-dev
       - libffi-dev
       - libblas-dev
       - libpng12-dev

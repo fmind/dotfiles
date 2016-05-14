@@ -15,25 +15,24 @@
     become: yes
     with_items:
       - ppa:eugenesan/ppa
-      - ppa:gnome3-team/gnome3
-      - ppa:gnome3-team/gnome3-staging
-      - deb http://archive.canonical.com/ubuntu wily partner
-      - deb http://apt.insynchq.com/ubuntu wily non-free contrib
+      - deb http://archive.canonical.com/ubuntu xenial partner
+      - deb http://apt.insynchq.com/ubuntu xenial non-free contrib
       - deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
-      - vlc
       - anki
       - gimp
       - guake
       - emacs
       - unison
       - insync
+      - gparted
       - emacs24
       - vim-gtk
+      - smplayer
       - keepassx
       - virtualbox
       - xbacklight

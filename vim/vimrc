@@ -174,4 +174,6 @@ nnoremap <leader>+l :source $MYVIMRC<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
 
 "" theme
-colorscheme molokai
+if filereadable("~/.vim/bundle/vim-colorschemes")
+    colorscheme molokai
+endif
