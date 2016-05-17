@@ -52,4 +52,9 @@
  :graph [:user
          {:dependencies [[aysylu/loom "0.6.0"]]
           :injections [(use '[loom graph alg gen attr label io derived])]}]
+ :nb [:user
+      {:dependencies [[lein-gorilla "0.3.6"]]
+       :injections [(require '[gorilla-repl.core :refer [run-gorilla-server]])
+                    (run-gorilla-server{:port 8990})
+                    (>sh "xdg-open" "http://127.0.0.1:8990/worksheet.html")]}]
 }
