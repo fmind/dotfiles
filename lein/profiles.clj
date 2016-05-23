@@ -20,6 +20,11 @@
                       clojure.core > [clojure.pprint pprint] [clojure.java.shell sh])]
         }
 
+ :sh [:user
+         {:dependencies [[me.raynes/fs "1.4.6"]]
+          :injections[(use 'clojure.java.shell)
+                      (require '[me.raynes.fs :as fs])]}]
+
  :http [:user
         {:dependencies [[http-kit "2.1.19"]
                         [enlive "1.1.6"]]
