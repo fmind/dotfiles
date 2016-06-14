@@ -1,7 +1,9 @@
 {
  :user {:plugins [[lein-exec "0.3.6"]
                   [lein-cljfmt "0.5.3"]
-                  [lein-ancient "0.6.10"]]
+                  [lein-ancient "0.6.10"]
+                  [io.aviso/pretty "0.1.26"]
+                  [jonase/eastwood "0.2.3"]]
         :dependencies [[alembic "0.3.2"]
                        [spyscope "0.1.5"]
                        [im.chit/vinyasa "0.4.3"]

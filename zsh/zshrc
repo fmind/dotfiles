@@ -123,6 +123,8 @@ alias cljap="lein ancient check-profiles"
 alias clje="lein exec"
 alias cljr="lein repl"
 cljrp() { lein with-profile "$1" repl } 
+## Java
+alias jajar="java -jar"
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="ansible-playbook --ask-become"
