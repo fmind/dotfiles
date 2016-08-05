@@ -314,6 +314,8 @@ layers configuration. You are free to put any user code."
   (setq backup-directory-alist `(("." . "~/.cache/emacs/")))
   ;; rainbow mode
   ;; (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  ;; global search by default
+  (setq evil-ex-substitute-global t)
 
                                         ; GLOBAL SHORTCUTS
   ;; evil-mode motions
@@ -382,6 +384,9 @@ layers configuration. You are free to put any user code."
     (projectile-toggle-between-implementation-and-test))
   ;; aliases
   (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
+    ;; (add-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+    ;; (add-hook #'(lambda () (modify-syntax-entry ?- "w")))
+    (add-hook mode #'aggressive-indent-mode)
     (spacemacs/set-leader-keys-for-major-mode mode
       "!" 'cider-jack-in
       "b" 'cider-pop-back
@@ -399,10 +404,6 @@ layers configuration. You are free to put any user code."
       "tp" 'cider-test-run-project-tests
       "tl" 'cider-test-run-loaded-tests
       "TT" 'my-cider-init-interface))
-  ;; hook
-  (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
-
-
 
                                         ; PANDOC MODE
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
