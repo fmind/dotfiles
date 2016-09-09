@@ -2,17 +2,17 @@
  :user {:plugins [[lein-exec "0.3.6"]
                   [lein-cljfmt "0.5.3"]
                   [lein-ancient "0.6.10"]
-                  [io.aviso/pretty "0.1.26"]
+                  ;[io.aviso/pretty "0.1.26"]
                   [jonase/eastwood "0.2.3"]]
         :dependencies [[alembic "0.3.2"]
                        [spyscope "0.1.5"]
                        [im.chit/vinyasa "0.4.3"]
-                       [io.aviso/pretty "0.1.26"]
+                       ;[io.aviso/pretty "0.1.30"]
                        [org.clojure/tools.nrepl "0.2.12"]
                        [org.clojure/tools.namespace "0.2.10"]
                        [leiningen #=(leiningen.core.main/leiningen-version)]]
         :injections [(require 'spyscope.core)
-                     (require 'io.aviso.repl)
+                     ;(require 'io.aviso.repl)
                      (require '[vinyasa.inject :as inject])
                      (inject/in
                       [vinyasa.inject :refer [inject [in inject-in]]]
@@ -26,14 +26,12 @@
          {:dependencies [[me.raynes/fs "1.4.6"]]
           :injections[(use 'clojure.java.shell)
                       (require '[me.raynes.fs :as fs])]}]
-
  :http [:user
         {:dependencies [[http-kit "2.1.19"]
                         [enlive "1.1.6"]]
          :injections [(require '[org.httpkit.client :as http])
                       (use 'net.cgrand.enlive-html)
                       (import java.net.URL)]}]
-
  :selenium [:user
             {:dependencies [[clj-webdriver/clj-webdriver "0.7.2"]
                            [org.seleniumhq.selenium/selenium-java "2.52.0"]]
@@ -44,7 +42,6 @@
                          [org.clojure/math.numeric-tower "0.0.4"]]
           :injections [(use 'clojure.math.combinatorics)
                        (use 'clojure.math.numeric-tower)]}]
-
  :stats [:user
          {:dependencies [[incanter "1.5.7"]]
           :injections [(use '[incanter core stats charts])]}]
@@ -59,4 +56,7 @@
  :graph [:user
          {:dependencies [[aysylu/loom "0.6.0"]]
           :injections [(use '[loom graph alg gen attr label io derived])]}]
+ :draw [:user
+         {:dependencies [[quil "2.3.0"]]
+          :injections [(use '[quil.core])]}]
 }
