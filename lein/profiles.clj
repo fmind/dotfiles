@@ -2,24 +2,26 @@
  :user {:plugins [[lein-exec "0.3.6"]
                   [lein-cljfmt "0.5.3"]
                   [lein-ancient "0.6.10"]
-                  ;[io.aviso/pretty "0.1.26"]
                   [jonase/eastwood "0.2.3"]]
         :dependencies [[alembic "0.3.2"]
                        [spyscope "0.1.5"]
                        [im.chit/vinyasa "0.4.3"]
-                       ;[io.aviso/pretty "0.1.30"]
                        [org.clojure/tools.nrepl "0.2.12"]
                        [org.clojure/tools.namespace "0.2.10"]
                        [leiningen #=(leiningen.core.main/leiningen-version)]]
-        :injections [(require 'spyscope.core)
-                     ;(require 'io.aviso.repl)
+        :injections [(require 'clojure.repl)
+                     (require 'spyscope.core)
                      (require '[vinyasa.inject :as inject])
+                     (require '[clojure.tools.namespace.repl :refer [refresh]])
                      (inject/in
-                      [vinyasa.inject :refer [inject [in inject-in]]]
+                      [clojure.java.shell :refer [sh]]
+                      [clojure.pprint :refer [pprint]]
+                      [clojure.tools.namespace.repl :refer [refresh]]
+                      [clojure.repl :refer [apropos dir doc source find-doc]]
                       [vinyasa.lein :exclude [*project*]]
+                      [vinyasa.inject :refer [inject [in inject-in]]]
                       [alembic.still [distill pull]]
-                      clojure.core [vinyasa.reflection .> .? .* .% .%> .& .>ns .>var]
-                      clojure.core > [clojure.pprint pprint] [clojure.java.shell sh])]
+                      clojure.core [vinyasa.reflection .> .? .* .% .%> .& .>ns .>var])]
         }
 
  :sh [:user
@@ -59,4 +61,7 @@
  :draw [:user
          {:dependencies [[quil "2.3.0"]]
           :injections [(use '[quil.core])]}]
+ :music [:user
+         {:dependencies [[overtone "0.10.1"]]
+          :injections [(use '[overtone.live])]}]
 }

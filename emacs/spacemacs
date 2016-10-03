@@ -45,8 +45,7 @@ values."
      ipython-notebook
      javascript
      (latex :variables
-            latex-enable-folding t
-            latex-enable-auto-fill t)
+            latex-enable-folding t)
      markdown
      org
      (shell :variables
@@ -240,11 +239,11 @@ values."
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling nil
+   dotspacemacs-smooth-scrolling t
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers 'yes
+   dotspacemacs-line-numbers 'relative
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
@@ -404,6 +403,10 @@ layers configuration. You are free to put any user code."
       "tp" 'cider-test-run-project-tests
       "tl" 'cider-test-run-loaded-tests
       "TT" 'my-cider-init-interface))
+
+                                        ; DOCVIEW MODE
+
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
                                         ; PANDOC MODE
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)

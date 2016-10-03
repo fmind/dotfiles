@@ -105,6 +105,7 @@ alias kila='killall -9'
 alias serve='python3 -m http.server'
 alias zshrc='$EDITOR ~/.zshrc'
 alias zshsrc='source ~/.zshrc'
+alias sshrc='$EDITOR ~/.ssh/config'
 
 # Alias: PROGRAMMING
 ## Python
@@ -133,6 +134,7 @@ alias jajar="java -jar"
 alias anpl="ansible-playbook"
 alias anpls="ansible-playbook --ask-become"
 ## Others
+alias m="make"
 alias ck="cookiecutter"
 alias dk="docker"
 alias g="git"
@@ -141,8 +143,8 @@ alias grc="$EDITOR ~/.gitconfig"
 
 # Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"
-alias pysparkn='docker run -p 8888:8888 -v "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
-alias pyscipyn="docker run -p 8888:8888 -v $(pwd):/home/jovyan/work jupyter/scipy-notebook"
+alias pysparkn='docker run -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
+alias pyscipyn="docker run -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
 
 # Alias: IMAGE
 alias imgwhite="convert -flatten "
