@@ -45,7 +45,8 @@ values."
      ipython-notebook
      javascript
      (latex :variables
-            latex-enable-folding t)
+            latex-enable-folding t
+            latex-enable-auto-fill nil)
      markdown
      org
      (shell :variables
@@ -403,6 +404,11 @@ layers configuration. You are free to put any user code."
       "tp" 'cider-test-run-project-tests
       "tl" 'cider-test-run-loaded-tests
       "TT" 'my-cider-init-interface))
+
+                                        ; LATEX MODE
+
+  (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-golden-ratio-off)
+  (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
 
                                         ; DOCVIEW MODE
 
