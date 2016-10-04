@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: spy
+# key: spy
+# --
+#spy/$1 

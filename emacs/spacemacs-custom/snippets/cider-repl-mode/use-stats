@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: use-stats
+# key: use-stats
+# --
+(use '[incanter core stats charts])
