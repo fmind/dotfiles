@@ -144,6 +144,10 @@ alias grc="$EDITOR ~/.gitconfig"
 alias pjs="python3 -m json.tool"
 alias pysparkn='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
 alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
+alias pysparkn='docker run --name pyspark -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
+alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
+alias pymongon='docker run--name mongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work  --link mongo:mongo freaxmind/nosql'
+alias pymongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
 
 # Alias: IMAGE
 alias imgwhite="convert -flatten "
