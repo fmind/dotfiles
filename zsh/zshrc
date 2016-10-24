@@ -99,7 +99,6 @@ alias e="emacs -nw"
 alias ee="emacs . &"
 alias es="sudo emacs -nw"
 alias er="emacs -nw --eval '(setq buffer-read-only t)'"
-alias f="ranger"
 alias extip='curl icanhazip.com'
 alias kila='killall -9'
 alias serve='python3 -m http.server'
@@ -143,8 +142,8 @@ alias grc="$EDITOR ~/.gitconfig"
 
 # Alias: DATA ANALYSIS
 alias pjs="python3 -m json.tool"
-alias pysparkn='docker run -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
-alias pyscipyn="docker run -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
+alias pysparkn='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
+alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
 
 # Alias: IMAGE
 alias imgwhite="convert -flatten "
