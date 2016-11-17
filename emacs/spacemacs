@@ -426,6 +426,16 @@ you should place your code here."
       "tp" 'cider-test-run-project-tests
       "tl" 'cider-test-run-loaded-tests))
 
+                                        ; EMACS LISP
+
+  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
+    "," 'spacemacs/eval-current-form-sp
+    "!" 'ielm
+    "r" 'eval-region
+    "b" 'eval-buffer
+    ";" 'eval-expression
+    "l" 'eval-last-sexp)
+
                                         ; LATEX MODE
 
   (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
