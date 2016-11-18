@@ -2,10 +2,11 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;; set my configuration directory
+(setq spacemacsd "~/.spacemacs.d")
+
 (defun dotspacemacs/layers ()
-  "Configuration Layers declaration.
-You should not put any user code in this function besides modifying the variable
-values."
+  "Configuration Layers declaration."
   (setq-default
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
@@ -27,7 +28,7 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/.my-config/spacemacs")
+   dotspacemacs-configuration-layer-path `(,spacemacsd)
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -36,7 +37,7 @@ values."
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-tab-key-behavior 'cycle
-                      auto-completion-private-snippets-directory "~/.my-config/spacemacs/snippets"
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
                       auto-completion-enable-snippets-in-popup t)
      better-defaults
      (clojure :variables
@@ -47,6 +48,7 @@ values."
      docker
      emacs-lisp
      evil-cleverparens
+     freaxmind
      git
      graphviz
      html
@@ -84,16 +86,11 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(
-                                      aggressive-indent
-                                      )
+   dotspacemacs-additional-packages '(aggressive-indent)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(
-                                    evil-search-highlight-persist
-                                    evil-jumper
-                                    )
+   dotspacemacs-excluded-packages '(evil-search-highlight-persist evil-jumper)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -155,11 +152,12 @@ values."
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    ;; (default nil)
    dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 5))
+                                (projects . 5)
+                                (bookmarks . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'emacs-lisp-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -203,7 +201,7 @@ values."
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab nil
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ nil
+   dotspacemacs-remap-Y-to-y$ t
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
    ;; there. (default t)
    dotspacemacs-retain-visual-state-on-shift t
@@ -301,7 +299,7 @@ values."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis nil
+   dotspacemacs-smart-closing-parenthesis t
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
@@ -326,62 +324,87 @@ values."
    ))
 
 (defun dotspacemacs/user-init ()
-  "Initialization function for user code.
-It is called immediately after `dotspacemacs/init', before layer configuration
-executes.
- This function is mostly useful for variables that need to be set
-before packages are loaded. If you are unsure, you should try in setting them in
-`dotspacemacs/user-config' first."
+  "Initialization function for user code."
+
+                                        ; FUNCTIONS
+
+  ;; CLOJURE
+  (defun fx-init-cider ()
+    "Init CIDER interface."
+    (interactive)
+    (cider-switch-to-repl-buffer)
+    (split-window-below-and-focus)
+    (switch-to-buffer "*cider-test-report*")
+    (select-window-1)
+    (split-window-below-and-focus)
+    (projectile-toggle-between-implementation-and-test)
+    (select-window-1))
   )
 
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
-explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
+  "Configuration function for user code."
 
-
-                                        ; GLOBAL CUSTOM
-
-  ;; change my user name
-  (setq user-full-name "Freaxmind")
-  ;; enable company mode
-  (global-company-mode)
-  ;; always follow symlinks
-  (setq vc-follow-symlinks t)
-  ;; change the scroll margin
-  (setq smooth-scroll-margin 10)
-  ;; change powerline separator
-  (setq powerline-default-separator 'brace)
-
-                                        ; GLOBAL SHORTCUTS
-
-  ;; motions
-  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
-  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-  ;; zooming
-  (define-key global-map (kbd "C-+") 'text-scale-increase)
-  (define-key global-map (kbd "C--") 'text-scale-decrease)
-  ;; yasnippet
-  (spacemacs/set-leader-keys "ic" 'aya-create)
-  (spacemacs/set-leader-keys "ie" 'aya-expand)
-  (spacemacs/set-leader-keys "ir" 'yas-reload-all)
-  (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
-
-                                        ; SEARCH ENGINES
+                                        ; IMPORTS
 
   (require 'engine-mode)
-  ;; new engines
+
+                                        ; CONFIGURATIONS
+
+  ;; GENERAL
+  (global-company-mode)
+  (setq vc-follow-symlinks t)
+  (setq smooth-scroll-margin 10)
+  (setq powerline-default-separator 'brace)
+
+  ;; ENGINE
   (defengine github "https://github.com/search?q=%s")
   (defengine thesaurus "http://thesaurus.com/browse/%s")
   (defengine scholar "https://scholar.google.com/scholar?q=%s")
   (defengine translate-en "https://translate.google.com/?hl=fr#fr/en/%s")
   (defengine translate-fr "https://translate.google.com/?hl=fr#en/fr/%s")
-  ;; aliases
+
+  ;; CLOJURE
+  (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
+    (add-hook mode #'golden-ratio-mode)
+    (add-hook mode #'aggressive-indent-mode)
+    (add-hook mode #'evil-cleverparens-mode)
+  )
+
+  ;; LATEX
+  (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
+
+  ;; DOCVIEW
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
+  ;; PANDOC
+  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+  (add-hook 'pandoc-mode-hook (lambda () (add-hook 'after-save-hook
+                                                  (lambda () (pandoc-run-pandoc nil)) nil 'make-it-local)))
+
+  ;; ORG MODE
+  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+  (setq org-plantuml-jar-path (expand-file-name "~/bin/plantuml.jar"))
+  (setq org-confirm-babel-evaluate nil)
+
+                                        ; KEYBINDINGS
+
+  ;; MOTIONS
+  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+  ;; ZOOMING
+  (define-key global-map (kbd "C-+") 'text-scale-increase)
+  (define-key global-map (kbd "C--") 'text-scale-decrease)
+
+  ;; YASNIPPET
+  (spacemacs/set-leader-keys "ic" 'aya-create)
+  (spacemacs/set-leader-keys "ie" 'aya-expand)
+  (spacemacs/set-leader-keys "ir" 'yas-reload-all)
+  (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
+
+  ;; ENGINE
   (spacemacs/set-leader-keys "af" 'engine/search-stack-overflow)
   (spacemacs/set-leader-keys "az" 'engine/search-thesaurus)
   (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
@@ -391,28 +414,21 @@ you should place your code here."
   (spacemacs/set-leader-keys "ah" 'engine/search-github)
   (spacemacs/set-leader-keys "al" 'engine/search-scholar)
 
-                                        ; CLOJURE MODE
+  ;; EMACS LISP
+  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
+    "," 'spacemacs/eval-current-form-sp
+    "!" 'ielm
+    "r" 'eval-region
+    "b" 'eval-buffer
+    ";" 'eval-expression
+    "l" 'eval-last-sexp)
 
-  ;; functions
-  (defun my-cider-init-interface ()
-    "Init CIDER interface"
-    (interactive)
-    (cider-switch-to-repl-buffer)
-    (split-window-below-and-focus)
-    (switch-to-buffer "*cider-test-report*")
-    (select-window-1)
-    (split-window-below-and-focus)
-    (projectile-toggle-between-implementation-and-test)
-    (select-window-1))
-  ;; aliases
+  ;; CLOJURE
   (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
-    (add-hook mode #'golden-ratio-mode)
-    (add-hook mode #'aggressive-indent-mode)
-    (add-hook mode #'evil-cleverparens-mode)
     (spacemacs/set-leader-keys-for-major-mode mode
       "!" 'cider-jack-in
       "," 'cider-load-buffer
-      "@" 'my-cider-init-interface
+      "@" 'freaxmind-init-cider
       "v" 'cider-find-var
       "i" 'cider-inspect
       "b" 'cider-pop-back
@@ -426,44 +442,12 @@ you should place your code here."
       "tp" 'cider-test-run-project-tests
       "tl" 'cider-test-run-loaded-tests))
 
-                                        ; EMACS LISP
-
-  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "," 'spacemacs/eval-current-form-sp
-    "!" 'ielm
-    "r" 'eval-region
-    "b" 'eval-buffer
-    ";" 'eval-expression
-    "l" 'eval-last-sexp)
-
-                                        ; LATEX MODE
-
-  (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
-
-                                        ; DOCVIEW MODE
-
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-
-                                        ; PANDOC MODE
-
-  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
-  (add-hook 'pandoc-mode-hook (lambda ()
-                                (add-hook 'after-save-hook (lambda () (pandoc-run-pandoc nil)) nil 'make-it-local)))
+  ;; PANDOC
   (spacemacs/set-leader-keys-for-minor-mode 'pandoc-mode
     "Pr" 'pandoc-run-pandoc
     "Pp" 'pandoc-convert-to-pdf)
 
-                                        ; ORG MODE
-
-  ;; loading
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '(;; UML (plantuml)
-     (plantuml . t)))
-    (setq org-plantuml-jar-path
-        (expand-file-name "~/bin/plantuml.jar"))
-    (setq org-confirm-babel-evaluate nil)
-  ;; aliases
+  ;; ORG
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "hh" 'org-html-export-to-html)
   )
 
