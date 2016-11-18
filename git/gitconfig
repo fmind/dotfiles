@@ -23,11 +23,15 @@
     ca = commit -am
     ph = push
     pl = pull
-    co = checkout
+    br = branch
+    ck = checkout
     sm = submodule
     lo = log --oneline
     lg = log --graph
     lp = log --graph --decorate --pretty=oneline --abbrev-commit
 
 [url "https://github.com/"]
-    insteadOf = gh:
+    insteadOf = ghh:
+
+[url "ssh://git@github.com/"]
+    insteadOf = ghs:
