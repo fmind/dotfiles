@@ -98,6 +98,7 @@ alias vimrc='vi ~/.vimrc'
 alias e="emacs -nw"
 alias ee="emacs . &"
 alias es="sudo emacs -nw"
+alias eb="emacs --debug-init"
 alias er="emacs -nw --eval '(setq buffer-read-only t)'"
 alias extip='curl icanhazip.com'
 alias kila='killall -9'
