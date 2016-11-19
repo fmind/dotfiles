@@ -1,3 +1,0 @@
-(defconst freaxmind-packages
-  '()
-)

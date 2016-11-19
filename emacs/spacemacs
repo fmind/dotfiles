@@ -1,9 +1,8 @@
 ;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
 
-;; set my configuration directory
-(setq spacemacsd "~/.spacemacs.d")
+;; my configuration
+(setq MYSPACE "~/.spacemacs.d")
+(load-file (expand-file-name "boot.el" MYSPACE))
 
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
@@ -28,7 +27,7 @@
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path `(,spacemacsd)
+   dotspacemacs-configuration-layer-path `(,MYSPACE)
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -325,130 +324,18 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code."
-
-                                        ; FUNCTIONS
-
-  ;; CLOJURE
-  (defun fx-init-cider ()
-    "Init CIDER interface."
-    (interactive)
-    (cider-switch-to-repl-buffer)
-    (split-window-below-and-focus)
-    (switch-to-buffer "*cider-test-report*")
-    (select-window-1)
-    (split-window-below-and-focus)
-    (projectile-toggle-between-implementation-and-test)
-    (select-window-1))
   )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
-
-                                        ; IMPORTS
-
-  (require 'engine-mode)
-
-                                        ; CONFIGURATIONS
-
-  ;; GENERAL
-  (global-company-mode)
-  (setq vc-follow-symlinks t)
-  (setq smooth-scroll-margin 10)
-  (setq powerline-default-separator 'brace)
-
-  ;; ENGINE
-  (defengine github "https://github.com/search?q=%s")
-  (defengine thesaurus "http://thesaurus.com/browse/%s")
-  (defengine scholar "https://scholar.google.com/scholar?q=%s")
-  (defengine translate-en "https://translate.google.com/?hl=fr#fr/en/%s")
-  (defengine translate-fr "https://translate.google.com/?hl=fr#en/fr/%s")
-
-  ;; CLOJURE
-  (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
-    (add-hook mode #'golden-ratio-mode)
-    (add-hook mode #'aggressive-indent-mode)
-    (add-hook mode #'evil-cleverparens-mode)
-  )
-
-  ;; LATEX
-  (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
-
-  ;; DOCVIEW
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-
-  ;; PANDOC
-  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
-  (add-hook 'pandoc-mode-hook (lambda () (add-hook 'after-save-hook
-                                                  (lambda () (pandoc-run-pandoc nil)) nil 'make-it-local)))
-
-  ;; ORG MODE
-  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
-  (setq org-plantuml-jar-path (expand-file-name "~/bin/plantuml.jar"))
-  (setq org-confirm-babel-evaluate nil)
-
-                                        ; KEYBINDINGS
-
-  ;; MOTIONS
-  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
-  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-
-  ;; ZOOMING
-  (define-key global-map (kbd "C-+") 'text-scale-increase)
-  (define-key global-map (kbd "C--") 'text-scale-decrease)
-
-  ;; YASNIPPET
-  (spacemacs/set-leader-keys "ic" 'aya-create)
-  (spacemacs/set-leader-keys "ie" 'aya-expand)
-  (spacemacs/set-leader-keys "ir" 'yas-reload-all)
-  (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
-
-  ;; ENGINE
-  (spacemacs/set-leader-keys "af" 'engine/search-stack-overflow)
-  (spacemacs/set-leader-keys "az" 'engine/search-thesaurus)
-  (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
-  (spacemacs/set-leader-keys "ag" 'engine/search-google)
-  (spacemacs/set-leader-keys "ar" 'engine/search-translate-en)
-  (spacemacs/set-leader-keys "av" 'engine/search-translate-fr)
-  (spacemacs/set-leader-keys "ah" 'engine/search-github)
-  (spacemacs/set-leader-keys "al" 'engine/search-scholar)
-
-  ;; EMACS LISP
-  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "," 'spacemacs/eval-current-form-sp
-    "!" 'ielm
-    "r" 'eval-region
-    "b" 'eval-buffer
-    ";" 'eval-expression
-    "l" 'eval-last-sexp)
-
-  ;; CLOJURE
-  (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
-    (spacemacs/set-leader-keys-for-major-mode mode
-      "!" 'cider-jack-in
-      "," 'cider-load-buffer
-      "@" 'freaxmind-init-cider
-      "v" 'cider-find-var
-      "i" 'cider-inspect
-      "b" 'cider-pop-back
-      "n" 'cider-repl-set-ns
-      "c" 'cider-repl-clear-buffer
-      "u" 'cider-switch-to-repl-buffer
-      "te" 'cider-test-run-tests
-      "dv" 'cider-toggle-trace-var
-      "dn" 'cider-toggle-trace-ns
-      "tn" 'cider-test-run-ns-tests
-      "tp" 'cider-test-run-project-tests
-      "tl" 'cider-test-run-loaded-tests))
-
-  ;; PANDOC
-  (spacemacs/set-leader-keys-for-minor-mode 'pandoc-mode
-    "Pr" 'pandoc-run-pandoc
-    "Pp" 'pandoc-convert-to-pdf)
-
-  ;; ORG
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "hh" 'org-html-export-to-html)
+  (my-config-load "engine.el")
+  (my-config-load "docview.el")
+  (my-config-load "elisp.el")
+  (my-config-load "engine.el")
+  (my-config-load "global.el")
+  (my-config-load "latex.el")
+  (my-config-load "org.el")
+  (my-config-load "pandoc.el")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
