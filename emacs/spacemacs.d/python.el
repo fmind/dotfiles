@@ -1,6 +1,7 @@
                                         ; KEYBINDINGS
 
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
+  "!" 'python-start-or-switch-repl
   "b" 'python-shell-send-buffer
   "B" 'python-shell-send-buffer-switch
   "f" 'python-shell-send-defun
