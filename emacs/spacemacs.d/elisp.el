@@ -1,3 +1,7 @@
+                                        ; HOOKS
+
+(add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
+
                                         ; KEYBINDINGS
 
 (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode

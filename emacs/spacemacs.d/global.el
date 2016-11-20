@@ -4,6 +4,7 @@
 (setq vc-follow-symlinks t)
 (setq smooth-scroll-margin 10)
 (setq powerline-default-separator 'brace)
+(spacemacs/toggle-evil-cleverparens-on)
 
                                         ; KEYBINDINGS
 

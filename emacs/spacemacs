@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 
 ;; my configuration
-(setq MYSPACE "~/.spacemacs.d")
+(setq MYSPACE "~/.spacemacs.d/")
 (load-file (expand-file-name "boot.el" MYSPACE))
 
 (defun dotspacemacs/layers ()
@@ -39,15 +39,16 @@
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
                       auto-completion-enable-snippets-in-popup t)
      better-defaults
+     bibtex
      (clojure :variables
               cider-test-show-report t
               cider-repl-clear-help-banner nil)
      colors
+     command-log
      csv
      docker
      emacs-lisp
      evil-cleverparens
-     freaxmind
      git
      graphviz
      html
@@ -70,6 +71,9 @@
              python-enable-yapf-format-on-save t)
      restclient
      search-engine
+     selectric
+     semantic
+     shell
      shell-scripts
      sql
      speed-reading
