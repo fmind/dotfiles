@@ -333,7 +333,7 @@ values."
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
-  (my-config-load "engine.el")
+  (my-config-load "clojure.el")
   (my-config-load "docview.el")
   (my-config-load "elisp.el")
   (my-config-load "engine.el")
@@ -341,6 +341,7 @@ values."
   (my-config-load "latex.el")
   (my-config-load "org.el")
   (my-config-load "pandoc.el")
+  (my-config-load "python.el")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
