@@ -22,6 +22,7 @@
     ci = commit -m
     ca = commit -am
     ph = push
+    phsu = push --set-upstream origin master
     pl = pull
     br = branch
     ck = checkout
