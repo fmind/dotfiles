@@ -102,6 +102,7 @@ alias eb="emacs --debug-init"
 alias er="emacs -nw --eval '(setq buffer-read-only t)'"
 alias rks="racket"
 alias rke="racket -e"
+alias rkv="racket --version"
 alias rkc="raco"
 alias rkrc="$EDITOR ~/.racketrc"
 alias extip='curl icanhazip.com'
