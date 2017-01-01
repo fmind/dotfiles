@@ -41,6 +41,7 @@
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
+      - racket
       - latexmk
       - dvipng # latex generation of anki
       - qemu-kvm
@@ -66,6 +67,11 @@
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
     - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}
+
+  - name: Deploying Racket configurations
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
+    - {src: "racket/racketrc", dest: "~/.racketrc"}
 
   - name: Installing Python libraries
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
