@@ -21,7 +21,6 @@
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (spacemacs/set-leader-keys-for-major-mode mode
-    "!" 'cider-jack-in
     "," 'cider-load-buffer
     "@" 'my-init-cider
     "v" 'cider-find-var

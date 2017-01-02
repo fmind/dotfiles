@@ -13,7 +13,7 @@ HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$HOME/.zsh.d
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(catimg command-not-found docker encode64 httpie gitfast jsontools lein lol python sudo urltools web-search wd)
+plugins=(catimg command-not-found docker encode64 httpie gitfast jsontools lein lol python racket sudo urltools web-search wd)
 
 ## INCLUDES
 
@@ -100,10 +100,12 @@ alias ee="emacs . &"
 alias es="sudo emacs -nw"
 alias eb="emacs --debug-init"
 alias er="emacs -nw --eval '(setq buffer-read-only t)'"
-alias rks="racket"
+alias rk="racket"
 alias rke="racket -e"
+alias rks="racket -il xrepl"
 alias rkv="racket --version"
-alias rkc="raco"
+alias rko="raco"
+alias rkpi="raco pkg install --user"
 alias rkrc="$EDITOR ~/.racketrc"
 alias extip='curl icanhazip.com'
 alias kila='killall -9'

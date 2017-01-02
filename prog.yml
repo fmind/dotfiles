@@ -15,6 +15,10 @@
     apt_repository: repo="ppa:webupd8team/java" update_cache=yes
     become: yes
 
+  - name: Adding Racket repository
+    apt_repository: repo="ppa:plt/racket" update_cache=yes
+    become: yes
+
   - name: Accepting Oracle License (java)
     shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 
