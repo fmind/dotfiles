@@ -45,6 +45,7 @@
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
+      - hy
       - racket
       - latexmk
       - dvipng # latex generation of anki
@@ -86,7 +87,6 @@
       - virtualenv
       - cookiecutter
       # syntax
-      - hy
       - yapf
       - autoflake
       - vocabulary
@@ -105,6 +105,8 @@
       - redis
       - pymongo
       - mongoengine
+      # system
+      - sh 
       # web
       - flask
       - scrapy
