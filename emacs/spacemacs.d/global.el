@@ -4,6 +4,7 @@
 (setq vc-follow-symlinks t)
 (setq powerline-default-separator 'brace)
 (spacemacs/toggle-evil-cleverparens-on)
+(setq exec-path-from-shell-check-startup-files nil)
 
 ;; scrolling
 (setq scroll-margin 10)
