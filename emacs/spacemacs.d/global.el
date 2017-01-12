@@ -1,9 +1,13 @@
                                         ; CONFIG
 
+;; global
 (global-company-mode)
-(setq vc-follow-symlinks t)
 (setq powerline-default-separator 'brace)
 (spacemacs/toggle-evil-cleverparens-on)
+
+;; shell initilization
+(setq vc-follow-symlinks t)
+(exec-path-from-shell-initialize)
 (setq exec-path-from-shell-check-startup-files nil)
 
 ;; scrolling
