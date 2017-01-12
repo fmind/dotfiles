@@ -2,7 +2,7 @@
 
 ;;(add-hook 'racket-mode-hook #'racket-unicode-input-method-enable)
 ;;(add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
-(add-hood 'racket-describe-mode 'disable-evil-mode)
+(add-hook 'racket-describe-mode 'disable-evil-mode)
 
                                         ; KEYBINDINGS
 
