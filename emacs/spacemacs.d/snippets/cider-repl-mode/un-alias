@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Médéric Hurier
+# name: unalias
+# key: unalias
+# --
+(ns-unalias *ns* '$1)

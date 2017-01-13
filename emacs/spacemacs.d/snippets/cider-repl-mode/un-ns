@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # contributor: Freaxmind
-# name: un-ns
-# key: un-ns
+# name: unmap
+# key: unmap
 # --
 (ns-unmap *ns* '$1)

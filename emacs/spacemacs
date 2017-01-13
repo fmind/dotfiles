@@ -330,7 +330,7 @@ values."
   (my-config-load "org.el")
   (my-config-load "pandoc.el")
   (my-config-load "python.el")
-  ;(my-config-load "racket.el")
+  (my-config-load "racket.el")
   (my-config-load "symbols.el")
   )
 
