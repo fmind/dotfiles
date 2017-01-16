@@ -77,6 +77,8 @@ alias .....="cd ../../../.."
 alias back="cd $OLDPWD"
 alias chx="chmod u+x "
 alias cmount="mount | column -t"
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
 alias ipinfo="curl ifconfig.me && curl ifconfig.me/host"
 alias igrep="grep -i"
 backup() { cp "$1"{,.bak}; }
