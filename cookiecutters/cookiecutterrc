@@ -1,5 +1,0 @@
-default_context:
-    full_name: "Freaxmind"
-    github_username: "freaxmind"
-    email: "freaxmind@users.noreply.github.com"
-cookiecutters_dir: "~/.cookiecutters/"

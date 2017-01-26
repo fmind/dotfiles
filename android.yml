@@ -1,0 +1,24 @@
+---
+
+- hosts: localhost
+  tasks:
+
+  - name: Installing ubuntu deps
+    apt: pkg="{{item}}" state=latest
+    become: yes
+    with_items:
+      - lib32z
+      - libc6:i386
+      - libncurses5:i386
+      - libstdc++6:i386
+      - libbz2-1.0:i386
+      - android-tools-adb
+      - android-tools-fastboot
+
+  - name: Installing ubuntu packages
+    apt: pkg="{{item}}" state=latest
+    become: yes
+    with_items:
+      - qemu-kvm
+      - android-tools-adb
+      - android-tools-fastboot

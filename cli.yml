@@ -12,7 +12,6 @@
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
-      - sl
       - zsh
       - vim
       - git
@@ -20,20 +19,16 @@
       - htop
       - byobu
       - xclip
-      - pandoc
-      - ranger
       - ipcalc
       - hexedit
-      - python3
       - parallel
+      - emacs-nox
       - imagemagick
+      - hack-fonts-ttf
       - silversearcher-ag
 
   - name: Cloning oh-my-zsh repository (zsh plugins)
     git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=~/.oh-my-zsh depth=1
-
-  - name: Cloning Vundle repository (vim plugins)
-    git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim depth=1
 
   - name: Cloning Spacemacs repository (emacs plugins)
     git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d" depth=1
@@ -42,45 +37,28 @@
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "zsh/face.icon", dest: "~/.face.icon"}
-      - {src: "zsh/inputrc", dest: "~/.inputrc"}
       - {src: "zsh/zshrc", dest: "~/.zshrc"}
       - {src: "zsh/zsh.d", dest: "~/.zsh.d"}
 
-  - name: Deploying vim configuration
-    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
-    with_items:
-      - {src: "vim/vimrc", dest: "~/.vimrc"}
-
-  - name: Updating vim Plugins
-    command: "vim +PluginInstall +qall"
-
-  - name: Deploying emacs configuration
-    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
-    with_items:
-      - {src: "emacs/spacemacs.d", dest: "~/.spacemacs.d"}
-      - {src: "emacs/spacemacs", dest: "~/.spacemacs"}
-        
   - name: Deploying git configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
       - {src: "git/gitconfig", dest: "~/.gitconfig"}
       - {src: "git/gitignore", dest: "~/.gitignore"}
 
-  - name: Deploying cookiecutters configuration
+  - name: Deploying vim configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - {src: "cookiecutters/cookiecutterrc", dest: "~/.cookiecutterrc"}
+      - {src: "vim/vimrc", dest: "~/.vimrc"}
+
+  - name: Deploying emacs configuration
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
+      - {src: "emacs/spacemacs.d", dest: "~/.spacemacs.d"}
+      - {src: "emacs/spacemacs", dest: "~/.spacemacs"}
+
 
   - name: Changing user shell
     command: chsh -s /usr/bin/zsh "{{ansible_env.USER}}"
     become: yes
     when: ansible_user_shell != "/usr/bin/zsh"
-
-  - name: Checking additional fonts
-    stat: path="~/.fonts/Droid Sans Mono Slashed for Powerline.ttf"
-    register: shell_font
-
-  handlers:
-
-    - name: install vim fonts
-      command: "~/.vim/bundle/fonts/install.sh"

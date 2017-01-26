@@ -3,38 +3,37 @@
 - hosts: localhost
   tasks:
 
-  - name: Adding repository keys
+  - name: Adding keys
     apt_key: url="{{item}}"
     become: yes
     with_items:
       - https://dl-ssl.google.com/linux/linux_signing_key.pub
-      - https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key
 
-  - name: Adding additional repositories
+  - name: Adding repositories
     apt_repository: repo="{{item}}" update_cache=yes
     become: yes
     with_items:
-      - ppa:eugenesan/ppa
       - deb http://archive.canonical.com/ubuntu xenial partner
-      - deb http://apt.insynchq.com/ubuntu xenial non-free contrib
-      - deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+
+  - name: Installing ubuntu deps
+    apt: pkg="{{item}}" state=latest
+    become: yes
+    with_items:
+      - dvipng # anki images
 
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
+      - vlc
       - anki
       - gimp
       - guake
       - emacs
       - unison
-      - insync
       - gparted
-      - emacs24
       - vim-gtk
-      - smplayer
       - keepassx
       - virtualbox
       - xbacklight
       - gnome-tweak-tool
-      - google-chrome-stable

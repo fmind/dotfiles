@@ -4,11 +4,11 @@ echo "[*] Installing git and ansible ..."
 sudo apt-get install -y git ansible
 
 echo
-read -p "Do you want to clone my-tools-settings now [Y/y] ? " -n 1 -r
+read -p "Do you want to clone my-dev-tools now [Y/y] ? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "[*] Cloning my-tools-settings ..."
-    git clone https://freaxmind@github.com/freaxmind/my-tools-settings
+    echo "[*] Cloning my-dev-tools ..."
+    git clone https://fmind@github.com/fmind/my-dev-tools
 fi
 
 echo

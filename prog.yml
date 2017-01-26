@@ -3,7 +3,7 @@
 - hosts: localhost
   tasks:
 
-  - name: Adding Docker repository key
+  - name: Adding Docker certkey
     apt_key: keyserver="hkp://pgp.mit.edu:80" id="58118E89F3A912897C070ADBF76221572C52609D"
     become: yes
 
@@ -15,14 +15,10 @@
     apt_repository: repo="ppa:webupd8team/java" update_cache=yes
     become: yes
 
-  - name: Adding Racket repository
-    apt_repository: repo="ppa:plt/racket" update_cache=yes
-    become: yes
-
   - name: Accepting Oracle License (java)
     shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 
-  - name: Installing programming dependencies
+  - name: Installing ubuntu deps
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
@@ -45,22 +41,12 @@
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
-      - hy
-      - racket
-      - latexmk
-      - dvipng # latex generation of anki
-      - qemu-kvm
+      - python3
       - graphviz
       - docker-engine
       - build-essential
       - exuberant-ctags
-      - android-tools-adb
-      - android-tools-fastboot
       - oracle-java8-installer
-      - texlive-latex-extra
-      - texlive-math-extra
-      - texlive-science
-      - texlive
 
   - name: Installing Clojure
     get_url: dest=~/bin/lein mode=0700 url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
@@ -73,23 +59,18 @@
     with_items:
     - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}
 
-  - name: Deploying Racket configurations
-    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
-    with_items:
-    - {src: "racket/racketrc", dest: "~/.racketrc"}
-
   - name: Installing Python libraries
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
+      # hacker
+      - hy
       # project
       - ipdb
       - wheel
       - virtualenv
-      - cookiecutter
       # syntax
       - yapf
       - autoflake
-      - vocabulary
       # data analysis
       - arrow
       - pandas
@@ -106,7 +87,7 @@
       - pymongo
       - mongoengine
       # system
-      - sh 
+      - sh
       # web
       - flask
       - scrapy
@@ -118,14 +99,14 @@
       - beautifulsoup4
 
   - name: Checking if ipython profile exists
-    stat: path="~/.ipython/profile_freaxmind/"
+    stat: path="~/.ipython/profile_fmind/"
     register: ipython_profile
 
   - name: Creating ipython profile
-    command: "~/.local/bin/ipython3 profile create freaxmind"
+    command: "~/.local/bin/ipython3 profile create fmind"
     when: ipython_profile.stat.exists == False
 
   - name: Deploying ipython configuration
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-      - {src: "ipython/profile_freaxmind/ipython_config.py", dest: "~/.ipython/profile_freaxmind/ipython_config.py"}
+      - {src: "ipython/profile_fmind/ipython_config.py", dest: "~/.ipython/profile_fmind/ipython_config.py"}

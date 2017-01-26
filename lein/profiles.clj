@@ -64,7 +64,4 @@
  :draw [:user
          {:dependencies [[quil "2.5.0"]]
           :injections [(use '[quil.core])]}]
- :music [:user
-         {:dependencies [[overtone "0.10.1"]]
-          :injections [(use '[overtone.live])]}]
 }

@@ -15,12 +15,13 @@ set spelllang=en                "   (default spelling language)
 set background=dark             " activate editor theming
 set t_Co=256                    "   (add more colors)
 set t_md=                       " no bold fonts
+colorscheme peachpuff           " set theme
 
 "" display
 set ruler                       " display cursor location
-set number 				        " display line numbers (gutter)
-set showmode			        " display the current mode
-set noshowmatch			        " don't display matching parenthesis
+set number                      " display line numbers (gutter)
+set showmode                    " display the current mode
+set noshowmatch                 " don't display matching parenthesis
 let loaded_matchparen = 1       "   (same with nocompatible set)
 set syntax=on                   " display syntaxic coloration
 set laststatus=2                " display the status line (always)
@@ -28,6 +29,7 @@ set lazyredraw                  " don't display while executing macros (performa
 set splitright                  " put new vertical window on the right of the current buffer
 "set splitbelow                  " put horizontal window below the current buffer
 set shortmess=a                 " use abbreviations for status messages
+set relativenumber              " use relative line numbers
 
 "" completion
 set completeopt-=preview        " disable the preview completion window
@@ -39,10 +41,10 @@ set autoindent                  " align the new line indent with the previous li
 set tabstop=4                   " a hard TAB displays as 4 spaces
 set shiftwidth=4                " operation >> indents 4 spaces; << unindents 4 spaces
 set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACKSPACE
-set backspace=indent,eol,start  " allow backspacing over everything in insert mode 
+set backspace=indent,eol,start  " allow backspacing over everything in insert mode
 
 "" search
-set incsearch			        " show first match as the search proceeds
+set incsearch                   " show first match as the search proceeds
 set nohlsearch                  " deactivate search highlighting
 set ignorecase                  " case insensitivity
 set smartcase                   "   (only when no upper letter is used)
@@ -69,29 +71,6 @@ set nobackup                    " no backup files
 set noswapfile                  " no .swp files
 set history=100                 " history size
 set undolevels=100              " undo size
-
-" PLUGINS
-"" set the runtime path to include Vundle and initialize
-filetype off                    " required by Vundle
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-"" include plugins
-Bundle 'gmarik/vundle'
-Bundle 'easymotion/vim-easymotion'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'scrooloose/nerdtree'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-let g:airline#extensions#tabline#enabled=1
-let g:airline_powerline_fonts=1
-let g:airline_theme='simple'
-Bundle 'powerline/fonts'
-
-"" all the of your plugins must be added before the following line
-call vundle#end()
-filetype plugin indent on
 
 " HOOKS
 
@@ -127,17 +106,17 @@ noremap <Right> <NOP>
 
 "" basic actions
 nnoremap <leader>z za
-nnoremap <leader>R :r! 
+nnoremap <leader>R :r!
 nnoremap <leader>r :reg<CR>
-nnoremap <leader>b :buffer 
+nnoremap <leader>b :buffer
 nnoremap <leader>B :ls<CR>
 nnoremap <leader>E :edit<CR>
-nnoremap <leader>e :tabedit 
+nnoremap <leader>e :tabedit
 nnoremap <leader>h :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
 nnoremap <leader>g gqip
 nnoremap <leader>G gggqG
-nnoremap <leader>? :help 
+nnoremap <leader>? :help
 nnoremap <leader>O :set ro<CR>
 
 "" hex editor
@@ -160,20 +139,11 @@ map <c-l> <c-w>l
 map <c-h> <c-w>h
 nnoremap H gT
 nnoremap L gt
-nnoremap <leader>V :vsplit 
-nnoremap <leader>H :hsplit 
+nnoremap <leader>V :vsplit
+nnoremap <leader>H :hsplit
 nnoremap <leader>L :vnew<CR><c-w>h
 
 "" plugins
 nnoremap <leader>- :make<CR>
-nnoremap <leader>+i :PluginInstall<CR>
-nnoremap <leader>+u :PluginUpdate<CR>
-nnoremap <leader>+c :PluginClean<CR>
-nnoremap <leader>+v :tabedit $MYVIMRC<CR>
 nnoremap <leader>+l :source $MYVIMRC<CR>
-nnoremap <leader>` :NERDTreeToggle<CR>
-
-"" theme
-if filereadable("~/.vim/bundle/vim-colorschemes")
-    colorscheme molokai
-endif
+nnoremap <leader>+v :tabedit $MYVIMRC<CR>

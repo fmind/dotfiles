@@ -24,6 +24,7 @@
     ph = push
     phsu = push --set-upstream origin master
     pl = pull
+    df = diff
     br = branch
     ck = checkout
     sm = submodule
