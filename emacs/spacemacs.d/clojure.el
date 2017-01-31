@@ -1,3 +1,7 @@
+                                        ; CONFIGS
+
+(setq cider-repl-display-help-banner nil)
+
                                         ; FUNCTIONS
 
 (defun my-init-cider ()
