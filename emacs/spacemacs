@@ -328,6 +328,7 @@ values."
   (my-config-load "elisp.el")
   (my-config-load "engine.el")
   (my-config-load "global.el")
+  (my-config-load "hy.el")
   (my-config-load "latex.el")
   (my-config-load "org.el")
   (my-config-load "pandoc.el")

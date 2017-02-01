@@ -24,13 +24,13 @@
                       )]}
  :sh [:user
          {:dependencies [[me.raynes/fs "1.4.6"]]
-          :injections[(use 'clojure.java.shell)
+          :injections[(use '[clojure.java.shell])
                       (require '[me.raynes.fs :as fs])]}]
  :http [:user
         {:dependencies [[http-kit "2.2.0"]
                         [enlive "1.1.6"]]
          :injections [(require '[org.httpkit.client :as http])
-                      (use 'net.cgrand.enlive-html)
+                      (require '[net.cgrand.enlive-html :as live])
                       (import java.net.URL)]}]
  :selenium [:user
             {:dependencies [[clj-webdriver/clj-webdriver "0.7.2"]
@@ -50,12 +50,17 @@
         {:dependencies [[cheshire "5.6.3"]
                         [org.clojure/data.xml "0.0.8"]
                         [clojure-csv/clojure-csv "2.0.2"]]
-         :injections [(use 'cheshire.core)
-                      (use 'clojure.data.xml)
-                      (use 'clojure-csv.core)]}]
+         :injections [(require '[cheshire.core :as json])
+                      (require '[clojure.data.xml :as xml])
+                      (require '[clojure-csv.core :as csv])]}]
  :graph [:user
          {:dependencies [[aysylu/loom "0.6.0"]]
-          :injections [(use '[loom graph alg gen attr label io derived])]}]
+          :injections [(require '[loom
+                                   [graph :as Graph]
+                                   [attr :as attr]
+                                   [alg :as Alg]
+                                   [gen :as Gen]
+                                   [io :as io]])]}]
  :nb [:user
       {:dependencies [[lein-gorilla "0.3.6"]]
        :injections [(require '[gorilla-repl.core :refer [run-gorilla-server]])
@@ -63,5 +68,5 @@
                     (./sh "xdg-open" "http://127.0.0.1:8990/worksheet.html")]}]
  :draw [:user
          {:dependencies [[quil "2.5.0"]]
-          :injections [(use '[quil.core])]}]
+          :injections [(require '[quil.core :as draw])]}]
 }
