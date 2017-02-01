@@ -24,7 +24,7 @@
       - parallel
       - emacs-nox
       - imagemagick
-      - hack-fonts-ttf
+      - fonts-hack-ttf
       - silversearcher-ag
 
   - name: Cloning oh-my-zsh repository (zsh plugins)

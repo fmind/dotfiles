@@ -7,7 +7,7 @@
 
 ;; shell initilization
 (setq vc-follow-symlinks t)
-(exec-path-from-shell-initialize)
+;;(exec-path-from-shell-initialize)
 
 ;; scrolling
 (setq scroll-margin 10)
