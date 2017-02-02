@@ -3,9 +3,9 @@
 - hosts: localhost
   tasks:
 
-  - name: Adding Docker certkey
-    apt_key: keyserver="hkp://pgp.mit.edu:80" id="58118E89F3A912897C070ADBF76221572C52609D"
-    become: yes
+#  - name: Adding Docker certkey
+#    apt_key: keyserver="hkp://pgp.mit.edu:80" id="58118E89F3A912897C070ADBF76221572C52609D"
+#    become: yes
 
   - name: Adding Docker repository
     apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
@@ -68,8 +68,11 @@
       - ipdb
       - wheel
       - virtualenv
+      - virtualenvwrapper
       # syntax
       - yapf
+      - isort
+      - flake8
       - autoflake
       # data analysis
       - arrow

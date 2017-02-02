@@ -7,5 +7,5 @@ function dirinfos() {
     echo "%{%b%}%{$fg[white]%}${ISGIT} δ${NDIR} φ${NFILE} π${PERM}%{$reset_color%}"
 }
 
-PROMPT='%{%B%}%{$fg[black]%}∑%*∴%{$fg[green]%}√%n²%{$fg[red]%}∀%m%{$fg[blue]%}∧%1d%{$fg[white]%}∫%{$reset_color%}%{%b%} '
+PROMPT='%{%B%}%{$fg[red]%}∀%m%{$fg[green]%}∃%n%{$fg[blue]%}∧%1d%{$fg[white]%}∫%{$reset_color%}%{%b%} '
 RPROMPT='$(dirinfos)'

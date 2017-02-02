@@ -29,6 +29,7 @@
      bibtex
      (clojure :variables
               cider-test-show-report t
+              clojure-enable-fancify-symbols t
               cider-repl-clear-help-banner nil)
      colors
      command-log
@@ -53,7 +54,6 @@
      plantuml
      (python :variables
              python-fill-column 100
-             python-test-runner 'pytest
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
      racket
@@ -144,9 +144,9 @@ values."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    ;; (default nil)
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 5)
-                                (bookmarks . 5))
+   dotspacemacs-startup-lists '((recents . 10)
+                                (projects . 10)
+                                (bookmarks . 10))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')

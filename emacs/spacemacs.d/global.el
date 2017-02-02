@@ -40,6 +40,9 @@
 (spacemacs/set-leader-keys "[" 'evil-avy-goto-word-or-subword-1)
 (spacemacs/set-leader-keys "]" 'evil-avy-goto-char)
 
+;; SHELLS
+(spacemacs/set-leader-keys "\"" 'spacemacs/shell-pop-term)
+
 ;; ZOOMING
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
