@@ -318,7 +318,7 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code."
-  (setq exec-path-from-shell-arguments '("-l"))
+  ;;(setq exec-path-from-shell-arguments '("-l"))
   )
 
 (defun dotspacemacs/user-config ()
