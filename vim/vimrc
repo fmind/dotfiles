@@ -15,7 +15,7 @@ set spelllang=en                "   (default spelling language)
 set background=dark             " activate editor theming
 set t_Co=256                    "   (add more colors)
 set t_md=                       " no bold fonts
-colorscheme peachpuff           " set theme
+colorscheme industry            " set theme
 
 "" display
 set ruler                       " display cursor location

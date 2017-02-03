@@ -8,27 +8,6 @@
     with_items:
       - {src: "ansible.cfg", dest: "~/.ansible.cfg"}
 
-  - name: Installing ubuntu packages
-    apt: pkg="{{item}}" state=latest
-    become: yes
-    with_items:
-      - jq
-      - zsh
-      - vim
-      - git
-      - tree
-      - htop
-      - curl
-      - byobu
-      - xclip
-      - ipcalc
-      - hexedit
-      - parallel
-      - emacs-nox
-      - imagemagick
-      - fonts-hack-ttf
-      - silversearcher-ag
-
   - name: Cloning oh-my-zsh repository (zsh plugins)
     git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=~/.oh-my-zsh depth=1
 

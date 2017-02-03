@@ -7,7 +7,6 @@
     apt: pkg="{{item}}" state=latest
     become: yes
     with_items:
-      - lib32z
       - libc6:i386
       - libncurses5:i386
       - libstdc++6:i386
