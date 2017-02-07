@@ -1,6 +1,8 @@
 ---
 
 - hosts: localhost
+  become: yes
+
   tasks:
 
 #  - name: Adding Docker certkey
@@ -9,18 +11,15 @@
 
   - name: Adding Docker repository
     apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
-    become: yes
 
   - name: Adding Oracle Java repository
     apt_repository: repo="ppa:webupd8team/java" update_cache=yes
-    become: yes
 
   - name: Accepting Oracle License (java)
     shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 
   - name: Installing ubuntu deps
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - rlwrap
       - gfortran
@@ -39,7 +38,6 @@
 
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - python3
       - graphviz

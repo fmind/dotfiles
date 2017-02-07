@@ -1,6 +1,7 @@
 ---
 
 - hosts: localhost
+
   tasks:
 
   - name: Deploying ansible configuration
