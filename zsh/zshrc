@@ -181,6 +181,8 @@ cljrp() { lein with-profile "$1" repl }
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="sudo ansible-playbook"
+alias anpluser="ansible-playbook *user.yml"
+alias anplsys="sudo ansible-playbook *sys.yml"
 ## Docker
 alias dk="docker"
 alias dkrmf="docker rm --force"
@@ -203,10 +205,10 @@ alias grc="$EDITOR ~/.gitconfig"
 alias httpserve="python3 -m http.server"
 
 # Alias: EDITING
-alias texpdf="latexmk -pdf"
-alias texpdfview="texpdf -pv"
-alias texpdflive="texpdf -pvc"
+alias texmake="latexmk -pv"
+alias texview="latexmk -pv"
+alias texlive="latexmk -pvc"
 alias texclean="latexmk -c"
-alias texcleanall="latexmk -C"
+alias texpurge="latexmk -C"
 alias imgwhite="convert -flatten "
 alias slides="git clone git@github.com:fmind/my-slides"
