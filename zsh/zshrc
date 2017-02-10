@@ -68,6 +68,7 @@ alias -g T='| tail'
 alias -g G='| grep'
 alias -g L='| less'
 alias -g X='| xclip'
+alias -g V='| vim -'
 alias -g J='| js-beautify'
 alias -g P=':$PATH'
 alias -g NE='2>/dev/null'
@@ -90,6 +91,7 @@ alias back="cd $OLDPWD"
 # Alias: EDITION
 alias v="vim"
 alias vi="vim"
+alias vip="vim -p"
 alias vir="vim -R"
 alias vis="sudo vim"
 alias vimrc='vi ~/.vimrc'
@@ -139,6 +141,9 @@ alias sshpub='cat ~/.ssh/id_rsa.pub'
 alias chx="chmod u+x "
 alias kila='killall -9'
 alias sysctl='systemctl'
+alias srv='sudo service'
+alias psmem='ps aux | sort -nk 4'
+alias psproc='ps aux | sort -nk 3'
 backup() { cp "$1"{,.bak}; }
 
 # Alias: FILTERING
@@ -154,6 +159,8 @@ alias t3="tail -n3"
 alias t4="tail -n4"
 alias t5="tail -n5"
 alias jqr="jq -r"
+alias colt="column -t"
+alias sortp='sort --parallel=$(nproc --all)'
 
 # Alias: PROGRAMMING
 ## Java

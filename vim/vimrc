@@ -111,7 +111,7 @@ nnoremap <leader>r :reg<CR>
 nnoremap <leader>b :buffer
 nnoremap <leader>B :ls<CR>
 nnoremap <leader>E :edit<CR>
-nnoremap <leader>e :tabedit
+nnoremap <leader>e :tabedit 
 nnoremap <leader>h :set hls!<CR>
 nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
 nnoremap <leader>g gqip
@@ -143,7 +143,7 @@ nnoremap <leader>V :vsplit
 nnoremap <leader>H :hsplit
 nnoremap <leader>L :vnew<CR><c-w>h
 
-"" plugins
+"" quick access
 nnoremap <leader>- :make<CR>
 nnoremap <leader>+l :source $MYVIMRC<CR>
 nnoremap <leader>+v :tabedit $MYVIMRC<CR>
