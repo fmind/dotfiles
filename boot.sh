@@ -12,14 +12,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 echo
-read -p "Do you want set /etc/ansible/hosts to localhost only [Y/y] ? " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "[*] Replacing Ansible Inventory to localhost only ..."
-    echo "localhost ansible_connection=local" | sudo tee /etc/ansible/hosts
-fi
-
-echo
 read -p "Do you want to install pip3 [Y/y] ? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then

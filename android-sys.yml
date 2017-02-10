@@ -1,11 +1,13 @@
 ---
 
 - hosts: localhost
+  connection: local
+  become: True
+
   tasks:
 
   - name: Installing ubuntu deps
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - libc6:i386
       - libncurses5:i386
@@ -16,7 +18,6 @@
 
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - qemu-kvm
       - android-tools-adb

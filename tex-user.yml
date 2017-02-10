@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: Deploying Latexmk configuration
+    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+    with_items:
+    - {src: "tex/latexmkrc", dest: "~/.latexmkrc"}

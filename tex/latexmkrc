@@ -1,0 +1,10 @@
+# Only generate PDF with pdflatex
+$pdf_mode = 1;
+$dvi_mode = 0;
+$postscript_mode = 0;
+
+# Preview PDF with the default viewer
+$pdf_previewer = "xdg-open";
+
+# Halt the automatic compilation on error
+$pdflatex="pdflatex -interaction=nonstopmode -halt-on-error %O %S"

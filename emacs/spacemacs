@@ -45,7 +45,8 @@
             latex-enable-folding t
             latex-enable-auto-fill nil)
      markdown
-     org
+     (org :variables
+          org-projectile-file "TODO.org")
      (shell :variables
             shell-default-height 30
             shell-default-shell 'eshell

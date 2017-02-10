@@ -1,17 +1,18 @@
 ---
 
 - hosts: localhost
+  connection: local
+  become: yes
+
   tasks:
 
   - name: Installing ubuntu deps
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - dvipng # anki images
 
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - vlc
       - anki

@@ -1,11 +1,13 @@
 ---
 
 - hosts: localhost
+  connection: local
+  become: yes
+
   tasks:
 
   - name: Installing ubuntu deps
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - rlwrap
       - gfortran
@@ -24,7 +26,6 @@
 
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
-    become: yes
     with_items:
       - python3
       - graphviz

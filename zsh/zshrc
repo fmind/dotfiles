@@ -68,40 +68,86 @@ alias -g T='| tail'
 alias -g G='| grep'
 alias -g L='| less'
 alias -g X='| xclip'
+alias -g V='| vim -'
 alias -g J='| js-beautify'
 alias -g P=':$PATH'
 alias -g NE='2>/dev/null'
 alias -g NUL='>/dev/null2>&1'
 
-# Alias: BASICS
+# Alias: NAVIGATION
+c() { cd "$1"; ls;}
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias back="cd $OLDPWD"
-alias chx="chmod u+x "
-alias igrep="grep -i"
-alias cmount="mount | column -t"
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
-alias ipinfo="curl ifconfig.me && curl ifconfig.me/host"
-backup() { cp "$1"{,.bak}; }
-
-# Alias: LAPTOP
-alias dark="xbacklight -set 10"
-alias bright="xbacklight -set 100"
-
-# Alias: QUICK ACCESS
-c() { cd "$1"; ls;}
 alias l="ls"
 alias ll="ls -lFh"
 alias la="ls -lAFh"
 alias lr="ls -lRFh"
 alias lt="ls -ltFh"
 alias lh="ls -ld .*"
+alias back="cd $OLDPWD"
+
+# Alias: EDITION
+alias v="vim"
+alias vi="vim"
+alias vip="vim -p"
+alias vir="vim -R"
+alias vis="sudo vim"
+alias vimrc='vi ~/.vimrc'
+alias e="emacs -nw"
+alias ee="emacs . &"
+alias es="sudo emacs -nw"
+alias eb="emacs --debug-init"
+alias er="emacs -nw --eval '(setq buffer-read-only t)'"
+
+# Alias: INTEGRATION
 alias x="exit"
-alias b="byobu"
+alias o="xdg-open"
+alias f='nautilus . &'
+alias dark="xbacklight -set 10"
+alias bright="xbacklight -set 100"
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+# Alias: INFORMATION
 alias h="history"
+alias cmount="mount | column -t"
+alias extip='curl icanhazip.com'
+
+# Alias: DISTRIBUTION
+alias search="apt-cache search"
+alias install="sudo apt-get install"
+alias remove="sudo apt-get remove --purge"
+alias update="sudo apt-get update"
+alias upgrade="sudo apt-get upgrade"
+alias megaup="update && upgrade"
+alias clean="sudo apt-get clean"
+alias autoclean="sudo apt-get autoclean"
+alias autoremove="sudo apt-get autoremove --purge"
+alias dist-upgrade="sudo apt-get dist-upgrade"
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias: CONFIGURATION
+alias zshsrc='source ~/.zshrc'
+alias zshrc='$EDITOR ~/.zshrc && zshsrc'
+alias privatesrc='source ~/.privaterc'
+alias privaterc='$EDITOR ~/.privaterc && privatesrc'
+alias emacsrc='$EDITOR ~/.spacemacs'
+alias sshrc='$EDITOR ~/.ssh/config'
+alias sshpub='cat ~/.ssh/id_rsa.pub'
+
+# Alias: ADMINISTRATION
+alias chx="chmod u+x "
+alias kila='killall -9'
+alias sysctl='systemctl'
+alias srv='sudo service'
+alias psmem='ps aux | sort -nk 4'
+alias psproc='ps aux | sort -nk 3'
+backup() { cp "$1"{,.bak}; }
+
+# Alias: FILTERING
+alias igrep="grep -i"
 alias h1="head -n1"
 alias h2="head -n2"
 alias h3="head -n3"
@@ -112,28 +158,13 @@ alias t2="tail -n2"
 alias t3="tail -n3"
 alias t4="tail -n4"
 alias t5="tail -n5"
-alias o="xdg-open"
-alias f='nautilus . &'
-alias v="vim"
-alias vi="vim"
-alias vir="vim -R"
-alias vis="sudo vim"
-alias vimrc='vi ~/.vimrc'
-alias e="emacs -nw"
-alias ee="emacs . &"
-alias es="sudo emacs -nw"
-alias eb="emacs --debug-init"
-alias er="emacs -nw --eval '(setq buffer-read-only t)'"
-alias extip='curl icanhazip.com'
-alias kila='killall -9'
-alias zshrc='$EDITOR ~/.zshrc && zshsrc'
-alias privaterc='$EDITOR ~/.privaterc && privatesrc'
-alias zshsrc='source ~/.zshrc'
-alias privatesrc='source ~/.privaterc'
-alias sshrc='$EDITOR ~/.ssh/config'
-alias emacsrc='$EDITOR ~/.spacemacs'
+alias jqr="jq -r"
+alias colt="column -t"
+alias sortp='sort --parallel=$(nproc --all)'
 
 # Alias: PROGRAMMING
+## Java
+alias jajar="java -jar"
 ## Python
 alias py2="python2"
 alias py3="python3"
@@ -154,47 +185,37 @@ alias cljap="lein ancient check-profiles"
 alias clje="lein exec"
 alias cljr="lein repl"
 cljrp() { lein with-profile "$1" repl } 
-## Java
-alias jajar="java -jar"
 ## Ansible
 alias anpl="ansible-playbook"
-alias anpls="ansible-playbook --ask-become"
-## Others
-alias m="make"
-alias ck="cookiecutter"
+alias anpls="sudo ansible-playbook"
+alias anpluser="ansible-playbook *user.yml"
+alias anplsys="sudo ansible-playbook *sys.yml"
+## Docker
 alias dk="docker"
 alias dkrmf="docker rm --force"
 alias dkrmo="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
-alias g="git"
-alias gm="git submodule"
-mygithub() { git clone git@github.com:fmind/$1.git }
-alias grc="$EDITOR ~/.gitconfig"
-
-# Alias: DATA ANALYSIS
-alias pjs="python3 -m json.tool"
 alias pysparkn='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
 alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
 alias pysparkn='docker run --name pyspark -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
 alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
 alias pymongon='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
 alias mongoimg='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+## Make
+alias m="make"
+# Git
+alias g="git"
+alias gm="git submodule"
+mygithub() { git clone git@github.com:fmind/$1.git }
+alias grc="$EDITOR ~/.gitconfig"
 
-# Alias: IMAGE
-alias imgwhite="convert -flatten "
-
-# Alias: DISTRIBUTION (Ubuntu)
-alias search="apt-cache search"
-alias install="sudo apt-get install"
-alias remove="sudo apt-get remove --purge"
-alias update="sudo apt-get update"
-alias upgrade="sudo apt-get upgrade"
-alias megaup="update && upgrade"
-alias clean="sudo apt-get clean"
-alias autoclean="sudo apt-get autoclean"
-alias autoremove="sudo apt-get autoremove --purge"
-alias dist-upgrade="sudo apt-get dist-upgrade"
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias: PROJECT
+# Alias: SHARING
 alias httpserve="python3 -m http.server"
+
+# Alias: EDITING
+alias texmake="latexmk -pv"
+alias texview="latexmk -pv"
+alias texlive="latexmk -pvc"
+alias texclean="latexmk -c"
+alias texpurge="latexmk -C"
+alias imgwhite="convert -flatten "
 alias slides="git clone git@github.com:fmind/my-slides"
