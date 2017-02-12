@@ -5,8 +5,11 @@
 
   tasks:
 
-  - name: Installing Clojure
-    get_url: dest=~/bin/lein mode=0700 url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+  - name: Installing Clojure (lein)
+    get_url: dest=~/bin/lein mode=0700 url="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
+
+  - name: Installing Clojure (boot)
+    get_url: dest=~/bin/boot mode=0700 url="https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh"
 
   - name: Ensures ~/.lein directory exists
     file: path="~/.lein" state=directory
