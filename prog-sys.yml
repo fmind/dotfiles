@@ -27,7 +27,9 @@
   - name: Installing ubuntu packages
     apt: pkg="{{item}}" state=latest
     with_items:
+      - cloc
       - python3
+      - datamash
       - graphviz
       - docker-engine
       - build-essential

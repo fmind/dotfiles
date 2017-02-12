@@ -24,4 +24,5 @@
       - parallel
       - imagemagick
       - fonts-hack-ttf
+      - python3-csvkit
       - silversearcher-ag

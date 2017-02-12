@@ -21,6 +21,9 @@
   (add-hook mode #'aggressive-indent-mode)
   (add-hook mode #'evil-cleverparens-mode))
 
+(add-to-list 'magic-mode-alist '(".* boot" . clojure-mode)) ; boot scripts
+(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode)) ; boot files
+
                                         ; KEYBINDINGS
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))

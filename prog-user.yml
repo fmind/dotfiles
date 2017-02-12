@@ -14,10 +14,15 @@
   - name: Ensures ~/.lein directory exists
     file: path="~/.lein" state=directory
 
-  - name: Deploying Leiningen configuration
+  - name: Ensures ~/.boot directory exists
+    file: path="~/.boot" state=directory
+
+  - name: Deploying Clojure configurations
     file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
     with_items:
-    - {src: "lein/profiles.clj", dest: "~/.lein/profiles.clj"}
+    - {src: "clojure/profiles.clj", dest: "~/.lein/profiles.clj"}
+    - {src: "clojure/profile.boot", dest: "~/.boot/profile.boot"}
+    - {src: "clojure/boot.properties", dest: "~/.boot/boot.properties"}
 
   - name: Installing Python libraries
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
@@ -51,6 +56,8 @@
       - mongoengine
       # system
       - sh
+      - shyaml
+      - glances
       # web
       - flask
       - scrapy
