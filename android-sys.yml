@@ -6,17 +6,15 @@
 
   tasks:
 
-  - name: Installing ubuntu deps
+  - name: Installing system dependencies
     apt: pkg="{{item}}" state=latest
     with_items:
       - libc6:i386
-      - libncurses5:i386
       - libstdc++6:i386
       - libbz2-1.0:i386
-      - android-tools-adb
-      - android-tools-fastboot
+      - libncurses5:i386
 
-  - name: Installing ubuntu packages
+  - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
       - qemu-kvm

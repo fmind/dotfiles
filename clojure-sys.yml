@@ -1,0 +1,19 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding oracle-java repository
+    apt_repository: repo="ppa:webupd8team/java" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Accepting Oracle License (java)
+    shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+
+  - name: Installing system packages
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - oracle-java8-installer

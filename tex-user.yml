@@ -5,7 +5,7 @@
 
   tasks:
 
-  - name: Deploying Latexmk configuration
-    file: src="{{ansible_env.PWD}}/{{item.src}}" dest="{{item.dest}}" state=link force=yes
+  - name: Deploying latexmk configuration
+    file: src="{{ansible_env.PWD}}/tex/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
-    - {src: "tex/latexmkrc", dest: "~/.latexmkrc"}
+    - latexmkrc
