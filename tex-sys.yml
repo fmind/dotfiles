@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Installing ubuntu packages
+  - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
       - lyx

@@ -89,6 +89,7 @@ alias lh="ls -ld .*"
 alias back="cd $OLDPWD"
 
 # Alias: EDITION
+alias p="cat"
 alias v="vim"
 alias vi="vim"
 alias vip="vim -p"
@@ -148,6 +149,7 @@ backup() { cp "$1"{,.bak}; }
 
 # Alias: FILTERING
 alias igrep="grep -i"
+alias t="head -n1"
 alias h1="head -n1"
 alias h2="head -n2"
 alias h3="head -n3"

@@ -6,32 +6,21 @@
 
   tasks:
 
-  - name: Installing ubuntu deps
-    apt: pkg="{{item}}" state=latest
-    with_items:
-      - rlwrap
-      - gfortran
-      - libxft-dev
-      - libffi-dev
-      - libblas-dev
-      - libpng12-dev
-      - liblapack-dev
-      - libfreetype6-dev
-      - libatlas-base-dev
-      - libssl-dev
-      - libxml2-dev
-      - libxslt1-dev
-      - python3-dev
-      - python3-setuptools
+  - name: Adding docker repository
+    apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ubuntu packages
+  - name: Adding docker repository key
+    apt_key: url="https://apt.dockerproject.org/gpg"
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
       - cloc
-      - python3
+      - rlwrap
       - datamash
       - graphviz
       - docker-engine
       - build-essential
       - exuberant-ctags
-      - oracle-java8-installer

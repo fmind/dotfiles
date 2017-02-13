@@ -6,23 +6,45 @@
 
   tasks:
 
-  - name: Installing ubuntu deps
+  - name: Adding partner repository
+    apt_repository: repo="deb http://archive.canonical.com/ubuntu xenial partner" update_cache=yes
+
+  - name: Adding insync repository
+    apt_repository: repo="deb http://apt.insynchq.com/ubuntu xenial non-free contrib" update_cache=yes
+
+  - name: Adding insync repository key
+    apt_key: keyserver="keyserver.ubuntu.com" id="ACCAF35C"
+
+  - name: Adding google repository
+    apt_repository: repo="deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" update_cache=yes
+
+  - name: Adding google repository key
+    apt_key: url="https://dl-ssl.google.com/linux/linux_signing_key.pub"
+
+  - name: Adding mendeley repository
+    apt_repository: repo="deb http://desktop-download.mendeley.com/download/apt stable main" update_cache=yes
+
+  - name: Installing system deps
     apt: pkg="{{item}}" state=latest
     with_items:
       - dvipng # anki images
 
-  - name: Installing ubuntu packages
+  - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
       - vlc
       - anki
       - gimp
+      - xclip
       - guake
       - emacs
+      - insync
       - unison
       - gparted
       - vim-gtk
       - keepassx
       - virtualbox
       - xbacklight
+      - fonts-hack-ttf
+      - mendeleydesktop
       - gnome-tweak-tool

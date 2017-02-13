@@ -1,0 +1,63 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: Installing Python libraries
+    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+    with_items:
+      # lisp
+      - hy
+      # project
+      - ipdb
+      - wheel
+      - virtualenv
+      - virtualenvwrapper
+      # syntax
+      - yapf
+      - isort
+      - flake8
+      - autoflake
+      # data analysis
+      - arrow
+      - pandas
+      - csvkit
+      - ipython
+      - jupyter
+      - seaborn
+      - sklearn
+      - cairocffi
+      - jellyfish
+      - statsmodels
+      - ipyparallel
+      # database
+      - redis
+      - pymongo
+      - mongoengine
+      # system
+      - sh
+      - shyaml
+      - glances
+      # web
+      - flask
+      - scrapy
+      - httpie
+      - jinja2
+      - requests
+      - selenium
+      - beautifulsoup4
+
+  - name: Checking if ipython profile exists
+    stat: path="~/.ipython/profile_fmind/"
+    register: ipython_profile
+
+  - name: Creating ipython profile for fmind
+    command: "~/.local/bin/ipython3 profile create fmind"
+    when: ipython_profile.stat.exists == False
+
+  - name: Deploying ipython configuration for fmind
+    file: src="{{ansible_env.PWD}}/ipython/{{item}}" dest="~/.ipython/{{item}}" state=link force=yes
+    with_items:
+      - profile_fmind/ipython_config.py

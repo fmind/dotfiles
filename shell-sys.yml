@@ -6,10 +6,13 @@
 
   tasks:
 
-  - name: Installing ubuntu packages
+  - name: Adding ansible repository
+    apt_repository: repo="ppa:ansible/ansible" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
-      - pv
       - jq
       - zsh
       - vim
@@ -18,11 +21,7 @@
       - htop
       - curl
       - byobu
-      - xclip
-      - ipcalc
       - hexedit
       - parallel
       - imagemagick
-      - fonts-hack-ttf
-      - python3-csvkit
       - silversearcher-ag
