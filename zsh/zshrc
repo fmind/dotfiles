@@ -200,6 +200,7 @@ alias pysparkn='docker run --name pyspark -p 9000:8888 -v "$(pwd)":/home/jovyan/
 alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
 alias pymongon='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
 alias mongoimg='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+alias zookeeper='docker run --name zookeeper --restart always -d zookeeper'
 ## Make
 alias m="make"
 # Git
