@@ -30,16 +30,12 @@
     - face.icon
 
   - name: Deploying emacs configuration
-    file: src="{{ansible_env.PWD}}/{{item}}" dest="~/.{{item}}" state=link force=yes
+    file: src="{{ansible_env.PWD}}/emacs/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
     - spacemacs
     - spacemacs.d
 
   - name: Deploying vim configuration
-    file: src="{{ansible_env.PWD}}/{{item}}" dest="~/.{{item}}" state=link force=yes
+    file: src="{{ansible_env.PWD}}/vim/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
     - vimrc
-
-  - name: Changing user shell
-    command: chsh -s /usr/bin/zsh "{{ansible_env.USER}}"
-    when: ansible_user_shell != "/usr/bin/zsh"

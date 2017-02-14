@@ -21,13 +21,13 @@
     get_url: dest=~/bin/lein mode=0700 url="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
 
   - name: Deploying Boot configuration
-    file: src="{{ansible_env.PWD}}/clojure/{{item}}" dest="~/.boot/{{item}}" state=link force=yes
+    file: src="{{ansible_env.PWD}}/clojure/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
-    - profile.boot
-    - boot.properties
+    - boot/profile.boot
+    - boot/boot.properties
 
   - name: Deploying Leiningen configuration
-    file: src="{{ansible_env.PWD}}/clojure/{{item}}" dest="~/.lein/{{item}}" state=link force=yes
+    file: src="{{ansible_env.PWD}}/clojure/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
-    - profiles.clj
+    - lein/profiles.clj
 

@@ -25,3 +25,7 @@
       - parallel
       - imagemagick
       - silversearcher-ag
+
+  - name: Changing user shell
+    command: chsh -s /usr/bin/zsh "{{ansible_env.USER}}"
+    when: ansible_user_shell != "/usr/bin/zsh"

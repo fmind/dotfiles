@@ -21,7 +21,7 @@
   (add-hook mode #'aggressive-indent-mode)
   (add-hook mode #'evil-cleverparens-mode))
 
-(add-to-list 'magic-mode-alist '(".* boot" . clojure-mode)) ; boot scripts
+(add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))   ; boot scripts
 (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode)) ; boot files
 
                                         ; KEYBINDINGS
@@ -34,6 +34,7 @@
     "i" 'cider-inspect
     "b" 'cider-pop-back
     "n" 'cider-repl-set-ns
+    "N" 'cider-load-buffer-and-repl-set-ns
     "c" 'cider-repl-clear-buffer
     "u" 'cider-switch-to-repl-buffer
     "te" 'cider-test-run-tests
