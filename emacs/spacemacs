@@ -167,9 +167,9 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Hack"
-                               :size 14
-                               :weigh extra-bold
-                               :width semi-expanded
+                               :size 12
+                               :weigh bold
+                               :width expanded
                                :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -319,7 +319,7 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code."
-  ;;(setq exec-path-from-shell-arguments '("-l"))
+  (setq exec-path-from-shell-arguments '("-l"))
   )
 
 (defun dotspacemacs/user-config ()

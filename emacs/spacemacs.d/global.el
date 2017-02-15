@@ -33,6 +33,9 @@
 (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
 (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
+;; WINDOWS
+(spacemacs/set-leader-keys "`" 'select-window-0)
+
 ;; CONFS
 (spacemacs/set-leader-keys "oc" 'my-config-open)
 

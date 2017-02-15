@@ -181,12 +181,12 @@ alias pyc="ipcluster start -n 8"
 alias pyv="source venv/bin/activate"
 alias pyv-create="virtualenv --distribute --no-site-packages venv"
 ## Clojure
-alias cljrc="$EDITOR ~/.lein/profiles.clj"
-alias clja="lein ancient"
-alias cljap="lein ancient check-profiles"
+alias leinrc="$EDITOR ~/.lein/profiles.clj"
+alias leina="lein ancient"
+alias leinap="lein ancient check-profiles"
 alias clje="lein exec"
 alias cljr="lein repl"
-cljrp() { lein with-profile "$1" repl } 
+cljp() { lein with-profile "$1" repl } 
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="sudo ansible-playbook"
@@ -196,13 +196,11 @@ alias anplsys="sudo ansible-playbook *sys.yml"
 alias dk="docker"
 alias dkrmf="docker rm --force"
 alias dkrmo="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
-alias pysparkn='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
-alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
-alias pysparkn='docker run --name pyspark -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
-alias pyscipyn="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
-alias pymongon='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
-alias mongoimg='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
-alias zookeeper='docker run --name zookeeper --restart always -d zookeeper'
+alias dk-spark='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
+alias dk-scipy="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
+alias dk-fxmongo='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
+alias dk-mongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+alias dk-zoo='docker run --name zookeeper --restart always zookeeper'
 ## Make
 alias m="make"
 # Git

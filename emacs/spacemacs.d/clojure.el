@@ -14,6 +14,11 @@
   (projectile-toggle-between-implementation-and-test)
   (select-window-1))
 
+(defun my-cider-load-buffer-and-repl-set-ns ()
+  (interactive)
+  (cider-load-buffer)
+  (cider-repl-set-ns (cider-current-ns)))
+
                                         ; HOOKS
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
@@ -34,7 +39,7 @@
     "i" 'cider-inspect
     "b" 'cider-pop-back
     "n" 'cider-repl-set-ns
-    "N" 'cider-load-buffer-and-repl-set-ns
+    "N" 'my-cider-load-buffer-and-repl-set-ns
     "c" 'cider-repl-clear-buffer
     "u" 'cider-switch-to-repl-buffer
     "te" 'cider-test-run-tests
