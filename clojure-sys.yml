@@ -6,6 +6,10 @@
 
   tasks:
 
+  - name: Adding planck repository
+    apt_repository: repo="ppa:mfikes/planck" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
   - name: Adding oracle-java repository
     apt_repository: repo="ppa:webupd8team/java" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
@@ -16,4 +20,5 @@
   - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
+      - planck
       - oracle-java8-installer

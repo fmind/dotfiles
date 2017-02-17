@@ -186,6 +186,7 @@ alias leina="lein ancient"
 alias leinap="lein ancient check-profiles"
 alias clje="lein exec"
 alias cljr="lein repl"
+alias cljs="planck"
 cljp() { lein with-profile "$1" repl } 
 ## Ansible
 alias anpl="ansible-playbook"
