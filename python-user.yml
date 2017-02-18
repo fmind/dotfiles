@@ -61,3 +61,8 @@
     file: src="{{ansible_env.PWD}}/ipython/{{item}}" dest="~/.ipython/{{item}}" state=link force=yes
     with_items:
       - profile_fmind/ipython_config.py
+
+  - name: Deploying flake8 configuration
+    file: src="{{ansible_env.PWD}}/ipython/{{item}}" dest="~/.config/{{item}}" state=link force=yes
+    with_items:
+      - flake8

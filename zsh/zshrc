@@ -18,7 +18,7 @@ plugins=(catimg command-not-found docker encode64 httpie gitfast jsontools lein 
 ## INCLUDES
 
 # set PATH
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin/anaconda/bin:$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # set PROXY
 [ -f ~/ENABLE_PROXY ] && {

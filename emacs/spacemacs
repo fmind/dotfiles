@@ -55,9 +55,9 @@
      pandoc
      plantuml
      (python :variables
-             python-fill-column 100
-             python-sort-imports-on-save t
-             python-enable-yapf-format-on-save t)
+             python-fill-column 120
+             python-sort-imports-on-save nil
+             python-enable-yapf-format-on-save nil)
      racket
      restclient
      search-engine
