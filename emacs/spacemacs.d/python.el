@@ -1,6 +1,14 @@
+                                        ; FUNCTIONS
+
+(defun my-python-start-repl-with-virtualenv ()
+  (interactive)
+  (pyvenv-activate (concat (projectile-project-root) "venv"))
+  (python-start-or-switch-repl))
+
                                         ; KEYBINDINGS
 
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
+  "\"" 'my-python-start-repl-with-virtualenv
   "G" 'spacemacs/jump-to-definition
   "C" 'spacemacs/python-execute-file
   "D" 'spacemacs/python-toggle-breakpoint
