@@ -56,9 +56,9 @@
      plantuml
      (python :variables
              python-fill-column 120
-             python-sort-imports-on-save nil
-             python-enable-yapf-format-on-save nil)
-     racket
+             python-test-runner 'pytest
+             python-sort-imports-on-save t
+             python-enable-yapf-format-on-save t)
      restclient
      search-engine
      selectric

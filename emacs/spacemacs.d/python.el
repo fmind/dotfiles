@@ -12,3 +12,8 @@
   "F" 'python-shell-send-defun-switch
   "n" 'python-shell-send-region
   "N" 'python-shell-send-region-switch)
+
+                                        ; NOTEBOOKS
+
+(setq ein:use-auto-complete t)
+(spacemacs/set-leader-keys "oN" 'ein:notebooklist-open)

@@ -1,0 +1,37 @@
+# web
+- flask
+- scrapy
+- jinja2
+- django
+- requests
+- selenium
+- beautifulsoup4
+# media
+- pillow
+# database
+- redis
+- peewee
+- pymongo
+- mongoengine
+# security
+- scapy
+- mitmproxy
+# misc
+- celery
+# data analysis
+- arrow
+- numpy
+- scipy
+- bokeh
+- pandas
+- seaborn
+- cairocffi
+- jellyfish
+- matplotlib
+- statsmodel
+# machine learning
+- nltk
+- gensim
+- sklearn
+- networkx
+- auto-sklearn

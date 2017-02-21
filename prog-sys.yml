@@ -19,8 +19,8 @@
     with_items:
       - cloc
       - rlwrap
-      - datamash
       - graphviz
       - docker-engine
       - build-essential
       - exuberant-ctags
+    when: ansible_distribution == 'Ubuntu'

@@ -8,46 +8,33 @@
   - name: Installing Python libraries
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
-      # lisp
-      - hy
-      # project
-      - ipdb
-      - wheel
-      - virtualenv
-      - virtualenvwrapper
       # syntax
+      - hy
       - yapf
-      - isort
       - flake8
       - autoflake
-      # data analysis
-      - arrow
-      - pandas
-      - csvkit
-      - ipython
-      - jupyter
-      - seaborn
-      - sklearn
-      - cairocffi
-      - jellyfish
-      - statsmodels
-      - ipyparallel
-      # database
-      - redis
-      - pymongo
-      - mongoengine
+      # project
+      - ipdb
+      - isort
+      - fabric
+      - autoenv
+      - pygments
+      - virtualenv
+      - cookiecutter
       # system
       - sh
-      - shyaml
+      - envoy
       - glances
-      # web
-      - flask
-      - scrapy
+      # parsers
+      - shyaml
+      - csvkit
+      # analysis
+      - jupyter
+      - ipython
+      - ipyparallel
+      # web client
       - httpie
-      - jinja2
-      - requests
-      - selenium
-      - beautifulsoup4
+      - http-prompt
 
   - name: Checking if ipython profile exists
     stat: path="~/.ipython/profile_fmind/"
@@ -62,8 +49,14 @@
     with_items:
       - profile_fmind/ipython_config.py
 
-  - name: Deploying flake8 configuration
+  - name: Creating ~/.virtualenvs/ directory
+    file: path="~/.virtualenvs/" state=directory
+
+  - name: Creating ~/.config/yapf directory
+    file: path="~/.config/yapf" state=directory
+
+  - name: Deploying yapf and flake8 configuration for user
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
     with_items:
       - flake8
-
+      - yapf/style

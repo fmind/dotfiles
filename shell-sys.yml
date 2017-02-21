@@ -25,6 +25,7 @@
       - parallel
       - imagemagick
       - silversearcher-ag
+    when: ansible_distribution == 'Ubuntu'
 
   - name: Changing user shell
     command: chsh -s /usr/bin/zsh "{{ansible_env.USER}}"

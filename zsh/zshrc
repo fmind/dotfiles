@@ -13,12 +13,33 @@ HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$HOME/.zsh.d
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(catimg command-not-found docker encode64 httpie gitfast jsontools lein lol python sudo urltools web-search wd)
+plugins=(catimg
+         command-not-found
+         dircycle
+         docker
+         encode64
+         fabric
+         gitfast
+         httpie
+         jsontools
+         lein
+         lol
+         python
+         sudo
+         systemd
+         urltools
+         wd
+         web-search)
 
 ## INCLUDES
 
 # set PATH
-export PATH="$HOME/bin/anaconda/bin:$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# set AUTOENV
+if [ -x "$(command -v activate.sh)" ]; then
+    source "$(which activate.sh)"
+fi
 
 # set PROXY
 [ -f ~/ENABLE_PROXY ] && {
@@ -56,6 +77,17 @@ setxkbmap -option caps:escape
 if [ -f ~/.privaterc ]; then
     . ~/.privaterc
 fi
+
+# pip zsh completion
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] ) )
+}
+compctl -K _pip_completion pip
 
 # set umask
 umask 0077
@@ -113,6 +145,7 @@ alias pbpaste='xclip -selection clipboard -o'
 
 # Alias: INFORMATION
 alias h="history"
+alias gg="google"
 alias cmount="mount | column -t"
 alias extip='curl icanhazip.com'
 
@@ -167,19 +200,6 @@ alias sortp='sort --parallel=$(nproc --all)'
 # Alias: PROGRAMMING
 ## Java
 alias jajar="java -jar"
-## Python
-alias py2="python2"
-alias py3="python3"
-alias pyp="pip3"
-alias pypu="pip3 install --user"
-alias pyd="ipdb"
-alias pyh="pydoc"
-alias pys="ipython --profile=fmind"
-alias pyn="jupyter-notebook  --profile=fmind"
-alias pyk="ipython kernel --profile=fmind"
-alias pyc="ipcluster start -n 8"
-alias pyv="source venv/bin/activate"
-alias pyv-create="virtualenv --distribute --no-site-packages venv"
 ## Clojure
 alias leinrc="$EDITOR ~/.lein/profiles.clj"
 alias leina="lein ancient"
@@ -188,11 +208,32 @@ alias clje="lein exec"
 alias cljr="lein repl"
 alias cljs="planck"
 cljp() { lein with-profile "$1" repl } 
+## Python
+alias pyh="pydoc3"
+alias py="python3"
+alias py2="python2"
+alias py3="python3"
+alias pypl="pip3 list --user"
+alias pyps="pip3 search --user"
+alias pypi="pip3 install --user"
+alias pypu="pip3 uninstall --user"
+alias pypf="pip3 freeze > requirements.txt"
+alias pypr="pip3 install --user -r requirements.txt"
+alias pypv="pip3 install -r requirements.txt"
+alias pys="ipython --profile=fmind"
+alias pyk="ipython kernel --profile=fmind"
+alias pyn="jupyter-notebook --profile=fmind --NotebookApp.token="
+alias pyx"ipcluster start -n $(nproc)"
+alias pyva="source venv/bin/activate"
+alias pyvd="deactivate"
+pyvi() { virtualenv "venv" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env }
+pyvc() { mkdir "$1" && cd "$1" && pyvi }
+pyvg() { pyvc "$1" && pyva }
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="sudo ansible-playbook"
-alias anpluser="ansible-playbook *user.yml"
-alias anplsys="sudo ansible-playbook *sys.yml"
+alias anpl-user="ansible-playbook *user.yml"
+alias anpl-sys="sudo ansible-playbook *sys.yml"
 ## Docker
 alias dk="docker"
 alias dkrmf="docker rm --force"
@@ -206,6 +247,7 @@ alias dk-zoo='docker run --name zookeeper --restart always zookeeper'
 alias m="make"
 # Git
 alias g="git"
+alias gn="$EDITOR .gitignore"
 alias gm="git submodule"
 mygithub() { git clone git@github.com:fmind/$1.git }
 alias grc="$EDITOR ~/.gitconfig"

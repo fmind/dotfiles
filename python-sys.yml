@@ -9,16 +9,5 @@
   - name: Installing system deps
     apt: pkg="{{item}}" state=latest
     with_items:
-      - gfortran
-      - libxft-dev
-      - libffi-dev
-      - libblas-dev
-      - libpng12-dev
-      - liblapack-dev
-      - libfreetype6-dev
-      - libatlas-base-dev
-      - libssl-dev
-      - libxml2-dev
-      - libxslt1-dev
       - python3-dev
       - python3-setuptools
