@@ -243,6 +243,9 @@ alias dk-scipy="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/
 alias dk-fxmongo='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
 alias dk-mongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
 alias dk-zoo='docker run --name zookeeper --restart always zookeeper'
+## Template
+alias ck="cookiecutter"
+alias ck-py3="cookiecutter gh:fmind/cookiecutter-py3"
 ## Make
 alias m="make"
 # Git

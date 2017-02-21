@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: mainscript
+# key: mainscript
+# --
+if __name__ == '__main__':
+    try:
+        args = PARSER.parse_args()
+        $1
+    except Exception as e:
+        print(e, file=sys.stderr)
+        sys.exit(1)
