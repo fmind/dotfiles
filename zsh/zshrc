@@ -170,6 +170,7 @@ alias privaterc='$EDITOR ~/.privaterc && privatesrc'
 alias emacsrc='$EDITOR ~/.spacemacs'
 alias sshrc='$EDITOR ~/.ssh/config'
 alias sshpub='cat ~/.ssh/id_rsa.pub'
+alias warprc='$EDITOR ~/.warprc'
 
 # Alias: ADMINISTRATION
 alias chx="chmod u+x "
@@ -246,7 +247,7 @@ alias dk-zoo='docker run --name zookeeper --restart always zookeeper'
 ## Template
 alias ck="cookiecutter"
 alias ck-py3="cookiecutter gh:fmind/cookiecutter-py3"
-## Make
+## Project
 alias m="make"
 # Git
 alias g="git"
