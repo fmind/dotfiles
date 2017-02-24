@@ -1,0 +1,11 @@
+default_context:
+    full_name: "fmind"
+    github_username: "Médéric Hurier"
+    year: "2017"
+abbreviations:
+    pa: https://github.com/fmind/python-analysis-template.git
+    pp: https://github.com/fmind/python-project-template.git
+    ps: https://github.com/fmind/python-script-template.git
+    sh: https://github.com/fmind/bash-script-template.git
+    gh: https://github.com/{0}.git
+    bb: https://bitbucket.org/{0}

@@ -1,0 +1,12 @@
+[distutils]
+index-servers =
+    pypi
+    testpypi
+
+[pypi]
+username = fmind
+repository = https://pypi.python.org/pypi
+
+[testpypi]
+username = fmind
+repository = https://testpypi.python.org/pypi
