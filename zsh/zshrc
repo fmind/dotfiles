@@ -155,7 +155,7 @@ alias install="sudo apt-get install"
 alias remove="sudo apt-get remove --purge"
 alias update="sudo apt-get update"
 alias upgrade="sudo apt-get upgrade"
-alias megaup="update && upgrade"
+alias megaup="update && upgrade && autoremove"
 alias clean="sudo apt-get clean"
 alias autoclean="sudo apt-get autoclean"
 alias autoremove="sudo apt-get autoremove --purge"
@@ -170,6 +170,9 @@ alias privaterc='$EDITOR ~/.privaterc && privatesrc'
 alias emacsrc='$EDITOR ~/.spacemacs'
 alias sshrc='$EDITOR ~/.ssh/config'
 alias sshpub='cat ~/.ssh/id_rsa.pub'
+alias cookierc='$EDITOR ~/.cookiecutterrc'
+alias latexmkrc='$EDITOR ~/.latexmkrc'
+alias pypirc='$EDITOR ~/.pypirc'
 alias warprc='$EDITOR ~/.warprc'
 
 # Alias: ADMINISTRATION
@@ -227,7 +230,7 @@ alias pyn="jupyter-notebook --profile=fmind --NotebookApp.token="
 alias pyx"ipcluster start -n $(nproc)"
 alias pyva="source venv/bin/activate"
 alias pyvd="deactivate"
-pyvi() { virtualenv "venv" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env }
+pyvi() { virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env }
 pyvc() { mkdir "$1" && cd "$1" && pyvi }
 pyvg() { pyvc "$1" && pyva }
 ## Ansible

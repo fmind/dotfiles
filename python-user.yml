@@ -13,14 +13,22 @@
       - yapf
       - flake8
       - autoflake
+      - pep8-naming
       # project
       - ipdb
       - isort
+      - wheel
+      - twine
       - fabric
+      - sphinx
       - autoenv
+      - docutils
       - pygments
       - virtualenv
+      - pytest-cov
       - cookiecutter
+      - pytest-xdist
+      - check-manifest
       # system
       - sh
       - envoy
@@ -49,14 +57,25 @@
     with_items:
       - profile_fmind/ipython_config.py
 
-  - name: Creating ~/.virtualenvs/ directory
-    file: path="~/.virtualenvs/" state=directory
-
   - name: Creating ~/.config/yapf directory
     file: path="~/.config/yapf" state=directory
 
-  - name: Deploying yapf and flake8 configuration for user
+  - name: Deploying yapf configuration for user
+    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
+    with_items:
+      - yapf/style
+
+  - name: Deploying flake8 configuration for user
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
     with_items:
       - flake8
-      - yapf/style
+
+  - name: Deploying pypi configuration
+    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
+    with_items:
+      - pypirc
+
+  - name: Deploying cookiecutter configuration
+    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
+    with_items:
+      - cookiecutterrc

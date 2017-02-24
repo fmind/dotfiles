@@ -5,6 +5,16 @@
   (pyvenv-activate (concat (projectile-project-root) "venv"))
   (python-start-or-switch-repl))
 
+;; (defun my-projectile-test-suffix-for-python (fn &rest arguments)
+;;   (let ((project-type (first arguments)))
+;;     (cond
+;;      (member project-type '())
+;;      )))
+
+;;                                         ; ADVICES
+
+;; (defadvice projectile-test-suffix )
+
                                         ; KEYBINDINGS
 
 (spacemacs/set-leader-keys-for-major-mode 'python-mode

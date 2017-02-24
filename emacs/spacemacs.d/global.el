@@ -94,6 +94,7 @@
 
 ;; SHELLS
 (spacemacs/set-leader-keys "\"" 'spacemacs/shell-pop-term)
+(spacemacs/set-leader-keys "o!" 'shell-command-to-string)
 
 ;; ZOOMING
 (define-key global-map (kbd "C-+") 'text-scale-increase)
