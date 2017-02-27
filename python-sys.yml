@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Adding Pypy repository
+  - name: Adding pypy repository
     apt_repository: repo="ppa:pypy/ppa" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 

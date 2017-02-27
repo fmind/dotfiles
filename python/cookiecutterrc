@@ -1,6 +1,6 @@
 default_context:
-    full_name: "fmind"
-    github_username: "Médéric Hurier"
+    full_name: "Médéric Hurier"
+    github_username: "fmind"
     year: "2017"
 abbreviations:
     pa: https://github.com/fmind/python-analysis-template.git
