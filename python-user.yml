@@ -5,25 +5,24 @@
 
   tasks:
 
-  - name: Installing Python libraries
+  - name: Installing Python packages
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
       # syntax
       - hy
       - yapf
+      - isort
       - flake8
+      - pygments
       - autoflake
-      - pep8-naming
       # project
       - ipdb
-      - isort
       - wheel
       - twine
-      - fabric
       - sphinx
+      - invoke
       - autoenv
       - docutils
-      - pygments
       - virtualenv
       - pytest-cov
       - cookiecutter
@@ -33,7 +32,7 @@
       - sh
       - envoy
       - glances
-      # parsers
+      # formats
       - shyaml
       - csvkit
       # analysis
@@ -60,12 +59,12 @@
   - name: Creating ~/.config/yapf directory
     file: path="~/.config/yapf" state=directory
 
-  - name: Deploying yapf configuration for user
+  - name: Deploying yapf configuration
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
     with_items:
       - yapf/style
 
-  - name: Deploying flake8 configuration for user
+  - name: Deploying flake8 configuration
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
     with_items:
       - flake8
