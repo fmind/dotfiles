@@ -5,19 +5,19 @@
   (pyvenv-activate (concat (projectile-project-root) "venv"))
   (python-start-or-switch-repl))
 
-;; (defun my-projectile-test-suffix-for-python (fn &rest arguments)
-;;   (let ((project-type (first arguments)))
-;;     (cond
-;;      (member project-type '())
-;;      )))
+(defun my-python-swith-to-repl ()
+  (interactive)
+  (switch-to-buffer "*Python*"))
 
-;;                                         ; ADVICES
-
-;; (defadvice projectile-test-suffix )
+(defun my-python-swith-to-report()
+  (interactive)
+  (switch-to-buffer "*pytest*"))
 
                                         ; KEYBINDINGS
 
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
+  "`" 'my-python-swith-to-repl
+  "~" 'my-python-swith-to-report
   "\"" 'my-python-start-repl-with-virtualenv
   "G" 'spacemacs/jump-to-definition
   "C" 'spacemacs/python-execute-file
