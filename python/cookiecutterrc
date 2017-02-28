@@ -1,7 +1,8 @@
 default_context:
-    full_name: "Médéric Hurier"
-    github_username: "fmind"
-    year: "2017"
+    email: "fmind@users.noreply.github.com"
+    author: "Médéric Hurier"
+    username: "fmind"
+    vcs: "github.com"
 abbreviations:
     pa: https://github.com/fmind/python-analysis-template.git
     pp: https://github.com/fmind/python-project-template.git

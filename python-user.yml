@@ -16,6 +16,7 @@
       - pygments
       - autoflake
       # project
+      - tox
       - ipdb
       - wheel
       - twine
