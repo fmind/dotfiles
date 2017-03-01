@@ -1,0 +1,3 @@
+if [[ -d "$(dirname $0)/.devenv" ]]; then
+    source "$(dirname $0)/.devenv/bin/activate"
+fi
