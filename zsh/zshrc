@@ -95,7 +95,8 @@ umask 0077
 ### Alias Configuration ###
 
 # Alias: GLOBAL
-alias -g H='| head'
+alias -g H='--help'
+alias -g F='| head'
 alias -g T='| tail'
 alias -g G='| grep'
 alias -g L='| less'
@@ -121,7 +122,7 @@ alias lh="ls -ld .*"
 alias back="cd $OLDPWD"
 
 # Alias: EDITION
-alias p="cat"
+alias a="cat"
 alias v="vim"
 alias vi="vim"
 alias vip="vim -p"
@@ -213,26 +214,28 @@ alias cljr="lein repl"
 alias cljs="planck"
 cljp() { lein with-profile "$1" repl } 
 ## Python
-alias pyh="pydoc3"
-alias py="python3"
-alias py2="python2"
-alias py3="python3"
-alias pypl="pip3 list --user"
-alias pyps="pip3 search --user"
-alias pypi="pip3 install --user"
-alias pypu="pip3 uninstall --user"
-alias pypf="pip3 freeze > requirements.txt"
-alias pypr="pip3 install --user -r requirements.txt"
-alias pypv="pip3 install -r requirements.txt"
-alias pys="ipython --profile=fmind"
-alias pyk="ipython kernel --profile=fmind"
-alias pyn="jupyter-notebook --profile=fmind --NotebookApp.token="
-alias pyx"ipcluster start -n $(nproc)"
-alias pyva="source venv/bin/activate"
-alias pyvd="deactivate"
-pyvi() { virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env }
-pyvc() { mkdir "$1" && cd "$1" && pyvi }
-pyvg() { pyvc "$1" && pyva }
+alias p="python"
+alias ph="pydoc"
+alias p2="python2"
+alias p3="python3"
+alias toxe="tox -e"
+alias pt="python setup.py"
+alias pp="pip"
+alias ppl="pip list --user"
+alias pps="pip search --user"
+alias ppi="pip install --user"
+alias ppu="pip uninstall --user"
+alias ppf="pip freeze --user > requirements.txt"
+alias ppr="pip install --user -r requirements.txt"
+alias pi="ipython --profile=fmind"
+alias pk="ipython kernel --profile=fmind"
+alias pn="jupyter-notebook --profile=fmind --NotebookApp.token="
+alias pc"ipcluster start -n $(nproc)"
+alias pva="source venv/bin/activate"
+alias pvd="deactivate"
+pvi() { virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env }
+pvc() { mkdir "$1" && cd "$1" && pyvi }
+pvg() { pyvc "$1" && pyva }
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="sudo ansible-playbook"

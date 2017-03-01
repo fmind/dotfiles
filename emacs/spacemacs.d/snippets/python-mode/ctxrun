@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: ctxrun
+# key: ctxrun
+# --
+ctxrun("$1")
