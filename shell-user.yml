@@ -27,6 +27,7 @@
     with_items:
     - zshrc
     - zsh.d
+    - zshenv
     - face.icon
 
   - name: Deploying emacs configuration

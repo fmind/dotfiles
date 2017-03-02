@@ -33,33 +33,19 @@ plugins=(catimg
 
 ## INCLUDES
 
-# set PATH
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# Make ZSH Awesome !
+source $ZSH/oh-my-zsh.sh
 
-# set AUTOENV
+# enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
 fi
 
-# set PROXY
-[ -f ~/ENABLE_PROXY ] && {
-    export HTTP_PROXY=`cat ~/ENABLE_PROXY`
-    export http_proxy=$HTTP_PROXY
-    export HTTPS_PROXY=$HTTP_PROXY
-    export https_proxy=$HTTP_PROXY
-    export FTP_PROXY=$HTTP_PROXY
-    export ftp_proxy=$HTTP_PROXY
-    export no_proxy=localhost
-    export NO_PROXY=localhost
-}
-
-### User configuration ###
-
-# Make ZSH Awesome !
-source $ZSH/oh-my-zsh.sh
-
-# Enable Byobu
+# Enable byobu
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+
+# remap caps lock backspace
+setxkbmap -option caps:escape
 
 # Add support for 256 colors
 export TERM=screen-256color
@@ -69,14 +55,6 @@ export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
-
-# remap caps lock backspace
-setxkbmap -option caps:escape
-
-# import private environment
-if [ -f ~/.privaterc ]; then
-    . ~/.privaterc
-fi
 
 # pip completion
 function _pip_completion {
@@ -165,9 +143,11 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Alias: CONFIGURATION
 alias zshsrc='source ~/.zshrc'
+alias zshsenv='source ~/.zshenv'
 alias zshrc='$EDITOR ~/.zshrc && zshsrc'
-alias privatesrc='source ~/.privaterc'
-alias privaterc='$EDITOR ~/.privaterc && privatesrc'
+alias zshenv='$EDITOR ~/.zshenv && zshsenv'
+alias privsenv='source ~/.privenv'
+alias privenv='$EDITOR ~/.privenv && privsenv'
 alias emacsrc='$EDITOR ~/.spacemacs'
 alias sshrc='$EDITOR ~/.ssh/config'
 alias sshpub='cat ~/.ssh/id_rsa.pub'
@@ -254,10 +234,10 @@ alias ck="cookiecutter"
 alias m="make"
 # Git
 alias g="git"
-alias gn="$EDITOR .gitignore"
 alias gm="git submodule"
-mygithub() { git clone git@github.com:fmind/$1.git }
+alias gn="$EDITOR .gitignore"
 alias grc="$EDITOR ~/.gitconfig"
+mygithub() { git clone git@github.com:fmind/$1.git }
 
 # Alias: SHARING
 alias httpserve="python3 -m http.server"

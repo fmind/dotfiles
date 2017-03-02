@@ -1,8 +1,8 @@
                                         ; FUNCTIONS
 
-(defun my-python-start-repl-with-virtualenv ()
+(defun my-python-start-repl-with-devenv()
   (interactive)
-  (pyvenv-activate (concat (projectile-project-root) "venv"))
+  (pyvenv-activate (concat (projectile-project-root) ".devenv"))
   (python-start-or-switch-repl))
 
 (defun my-python-swith-to-repl ()
@@ -18,7 +18,7 @@
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
   "`" 'my-python-swith-to-repl
   "~" 'my-python-swith-to-report
-  "\"" 'my-python-start-repl-with-virtualenv
+  "\"" 'my-python-start-repl-with-devenv
   "G" 'spacemacs/jump-to-definition
   "C" 'spacemacs/python-execute-file
   "D" 'spacemacs/python-toggle-breakpoint

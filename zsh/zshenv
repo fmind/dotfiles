@@ -1,0 +1,10 @@
+### ZSH Environment ###
+
+# Set PATH
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# Import private environment
+
+if [ -f ~/.privenv ]; then
+    . ~/.privenv
+fi
