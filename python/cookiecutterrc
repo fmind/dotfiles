@@ -1,12 +1,10 @@
 default_context:
-    email: "fmind@users.noreply.github.com"
-    author: "Médéric Hurier"
     username: "fmind"
-    vcs: "github.com"
+    author: "Médéric Hurier"
+    email: "fmind@users.noreply.github.com"
 abbreviations:
     pa: https://github.com/fmind/python-analysis-template.git
     pp: https://github.com/fmind/python-project-template.git
     ps: https://github.com/fmind/python-script-template.git
     sh: https://github.com/fmind/bash-script-template.git
     gh: https://github.com/{0}.git
-    bb: https://bitbucket.org/{0}

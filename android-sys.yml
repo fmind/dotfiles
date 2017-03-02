@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Installing system dependencies
+  - name: Installing dependencies
     apt: pkg="{{item}}" state=latest
     with_items:
       - libc6:i386

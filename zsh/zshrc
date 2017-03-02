@@ -1,6 +1,6 @@
 ### ZSH Configuration ###
 
-# Path to oh-my-zsh installation.
+# Installation path
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
@@ -78,7 +78,7 @@ if [ -f ~/.privaterc ]; then
     . ~/.privaterc
 fi
 
-# pip zsh completion
+# pip completion
 function _pip_completion {
   local words cword
   read -Ac words
@@ -189,15 +189,13 @@ backup() { cp "$1"{,.bak}; }
 alias igrep="grep -i"
 alias t="head -n1"
 alias h1="head -n1"
-alias h2="head -n2"
-alias h3="head -n3"
-alias h4="head -n4"
 alias h5="head -n5"
+alias h10="head -n10"
+alias h15="head -n15"
 alias t1="tail -n1"
-alias t2="tail -n2"
-alias t3="tail -n3"
-alias t4="tail -n4"
 alias t5="tail -n5"
+alias t10="tail -n10"
+alias t15="tail -n15"
 alias jqr="jq -r"
 alias colt="column -t"
 alias sortp='sort --parallel=$(nproc --all)'
@@ -252,7 +250,6 @@ alias dk-mongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --sma
 alias dk-zoo='docker run --name zookeeper --restart always zookeeper'
 ## Template
 alias ck="cookiecutter"
-alias ck-py3="cookiecutter gh:fmind/cookiecutter-py3"
 ## Project
 alias m="make"
 # Git

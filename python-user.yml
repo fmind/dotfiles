@@ -22,6 +22,7 @@
       - twine
       - sphinx
       - invoke
+      - howdoi
       - autoenv
       - docutils
       - virtualenv
@@ -74,6 +75,11 @@
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
       - pypirc
+
+  - name: Deploying invoke configuration
+    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
+    with_items:
+      - invoke.yaml
 
   - name: Deploying cookiecutter configuration
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
