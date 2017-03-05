@@ -41,8 +41,9 @@ if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
 fi
 
-# Enable byobu
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+if [ -z "$VIMRUNTIME" ]; then
+    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+fi
 
 # remap caps lock backspace
 setxkbmap -option caps:escape
@@ -78,8 +79,8 @@ alias -g F='| head'
 alias -g T='| tail'
 alias -g G='| grep'
 alias -g L='| less'
-alias -g X='| xclip -selection clipboard'
-alias -g V='| vim -'
+alias -g X='| xsel --clipboard'
+alias -g V='| $EDITOR -'
 alias -g J='| js-beautify'
 alias -g P=':$PATH'
 alias -g NE='2>/dev/null'
@@ -101,17 +102,15 @@ alias back="cd $OLDPWD"
 
 # Alias: EDITION
 alias a="cat"
-alias v="vim"
-alias vi="vim"
-alias vip="vim -p"
-alias vir="vim -R"
-alias vis="sudo vim"
-alias vimrc='vi ~/.vimrc'
-alias e="emacs -nw"
-alias ee="emacs . &"
-alias es="sudo emacs -nw"
-alias eb="emacs --debug-init"
-alias er="emacs -nw --eval '(setq buffer-read-only t)'"
+alias v="$EDITOR"
+alias vi="$EDITOR"
+alias vim="$EDITOR"
+alias vig="$EDITOR -g"
+alias vir="$EDITOR -R"
+alias vip="$EDITOR -p"
+alias vis="sudo $EDITOR"
+alias virc='$EDITOR ~/.vimrc'
+alias e="emacs . &"
 
 # Alias: INTEGRATION
 alias x="exit"
@@ -119,8 +118,8 @@ alias o="xdg-open"
 alias f='nautilus . &'
 alias dark="xbacklight -set 10"
 alias bright="xbacklight -set 100"
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
+alias pbcopy="xsel --clipboard --output"
+alias pbclear="xsel --clipboard --clear"
 
 # Alias: INFORMATION
 alias h="history"
@@ -250,3 +249,5 @@ alias texclean="latexmk -c"
 alias texpurge="latexmk -C"
 alias imgwhite="convert -flatten "
 alias slides="git clone git@github.com:fmind/my-slides"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

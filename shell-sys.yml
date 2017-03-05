@@ -13,10 +13,9 @@
   - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
-      - jq
       - zsh
-      - vim
       - git
+      - vim
       - tree
       - htop
       - curl

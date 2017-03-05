@@ -1,202 +1,262 @@
-" BOOTSTRAP
-
-set nocompatible                " disable vi compatibility
-set nomodeline                  " security best pratice
+" SECURITY
+syntax enable
+set nomodeline
+set nocompatible
+filetype plugin indent on
 
 let VIMDIR=$HOME.'/.vim/'
 
 if exists('*mkdir')
-    for f in ['swap', 'undo', 'bak']
-        if !isdirectory(VIMDIR.f)
-            call mkdir(VIMDIR.f)
+    for subdir in ['backup', 'plugged', 'snippets', 'swap', 'undo']
+        if !isdirectory(VIMDIR.subdir)
+            call mkdir(VIMDIR.subdir)
         endif
     endfor
 endif
 
 " SETTINGS
 
-"" interface
-set so=10                       " activate a margin for vertical scrolling
-set title                       " activate vim title on the current xterm
-set mouse=a                     " activate mouse selection for every mode
-set path+=**                    " provide tab-completion in a directory
-set wildmenu                    " activate a menu for autocompletion
-set wildmode=list:longest       "   (menu behaviour)
-set clipboard^=unnamedplus      " all operations copy to the system
-set nospell                     " deactivate inline spell check
-set spelllang=en                "   (default spelling language)
-set background=dark             " activate editor theming
-set t_Co=256                    "   (add more colors)
-set t_md=                       " no bold fonts
-colorscheme industry            " set theme
+""" BACKUP
+set backup
+set undofile
+set updatecount=200
+set undodir=$HOME/.vim/undo/
+set directory=$HOME/.vim/swap/
+set backupdir=$HOME/.vim/backup/
+set viminfo ='200,n$HOME/.vim/viminfo
 
-"" display
-set ruler                       " display cursor location
-set number                      " display line numbers (gutter)
-set showcmd                     " display already typed keys
-set showmode                    " display the current mode
-set noshowmatch                 " don't display matching parenthesis
-let loaded_matchparen = 1       "   (same with nocompatible set)
-set syntax=on                   " display syntaxic coloration
-set laststatus=2                " display the status line (always)
-set ttyfast                     " faster redrawing
-set lazyredraw                  " don't display while executing macros (performance)
-set splitright                  " put new vertical window on the right of the current buffer
-set splitbelow                  " put horizontal window below the current buffer
-set shortmess=a                 " use abbreviations for status messages
-set relativenumber              " use relative line numbers
+""" SEARCH
+set gdefault
+set incsearch
+set smartcase
+set ignorecase
+set nohlsearch
+set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
+set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
 
-"" completion
-set completeopt-=preview        " disable the preview completion window
+""" EDITION
+set autoread
+set autowrite
+set encoding=utf-8
+set ffs=unix,dos,mac
 
-"" indentation
-set expandtab                   " insert spaces when hitting TABs
-set shiftround                  " round indent value to a multiple of 'shiftwidth'
-set autoindent                  " align the new line indent with the previous line
-set tabstop=4                   " a hard TAB displays as 4 spaces
-set shiftwidth=4                " operation >> indents 4 spaces; << unindents 4 spaces
-set softtabstop=4               " insert/delete 4 spaces when hitting a TAB/BACKSPACE
-set backspace=indent,eol,start  " allow backspacing over everything in insert mode
+""" DISPLAY
+set title
+set ruler
+set number
+set showcmd
+set ttyfast
+set mouse=a
+set t_Co=256
+set wildmenu
+set showmode
+set showmatch
+set splitright
+set splitbelow
+set lazyredraw
+set shortmess=a
+set scrolloff=15
+set laststatus=2
+set relativenumber
+set background=dark
+set colorcolumn=120
+set sidescrolloff=5
+set clipboard=unnamedplus
+set wildmode=list:longest
+highlight ColorColumn ctermbg=5
 
-"" notification
+
+""" FOLDING
+set foldlevel=20
+set foldmethod=indent
+set foldlevelstart=10
+
+""" WRAPPING
+set wrap
+set linebreak
+set textwidth=0
+
+""" IDENTATION
+set expandtab
+set autoindent
+set shiftround
+set tabstop=4 
+set shiftwidth=4
+set softtabstop=4
+set backspace=indent,eol,start
+
+""" NOTIFICATION
 set noerrorbells
 set novisualbell
-set t_vb=
-
-"" search
-set incsearch                   " show first match as the search proceeds
-set nohlsearch                  " deactivate search highlighting
-set ignorecase                  " case insensitivity
-set smartcase                   "   (only when no upper letter is used)
-set gdefault                    " replace all occurences in line by default (/g)
-set wrapscan                    " searches wrap around end-of-file
-
-"" wraping
-set wrap                        " wrap text when text length > window size
-set linebreak                   " don't break line in a middle of a word
-set textwidth=0                 " don't use hard wrapping
-
-"" folding
-set foldlevel=20                " folding level
-set foldmethod=indent           " folding behaviour
-
-"" read/write
-set encoding=utf-8              " default encoding
-set ffs=unix,dos,mac            " default newline
-
-"" saving/backup
-set hidden                      " buffers can exist in background
-set autowrite                   " write buffer on focus loss/make
-set backup
-set backupskip=
-set updatecount=100
-set undofile
-set undodir=$HOME/.vim/undo/
-set backupdir=$HOME/.vim/bak/
-set directory=$HOME/.vim/swap/
-set viminfo ='100,n$HOME/.vim/viminfo
-
-" PLUGINS
-
-filetype plugin indent on       " load plugins according to detected filetype
-syntax on                       " enable syntax highlighting
 
 " HOOKS
 
-"" automatic text wrapping on open, read and save for the following files
-autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal textwidth=100 whichwrap+=h,l,<,>,[,]
+""" automatic spelling and wrapping on open, read and save
+autocmd BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
 
-"" automatic spell checking for the following files
-autocmd BufNewFile,BufRead *.{txt,tex,md} setlocal spell spelllang=en
-
-"" restore last cursor position when opening file
+""" restore last position of the cursor when opening a file
 autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
 
-" EXCLUSIONS
 
-set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.pyc
-set wildignore+=*.fls,*.pdf,*.bbl,*.aux,*.dvi
+" PLUGINS
+call plug#begin($HOME.'/.vim/plugged')
+""" IDE
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+nnoremap <leader>t :Tags<CR>
+nnoremap <leader>l :BLines<CR>
+nnoremap <leader>F :GFiles<CR>
+nnoremap <leader>f :Files .<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>h :History<CR>
+nnoremap <leader>w :Windows<CR>
+nnoremap <leader>S :Snippets<CR>
+nnoremap <leader>c :Commands<CR>
+Plug 'mhinz/vim-startify'
+Plug 'scrooloose/nerdtree' 
+nnoremap <leader>` :NERDTreeToggle<CR>
+let NERDTreeIgnore=['\.pyc$', '\~$']
+Plug 'scrooloose/syntastic'
+let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_python_checkers = ['pyflakes']
+let g:syntastic_quiet_messages = { "type": "style" }
+""" DISPLAY
+Plug 'tomasr/molokai'
+Plug 'bling/vim-airline' 
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+Plug 'airblade/vim-gitgutter'
+let g:gitgutter_map_keys = 0
+""" EDITION
+Plug 'tpope/vim-repeat'
+Plug 'SirVer/ultisnips'
+nnoremap <leader>I :UltiSnipsEdit<CR>
+let g:UltiSnipsEditSplit = 'context'
+let g:UltiSnipsSnippetsDir = $HOME.'/.vim/snippets/'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-surround'
+nmap <leader>n <Plug>CSurround
+Plug 'tpope/vim-commentary'
+xmap <leader>; <Plug>Commentary
+nmap <leader>; <Plug>Commentary
+Plug 'Raimondi/delimitMate'
+nnoremap <leader>T :Tabularize 
+Plug 'Valloric/YouCompleteMe'
+nmap <leader>g :YcmCompleter GoTo<CR>
+nmap <leader>d :YcmCompleter GetDoc<CR>
+Plug 'junegunn/vim-easy-align'
+xmap <leader>x <Plug>(EasyAlign)
+nmap <leader>x <Plug>(EasyAlign)
+Plug 'easymotion/vim-easymotion'
+""" LANGUAGES
+Plug 'vim-pandoc/vim-pandoc'
+nnoremap <leader>P :Pandoc<CR>
+Plug 'chase/vim-ansible-yaml'
+Plug 'plasticboy/vim-markdown'
+let g:vim_markdown_no_default_key_mappings = 1
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'beloglazov/vim-online-thesaurus'
+nnoremap <leader>k :OnlineThesaurusCurrentWord<CR>
+let g:online_thesaurus_map_keys = 0
+call plug#end()
 
-" SHORTCUTS
+colorscheme molokai
 
-"" set leader
-let mapleader="\<Space>"
-let maplocalleader="\\"
+"Bundle 'scrooloose/syntastic'
+"let g:syntastic_go_checkers=['']    " disable go checkers
+"let g:syntastic_python_checkers=['frosted', 'pep8', 'python']
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_python_pep8_args = "--ignore=E265,E501,E702,F403"
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 0
+"let g:syntastic_check_on_wq = 0
+"nnoremap <leader>! :SyntasticToggleMode<CR>
+
+" KEYBINDINGS
+ 
+""" LEADER KEYS
 map ; :
 vmap ; :
 noremap ;; ;
+let mapleader="\<Space>"
+let maplocalleader="\\"
+ 
+""" BREAK HABITS
+nnoremap Q <NOP>
+nnoremap <Up> <NOP>
+nnoremap <Down> <NOP>
+nnoremap <Left> <NOP>
+nnoremap <Right> <NOP>
 
-"" break habits
+""" SANNER DEFAULTS
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
-nnoremap Q g
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-
-"" sanner defaults
-nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
-nnoremap <expr> n  'Nn'[v:searchforward]
-nnoremap <expr> N  'nN'[v:searchforward]
-cnoremap <c-n>  <down>
-cnoremap <c-p>  <up>
 xnoremap <  <gv
 xnoremap >  >gv
-
-"" basic actions
+cnoremap <c-p> <up>
+cnoremap <c-n> <down>
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
+ 
+""" BASIC ACTIONS
 nnoremap <leader>z za
-nnoremap <leader>R :r!
-nnoremap <leader>r :reg<CR>
-nnoremap <leader>b :buffer 
-nnoremap <leader>B :ls<CR>
-nnoremap <leader>E :edit<CR>
+nnoremap <leader>R :reg<CR>
+nnoremap <leader>? :help 
 nnoremap <leader>e :tabedit 
-nnoremap <leader>f :find 
-nnoremap <leader>h :set hls!<CR>
-nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
-nnoremap <leader>g gqip
-nnoremap <leader>G gggqG
-nnoremap <leader>? :help
-nnoremap <leader>O :set ro<CR>
+nnoremap <leader>j :join<CR>
+vnoremap <leader>s :sort<CR>
+nnoremap <leader>m :make<CR>
 
-"" move around windows
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
-nnoremap H gT
-nnoremap L gt
-nnoremap <leader>V :vsplit
-nnoremap <leader>H :hsplit
-nnoremap <leader>L :vnew<CR><c-w>h
+""" ADVANCED ACTIONS
+" highlight last inserted text
+nnoremap <leader>v `[v`]
+"""""" refresh current buffer
+nnoremap <leader>E :edit<CR>
+"""""" execute shell command
+nnoremap <leader>! :r!
+"""""" format inside paragrah
+nnoremap <leader>q gqip
+""""""  add python breakpoint
+nnoremap <Leader>B oimport ipdb; ipdb.set_trace()<C-c>k
+"""""" format current buffer
+nnoremap <leader>Q gggqG
+"""""" set spelling for en/fr
+nnoremap <leader>S :setlocal spell! spelllang=en,fr<CR>
+"""""" edit the current macro
+nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
-"" zooming
-command! Bigger  :let &guifont = substitute(&guifont, '\d\+$', '\=submatch(0)+1', '')
-command! Smaller :let &guifont = substitute(&guifont, '\d\+$', '\=submatch(0)-1', '')
+""" PLUGINS MANAGEMENT
+nnoremap <leader>PI :PlugInstall<CR>
+nnoremap <leader>PG :PlugUpgrade<CR>
+nnoremap <leader>PU :PlugUpdate<CR>
+nnoremap <leader>PS :PlugStatus<CR>
+nnoremap <leader>PC :PlugClean<CR>
+nnoremap <leader>PL :PlugList<CR>
+nnoremap <leader>PD :PlugDocs<CR>
 
-"" copy and paste
-"nnoremap Y y$
-"vmap <Leader>y "+y
-"vmap <Leader>d "+d
-"nmap <Leader>p "+p
-"nmap <Leader>P "+P
-"vmap <Leader>p "+p
-"vmap <Leader>P "+P
+""" WINDOWS MANAGEMENT
+map <S-k> <C-y>
+map <S-j> <C-e>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <leader><Tab> gt
+nnoremap <leader><S-Tab> gT
+nnoremap <leader>H :split<CR>
+nnoremap <leader>V :vsplit<CR>
 
-"" hex editor
-nnoremap <leader>#x :%!xxd<CR>
-nnoremap <leader>#t :%!xxd -r<CR>
-
-"" macros edition
-nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
-
-"" quick accesses
-nnoremap <leader>- :make<CR>
-nnoremap <leader>S :source $MYVIMRC<CR>
-nnoremap <leader>M :tabedit $MYVIMRC<CR>
+""" INTERNAL CONFIGURATIONS
+nnoremap <leader>M :message<CR>
+nnoremap <leader>R :source $MYVIMRC<CR>
+nnoremap <leader>C :tabedit $MYVIMRC<CR>

@@ -1,0 +1,17 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: Deploying vim configuration
+    file: src="{{ansible_env.PWD}}/vim/vimrc" dest="~/.{{item}}" state=link force=yes
+    with_items:
+      - vimrc
+
+  - name: Creating ~/.vim/autoload directory
+    file: path="~/.vim/autoload/" state=directory
+
+  - name: Installing plugin manager
+    get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.vim/autoload/plug.vim" mode=0600

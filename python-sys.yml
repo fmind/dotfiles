@@ -10,9 +10,12 @@
     apt_repository: repo="ppa:pypy/ppa" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing system deps
+  - name: Installing dependencies
     apt: pkg="{{item}}" state=latest
     with_items:
       - pypy
+      - python-dev
       - python3-dev
+      - python-setuptools
       - python3-setuptools
+    when: ansible_distribution == 'Ubuntu'

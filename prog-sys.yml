@@ -10,14 +10,16 @@
     apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Adding docker repository key
+  - name: Adding docker certificate
     apt_key: url="https://apt.dockerproject.org/gpg"
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
+      - jq
       - cloc
+      - cmake
       - rlwrap
       - graphviz
       - docker-engine

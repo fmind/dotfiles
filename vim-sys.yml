@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing system packages
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - vim
+    when: ansible_distribution == 'Ubuntu'

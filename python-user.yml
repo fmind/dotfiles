@@ -18,6 +18,7 @@
       # project
       - tox
       - ipdb
+      - jedi
       - wheel
       - twine
       - sphinx
@@ -43,9 +44,10 @@
       - ipyparallel
       # web client
       - httpie
+      - requests
       - http-prompt
 
-  - name: Checking if ipython profile exists
+  - name: Checking if ipython profile exists for fmind
     stat: path="~/.ipython/profile_fmind/"
     register: ipython_profile
 
@@ -66,15 +68,15 @@
     with_items:
       - yapf/style
 
-  - name: Deploying flake8 configuration
-    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
-    with_items:
-      - flake8
-
   - name: Deploying pypi configuration
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
       - pypirc
+
+  - name: Deploying flake8 configuration
+    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
+    with_items:
+      - flake8
 
   - name: Deploying invoke configuration
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes

@@ -8,4 +8,4 @@
   - name: Deploying latexmk configuration
     file: src="{{ansible_env.PWD}}/tex/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
-    - latexmkrc
+      - latexmkrc

@@ -11,10 +11,10 @@
   - name: Creating ~/.lein directory
     file: path="~/.lein" state=directory
 
-  - name: Installing Leiningen executable
+  - name: Installing lein executable
     get_url: dest=~/bin/lein mode=0700 url="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
 
-  - name: Deploying Leiningen configuration
+  - name: Deploying lein configuration
     file: src="{{ansible_env.PWD}}/clojure/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
     - lein/profiles.clj
