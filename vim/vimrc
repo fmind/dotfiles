@@ -191,7 +191,7 @@ let mapleader="\<Space>"
 let maplocalleader=","
  
 """ BREAK HABITS
-nnoremap Q <NOP>
+nnoremap Q :q!<CR>
 nnoremap <Up> <NOP>
 nnoremap <Down> <NOP>
 nnoremap <Left> <NOP>
@@ -228,6 +228,8 @@ nnoremap <leader>+ gggqG
 nnoremap <leader>= gqip
 " highlight last inserted text
 nnoremap <leader>v `[v`]
+"""""" write a file as sudo
+nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
 """""" add spelling for en/fr
 nnoremap <leader>C :setlocal spell! spelllang=en,fr<CR>
 """""" edit the current macro
