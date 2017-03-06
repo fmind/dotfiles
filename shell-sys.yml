@@ -19,6 +19,7 @@
       - tree
       - htop
       - curl
+      - iotop
       - byobu
       - hexedit
       - parallel

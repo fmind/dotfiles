@@ -9,5 +9,5 @@
   - name: Installing system packages
     apt: pkg="{{item}}" state=latest
     with_items:
-      - vim
+      - vim-nox-py2
     when: ansible_distribution == 'Ubuntu'

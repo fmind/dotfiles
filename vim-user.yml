@@ -5,13 +5,14 @@
 
   tasks:
 
-  - name: Deploying vim configuration
-    file: src="{{ansible_env.PWD}}/vim/vimrc" dest="~/.{{item}}" state=link force=yes
-    with_items:
-      - vimrc
-
   - name: Creating ~/.vim/autoload directory
     file: path="~/.vim/autoload/" state=directory
+
+  - name: Deploying vim configuration
+    file: src="{{ansible_env.PWD}}/vim/vimrc" dest="~/.vimrc" state=link force=yes
+
+  - name: Deploying vim snippets
+    file: src="{{ansible_env.PWD}}/vim/snippets" dest="~/.vim/snippets" state=link force=yes
 
   - name: Installing plugin manager
     get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.vim/autoload/plug.vim" mode=0600

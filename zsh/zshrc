@@ -250,4 +250,3 @@ alias texpurge="latexmk -C"
 alias imgwhite="convert -flatten "
 alias slides="git clone git@github.com:fmind/my-slides"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
