@@ -28,10 +28,10 @@ set sidescrolloff=5
 set title
 set showcmd
 set showmode
-set showmatch
 set t_Co=256
 set background=dark
 set colorcolumn=100
+let g:loaded_matchparen=1
 
 """ SIDEBAR
 set ruler
@@ -40,7 +40,7 @@ set relativenumber
 
 """ STATUSBAR
 set wildmenu
-set shortmess=a
+set shortmess=c
 set laststatus=2
 set wildmode=list:longest
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
@@ -153,8 +153,8 @@ set statusline+=%*
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 0
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_python_checkers=['flake8']
 Plug 'jistr/vim-nerdtree-tabs'
@@ -287,9 +287,9 @@ nnoremap <leader>SD :SDelete<CR>
 nnoremap <leader>q :Autoformat<CR>
 nnoremap <leader>I :UltiSnipsEdit<CR>
 nnoremap <leader>g :YcmCompleter GoTo<CR>
+nnoremap <leader>` :NERDTreeTabsToggle<CR>
 nnoremap <leader>d :YcmCompleter GetDoc<CR>
 nnoremap <leader>- :SyntasticToggleMode<CR>
-nnoremap <leader>` <Plug>NERDTreeTabsToggle<CR>
 
 nnoremap <localleader>i :Isort<CR>
 nnoremap <localleader>f :TestFile<CR>
@@ -300,8 +300,8 @@ nnoremap <localleader>t :TestNearest<CR>
 
 """ INTERNAL CONFIGURATIONS
 nnoremap <leader>MB :buffers<CR>
-nnoremap <leader>MM :message<CR>
-nnoremap <leader>MM :register<CR>
+nnoremap <leader>ML :message<CR>
+nnoremap <leader>MP :register<CR>
 nnoremap <leader>MR :source $MYVIMRC<CR>
-nnoremap <leader>MT :tabedit $MYVIMRC<CR>
+nnoremap <leader>MM :tabedit $MYVIMRC<CR>
 "}}}
