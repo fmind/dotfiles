@@ -42,7 +42,7 @@ set relativenumber
 set wildmenu
 set shortmess=c
 set laststatus=2
-set wildmode=list:longest
+set wildmode=full
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
 
 """ FOLDING
@@ -56,6 +56,7 @@ set linebreak
 set textwidth=0
 
 """ EDITION
+set hidden
 set autoread
 set autowrite
 set encoding=utf-8
@@ -204,6 +205,8 @@ vnoremap j gj
 vnoremap k gk
 xnoremap <  <gv
 xnoremap >  >gv
+inoremap jk  <Esc>
+inoremap kj  <Esc>
 cnoremap <c-p> <up>
 cnoremap <c-n> <down>
 nnoremap <expr> n  'Nn'[v:searchforward]
@@ -214,7 +217,6 @@ nnoremap <leader>z za
 nnoremap <leader>Z zM
 nnoremap <leader>? :help 
 nnoremap <leader>e :tabedit 
-nnoremap <leader>j :join<CR>
 vnoremap <leader>s :sort<CR>
 nnoremap <leader>m :make<CR>
 
@@ -228,6 +230,8 @@ nnoremap <leader>+ gggqG
 nnoremap <leader>= gqip
 " highlight last inserted text
 nnoremap <leader>v `[v`]
+" Switch between the last two files
+nnoremap <leader>j <c-^>
 """""" write a file as sudo
 nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
 """""" add spelling for en/fr
@@ -238,12 +242,6 @@ nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v
 """ TAB MANAGEMENT
 nnoremap <leader><Tab> gt
 nnoremap <leader><S-Tab> gT
-
-""" BUFFER MANAGEMENT
-nnoremap <S-h> <C-d>
-nnoremap <S-j> <C-e>
-nnoremap <S-k> <C-y>
-nnoremap <S-l> <C-u>
 
 """ WINDOWS MANAGEMENT
 nnoremap <C-h> <C-w>h

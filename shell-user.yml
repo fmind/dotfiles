@@ -5,6 +5,11 @@
 
   tasks:
 
+  - name: Deploying ag configuration
+    file: src="{{ansible_env.PWD}}/ag/{{item}}" dest="~/.{{item}}" state=link force=yes
+    with_items:
+    - agignore
+
   - name: Deploying zsh configuration
     file: src="{{ansible_env.PWD}}/zsh/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:
