@@ -109,6 +109,7 @@ alias back="cd $OLDPWD"
 
 # Alias: EDITION
 alias a="cat"
+alias cl="clear"
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
