@@ -3,7 +3,11 @@
 # Installation path
 export ZSH=~/.oh-my-zsh
 
-# Set name of the theme to load.
+# swith to vim edition
+export KEYTIMEOUT=1
+bindkey -v
+
+# Set name of the theme to load
 ZSH_THEME="fmind"
 
 # Uncomment the following line to change the command execution time
@@ -28,6 +32,7 @@ plugins=(catimg
          sudo
          systemd
          urltools
+         vi-mode
          wd
          web-search)
 
@@ -36,13 +41,12 @@ plugins=(catimg
 # Make ZSH Awesome !
 source $ZSH/oh-my-zsh.sh
 
+# enable byobu
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+
 # enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
-fi
-
-if [ -z "$VIMRUNTIME" ]; then
-    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
 
 # remap caps lock backspace
@@ -252,4 +256,3 @@ alias texclean="latexmk -c"
 alias texpurge="latexmk -C"
 alias imgwhite="convert -flatten "
 alias slides="git clone git@github.com:fmind/my-slides"
-

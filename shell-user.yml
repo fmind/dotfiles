@@ -23,6 +23,14 @@
     - gitconfig
     - gitignore
 
+  - name: Deploying byobu configuration
+    file: src="{{ansible_env.PWD}}/byobu/{{item}}" dest="~/.byobu/{{item}}" state=link force=yes
+    with_items:
+      - backend
+      - status
+      - statusrc
+      - keybindings.tmux
+
   - name: Deploying ansible configuration
     file: src="{{ansible_env.PWD}}/{{item}}" dest="~/.{{item}}" state=link force=yes
     with_items:

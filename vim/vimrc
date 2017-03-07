@@ -194,7 +194,7 @@ let maplocalleader=","
  
 """ BREAK HABITS
 nnoremap Q :q!<CR>
-inoremap <Esc> <NOP>
+":inoremap <Esc> <NOP>
 nnoremap <Up> <NOP>
 nnoremap <Down> <NOP>
 nnoremap <Left> <NOP>
