@@ -9,5 +9,5 @@ c.InteractiveShellApp.exec_lines = [
 ]
 
 c.TerminalInteractiveShell.colors = 'Linux'
-c.TerminalIPythonApp.display_banner = False
+c.TerminalInteractiveShell.editing_mode = 'vi'
 c.TerminalInteractiveShell.confirm_exit = False

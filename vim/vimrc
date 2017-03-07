@@ -22,7 +22,7 @@ set mouse=a
 set confirm
 set splitright
 set splitbelow
-set scrolloff=15
+set scrolloff=10
 set sidescrolloff=5
 "}}}
 """ THEMING"{{{
@@ -138,6 +138,7 @@ Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
 "}}}
 """ EDITION"{{{
+Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -248,6 +249,7 @@ nnoremap <leader>? :help
 nnoremap <leader>e :tabedit 
 nnoremap <silent> <leader>p :put<CR> 
 vnoremap <silent> <leader>s :sort<CR>
+nnoremap <silent> <leader>j :join<CR>
 vnoremap <silent> <leader>j :join<CR>
 nnoremap <silent> <leader>m :make<CR>
 "}}}
@@ -273,10 +275,12 @@ nnoremap <silent> <leader>C :setlocal spell! spelllang=en,fr<CR>
 nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 "}}}
 """ TAB MANAGEMENT"{{{
-nnoremap <silent> <S-k> :tabnext<CR>
-nnoremap <silent> <S-j> :tabprevious<CR>
+nnoremap <silent> K :tabnext<CR>
+nnoremap <silent> J :tabprevious<CR>
 "}}}
 """ BUFFER MANAGEMENT"{{{
+nnoremap <silent> H <C-e>
+nnoremap <silent> L <C-y>
 nnoremap <silent> <leader><Tab> :bnext<cr>
 nnoremap <silent> <leader><S-Tab> :bprevious<cr>
 "}}}

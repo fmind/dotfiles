@@ -16,6 +16,7 @@
     - zshrc
     - zsh.d
     - zshenv
+    - inputrc
 
   - name: Deploying git configuration
     file: src="{{ansible_env.PWD}}/git/{{item}}" dest="~/.{{item}}" state=link force=yes

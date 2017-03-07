@@ -1,0 +1,11 @@
+set editing-mode vi
+set show-all-if-ambiguous on
+set completion-ignore-case on
+menu-complete-display-prefix on
+
+$if mode=vi
+    set keymap vi-command
+
+    set keymap vi-insert
+    TAB: menu-complete
+$endif
