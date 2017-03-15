@@ -118,7 +118,6 @@ alias vir="$EDITOR -R"
 alias vip="$EDITOR -p"
 alias vis="sudo $EDITOR"
 alias virc='$EDITOR ~/.vimrc'
-alias e="emacs . &"
 
 # Alias: INTEGRATION
 alias x="exit"
@@ -198,6 +197,11 @@ alias clje="lein exec"
 alias cljr="lein repl"
 alias cljs="planck"
 cljp() { lein with-profile "$1" repl } 
+## Elixir
+alias e="elixir"
+alias ec="elixirc"
+alias em="mix"
+alias er="iex"
 ## Python
 alias p="python"
 alias ph="pydoc"
