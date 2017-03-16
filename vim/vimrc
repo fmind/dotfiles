@@ -184,10 +184,13 @@ let g:ycm_autoclose_preview_window_after_completion= 1
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 "}}}
-"""" PYTHON LANGUAGE"{{{
+""" PYTHON LANGUAGE"{{{
 Plug 'fisadev/vim-isort'
 "}}}
-"""" OTHER LANGUAGES"{{{
+""" ELIXIR LANGUAGE
+Plug 'elixir-lang/vim-elixir'
+Plug 'slashmili/alchemist.vim'
+""" OTHER LANGUAGES"{{{
 "Plug 'vim-pandoc/vim-pandoc'
 "nnoremap <leader>P :Pandoc<CR>
 " Plug 'godlygeek/tabular'
