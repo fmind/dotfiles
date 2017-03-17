@@ -5,12 +5,15 @@ set nocompatible
 "}}}
 " CHECKUP
 "{{{
-let VIMDIR=$HOME.'/.vim/'
+let $VIMDIR=$HOME.'/.vim/'
 
 if exists('*mkdir')
+    if !isdirectory($VIMDIR)
+        call mkdir($VIMDIR)
+    endif
     for subdir in ['backup', 'session', 'plugged', 'snippets', 'spell', 'swap', 'undo']
-        if !isdirectory(VIMDIR.subdir)
-            call mkdir(VIMDIR.subdir)
+        if !isdirectory($VIMDIR.subdir)
+            call mkdir($VIMDIR.subdir)
         endif
     endfor
 endif
@@ -31,6 +34,7 @@ set showcmd
 set showmode
 set noshowmatch
 set t_Co=256
+set conceallevel=2
 set background=dark
 " set colorcolumn=100
 let g:loaded_matchparen=1
@@ -98,27 +102,11 @@ set lazyredraw
 set backup
 set undofile
 set updatecount=100
-set undodir=$HOME/.vim/undo/
-set directory=$HOME/.vim/swap/
-set backupdir=$HOME/.vim/backup/
-set viminfo ='200,n$HOME/.vim/viminfo
+set undodir=$VIMDIR/undo/
+set directory=$VIMDIR/swap/
+set backupdir=$VIMDIR/backup/
+set viminfo ='200,n$VIMDIR/viminfo
 "}}}
-"}}}
-" HOOKS
-"{{{
-"""  automaticaly save buffers on focus lost
-autocmd FocusLost * silent! wa
-""" automatic spelling and wrapping on open, read and save
-autocmd BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
-
-""" restore last position of the cursor when opening a file
-autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-
-""" specific to Python
-autocmd BufNewFile,BufRead *.py setlocal foldmethod=indent
 "}}}
 " PLUGINS
 "{{{
@@ -140,6 +128,9 @@ let g:tmux_navigator_save_on_switch = 1
 """ EDITION"{{{
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-repeat'
+Plug 'junegunn/goyo.vim'
+let g:goyo_width='90%'
+let g:goyo_height=120
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
@@ -187,14 +178,17 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 """" PYTHON LANGUAGE"{{{
 Plug 'fisadev/vim-isort'
 "}}}
+"""" MARKDOWN LANGUAGE"{{{
+Plug 'godlygeek/tabular'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'plasticboy/vim-markdown'
+let g:vim_markdown_math = 1
+Plug 'vim-pandoc/vim-pandoc-syntax'
+"}}}
 """" OTHER LANGUAGES"{{{
-"Plug 'vim-pandoc/vim-pandoc'
 "nnoremap <leader>P :Pandoc<CR>
-" Plug 'godlygeek/tabular'
 " nnoremap <leader>T :Tabularize 
-"Plug 'plasticboy/vim-markdown'
 "let g:vim_markdown_no_default_key_mappings = 1
-"Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'beloglazov/vim-online-thesaurus'
 "}}}
 call plug#end()
@@ -203,6 +197,23 @@ colorscheme molokai
 catch
 endtry
 endif
+"}}}
+" HOOKS
+"{{{
+"""  automaticaly save buffers on focus lost
+autocmd! FocusLost * silent! wa
+
+""" restore last position of the cursor when opening a file
+autocmd! BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
+""" automatic add spelling and wrapping on open, read and save
+autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
+
+""" specific to Python files
+autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
 "}}}
 " KEYBINDINGS
  "{{{
@@ -214,7 +225,6 @@ let mapleader="\<Space>"
 let maplocalleader=","
  "}}}
 """ BREAK HABITS"{{{
-nnoremap Q :q!<CR>
 ":inoremap <Esc> <NOP>
 nnoremap <Up> <NOP>
 nnoremap <Down> <NOP>
@@ -226,6 +236,7 @@ inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 "}}}
 """ BETTER DEFAULT"{{{
+map Y y$
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
@@ -236,11 +247,12 @@ xnoremap <  <gv
 xnoremap >  >gv
 inoremap jk  <Esc>
 inoremap kj  <Esc>
-cnoremap <c-p> <Up>
-cnoremap <c-n> <Down>
+nnoremap Q :q!<CR>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+nnoremap <silent> <ESC> :nohl<CR>
 nnoremap <expr> n  'Nn'[v:searchforward]
 nnoremap <expr> N  'nN'[v:searchforward]
-nnoremap <silent> <Esc> :nohlsearch<CR>
  "}}}
 """ BASIC ACTIONS"{{{
 nnoremap <leader>z za
@@ -266,7 +278,7 @@ nnoremap <leader>v `[v`]
 """"""" switch between the last two files
 nnoremap <leader>k <c-^>
 """"""" get answer from the internet
-nnoremap <leader>a :!howdoi 
+nnoremap <leader>y :!howdoi 
 """""" write a file as sudo
 nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
 """""" add spelling for en/fr
@@ -293,7 +305,6 @@ nnoremap <silent> <leader>H :split<CR>
 nnoremap <silent> <leader>V :vsplit<CR>
 "}}}
 """ PLUGINS MANAGEMENT"{{{
-nnoremap <silent> <leader>PR :source $MYVIMRC<CR>
 nnoremap <silent> <leader>PI :PlugInstall<CR>
 nnoremap <silent> <leader>PG :PlugUpgrade<CR>
 nnoremap <silent> <leader>PU :PlugUpdate<CR>
@@ -301,10 +312,10 @@ nnoremap <silent> <leader>PS :PlugStatus<CR>
 nnoremap <silent> <leader>PC :PlugClean<CR>
 nnoremap <silent> <leader>PL :PlugList<CR>
 nnoremap <silent> <leader>PD :PlugDocs<CR>
+nnoremap <leader>PR :source $MYVIMRC<CR>
 "}}}
 """ PLUGINS CONFIGURATIONS"{{{
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
+"""""" go to
 nmap s <Plug>(easymotion-s2)
 nnoremap <silent> <leader>/ :Ag<CR>
 nnoremap <silent> <leader>T :Tags<CR>
@@ -319,24 +330,42 @@ nnoremap <silent> <leader>h :History<CR>
 nnoremap <silent> <leader>w :Windows<CR>
 nnoremap <silent> <leader>i :Snippets<CR>
 nnoremap <silent> <leader>c :Commands<CR>
-nnoremap <silent> <leader>SL :SLoad<CR>
-nnoremap <silent> <leader>SS :SSave<CR>
-nnoremap <silent> <leader>SC :SClose<CR>
-nnoremap <silent> <leader>SD :SDelete<CR>
-nnoremap <silent> <leader>q :Autoformat<CR>
-nnoremap <silent> <leader>; :TagbarToggle<CR>
-nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 nnoremap <silent> <leader>g :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
 nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
-nnoremap <silent> <leader>- :SyntasticToggleMode<CR>
-"}}}
-nnoremap <silent> <localleader>i :Isort<CR>"{{{
+""""""" lookup
+nnoremap <leader>U :Thesaurus 
+nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
+""""""" testing
 nnoremap <silent> <localleader>f :TestFile<CR>
 nnoremap <silent> <localleader>l :TestLast<CR>
 nnoremap <silent> <localleader>s :TestSuite<CR>
 nnoremap <silent> <localleader>g :TestVisit<CR>
 nnoremap <silent> <localleader>t :TestNearest<CR>
+""""""" toggling
+nnoremap <silent> <leader>; :TagbarToggle<CR>
+nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
+nnoremap <silent> <leader>- :SyntasticToggleMode<CR>
+""""""" formatting
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+nnoremap <silent> <leader>A :Tab 
+nnoremap <silent> <leader>DD :Pandoc
+nnoremap <silent> <localleader>i :Isort<CR>
+nnoremap <silent> <leader>q :Autoformat<CR>
+nnoremap <silent> <leader>a= :Tabularize /=
+vnoremap <silent> <leader>a= :Tabularize /=
+nnoremap <silent> <leader>a/ :Tabularize /|
+vnoremap <silent> <leader>a/ :Tabularize /|
+" nnoremap <silent> <leader>DP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
+" nnoremap <silent> <leader>DH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
+""""""" session management
+nnoremap <silent> <leader>SL :SLoad<CR>
+nnoremap <silent> <leader>SS :SSave<CR>
+nnoremap <silent> <leader>SC :SClose<CR>
+nnoremap <silent> <leader>SD :SDelete<CR>
+""""""" other plugin configuration
+nnoremap <silent> <leader>G :Goyo<CR>
+nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 "}}}
 """ INTERNAL CONFIGURATIONS"{{{
 nnoremap <leader>MR :source $MYVIMRC<CR>

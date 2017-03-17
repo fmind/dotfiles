@@ -13,6 +13,7 @@
       - pandoc
       - latexmk
       - texlive
+      - texlive-xetex
       - texlive-science
       - texlive-math-extra
       - texlive-latex-extra
