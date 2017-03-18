@@ -125,70 +125,54 @@ Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
 "}}}
-""" EDITION"{{{
+""" BASIC"{{{
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-repeat'
-Plug 'junegunn/goyo.vim'
-let g:goyo_width='90%'
-let g:goyo_height=120
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
+Plug 'vim-scripts/matchit.zip'
 Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
 let g:EasyMotion_smartcase = 1
 Plug 'christoomey/vim-sort-motion'
 Plug 'michaeljsmith/vim-indent-object'
 "}}}
-""" NAVIGATION"{{{
-Plug 'vim-scripts/matchit.zip'
-"}}}
 """ IDE FEATURES"{{{
-Plug 'janko-m/vim-test'
-let g:test#preserve_screen = 1
-let test#python#runner = 'pytest'
+" Plug 'janko-m/vim-test'
+" let g:test#preserve_screen = 1
+" let test#python#runner = 'pytest'
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsEditSplit = 'context'
 let g:UltiSnipsSnippetsDir = $HOME.'/.vim/snippets/'
-Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
+Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-startify'
 Plug 'scrooloose/nerdtree' 
 let NERDTreeIgnore=['\.pyc$', '\~$']
-Plug 'Chiel92/vim-autoformat'
-let g:formatters_python = ['yapf']
-Plug 'sheerun/vim-polyglot'
-Plug 'scrooloose/syntastic'
-set statusline+=%*
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-let g:syntastic_check_on_wq = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_python_checkers=['flake8']
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
-let g:ycm_goto_buffer_command = 'new-or-existing-tab'
-let g:ycm_autoclose_preview_window_after_completion= 1
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" Plug 'Chiel92/vim-autoformat'
+" let g:formatters_python = ['yapf']
+" Plug 'scrooloose/syntastic'
+" set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_python_checkers=['flake8']
+" Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
+" let g:ycm_goto_buffer_command = 'new-or-existing-tab'
+" let g:ycm_autoclose_preview_window_after_completion= 1
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 "}}}
-""" PYTHON LANGUAGE"{{{
-Plug 'fisadev/vim-isort'
-"}}}
-"""" MARKDOWN LANGUAGE"{{{
+"""" PROGRAMMING LANGUAGE"{{{
 Plug 'godlygeek/tabular'
-Plug 'vim-pandoc/vim-pandoc'
+Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
-let g:vim_markdown_math = 1
-Plug 'vim-pandoc/vim-pandoc-syntax'
-"}}}
-"""" OTHER LANGUAGES"{{{
-"nnoremap <leader>P :Pandoc<CR>
-" nnoremap <leader>T :Tabularize 
-"let g:vim_markdown_no_default_key_mappings = 1
 Plug 'beloglazov/vim-online-thesaurus'
 "}}}
 call plug#end()
@@ -330,28 +314,28 @@ nnoremap <silent> <leader>h :History<CR>
 nnoremap <silent> <leader>w :Windows<CR>
 nnoremap <silent> <leader>i :Snippets<CR>
 nnoremap <silent> <leader>c :Commands<CR>
-nnoremap <silent> <leader>g :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
+" nnoremap <silent> <leader>g :YcmCompleter GoTo<CR>
+" nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
 """"""" lookup
 nnoremap <leader>U :Thesaurus 
 nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
-""""""" testing
-nnoremap <silent> <localleader>f :TestFile<CR>
-nnoremap <silent> <localleader>l :TestLast<CR>
-nnoremap <silent> <localleader>s :TestSuite<CR>
-nnoremap <silent> <localleader>g :TestVisit<CR>
-nnoremap <silent> <localleader>t :TestNearest<CR>
+" """"""" testing
+" nnoremap <silent> <localleader>f :TestFile<CR>
+" nnoremap <silent> <localleader>l :TestLast<CR>
+" nnoremap <silent> <localleader>s :TestSuite<CR>
+" nnoremap <silent> <localleader>g :TestVisit<CR>
+" nnoremap <silent> <localleader>t :TestNearest<CR>
 """"""" toggling
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
-nnoremap <silent> <leader>- :SyntasticToggleMode<CR>
+" nnoremap <silent> <leader>- :SyntasticToggleMode<CR>
 """"""" formatting
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 nnoremap <silent> <leader>A :Tab 
-nnoremap <silent> <leader>DD :Pandoc
-nnoremap <silent> <localleader>i :Isort<CR>
-nnoremap <silent> <leader>q :Autoformat<CR>
+" nnoremap <silent> <leader>DD :Pandoc
+" nnoremap <silent> <localleader>i :Isort<CR>
+" nnoremap <silent> <leader>q :Autoformat<CR>
 nnoremap <silent> <leader>a= :Tabularize /=
 vnoremap <silent> <leader>a= :Tabularize /=
 nnoremap <silent> <leader>a/ :Tabularize /|
@@ -364,7 +348,7 @@ nnoremap <silent> <leader>SS :SSave<CR>
 nnoremap <silent> <leader>SC :SClose<CR>
 nnoremap <silent> <leader>SD :SDelete<CR>
 """"""" other plugin configuration
-nnoremap <silent> <leader>G :Goyo<CR>
+" nnoremap <silent> <leader>G :Goyo<CR>
 nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 "}}}
 """ INTERNAL CONFIGURATIONS"{{{

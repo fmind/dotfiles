@@ -1,11 +1,4 @@
-./byobu:
-keybindings.tmux
-
-
 ./emacs:
-
-./python/profile_fmind:
-ipython_config.py
 
 
 ./vim/snippets:

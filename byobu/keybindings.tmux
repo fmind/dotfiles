@@ -11,11 +11,9 @@ bind-key -n C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
 bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
 
 # WINDOWS
-bind-key -n M-h previous-window
 bind-key -n M-l next-window
+bind-key -n M-h previous-window
 
 # SESSIONS
-bind-key -n M-j switch-client -p
 bind-key -n M-k switch-client -n
-
-
+bind-key -n M-j switch-client -p
