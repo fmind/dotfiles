@@ -1,11 +1,5 @@
-# My Tool Settings
+# dotfiles
 
-Configurations and Plugins associated to my favorite tools:
-* zsh
-* byobu
-* ipython
-* vim
-* git
-* emacs
+Configurations for my favorite tools.
 
 Enjoy !

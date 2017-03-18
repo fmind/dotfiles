@@ -3,31 +3,23 @@
 # Installation path
 export ZSH=~/.oh-my-zsh
 
-# swith to vim edition
-export KEYTIMEOUT=1
-bindkey -v
-
-# Set name of the theme to load
+# Set name of the theme
 ZSH_THEME="fmind"
 
-# Uncomment the following line to change the command execution time
-HIST_STAMPS="yyyy-mm-dd"
-
-# Would you like to use another custom folder than $ZSH/custom?
+# Set the custom folder
 ZSH_CUSTOM=$HOME/.zsh.d
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Set the execution time
+HIST_STAMPS="yyyy-mm-dd"
+
+# Set the ZSH plugins to load
 plugins=(catimg
          command-not-found
-         dircycle
          docker
          encode64
-         fabric
-         gitfast
          httpie
          jsontools
          lein
-         lol
          python
          sudo
          systemd
@@ -38,58 +30,50 @@ plugins=(catimg
 
 ## INCLUDES
 
-# Make ZSH Awesome !
+# Make ZSH awesome again !
 source $ZSH/oh-my-zsh.sh
 
-# enable byobu
+# Switch to vi
+bindkey -v
+export KEYTIMEOUT=1
+bindkey '^o' clear-screen
+
+# Enable byobu
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 
-# enable autoenv
+# Enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
 fi
 
-# remap caps lock backspace
+# Set umask
+umask 0077
+
+# Set caps lock to escape
 setxkbmap -option caps:escape
+
+# setopt MENU_COMPLETE
 
 # Add support for 256 colors
 export TERM=screen-256color
 
-# Preferred language for local and remote sessions
-export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
+# Set preferred editor for local and remote sessions
 export EDITOR='vim'
 
-# pip completion
-function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] ) )
-}
-compctl -K _pip_completion pip
-
-# Set more options
-setopt MENU_COMPLETE
-
-# set umask
-umask 0077
+# Set preferred language for local and remote sessions
+export LANG=en_US.UTF-8
 
 ### Alias Configuration ###
 
 # Alias: GLOBAL
-alias -g H='--help'
 alias -g F='| head'
 alias -g T='| tail'
-alias -g G='| grep'
 alias -g L='| less'
-alias -g X='| xsel --clipboard'
+alias -g G='| grep'
 alias -g V='| $EDITOR -'
 alias -g J='| js-beautify'
-alias -g P=':$PATH'
+alias -g X='| xsel --clipboard'
+alias -g H='--help'
 alias -g NE='2>/dev/null'
 alias -g NUL='>/dev/null2>&1'
 
@@ -110,6 +94,8 @@ alias back="cd $OLDPWD"
 # Alias: EDITION
 alias a="cat"
 alias cl="clear"
+alias ve="emacs . &"
+alias vn="emacs -nw"
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -136,15 +122,15 @@ alias extip='curl icanhazip.com'
 
 # Alias: DISTRIBUTION
 alias search="apt-cache search"
-alias install="sudo apt-get install"
-alias remove="sudo apt-get remove --purge"
+alias clean="sudo apt-get clean"
 alias update="sudo apt-get update"
 alias upgrade="sudo apt-get upgrade"
-alias megaup="update && upgrade && autoremove"
-alias clean="sudo apt-get clean"
+alias install="sudo apt-get install"
 alias autoclean="sudo apt-get autoclean"
-alias autoremove="sudo apt-get autoremove --purge"
+alias remove="sudo apt-get remove --purge"
+alias megaup="update && upgrade && autoremove"
 alias dist-upgrade="sudo apt-get dist-upgrade"
+alias autoremove="sudo apt-get autoremove --purge"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias: CONFIGURATION
@@ -154,13 +140,12 @@ alias zshrc='$EDITOR ~/.zshrc && zshsrc'
 alias zshenv='$EDITOR ~/.zshenv && zshsenv'
 alias privsenv='source ~/.privenv'
 alias privenv='$EDITOR ~/.privenv && privsenv'
-alias emacsrc='$EDITOR ~/.spacemacs'
-alias sshrc='$EDITOR ~/.ssh/config'
-alias sshpub='cat ~/.ssh/id_rsa.pub'
-alias cookierc='$EDITOR ~/.cookiecutterrc'
-alias latexmkrc='$EDITOR ~/.latexmkrc'
-alias pypirc='$EDITOR ~/.pypirc'
 alias warprc='$EDITOR ~/.warprc'
+alias pypirc='$EDITOR ~/.pypirc'
+alias sshrc='$EDITOR ~/.ssh/config'
+alias emacsrc='$EDITOR ~/.spacemacs'
+alias latexmkrc='$EDITOR ~/.latexmkrc'
+alias cookierc='$EDITOR ~/.cookiecutterrc'
 
 # Alias: ADMINISTRATION
 alias chx="chmod u+x "
@@ -172,7 +157,7 @@ alias psproc='ps aux | sort -nk 3'
 backup() { cp "$1"{,.bak}; }
 
 # Alias: FILTERING
-alias igrep="grep -i"
+alias jqr="jq -r"
 alias t="head -n1"
 alias h1="head -n1"
 alias h5="head -n5"
@@ -182,7 +167,7 @@ alias t1="tail -n1"
 alias t5="tail -n5"
 alias t10="tail -n10"
 alias t15="tail -n15"
-alias jqr="jq -r"
+alias igrep="grep -i"
 alias colt="column -t"
 alias sortp='sort --parallel=$(nproc --all)'
 
@@ -190,26 +175,24 @@ alias sortp='sort --parallel=$(nproc --all)'
 ## Java
 alias jajar="java -jar"
 ## Clojure
-alias leinrc="$EDITOR ~/.lein/profiles.clj"
-alias leina="lein ancient"
-alias leinap="lein ancient check-profiles"
-alias clje="lein exec"
 alias cljr="lein repl"
-alias cljs="planck"
+alias leina="lein ancient"
+alias leinrc="$EDITOR ~/.lein/profiles.clj"
+alias leinap="lein ancient check-profiles"
 cljp() { lein with-profile "$1" repl } 
 ## Elixir
+alias er="iex"
+alias em="mix"
 alias e="elixir"
 alias ec="elixirc"
-alias em="mix"
-alias er="iex"
 ## Python
+alias pp="pip"
 alias p="python"
 alias ph="pydoc"
 alias p2="python2"
 alias p3="python3"
 alias toxe="tox -e"
 alias pt="python setup.py"
-alias pp="pip"
 alias ppl="pip list --user"
 alias pps="pip search --user"
 alias ppi="pip install --user"

@@ -16,7 +16,6 @@
       - zsh
       - git
       - vim
-      - entr
       - tree
       - htop
       - curl

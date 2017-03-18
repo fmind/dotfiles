@@ -1,6 +1,6 @@
 [user]
-    name = Freaxmind
-    email = freaxmind@users.noreply.github.com
+    name = fmind
+    email = fmind@users.noreply.github.com
 
 [core]
     editor = vim
@@ -9,11 +9,11 @@
 [color]
     ui = auto
 
-[push]
-    default = simple
-
 [merge]
     tool = vimdiff
+
+[push]
+    default = simple
 
 [alias]
     st = status

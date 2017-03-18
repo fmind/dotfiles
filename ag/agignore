@@ -1,6 +1,7 @@
 *.pyc
 *.pyo
 
+venv/
 .git/
 .tox/
 .devenv/

@@ -47,7 +47,6 @@
       - unison
       - gparted
       - keepassx
-      - vim-gtk3
       - virtualbox
       - xbacklight
       - fonts-hack-ttf

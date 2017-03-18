@@ -5,11 +5,10 @@
 
   tasks:
 
-  - name: Installing Python packages
+  - name: Installing python packages
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
       # syntax
-      - hy
       - yapf
       - isort
       - flake8
@@ -35,9 +34,6 @@
       - sh
       - envoy
       - glances
-      # formats
-      - shyaml
-      - csvkit
       # analysis
       - jupyter
       - ipython
@@ -47,7 +43,19 @@
       - requests
       - http-prompt
 
-  - name: Checking if ipython profile exists for fmind
+  - name: Creating ~/.config/yapf directory
+    file: path="~/.config/yapf" state=directory
+
+  - name: Deploying all python configurations
+    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
+    with_items:
+      - pypirc
+      - invoke.yaml
+      - config/flake8
+      - cookiecutterrc
+      - config/yapf/style
+
+  - name: Checking if ipython profile exists
     stat: path="~/.ipython/profile_fmind/"
     register: ipython_profile
 
@@ -59,31 +67,3 @@
     file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.ipython/{{item}}" state=link force=yes
     with_items:
       - profile_fmind/ipython_config.py
-
-  - name: Creating ~/.config/yapf directory
-    file: path="~/.config/yapf" state=directory
-
-  - name: Deploying yapf configuration
-    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
-    with_items:
-      - yapf/style
-
-  - name: Deploying pypi configuration
-    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
-    with_items:
-      - pypirc
-
-  - name: Deploying flake8 configuration
-    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.config/{{item}}" state=link force=yes
-    with_items:
-      - flake8
-
-  - name: Deploying invoke configuration
-    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
-    with_items:
-      - invoke.yaml
-
-  - name: Deploying cookiecutter configuration
-    file: src="{{ansible_env.PWD}}/python/{{item}}" dest="~/.{{item}}" state=link force=yes
-    with_items:
-      - cookiecutterrc

@@ -6,18 +6,23 @@
 - requests
 - selenium
 - beautifulsoup4
+
 # media
 - pillow
+
 # database
 - redis
 - peewee
 - pymongo
 - mongoengine
+
 # security
 - scapy
 - mitmproxy
+
 # misc
 - celery
+
 # data analysis
 - arrow
 - numpy
@@ -29,6 +34,7 @@
 - jellyfish
 - matplotlib
 - statsmodel
+
 # machine learning
 - nltk
 - gensim

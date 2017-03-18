@@ -1,14 +1,14 @@
 #!/bin/bash
 
-echo "[*] Installing git, ansible and python3."
-sudo apt-get install -y git ansible python3
+echo "[*] Installing git, python3, ansible"
+sudo apt-get install -y git python3 ansible
 
 echo
-read -p "Do you want to clone my-dev-tools to dev-tools now [Y/y] ? " -n 1 -r
+read -p "Do you want to clone dotfiles [Y/y] ? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "[*] Cloning my-dev-tools."
-    git clone https://fmind@github.com/fmind/my-dev-tools dev-tools
+    echo "[*] Cloning fmind/dotfiles"
+    git clone https://fmind@github.com/fmind/dotfiles
 fi
 
 echo

@@ -17,11 +17,11 @@ function viminfos() {
 }
 
 function suinfos () {
-    #if [[ $EUID -eq 0 ]]; then
-    #    echo "∮"
-    #else
-    #    echo "∫"
-    #fi
+    if [[ $EUID -eq 0 ]]; then
+        echo "∮"
+    else
+        echo "∫"
+    fi
 }
 
 PROMPT='%{%B%}%{$fg[red]%}∀%m%{$fg[green]%}∃%n%{$fg[blue]%}∧%1d%{$fg[white]%}$(suinfos)%{$reset_color%}%{%b%} '

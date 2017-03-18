@@ -5,7 +5,7 @@
 
 # Others #
 ##########
+.#*
 *.log
 *.sql
 *.sqlite
-.#*
