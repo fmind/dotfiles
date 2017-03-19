@@ -1,10 +1,5 @@
                                         ; FUNCTIONS
 
-(defun my-python-start-repl-with-devenv()
-  (interactive)
-  (pyvenv-activate (concat (projectile-project-root) ".devenv"))
-  (python-start-or-switch-repl))
-
 (defun my-python-swith-to-repl ()
   (interactive)
   (switch-to-buffer "*Python*"))
@@ -12,6 +7,11 @@
 (defun my-python-swith-to-report()
   (interactive)
   (switch-to-buffer "*pytest*"))
+
+(defun my-python-start-repl-with-devenv()
+  (interactive)
+  (pyvenv-activate (concat (projectile-project-root) ".devenv"))
+  (python-start-or-switch-repl))
 
                                         ; KEYBINDINGS
 

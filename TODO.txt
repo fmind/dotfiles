@@ -1,6 +1,0 @@
-./emacs:
-
-
-./vim/snippets:
-pandoc.snippets
-python.snippets

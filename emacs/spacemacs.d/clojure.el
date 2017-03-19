@@ -6,21 +6,14 @@
 
                                         ; FUNCTIONS
 
-;; ;; TODO: replace by layout
-;; (defun my-init-cider ()
-;;   (interactive)
-;;   (cider-switch-to-repl-buffer)
-;;   (split-window-below-and-focus)
-;;   (switch-to-buffer "*cider-test-report*")
-;;   (select-window-1)
-;;   (split-window-below-and-focus)
-;;   (projectile-toggle-between-implementation-and-test)
-;;   (select-window-1))
-
-(defun my-load-buffer-and-repl-set-ns ()
+(defun my-defonce-toggle ()
   (interactive)
-  (cider-load-buffer)
-  (cider-repl-set-ns (cider-current-ns)))
+  (let* ((line (thing-at-point 'line t))
+         (line (cond
+                ((string-match-p "^(def " line) (replace-regexp-in-string "(def " "(defonce " line))
+                ((string-match-p "^(defonce " line) (replace-regexp-in-string "(defonce " "(def " line))
+                (t line))))
+    (kill-whole-line) (insert line) (previous-line)))
 
 (defun my-eval-and-next ()
   (interactive)
@@ -36,14 +29,10 @@
   (evil-lisp-state/quit)
   (evil-previous-visual-line))
 
-(defun my-defonce-toggle ()
+(defun my-load-buffer-and-repl-set-ns ()
   (interactive)
-  (let* ((line (thing-at-point 'line t))
-         (line (cond
-                ((string-match-p "^(def " line) (replace-regexp-in-string "(def " "(defonce " line))
-                ((string-match-p "^(defonce " line) (replace-regexp-in-string "(defonce " "(def " line))
-                (t line))))
-    (kill-whole-line) (insert line) (previous-line)))
+  (cider-load-buffer)
+  (cider-repl-set-ns (cider-current-ns)))
 
                                         ; HOOKS
 
@@ -52,10 +41,14 @@
   (add-hook mode #'aggressive-indent-mode)
   (add-hook mode #'evil-cleverparens-mode))
 
-(add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))   ; boot scripts
-(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode)) ; boot files
+(defun my-cider-mode-hook ()
+    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input)
+    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input)
+  )
 
-                                        ; KEYBINDINGS
+(add-hook 'cider-repl-mode-hook 'my-cider-mode-hook)
+
+                                        ; BINDINGS
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (spacemacs/set-leader-keys-for-major-mode mode
@@ -78,12 +71,3 @@
     "tn" 'cider-test-run-ns-tests
     "tp" 'cider-test-run-project-tests
     "tl" 'cider-test-run-loaded-tests))
-
-;; specific to cider-repl-mode-map
-
-(defun my-cider-mode-hook ()
-    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input)
-    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input)
-  )
-
-(add-hook 'cider-repl-mode-hook 'my-cider-mode-hook)

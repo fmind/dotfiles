@@ -24,6 +24,7 @@
       - jq
       - cloc
       - cmake
+      - global
       - rlwrap
       - graphviz
       - docker-engine

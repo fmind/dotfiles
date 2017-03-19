@@ -1,0 +1,21 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding elixir repository
+    apt_repository: repo="deb http://binaries.erlang-solutions.com/debian xenial contrib" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Adding elixir certificate
+    apt_key: url="https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc"
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing system packages
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - elixir
+    when: ansible_distribution == 'Ubuntu'

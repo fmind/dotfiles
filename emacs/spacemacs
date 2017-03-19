@@ -1,31 +1,31 @@
 ;; -*- mode: emacs-lisp -*-
 
-(setq MYSPACE "~/.spacemacs.d/")
-(load-file (expand-file-name "boot.el" MYSPACE))
+;; setup spacemacs environment
+(setq SPMDIR "~/.spacemacs.d/")
+(load-file (expand-file-name "boot.el" SPMDIR))
 
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
   (setq-default
-   ;; Base distributioble-lazy-installation 'unused
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path `(,MYSPACE)
+   dotspacemacs-configuration-layer-path `(,SPMDIR)
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
      ansible
      (auto-completion :variables
-                      auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-tab-key-behavior 'cycle
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
                       auto-completion-enable-snippets-in-popup t)
      better-defaults
      bibtex
+     ;; bibtex
      (clojure :variables
               cider-test-show-report t
               clojure-enable-fancify-symbols t
@@ -34,8 +34,10 @@
      command-log
      csv
      docker
+     elixir
      emacs-lisp
      evil-cleverparens
+     evil-commentary
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      git
@@ -61,11 +63,8 @@
              python-enable-yapf-format-on-save t)
      restclient
      search-engine
-     selectric
-     semantic
      shell
      shell-scripts
-     sql
      speed-reading
      (spell-checking :variables
                      spell-checking-enable-auto-dictionary t)
@@ -85,7 +84,7 @@
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(evil-search-highlight-persist evil-jumper)
+   dotspacemacs-excluded-packages '(evil-jumper evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -160,10 +159,7 @@ values."
    dotspacemacs-themes '(monokai
                          spacemacs-dark
                          spacemacs-light
-                         solarized-light
-                         solarized-dark
-                         leuven
-                         zenburn)
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -179,7 +175,7 @@ values."
    ;; (default "SPC")
    dotspacemacs-emacs-command-key "SPC"
    ;; The key used for Vim Ex commands (default ":")
-   dotspacemacs-ex-command-key ":"
+   dotspacemacs-ex-command-key ";"
    ;; The leader key accessible in `emacs state' and `insert state'
    ;; (default "M-m")
    dotspacemacs-emacs-leader-key "M-m"
@@ -302,7 +298,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -321,28 +317,27 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code."
-  ;;(setq exec-path-from-shell-arguments '("-l"))
-  (setq version-control t)
-  (setq backup-by-copying t)
-  (setq kept-old-versions 5)
-  (setq kept-new-versions 10)
-  (setq delete-old-versions t)
-  (setq backup-directory-alist '(("" . "~/.emacs.d/backups/"))))
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
-  (my-config-load "clojure.el")
-  (my-config-load "docview.el")
-  (my-config-load "elisp.el")
-  (my-config-load "engine.el")
   (my-config-load "global.el")
-  (my-config-load "hy.el")
+
+  ;; writing
   (my-config-load "latex.el")
-  (my-config-load "org.el")
   (my-config-load "pandoc.el")
+
+  ;; programming
+  (my-config-load "elisp.el")
+  (my-config-load "elixir.el")
   (my-config-load "python.el")
-  (my-config-load "racket.el")
-  (my-config-load "symbols.el")
+  (my-config-load "clojure.el")
+
+  ;; organization
+  (my-config-load "org.el")
+
+  ;; applications
+  (my-config-load "engine.el")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

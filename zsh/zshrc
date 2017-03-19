@@ -94,8 +94,10 @@ alias back="cd $OLDPWD"
 # Alias: EDITION
 alias a="cat"
 alias cl="clear"
-alias ve="emacs . &"
-alias vn="emacs -nw"
+alias vd="emacs --daemon"
+alias vt="emacsclient -t"
+alias vc="emacsclient -c &"
+alias vcc="emacsclient -c . &"
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -117,6 +119,7 @@ alias pbclear="xsel --clipboard --clear"
 # Alias: INFORMATION
 alias h="history"
 alias gg="google"
+alias release="lsb_release -c"
 alias cmount="mount | column -t"
 alias extip='curl icanhazip.com'
 

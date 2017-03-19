@@ -1,4 +1,4 @@
-                                        ; IMPORTS
+                                        ; IMPORT
 
 (require 'engine-mode)
 
@@ -10,7 +10,7 @@
 (defengine translate-en "https://translate.google.com/?hl=fr#fr/en/%s")
 (defengine translate-fr "https://translate.google.com/?hl=fr#en/fr/%s")
 
-                                        ; KEYBINDINGS
+                                        ; BINDINGS
 
 (spacemacs/set-leader-keys "af" 'engine/search-stack-overflow)
 (spacemacs/set-leader-keys "ag" 'engine/search-google)
