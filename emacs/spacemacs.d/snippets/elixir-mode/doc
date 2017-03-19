@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: doc
+# key: doc
+# --
+@doc """
+$1
+"""

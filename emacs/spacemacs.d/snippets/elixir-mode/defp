@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: defp
+# key: defp
+# --
+
+@doc """
+"""
+defp $1 do
+
+end

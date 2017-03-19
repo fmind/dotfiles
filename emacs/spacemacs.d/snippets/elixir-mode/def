@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: def
+# key: def
+# --
+
+@doc """
+"""
+def $1 do
+
+end

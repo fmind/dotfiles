@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: pp
+# key: pp
+# --
+IO.puts $1

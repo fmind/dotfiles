@@ -18,4 +18,5 @@
     apt: pkg="{{item}}" state=latest
     with_items:
       - elixir
+      - erlang-dev
     when: ansible_distribution == 'Ubuntu'

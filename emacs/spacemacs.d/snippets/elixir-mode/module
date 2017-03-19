@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# contributor: Freaxmind
+# name: module
+# key: module
+# --
+defmodule $1 do
+  @moduledoc """
+  """
+
+  @doc """
+  """
+  def $2 do
+
+  end
+end
