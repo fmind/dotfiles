@@ -234,7 +234,7 @@ alias g="git"
 alias gm="git submodule"
 alias gn="$EDITOR .gitignore"
 alias grc="$EDITOR ~/.gitconfig"
-mygithub() { git clone git@github.com:fmind/$1.git }
+mygh() { git clone git@github.com:fmind/$1.git }
 
 # Alias: SHARING
 alias httpserve="python3 -m http.server"
