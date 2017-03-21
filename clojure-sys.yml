@@ -1,0 +1,26 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding java repository
+    apt_repository: repo="ppa:webupd8team/java" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Adding planck repository
+    apt_repository: repo="ppa:mfikes/planck" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing system packages
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - planck
+      - oracle-java8-installer
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Accepting java license
+    shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+    when: ansible_distribution == 'Ubuntu'

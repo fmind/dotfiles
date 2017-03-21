@@ -25,7 +25,6 @@
                       auto-completion-enable-snippets-in-popup t)
      better-defaults
      bibtex
-     ;; bibtex
      (clojure :variables
               cider-test-show-report t
               clojure-enable-fancify-symbols t
@@ -34,7 +33,7 @@
      command-log
      csv
      docker
-     elixir
+     ;; elixir
      emacs-lisp
      evil-cleverparens
      evil-commentary
@@ -71,6 +70,7 @@
      (syntax-checking :variables
                       syntax-checking-enable-by-default t)
      systemd
+     tmux
      version-control
      vinegar
      vimscript
@@ -329,7 +329,7 @@ values."
 
   ;; programming
   (my-config-load "elisp.el")
-  (my-config-load "elixir.el")
+  ;; (my-config-load "elixir.el")
   (my-config-load "python.el")
   (my-config-load "clojure.el")
 

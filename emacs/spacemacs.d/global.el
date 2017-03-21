@@ -87,10 +87,6 @@
 (spacemacs/set-leader-keys "`" 'select-window-0)
 (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
 (spacemacs/set-leader-keys "pq" 'my-split-and-go-to-test)
-(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 
 ;; LISP
 (spacemacs/set-leader-keys "kn" 'evil-lisp-state-sp-backward-up-sexp)
