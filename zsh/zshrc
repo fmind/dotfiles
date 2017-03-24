@@ -174,10 +174,11 @@ alias igrep="grep -i"
 alias colt="column -t"
 alias sortp='sort --parallel=$(nproc --all)'
 
-# Alias: PROGRAMMING
+# Alias: LANGUAGES
 ## Java
 alias jajar="java -jar"
 ## Clojure
+alias cljs="planck"
 alias cljr="lein repl"
 alias leina="lein ancient"
 alias leinrc="$EDITOR ~/.lein/profiles.clj"
@@ -211,6 +212,18 @@ alias pvd="deactivate"
 pvi() { virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env }
 pvc() { mkdir "$1" && cd "$1" && pyvi }
 pvg() { pyvc "$1" && pyva }
+
+# Alias: PROGRAMMING
+## Git
+alias g="git"
+alias gm="git submodule"
+alias gn="$EDITOR .gitignore"
+alias grc="$EDITOR ~/.gitconfig"
+mygh() { git clone git@github.com:fmind/$1.git }
+## Project
+alias m="make"
+## Template
+alias ck="cookiecutter"
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="sudo ansible-playbook"
@@ -225,16 +238,6 @@ alias dk-scipy="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/
 alias dk-fxmongo='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
 alias dk-mongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
 alias dk-zoo='docker run --name zookeeper --restart always zookeeper'
-## Template
-alias ck="cookiecutter"
-## Project
-alias m="make"
-# Git
-alias g="git"
-alias gm="git submodule"
-alias gn="$EDITOR .gitignore"
-alias grc="$EDITOR ~/.gitconfig"
-mygh() { git clone git@github.com:fmind/$1.git }
 
 # Alias: SHARING
 alias httpserve="python3 -m http.server"

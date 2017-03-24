@@ -62,6 +62,28 @@
   (split-window-below-and-focus)
   (projectile-toggle-between-implementation-and-test))
 
+(defun my-copy-to-clipboard ()
+  "Copy to x-clipboard."
+  (interactive)
+  (if (display-graphic-p)
+      (progn
+        (message "Yanked region to x-clipboard!")
+        (call-interactively 'clipboard-kill-ring-save))
+    (if (region-active-p)
+        (progn
+          (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+          (message "Yanked region to clipboard!")
+          (deactivate-mark))
+        (message "No region active; can't yank to clipboard!"))))
+
+(defun my-paste-from-clipboard ()
+  "Paste from x-clipboard."
+  (interactive)
+  (if (display-graphic-p)
+      (clipboard-yank)
+      (insert (shell-command-to-string "xsel -o -b"))))
+
+
                                         ; HOOKS
 
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
@@ -101,6 +123,10 @@
 ;; ZOOMING
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
+
+;; COPY/PASTE
+(spacemacs/set-leader-keys "oy" 'my-copy-to-clipboard)
+(spacemacs/set-leader-keys "op" 'my-paste-from-clipboard)
 
 ;; YASNIPPET
 (spacemacs/set-leader-keys "ic" 'aya-create)
