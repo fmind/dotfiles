@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding docker repository
+    apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Adding docker certificate
+    apt_key: url="https://apt.dockerproject.org/gpg"
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing docker service
+    apt: pkg="docker-engine" state=latest

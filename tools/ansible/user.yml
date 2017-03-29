@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: Deploying ansible configuration file
+    file: src="{{playbook_dir}}/ansible.cfg" dest="~/.ansible.cfg" state=link force=yes
+
+

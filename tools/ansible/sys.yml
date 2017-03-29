@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding ansible repository
+    apt_repository: repo="ppa:ansible/ansible" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing ansible tool
+    apt: pkg="ansible" state=latest
+    when: ansible_distribution == 'Ubuntu'

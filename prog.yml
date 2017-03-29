@@ -1,0 +1,16 @@
+---
+
+- hosts: localhost
+  connection: local
+
+# SYS
+# EDITORS
+- include: editors/idea/sys.yml
+## LANGUAGES
+- include: languages/java/sys.yml
+
+# USER
+# EDITORS
+- include: editors/idea/user.yml
+## LANGUAGES
+- include: languages/groovy/user.yml

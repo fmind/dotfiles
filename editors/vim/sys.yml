@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing vim (TUI)
+    apt: pkg="vim-nox-py2" state=latest
+    when: ansible_distribution == 'Ubuntu'

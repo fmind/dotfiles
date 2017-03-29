@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing anki application
+    apt: pkg="anki" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing anki dependencies
+    apt: pkg="dvipng" state=latest
+    when: ansible_distribution == 'Ubuntu'

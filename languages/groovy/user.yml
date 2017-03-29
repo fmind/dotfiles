@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: Installing groovy language
+    command: bash -lc "sdk install groovy"

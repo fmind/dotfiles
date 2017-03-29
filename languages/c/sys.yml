@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing c language
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - cmake
+      - build-essential
+      - exuberant-ctags
+    when: ansible_distribution == 'Ubuntu'

@@ -1,0 +1,23 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding erlang repository
+    apt_repository: repo="deb http://binaries.erlang-solutions.com/debian xenial contrib" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Adding erlang certificate
+    apt_key: url="https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc"
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing erlang language
+    apt: pkg="erlang" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing elixir language
+    apt: pkg="elixir" state=latest
+    when: ansible_distribution == 'Ubuntu'

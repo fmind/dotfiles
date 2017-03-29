@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing keepassx application
+    apt: pkg="keepassx" state=latest
+    when: ansible_distribution == 'Ubuntu'

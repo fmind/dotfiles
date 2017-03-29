@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing latexmk tool
+    apt: pkg="latexmk" state=latest
+    when: ansible_distribution == 'Ubuntu'

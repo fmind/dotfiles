@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing htop tool
+    apt: pkg="htop" state=latest
+    when: ansible_distribution == 'Ubuntu'

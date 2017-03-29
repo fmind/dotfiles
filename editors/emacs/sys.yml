@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing emacs (GUI)
+    apt: pkg="{{item}}" state=latest
+    with_items:
+        - emacs
+    when: ansible_distribution == 'Ubuntu'

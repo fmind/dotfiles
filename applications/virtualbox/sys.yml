@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing virtualbox application
+    apt: pkg="virtualbox" state=latest
+    when: ansible_distribution == 'Ubuntu'

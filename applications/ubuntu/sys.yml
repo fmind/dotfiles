@@ -1,0 +1,19 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing ubuntu packages
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - vlc
+      - gimp
+      # - guake
+      # - gparted
+      # - xbacklight
+      # - fonts-hack-ttf
+      # - gnome-tweak-tool
+    when: ansible_distribution == 'Ubuntu'

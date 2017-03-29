@@ -1,0 +1,23 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing python2 language
+    apt: pkg="python-dev" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing python3 language
+    apt: pkg="python3-dev" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing python2 setuptools
+    apt: pkg="python-setuptools" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing python3 setuptools
+    apt: pkg="python3-setuptools" state=latest
+    when: ansible_distribution == 'Ubuntu'

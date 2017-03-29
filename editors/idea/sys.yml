@@ -1,0 +1,25 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: True
+
+  tasks:
+
+  - name: Installing idea dependencies
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - lib32z1 
+      - libc6:i386
+      - libstdc++6:i386
+      - libbz2-1.0:i386
+      - libncurses5:i386
+    when: ansible_distribution == 'Ubuntu'
+
+  # - name: Installing system packages
+  #   apt: pkg="{{item}}" state=latest
+  #   with_items:
+  #     - qemu-kvm
+  #     - android-tools-adb
+  #     - android-tools-fastboot
+  #   when: ansible_distribution == 'Ubuntu'

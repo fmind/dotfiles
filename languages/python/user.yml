@@ -1,0 +1,73 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  # - name: Installing python librairies
+  #   pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+  #   with_items:
+  #     # syntax
+  #     - yapf
+  #     - isort
+  #     - flake8
+  #     - pygments
+  #     - autoflake
+  #     # project
+  #     - tox
+  #     - ipdb
+  #     - jedi
+  #     - wheel
+  #     - twine
+  #     - sphinx
+  #     - invoke
+  #     - howdoi
+  #     - autoenv
+  #     - docutils
+  #     - virtualenv
+  #     - pytest-cov
+  #     - cookiecutter
+  #     - pytest-xdist
+  #     - check-manifest
+  #     # system
+  #     - sh
+  #     - envoy
+  #     - glances
+  #     # analysis
+  #     - jupyter
+  #     - ipython
+  #     - ipyparallel
+  #     # web client
+  #     - httpie
+  #     - requests
+  #     - http-prompt
+
+  - name: Creating ~/.config/yapf directory
+    file: path="~/.config/yapf" state=directory
+
+  - name: Deploying pip configuration file
+    file: src="{{playbook_dir}}/pypirc" dest="~/.pypirc" state=link force=yes
+
+  - name: Deploying yapf configuration file
+    file: src="{{playbook_dir}}/yapf" dest="~/.config/yapf/style" state=link force=yes
+
+  - name: Deploying flake8 configuration file
+    file: src="{{playbook_dir}}/flake8" dest="~/.config/flake8" state=link force=yes
+
+  - name: Deploying invoke configuration file
+    file: src="{{playbook_dir}}/invoke.yaml" dest="~/.invoke.yaml" state=link force=yes
+
+  - name: Deploying cookiecutterrc configuration file
+    file: src="{{playbook_dir}}/cookiecutterrc" dest="~/.cookiecutterrc" state=link force=yes
+
+  - name: Checking ipython profile exists
+    stat: path="~/.ipython/profile_fmind/"
+    register: ipython_profile
+
+  - name: Creating ipython profile for fmind
+    command: "~/.local/bin/ipython3 profile create fmind"
+    when: ipython_profile.stat.exists == False
+
+  - name: Deploying ipython configuration for fmind
+    file: src="{{playbook_dir}}/ipython_config.py" dest="~/.ipython/profile_fmind/ipython_config.py" state=link force=yes

@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing git tool
+    apt: pkg="git" state=latest
+    when: ansible_distribution == 'Ubuntu'

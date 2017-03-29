@@ -1,0 +1,17 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing tex language
+    apt: pkg="{{item}}" state=latest
+    with_items:
+      - texlive
+      - texlive-xetex
+      - texlive-science
+      - texlive-math-extra
+      - texlive-latex-extra
+    when: ansible_distribution == 'Ubuntu'

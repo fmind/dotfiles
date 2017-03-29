@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing ag tool
+    apt: pkg="silversearcher-ag" state=latest
+    when: ansible_distribution == 'Ubuntu'

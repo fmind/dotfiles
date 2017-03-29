@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: Installing clojure language
+    command: bash -lc "sdk install leiningen"
+
+  - name: Deploying leiningen configuration file
+    file: src="{{playbook_dir}}/profiles.clj" dest="~/.profiles.clj" state=link force=yes
+

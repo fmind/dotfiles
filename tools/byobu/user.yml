@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: Deploying byobu configuration files
+    file: src="{{playbook_dir}}/{{item}}" dest="~/.byobu/{{item}}" state=link force=yes
+    with_items:
+      - status
+      - backend
+      - statusrc
+      - keybindings.tmux
