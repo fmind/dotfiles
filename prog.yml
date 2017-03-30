@@ -4,8 +4,8 @@
   connection: local
 
 # SYS
-# EDITORS
-- include: editors/idea/sys.yml
+# TOOLS
+- include: tools/umake/sys.yml
 ## LANGUAGES
 - include: languages/java/sys.yml
 

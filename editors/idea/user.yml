@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+  - shell: test -d ~/bin/android-studio
+    ignore_errors: True
+    register: studiocheck
+
+  - name: Installing idea editor
+    command: "umake android ~/bin/android-studio --accept-license"
+    when: studiocheck|failed
+

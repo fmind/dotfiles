@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Installing emacs (GUI)
+  - name: Installing emacs editor
     apt: pkg="{{item}}" state=latest
     with_items:
         - emacs
