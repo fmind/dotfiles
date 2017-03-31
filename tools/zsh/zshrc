@@ -230,9 +230,9 @@ alias m="make"
 alias ck="cookiecutter"
 ## Ansible
 alias anpl="ansible-playbook"
-alias anpls="sudo ansible-playbook"
+alias anpls="ansible-playbook --ask-become"
 alias anpl-user="ansible-playbook *user.yml"
-alias anpl-sys="sudo ansible-playbook *sys.yml"
+alias anpl-sys="ansible-playbook --ask-become *sys.yml"
 ## Docker
 alias dk="docker"
 alias dkrmf="docker rm --force"
@@ -256,5 +256,5 @@ alias imgwhite="convert -flatten "
 alias slides="git clone git@github.com:fmind/my-slides"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/freaxmind/.sdkman"
-[[ -s "/home/freaxmind/.sdkman/bin/sdkman-init.sh" ]] && source "/home/freaxmind/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
