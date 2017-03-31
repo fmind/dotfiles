@@ -5,11 +5,11 @@
 
   tasks:
 
-  - shell: test -d ~/bin/android-studio
+  - shell: test -d ~/bin/idea
     ignore_errors: True
-    register: studiocheck
+    register: ideacheck
 
   - name: Installing idea editor
-    command: "umake android ~/bin/android-studio --accept-license"
-    when: studiocheck|failed
+    command: "umake ide idea ~/bin/ide"
+    when: ideacheck|failed
 
