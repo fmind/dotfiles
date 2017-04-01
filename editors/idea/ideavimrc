@@ -1,519 +1,123 @@
-" SETTINGS "{{{
+" PLUGINS "{{{
 set surround
-
+"}}}
+" SETTINGS "{{{
+" show
+set nonumber
+set noshowmode
+set relativenumber
+" alert
+set novisualbell
+" search
 set gdefault
+set wrapscan
 set incsearch
 set smartcase
 set ignorecase
-
-set expandtab
-set autoindent
-set copyindent
-set shiftround
-
-set scrolloff=10
+set nohlsearch
+" scroll
+set scroll=0
+set scrolloff=5
+set scrolljump=1
+set sidescroll=0
 set sidescrolloff=5
+" lookup
+set history=100
+set undolevels=1000
+set matchpairs+=<:>
+set selection=inclusive
+set clipboard=unnamedplus,unnamed
+set viminfo=<1000,'100,/50,:100,s100,h
 "}}}
-" KEYBINDINGS "{{{
-let mapleader=" "
-
-map C c$
-map D d$
-map Y y$
-
+"" BINDINGS "{{{
+"" lead
+noremap <CR> :
+let mapleader = " "
+" esc
 imap jk <Esc>
-
-nnoremap j gj
-nnoremap k gk
-vnoremap j gj
-vnoremap k gk
-
-xnoremap <  <gv
-xnoremap >  >gv
-
-" nnoremap <silent> K :tabnext<CR>
-" nnoremap <silent> J :tabprevious<CR>
-
-""" 1
-
-nnoremap <silent> H :action MethodDown<CR>
-nnoremap <silent> L :action MethodUp<CR>
-
-" map <leader>b :action GotoDeclaration<CR>
-" map <leader>d :action EditorDuplicate<CR>
-" map <leader>e :action RecentFiles<CR>
-" map <leader>f :action Find<CR>
-" map <leader>g :action GotoLine<CR>
-" map <leader>h :action TypeHierarchy<CR>
-" map <leader>i :action ImplementMethods<CR>
-" map <leader>m :action EditorScrollToCenter<CR>
-" map <leader>n :action FileChooser.NewFolder<CR>
-" map <leader>o :action MethodHierarchy.OverrideMethodAction<CR>
-" map <leader>p :action ParameterInfo<CR>
-" map <leader>q :action GuiDesigner.QuickJavadoc<CR>
-" map <leader>r :action Replace<CR>
-" map <leader>s :action SaveAll<CR>
-" map <leader>u :action GotoSuperMethod<CR>
-" map <leader>v :action VimVisualToggleBlockMode<CR>
-" map <leader>w :action EditorSelectWord<CR>
-" map <leader>k :action EditorDeleteLine<CR>
-"map <leader>[ :action EditorCodeBlockStart<CR>
-"map <leader>] :action EditorCodeBlockEnd<CR>
-
-""" 2
-" set ignorecase
-" set smartcase
-" set scrolloff=3         " 3 lines above/below cursor when scrolling
-
-" " Integrate with system clipboard
-" set clipboard=unnamedplus,unnamed
-
-" let mapleader = " "
-
-" imap ,. <Esc>
-" vmap ,. <Esc>
-
-" " Use Q for formatting the current paragraph (or visual selection)
-" vmap Q gq
-" nmap Q gqap
-
-" " These create newlines like o and O but stay in normal mode
-" nmap zj o<Esc>k
-" nmap zk O<Esc>j
-
-" " key bindings for quickly moving between windows
-" " h left, l right, k up, j down
-" nmap <leader>h <c-w>h
-" nmap <leader>l <c-w>l
-" nmap <leader>k <c-w>k
-" nmap <leader>j <c-w>j
-
-" nmap <leader>g :action GotoDeclaration<cr>
-" nmap <leader>b :action Back<cr>
-" nmap <leader>f :action Forward<cr>
-
-" nmap <leader>t :action GotoFile<cr>
-" nmap <leader>c :action GotoClass<cr>
-" nmap <leader>ns :action GotoSymbol<cr>
-" nmap <leader>nm :action FileStructurePopup<cr>
-" nmap <leader>d :action ShowErrorDescription<cr>
-
-" " IdeaVim uses 'a' for alt instead of Vim's 'm'
-" nmap <a-j> 15gj
-" nmap <a-k> 15gk
-
-" " Won't work in visual mode (with vmap) for some reason.
-" " Use default map of <c-/> for that.
-" nmap gcc :action CommentByLineComment<cr>
-
-"""
-" set gdefault
-" set ignorecase
-
-
-" " ============================================================================
-" " Movement
-" " ============================================================================
-
-" " Scroll screen with the cursor
-" noremap <C-j> gj<C-e>
-" noremap <C-k> gk<C-y>
-
-" " Left / right
-" noremap <C-h> h
-" noremap <C-l> l
-
-" " Insert mode
-" inoremap <C-k> <Up>
-" inoremap <C-j> <Down>
-" inoremap <C-l> <Right>
-" inoremap <C-h> <Left>
-
-" " Previous / next match
-" noremap H ,
-" noremap L ;
-
-" " Home row beginning / end of line
-" noremap h ^
-" noremap l $
-
-" " Previous / next word
-" noremap k #
-" noremap j *
-
-" " ============================================================================
-" " Editing
-" " ============================================================================
-
-" " Escape
-" inoremap jk <Esc>`^
-" inoremap <C-q> <Esc>`^
-" noremap <C-q> <Esc>
-" vnoremap <C-q> <Esc>
-" cmap <C-q> <C-c>
-
-" " Moving blocks of text in visual mode
-" vnoremap < <gv
-" vnoremap > >gv
-
-" " Select all text
-" map <Space>a ggVG
-
-" " Copy until the end of the line
-" noremap Y y$
-
-" " Indent everything
-" noremap <Space>I ggvG=
-
-" " Indent selection in visual mode
-" vnoremap <Space>i =
-
-" " Indent the current line
-" noremap <Space>i v=
-
-" " Change current word - kill
-" noremap K ciw
-
-" " Change in double quotes
-" noremap J ci"
-
-" " Join lines
-" nnoremap <Space>J J
-
-
-" " ============================================================================
-" " Editor control
-" " ============================================================================
-
-" " Enter the command-line mode
-" noremap <CR> :
-
-" " Reload .ideavimrc
-" nnoremap <Space>vs :source ~/.ideavimrc<CR>
-
-
-" " ============================================================================
-" " IDE actions
-" " ============================================================================
-
-" nnoremap / :action Find<CR>
-" nnoremap n :action FindNext<CR>
-" nnoremap N :action FindPrevious<CR>
-" nnoremap U :action $Redo<CR>
-" nnoremap ; :action AceJumpAction<CR>
-" nnoremap <Space>o :action GotoClass<CR>
-" nnoremap <Space>O :action GotoFile<CR>
-" nnoremap <Space>d :action CloseContent<CR>
-" nnoremap <Space>j :action RecentFiles<CR>
-" nnoremap <Space>k :action FileStructurePopup<CR>
-" nnoremap <Space>h :action QuickJavaDoc<CR>
-
-""" 4
-" set ignorecase
-" let mapleader = ","
-
-" "Don't Show Number Line
-" set nonu
-
-" "Mapping ESC key
-" imap jj <esc>
-" vmap ; vv
-
-" "Mappings of Jumping
-" nmap <A-j> <C-f>
-" nmap <A-k> <C-b>
-
-" " Save Current File
-" map <leader>w :w<CR>
-
-" " Source Configuration File
-" nnoremap <leader>sv :source ~/.ideavimrc<CR>
-
-" " Toggle LineNumbers
-" nmap <leader>l :action EditorToggleShowLineNumbers<CR>
-
-" " Show Tabs on Top
-" nmap <leader>tt :action TabsPlacementTop<CR>
-
-" " Hide Tabs
-" nmap <leader>tn :action TabsPlacementNone<CR>
-
-" " Toggle StatusBar
-" nmap <leader>st :action ViewStatusBar<CR>
-
-" " Join Lines
-" nmap J :action EditorJoinLines<CR>
-
-" " Create a Window Horizontally
-" nmap sp :action SplitHorizontally<CR><C-j>
-
-" " Create a Window Vertically
-" nmap vsp :action SplitVertically<CR><C-l>
-
-" " Move Curent Cursor to Left
-" nmap <C-h> :action VimWindowLeft<CR>
-
-" " Move Curent Cursor to Down
-" nmap <C-j> :action VimWindowDown<CR>
-
-" " Move Curent Cursor to Up
-" nmap <C-k> :action VimWindowUp<CR>
-
-" " Move Curent Cursor to Right
-" nmap <C-l> :action VimWindowRight<CR>
-
-" " Close Current Window
-" nmap <leader>q :action VimWindowClose<CR>
-
-" " Close Ohter Windows
-" nmap <leader>on :action VimWindowOnly<CR>
-
-" " Search Global Symbol
-" nmap <leader>f :action GotoSymbol<CR>
-
-""" 5
-" let mapleader = '-'
-
-" set hlsearch
-" set incsearch
-" set scrolloff=2
-" set smartcase
-" set showmode
-" set history=1000
-" set surround " activate the vim-surround key bindings"
-
-" " maps
-" nnoremap <C-l> <C-w>l
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-h> <C-w>h
-
-" nnoremap gh gT
-" nnoremap gl gt
-
-" " onoremap iv i[
-" " onoremap av a[
-
-" " easy window navigation
-" nnoremap <c-l> <c-w>l
-" nnoremap <c-j> <c-w>j
-" nnoremap <c-h> <c-w>h
-" nnoremap <c-k> <c-w>k
-" nnoremap gr gT
-" nnoremap <c-s-tab> gT
-" nnoremap <c-tab> gt
-" nnoremap <C-w>x :vs<CR>:q<C-w>l
-" nnoremap <C-w>v :vs<CR>:q<C-w>j
-
-" nnoremap <C-k> :action ShowUsages<cr>
-" nnoremap <C-S-u> :action HighlightUsagesInFile<cr>
-
-" " code refactoring
-" nnoremap cre :action RenameElement<cr>
-" nnoremap cS :action ChangeSignature<cr>
-" nnoremap cts :action ChangeTypeSignature<cr>
-
-" " unimpaired mappings
-" nnoremap [<Space> O<esc>j
-" nnoremap ]<Space> o<esc>k
-" nnoremap [m :action MethodUp<cr>
-" nnoremap ]m :action MethodDown<cr>
-" nnoremap [c :action VcsShowPrevChangeMarker<cr>
-" nnoremap ]c :action VcsShowNextChangeMarker<cr>
-
-" nnoremap <C-p> :action GotoFile<CR>
-" nnoremap <C-S-p> :action GotoClass<CR>
-" nnoremap <C-s> :action GotoSymbol<CR>
-" nnoremap <C-a> :action GotoAction<CR>
-
-" nnoremap K :action GotoDeclaration<CR>
-" nnoremap gK :action GotoTypeDeclaration<CR>
-" nnoremap gje :action GoToErrorGroup<CR>
-" nnoremap gji :action GotoImplementation<CR>
-" nnoremap gs :action GotoSuperMethod<CR>
-" nnoremap gjt :action GotoTest<CR>
-
-" nnoremap gb0 :action GotoBookmark0 <CR>
-" nnoremap gb1 :action GotoBookmark1<CR>
-" nnoremap gb2 :action GotoBookmark2<CR>
-" nnoremap gb3 :action GotoBookmark3<CR>
-" nnoremap gb4 :action GotoBookmark4<CR>
-" nnoremap gb5 :action GotoBookmark5<CR>
-" nnoremap gb6 :action GotoBookmark6<CR>
-" nnoremap gb7 :action GotoBookmark7<CR>
-" nnoremap gb8 :action GotoBookmark8<CR>
-" nnoremap gb9 :action GotoBookmark9<CR>
-" nnoremap gjl :action GoToLinkTarget<CR>
-
-" nnoremap gnb :action GotoNextBookmark<CR>
-" nnoremap gne :action GotoNextError<CR>
-" nnoremap gnx :action GotoNextIncompletePropertyAction<CR>
-" nnoremap gpb :action GotoPreviousBookmark<CR>
-" nnoremap gep :action GotoPreviousError<CR>
-
-" " will be replaced as soon as onoremap works
-" nnoremap civ ci[
-" nnoremap div di[
-" nnoremap yiv yi[
-" nnoremap cav ca[
-" nnoremap dav da[
-" nnoremap yav ya[
-
-" " easy system clipboard copy/paste
-" noremap "+y "*y
-" noremap "+Y "*Y
-" noremap "+p "*p
-" noremap "+P "*P
-" noremap <C-S-c> "*y
-" noremap <C-S-v> "*P
-
-" " built-in navigation to navigated items works better
-" nnoremap <c-o> :action Back<cr>
-" nnoremap <c-i> :action Forward<cr>
-" " but preserve ideavim defaults
-" nnoremap <C-S-o> <c-o>
-" nnoremap <C-S-i> <c-i>
-
-" " generate
-" nnoremap <leader>gt :action GenerateTestMethod<CR>
-" nnoremap <leader>gs :action GenerateSetUpMethod<CR>
-" nnoremap <leader>gG :action GenerateGetter<CR>
-" nnoremap <leader>gS :action GenerateSetter<CR>
-" nnoremap <leader>ga :action GenerateGetterAndSetter<CR>
-" nnoremap <leader>ge :action GenerateEquals<CR>
-" nnoremap <leader>gc :action GenerateConstructor<CR>
-" nnoremap <leader>G :action Generate<CR>
-
-" " enter newlines
-" nnoremap <CR> :action EditorEnter<CR>
-" inoremap <CR> <C-o>:action EditorEnter<CR>
-
-" " windows
-" nnoremap gwa :action ActivateAntBuildToolWindow<CR>
-" nnoremap gwm :action ActivateEventLogToolWindow<CR>
-" nnoremap gwg :action ActivateGradleToolWindow<CR>
-" nnoremap gwd :action ActivateDebugToolWindow<CR>
-" nnoremap gwr :action ActivateRunToolWindow<CR>
-" nnoremap gwb :action ViewBreakpoints<CR>
-" nnoremap gwp :action ActivateProjectToolWindow<CR>
-
-" " imaps
-" inoremap <C-A-c> {@code }<C-o>h
-" inoremap <C-A-l> {@link }<C-o>h
-" inoremap <C-S-k> <C-o>k
-" inoremap <C-S-j> <C-o>j
-" inoremap <C-S-l> <C-o>l
-" inoremap <C-S-h> <C-o>h
-" inoremap <C-a> <Esc>I
-" inoremap <C-e> <Esc>A
-" inoremap <C-p> <Esc>o\<p><Esc>lDo<Esc>0wlC<Space>
-
-" nnoremap gjK :action QuickJavaDoc<CR>
-" nnoremap ]] :action MethodDown<CR>
-" nnoremap [[ :action MethodUp<CR>
-
-" nnoremap <Space> :nohl<CR>
-" nnoremap <leader>R :action Rerun<CR>
-" nnoremap <leader>rt :action RerunTests<CR>
-" nnoremap <leader>rf :action RerunFailedTests<CR>
-
-" nnoremap <leader>go :action OverrideMethods<CR>
-" nnoremap <leader>d 0w:action ShowIntentionActions<CR>
-
-" nnoremap <leader>gn :action NewClass<CR>
-
-" " debugger
-" nnoremap i :ForceStepInto
-" nnoremap o :ForceStepOver
-" nnoremap p :Stepout
-" nnoremap n :action ToggleLineBreakpoint<CR>
-" nnoremap m :action ToggleMethodBreakpoint<CR>
-" nnoremap <CR> :action Resume<CR>
-" nnoremap p :action ShowExecutionPoint<CR>
-
-" " templates
-" inoremap <C-k> <C-o>:action NextTemplateVariable<CR>
-" inoremap <C-j> <C-o>:action PreviousTemplateVariable<CR>
-
-" nnoremap cv ^2cEval<ESC>b
-
-""" 6
-
-" set hlsearch
-" set scrolloff=3
-" set ignorecase smartcase
-" set showmode
-" set history=1000
-
-" " easy system clipboard copy/paste
-" noremap <space>y "*y
-" noremap <space>Y "*Y
-" noremap <space>p "*p
-" noremap <space>P "*P
-
-" " easy window navigation
-" nnoremap <c-l> <c-w>l
-" nnoremap <c-j> <c-w>j
-" nnoremap <c-h> <c-w>h
-" nnoremap <c-k> <c-w>k
-" nnoremap <a-h> gT
-" nnoremap <a-l> gt
-" nnoremap <c-s-tab> gT
-" nnoremap <c-tab> gt
-
-" " clear the search buffer when hitting return
-" nnoremap <space><cr> :nohlsearch<cr>
-
-" " options
-" nnoremap cow :action EditorToggleUseSoftWraps<cr>
-" nnoremap col :action EditorToggleShowWhitespaces<cr>
-
-" " actions
-" nnoremap <space>q :action CloseContent<cr>
-" nnoremap <space>Q :action ReopenClosedTab<cr>
-" nnoremap <space>\ :action VimFilePrevious<cr>
-" nnoremap <space>e :action SearchEverywhere<cr>
-" nnoremap <space>E :action Switcher<cr>
-" nnoremap <space>t :action FileStructurePopup<cr>
-" nnoremap <space>T :action GotoSymbol<cr>
-" nnoremap <space>a :action GotoAction<cr>
-" nnoremap <space>b :action ToggleLineBreakpoint<cr>
-
-" " code navigation
-" nnoremap <space>] :action GotoImplementation<cr>
-" nnoremap <space>[ :action GotoSuperMethod<cr>
-" nnoremap <space>u :action FindUsages<cr>
-" nnoremap <space>gt :action GotoTest<cr>
-" nnoremap <space>k :action HighlightUsagesInFile<cr>
-" nnoremap \r :action RunClass<cr>
-" nnoremap \R :action Run<cr>
-" nnoremap \d :action DebugClass<cr>
-" nnoremap \D :action Debug<cr>
-" nnoremap \c :action CheckStyleCurrentFileAction<cr>
-
-" " code refactoring
-" nnoremap <space>rr :action RenameElement<cr>
-
-" " unimpaired mappings
-" nnoremap [<space> O<esc>j
-" nnoremap ]<space> o<esc>k
-" nnoremap [q :action PreviousOccurence<cr>
-" nnoremap ]q :action NextOccurence<cr>
-" nnoremap [m :action MethodUp<cr>
-" nnoremap ]m :action MethodDown<cr>
-" nnoremap [c :action VcsShowPrevChangeMarker<cr>
-" nnoremap ]c :action VcsShowNextChangeMarker<cr>
-
-
-" " built-in navigation to navigated items works better
-" nnoremap <c-o> :action Back<cr>
-" nnoremap <c-i> :action Forward<cr>
-" " but preserve ideavim defaults
-" nnoremap g<c-o> <c-o>
-" nnoremap g<c-i> <c-i>
-
-" " built in search looks better
-" nnoremap / :action Find<cr>
-" " but preserve ideavim search
-" nnoremap g/ /
-"}}}
+" remap
+map j gj
+map k gk
+vmap j gj
+vmap k gk
+map U :action $Redo<CR>
+" indent
+vmap <  <gv
+vmap >  >gv
+" format
+nmap zj o<Esc>k
+nmap zk O<Esc>j
+" navigate
+map J gT
+map K gt
+map H :action Back<CR>
+map L :action Forward<CR>
+map <A-f> <C-f>
+map <A-b> <C-b>
+map <A-e> <C-e>
+map <A-y> <C-y>
+map [[ :action MethodUp<CR>
+map ]] :action MethodDown<CR>
+map <A-k> :action VimWindowUp<CR>
+map <A-j> :action VimWindowDown<CR>
+map <A-h> :action VimWindowLeft<CR>
+map <A-l> :action VimWindowRight<CR>
+" leader (lower)
+noremap <leader>a :action GotoAction<CR>
+nnoremap <leader>b :action Debug<cr>
+nnoremap <leader>c :action GotoClass<CR>
+nnoremap <leader>d :action EditorDuplicate<CR>
+" nnoremap <leader>e
+nnoremap <leader>f :action GotoFile<CR>
+nnoremap <leader>g :action GotoDeclaration<CR>
+nnoremap <leader>h :action QuickJavaDoc<CR>
+nnoremap <leader>i :action GotoImplementation<CR>
+nnoremap <leader>j :action EditorScrollToCenter<CR>
+nnoremap <leader>k :action EditorDeleteLine<CR>
+" nnoremap <leader>l
+" nnoremap <leader>m
+" nnoremap <leader>n
+nnoremap <leader>o :action OverrideMethods<CR>
+nnoremap <leader>p :action ParameterInfo<CR>
+nnoremap <leader>q :action CloseContent<cr>
+nnoremap <leader>r :action Run<CR>
+nnoremap <leader>s :action GotoSymbol<CR>
+nnoremap <leader>t :action GotoTest<CR>
+nnoremap <leader>u :action GotoSuperMethod<CR>
+" nnoremap <leader>v 
+nnoremap <leader>w :w<CR>
+nnoremap <leader>x :action GotoNextError<CR>
+nnoremap <leader>y :action GotoTypeDeclaration<CR>
+nnoremap <leader>z :action RecentFiles<CR>
+" leader (upper)
+nnoremap <leader>A :action Switcher<cr>
+nnoremap <leader>B :action ToggleLineBreakpoint<cr>
+" nnoremap <leader>C 
+" nnoremap <leader>D
+nnoremap <leader>E :action RenameElement<CR>
+nnoremap <leader>F :action Find<CR>
+nnoremap <leader>G :action Generate<CR>
+nnoremap <leader>H :action SplitHorizontally<CR>
+nnoremap <leader>I :action ImplementMethods<CR>
+nnoremap <leader>J :action Rerun<CR>
+nnoremap <leader>K :action RerunTests<CR>
+nnoremap <leader>L :action RerunFailedTests<CR>
+nnoremap <leader>M :action ChangeSignature<CR>
+" nnoremap <leader>N
+nnoremap <leader>O :action VimWindowOnly<CR>
+" nnoremap <leader>P
+" nnoremap <leader>Q
+nnoremap <leader>R :source ~/.ideavimrc<CR>
+nnoremap <leader>S :action SaveAll<CR>
+nnoremap <leader>T :action GenerateTestMethod<CR>
+nnoremap <leader>U :action ShowUsages<CR>
+nnoremap <leader>V :action SplitVertically<CR>
+" nnoremap <leader>W
+nnoremap <leader>X :action VimWindowClose<CR>
+nnoremap <leader>Y :action ChangeTypeSignature<CR>
+" nnoremap <leader>Z
+" leader (other)
+nnoremap <leader>] :action EditorCodeBlockEnd<CR>
+nnoremap <leader>[ :action EditorCodeBlockStart<CR>
+nnoremap <leader>/ :action CommentByLineComment<CR>
+""}}}

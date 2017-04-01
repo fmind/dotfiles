@@ -221,6 +221,7 @@ inoremap <Right> <NOP>
 "}}}
 """ BETTER DEFAULT"{{{
 map Y y$
+map U <C-r>
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
@@ -232,6 +233,8 @@ xnoremap >  >gv
 inoremap jk  <Esc>
 inoremap kj  <Esc>
 nnoremap Q :q!<CR>
+nnoremap zj o<Esc>k
+nnoremap zk O<Esc>j
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 nnoremap <silent> <ESC> :nohl<CR>
