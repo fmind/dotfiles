@@ -31,10 +31,14 @@ set viminfo=<1000,'100,/50,:100,s100,h
 "}}}
 "" BINDINGS "{{{
 "" lead
-noremap <CR> :
+nnoremap ; :
+nnoremap : ;
+vnoremap ; :
+vnoremap : ;
 let mapleader = " "
 " esc
 imap jk <Esc>
+vmap jk <Esc>
 " remap
 map j gj
 map k gk
@@ -45,13 +49,15 @@ map U :action $Redo<CR>
 vmap <  <gv
 vmap >  >gv
 " format
+vmap Q gq
+nmap Q gqap
 nmap zj o<Esc>k
 nmap zk O<Esc>j
 " navigate
-map J gT
-map K gt
 map H :action Back<CR>
 map L :action Forward<CR>
+map K :action NextTab<CR>
+map J :action PreviousTab<CR>
 map <A-f> <C-f>
 map <A-b> <C-b>
 map <A-e> <C-e>
@@ -74,9 +80,9 @@ nnoremap <leader>h :action QuickJavaDoc<CR>
 nnoremap <leader>i :action GotoImplementation<CR>
 nnoremap <leader>j :action EditorScrollToCenter<CR>
 nnoremap <leader>k :action EditorDeleteLine<CR>
-" nnoremap <leader>l
-" nnoremap <leader>m
-" nnoremap <leader>n
+nnoremap <leader>k :action RenameFile<cr>
+nnoremap <leader>m :action GotoNextError<cr>
+nnoremap <leader>n :action GotoPreviousError<cr>
 nnoremap <leader>o :action OverrideMethods<CR>
 nnoremap <leader>p :action ParameterInfo<CR>
 nnoremap <leader>q :action CloseContent<cr>
@@ -84,7 +90,7 @@ nnoremap <leader>r :action Run<CR>
 nnoremap <leader>s :action GotoSymbol<CR>
 nnoremap <leader>t :action GotoTest<CR>
 nnoremap <leader>u :action GotoSuperMethod<CR>
-" nnoremap <leader>v 
+nnoremap <leader>v ggVG
 nnoremap <leader>w :w<CR>
 nnoremap <leader>x :action GotoNextError<CR>
 nnoremap <leader>y :action GotoTypeDeclaration<CR>
@@ -112,7 +118,7 @@ nnoremap <leader>S :action SaveAll<CR>
 nnoremap <leader>T :action GenerateTestMethod<CR>
 nnoremap <leader>U :action ShowUsages<CR>
 nnoremap <leader>V :action SplitVertically<CR>
-" nnoremap <leader>W
+nnoremap <leader>W :action EditorToggleUseSoftWraps<CR>
 nnoremap <leader>X :action VimWindowClose<CR>
 nnoremap <leader>Y :action ChangeTypeSignature<CR>
 " nnoremap <leader>Z
