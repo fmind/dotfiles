@@ -177,12 +177,16 @@ alias sortp='sort --parallel=$(nproc --all)'
 
 # Alias: LANGUAGES
 ## Java
-alias jajar="java -jar"
-## Groovy (TODO)
-alias groosh="groovysh"
-alias groo="groovy"
+alias ja="java"
+alias jac="javac"
+alias jaj="java -jar"
+## Groovy
+alias gro="groovy"
+alias gron="groovy -n"
+alias grop="groovy -p"
+alias gros="groovysh"
+alias grod="groovydoc"
 ## Clojure
-alias cljs="planck"
 alias cljr="lein repl"
 alias leina="lein ancient"
 alias leinrc="$EDITOR ~/.lein/profiles.clj"

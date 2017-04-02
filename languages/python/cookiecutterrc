@@ -6,5 +6,7 @@ abbreviations:
     pa: https://github.com/fmind/python-analysis-template.git
     pp: https://github.com/fmind/python-project-template.git
     ps: https://github.com/fmind/python-script-template.git
+    gp: https://github.com/fmind/groovy-project-template.git
+    gs: https://github.com/fmind/groovy-script-template.git
     sh: https://github.com/fmind/bash-script-template.git
     gh: https://github.com/{0}.git
