@@ -6,43 +6,43 @@
 
   tasks:
 
-  # - name: Installing python librairies
-  #   pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
-  #   with_items:
-  #     # syntax
-  #     - yapf
-  #     - isort
-  #     - flake8
-  #     - pygments
-  #     - autoflake
-  #     # project
-  #     - tox
-  #     - ipdb
-  #     - jedi
-  #     - wheel
-  #     - twine
-  #     - sphinx
-  #     - invoke
-  #     - howdoi
-  #     - autoenv
-  #     - docutils
-  #     - virtualenv
-  #     - pytest-cov
-  #     - cookiecutter
-  #     - pytest-xdist
-  #     - check-manifest
-  #     # system
-  #     - sh
-  #     - envoy
-  #     - glances
-  #     # analysis
-  #     - jupyter
-  #     - ipython
-  #     - ipyparallel
-  #     # web client
-  #     - httpie
-  #     - requests
-  #     - http-prompt
+  - name: Installing python librairies
+    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+    with_items:
+      # syntax
+      - yapf
+      - isort
+      - flake8
+      - pygments
+      - autoflake
+      # project
+      - tox
+      - ipdb
+      - jedi
+      - wheel
+      - twine
+      - sphinx
+      - invoke
+      - howdoi
+      - autoenv
+      - docutils
+      - virtualenv
+      - pytest-cov
+      - cookiecutter
+      - pytest-xdist
+      - check-manifest
+      # system
+      - sh
+      - envoy
+      - glances
+      # analysis
+      - jupyter
+      - ipython
+      - ipyparallel
+      # web client
+      - httpie
+      - requests
+      - http-prompt
 
   - name: Creating ~/.config/yapf directory
     file: path="~/.config/yapf" state=directory

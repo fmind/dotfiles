@@ -12,4 +12,3 @@
       - cmake
       - build-essential
       - exuberant-ctags
-    when: ansible_distribution == 'Ubuntu'

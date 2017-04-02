@@ -8,4 +8,3 @@
 
   - name: Installing virtualbox application
     apt: pkg="virtualbox" state=latest
-    when: ansible_distribution == 'Ubuntu'

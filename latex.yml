@@ -11,6 +11,8 @@
 - include: editors/emacs/sys.yml
 ## LANGUAGES
 - include: languages/tex/sys.yml
+## APPLICATIONS
+- include: applications/cirkuit/sys.yml
 
 # USER
 ## EDITORS

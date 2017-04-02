@@ -5,6 +5,9 @@
 
   tasks:
 
+  - name: Creating ~/.byobu directory
+    file: path="~/.byobu" state=directory
+
   - name: Deploying byobu configuration files
     file: src="{{playbook_dir}}/{{item}}" dest="~/.byobu/{{item}}" state=link force=yes
     with_items:

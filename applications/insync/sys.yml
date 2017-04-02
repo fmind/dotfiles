@@ -8,12 +8,9 @@
 
   - name: Adding insync repository
     apt_repository: repo="deb http://apt.insynchq.com/ubuntu xenial non-free contrib" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
 
   - name: Adding insync certificate
     apt_key: keyserver="keyserver.ubuntu.com" id="ACCAF35C"
-    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing insync application
     apt: pkg="insync" state=latest
-    when: ansible_distribution == 'Ubuntu'

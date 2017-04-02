@@ -6,14 +6,6 @@
 
   tasks:
 
-  - shell: test -f ~/bin/idea
-    ignore_errors: True
-    register: ideacheck
-
-  # - name: Installing idea editor
-  #   command: "umake ide idea ~/bin/ide"
-  #   when: ideacheck|failed
-
   - name: Deploying idea configuration file
     file: src="{{playbook_dir}}/ideavimrc" dest="~/.ideavimrc" state=link force=yes
 

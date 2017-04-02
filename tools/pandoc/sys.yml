@@ -8,4 +8,3 @@
 
   - name: Installing pandoc tool
     apt: pkg="pandoc" state=latest
-    when: ansible_distribution == 'Ubuntu'

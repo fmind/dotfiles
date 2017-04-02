@@ -8,4 +8,3 @@
 
   - name: Installing vim editor
     apt: pkg="vim-nox-py2" state=latest
-    when: ansible_distribution == 'Ubuntu'

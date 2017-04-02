@@ -8,12 +8,9 @@
 
   - name: Adding chome repository
     apt_repository: repo="deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
 
   - name: Adding chrome certificate
     apt_key: url="https://dl-ssl.google.com/linux/linux_signing_key.pub"
-    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing chrome application
     apt: pkg="google-chrome-stable" state=latest
-    when: ansible_distribution == 'Ubuntu'

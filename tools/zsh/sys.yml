@@ -8,8 +8,3 @@
 
   - name: Installing zsh tool
     apt: pkg="zsh" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Changing user shell to zsh
-    command: chsh -s /usr/bin/zsh "{{ansible_env.USER}}"
-    when: ansible_user_shell != "/usr/bin/zsh"

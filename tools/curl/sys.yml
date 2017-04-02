@@ -8,4 +8,3 @@
 
   - name: Installing curl tool
     apt: pkg="curl" state=latest
-    when: ansible_distribution == 'Ubuntu'

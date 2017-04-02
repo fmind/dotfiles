@@ -8,4 +8,3 @@
 
   - name: Installing xsel tool
     apt: pkg="xsel" state=latest
-    when: ansible_distribution == 'Ubuntu'

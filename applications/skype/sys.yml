@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing skype application
+    apt: deb="https://go.skype.com/skypeforlinux-64.deb"
+        
+        

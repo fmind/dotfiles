@@ -4,8 +4,6 @@
   connection: local
 
 # SYS
-# TOOLS
-- include: tools/umake/sys.yml
 ## LANGUAGES
 - include: languages/java/sys.yml
 

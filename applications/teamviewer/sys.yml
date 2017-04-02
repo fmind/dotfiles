@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing teamviewer application
+    apt: deb="https://download.teamviewer.com/download/teamviewer_i386.deb"
+        

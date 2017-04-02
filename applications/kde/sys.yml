@@ -6,7 +6,9 @@
 
   tasks:
 
-  - name: Installing emacs editor
+  - name: Installing KDE applications
     apt: pkg="{{item}}" state=latest
     with_items:
-        - emacs
+        - krita
+        - karbon
+        - ktorrent

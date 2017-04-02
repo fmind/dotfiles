@@ -8,4 +8,3 @@
 
   - name: Installing htop tool
     apt: pkg="htop" state=latest
-    when: ansible_distribution == 'Ubuntu'

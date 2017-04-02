@@ -8,4 +8,3 @@
 
   - name: Installing byobu tool
     apt: pkg="byobu" state=latest
-    when: ansible_distribution == 'Ubuntu'

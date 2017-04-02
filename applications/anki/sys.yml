@@ -8,8 +8,6 @@
 
   - name: Installing anki application
     apt: pkg="anki" state=latest
-    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing anki dependencies
     apt: pkg="dvipng" state=latest
-    when: ansible_distribution == 'Ubuntu'
