@@ -187,17 +187,20 @@ endif
 """  automaticaly save buffers on focus lost
 autocmd! FocusLost * silent! wa
 
+""" specific to Python files
+autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
+
+""" disable auto-comment
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" """ automatic add spelling and wrapping on open, read and save
+" autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
+
 """ restore last position of the cursor when opening a file
 autocmd! BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
-
-""" automatic add spelling and wrapping on open, read and save
-autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
-
-""" specific to Python files
-autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
 "}}}
 " KEYBINDINGS
  "{{{
@@ -253,6 +256,8 @@ vnoremap <silent> <leader>j :join<CR>
 nnoremap <silent> <leader>m :make<CR>
 "}}}
 """ ADVANCED ACTIONS"{{{
+"""""" prettify json file
+nnoremap <leader>J :%!python -m json.tool<CR>
 """""" execute shell command
 nnoremap <leader>! :!
 nnoremap <leader>R :r!

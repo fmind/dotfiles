@@ -29,79 +29,74 @@ set selection=inclusive
 set clipboard=unnamedplus,unnamed
 set viminfo=<1000,'100,/50,:100,s100,h
 "}}}
-"" BINDINGS "{{{
+" BINDINGS "{{{
 "" lead
 nnoremap ; :
-nnoremap : ;
 vnoremap ; :
-vnoremap : ;
 let mapleader = " "
-" esc
-imap jk <Esc>
-vmap jk <Esc>
-" remap
-map j gj
-map k gk
-vmap j gj
-vmap k gk
-map U :action $Redo<CR>
-" indent
-vmap <  <gv
-vmap >  >gv
-" format
-vmap Q gq
-nmap Q gqap
-nmap zj o<Esc>k
-nmap zk O<Esc>j
-" navigate
-map H :action Back<CR>
-map L :action Forward<CR>
-map K :action NextTab<CR>
-map J :action PreviousTab<CR>
-map <A-f> <C-f>
-map <A-b> <C-b>
-map <A-e> <C-e>
-map <A-y> <C-y>
-map [[ :action MethodUp<CR>
-map ]] :action MethodDown<CR>
-map <A-k> :action VimWindowUp<CR>
-map <A-j> :action VimWindowDown<CR>
-map <A-h> :action VimWindowLeft<CR>
-map <A-l> :action VimWindowRight<CR>
+"" remap
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap U :action $Redo<CR>
+"" indent
+vnoremap <  <gv
+vnoremap >  >gv
+"" format
+vnoremap Q gq
+nnoremap Q gqap
+nnoremap zj o<Esc>k
+nnoremap zk O<Esc>j
+"" navigate
+nnoremap H :action Back<CR>
+nnoremap L :action Forward<CR>
+nnoremap K :action NextTab<CR>
+nnoremap J :action PreviousTab<CR>
+nnoremap <A-f> <C-f>
+nnoremap <A-b> <C-b>
+nnoremap <A-e> <C-e>
+nnoremap <A-y> <C-y>
+nnoremap [[ :action MethodUp<CR>
+nnoremap ]] :action MethodDown<CR>
+nnoremap <A-k> :action VimWindowUp<CR>
+nnoremap <A-j> :action VimWindowDown<CR>
+nnoremap <A-h> :action VimWindowLeft<CR>
+nnoremap <A-l> :action VimWindowRight<CR>
 " leader (lower)
-noremap <leader>a :action GotoAction<CR>
-nnoremap <leader>b :action Debug<cr>
+nnoremap <leader>a :action GotoAction<CR>
+nnoremap <leader>b :action Debug<CR>
 nnoremap <leader>c :action GotoClass<CR>
 nnoremap <leader>d :action EditorDuplicate<CR>
-" nnoremap <leader>e
+nnoremap <leader>e :action RecentFiles<CR>
 nnoremap <leader>f :action GotoFile<CR>
 nnoremap <leader>g :action GotoDeclaration<CR>
 nnoremap <leader>h :action QuickJavaDoc<CR>
 nnoremap <leader>i :action GotoImplementation<CR>
-nnoremap <leader>j :action EditorScrollToCenter<CR>
+nnoremap <leader>j :action Find<CR>
 nnoremap <leader>k :action EditorDeleteLine<CR>
-nnoremap <leader>k :action RenameFile<cr>
+" nnoremap <leader>l 
 nnoremap <leader>m :action GotoNextError<cr>
 nnoremap <leader>n :action GotoPreviousError<cr>
 nnoremap <leader>o :action OverrideMethods<CR>
 nnoremap <leader>p :action ParameterInfo<CR>
-nnoremap <leader>q :action CloseContent<cr>
+nnoremap <leader>q :q<CR>
 nnoremap <leader>r :action Run<CR>
 nnoremap <leader>s :action GotoSymbol<CR>
 nnoremap <leader>t :action GotoTest<CR>
 nnoremap <leader>u :action GotoSuperMethod<CR>
 nnoremap <leader>v ggVG
 nnoremap <leader>w :w<CR>
-nnoremap <leader>x :action GotoNextError<CR>
+nnoremap <leader>x :x<CR>
 nnoremap <leader>y :action GotoTypeDeclaration<CR>
-nnoremap <leader>z :action RecentFiles<CR>
+nnoremap <leader>z :action RenameFile<CR> 
 " leader (upper)
 nnoremap <leader>A :action Switcher<cr>
 nnoremap <leader>B :action ToggleLineBreakpoint<cr>
 " nnoremap <leader>C 
 " nnoremap <leader>D
 nnoremap <leader>E :action RenameElement<CR>
-nnoremap <leader>F :action Find<CR>
+" nnoremap <leader>F 
 nnoremap <leader>G :action Generate<CR>
 nnoremap <leader>H :action SplitHorizontally<CR>
 nnoremap <leader>I :action ImplementMethods<CR>
@@ -114,11 +109,11 @@ nnoremap <leader>O :action VimWindowOnly<CR>
 " nnoremap <leader>P
 " nnoremap <leader>Q
 nnoremap <leader>R :source ~/.ideavimrc<CR>
-nnoremap <leader>S :action SaveAll<CR>
+nnoremap <leader>S :action EditorToggleUseSoftWraps<CR>
 nnoremap <leader>T :action GenerateTestMethod<CR>
 nnoremap <leader>U :action ShowUsages<CR>
 nnoremap <leader>V :action SplitVertically<CR>
-nnoremap <leader>W :action EditorToggleUseSoftWraps<CR>
+nnoremap <leader>W :action SaveAll<CR>
 nnoremap <leader>X :action VimWindowClose<CR>
 nnoremap <leader>Y :action ChangeTypeSignature<CR>
 " nnoremap <leader>Z
@@ -126,4 +121,4 @@ nnoremap <leader>Y :action ChangeTypeSignature<CR>
 nnoremap <leader>] :action EditorCodeBlockEnd<CR>
 nnoremap <leader>[ :action EditorCodeBlockStart<CR>
 nnoremap <leader>/ :action CommentByLineComment<CR>
-""}}}
+"}}}
