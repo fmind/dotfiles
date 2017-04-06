@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding planck repository
+    apt_repository: repo="ppa:mfikes/planck" update_cache=yes
+
+  - name: Installing planck repl
+    apt: pkg="planck" state=latest
