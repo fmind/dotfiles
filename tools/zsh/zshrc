@@ -193,6 +193,7 @@ alias leina="lein ancient"
 leinp() { lein with-profile "$1" repl } 
 alias leinap="lein ancient check-profiles"
 alias leinrc="$EDITOR ~/.lein/profiles.clj"
+alias bootrc="$EDITOR ~/.boot/boot.properties"
 ## (should) improve boot startup time
 export BOOT_JVM_OPTIONS="-client 
 -XX:+TieredCompilation 
