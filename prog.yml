@@ -4,11 +4,13 @@
   connection: local
 
 # SYS
+## EDITORS
+- include: editors/emacs/sys.yml
 ## LANGUAGES
 - include: languages/java/sys.yml
 
 # USER
 # EDITORS
-- include: editors/idea/user.yml
+- include: editors/emacs/user.yml
 ## LANGUAGES
 - include: languages/groovy/user.yml

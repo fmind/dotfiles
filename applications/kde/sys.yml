@@ -11,4 +11,7 @@
     with_items:
         - krita
         - karbon
+        - yakuake
         - ktorrent
+        - deja-dup
+        - filelight
