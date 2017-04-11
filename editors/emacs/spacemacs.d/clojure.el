@@ -37,14 +37,12 @@
                                         ; HOOKS
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
-  ;; (add-hook mode #'golden-ratio-mode)
   (add-hook mode #'aggressive-indent-mode)
   (add-hook mode #'evil-cleverparens-mode))
 
 (defun my-cider-mode-hook ()
-    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input)
-    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input)
-  )
+    (define-key cider-repl-mode-map (kbd "C-n") #'cider-repl-forward-input)
+    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input))
 
 (add-hook 'cider-repl-mode-hook 'my-cider-mode-hook)
 

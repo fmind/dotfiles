@@ -21,8 +21,8 @@
      (auto-completion :variables
                       auto-completion-enable-sort-by-usage t
                       auto-completion-tab-key-behavior 'cycle
-                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
-                      auto-completion-enable-snippets-in-popup t)
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
      better-defaults
      bibtex
      (clojure :variables
@@ -73,7 +73,6 @@
      tmux
      version-control
      vinegar
-     vimscript
      yaml
      )
    ;; List of additional packages that will be installed without being
@@ -329,7 +328,7 @@ values."
 
   ;; programming
   (my-config-load "elisp.el")
-  (my-config-load "elixir.el")
+  ;; (my-config-load "elixir.el")
   (my-config-load "python.el")
   (my-config-load "clojure.el")
 

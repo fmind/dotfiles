@@ -14,7 +14,6 @@
 
 ;; initialization
 (setq vc-follow-symlinks t)
-(setq-default evil-escape-key-sequence "jk")
 
                                         ; FUNCTIONS
 
