@@ -33,7 +33,7 @@
      command-log
      csv
      docker
-     elixir
+     ;; elixir
      emacs-lisp
      evil-cleverparens
      evil-commentary

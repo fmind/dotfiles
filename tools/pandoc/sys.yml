@@ -8,3 +8,6 @@
 
   - name: Installing pandoc tool
     apt: pkg="pandoc" state=latest
+
+  - name: Installing pandoc-citeproc tool
+    apt: pkg="pandoc-citeproc" state=latest

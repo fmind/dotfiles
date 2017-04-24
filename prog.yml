@@ -8,6 +8,7 @@
 - include: editors/emacs/sys.yml
 ## LANGUAGES
 - include: languages/java/sys.yml
+- include: languages/julia/sys.yml
 - include: languages/clojure/sys.yml
 
 # USER
