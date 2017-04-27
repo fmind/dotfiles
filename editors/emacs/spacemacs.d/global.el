@@ -14,6 +14,7 @@
 
 ;; initialization
 (setq vc-follow-symlinks t)
+(setq-default dotspacemacs-persistent-server t)
 
                                         ; FUNCTIONS
 

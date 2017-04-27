@@ -24,7 +24,6 @@
 - include: tools/byobu/user.yml
 - include: tools/git/user.yml
 - include: tools/input/user.yml
-- include: tools/sdkman/user.yml
 - include: tools/zsh/user.yml
 ## EDITORS
 - include: editors/vim/user.yml

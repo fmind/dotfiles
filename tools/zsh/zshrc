@@ -269,7 +269,3 @@ alias texclean="latexmk -c"
 alias texpurge="latexmk -C"
 alias imgwhite="convert -flatten "
 alias slides="git clone git@github.com:fmind/my-slides"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
