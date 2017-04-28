@@ -9,6 +9,9 @@
   - name: Installing python librairies
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
+      # shell
+      - jupyter
+      - ipython
       # syntax
       - yapf
       - isort
@@ -23,22 +26,20 @@
       - twine
       - sphinx
       - invoke
-      - howdoi
       - autoenv
       - docutils
+      - json-rpc
       - virtualenv
       - pytest-cov
       - cookiecutter
       - pytest-xdist
       - check-manifest
+      - service_factory
       # system
       - sh
       - envoy
+      - howdoi
       - glances
-      # analysis
-      - jupyter
-      - ipython
-      - ipyparallel
       # web client
       - httpie
       - requests
