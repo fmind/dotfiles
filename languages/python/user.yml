@@ -10,6 +10,7 @@
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
       # shell
+      - hy
       - jupyter
       - ipython
       # syntax
