@@ -193,7 +193,7 @@ autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
 """ disable auto-comment
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" """ automatic add spelling and wrapping on open, read and save
+""" automatic add spelling and wrapping on open, read and save
 " autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
 
 """ restore last position of the cursor when opening a file
