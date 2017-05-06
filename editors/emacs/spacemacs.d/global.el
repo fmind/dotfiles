@@ -106,9 +106,18 @@
 (define-key evil-normal-state-map "J" 'my-previous-buffer)
 
 ;; WINDOWS
-(spacemacs/set-leader-keys "`" 'select-window-0)
+(spacemacs/set-leader-keys "`" 'winum-select-window-0)
 (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
 (spacemacs/set-leader-keys "pq" 'my-split-and-go-to-test)
+(spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
+(spacemacs/set-leader-keys "o0" 'eyebrowse-switch-to-window-config-0)
+(spacemacs/set-leader-keys "o1" 'eyebrowse-switch-to-window-config-1)
+(spacemacs/set-leader-keys "o2" 'eyebrowse-switch-to-window-config-2)
+(spacemacs/set-leader-keys "o3" 'eyebrowse-switch-to-window-config-3)
+(spacemacs/set-leader-keys "o4" 'eyebrowse-switch-to-window-config-4)
+(spacemacs/set-leader-keys "o5" 'eyebrowse-switch-to-window-config-5)
+(spacemacs/set-leader-keys "o6" 'eyebrowse-switch-to-window-config-6)
+(spacemacs/set-leader-keys "L" 'spacemacs/workspaces-transient-state/body)
 
 ;; LISP
 (spacemacs/set-leader-keys "kn" 'evil-lisp-state-sp-backward-up-sexp)

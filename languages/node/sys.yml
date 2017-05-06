@@ -1,0 +1,20 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding nodesource certificate
+    apt_key: url="https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280" id="68576280" state="present"
+
+  - name: Adding nodesource repository
+    apt_repository: repo="deb https://deb.nodesource.com/node_6.x xenial main" state="present"
+
+  - name: Installing node language
+    apt: pkg="nodejs" state="installed" update_cache=yes
+
+  - name: Installing node manager
+    apt: pkg="npm" state="installed" update_cache=yes
+
