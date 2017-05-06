@@ -3,6 +3,7 @@
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-display-help-banner nil)
 (setq cider-repl-display-in-current-window t)
+(setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
                                         ; FUNCTIONS
 
