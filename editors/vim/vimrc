@@ -128,6 +128,7 @@ let g:tmux_navigator_save_on_switch = 1
 """ BASIC"{{{
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-repeat'
+Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'

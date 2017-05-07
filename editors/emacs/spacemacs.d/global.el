@@ -7,6 +7,10 @@
 (setq scroll-margin 10)
 (setq scroll-conservatively 10)
 
+;; projectile
+(setq projectile-globally-ignored-directories '("out"))
+(setq projectile-globally-ignored-file-suffixes '("jpg" "png" "gif"))
+
 ;; abbreviations
 (setq-default abbrev-mode t)
 (setq save-abbrevs 'silently)
@@ -97,7 +101,12 @@
 (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
 ;; EDITIONS
+(define-key evil-motion-state-map "U" 'redo)
+(define-key evil-visual-state-map "U" 'redo)
 (spacemacs/set-leader-keys "oj" 'evil-join)
+(spacemacs/set-leader-keys "os" 'spacemacs/sort-lines)
+(define-key evil-motion-state-map "zj" 'spacemacs/evil-insert-line-below)
+(define-key evil-motion-state-map "zk" 'spacemacs/evil-insert-line-above)
 
 ;; BUFFERS
 (global-set-key [remap next-buffer] 'my-next-buffer)
