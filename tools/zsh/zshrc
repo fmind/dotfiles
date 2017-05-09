@@ -66,6 +66,7 @@ export LANG=en_US.UTF-8
 ### Alias Configuration ###
 
 # Alias: GLOBAL
+alias -g Z='| pigz'
 alias -g F='| head'
 alias -g T='| tail'
 alias -g L='| less'
@@ -93,6 +94,8 @@ alias back="cd $OLDPWD"
 
 # Alias: EDITION
 alias a="cat"
+alias z="pigz"
+alias uz="unpigz -c"
 alias cl="clear"
 alias veh="emacs . &"
 alias ved="emacs --daemon"
