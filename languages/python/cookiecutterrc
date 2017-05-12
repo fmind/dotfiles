@@ -10,4 +10,5 @@ abbreviations:
     gp: https://github.com/fmind/groovy-project-template.git
     gs: https://github.com/fmind/groovy-script-template.git
     sh: https://github.com/fmind/bash-script-template.git
+    hs: https://github.com/fmind/html-slides-template.git
     gh: https://github.com/{0}.git

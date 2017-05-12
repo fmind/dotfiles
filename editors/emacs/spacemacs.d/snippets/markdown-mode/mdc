@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Médéric Hurier
+# name: mdc
+# key: mdc
+# --
+<pre><code data-trim>
+$1
+</code></pre>

@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing R language
+    apt: pkg="r-base" state=latest

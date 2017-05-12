@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+  - name: Creating ~/.R directory
+    file: path="~/.R" state=directory
+
+  - name: Deploying R profile file
+    file: src="{{playbook_dir}}/Rprofile" dest="~/.Rprofile" state=link force=yes
