@@ -186,12 +186,12 @@ alias sortp='sort --parallel=$(nproc --all)'
 alias ja="java"
 alias jac="javac"
 alias jaj="java -jar"
-## Groovy
-alias gro="groovy"
-alias gron="groovy -n"
-alias grop="groovy -p"
-alias gros="groovysh"
-alias grod="groovydoc"
+# ## Groovy
+# alias gro="groovy"
+# alias gron="groovy -n"
+# alias grop="groovy -p"
+# alias gros="groovysh"
+# alias grod="groovydoc"
 ## Clojure
 alias cljs="planck"
 alias leinr="lein repl"
@@ -210,12 +210,14 @@ export BOOT_JVM_OPTIONS="-client
 -XX:+UseConcMarkSweepGC 
 -XX:+CMSClassUnloadingEnabled 
 -Xverify:none"
-## Elixir
-alias er="iex"
-alias ep="iex -S mix"
-alias em="mix"
-alias e="elixir"
-alias ec="elixirc"
+# ## Elixir
+# alias er="iex"
+# alias ep="iex -S mix"
+# alias em="mix"
+# alias e="elixir"
+# alias ec="elixirc"
+## Haskell
+alias hi="ghci"
 ## Python
 alias pp="pip"
 alias p="python"

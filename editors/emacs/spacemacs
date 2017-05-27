@@ -55,6 +55,7 @@
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      git
      graphviz
+     haskell
      helm
      html
      ipython-notebook

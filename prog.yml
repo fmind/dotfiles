@@ -10,6 +10,7 @@
 - include: languages/java/sys.yml
 - include: languages/julia/sys.yml
 - include: languages/clojure/sys.yml
+- include: languages/haskell/sys.yml
 
 # USER
 # EDITORS

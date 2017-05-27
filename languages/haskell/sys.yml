@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing haskell language
+    apt: pkg="haskell-platform" state=latest

@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+  - name: Updating cabal repository
+    command: "cabal update"
+
+  - name: Installing cabal librairies
+    command: "cabal install apply-refact hlint stylish-haskell hasktags hoogle"
