@@ -1,0 +1,8 @@
+templates:
+  params:
+    author-email: "fmind@users.noreply.github.com"
+    author-name: "Médéric Hurier"
+    github-username: "fmind"
+    copyright: "Fmind, 2017"
+    category: "Development"
+    year: "2017"

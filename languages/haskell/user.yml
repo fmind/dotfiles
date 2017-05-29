@@ -6,8 +6,16 @@
 
   tasks:
 
-  - name: Updating cabal repository
-    command: "cabal update"
+  - name: Updating stack
+    command: "stack update"
 
-  - name: Installing cabal librairies
-    command: "cabal install apply-refact hlint stylish-haskell hasktags hoogle"
+  - name: Setting-up stack
+    command: "stack setup"
+
+  - name: Installing plugins
+    command: "stack install hlint hindent hoogle hasktags intero apply-refact stylish-haskell"
+
+  - name: Configuring stack
+    file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes
+
+

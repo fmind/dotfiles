@@ -359,6 +359,7 @@ values."
   ;; (my-config-load "elixir.el")
   (my-config-load "python.el")
   (my-config-load "clojure.el")
+  (my-config-load "haskell.el")
 
   ;; organization
   (my-config-load "org.el")

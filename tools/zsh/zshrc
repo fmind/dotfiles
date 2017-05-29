@@ -21,6 +21,7 @@ plugins=(catimg
          jsontools
          lein
          python
+         stack
          sudo
          systemd
          urltools
@@ -217,7 +218,15 @@ export BOOT_JVM_OPTIONS="-client
 # alias e="elixir"
 # alias ec="elixirc"
 ## Haskell
-alias hi="ghci"
+alias hn="stack new"
+alias hr="stack repl"
+alias hi="stack ghci"
+alias ht="stack test"
+alias hh="stack build"
+alias hs="stack setup"
+alias hu="stack update"
+alias hu="stack upgrade"
+alias hrc="$EDITOR ~/.stack/config.yaml"
 ## Python
 alias pp="pip"
 alias p="python"
