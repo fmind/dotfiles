@@ -8,6 +8,3 @@
 
   - name: Installing haskell language
     apt: pkg="haskell-stack" state=latest
-
-  - name: Upgrading stack package manager
-    command: "stack upgrade"

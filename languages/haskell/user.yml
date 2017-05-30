@@ -6,6 +6,9 @@
 
   tasks:
 
+  - name: Upgrading stack
+    command: "stack upgrade"
+
   - name: Updating stack
     command: "stack update"
 
