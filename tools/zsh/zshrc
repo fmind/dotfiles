@@ -220,12 +220,13 @@ export BOOT_JVM_OPTIONS="-client
 ## Haskell
 alias hn="stack new"
 alias hr="stack repl"
-alias hi="stack ghci"
+alias hg="stack ghci"
 alias ht="stack test"
 alias hh="stack build"
 alias hs="stack setup"
 alias hu="stack update"
-alias hu="stack upgrade"
+alias hd="stack upgrade"
+alias hi="stack install"
 alias hrc="$EDITOR ~/.stack/config.yaml"
 ## Python
 alias pp="pip"
