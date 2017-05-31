@@ -16,7 +16,10 @@
     command: "stack setup"
 
   - name: Installing plugins
-    command: "stack install hlint hindent hoogle hasktags apply-refact stylish-haskell"
+    command: "stack install hlint hindent hoogle hasktags intero apply-refact stylish-haskell"
+
+  - name: Generating hoogle database
+    command: "hoogle generate"
 
   - name: Deploying stack configuration
     file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes

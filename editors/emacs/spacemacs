@@ -55,7 +55,9 @@
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      git
      graphviz
-     haskell
+     (haskell :variables
+                 haskell-completion-backend 'intero
+                 haskell-enable-hindent-style "fundamental")
      helm
      html
      ipython-notebook
