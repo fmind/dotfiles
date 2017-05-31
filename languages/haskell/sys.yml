@@ -6,5 +6,14 @@
 
   tasks:
 
+  - shell: test -f /usr/local/bin/stack
+    register: root_stack_exists
+    ignore_errors: True
+
+  - shell: test -f ~/.local/bin/stack
+    ignore_errors: True
+    register: local_stack_exists
+
   - name: Installing haskell language
-    apt: pkg="haskell-stack" state=latest
+    shell: curl -sSL https://get.haskellstack.org/ | sh
+    when: (root_stack_exists|failed) or (local_stack_exists|failed)
