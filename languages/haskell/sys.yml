@@ -14,6 +14,9 @@
     ignore_errors: True
     register: local_stack_exists
 
+  - name: Installing haskell deps
+    apt: pkg="libncurses5-dev" state=latest
+
   - name: Installing haskell language
     shell: curl -sSL https://get.haskellstack.org/ | sh
     when: (root_stack_exists|failed) or (local_stack_exists|failed)

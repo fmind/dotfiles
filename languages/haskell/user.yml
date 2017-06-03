@@ -24,4 +24,5 @@
   - name: Deploying stack configuration
     file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes
 
-
+  - name: Deploying haskline configuration
+    file: src="{{playbook_dir}}/haskeline" dest="~/.haskeline" state=link force=yes
