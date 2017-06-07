@@ -3,15 +3,12 @@
 - hosts: localhost
   connection: local
 
-## SYS
-# TOOLS
 - include: tools/xsel/sys.yml
-# APPLICATIONS
 - include: applications/anki/sys.yml
 - include: applications/chrome/sys.yml
-- include: applications/deja-dup/sys.yml
 - include: applications/insync/sys.yml
+- include: applications/unison/sys.yml
+- include: applications/deja-dup/sys.yml
 - include: applications/keepassx/sys.yml
 - include: applications/mendeley/sys.yml
-- include: applications/unison/sys.yml
 - include: applications/virtualbox/sys.yml

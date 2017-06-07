@@ -48,7 +48,7 @@ set relativenumber
 set wildmenu
 set shortmess=c
 set laststatus=2
-set wildmode=full
+set wildmode=longest:full,full
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
 "}}}
 """ FOLDING"{{{

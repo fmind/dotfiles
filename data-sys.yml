@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  connection: local
+
+- include: tools/graphviz/sys.yml
+- include: languages/julia/sys.yml
+- include: languages/rlang/sys.yml
+- include: languages/python/sys.yml

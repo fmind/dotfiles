@@ -3,8 +3,6 @@
 - hosts: localhost
   connection: local
 
-# SYS
-## TOOLS
 - include: tools/ag/sys.yml
 - include: tools/ansible/sys.yml
 - include: tools/byobu/sys.yml
@@ -15,16 +13,4 @@
 - include: tools/jq/sys.yml
 - include: tools/pigz/sys.yml
 - include: tools/zsh/sys.yml
-## EDITORS
 - include: editors/vim/sys.yml
-
-# USER
-## TOOLS
-- include: tools/ag/user.yml
-- include: tools/ansible/user.yml
-- include: tools/byobu/user.yml
-- include: tools/git/user.yml
-- include: tools/input/user.yml
-- include: tools/zsh/user.yml
-## EDITORS
-- include: editors/vim/user.yml

@@ -51,7 +51,9 @@ fi
 umask 0077
 
 # Set caps lock to escape
-setxkbmap -option caps:escape
+if [ -n "DISPLAY" ]; then
+    setxkbmap -option caps:escape
+fi
 
 # setopt MENU_COMPLETE
 
@@ -72,6 +74,7 @@ alias -g F='| head'
 alias -g T='| tail'
 alias -g L='| less'
 alias -g G='| grep'
+alias -g W='| wc -l'
 alias -g V='| $EDITOR -'
 alias -g J='| js-beautify'
 alias -g X='| xsel --clipboard'
@@ -230,21 +233,25 @@ alias hb="stack build"
 alias hn="stack bench"
 alias hs="stack setup"
 alias hu="stack update"
-alias hw="stack upgrade"
+alias hz="stack upgrade"
 alias hd="stack haddock"
 alias hi="stack install"
+alias hv="stack --version"
+alias hw="stack test --file-watch"
+alias hp="stack repl --test --bench"
 alias hj="stack ghci --ghci-options -XOverloadedStrings"
 alias hrc="$EDITOR ~/.stack/config.yaml"
 ## Python
 alias pp="pip"
 alias p="python"
+alias pt="pytest"
 alias ph="pydoc"
 alias p2="python2"
 alias p3="python3"
 alias pdt="python -m doctest"
 alias put="python -m unittest"
 alias toxe="tox -e"
-alias pt="python setup.py"
+alias pu="python setup.py"
 alias ppl="pip list --user"
 alias pps="pip search --user"
 alias ppi="pip install --user"

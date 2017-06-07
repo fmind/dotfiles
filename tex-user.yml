@@ -1,0 +1,7 @@
+---
+
+- hosts: localhost
+  connection: local
+
+- include: editors/emacs/user.yml
+- include: tools/latexmk/user.yml
