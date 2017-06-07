@@ -51,7 +51,7 @@ fi
 umask 0077
 
 # Set caps lock to escape
-if [ -n "DISPLAY" ]; then
+if [ -n "$DISPLAY" ]; then
     setxkbmap -option caps:escape
 fi
 
