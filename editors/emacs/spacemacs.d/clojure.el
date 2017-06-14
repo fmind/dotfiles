@@ -52,21 +52,38 @@
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (spacemacs/set-leader-keys-for-major-mode mode
     "," 'cider-load-buffer
-    "@" 'my-init-cider
-    "v" 'cider-find-var
-    "i" 'cider-inspect
-    "b" 'cider-pop-back
-    "n" 'cider-repl-set-ns
-    "D" 'my-defonce-toggle
+    "A" 'clojure-align
+    "B" 'spacemacs/cider-send-buffer-in-repl-and-focus
+    "C" 'cider-repl-clear-buffer
+    "D" 'cider-debug-defun-at-point
+    "E" 'spacemacs/cider-display-error-buffer
+    "F" 'cider-find-var
+    "G" 'cider-inspect
+    "H" 'cider-grimoire
+    "I" 'cider-eval-last-sexp-and-replace
+    "L" 'spacemacs/cider-send-last-sexp-to-repl-focus
+    "M" 'cider-macroexpand-all
+    "N" 'my-load-buffer-and-repl-set-ns
+    "O" 'spacemacs/cider-send-function-to-repl-focus
+    "P" 'cider-browse-ns
+    "Q" 'cider-restart
+    "R" 'cider-eval-region
+    "V" 'cider-toggle-trace-ns
+    "W" 'spacemacs/cider-send-region-to-repl-focus
+    "`" 'cider-pop-back
+    "a" 'cider-apropos
+    "b" 'cider-load-buffer
+    "c" 'my-defonce-toggle
+    "i" 'cider-eval-last-sexp
     "j" 'my-eval-and-next
     "k" 'my-eval-and-previous
-    "N" 'my-load-buffer-and-repl-set-ns
-    "c" 'cider-repl-clear-buffer
-    "u" 'cider-switch-to-repl-buffer
-    "R" 'cider-test-show-report
-    "te" 'cider-test-run-tests
-    "dv" 'cider-toggle-trace-var
-    "dn" 'cider-toggle-trace-ns
-    "tn" 'cider-test-run-ns-tests
-    "tp" 'cider-test-run-project-tests
-    "tl" 'cider-test-run-loaded-tests))
+    "l" 'spacemacs/cider-send-last-sexp-to-repl
+    "m" 'cider-macroexpand-1
+    "n" 'cider-repl-set-ns
+    "S" 'cider-switch-to-repl-buffer
+    "o" 'spacemacs/cider-send-function-to-repl
+    "p" 'spacemacs/cider-toggle-repl-pretty-printing
+    "q" 'cider-quit
+    "v" 'cider-toggle-trace-var
+    "w" 'spacemacs/cider-send-region-to-repl
+    ))

@@ -40,7 +40,7 @@
                             (import java.net.URL)]}]
  :selenium [:user
             {:dependencies [[clj-webdriver/clj-webdriver "0.7.2"]
-                            [org.seleniumhq.selenium/selenium-java "3.3.1"]]
+                            [org.seleniumhq.selenium/selenium-java "3.4.0"]]
              :injections   [(use 'clj-webdriver.taxi)
                             (set-driver! {:browser :firefox})]}]
  :maths    [:user
@@ -53,7 +53,7 @@
              :injections   [(use '[incanter core stats charts])]}]
 
  :data     [:user
-            {:dependencies [[cheshire "5.7.0"]
+            {:dependencies [[cheshire "5.7.1"]
                             [org.clojure/data.xml "0.0.8"]
                             [clojure-csv/clojure-csv "2.0.2"]]
              :injections   [(require '[cheshire.core :as Json])
