@@ -7,5 +7,5 @@
 - include: languages/java/sys.yml
 - include: languages/clang/sys.yml
 - include: languages/python/sys.yml
-- include: languages/haskell/sys.yml
+- include: languages/racket/sys.yml
 - include: languages/clojure/sys.yml

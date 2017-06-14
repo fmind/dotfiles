@@ -167,6 +167,7 @@ alias kila='killall -9'
 alias tunnel='ssh -nNT'
 alias sysctl='systemctl'
 alias srv='sudo service'
+alias rsinc="rsync -avzu"
 alias psmem='ps aux | sort -nk 4'
 alias psproc='ps aux | sort -nk 3'
 backup() { cp "$1"{,.bak}; }

@@ -87,7 +87,6 @@
       (clipboard-yank)
       (insert (shell-command-to-string "xsel -o -b"))))
 
-
                                         ; HOOKS
 
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))

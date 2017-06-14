@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Adding racket repository
+    apt_repository: repo="ppa:plt/racket" update_cache=yes
+
+  - name: Installing racket language
+    apt: pkg="racket" state=latest
