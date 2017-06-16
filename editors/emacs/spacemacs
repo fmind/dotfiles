@@ -48,7 +48,7 @@
      command-log
      csv
      docker
-     ;; elixir
+     elixir
      emacs-lisp
      evil-cleverparens
      evil-commentary
@@ -79,7 +79,7 @@
              python-test-runner 'pytest
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
-     racket
+     ;; racket
      restclient
      search-engine
      shell
@@ -360,10 +360,9 @@ values."
 
   ;; programming
   (my-config-load "elisp.el")
-  (my-config-load "racket.el")
+  (my-config-load "elixir.el")
   (my-config-load "python.el")
   (my-config-load "clojure.el")
-  ;; (my-config-load "haskell.el")
 
   ;; organization
   (my-config-load "org.el")
@@ -372,5 +371,3 @@ values."
   (my-config-load "engine.el")
   )
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.

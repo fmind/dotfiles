@@ -7,4 +7,5 @@
   "b" 'eval-buffer
   "r" 'eval-region
   "l" 'eval-last-sexp
-  ";" 'eval-expression)
+  ";" 'eval-expression
+  )
