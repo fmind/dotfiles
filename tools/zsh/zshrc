@@ -75,6 +75,7 @@ alias -g T='| tail'
 alias -g L='| less'
 alias -g G='| grep'
 alias -g W='| wc -l'
+alias -g U='| unpigz -c'
 alias -g V='| $EDITOR -'
 alias -g J='| js-beautify'
 alias -g X='| xsel --clipboard'
@@ -99,8 +100,8 @@ alias back="cd $OLDPWD"
 # Alias: EDITION
 alias a="cat"
 alias z="pigz"
-alias uz="unpigz -c"
 alias cl="clear"
+alias uz="unpigz -c"
 # alias ve="emacs -nw"
 # alias vee="emacs . &"
 # alias ved="emacs --daemon"
@@ -121,8 +122,8 @@ alias o="xdg-open"
 alias f='dolphin . &'
 alias dark="xbacklight -set 10"
 alias bright="xbacklight -set 100"
-alias pbcopy="xsel --clipboard --output"
-alias pbclear="xsel --clipboard --clear"
+alias xcat="xsel --clipboard --output"
+alias xclear="xsel --clipboard --clear"
 
 # Alias: INFORMATION
 alias h="history"
