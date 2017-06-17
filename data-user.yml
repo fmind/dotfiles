@@ -1,7 +1,0 @@
----
-
-- hosts: localhost
-  connection: local
-
-- include: languages/rlang/user.yml
-- include: languages/python/user.yml

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Médéric Hurier
+# name: qualifified
+# key: qualif
+# --
+import qualified $1 as $2

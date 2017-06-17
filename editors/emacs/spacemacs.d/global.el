@@ -126,6 +126,7 @@
 (spacemacs/set-leader-keys "o5" 'eyebrowse-switch-to-window-config-5)
 (spacemacs/set-leader-keys "o6" 'eyebrowse-switch-to-window-config-6)
 (spacemacs/set-leader-keys "L" 'spacemacs/workspaces-transient-state/body)
+(spacemacs/set-leader-keys "-" 'spacemacs/workspaces-transient-state/body)
 
 ;; LISP
 (spacemacs/set-leader-keys "kn" 'evil-lisp-state-sp-backward-up-sexp)
