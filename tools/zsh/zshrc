@@ -234,32 +234,37 @@ export BOOT_JVM_OPTIONS="-client
 # alias hp="stack repl --test --bench"
 # alias hj="stack ghci --ghci-options -XOverloadedStrings"
 # alias hrc="$EDITOR ~/.stack/config.yaml"
-## Python
+## Pip
 alias pp="pip"
+alias ppl="pip list"
+alias pul="pip list --user"
+alias pps="pip search"
+alias pus="pip search --user"
+alias ppi="pip install"
+alias pui="pip install --user"
+alias ppu="pip uninstall"
+alias puu="pip uninstall --user"
+alias ppf="pip freeze > requirements.txt"
+alias puf="pip freeze --user > requirements.txt"
+alias ppr="pip install -r requirements.txt"
+alias pur="pip install --user -r requirements.txt"
+## Python
 alias p="python"
-alias pt="pytest"
 alias ph="pydoc"
+alias pt="pytest"
 alias p2="python2"
 alias p3="python3"
-alias pdt="python -m doctest"
-alias put="python -m unittest"
-alias toxe="tox -e"
-alias pu="python setup.py"
-alias ppl="pip list --user"
-alias pps="pip search --user"
-alias ppi="pip install --user"
-alias ppu="pip uninstall"
-alias ppf="pip freeze --user > requirements.txt"
-alias ppr="pip install --user -r requirements.txt"
+alias pss="python setup.py"
+alias ptd="python -m doctest"
+alias ptu="python -m unittest"
 alias pi="ipython --profile=fmind"
-alias pk="ipython kernel --profile=fmind"
-alias pn="jupyter-notebook --profile=fmind --NotebookApp.token="
+## Jupyter
 alias pnp"ipcluster start -n $(nproc)"
-alias pva="source venv/bin/activate"
+alias pn="jupyter-notebook --profile=fmind --NotebookApp.token="
+## VirtualEnv
 alias pvd="deactivate"
+alias pva="source venv/bin/activate"
 pvi() { virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env }
-pvc() { mkdir "$1" && cd "$1" && pyvi }
-pvg() { pyvc "$1" && pyva }
 
 # Alias: PROGRAMMING
 ## Git
@@ -275,17 +280,16 @@ alias ck="cookiecutter"
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="ansible-playbook --ask-become"
-alias anpl-user="ansible-playbook *user.yml"
-alias anpl-sys="ansible-playbook --ask-become *sys.yml"
+alias anpl-sys="anpls *sys.yml"
+alias anpl-user="anpl *user.yml"
 ## Docker
 alias dk="docker"
 alias dkrmf="docker rm --force"
 alias dkrmo="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
 alias dk-spark='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
 alias dk-scipy="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
-alias dk-fxmongo='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
 alias dk-mongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
-alias dk-zoo='docker run --name zookeeper --restart always zookeeper'
+alias dk-fxmongo='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
 
 # Alias: SHARING
 alias httpserve="python3 -m http.server"

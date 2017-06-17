@@ -3,9 +3,8 @@
 - hosts: localhost
   connection: local
 
-- include: editors/emacs/sys.yml
+- include: editors/vim/sys.yml
 - include: languages/java/sys.yml
 - include: languages/clang/sys.yml
-- include: languages/elixir/sys.yml
 - include: languages/python/sys.yml
 - include: languages/clojure/sys.yml

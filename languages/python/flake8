@@ -1,4 +1,4 @@
 [flake8]
 doctests = True
-ignore = E501, E121
-max-line-length = 120
+ignore = E121, E501
+max-line-length = 100

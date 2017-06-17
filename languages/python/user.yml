@@ -11,8 +11,8 @@
     with_items:
       # shell
       - hy
-      - jupyter
       - ipython
+      - jupyter
       # syntax
       - yapf
       - isort
