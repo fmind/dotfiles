@@ -214,12 +214,6 @@ export BOOT_JVM_OPTIONS="-client
 -XX:+UseConcMarkSweepGC 
 -XX:+CMSClassUnloadingEnabled 
 -Xverify:none"
-# ## Elixir
-# alias er="iex"
-# alias ep="iex -S mix"
-# alias em="mix"
-# alias e="elixir"
-# alias ec="elixirc"
 ## Haskell
 # alias hh="stack"
 # alias ho="hoogle"
