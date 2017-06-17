@@ -4,6 +4,7 @@
   connection: local
 
 - include: tools/xsel/sys.yml
+- include: editors/vim-gtk/sys.yml
 - include: applications/anki/sys.yml
 - include: applications/chrome/sys.yml
 - include: applications/insync/sys.yml

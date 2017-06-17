@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Installing python librairies
+  - name: Installing python3 librairies
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
       # shell
@@ -19,6 +19,8 @@
       - flake8
       - pygments
       - autoflake
+      # editor
+      - neovim
       # project
       - tox
       - ipdb

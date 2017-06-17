@@ -3,6 +3,5 @@
 - hosts: localhost
   connection: local
 
-- include: editors/vim/user.yml
 - include: languages/python/user.yml
 - include: languages/clojure/user.yml
