@@ -31,7 +31,10 @@ plugins=(catimg
 
 ## INCLUDES
 
-# Make ZSH awesome again !
+# Set umask
+umask 0077
+
+# Make awesome
 source $ZSH/oh-my-zsh.sh
 
 # Switch to vi
@@ -47,9 +50,6 @@ if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
 fi
 
-# Set umask
-umask 0077
-
 # Set caps lock to escape
 if [ -n "$DISPLAY" ]; then
     setxkbmap -option caps:escape
@@ -57,13 +57,13 @@ fi
 
 # setopt MENU_COMPLETE
 
+# Set preferred editor
+export EDITOR='vim'
+
 # Add support for 256 colors
 export TERM=screen-256color
 
-# Set preferred editor for local and remote sessions
-export EDITOR='vim'
-
-# Set preferred language for local and remote sessions
+# Set preferred language for sessions
 export LANG=en_US.UTF-8
 
 ### Alias Configuration ###

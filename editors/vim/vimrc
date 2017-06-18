@@ -2,21 +2,6 @@
 set nomodeline
 set nocompatible
 "}}}
-" STARTUP "{{{
-let $VIMDIR=$HOME.'/.vim/'
-
-if exists('*mkdir')
-    if !isdirectory($VIMDIR)
-        call mkdir($VIMDIR)
-    endif
-
-    for subdir in ['backup', 'session', 'plugged', 'snippets', 'spell', 'swap', 'undo']
-        if !isdirectory($VIMDIR.subdir)
-            call mkdir($VIMDIR.subdir)
-        endif
-    endfor
-endif
-"}}}
 " SET-UP {{{
 """ WINDOW {{{
 set title
