@@ -2,6 +2,9 @@
 set nomodeline
 set nocompatible
 "}}}
+" STARTUP {{{
+let $VIMDIR=$HOME.'/.vim/'
+"}}}
 " SET-UP {{{
 """ WINDOW {{{
 set title
