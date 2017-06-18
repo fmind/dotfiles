@@ -1,16 +1,15 @@
-" SECURITY
-"{{{
+" CHECKUP {{{
 set nomodeline
 set nocompatible
 "}}}
-" CHECKUP
-"{{{
+" STARTUP "{{{
 let $VIMDIR=$HOME.'/.vim/'
 
 if exists('*mkdir')
     if !isdirectory($VIMDIR)
         call mkdir($VIMDIR)
     endif
+
     for subdir in ['backup', 'session', 'plugged', 'snippets', 'spell', 'swap', 'undo']
         if !isdirectory($VIMDIR.subdir)
             call mkdir($VIMDIR.subdir)
@@ -18,51 +17,45 @@ if exists('*mkdir')
     endfor
 endif
 "}}}
-" SETTINGS
-"{{{
-""" DISPLAY"{{{
+" SET-UP {{{
+""" WINDOW {{{
+set title
 set mouse=a
-set confirm
 set splitright
 set splitbelow
-set scrolloff=10
-set sidescrolloff=5
-"}}}
-""" THEMING"{{{
-set title
-set showcmd
-set showmode
-set noshowmatch
 set t_Co=256
 set conceallevel=2
 set background=dark
 " set colorcolumn=100
 let g:loaded_matchparen=1
 "}}}
-""" SIDEBAR"{{{
+""" SIDEBAR {{{
 set ruler
 set number
 set relativenumber
 "}}}
-""" STATUSBAR"{{{
+""" STATUSBAR {{{
+set showcmd
+set showmode
 set wildmenu
 set shortmess=c
 set laststatus=2
 set wildmode=longest:full,full
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
 "}}}
-""" FOLDING"{{{
+""" FOLDING {{{
 set foldlevel=20
 set foldmethod=marker
 set foldlevelstart=10
 "}}}
-""" WRAPPING"{{{
+""" WRAPPING {{{
 set wrap
 set linebreak
 set textwidth=0
 "}}}
-""" EDITION"{{{
+""" EDITION {{{
 set hidden
+set confirm
 set autoread
 set autowrite
 set autowriteall
@@ -71,16 +64,19 @@ set ffs=unix,dos,mac
 set clipboard=unnamedplus
 set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
 "}}}
-""" NAVIGATION"{{{
+""" NAVIGATION {{{
 set gdefault
 set hlsearch
 set incsearch
 set smartcase
 set ignorecase
+set noshowmatch
 set nojoinspaces
 set nostartofline
+set scrolloff=10
+set sidescrolloff=5
 "}}}
-""" IDENTATION"{{{
+""" IDENTATION {{{
 set expandtab
 set autoindent
 set copyindent
@@ -90,15 +86,15 @@ set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
 "}}}
-""" NOTIFICATION"{{{
+""" NOTIFICATION {{{
 set noerrorbells
 set novisualbell
 "}}}
-""" PERFORMANCE"{{{
+""" OPTIMIZATION {{{
 set ttyfast
 set lazyredraw
 "}}}
-""" BACKUP"{{{
+""" CONSERVATION {{{
 set backup
 set undofile
 set updatecount=100
@@ -108,24 +104,14 @@ set backupdir=$VIMDIR/backup/
 set viminfo ='200,n$VIMDIR/viminfo
 "}}}
 "}}}
-" PLUGINS
-"{{{
+" PLUGUP {{{
 syntax enable
 filetype plugin on
 filetype indent on
 
 if !empty(glob($HOME.'/.vim/autoload/plug.vim'))
 call plug#begin($HOME.'/.vim/plugged')
-""" DISPLAY"{{{
-Plug 'tomasr/molokai'
-Plug 'bling/vim-airline' 
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
-Plug 'airblade/vim-gitgutter'
-Plug 'christoomey/vim-tmux-navigator'
-let g:tmux_navigator_save_on_switch = 1
-"}}}
-""" BASIC"{{{
+""" TUNING {{{
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-repeat'
 Plug 'alvan/vim-closetag'
@@ -137,9 +123,30 @@ Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
 let g:EasyMotion_smartcase = 1
 Plug 'christoomey/vim-sort-motion'
+Plug 'christoomey/vim-tmux-navigator'
+let g:tmux_navigator_save_on_switch = 1
 Plug 'michaeljsmith/vim-indent-object'
 "}}}
-""" IDE FEATURES"{{{
+""" THEMING {{{
+Plug 'tomasr/molokai'
+Plug 'bling/vim-airline' 
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+"}}}
+""" WRITING {{{
+Plug 'godlygeek/tabular'
+" Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc-syntax/vim-pandoc'
+Plug 'plasticboy/vim-markdown'
+Plug 'beloglazov/vim-online-thesaurus'
+"}}}
+""" PROGRAMMING {{{
+Plug 'sheerun/vim-polyglot'
+"}}}
+""" VERSIONNING {{{
+Plug 'airblade/vim-gitgutter'
+"}}}
+""" DEVELOPPING {{{
 " Plug 'janko-m/vim-test'
 " let g:test#preserve_screen = 1
 " let test#python#runner = 'pytest'
@@ -170,65 +177,54 @@ Plug 'jistr/vim-nerdtree-tabs'
 " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 " let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 "}}}
-"""" PROGRAMMING LANGUAGE"{{{
-Plug 'godlygeek/tabular'
-Plug 'sheerun/vim-polyglot'
-Plug 'plasticboy/vim-markdown'
-Plug 'beloglazov/vim-online-thesaurus'
-"}}}
 call plug#end()
-try
 colorscheme molokai
-catch
-endtry
 endif
 "}}}
-" HOOKS
-"{{{
-"""  automaticaly save buffers on focus lost
-autocmd! FocusLost * silent! wa
-
-""" specific to Python files
-autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
-
-""" disable auto-comment
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-""" automatic add spelling and wrapping on open, read and save
-" autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
-
-""" restore last position of the cursor when opening a file
+" HOOKS {{{
+""" restore last cursor position
 autocmd! BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
+
+""" disable auto-comment for all file
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+""" change fold method for Python files
+autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
+
+"""  automatically save buffers on focus lost
+autocmd! FocusLost * silent! wa
+
+""" automatically add spelling and wrapping for textual files
+autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
 "}}}
-" KEYBINDINGS
- "{{{
-""" LEADER KEYS"{{{
+" KEYBINDINGS {{{
+""" BETTER LEADER {{{
 map ; :
 vmap ; :
 noremap ;; ;
 let mapleader="\<Space>"
 let maplocalleader=","
  "}}}
-""" BREAK HABITS"{{{
-":inoremap <Esc> <NOP>
+""" BETTER HABITS {{{
 nnoremap <Up> <NOP>
-nnoremap <Down> <NOP>
-nnoremap <Left> <NOP>
-nnoremap <Right> <NOP>
 inoremap <Up> <NOP>
+nnoremap <Down> <NOP>
 inoremap <Down> <NOP>
+nnoremap <Left> <NOP>
 inoremap <Left> <NOP>
+nnoremap <Right> <NOP>
 inoremap <Right> <NOP>
+":inoremap <Esc> <NOP>
 "}}}
-""" BETTER DEFAULT"{{{
+""" BETTER DEFAULTS {{{
 map Y y$
 map U <C-r>
 nnoremap j gj
-nnoremap k gk
 vnoremap j gj
+nnoremap k gk
 vnoremap k gk
 nnoremap / /\v
 vnoremap / /\v
@@ -236,7 +232,7 @@ xnoremap <  <gv
 xnoremap >  >gv
 inoremap jk  <Esc>
 inoremap kj  <Esc>
-nnoremap Q :q!<CR>
+nnoremap Q :x<CR>
 nnoremap zj o<Esc>k
 nnoremap zk O<Esc>j
 cnoremap <C-p> <Up>
@@ -245,33 +241,34 @@ nnoremap <silent> <ESC> :nohl<CR>
 nnoremap <expr> n  'Nn'[v:searchforward]
 nnoremap <expr> N  'nN'[v:searchforward]
  "}}}
-""" BASIC ACTIONS"{{{
-nnoremap <leader>z za
-nnoremap <leader>Z zM
+""" BASIC ACTIONS {{{
 nnoremap <leader>? :help 
-nnoremap <leader>e :tabedit 
-nnoremap <silent> <leader>p :put<CR> 
-vnoremap <silent> <leader>s :sort<CR>
-nnoremap <silent> <leader>j :join<CR>
-vnoremap <silent> <leader>j :join<CR>
-nnoremap <silent> <leader>m :make<CR>
+nnoremap <leader>j :join<CR>
+vnoremap <leader>j :join<CR>
+vnoremap <leader>s :sort<CR>
+nnoremap <leader>m :make<CR>
 "}}}
-""" ADVANCED ACTIONS"{{{
-"""""" prettify json file
-nnoremap <leader>J :%!python -m json.tool<CR>
+""" INTERNAL ACTIONS {{{
+nnoremap <leader>MR :source $MYVIMRC<CR>
+nnoremap <silent> <leader>MB :buffers<CR>
+nnoremap <silent> <leader>MM :message<CR>
+nnoremap <silent> <leader>MP :register<CR>
+nnoremap <silent> <leader>ME :tabedit $MYVIMRC<CR>
+"}}}
+""" ADVANCED ACTIONS {{{
 """""" execute shell command
 nnoremap <leader>! :!
-nnoremap <leader>R :r!
+nnoremap <leader>1 :r!
 """""" format current buffer
 nnoremap <leader>+ gggqG
-"""""" format inside paragrah
+"""""" format current paragrah
 nnoremap <leader>= gqip
 """"""" highlight last inserted text
 nnoremap <leader>v `[v`]
 """"""" switch between the last two files
 nnoremap <leader>k <c-^>
 """"""" get answer from the internet
-nnoremap <leader>y :!howdoi 
+nnoremap <leader>D :!howdoi 
 """""" write a file as sudo
 nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
 """""" add spelling for en/fr
@@ -279,17 +276,22 @@ nnoremap <silent> <leader>C :setlocal spell! spelllang=en,fr<CR>
 """""" edit the current macro
 nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 "}}}
-""" TAB MANAGEMENT"{{{
+""" TAB MANAGEMENT {{{
+nnoremap <leader>e :tabedit 
 nnoremap <silent> K :tabnext<CR>
 nnoremap <silent> J :tabprevious<CR>
 "}}}
-""" BUFFER MANAGEMENT"{{{
+""" FOLD MANAGEMENT {{{
+nnoremap <leader>z za
+nnoremap <leader>Z zM
+"}}}
+""" BUFFER MANAGEMENT {{{
 nnoremap <silent> H <C-e>
 nnoremap <silent> L <C-y>
 nnoremap <silent> <leader><Tab> :bnext<cr>
 nnoremap <silent> <leader><S-Tab> :bprevious<cr>
 "}}}
-""" WINDOWS MANAGEMENT"{{{
+""" WINDOWS MANAGEMENT {{{
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -297,7 +299,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <silent> <leader>H :split<CR>
 nnoremap <silent> <leader>V :vsplit<CR>
 "}}}
-""" PLUGINS MANAGEMENT"{{{
+""" PLUGINS MANAGEMENT {{{
 nnoremap <silent> <leader>PI :PlugInstall<CR>
 nnoremap <silent> <leader>PG :PlugUpgrade<CR>
 nnoremap <silent> <leader>PU :PlugUpdate<CR>
@@ -307,8 +309,17 @@ nnoremap <silent> <leader>PL :PlugList<CR>
 nnoremap <silent> <leader>PD :PlugDocs<CR>
 nnoremap <leader>PR :source $MYVIMRC<CR>
 "}}}
-""" PLUGINS CONFIGURATIONS"{{{
-"""""" go to
+""" PLUGINS CONFIGURATIONS {{{
+""""""" edition
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+nnoremap <silent> <leader>t :BTags<CR>
+nnoremap <silent> <leader>A :Tabularize
+nnoremap <silent> <leader>a= :Tabularize /=
+vnoremap <silent> <leader>a= :Tabularize /=
+nnoremap <silent> <leader>a/ :Tabularize /|
+vnoremap <silent> <leader>a/ :Tabularize /|
+"""""" navigation
 nmap s <Plug>(easymotion-s2)
 nnoremap <silent> <leader>/ :Ag<CR>
 nnoremap <silent> <leader>T :Tags<CR>
@@ -319,16 +330,17 @@ nnoremap <silent> <leader>l :BLines<CR>
 nnoremap <silent> <leader>F :GFiles<CR>
 nnoremap <silent> <leader>f :Files .<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>h :History<CR>
+nnoremap <silent> <leader>y :History<CR>
 nnoremap <silent> <leader>w :Windows<CR>
 nnoremap <silent> <leader>i :Snippets<CR>
-nnoremap <silent> <leader>c :Commands<CR>
-" nnoremap <silent> <leader>g :YcmCompleter GoTo<CR>
-" nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
-""""""" lookup
+nnoremap <silent> <leader><Space> :Commands<CR>
+""""""" definition
 nnoremap <leader>U :Thesaurus 
 nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
-" """"""" testing
+""""""" documentation
+" nnoremap <silent> <leader>g :YcmCompleter GoTo<CR>
+" nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
+""""""" testing
 " nnoremap <silent> <localleader>f :TestFile<CR>
 " nnoremap <silent> <localleader>l :TestLast<CR>
 " nnoremap <silent> <localleader>s :TestSuite<CR>
@@ -338,17 +350,8 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
 " nnoremap <silent> <leader>- :SyntasticToggleMode<CR>
-""""""" formatting
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-nnoremap <silent> <leader>A :Tab 
+""""""" pandoc management
 " nnoremap <silent> <leader>DD :Pandoc
-" nnoremap <silent> <localleader>i :Isort<CR>
-" nnoremap <silent> <leader>q :Autoformat<CR>
-nnoremap <silent> <leader>a= :Tabularize /=
-vnoremap <silent> <leader>a= :Tabularize /=
-nnoremap <silent> <leader>a/ :Tabularize /|
-vnoremap <silent> <leader>a/ :Tabularize /|
 " nnoremap <silent> <leader>DP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
 " nnoremap <silent> <leader>DH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
 """"""" session management
@@ -356,15 +359,10 @@ nnoremap <silent> <leader>SL :SLoad<CR>
 nnoremap <silent> <leader>SS :SSave<CR>
 nnoremap <silent> <leader>SC :SClose<CR>
 nnoremap <silent> <leader>SD :SDelete<CR>
-""""""" other plugin configuration
-" nnoremap <silent> <leader>G :Goyo<CR>
+""""""" snippet management
 nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
-"}}}
-""" INTERNAL CONFIGURATIONS"{{{
-nnoremap <leader>MR :source $MYVIMRC<CR>
-nnoremap <silent> <leader>MB :buffers<CR>
-nnoremap <silent> <leader>ML :message<CR>
-nnoremap <silent> <leader>MP :register<CR>
-nnoremap <silent> <leader>MM :tabedit $MYVIMRC<CR>
+""" OTHERS
+" nnoremap <silent> <localleader>i :Isort<CR>
+" nnoremap <silent> <leader>q :Autoformat<CR>
 "}}}
 "}}}
