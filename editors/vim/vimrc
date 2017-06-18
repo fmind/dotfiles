@@ -141,6 +141,9 @@ Plug 'plasticboy/vim-markdown'
 Plug 'beloglazov/vim-online-thesaurus'
 "}}}
 """ PROGRAMMING {{{
+Plug 'mattn/emmet-vim'
+let g:user_emmet_leader_key='<leader>h'
+Plug 'fisadev/vim-isort'
 Plug 'sheerun/vim-polyglot'
 "}}}
 """ VERSIONNING {{{
@@ -150,6 +153,7 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'janko-m/vim-test'
 " let g:test#preserve_screen = 1
 " let test#python#runner = 'pytest'
+Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsEditSplit = 'context'
 let g:UltiSnipsSnippetsDir = $HOME.'/.vim/snippets/'
@@ -160,22 +164,13 @@ Plug 'mhinz/vim-startify'
 Plug 'scrooloose/nerdtree' 
 let NERDTreeIgnore=['\.pyc$', '\~$']
 Plug 'jistr/vim-nerdtree-tabs'
-" Plug 'Chiel92/vim-autoformat'
-" let g:formatters_python = ['yapf']
-" Plug 'scrooloose/syntastic'
-" set statusline+=%*
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_python_checkers=['flake8']
-" Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
-" let g:ycm_goto_buffer_command = 'new-or-existing-tab'
-" let g:ycm_autoclose_preview_window_after_completion= 1
-" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+Plug 'Chiel92/vim-autoformat'
+let g:formatters_python = ['yapf']
+Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
+let g:ycm_goto_buffer_command = 'new-or-existing-tab'
+let g:ycm_autoclose_preview_window_after_completion= 1
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 "}}}
 call plug#end()
 colorscheme molokai
@@ -226,6 +221,14 @@ nnoremap j gj
 vnoremap j gj
 nnoremap k gk
 vnoremap k gk
+nnoremap 0 g0
+vnoremap 0 g0
+nnoremap $ g$
+vnoremap $ g$
+nnoremap ^ g^
+vnoremap ^ g^
+nnoremap _ g_
+vnoremap _ g_
 nnoremap / /\v
 vnoremap / /\v
 xnoremap <  <gv
@@ -272,7 +275,7 @@ nnoremap <leader>D :!howdoi
 """""" write a file as sudo
 nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
 """""" add spelling for en/fr
-nnoremap <silent> <leader>C :setlocal spell! spelllang=en,fr<CR>
+nnoremap <silent> <leader>S :setlocal spell! spelllang=en,fr<CR>
 """""" edit the current macro
 nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 "}}}
@@ -288,6 +291,7 @@ nnoremap <leader>Z zM
 """ BUFFER MANAGEMENT {{{
 nnoremap <silent> H <C-e>
 nnoremap <silent> L <C-y>
+nnoremap <leader>E :edit 
 nnoremap <silent> <leader><Tab> :bnext<cr>
 nnoremap <silent> <leader><S-Tab> :bprevious<cr>
 "}}}
@@ -296,6 +300,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+nnoremap <silent> <leader>x :x<CR>
 nnoremap <silent> <leader>H :split<CR>
 nnoremap <silent> <leader>V :vsplit<CR>
 "}}}
@@ -310,16 +315,17 @@ nnoremap <silent> <leader>PD :PlugDocs<CR>
 nnoremap <leader>PR :source $MYVIMRC<CR>
 "}}}
 """ PLUGINS CONFIGURATIONS {{{
-""""""" edition
+"""""" edition {{{
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-nnoremap <silent> <leader>t :BTags<CR>
 nnoremap <silent> <leader>A :Tabularize
 nnoremap <silent> <leader>a= :Tabularize /=
 vnoremap <silent> <leader>a= :Tabularize /=
 nnoremap <silent> <leader>a/ :Tabularize /|
 vnoremap <silent> <leader>a/ :Tabularize /|
-"""""" navigation
+nnoremap <silent> <leader>q :Autoformat<CR>
+"}}}
+"""""" navigation {{{
 nmap s <Plug>(easymotion-s2)
 nnoremap <silent> <leader>/ :Ag<CR>
 nnoremap <silent> <leader>T :Tags<CR>
@@ -334,35 +340,43 @@ nnoremap <silent> <leader>y :History<CR>
 nnoremap <silent> <leader>w :Windows<CR>
 nnoremap <silent> <leader>i :Snippets<CR>
 nnoremap <silent> <leader><Space> :Commands<CR>
-""""""" definition
+nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
+nnoremap <silent> <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"}}}
+"""""" definition {{{
 nnoremap <leader>U :Thesaurus 
 nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
-""""""" documentation
-" nnoremap <silent> <leader>g :YcmCompleter GoTo<CR>
-" nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
-""""""" testing
+"}}}
+"""""" testing {{{
 " nnoremap <silent> <localleader>f :TestFile<CR>
 " nnoremap <silent> <localleader>l :TestLast<CR>
 " nnoremap <silent> <localleader>s :TestSuite<CR>
 " nnoremap <silent> <localleader>g :TestVisit<CR>
 " nnoremap <silent> <localleader>t :TestNearest<CR>
-""""""" toggling
+"}}}
+"""""" toggling {{{
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
-" nnoremap <silent> <leader>- :SyntasticToggleMode<CR>
-""""""" pandoc management
+"}}}
+"""""" error management {{{
+nnoremap <silent> <leader>C :ALEToggle<CR>
+nnoremap <silent> <leader>c :ALENextWrap<CR>
+"}}}
+"""""" pandoc management {{{
 " nnoremap <silent> <leader>DD :Pandoc
 " nnoremap <silent> <leader>DP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
 " nnoremap <silent> <leader>DH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
-""""""" session management
-nnoremap <silent> <leader>SL :SLoad<CR>
-nnoremap <silent> <leader>SS :SSave<CR>
-nnoremap <silent> <leader>SC :SClose<CR>
-nnoremap <silent> <leader>SD :SDelete<CR>
-""""""" snippet management
+"}}}
+"""""" session management {{{
+nnoremap <silent> <leader>NL :SLoad<CR>
+nnoremap <silent> <leader>NS :SSave<CR>
+nnoremap <silent> <leader>NC :SClose<CR>
+nnoremap <silent> <leader>ND :SDelete<CR>
+"}}}
+"""""" snippet management {{{
 nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
-""" OTHERS
-" nnoremap <silent> <localleader>i :Isort<CR>
-" nnoremap <silent> <leader>q :Autoformat<CR>
+"}}}
+"""""" python language {{{
+autocmd FileType python nnoremap <silent> <LocalLeader>i :Isort<CR>
 "}}}
 "}}}
