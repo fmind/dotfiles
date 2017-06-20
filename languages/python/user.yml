@@ -20,7 +20,7 @@
       - pygments
       - autoflake
       # editor
-      - neovim
+      - python-vim
       # project
       - tox
       - ipdb

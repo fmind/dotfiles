@@ -102,6 +102,7 @@ call plug#begin($HOME.'/.vim/plugged')
 """ TUNING {{{
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-eunuch'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -128,9 +129,8 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'beloglazov/vim-online-thesaurus'
 "}}}
-""" PROGRAMMING {{{
+"""" PROGRAMMING {{{
 Plug 'mattn/emmet-vim'
-let g:user_emmet_leader_key='<leader>h'
 Plug 'fisadev/vim-isort'
 Plug 'sheerun/vim-polyglot'
 "}}}
@@ -163,7 +163,7 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 call plug#end()
 colorscheme molokai
 endif
-"}}}
+""}}}
 " HOOKS {{{
 """ restore last cursor position
 autocmd! BufReadPost *
@@ -182,6 +182,27 @@ autocmd! FocusLost * silent! wa
 
 """ automatically add spelling and wrapping for textual files
 autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
+"}}}
+" FUNCTIONS {{{
+function! SwitchPyTest()
+    let l:f = expand("%:p")
+    let l:fs = split(f, '/')
+    let l:fname = l:fs[-1]
+
+    if l:fname =~ "test_.*"
+        " switch to def
+        let l:fs[-2] = l:fs[-3]
+        let l:fs[-1] = substitute(l:fs[-1], 'test_', '', '') 
+    else
+        " switch to test
+        let l:fs[-2] = "tests"
+        let l:fs[-1] = "test_" . l:fs[-1]
+    endif
+
+    execute "edit " . "/" . join(l:fs, '/')
+endfunction
+
+command! SwitchPyTest call SwitchPyTest()
 "}}}
 " KEYBINDINGS {{{
 """ BETTER LEADER {{{
@@ -226,6 +247,7 @@ inoremap kj  <Esc>
 nnoremap Q :x<CR>
 nnoremap zj o<Esc>k
 nnoremap zk O<Esc>j
+nnoremap - :e .<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 nnoremap <silent> <ESC> :nohl<CR>
@@ -346,6 +368,9 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
 "}}}
+"""""" file management {{{
+nnoremap <silent> <leader>R :Move 
+"}}}
 """""" error management {{{
 nnoremap <silent> <leader>C :ALEToggle<CR>
 nnoremap <silent> <leader>c :ALENextWrap<CR>
@@ -366,5 +391,6 @@ nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 "}}}
 """""" python language {{{
 autocmd FileType python nnoremap <silent> <LocalLeader>i :Isort<CR>
+autocmd FileType python nnoremap <silent> <LocalLeader>t :SwitchPyTest<CR>
 "}}}
 "}}}

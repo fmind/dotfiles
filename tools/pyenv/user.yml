@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+  - name: Installing pyenv
+    git: repo=https://github.com/pyenv/pyenv.git dest="~/.pyenv" depth=1
