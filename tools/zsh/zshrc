@@ -45,6 +45,10 @@ bindkey '^o' clear-screen
 # Enable byobu
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 
+# Enable pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+eval "$(~/.pyenv/bin/pyenv init -)"
+
 # Enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
