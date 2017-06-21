@@ -104,6 +104,7 @@ Plug 'tpope/vim-rsi'
 Plug 'benmills/vimux'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-eunuch'
+Plug 'wellle/targets.vim'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -225,6 +226,8 @@ inoremap <Right> <NOP>
 ":inoremap <Esc> <NOP>
 "}}}
 """ BETTER DEFAULTS {{{
+map B ^
+map E $
 map Y y$
 map U <C-r>
 nnoremap j gj
