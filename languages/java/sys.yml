@@ -8,6 +8,7 @@
 
   - name: Adding java repository
     apt_repository: repo="ppa:webupd8team/java" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing java language
     apt: pkg="oracle-java8-installer" state=latest

@@ -8,6 +8,7 @@
 
   - name: Adding umake repository
     apt_repository: repo="ppa:ubuntu-desktop/ubuntu-make" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing umake tool
     apt: pkg="ubuntu-make" state=latest

@@ -8,6 +8,7 @@
 
   - name: Adding racket repository
     apt_repository: repo="ppa:plt/racket" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing racket language
     apt: pkg="racket" state=latest
