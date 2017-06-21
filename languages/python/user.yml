@@ -15,6 +15,7 @@
       - jupyter
       # syntax
       - yapf
+      - funcy
       - isort
       - flake8
       - pygments

@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Installing jq tool
+  - name: Installing pyenv dependencies
     apt: pkg="{{item}}" state=latest
     with_items:
       - wget
