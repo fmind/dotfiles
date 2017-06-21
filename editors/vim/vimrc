@@ -101,6 +101,7 @@ if !empty(glob($HOME.'/.vim/autoload/plug.vim'))
 call plug#begin($HOME.'/.vim/plugged')
 """ TUNING {{{
 Plug 'tpope/vim-rsi'
+Plug 'benmills/vimux'
 Plug 'tpope/vim-repeat'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
@@ -255,7 +256,7 @@ nnoremap <leader>+ gggqG
 """""" format current paragrah
 nnoremap <leader>= gqip
 """"""" highlight last inserted text
-nnoremap <leader>v `[v`]
+nnoremap <leader>o `[v`]
 """"""" switch between the last two files
 nnoremap <leader>k <c-^>
 """"""" get answer from the internet
@@ -280,6 +281,7 @@ nnoremap <leader>Z zM
 nnoremap <silent> H <C-e>
 nnoremap <silent> L <C-y>
 nnoremap <leader>E :edit 
+nnoremap <silent> <leader>p :ccl<CR><CR>
 nnoremap <silent> <leader><Tab> :bnext<cr>
 nnoremap <silent> <leader><S-Tab> :bprevious<cr>
 "}}}
@@ -345,6 +347,15 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 """""" toggling {{{
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
+"}}}
+"""""" tmux management {{{
+nnoremap <Leader>vq :VimuxCloseRunner<CR>
+nnoremap <Leader>vv :VimuxPromptCommand<CR>
+nnoremap <Leader>vi :VimuxInspectRunner<CR>
+nnoremap <Leader>vl :VimuxRunLastCommand<CR>
+nnoremap <Leader>vx :VimuxInterruptRunner<CR>
+nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
+nnoremap <Leader>vt :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
 "}}}
 """""" error management {{{
 nnoremap <silent> <leader>C :ALEToggle<CR>

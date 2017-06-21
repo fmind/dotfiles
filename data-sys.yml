@@ -1,0 +1,6 @@
+---
+
+- hosts: localhost
+  connection: local
+
+- include: languages/rlang/sys.yml

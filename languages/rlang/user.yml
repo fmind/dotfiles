@@ -11,3 +11,6 @@
 
   - name: Deploying R profile file
     file: src="{{playbook_dir}}/Rprofile" dest="~/.Rprofile" state=link force=yes
+
+  - name: Installing additional R packages
+    shell: R -e 'install.packages("ggplot2")'
