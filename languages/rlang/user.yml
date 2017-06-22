@@ -13,4 +13,4 @@
     file: src="{{playbook_dir}}/Rprofile" dest="~/.Rprofile" state=link force=yes
 
   - name: Installing additional R packages
-    shell: R -e 'install.packages("ggplot2")'
+    shell: R -e 'install.packages(c("ggplot2", "ggthemes"))'
