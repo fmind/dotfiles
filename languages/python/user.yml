@@ -11,8 +11,9 @@
     with_items:
       # shell
       - hy
-      - ipython
       - jupyter
+      - ipython
+      - bpython
       # syntax
       - yapf
       - funcy
@@ -52,6 +53,9 @@
   - name: Creating ~/.config/yapf directory
     file: path="~/.config/yapf" state=directory
 
+  - name: Creating ~/.config/bpython directory
+    file: path="~/.config/bpython" state=directory
+
   - name: Deploying pip configuration file
     file: src="{{playbook_dir}}/pypirc" dest="~/.pypirc" state=link force=yes
 
@@ -60,6 +64,9 @@
 
   - name: Deploying flake8 configuration file
     file: src="{{playbook_dir}}/flake8" dest="~/.config/flake8" state=link force=yes
+
+  - name: Deploying bpython configuration file
+    file: src="{{playbook_dir}}/bpython" dest="~/.config/bpython/config" state=link force=yes
 
   - name: Deploying invoke configuration file
     file: src="{{playbook_dir}}/invoke.yaml" dest="~/.invoke.yaml" state=link force=yes
