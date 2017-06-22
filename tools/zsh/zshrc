@@ -168,10 +168,11 @@ alias latexmkrc='$EDITOR ~/.latexmkrc'
 alias cookierc='$EDITOR ~/.cookiecutterrc'
 
 # Alias: ADMINISTRATION
+alias ctl='systemctl'
+alias ctlu='systemctl --user'
 alias chx="chmod u+x "
 alias kila='killall -9'
 alias tunnel='ssh -nNT'
-alias sysctl='systemctl'
 alias srv='sudo service'
 alias rsinc="rsync -avzu"
 alias psmem='ps aux | sort -nk 4'

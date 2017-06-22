@@ -125,6 +125,7 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 "}}}
 """ WRITING {{{
+Plug 'junegunn/goyo.vim'
 Plug 'godlygeek/tabular'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc-syntax/vim-pandoc'
@@ -370,6 +371,7 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 " nnoremap <silent> <localleader>t :TestNearest<CR>
 "}}}
 """""" toggling {{{
+nnoremap <silent> <leader>G :Goyo 120<CR>
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
 "}}}
