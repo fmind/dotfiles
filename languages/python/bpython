@@ -3,15 +3,20 @@ editor = vi
 syntax = True
 tab_length = 4
 arg_spec = True
+dedent_after = 1
 hist_length = 1000
+flush_output = True
+hist_duplicates = True
 color_scheme = default
 save_append_py = False
 auto_display_list = True
+highlight_show_source = True
+complete_magic_methods = True
 hist_file = ~/.bpython_history
 
 [curtsies]
 list_above = False
-right_arrow_completion = False
+right_arrow_completion = True
 
 [keyboard]
 exit = C-d
@@ -27,10 +32,10 @@ clear_screen = C-o
 edit_config = M-m
 show_source = M-n
 backspace = M-x
-last_output = M-o
 up_one_line = C-p
 down_one_line = C-n
 cut_to_buffer = M-q
+copy_clipboard = M-o
 external_editor = C-v
 yank_from_buffer = C-y
 toggle_file_watch = M-w
