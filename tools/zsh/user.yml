@@ -16,5 +16,10 @@
     file: src="{{playbook_dir}}/zsh.d" dest="~/.zsh.d" state=link force=yes
 
   - name: Cloning oh-my-zsh repository
-    git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=~/.oh-my-zsh depth=1
+    git: repo="https://github.com/robbyrussell/oh-my-zsh.git" dest="~/.oh-my-zsh" depth=1
 
+  - name: Cloning zsh-autosuggestions
+    git: repo="git://github.com/zsh-users/zsh-autosuggestions" dest="~/zsh.d/plugins/zsh-autosuggestions" depth=1
+
+  - name: Cloning zsh-syntax-highlighting
+    git: repo="https://github.com/zsh-users/zsh-syntax-highlighting.git" dest="~/.zsh.d/plugins/zsh-syntax-highlighting" depth=1

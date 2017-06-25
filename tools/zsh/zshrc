@@ -14,12 +14,15 @@ HIST_STAMPS="yyyy-mm-dd"
 
 # Set the ZSH plugins to load
 plugins=(catimg
+         celery
          command-not-found
          docker
          encode64
          httpie
          jsontools
          lein
+         pyenv
+         pylint
          python
          stack
          sudo
@@ -27,7 +30,10 @@ plugins=(catimg
          urltools
          vi-mode
          wd
-         web-search)
+         web-search
+         zsh-autosuggestions
+         zsh-syntax-highlighting
+         )
 
 ## INCLUDES
 
