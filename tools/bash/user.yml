@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+  - name: Deploying bash conf file
+    file: src="{{playbook_dir}}/bashrc" dest="~/.bashrc" state=link force=yes
+
+  - name: Deploying bash logout file
+    file: src="{{playbook_dir}}/bash_logout" dest="~/.bash_logout" state=link force=yes

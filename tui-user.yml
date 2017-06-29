@@ -4,7 +4,9 @@
   connection: local
 
 - include: tools/ag/user.yml
+- include: tools/aliases/user.yml
 - include: tools/ansible/user.yml
+- include: tools/bash/user.yml
 - include: tools/byobu/user.yml
 - include: tools/git/user.yml
 - include: tools/input/user.yml

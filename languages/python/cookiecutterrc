@@ -3,6 +3,7 @@ default_context:
     author: "Médéric Hurier"
     email: "fmind@users.noreply.github.com"
 abbreviations:
+    cs: https://github.com/fmind/clojure-script-template.git
     pa: https://github.com/fmind/python-analysis-template.git
     pp: https://github.com/fmind/python-project-template.git
     ps: https://github.com/fmind/python-script-template.git

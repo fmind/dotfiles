@@ -1,0 +1,73 @@
+## SECURITY ##
+
+# if not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+## SETTINGS ##
+
+umask 0077
+
+HISTSIZE=100000
+HISTFILESIZE=2000000
+HISTCONTROL=ignoreboth
+
+# set preferred editor
+export EDITOR='vim'
+
+## OPTIONS ##
+
+# switch to vi
+set -o vi
+
+# includes files beginning with a ‘.’
+shopt -s dotglob
+
+# matches files in a case-insensitive
+shopt -s nocaseglob
+
+# correct minor spelling errors in cd
+shopt -s cdspell
+
+# correct minor spelling errors in dir
+shopt -s dirspell
+
+# check the window size after each command
+shopt -s checkwinsize
+
+# match all files and zero or more directories
+shopt -s globstar
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+## COMPLETIONS ##
+
+# enable programmable completion features
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+## Env Configuration ##
+
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+if [ -f ~/.privenv ]; then
+    . ~/.privenv
+fi
+
+## Prompt Configuration ##
+
+PS1='\[\033[01;31m\]∀\h\[\033[01;32m\]∃\u\[\033[01;34m\]∧\W\[\033[01;00m\]\$ '
+
+## Alias Configuration ##
+
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
