@@ -136,6 +136,7 @@ Plug 'beloglazov/vim-online-thesaurus'
 Plug 'mattn/emmet-vim'
 Plug 'fisadev/vim-isort'
 Plug 'sheerun/vim-polyglot'
+Plug 'aklt/plantuml-syntax'
 "}}}
 """ VERSIONNING {{{
 Plug 'airblade/vim-gitgutter'
