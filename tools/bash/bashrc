@@ -19,6 +19,9 @@ export EDITOR='vim'
 # switch to vi
 set -o vi
 
+# extended pattern matching
+shopt -s extglob
+
 # includes files beginning with a ‘.’
 shopt -s dotglob
 
