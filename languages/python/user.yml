@@ -45,6 +45,7 @@
       - envoy
       - howdoi
       - glances
+      - watchdog
       # web client
       - httpie
       - requests

@@ -132,6 +132,8 @@ alias oari="oarsub -I"
 alias oars="oarsub -S"
 ## SRUN
 alias sri="srun -p interactive --qos qos-interactive --pty bash -i"
+## UML
+alias uml="plantuml"
 ## Project
 alias m="make"
 ## Template
@@ -149,6 +151,10 @@ alias dk-spark='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan
 alias dk-scipy="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
 alias dk-mongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
 alias dk-fxmongo='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
+## Watchdog
+alias wlog="watchmedo log"
+alias wcmd="watchmedo shell-command"
+alias wrest="watchmedo auto-restart"
 
 # LANGUAGES
 ## Java

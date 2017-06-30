@@ -406,7 +406,11 @@ nnoremap <silent> <leader>ND :SDelete<CR>
 nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 "}}}
 """""" python language {{{
+autocmd BufWritePost *.py :Isort
+autocmd BufWritePost *.py :Autoformat
 autocmd FileType python nnoremap <silent> <LocalLeader>i :Isort<CR>
 autocmd FileType python nnoremap <silent> <LocalLeader>t :SwitchPyTest<CR>
+"""""" uml language {{{
+autocmd BufWritePost *.uml :silent !plantuml <afile>
 "}}}
 "}}}
