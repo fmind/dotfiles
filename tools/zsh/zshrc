@@ -1,10 +1,12 @@
 ### ZSH Configuration ###
 
 # Installation path
+export RPS1="%{$reset_color%}" # spaceship theme
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme
 ZSH_THEME="spaceship"
+export SPACESHIP_EXIT_CODE_SHOW=true
 
 # Set the custom folder
 ZSH_CUSTOM=$HOME/.zsh.d
