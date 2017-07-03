@@ -22,6 +22,7 @@
 
 # misc
 - celery
+- wormhole
 
 # data analysis
 - arrow

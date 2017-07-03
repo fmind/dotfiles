@@ -15,11 +15,14 @@
   - name: Deploying zsh configuration directory
     file: src="{{playbook_dir}}/zsh.d" dest="~/.zsh.d" state=link force=yes
 
-  - name: Cloning oh-my-zsh repository
+  - name: Installing oh-my-zsh repository
     git: repo="https://github.com/robbyrussell/oh-my-zsh.git" dest="~/.oh-my-zsh" depth=1
 
-  - name: Cloning zsh-autosuggestions
+  - name: Installating zsh spaceship theme
+    get_url: url="https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh" dest="~/.zsh.d/themes/spaceship.zsh-theme"
+
+  - name: Installing zsh-autosuggestions plugin
     git: repo="git://github.com/zsh-users/zsh-autosuggestions.git" dest="~/.zsh.d/plugins/zsh-autosuggestions" depth=1
 
-  - name: Cloning zsh-syntax-highlighting
+  - name: Installation zsh-syntax-highlighting plugin
     git: repo="https://github.com/zsh-users/zsh-syntax-highlighting.git" dest="~/.zsh.d/plugins/zsh-syntax-highlighting" depth=1
