@@ -14,3 +14,4 @@
     command: ./install.sh chdir=~/.fonts.d/
     when: fonts.changed
     ignore_errors: yes
+    no_log: True
