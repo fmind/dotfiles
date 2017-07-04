@@ -12,3 +12,4 @@
 - include: tools/input/user.yml
 - include: tools/zsh/user.yml
 - include: editors/vim/user.yml
+- include: editors/fonts/user.yml

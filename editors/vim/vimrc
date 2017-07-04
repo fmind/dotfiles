@@ -308,6 +308,7 @@ nnoremap <leader>Z zM
 nnoremap <silent> H <C-e>
 nnoremap <silent> L <C-y>
 nnoremap <leader>E :edit 
+nnoremap <leader>b :bdelete<CR> 
 nnoremap <silent> <leader>p :ccl<CR><CR>
 nnoremap <silent> <leader><Tab> :bnext<cr>
 nnoremap <silent> <leader><S-Tab> :bprevious<cr>
@@ -352,7 +353,7 @@ nnoremap <silent> <leader>L :Lines<CR>
 nnoremap <silent> <leader>l :BLines<CR>
 nnoremap <silent> <leader>F :GFiles<CR>
 nnoremap <silent> <leader>f :Files .<CR>
-nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>B :Buffers<CR>
 nnoremap <silent> <leader>y :History<CR>
 nnoremap <silent> <leader>w :Windows<CR>
 nnoremap <silent> <leader>i :Snippets<CR>
@@ -385,7 +386,7 @@ nnoremap <Leader>vx :VimuxInterruptRunner<CR>
 nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
 nnoremap <Leader>vt :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
 """""" file management {{{
-nnoremap <silent> <leader>R :Move 
+nnoremap <leader>R :Move 
 "}}}
 """""" error management {{{
 nnoremap <silent> <leader>C :ALEToggle<CR>

@@ -1,3 +1,12 @@
+# DEFAULT
+alias df="df -hT"
+alias du="df -h"
+alias ps="ps aux"
+alias psg="ps aux | grep -v grep | grep "
+alias wget="wget -c"
+alias free="free -mt"
+alias mkdir="mkdir -pv"
+
 # EDITION
 alias a="cat"
 alias z="pigz"
@@ -117,6 +126,11 @@ alias t15="tail -n15"
 alias igrep="grep -i"
 alias colt="column -t"
 alias sortp='sort --parallel=$(nproc --all)'
+alias fhere="find . -iname "
+alias fhome="find ~ -iname "
+function fwild {
+    find . -iname "*$1*"
+}
 
 # PROGRAMMING
 ## Git

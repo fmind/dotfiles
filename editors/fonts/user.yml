@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+  - name: Cloning powerline fonts
+    git: repo="https://github.com/powerline/fonts.git" dest="~/.fonts.d/" depth=1
+
+  - name: Deploying powerline fonts
+    shell: "~/.fonts.d/install.sh"
