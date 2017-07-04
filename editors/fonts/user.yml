@@ -6,8 +6,11 @@
 
   tasks:
 
-  - name: Cloning powerline fonts
-    git: repo="https://github.com/powerline/fonts.git" dest="~/.fonts.d/" depth=1
+  - name: Cloning nerd fonts
+    git: repo="https://github.com/ryanoasis/nerd-fonts" dest="~/.fonts.d/" depth=1
+    register: fonts
 
-  - name: Deploying powerline fonts
-    shell: "~/.fonts.d/install.sh"
+  - name: Installing nerd fonts
+    command: ./install.sh chdir=~/.fonts.d/
+    when: fonts.changed
+    ignore_errors: yes

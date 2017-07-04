@@ -46,6 +46,7 @@ alias dark="xbacklight -set 10"
 alias bright="xbacklight -set 100"
 alias xcat="xsel --clipboard --output"
 alias xclear="xsel --clipboard --clear"
+alias wsh="watchmedo shell-command "
 
 # INFORMATION
 alias h="history"
@@ -87,6 +88,7 @@ alias latexmkrc='$EDITOR ~/.latexmkrc'
 alias cookierc='$EDITOR ~/.cookiecutterrc'
 
 # ADMINISTRATION
+alias cpr="cp -r"
 alias rmr="rm -r"
 alias rmrf="rm -rf"
 alias ctl='systemctl'
