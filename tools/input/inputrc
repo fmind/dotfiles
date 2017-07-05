@@ -1,5 +1,6 @@
 set editing-mode vi
 
+set page-completions off
 set show-all-if-ambiguous on
 set completion-ignore-case on
 set mark-symlinked-directories on
