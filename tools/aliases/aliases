@@ -1,6 +1,6 @@
 # DEFAULT
 alias df="df -hT"
-alias du="df -h"
+alias du="du -h"
 alias ps="ps aux"
 alias psg="ps aux | grep -v grep | grep "
 alias wget="wget -c"
@@ -28,7 +28,6 @@ alias virc='$EDITOR ~/.vimrc'
 
 # NAVIGATION
 alias ..="cd .."
-c() { cd "$1"; ls;}
 alias ls="ls --color=auto"
 alias l="ls"
 alias ll="ls -lFh"
@@ -37,6 +36,9 @@ alias lr="ls -lRFh"
 alias lt="ls -ltFh"
 alias lh="ls -ld .*"
 alias back="cd $OLDPWD"
+function c {
+  cd "$@" && ls
+}
 
 # INTEGRATION
 alias x="exit"
@@ -75,8 +77,8 @@ alias zsenv='source ~/.zshenv'
 alias zenv='$EDITOR ~/.zshenv && zsenv'
 alias bsrc='source ~/.bashrc'
 alias brc='$EDITOR ~/.bashrc && bsrc'
-alias saliases='source ~/.aliases'
-alias aliases='$EDITOR ~/.aliases && saliases'
+alias asrc='source ~/.aliases'
+alias arc='$EDITOR ~/.aliases && asrc'
 alias privsenv='source ~/.privenv'
 alias privenv='$EDITOR ~/.privenv && privsenv'
 alias warprc='$EDITOR ~/.warprc'
@@ -98,6 +100,7 @@ alias kila='killall -9'
 alias tunnel='ssh -nNT'
 alias srv='sudo service'
 alias rsinc="rsync -avzu"
+alias pwgen="pwgen -N1 -y"
 alias psmem='ps aux | sort -nk 4'
 alias psproc='ps aux | sort -nk 3'
 backup() { cp "$1"{,.bak}; }
