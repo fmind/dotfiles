@@ -97,6 +97,8 @@ syntax enable
 filetype plugin on
 filetype indent on
 
+let $FZF_DEFAULT_COMMAND = 'ag -p ~/.agignore -g ""'
+
 if !empty(glob($HOME.'/.vim/autoload/plug.vim'))
 call plug#begin($HOME.'/.vim/plugged')
 """ TUNING {{{

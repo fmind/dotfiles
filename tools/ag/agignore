@@ -5,3 +5,4 @@ venv/
 .git/
 .tox/
 .devenv/
+*.egg-info/*
