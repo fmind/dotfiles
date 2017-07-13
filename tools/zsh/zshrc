@@ -104,3 +104,7 @@ alias -g NUL='>/dev/null2>&1'
 if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/mederic/.sdkman"
+[[ -s "/home/mederic/.sdkman/bin/sdkman-init.sh" ]] && source "/home/mederic/.sdkman/bin/sdkman-init.sh"
