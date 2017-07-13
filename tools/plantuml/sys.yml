@@ -8,3 +8,8 @@
 
   - name: Installing plantuml tool
     apt: pkg="plantuml" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing plantuml tool
+    dnf: pkg="plantuml" state=latest
+    when: ansible_distribution == 'Fedora'

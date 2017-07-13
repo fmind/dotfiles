@@ -10,5 +10,10 @@
     apt_repository: repo="ppa:ansible/ansible" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ansible tool
+  - name: Installing ansible tool (ubuntu)
     apt: pkg="ansible" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing ansible tool (fedora)
+    dnf: pkg="ansible" state=latest
+    when: ansible_distribution == 'Fedora'

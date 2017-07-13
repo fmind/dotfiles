@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Installing pyenv dependencies
+  - name: Installing pyenv dependencies (ubuntu)
     apt: pkg="{{item}}" state=latest
     with_items:
       - wget
@@ -23,3 +23,19 @@
       - libreadline-dev
       - libncurses5-dev
       - libncursesw5-dev
+    when: ansible_distribution == 'Ubuntu'
+
+
+  - name: Installing pyenv dependencies (fedora)
+    dnf: pkg="{{item}}" state=latest
+    with_items:
+      - bzip2
+      - bzip2-devel
+      - openssl-devel
+      - readline-devel
+      - sqlite
+      - sqlite-devel
+      - xz
+      - xz-devel
+      - zlib-devel
+    when: ansible_distribution == 'Fedora'

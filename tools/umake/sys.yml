@@ -12,3 +12,4 @@
 
   - name: Installing umake tool
     apt: pkg="ubuntu-make" state=latest
+    when: ansible_distribution == 'Ubuntu'

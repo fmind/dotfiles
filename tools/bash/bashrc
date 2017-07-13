@@ -74,3 +74,7 @@ PS1='\[\033[01;31m\]∀\h\[\033[01;32m\]∃\u\[\033[01;34m\]∧\W\[\033[01;00m\]
 if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/mederic/.sdkman"
+[[ -s "/home/mederic/.sdkman/bin/sdkman-init.sh" ]] && source "/home/mederic/.sdkman/bin/sdkman-init.sh"

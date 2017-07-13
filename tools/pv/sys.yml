@@ -6,5 +6,10 @@
 
   tasks:
 
-  - name: Installing ncdu tool
+  - name: Installing pv tool (ubuntu)
     apt: pkg="pv" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing pv tool (fedora)
+    dnf: pkg="pv" state=latest
+    when: ansible_distribution == 'Fedora'

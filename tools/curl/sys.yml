@@ -6,5 +6,10 @@
 
   tasks:
 
-  - name: Installing curl tool
+  - name: Installing curl tool (ubuntu)
     apt: pkg="curl" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing curl tool (fedora)
+    dnf: pkg="curl" state=latest
+    when: ansible_distribution == 'Fedora'

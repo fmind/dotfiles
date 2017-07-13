@@ -6,5 +6,10 @@
 
   tasks:
 
-  - name: Installing byobu tool
+  - name: Installing byobu tool (ubuntu)
     apt: pkg="byobu" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing byobu tool (fedora)
+    dnf: pkg="byobu" state=latest
+    when: ansible_distribution == 'Fedora'

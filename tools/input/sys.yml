@@ -6,5 +6,10 @@
 
   tasks:
 
-  - name: Installing rlwrap tool
+  - name: Installing rlwrap tool (ubuntu)
     apt: pkg="rlwrap" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing rlwrap tool (fedora)
+    dnf: pkg="rlwrap" state=latest
+    when: ansible_distribution == 'Fedora'

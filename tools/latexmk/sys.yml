@@ -6,5 +6,10 @@
 
   tasks:
 
-  - name: Installing latexmk tool
+  - name: Installing latexmk tool (ubuntu)
     apt: pkg="latexmk" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing latexmk tool (fedora)
+    dnf: pkg="latexmk" state=latest
+    when: ansible_distribution == 'Fedora'
