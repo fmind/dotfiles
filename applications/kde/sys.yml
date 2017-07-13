@@ -1,18 +1,19 @@
----
+# ---
 
-- hosts: localhost
-  connection: local
-  become: yes
+# - hosts: localhost
+#   connection: local
+#   become: yes
 
-  tasks:
+#   tasks:
 
-  - name: Installing KDE applications
-    apt: pkg="{{item}}" state=latest
-    with_items:
-        - krita
-        - karbon
-        - yakuake
-        - ktorrent
-        - deja-dup
-        - filelight
-        - ksshaskpass
+#   - name: Installing KDE applications
+#     apt: pkg="{{item}}" state=latest
+#     with_items:
+#         - krita
+#         - karbon
+#         - yakuake
+#         - ktorrent
+#         - deja-dup
+#         - filelight
+#         - ksshaskpass
+#     when: ansible_distribution == 'Ubuntu'

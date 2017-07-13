@@ -6,11 +6,22 @@
 
   tasks:
 
-  - name: Adding insync repository
+  - name: Adding insync repository (ubuntu)
     apt_repository: repo="deb http://apt.insynchq.com/ubuntu xenial non-free contrib" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Adding insync certificate
+  - name: Adding insync certificate (ubuntu)
     apt_key: keyserver="keyserver.ubuntu.com" id="ACCAF35C"
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing insync application
+  - name: Installing insync application (ubuntu)
     apt: pkg="insync" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing insync repository (fedora)
+    copy: src="{{playbook_dir}}/insync.repo" dest="/etc/yum.repos.d/insync.repo" owner='root' group='root' mode='0644'
+    when: ansible_distribution == 'Fedora'
+
+  - name: Installing insync application (fedora)
+    dnf: pkg="insync" state=latest
+    when: ansible_distribution == 'Fedora'

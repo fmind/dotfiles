@@ -6,8 +6,18 @@
 
   tasks:
 
-  - name: Installing anki application
+  - name: Installing anki application (ubuntu)
     apt: pkg="anki" state=latest
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing anki dependencies
+  - name: Installing anki application (fedora)
+    dnf: pkg="anki" state=latest
+    when: ansible_distribution == 'Fedora'
+
+  - name: Installing anki dependencies (ubuntu)
     apt: pkg="dvipng" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing anki dependencies (fedora)
+    dnf: pkg="dvipng" state=latest
+    when: ansible_distribution == 'Fedora'
