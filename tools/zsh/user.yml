@@ -21,7 +21,10 @@
   - name: Installating zsh spaceship theme
     get_url: url="https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh" dest="~/.zsh.d/themes/spaceship.zsh-theme"
 
-  - name: Installing zsh-autosuggestions plugin
+  - name: Installating alias-tips plugin
+    git: repo="https://github.com/djui/alias-tips.git" dest="~/.zsh.d/plugins/alias-tips" depth=1
+
+  - name: installing zsh-autosuggestions plugin
     git: repo="git://github.com/zsh-users/zsh-autosuggestions.git" dest="~/.zsh.d/plugins/zsh-autosuggestions" depth=1
 
   - name: Installation zsh-syntax-highlighting plugin

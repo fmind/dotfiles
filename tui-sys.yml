@@ -15,3 +15,4 @@
 - include: tools/pigz/sys.yml
 - include: tools/zsh/sys.yml
 - include: editors/vim/sys.yml
+- include: editors/fonts/sys.yml

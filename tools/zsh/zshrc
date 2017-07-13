@@ -15,7 +15,9 @@ ZSH_CUSTOM=$HOME/.zsh.d
 HIST_STAMPS="yyyy-mm-dd"
 
 # Set the ZSH plugins to load
-plugins=(catimg
+plugins=(
+         alias-tips
+         catimg
          celery
          command-not-found
          docker

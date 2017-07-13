@@ -1,0 +1,22 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing Hack font
+    apt: pkg="fonts-hack-ttf" state="latest"
+
+  - name: Disabling bitmap fonts blocker
+    file: path="/etc/fonts/conf.d/70-no-bitmaps.conf" state="absent"
+
+  - name: Enabling bitmap fonts
+    file: src="/etc/fonts/conf.avail/70-force-bitmaps.conf" dest="/etc/fonts/conf.d/70-force-bitmaps.conf" state="link"
+    notify:
+    - reconfigure fontconfig
+
+  handlers: 
+    - name: reconfigure fontconfig
+      command: dpkg-reconfigure fontconfig 
