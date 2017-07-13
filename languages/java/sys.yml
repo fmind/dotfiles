@@ -6,15 +6,22 @@
 
   tasks:
 
-  - name: Adding java repository
+  - name: Adding java repository (ubuntu)
     apt_repository: repo="ppa:webupd8team/java" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing java language
+  - name: Installing java language (ubuntu)
     apt: pkg="oracle-java8-installer" state=latest
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Setting java 8 as default
+  - name: Setting java 8 as default (ubuntu)
     apt: pkg="oracle-java8-set-default" state=latest
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Accepting java software license
+  - name: Accepting java software license (ubuntu)
     shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing java language (fedora)
+    dnf: pkg="java-1.8.0-openjdk" state=latest
+    when: ansible_distribution == 'Fedora'

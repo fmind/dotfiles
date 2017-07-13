@@ -6,9 +6,20 @@
 
   tasks:
 
-  - name: Installing c language
+  - name: Installing c language (ubuntu)
     apt: pkg="{{item}}" state=latest
     with_items:
       - cmake
       - build-essential
       - exuberant-ctags
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing c language (fedora)
+    dnf: pkg="{{item}}" state=latest
+    with_items:
+      - gcc
+      - gcc-c++
+      - make
+      - cmake
+      - ctags
+    when: ansible_distribution == 'Fedora'

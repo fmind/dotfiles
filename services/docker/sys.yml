@@ -6,11 +6,18 @@
 
   tasks:
 
-  - name: Adding docker repository
+  - name: Adding docker repository (ubuntu)
     apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Adding docker certificate
+  - name: Adding docker certificate (ubuntu)
     apt_key: url="https://apt.dockerproject.org/gpg"
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing docker service
+  - name: Installing docker service (ubuntu)
     apt: pkg="docker-engine" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing docker service (fedora)
+    dnf: pkg="docker" state=latest
+    when: ansible_distribution == 'Fedora'

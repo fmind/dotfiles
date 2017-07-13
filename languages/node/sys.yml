@@ -6,15 +6,26 @@
 
   tasks:
 
-  - name: Adding nodesource certificate
-    apt_key: url="https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280" id="68576280" state="present"
-
-  - name: Adding nodesource repository
+  - name: Adding nodesource repository (ubuntu)
     apt_repository: repo="deb https://deb.nodesource.com/node_6.x xenial main" state="present"
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing node language
-    apt: pkg="nodejs" state="installed" update_cache=yes
+  - name: Adding nodesource cert (ubuntu)
+    apt_key: url="https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280" id="68576280" state="present"
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing node manager
-    apt: pkg="npm" state="installed" update_cache=yes
+  - name: Installing node language (ubuntu)
+    apt: pkg="nodejs" state="installed"
+    when: ansible_distribution == 'Ubuntu'
 
+  - name: Installing node language (fedora)
+    dnf: pkg="nodejs" state="installed"
+    when: ansible_distribution == 'Fedora'
+
+  - name: Installing node manager (ubuntu)
+    apt: pkg="npm" state="installed"
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing node manager (fedora)
+    dnf: pkg="npm" state="installed"
+    when: ansible_distribution == 'Fedora'

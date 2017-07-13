@@ -45,7 +45,7 @@
       - sh
       - envoy
       - howdoi
-      - glances
+      # - glances
       - watchdog
       # web client
       - httpie
