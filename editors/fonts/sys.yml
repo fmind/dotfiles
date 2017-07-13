@@ -6,14 +6,21 @@
 
   tasks:
 
-  - name: Installing Hack font
-    apt: pkg="fonts-hack-ttf" state="latest"
+  - name: Installing Inconsolata font (ubuntu)
+    apt: pkg="fonts-inconsolata" state="latest"
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Disabling bitmap fonts blocker
+  - name: Installing Inconsolata font (fedora)
+    dnf: pkg="levien-inconsolata-fonts" state="latest"
+    when: ansible_distribution == 'Fedora'
+
+  - name: Disabling bitmap fonts blocker (ubuntu)
     file: path="/etc/fonts/conf.d/70-no-bitmaps.conf" state="absent"
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Enabling bitmap fonts
+  - name: Enabling bitmap fonts (ubuntu)
     file: src="/etc/fonts/conf.avail/70-force-bitmaps.conf" dest="/etc/fonts/conf.d/70-force-bitmaps.conf" state="link"
+    when: ansible_distribution == 'Ubuntu'
     notify:
     - reconfigure fontconfig
 

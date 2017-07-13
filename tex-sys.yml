@@ -5,5 +5,4 @@
 
 - include: tools/pandoc/sys.yml
 - include: tools/latexmk/sys.yml
-- include: editors/emacs/sys.yml
 - include: languages/tex/sys.yml

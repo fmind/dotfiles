@@ -4,4 +4,3 @@
   connection: local
 
 - include: tools/latexmk/user.yml
-- include: editors/emacs/user.yml

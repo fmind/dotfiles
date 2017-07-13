@@ -14,4 +14,3 @@
 
   - name: Cloning spacemacs repository
     git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d" depth=1
-

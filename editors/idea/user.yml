@@ -8,4 +8,3 @@
 
   - name: Deploying idea configuration file
     file: src="{{playbook_dir}}/ideavimrc" dest="~/.ideavimrc" state=link force=yes
-

@@ -6,9 +6,14 @@
 
   tasks:
 
-  - name: Adding vim repository
+  - name: Adding vim repository (ubuntu)
     apt_repository: repo="ppa:jonathonf/vim" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing vim editor
+  - name: Installing vim editor (ubuntu)
     apt: pkg="vim" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing vim editor (fedora)
+    dnf: pkg="vim" state=latest
+    when: ansible_distribution == 'Fedora'
