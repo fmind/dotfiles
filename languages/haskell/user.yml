@@ -6,14 +6,14 @@
 
   tasks:
 
-  - name: Upgrading stack
-    command: "stack upgrade"
+  # - name: Upgrading stack
+  #   command: "stack upgrade"
 
-  - name: Updating stack
-    command: "stack update"
+  # - name: Updating stack
+  #   command: "stack update"
 
-  - name: Setting-up stack
-    command: "stack setup"
+  # - name: Setting-up stack
+  #   command: "stack setup"
 
   # - name: Installing plugins
   #   command: "stack install hlint hindent hoogle hasktags intero apply-refact stylish-haskell"
@@ -21,8 +21,8 @@
   # - name: Generating hoogle database
   #   command: "hoogle generate"
 
-  - name: Deploying stack configuration
-    file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes
+  # - name: Deploying stack configuration
+  #   file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes
 
-  - name: Deploying haskline configuration
-    file: src="{{playbook_dir}}/haskeline" dest="~/.haskeline" state=link force=yes
+  # - name: Deploying haskline configuration
+  #   file: src="{{playbook_dir}}/haskeline" dest="~/.haskeline" state=link force=yes
