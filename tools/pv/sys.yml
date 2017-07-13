@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing ncdu tool
+    apt: pkg="pv" state=latest

@@ -97,6 +97,8 @@ syntax enable
 filetype plugin on
 filetype indent on
 
+let $FZF_DEFAULT_COMMAND = 'ag -p ~/.agignore -g ""'
+
 if !empty(glob($HOME.'/.vim/autoload/plug.vim'))
 call plug#begin($HOME.'/.vim/plugged')
 """ TUNING {{{
@@ -109,6 +111,7 @@ Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/matchit.zip'
 Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
@@ -134,6 +137,7 @@ Plug 'beloglazov/vim-online-thesaurus'
 "}}}
 """" PROGRAMMING {{{
 Plug 'mattn/emmet-vim'
+Plug 'jceb/vim-orgmode'
 Plug 'fisadev/vim-isort'
 Plug 'sheerun/vim-polyglot'
 Plug 'aklt/plantuml-syntax'

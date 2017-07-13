@@ -1,6 +1,6 @@
 # DEFAULT
 alias df="df -hT"
-alias du="df -h"
+alias du="du -h"
 alias ps="ps aux"
 alias psg="ps aux | grep -v grep | grep "
 alias wget="wget -c"
@@ -28,7 +28,6 @@ alias virc='$EDITOR ~/.vimrc'
 
 # NAVIGATION
 alias ..="cd .."
-c() { cd "$1"; ls;}
 alias ls="ls --color=auto"
 alias l="ls"
 alias ll="ls -lFh"
@@ -37,6 +36,9 @@ alias lr="ls -lRFh"
 alias lt="ls -ltFh"
 alias lh="ls -ld .*"
 alias back="cd $OLDPWD"
+function c {
+  cd "$@" && ls
+}
 
 # INTEGRATION
 alias x="exit"
@@ -51,6 +53,8 @@ alias wsh="watchmedo shell-command "
 # INFORMATION
 alias h="history"
 alias gg="google"
+alias ascii="man ascii"
+alias units="man units"
 alias release="lsb_release -c"
 alias cmount="mount | column -t"
 alias extip='curl icanhazip.com'
@@ -66,7 +70,7 @@ alias remove="sudo apt-get remove --purge"
 alias megaup="update && upgrade && autoremove"
 alias dist-upgrade="sudo apt-get dist-upgrade"
 alias autoremove="sudo apt-get autoremove --purge"
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias notify='notify-send'
 
 # CONFIGURATION
 alias zsrc='source ~/.zshrc'
@@ -75,8 +79,8 @@ alias zsenv='source ~/.zshenv'
 alias zenv='$EDITOR ~/.zshenv && zsenv'
 alias bsrc='source ~/.bashrc'
 alias brc='$EDITOR ~/.bashrc && bsrc'
-alias saliases='source ~/.aliases'
-alias aliases='$EDITOR ~/.aliases && saliases'
+alias asrc='source ~/.aliases'
+alias arc='$EDITOR ~/.aliases && asrc'
 alias privsenv='source ~/.privenv'
 alias privenv='$EDITOR ~/.privenv && privsenv'
 alias warprc='$EDITOR ~/.warprc'
@@ -98,6 +102,7 @@ alias kila='killall -9'
 alias tunnel='ssh -nNT'
 alias srv='sudo service'
 alias rsinc="rsync -avzu"
+alias pwgen="pwgen -N1 -y"
 alias psmem='ps aux | sort -nk 4'
 alias psproc='ps aux | sort -nk 3'
 backup() { cp "$1"{,.bak}; }
