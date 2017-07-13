@@ -50,6 +50,9 @@ bindkey -v
 export KEYTIMEOUT=1
 bindkey '^o' clear-screen
 
+# Enable go
+export GOROOT=$HOME/workspace/go
+
 # Enable byobu
 if [ -x "$(command -v byobu)" ]; then
     _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true

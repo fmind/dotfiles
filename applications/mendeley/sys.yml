@@ -6,10 +6,10 @@
 
   tasks:
 
-  - name: Adding mendeley repository
+  - name: Adding mendeley repository (ubuntu)
     apt_repository: repo="deb http://desktop-download.mendeley.com/download/apt stable main" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing mendeley application
+  - name: Installing mendeley application (ubuntu)
     apt: pkg="mendeleydesktop" state=latest
     when: ansible_distribution == 'Ubuntu'

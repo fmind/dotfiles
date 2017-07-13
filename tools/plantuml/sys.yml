@@ -6,10 +6,10 @@
 
   tasks:
 
-  - name: Installing plantuml tool
+  - name: Installing plantuml tool (ubuntu)
     apt: pkg="plantuml" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing plantuml tool
+  - name: Installing plantuml tool (fedora)
     dnf: pkg="plantuml" state=latest
     when: ansible_distribution == 'Fedora'

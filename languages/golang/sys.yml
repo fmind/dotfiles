@@ -6,10 +6,10 @@
 
   tasks:
 
-  - name: Installing xsel tool (ubuntu)
-    apt: pkg="xsel" state=latest
+  - name: Installing go language (ubuntu)
+    apt: pkg="golang" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing xsel tool (fedora)
-    dnf: pkg="xsel" state=latest
+  - name: Installing go language (fedora)
+    dnf: pkg="go" state=latest
     when: ansible_distribution == 'Fedora'

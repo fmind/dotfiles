@@ -6,10 +6,10 @@
 
   tasks:
 
-  - name: Adding umake repository
+  - name: Adding umake repository (ubuntu)
     apt_repository: repo="ppa:ubuntu-desktop/ubuntu-make" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing umake tool
+  - name: Installing umake tool (ubuntu)
     apt: pkg="ubuntu-make" state=latest
     when: ansible_distribution == 'Ubuntu'

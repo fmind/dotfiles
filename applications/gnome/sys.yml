@@ -1,0 +1,31 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing Gnome applications (ubuntu)
+    apt: pkg="{{item}}" state=latest
+    with_items:
+        - vlc
+        - gimp
+        - guake
+        - simple-scan
+        - transmission
+        - dconf-editor
+        - gnome-tweak-tool
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing Gnome applications (fedora)
+    dnf: pkg="{{item}}" state=latest
+    with_items:
+        - vlc
+        - gimp
+        - guake
+        - simple-scan
+        - transmission
+        - dconf-editor
+        - gnome-tweak-tool
+    when: ansible_distribution == 'Fedora'

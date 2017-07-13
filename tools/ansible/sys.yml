@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Adding ansible repository
+  - name: Adding ansible repository (ubuntu)
     apt_repository: repo="ppa:ansible/ansible" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 

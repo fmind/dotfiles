@@ -23,5 +23,5 @@
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing java language (fedora)
-    dnf: pkg="java-1.8.0-openjdk" state=latest
+    dnf: pkg="java-openjdk" state=latest
     when: ansible_distribution == 'Fedora'

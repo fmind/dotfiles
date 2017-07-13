@@ -1,0 +1,54 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Set SELinux to permissive mode (fedora)
+    replace: path="/etc/selinux/config" regexp='^SELINUX=.*' replace='SELINUX=permissive'
+    when: ansible_distribution == 'Fedora'
+
+  # - name: Installing SELinux python binding (fedora)
+  #   dnf: pkg="libselinux-python" state=latest
+  #   when: ansible_distribution == 'Fedora'
+
+  - name: Installing RPM Fusion repository (fedora)
+    copy: src="{{playbook_dir}}/{{item}}.repo" dest="/etc/yum.repos.d/{{item}}.repo" owner='root' group='root' mode='0644'
+    with_items:
+      - rpmfusion-free
+      - rpmfusion-free-updates
+      - rpmfusion-free-updates-testing
+      - rpmfusion-nonfree
+      - rpmfusion-nonfree-updates
+      - rpmfusion-nonfree-updates-testing
+    when: ansible_distribution == 'Fedora'
+
+  - name: Installing adobe repository (fedora)
+    copy: src="{{playbook_dir}}/adobe.repo" dest="/etc/yum.repos.d/adobe.repo" owner='root' group='root' mode='0644'
+    when: ansible_distribution == 'Fedora'
+
+  - name: Installing media codecs (fedora)
+    dnf: pkg="{{item}}" state=latest
+    with_items:
+      - flash-plugin
+      - gstreamer-ffmpeg
+      - gstreamer-plugins-bad
+      - gstreamer-plugins-bad-free-extras
+      - gstreamer-plugins-bad-nonfree
+      - gstreamer-plugins-ugly
+      - gstreamer1
+      - gstreamer1-libav
+      - gstreamer1-plugins-bad-free
+      - gstreamer1-plugins-bad-free-extras
+      - gstreamer1-plugins-bad-freeworld
+      - gstreamer1-plugins-base
+      - gstreamer1-plugins-base-tools
+      - gstreamer1-plugins-good
+      - gstreamer1-plugins-good-extras
+      - gstreamer1-plugins-ugly
+      - p7zip
+      - p7zip-plugins
+      - unrar
+    when: ansible_distribution == 'Fedora'

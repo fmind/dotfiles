@@ -6,10 +6,10 @@
 
   tasks:
 
-  - name: Installing xsel tool (ubuntu)
-    apt: pkg="xsel" state=latest
+  - name: Installing tlp application (ubuntu)
+    apt: pkg="tlp" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing xsel tool (fedora)
-    dnf: pkg="xsel" state=latest
+  - name: Installing tlp application (fedora)
+    dnf: pkg="tlp" state=latest
     when: ansible_distribution == 'Fedora'
