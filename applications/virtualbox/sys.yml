@@ -1,10 +1,10 @@
-# ---
+---
 
-# - hosts: localhost
-#   connection: local
-#   become: yes
+- hosts: localhost
+  connection: local
+  become: yes
 
-#   tasks:
+  tasks:
 
 #   - name: Installing virtualbox application (ubuntu)
 #     apt: pkg="virtualbox" state=latest

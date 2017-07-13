@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+
+  - name: Installing groovy language (ubuntu)
+    apt: pkg="groovy2" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing groovy language (fedora)
+    dnf: pkg="groovy" state=latest
+    when: ansible_distribution == 'Fedora'
