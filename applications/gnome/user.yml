@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: no
+
+  tasks:
+
+  - name: Deploying guake configuration
+    synchronize: src="{{playbook_dir}}/guake/" dest="~/.config/gconf/apps/guake/"
+    when: ansible_distribution == 'Fedora'

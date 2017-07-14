@@ -3,3 +3,4 @@
 - hosts: localhost
   connection: local
 
+- include: applications/gnome/user.yml

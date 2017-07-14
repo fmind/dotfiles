@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="zoom_out" mtime="1500010853" type="string">
+		<stringvalue>&lt;Primary&gt;KP_Subtract</stringvalue>
+	</entry>
+	<entry name="reset_terminal" mtime="1500010806" type="string">
+		<stringvalue>&lt;Primary&gt;&lt;Shift&gt;o</stringvalue>
+	</entry>
+	<entry name="decrease_transparency" mtime="1500010017" type="string">
+		<stringvalue>&lt;Primary&gt;&lt;Shift&gt;KP_Add</stringvalue>
+	</entry>
+	<entry name="increase_transparency" mtime="1500010014" type="string">
+		<stringvalue>&lt;Primary&gt;&lt;Shift&gt;KP_Subtract</stringvalue>
+	</entry>
+	<entry name="decrease_height" mtime="1500010003" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="increase_height" mtime="1500010002" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="close_tab" mtime="1500009972" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="new_tab" mtime="1500009969" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="next_tab" mtime="1499977578" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="previous_tab" mtime="1499977578" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="rename_current_tab" mtime="1499977575" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab_last" mtime="1499977563" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab10" mtime="1499977562" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab9" mtime="1499977562" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab8" mtime="1499977561" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab7" mtime="1499977561" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab6" mtime="1499977560" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab5" mtime="1499977560" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab4" mtime="1499977559" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab3" mtime="1499977558" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab2" mtime="1499977557" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab1" mtime="1499977555" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+</gconf>
