@@ -11,7 +11,6 @@
     with_items:
         - vlc
         - gimp
-        - guake
         - simple-scan
         - transmission
         - dconf-editor
@@ -23,7 +22,6 @@
     with_items:
         - vlc
         - gimp
-        - guake
         - simple-scan
         - transmission
         - dconf-editor
