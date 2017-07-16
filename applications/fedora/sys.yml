@@ -52,3 +52,8 @@
       - p7zip-plugins
       - unrar
     when: ansible_distribution == 'Fedora'
+
+  - name: Installing Gnome extensions plugin (fedora)
+    dnf: pkg="chrome-gnome-shell" state=latest
+    when: ansible_distribution == 'Fedora'
+
