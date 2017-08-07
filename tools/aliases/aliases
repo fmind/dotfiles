@@ -43,7 +43,7 @@ function c {
 # INTEGRATION
 alias x="exit"
 alias o="xdg-open"
-alias f='dolphin . &'
+alias f='nautilus . &'
 alias dark="xbacklight -set 10"
 alias bright="xbacklight -set 100"
 alias xcat="xsel --clipboard --output"

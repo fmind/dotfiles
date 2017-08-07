@@ -75,7 +75,11 @@ if [ -n "$DISPLAY" ]; then
 fi
 
 # Set preferred editor
-export EDITOR='vim'
+if [ -n "$DISPLAY" ]; then
+    export EDITOR='vimx'
+else
+    export EDITOR='vim'
+fi
 
 # Set preferred language
 export LANG=en_US.UTF-8
