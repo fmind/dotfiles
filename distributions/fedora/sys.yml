@@ -6,27 +6,27 @@
 
   tasks:
 
-  - name: Set SELinux to permissive mode (fedora)
+  - name: Getting fedora version
+    command: "rpm -E %fedora"
+    register: fedora_version
+
+  - name: Setting SELinux to permissive mode (fedora)
     replace: path="/etc/selinux/config" regexp='^SELINUX=.*' replace='SELINUX=permissive'
     when: ansible_distribution == 'Fedora'
 
-  # - name: Installing SELinux python binding (fedora)
-  #   dnf: pkg="libselinux-python" state=latest
-  #   when: ansible_distribution == 'Fedora'
+  - name: Installing SELinux python binding (fedora)
+    dnf: pkg="libselinux-python" state=latest
+    when: ansible_distribution == 'Fedora'
 
   - name: Installing RPM Fusion repository (fedora)
-    copy: src="{{playbook_dir}}/{{item}}.repo" dest="/etc/yum.repos.d/{{item}}.repo" owner='root' group='root' mode='0644'
+    dnf: name="{{item}}" state='present' disable_gpg_check=true
     with_items:
-      - rpmfusion-free
-      - rpmfusion-free-updates
-      - rpmfusion-free-updates-testing
-      - rpmfusion-nonfree
-      - rpmfusion-nonfree-updates
-      - rpmfusion-nonfree-updates-testing
+      - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{fedora_version.stdout}}.noarch.rpm
+      - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{fedora_version.stdout}}.noarch.rpm
     when: ansible_distribution == 'Fedora'
 
   - name: Installing adobe repository (fedora)
-    copy: src="{{playbook_dir}}/adobe.repo" dest="/etc/yum.repos.d/adobe.repo" owner='root' group='root' mode='0644'
+    dnf: name="http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm" state='present' disable_gpg_check=true
     when: ansible_distribution == 'Fedora'
 
   - name: Installing media codecs (fedora)
@@ -53,7 +53,7 @@
       - unrar
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing Gnome extensions plugin (fedora)
+  - name: Installing Gnome Extensions plugin (fedora)
     dnf: pkg="chrome-gnome-shell" state=latest
     when: ansible_distribution == 'Fedora'
 
