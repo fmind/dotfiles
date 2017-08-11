@@ -276,7 +276,7 @@ nnoremap <leader>MR :source $MYVIMRC<CR>
 nnoremap <silent> <leader>MB :buffers<CR>
 nnoremap <silent> <leader>MM :message<CR>
 nnoremap <silent> <leader>MP :register<CR>
-nnoremap <silent> <leader>ME :tabedit $MYVIMRC<CR>
+nnoremap <silent> <leader>ME :edit $MYVIMRC<CR>
 "}}}
 """ ADVANCED ACTIONS {{{
 """""" execute shell command
@@ -299,11 +299,6 @@ nnoremap <silent> <leader>S :setlocal spell! spelllang=en,fr<CR>
 """""" edit the current macro
 nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 "}}}
-""" TAB MANAGEMENT {{{
-nnoremap <leader>e :tabedit 
-nnoremap <silent> K :tabnext<CR>
-nnoremap <silent> J :tabprevious<CR>
-"}}}
 """ FOLD MANAGEMENT {{{
 nnoremap <leader>z za
 nnoremap <leader>Z zM
@@ -311,7 +306,10 @@ nnoremap <leader>Z zM
 """ BUFFER MANAGEMENT {{{
 nnoremap <silent> H <C-e>
 nnoremap <silent> L <C-y>
-nnoremap <leader>E :edit 
+nnoremap <leader>e :edit 
+nnoremap <leader>E :tabedit 
+nnoremap <silent> K :bnext<CR>
+nnoremap <silent> J :bnext<CR>
 nnoremap <leader>b :bdelete<CR> 
 nnoremap <silent> <leader>p :ccl<CR><CR>
 nnoremap <silent> <leader><Tab> :bnext<cr>

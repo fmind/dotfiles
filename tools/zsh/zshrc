@@ -75,7 +75,11 @@ if [ -n "$DISPLAY" ]; then
 fi
 
 # Set preferred editor
-export EDITOR='vim'
+if [ -n "$DISPLAY" ]; then
+    export EDITOR='vimx'
+else
+    export EDITOR='vim'
+fi
 
 # Set preferred language
 export LANG=en_US.UTF-8
@@ -105,7 +109,3 @@ alias -g NUL='>/dev/null2>&1'
 if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/mederic/.sdkman"
-[[ -s "/home/mederic/.sdkman/bin/sdkman-init.sh" ]] && source "/home/mederic/.sdkman/bin/sdkman-init.sh"

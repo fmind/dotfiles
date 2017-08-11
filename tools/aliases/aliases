@@ -43,7 +43,7 @@ function c {
 # INTEGRATION
 alias x="exit"
 alias o="xdg-open"
-alias f='dolphin . &'
+alias f='nautilus . &'
 alias dark="xbacklight -set 10"
 alias bright="xbacklight -set 100"
 alias xcat="xsel --clipboard --output"
@@ -133,6 +133,15 @@ alias fhome="find ~ -iname "
 function fwild {
     find . -iname "*$1*"
 }
+function union {
+    sort $1 $2 | uniq
+}
+function intersect {
+    sort $1 $2 | uniq -d
+}
+function difference {
+    sort $1 $2 $1 | uniq -u
+}
 
 # PROGRAMMING
 ## Git
@@ -140,9 +149,14 @@ alias g="git"
 alias gm="git submodule"
 alias gn="$EDITOR .gitignore"
 alias grc="$EDITOR ~/.gitconfig"
-function mygh {
+function ghclone {
   git clone git@github.com:fmind/$1.git
 }
+function ghfirst {
+    git remote add origin "git@github.com:fmind/$(basename $PWD).git"
+    git push -u origin master
+}
+
 ## OAR
 alias oari="oarsub -I"
 alias oars="oarsub -S"
