@@ -28,6 +28,7 @@
 - arrow
 - numpy
 - scipy
+- keras
 - bokeh
 - pandas
 - seaborn
@@ -35,6 +36,7 @@
 - jellyfish
 - matplotlib
 - statsmodel
+- tensorflow-gpu
 
 # machine learning
 - nltk

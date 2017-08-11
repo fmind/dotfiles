@@ -60,16 +60,10 @@ alias cmount="mount | column -t"
 alias extip='curl icanhazip.com'
 
 # DISTRIBUTION
-alias search="apt-cache search"
-alias clean="sudo apt-get clean"
-alias update="sudo apt-get update"
-alias upgrade="sudo apt-get upgrade"
-alias install="sudo apt-get install"
-alias autoclean="sudo apt-get autoclean"
-alias remove="sudo apt-get remove --purge"
-alias megaup="update && upgrade && autoremove"
-alias dist-upgrade="sudo apt-get dist-upgrade"
-alias autoremove="sudo apt-get autoremove --purge"
+alias search="dnf search"
+alias clean="sudo dnf clean all"
+alias upgrade="sudo dnf upgrade"
+alias install="sudo dnf install"
 alias notify='notify-send'
 
 # CONFIGURATION
@@ -131,6 +125,7 @@ alias t5="tail -n5"
 alias t10="tail -n10"
 alias t15="tail -n15"
 alias igrep="grep -i"
+alias rgrep="grep -iR"
 alias colt="column -t"
 alias sortp='sort --parallel=$(nproc --all)'
 alias fhere="find . -iname "

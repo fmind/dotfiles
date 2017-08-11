@@ -35,6 +35,7 @@
       - autoenv
       - docutils
       - json-rpc
+      - profiling
       - virtualenv
       - pytest-cov
       - cookiecutter
