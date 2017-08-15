@@ -1,8 +1,8 @@
 # web
 - flask
+- django
 - scrapy
 - jinja2
-- django
 - requests
 - selenium
 - beautifulsoup4
@@ -10,19 +10,25 @@
 # media
 - pillow
 
-# database
-- redis
-- peewee
-- pymongo
-- mongoengine
+# syntax
+- hy
+- funcy
+
+# system
+- sh
+- envoy
+- celery
+- glances
 
 # security
 - scapy
 - mitmproxy
 
-# misc
-- celery
-- wormhole
+# database
+- redis
+- peewee
+- pymongo
+- mongoengine
 
 # data analysis
 - arrow

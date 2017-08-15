@@ -13,51 +13,39 @@
       - visidata
       # shell
       - jupyter
-      - ipython
-      - bpython
-      # syntax
+      - ptpython
+      # editor
       - yapf
-      - funcy
+      - jedi
       - isort
       - flake8
       - pygments
       - autoflake
-      # editor
       - python-vim
-      # project
-      - tox
-      - ipdb
-      - jedi
-      - wheel
-      - twine
-      - sphinx
-      - invoke
-      - autoenv
-      - docutils
-      - json-rpc
-      - profiling
-      - virtualenv
-      - pytest-cov
-      - cookiecutter
-      - pytest-xdist
-      - check-manifest
-      - service_factory
       # system
       - sh
       - envoy
       - howdoi
-      # - glances
       - watchdog
+      - wormhole
+      # project
+      - tox
+      - ipdb
+      - autoenv
+      - virtualenv
+      - cookiecutter
       # web client
       - httpie
-      - requests
       - http-prompt
 
   - name: Creating ~/.config/yapf directory
     file: path="~/.config/yapf" state=directory
 
-  - name: Creating ~/.config/bpython directory
-    file: path="~/.config/bpython" state=directory
+  # - name: Creating ~/.config/bpython directory
+  #   file: path="~/.config/bpython" state=directory
+
+  - name: Creating ~/.ptpython directory
+    file: path="~/.ptpython" state=directory
 
   - name: Deploying pip configuration file
     file: src="{{playbook_dir}}/pypirc" dest="~/.pypirc" state=link force=yes
@@ -68,8 +56,11 @@
   - name: Deploying flake8 configuration file
     file: src="{{playbook_dir}}/flake8" dest="~/.config/flake8" state=link force=yes
 
-  - name: Deploying bpython configuration file
-    file: src="{{playbook_dir}}/bpython" dest="~/.config/bpython/config" state=link force=yes
+  # - name: Deploying bpython configuration file
+  #   file: src="{{playbook_dir}}/bpython" dest="~/.config/bpython/config" state=link force=yes
+
+  - name: Deploying ptpython configuration file
+    file: src="{{playbook_dir}}/ptpython.py" dest="~/.ptpython/config.py" state=link force=yes
 
   - name: Deploying invoke configuration file
     file: src="{{playbook_dir}}/invoke.yaml" dest="~/.invoke.yaml" state=link force=yes
