@@ -10,5 +10,6 @@
 - include: tools/byobu/user.yml
 - include: tools/git/user.yml
 - include: tools/input/user.yml
+- include: tools/vimv/user.yml
 - include: tools/zsh/user.yml
 - include: editors/vim/user.yml
