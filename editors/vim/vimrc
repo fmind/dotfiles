@@ -309,7 +309,7 @@ nnoremap <silent> L <C-y>
 nnoremap <leader>e :edit 
 nnoremap <leader>E :tabedit 
 nnoremap <silent> K :bnext<CR>
-nnoremap <silent> J :bnext<CR>
+nnoremap <silent> J :bprevious<CR>
 nnoremap <leader>b :bdelete<CR> 
 nnoremap <silent> <leader>p :ccl<CR><CR>
 nnoremap <silent> <leader><Tab> :bnext<cr>
