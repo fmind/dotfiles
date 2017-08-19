@@ -6,23 +6,35 @@
 
   tasks:
 
-  # - name: Upgrading stack
-  #   command: "stack upgrade"
+  - shell: test -f ~/.local/bin/stack
+    ignore_errors: True
+    register: local_stack_exists
 
-  # - name: Updating stack
-  #   command: "stack update"
+  - shell: test -f /usr/local/bin/stack
+    register: root_stack_exists
+    ignore_errors: True
 
-  # - name: Setting-up stack
-  #   command: "stack setup"
+  - name: Installing haskell language
+    shell: curl -sSL https://get.haskellstack.org/ | sh
+    when: (root_stack_exists|failed) and (local_stack_exists|failed)
 
-  # - name: Installing plugins
-  #   command: "stack install hlint hindent hoogle hasktags intero apply-refact stylish-haskell"
+  - name: Upgrading stack
+    command: "stack upgrade"
 
-  # - name: Generating hoogle database
-  #   command: "hoogle generate"
+  - name: Updating stack
+    command: "stack update"
 
-  # - name: Deploying stack configuration
-  #   file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes
+  - name: Setting-up stack
+    command: "stack setup"
 
-  # - name: Deploying haskline configuration
-  #   file: src="{{playbook_dir}}/haskeline" dest="~/.haskeline" state=link force=yes
+  - name: Installing plugins
+    command: "stack install hlint hindent hoogle hasktags intero"
+
+  - name: Generating hoogle database
+    command: "hoogle generate"
+
+  - name: Deploying stack configuration
+    file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes
+
+  - name: Deploying haskline configuration
+    file: src="{{playbook_dir}}/haskeline" dest="~/.haskeline" state=link force=yes

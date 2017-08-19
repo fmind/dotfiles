@@ -252,8 +252,8 @@ nnoremap / /\v
 vnoremap / /\v
 xnoremap <  <gv
 xnoremap >  >gv
-inoremap jk  <Esc>
-inoremap kj  <Esc>
+" inoremap jk  <Esc>
+" inoremap kj  <Esc>
 nnoremap Q :x<CR>
 nnoremap zj o<Esc>k
 nnoremap zk O<Esc>j

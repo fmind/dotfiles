@@ -4,4 +4,3 @@
   connection: local
 
 - include: languages/python/user.yml
-- include: languages/clojure/user.yml
