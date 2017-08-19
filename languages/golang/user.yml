@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: no
+
+  tasks:
+
+  - name: Creating ~/workspace/go directory
+    file: path="~/workspace/go" state=directory

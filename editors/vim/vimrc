@@ -104,8 +104,8 @@ call plug#begin($HOME.'/.vim/plugged')
 """ TUNING {{{
 Plug 'tpope/vim-rsi'
 Plug 'benmills/vimux'
-Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
 Plug 'wellle/targets.vim'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
@@ -130,9 +130,9 @@ let g:airline#extensions#tabline#enabled = 1
 """ WRITING {{{
 Plug 'junegunn/goyo.vim'
 Plug 'godlygeek/tabular'
-" Plug 'vim-pandoc/vim-pandoc'
-" Plug 'vim-pandoc-syntax/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc'
 Plug 'plasticboy/vim-markdown'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'beloglazov/vim-online-thesaurus'
 "}}}
 """" PROGRAMMING {{{
@@ -141,14 +141,17 @@ Plug 'jceb/vim-orgmode'
 Plug 'fisadev/vim-isort'
 Plug 'sheerun/vim-polyglot'
 Plug 'aklt/plantuml-syntax'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+let g:go_metalinter_autosave = 1
+let g:go_gocode_unimported_packages = 1
 "}}}
 """ VERSIONNING {{{
 Plug 'airblade/vim-gitgutter'
 "}}}
 """ DEVELOPPING {{{
-" Plug 'janko-m/vim-test'
-" let g:test#preserve_screen = 1
-" let test#python#runner = 'pytest'
+Plug 'janko-m/vim-test'
+let g:test#preserve_screen = 1
+let test#python#runner = 'pytest'
 Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsEditSplit = 'context'
@@ -368,11 +371,11 @@ nnoremap <leader>U :Thesaurus
 nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 "}}}
 """""" testing {{{
-" nnoremap <silent> <localleader>f :TestFile<CR>
-" nnoremap <silent> <localleader>l :TestLast<CR>
-" nnoremap <silent> <localleader>s :TestSuite<CR>
-" nnoremap <silent> <localleader>g :TestVisit<CR>
-" nnoremap <silent> <localleader>t :TestNearest<CR>
+nnoremap <silent> <leader>rf :TestFile<CR>
+nnoremap <silent> <leader>rl :TestLast<CR>
+nnoremap <silent> <leader>rs :TestSuite<CR>
+nnoremap <silent> <leader>rv :TestVisit<CR>
+nnoremap <silent> <leader>rr :TesgNearest<CR>
 "}}}
 """""" toggling {{{
 nnoremap <silent> <leader>G :Goyo 120<CR>
@@ -387,6 +390,7 @@ nnoremap <Leader>vl :VimuxRunLastCommand<CR>
 nnoremap <Leader>vx :VimuxInterruptRunner<CR>
 nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
 nnoremap <Leader>vt :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
+"}}}
 """""" file management {{{
 nnoremap <leader>R :Move 
 "}}}
@@ -395,9 +399,9 @@ nnoremap <silent> <leader>C :ALEToggle<CR>
 nnoremap <silent> <leader>c :ALENextWrap<CR>
 "}}}
 """""" pandoc management {{{
-" nnoremap <silent> <leader>DD :Pandoc
-" nnoremap <silent> <leader>DP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
-" nnoremap <silent> <leader>DH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
+nnoremap <silent> <leader>OD :Pandoc
+nnoremap <silent> <leader>OP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
+nnoremap <silent> <leader>OH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
 "}}}
 """""" session management {{{
 nnoremap <silent> <leader>NL :SLoad<CR>
@@ -408,11 +412,46 @@ nnoremap <silent> <leader>ND :SDelete<CR>
 """""" snippet management {{{
 nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 "}}}
+"""""" golang language {{{
+autocmd BufWritePost *.go :GoImports
+autocmd FileType go nmap <localleader>a <Plug>(go-alternate-edit)
+autocmd FileType go nmap <localleader>A <Plug>(go-alternate-vertical)
+autocmd FileType go nmap <localleader>b <Plug>(go-build)
+autocmd FileType go nmap <localleader>c <Plug>(go-callers)
+autocmd FileType go nmap <localleader>d <Plug>(go-def-split)
+autocmd FileType go nmap <localleader>D <Plug>(go-def-pop)
+autocmd FileType go nmap <localleader>e <Plug>(go-callees)
+autocmd FileType go nmap <localleader>f <Plug>(go-files)
+autocmd FileType go nmap <localleader>g <Plug>(go-generate)
+autocmd FileType go nmap <localleader>h <Plug>(go-doc-split)
+autocmd FileType go nmap <localleader>H <Plug>(go-doc-browser)
+autocmd FileType go nmap <localleader>i <Plug>(go-info)
+autocmd FileType go nmap <localleader>I <Plug>(go-implements)
+autocmd FileType go nmap <localleader>j <Plug>(go-describe)
+autocmd FileType go nmap <localleader>k <Plug>(go-referrers)
+autocmd FileType go nmap <localleader>l <Plug>(go-lint)
+autocmd FileType go nmap <localleader>m <Plug>(go-metalinter)
+autocmd FileType go nmap <localleader>n <Plug>(go-install)
+autocmd FileType go nmap <localleader>o <Plug>(go-rename)
+autocmd FileType go nmap <localleader>p <Plug>(go-import)
+autocmd FileType go nmap <localleader>P <Plug>(go-deps)
+autocmd FileType go nmap <localleader>r <Plug>(go-run-split)
+autocmd FileType go nmap <localleader>R <Plug>(go-run)
+autocmd FileType go nmap <localleader>s <Plug>(go-def-stack)
+autocmd FileType go nmap <localleader>S <Plug>(go-def-clear)
+autocmd FileType go nmap <localleader>t <Plug>(go-test-func)
+autocmd FileType go nmap <localleader>T <Plug>(go-test)
+autocmd FileType go nmap <localleader>v <Plug>(go-vet)
+autocmd FileType go nmap <localleader>V <Plug>(go-freevars)
+autocmd FileType go nmap <localleader>y <Plug>(go-coverage)
+autocmd FileType go nmap <localleader>Y <Plug>(go-coverage-clear)
+autocmd FileType go nmap <localleader>z <Plug>(go-callstack)
+"}}}
 """""" python language {{{
 autocmd BufWritePost *.py :Isort
 autocmd BufWritePost *.py :Autoformat
-autocmd FileType python nnoremap <silent> <LocalLeader>i :Isort<CR>
-autocmd FileType python nnoremap <silent> <LocalLeader>t :SwitchPyTest<CR>
+autocmd FileType python nnoremap <silent> <localleader>i :Isort<CR>
+autocmd FileType python nnoremap <silent> <localleader>t :SwitchPyTest<CR>
 """""" uml language {{{
 autocmd BufWritePost *.uml :silent !plantuml <afile>
 "}}}

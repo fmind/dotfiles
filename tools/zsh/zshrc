@@ -22,6 +22,7 @@ plugins=(
          command-not-found
          docker
          encode64
+         golang
          httpie
          jsontools
          lein
@@ -49,9 +50,6 @@ source $ZSH/oh-my-zsh.sh
 bindkey -v
 export KEYTIMEOUT=1
 bindkey '^o' clear-screen
-
-# Enable go
-export GOROOT=$HOME/workspace/go
 
 # Enable byobu
 if [ -x "$(command -v byobu)" ]; then

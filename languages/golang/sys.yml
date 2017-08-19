@@ -11,5 +11,5 @@
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing go language (fedora)
-    dnf: pkg="go" state=latest
+    dnf: pkg="golang" state=latest
     when: ansible_distribution == 'Fedora'
