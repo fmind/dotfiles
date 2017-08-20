@@ -8,3 +8,26 @@
 
   - name: Creating ~/workspace/go directory
     file: path="~/workspace/go" state=directory
+
+  - name: Installing golang toolchain binaries
+    command: "go get -u {{item}}"
+    with_items:
+      - "github.com/motemen/gore"
+      - "github.com/alecthomas/gometalinter"
+      - "github.com/dominikh/go-tools/cmd/keyify"
+      - "github.com/fatih/gomodifytags"
+      - "github.com/fatih/motion"
+      - "github.com/golang/lint/golint"
+      - "github.com/josharian/impl"
+      - "github.com/jstemmer/gotags"
+      - "github.com/kisielk/errcheck"
+      - "github.com/klauspost/asmfmt/cmd/asmfmt"
+      - "github.com/nsf/gocode"
+      - "github.com/k0kubun/pp"
+      - "github.com/rogpeppe/godef"
+      - "github.com/zmb3/gogetdoc"
+      - "github.com/kisielk/godepgraph"
+      - "golang.org/x/tools/cmd/godoc"
+      - "golang.org/x/tools/cmd/goimports"
+      - "golang.org/x/tools/cmd/gorename"
+      - "golang.org/x/tools/cmd/guru"
