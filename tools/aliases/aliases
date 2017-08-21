@@ -238,6 +238,8 @@ alias hw="stack test --file-watch"
 alias hp="stack repl --test --bench"
 alias hj="stack ghci --ghci-options -XOverloadedStrings"
 alias hrc="$EDITOR ~/.stack/config.yaml"
+## Go
+alias mygo="cd $GOREPO"
 ## Pip
 alias pp="pip"
 alias ppl="pip list"

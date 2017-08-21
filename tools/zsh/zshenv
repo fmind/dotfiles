@@ -1,6 +1,7 @@
 ### ZSH environment ###
 
 export GOPATH="$HOME/go"
+export GOREPO="$GOPATH/src/github.com/fmind"
 
 export PYENV_ROOT="$HOME/.pyenv"
 

@@ -9,5 +9,7 @@ abbreviations:
     ps: https://github.com/fmind/python-script-template.git
     sh: https://github.com/fmind/bash-script-template.git
     ss: https://github.com/fmind/html-slides-template.git
+    gp: https://github.com/fmind/go-project-template.git
+    gs: https://github.com/fmind/go-script-template.git
     mk: https://github.com/fmind/make-template.git
     gh: https://github.com/{0}.git
