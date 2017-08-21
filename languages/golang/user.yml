@@ -6,10 +6,7 @@
 
   tasks:
 
-  - name: Creating ~/workspace/go directory
-    file: path="~/workspace/go" state=directory
-
-  - name: Installing golang toolchain binaries
+  - name: Installing golang tools
     command: "go get -u {{item}}"
     with_items:
       - "github.com/motemen/gore"

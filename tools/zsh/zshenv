@@ -1,6 +1,6 @@
 ### ZSH environment ###
 
-export GOPATH="$HOME/workspace/go"
+export GOPATH="$HOME/go"
 
 export PYENV_ROOT="$HOME/.pyenv"
 

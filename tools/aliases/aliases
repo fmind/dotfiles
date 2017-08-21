@@ -171,6 +171,7 @@ alias ck="cookiecutter"
 ## Ansible
 alias anpl="ansible-playbook"
 alias anpls="ansible-playbook --ask-become"
+alias anpl-all="ansible-playbook --ask-become *.yml"
 alias anpl-sys="anpls *sys.yml"
 alias anpl-user="anpl *user.yml"
 ## Docker

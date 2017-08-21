@@ -59,7 +59,7 @@ fi
 
 ## Env Configuration ##
 
-export GOPATH="$HOME/workspace/go"
+export GOPATH="$HOME/go"
 
 export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
