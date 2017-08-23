@@ -3,5 +3,4 @@
 - hosts: localhost
   connection: local
 
-- include: languages/golang/user.yml
 - include: languages/python/user.yml
