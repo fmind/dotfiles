@@ -30,6 +30,7 @@
       - wormhole
       # project
       - tox
+      - pex
       - ipdb
       - autoenv
       - virtualenv
