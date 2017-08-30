@@ -115,6 +115,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/matchit.zip'
 Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
+Plug 'junegunn/rainbow_parentheses.vim'
 let g:EasyMotion_smartcase = 1
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-tmux-navigator'
@@ -183,10 +184,13 @@ autocmd! BufReadPost *
     \ endif
 
 """ disable auto-comment for all file
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd! FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 """ change fold method for Python files
 autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
+
+""" activate rainbow parentheses for LISP
+autocmd FileType lisp,scheme,racket,clojure RainbowParentheses
 
 """  automatically save buffers on focus lost
 autocmd! FocusLost * silent! wa

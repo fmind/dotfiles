@@ -5,8 +5,10 @@
                       [lein-ancient "0.6.10"]
                       ;;[venantius/ultra "0.5.1"]
                       ;;[jonase/eastwood "0.2.3"]
+                      [cider/cider-nrepl "0.15.0"]
                       ]
             :dependencies [
+                            [medley "1.0.0"]
                             [alembic "0.3.2"]
                             ;[spyscope "0.1.6"]
                             ;[io.aviso/pretty "0.1.26"]
@@ -15,7 +17,9 @@
                             [org.clojure/tools.namespace "0.2.10"]
                             [leiningen #=(leiningen.core.main/leiningen-version)]
                            ]
-             :injections [(require 'clojure.repl)
+             :injections [
+                          (use '[medley.core])
+                          (require 'clojure.repl)
                           ;(require 'spyscope.core)
                           (require '[vinyasa.inject :as inject])
                           (inject/in
@@ -61,7 +65,8 @@
             {:dependencies [[cheshire "5.8.0"]
                             [org.clojure/data.xml "0.0.8"]
                             [clojure-csv/clojure-csv "2.0.2"]]
-             :injections   [(require '[cheshire.core :as Json])
+             :injections   [(require '[clojure.java.io :as Io])
+                            (require '[cheshire.core :as Json])
                             (require '[clojure.data.xml :as Xml])
                             (require '[clojure-csv.core :as Csv])]}]
  :graph    [:user
