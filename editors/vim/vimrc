@@ -169,13 +169,17 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 "}}}
 """ GO LANG {{{
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-let g:go_metalinter_autosave = 1
-let g:go_def_mapping_enabled = 0
-let g:go_gocode_unimported_packages = 1
+" Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+" let g:go_metalinter_autosave = 1
+" let g:go_def_mapping_enabled = 0
+" let g:go_gocode_unimported_packages = 1
 "}}}
 """ JULIA LANG {{{
-Plug 'JuliaEditorSupport/julia-vim'
+" Plug 'JuliaEditorSupport/julia-vim'
+"}}}
+""" NIM LANG {{{
+Plug 'baabelfish/nvim-nim'
+let g:nvim_nim_enable_default_binds = 0
 "}}}
 """ PYTHON LANG {{{
 Plug 'fisadev/vim-isort'
@@ -438,40 +442,65 @@ nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 """""" uml language {{{
 autocmd BufWritePost *.uml :silent !plantuml <afile>
 "}}}
+"""""" nim language {{{
+autocmd FileType nim nmap <localleader>i :NimInfo<CR>
+autocmd FileType nim nmap <localleader>I :NimDebug<CR>
+autocmd FileType nim nmap <localleader>B :NimEdb<CR>
+autocmd FileType nim nmap <localleader>bs :NimEdbStop<CR>
+autocmd FileType nim nmap <localleader>bg :NimEdbIgnore<CR>
+autocmd FileType nim nmap <localleader>bc :NimEdbContinue<CR>
+autocmd FileType nim nmap <localleader>bk :NimSkipCurrent<CR>
+autocmd FileType nim nmap <localleader>bi :NimEdbStepInto<CR>
+autocmd FileType nim nmap <localleader>bo :NimEdbStepOver<CR>
+autocmd FileType nim nmap <localleader>bb :NimEdbToggleBP<CR>
+autocmd FileType nim nmap <localleader>b :NimEdb<CR>
+autocmd FileType nim nmap <localleader>b :NimEdb<CR>
+autocmd FileType nim nmap <localleader>d :NimDefition<CR>
+autocmd FileType nim nmap <localleader>D :NimWeb<CR>
+autocmd FileType nim nmap <localleader>o :NimOutline<CR>
+autocmd FileType nim nmap <localleader>O :NimOutlineUpdate<CR>
+autocmd FileType nim nmap <localleader>u :NimUsage<CR>
+autocmd FileType nim nmap <localleader>U :NimUsageProject<CR>
+autocmd FileType nim nmap <localleader>r :NimRenameSymbol<CR>
+autocmd FileType nim nmap <localleader>R :NimRenameSymbolProject<CR>
+autocmd FileType nim nmap <localleader>` :NimREPL<CR>
+autocmd FileType nim nmap <localleader>e :NimREPLEval<CR>
+autocmd FileType nim nmap <localleader>, :NimREPLEvalFile<CR>
+"}}}
 """""" golang language {{{
-autocmd BufWritePost *.go :GoImports
-autocmd FileType go nmap <localleader>a <Plug>(go-alternate-edit)
-autocmd FileType go nmap <localleader>A <Plug>(go-alternate-vertical)
-autocmd FileType go nmap <localleader>b <Plug>(go-build)
-autocmd FileType go nmap <localleader>c <Plug>(go-callers)
-autocmd FileType go nmap <localleader>d <Plug>(go-def-split)
-autocmd FileType go nmap <localleader>D <Plug>(go-def-pop)
-autocmd FileType go nmap <localleader>e <Plug>(go-callees)
-autocmd FileType go nmap <localleader>f <Plug>(go-files)
-autocmd FileType go nmap <localleader>g <Plug>(go-generate)
-autocmd FileType go nmap <localleader>h <Plug>(go-doc-split)
-autocmd FileType go nmap <localleader>H <Plug>(go-doc-browser)
-autocmd FileType go nmap <localleader>i <Plug>(go-info)
-autocmd FileType go nmap <localleader>I <Plug>(go-implements)
-autocmd FileType go nmap <localleader>j <Plug>(go-describe)
-autocmd FileType go nmap <localleader>k <Plug>(go-referrers)
-autocmd FileType go nmap <localleader>l <Plug>(go-lint)
-autocmd FileType go nmap <localleader>m <Plug>(go-metalinter)
-autocmd FileType go nmap <localleader>n <Plug>(go-install)
-autocmd FileType go nmap <localleader>o <Plug>(go-rename)
-autocmd FileType go nmap <localleader>p <Plug>(go-import)
-autocmd FileType go nmap <localleader>P <Plug>(go-deps)
-autocmd FileType go nmap <localleader>r <Plug>(go-run-split)
-autocmd FileType go nmap <localleader>R <Plug>(go-run)
-autocmd FileType go nmap <localleader>s <Plug>(go-def-stack)
-autocmd FileType go nmap <localleader>S <Plug>(go-def-clear)
-autocmd FileType go nmap <localleader>t <Plug>(go-test-func)
-autocmd FileType go nmap <localleader>T <Plug>(go-test)
-autocmd FileType go nmap <localleader>v <Plug>(go-vet)
-autocmd FileType go nmap <localleader>V <Plug>(go-freevars)
-autocmd FileType go nmap <localleader>y <Plug>(go-coverage)
-autocmd FileType go nmap <localleader>Y <Plug>(go-coverage-clear)
-autocmd FileType go nmap <localleader>z <Plug>(go-callstack)
+" autocmd BufWritePost *.go :GoImports
+" autocmd FileType go nmap <localleader>a <Plug>(go-alternate-edit)
+" autocmd FileType go nmap <localleader>A <Plug>(go-alternate-vertical)
+" autocmd FileType go nmap <localleader>b <Plug>(go-build)
+" autocmd FileType go nmap <localleader>c <Plug>(go-callers)
+" autocmd FileType go nmap <localleader>d <Plug>(go-def-split)
+" autocmd FileType go nmap <localleader>D <Plug>(go-def-pop)
+" autocmd FileType go nmap <localleader>e <Plug>(go-callees)
+" autocmd FileType go nmap <localleader>f <Plug>(go-files)
+" autocmd FileType go nmap <localleader>g <Plug>(go-generate)
+" autocmd FileType go nmap <localleader>h <Plug>(go-doc-split)
+" autocmd FileType go nmap <localleader>H <Plug>(go-doc-browser)
+" autocmd FileType go nmap <localleader>i <Plug>(go-info)
+" autocmd FileType go nmap <localleader>I <Plug>(go-implements)
+" autocmd FileType go nmap <localleader>j <Plug>(go-describe)
+" autocmd FileType go nmap <localleader>k <Plug>(go-referrers)
+" autocmd FileType go nmap <localleader>l <Plug>(go-lint)
+" autocmd FileType go nmap <localleader>m <Plug>(go-metalinter)
+" autocmd FileType go nmap <localleader>n <Plug>(go-install)
+" autocmd FileType go nmap <localleader>o <Plug>(go-rename)
+" autocmd FileType go nmap <localleader>p <Plug>(go-import)
+" autocmd FileType go nmap <localleader>P <Plug>(go-deps)
+" autocmd FileType go nmap <localleader>r <Plug>(go-run-split)
+" autocmd FileType go nmap <localleader>R <Plug>(go-run)
+" autocmd FileType go nmap <localleader>s <Plug>(go-def-stack)
+" autocmd FileType go nmap <localleader>S <Plug>(go-def-clear)
+" autocmd FileType go nmap <localleader>t <Plug>(go-test-func)
+" autocmd FileType go nmap <localleader>T <Plug>(go-test)
+" autocmd FileType go nmap <localleader>v <Plug>(go-vet)
+" autocmd FileType go nmap <localleader>V <Plug>(go-freevars)
+" autocmd FileType go nmap <localleader>y <Plug>(go-coverage)
+" autocmd FileType go nmap <localleader>Y <Plug>(go-coverage-clear)
+" autocmd FileType go nmap <localleader>z <Plug>(go-callstack)
 "}}}
 """""" python language {{{
 autocmd BufWritePost *.py :Isort

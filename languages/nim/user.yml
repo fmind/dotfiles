@@ -1,0 +1,35 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  vars:
+    version: "0.17.0"
+
+  tasks:
+
+  - shell: test -f ~/bin/nim
+    register: nim_exists
+    ignore_errors: True
+
+  - name: Downloading nim
+    get_url: url="https://nim-lang.org/download/nim-{{version}}.tar.xz" dest="{{playbook_dir}}/nim-{{version}}.tar.xz"
+    when: (nim_exists|failed)
+
+  - name: Extracting nim
+    unarchive: src="{{playbook_dir}}/nim-{{version}}.tar.xz" dest="{{playbook_dir}}/"
+    when: (nim_exists|failed)
+
+  - name: Compiling nim
+    shell: "cd nim-{{version}}; sh build.sh; bin/nim c koch; ./koch tools"
+    when: (nim_exists|failed)
+
+  - name: Installing nim
+    file: src="{{playbook_dir}}/nim-{{version}}/bin/{{item}}" dest="~/bin/{{item}}" state="link"
+    with_items:
+      - nim
+      - nimble
+      - nimgrep
+      - nimsuggest
+
