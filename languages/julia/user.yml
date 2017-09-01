@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: no
+
+  tasks:
+
+  - name: Deploying julia configuration
+    file: src="{{playbook_dir}}/juliarc.jl" dest="~/.juliarc.jl" state=link force=yes

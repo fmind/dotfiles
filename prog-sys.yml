@@ -5,5 +5,6 @@
 
 - include: tools/plantuml/sys.yml
 - include: languages/clang/sys.yml
+- include: languages/julia/sys.yml
 - include: languages/golang/sys.yml
 - include: languages/python/sys.yml

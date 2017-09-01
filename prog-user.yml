@@ -3,5 +3,6 @@
 - hosts: localhost
   connection: local
 
+- include: languages/julia/user.yml
 - include: languages/golang/user.yml
 - include: languages/python/user.yml
