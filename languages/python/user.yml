@@ -14,9 +14,13 @@
       # shell
       - jupyter
       - ptpython
+      # emacs
+      - jedi
+      - json-rpc
+      - autoflake
+      - service_factory
       # editor
       - yapf
-      - jedi
       - isort
       - flake8
       - pygments
@@ -24,6 +28,7 @@
       - python-vim
       # system
       - sh
+      - tldr
       - envoy
       - howdoi
       - watchdog

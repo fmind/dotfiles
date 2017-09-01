@@ -10,7 +10,7 @@
 
 (defun my-python-start-repl-with-devenv()
   (interactive)
-  (pyvenv-activate (concat (projectile-project-root) ".devenv"))
+  (pyvenv-activate (concat (projectile-project-root) "venv"))
   (python-start-or-switch-repl))
 
                                         ; KEYBINDINGS
@@ -33,5 +33,5 @@
 
                                         ; NOTEBOOKS
 
-(setq ein:use-auto-complete t)
-(spacemacs/set-leader-keys "oN" 'ein:notebooklist-open)
+;; (setq ein:use-auto-complete t)
+;; (spacemacs/set-leader-keys "oN" 'ein:notebooklist-open)

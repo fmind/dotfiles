@@ -31,7 +31,6 @@
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ansible
      (auto-completion :variables
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
@@ -40,28 +39,18 @@
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
      better-defaults
      bibtex
-     (clojure :variables
-              cider-test-show-report t
-              clojure-enable-fancify-symbols t
-              cider-repl-clear-help-banner nil)
-     colors
-     command-log
+     ;; (clojure :variables
+     ;;          cider-test-show-report t
+     ;;          clojure-enable-fancify-symbols t
+     ;;          cider-repl-clear-help-banner nil)
      csv
-     docker
-     elixir
      emacs-lisp
-     evil-cleverparens
      evil-commentary
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
-     git
      graphviz
-     ;; (haskell :variables
-     ;;             haskell-completion-backend 'intero
-     ;;             haskell-enable-hindent-style "fundamental")
      helm
      html
-     ipython-notebook
      (latex :variables
             latex-enable-folding t
             latex-enable-auto-fill nil)
@@ -79,19 +68,16 @@
              python-test-runner 'pytest
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
-     ;; racket
-     restclient
      search-engine
      shell
      shell-scripts
-     speed-reading
      (spell-checking :variables
                      spell-checking-enable-auto-dictionary t)
      (syntax-checking :variables
                       syntax-checking-enable-by-default t)
-     systemd
      tmux
-     version-control
+     '(version-control :variables
+                       version-control-global-margin t)
      vinegar
      yaml
      )
@@ -360,9 +346,7 @@ values."
 
   ;; programming
   (my-config-load "elisp.el")
-  (my-config-load "elixir.el")
   (my-config-load "python.el")
-  (my-config-load "clojure.el")
 
   ;; organization
   (my-config-load "org.el")

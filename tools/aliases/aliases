@@ -12,11 +12,6 @@ alias a="cat"
 alias z="pigz"
 alias cl="clear"
 alias uz="unpigz -c"
-# alias ve="emacs -nw"
-# alias vee="emacs . &"
-# alias ved="emacs --daemon"
-# alias vet="emacsclient --tty"
-# alias veg="emacsclient --create-frame . &"
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -24,7 +19,9 @@ alias vig="$EDITOR -g"
 alias vip="$EDITOR -p"
 alias vir="$EDITOR -R"
 alias vis="sudo $EDITOR"
-alias virc='$EDITOR ~/.vimrc'
+alias e="emacs"
+alias ec="emacsclient -c"
+alias ed="emacs --daemon"
 
 # NAVIGATION
 alias ..="cd .."
@@ -64,9 +61,11 @@ alias search="dnf search"
 alias clean="sudo dnf clean all"
 alias upgrade="sudo dnf upgrade"
 alias install="sudo dnf install"
+alias remove="sudo dnf remove"
 alias notify='notify-send'
 
 # CONFIGURATION
+alias virc='$EDITOR ~/.vimrc'
 alias zsrc='source ~/.zshrc'
 alias zrc='$EDITOR ~/.zshrc && zsrc'
 alias zsenv='source ~/.zshenv'
@@ -81,7 +80,7 @@ alias warprc='$EDITOR ~/.warprc'
 alias pypirc='$EDITOR ~/.pypirc'
 alias sshrc='$EDITOR ~/.ssh/config'
 alias idearc='$EDITOR ~/.ideavimrc'
-# alias emacsrc='$EDITOR ~/.spacemacs'
+alias emacsrc='$EDITOR ~/.spacemacs'
 alias latexmkrc='$EDITOR ~/.latexmkrc'
 alias cookierc='$EDITOR ~/.cookiecutterrc'
 
@@ -199,25 +198,25 @@ alias jaj="java -jar"
 # alias gros="groovysh"
 # alias grod="groovydoc"
 ## Clojure
-alias cljs="planck"
-alias leinr="lein repl"
-alias leina="lein ancient"
-alias leinfig="lein figwheel"
-alias leincss="lein garden auto"
-alias leinap="lein ancient check-profiles"
-alias leinrc="$EDITOR ~/.lein/profiles.clj"
-alias bootrc="$EDITOR ~/.boot/boot.properties"
-function leinp {
-  lein with-profile "$1" repl
-} 
+# alias cljs="planck"
+# alias leinr="lein repl"
+# alias leina="lein ancient"
+# alias leinfig="lein figwheel"
+# alias leincss="lein garden auto"
+# alias leinap="lein ancient check-profiles"
+# alias leinrc="$EDITOR ~/.lein/profiles.clj"
+# alias bootrc="$EDITOR ~/.boot/boot.properties"
+# function leinp {
+#   lein with-profile "$1" repl
+# } 
 ## (should) improve boot startup time
-export BOOT_JVM_OPTIONS="-client 
--XX:+TieredCompilation 
--XX:TieredStopAtLevel=1 
--Xmx2g 
--XX:+UseConcMarkSweepGC 
--XX:+CMSClassUnloadingEnabled 
--Xverify:none"
+# export BOOT_JVM_OPTIONS="-client 
+# -XX:+TieredCompilation 
+# -XX:TieredStopAtLevel=1 
+# -Xmx2g 
+# -XX:+UseConcMarkSweepGC 
+# -XX:+CMSClassUnloadingEnabled 
+# -Xverify:none"
 ## Haskell
 alias hh="stack"
 alias ho="hoogle"
@@ -239,7 +238,7 @@ alias hp="stack repl --test --bench"
 alias hj="stack ghci --ghci-options -XOverloadedStrings"
 alias hrc="$EDITOR ~/.stack/config.yaml"
 ## Go
-alias mygo="cd $GOREPO"
+# alias mygo="cd $GOREPO"
 ## Pip
 alias pp="pip"
 alias ppl="pip list"

@@ -7,9 +7,9 @@
   tasks:
 
   - name: Installing emacs editor (ubuntu)
-    apt: pkg="emacs" state=latest
+    apt: pkg="emacs-nox" state=latest
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing emacs editor (fedora)
-    dnf: pkg="emacs" state=latest
+    dnf: pkg="emacs-nox" state=latest
     when: ansible_distribution == 'Fedora'

@@ -15,7 +15,7 @@ set t_Co=256
 set conceallevel=2
 set background=dark
 " set colorcolumn=100
-let g:loaded_matchparen=1
+" let g:loaded_matchparen=1
 "}}}
 """ SIDEBAR {{{
 set ruler
@@ -28,13 +28,14 @@ set showmode
 set wildmenu
 set shortmess=c
 set laststatus=2
-set wildmode=longest:full,full
+" set wildmode=longest:full,full
+set wildmode=list:longest,full
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
 "}}}
 """ FOLDING {{{
 set foldlevel=20
 set foldmethod=marker
-set foldlevelstart=10
+set foldlevelstart=99
 "}}}
 """ WRAPPING {{{
 set wrap
@@ -47,18 +48,21 @@ set confirm
 set autoread
 set autowrite
 set autowriteall
+set history=1000
 set encoding=utf-8
 set ffs=unix,dos,mac
+set formatoptions-=cro
 set clipboard=unnamedplus
 set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
 "}}}
 """ NAVIGATION {{{
+set mat=1
 set gdefault
 set hlsearch
 set incsearch
+set showmatch
 set smartcase
 set ignorecase
-set noshowmatch
 set nojoinspaces
 set nostartofline
 set scrolloff=10
@@ -103,16 +107,22 @@ if !empty(glob($HOME.'/.vim/autoload/plug.vim'))
 call plug#begin($HOME.'/.vim/plugged')
 """ TUNING {{{
 Plug 'tpope/vim-rsi'
+Plug 'moll/vim-bbye'
 Plug 'benmills/vimux'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
+Plug 'majutsushi/tagbar'
 Plug 'wellle/targets.vim'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree' 
+let NERDTreeQuitOnOpen = 1
+let NERDTreeIgnore=['\.pyc$', '\~$']
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/matchit.zip'
+Plug 'jistr/vim-nerdtree-tabs'
 Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
 let g:EasyMotion_smartcase = 1
@@ -135,64 +145,71 @@ Plug 'plasticboy/vim-markdown'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'beloglazov/vim-online-thesaurus'
 "}}}
-"""" PROGRAMMING {{{
-Plug 'mattn/emmet-vim'
-Plug 'jceb/vim-orgmode'
-Plug 'fisadev/vim-isort'
-Plug 'sheerun/vim-polyglot'
-Plug 'aklt/plantuml-syntax'
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-let g:go_metalinter_autosave = 1
-let g:go_gocode_unimported_packages = 1
-"}}}
 """ VERSIONNING {{{
 Plug 'airblade/vim-gitgutter'
 "}}}
 """ DEVELOPPING {{{
-Plug 'janko-m/vim-test'
-let g:test#preserve_screen = 1
-let test#python#runner = 'pytest'
 Plug 'w0rp/ale'
+Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsEditSplit = 'context'
 let g:UltiSnipsSnippetsDir = $HOME.'/.vim/snippets/'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
-Plug 'majutsushi/tagbar'
-Plug 'mhinz/vim-startify'
-Plug 'scrooloose/nerdtree' 
-let NERDTreeIgnore=['\.pyc$', '\~$']
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'Chiel92/vim-autoformat'
-let g:formatters_python = ['yapf']
+Plug 'janko-m/vim-test'
+let g:test#preserve_screen = 1
+let test#python#runner = 'pytest'
+Plug 'sheerun/vim-polyglot'
+Plug 'aklt/plantuml-syntax'
 Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 let g:ycm_autoclose_preview_window_after_completion= 1
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"}}}
+""" GO LANG {{{
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+let g:go_metalinter_autosave = 1
+let g:go_def_mapping_enabled = 0
+let g:go_gocode_unimported_packages = 1
+"}}}
+""" PYTHON LANG {{{
+Plug 'fisadev/vim-isort'
+Plug 'Chiel92/vim-autoformat'
+let g:formatters_python = ['yapf']
+"}}}
+""" HASKELL LANG {{{
+" Plug 'Twinside/vim-hoogle', { 'for': 'haskell' }
+" Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
+" au FileType haskell let g:ghcmod_use_basedir = getcwd()
+" Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+" Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
+" let g:haskellmode_completion_ghc = 0
+" let g:necoghc_enable_detailed_browse = 1
+" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+" Plug 'enomsg/vim-haskellConcealPlus', { 'for': 'haskell' }
+" hi clear Conceal
+" let hscoptions="𝐒𝐓𝐄𝐌xRtB𝔻w"
+" let g:haskell_conceal_wide = 1
+" let g:haskell_conceal_enumerations = 1
+" Plug 'mpickering/hlint-refactor-vim', { 'for': 'haskell' }
+" let g:hlintRefactor#disableDefaultKeybindings = 1
 "}}}
 call plug#end()
 colorscheme molokai
 endif
 ""}}}
 " HOOKS {{{
+"""  save buffers on focus lost
+autocmd! FocusLost * silent! wa
 """ restore last cursor position
 autocmd! BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
-
-""" disable auto-comment for all file
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-""" change fold method for Python files
-autocmd! BufNewFile,BufRead *.py setlocal foldmethod=indent
-
-"""  automatically save buffers on focus lost
-autocmd! FocusLost * silent! wa
-
-""" automatically add spelling and wrapping for textual files
-autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en textwidth=100 whichwrap+=h,l,<,>,[,]
+""" add spelling/wrapping for text files
+autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en,fr textwidth=100 whichwrap+=h,l,<,>,[,]
 "}}}
 " FUNCTIONS {{{
 function! SwitchPyTest()
@@ -301,6 +318,9 @@ nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
 nnoremap <silent> <leader>S :setlocal spell! spelllang=en,fr<CR>
 """""" edit the current macro
 nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+"""""" searches for the current selection
+vnoremap <silent> * :call VisualSelection('f', '')<CR>
+vnoremap <silent> # :call VisualSelection('b', '')<CR>
 "}}}
 """ FOLD MANAGEMENT {{{
 nnoremap <leader>z za
@@ -313,7 +333,7 @@ nnoremap <leader>e :edit
 nnoremap <leader>E :tabedit 
 nnoremap <silent> K :bnext<CR>
 nnoremap <silent> J :bprevious<CR>
-nnoremap <leader>b :bdelete<CR> 
+nnoremap <leader>b :Bdelete<CR> 
 nnoremap <silent> <leader>p :ccl<CR><CR>
 nnoremap <silent> <leader><Tab> :bnext<cr>
 nnoremap <silent> <leader><S-Tab> :bprevious<cr>
@@ -324,6 +344,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <silent> <leader>x :x<CR>
+nnoremap <silent> <leader>v :ccl<CR>
 nnoremap <silent> <leader>H :split<CR>
 nnoremap <silent> <leader>V :vsplit<CR>
 "}}}
@@ -412,6 +433,9 @@ nnoremap <silent> <leader>ND :SDelete<CR>
 """""" snippet management {{{
 nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 "}}}
+"""""" uml language {{{
+autocmd BufWritePost *.uml :silent !plantuml <afile>
+"}}}
 """""" golang language {{{
 autocmd BufWritePost *.go :GoImports
 autocmd FileType go nmap <localleader>a <Plug>(go-alternate-edit)
@@ -452,7 +476,22 @@ autocmd BufWritePost *.py :Isort
 autocmd BufWritePost *.py :Autoformat
 autocmd FileType python nnoremap <silent> <localleader>i :Isort<CR>
 autocmd FileType python nnoremap <silent> <localleader>t :SwitchPyTest<CR>
-"""""" uml language {{{
-autocmd BufWritePost *.uml :silent !plantuml <afile>
+"}}}
+"""""" haskell language {{{
+" autocmd FileType haskell nnoremap <silent> <localleader>h :Hoogle<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>H :Hoogle 
+" autocmd FileType haskell nnoremap <silent> <localleader>i :HoogleInfo<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>I :HoogleInfo
+" autocmd FileType haskell nnoremap <silent> <localleader><ESC> :HoogleClose<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>l :GhcModLint<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>c :GhcModCheck<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>v :GhcModType<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>V :GhcModTypeClear<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>e :GhcModExpand<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>s :GhcModSplitFunCase<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>r :call ApplyOneSuggestion()<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>R :call ApplyAllSuggestion()<CR>
+"""""" use hindent instead of par for haskell buffers
+" autocmd FileType haskell let &formatprg="hindent --tab-size 2 -XQuasiQuotes"
 "}}}
 "}}}

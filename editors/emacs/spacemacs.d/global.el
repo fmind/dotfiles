@@ -2,6 +2,7 @@
 
 ;; minors
 (global-company-mode)
+(global-hl-line-mode -1)
 
 ;; scrolling
 (setq scroll-margin 10)
@@ -18,7 +19,6 @@
 
 ;; initialization
 (setq vc-follow-symlinks t)
-(setq-default dotspacemacs-persistent-server t)
 
                                         ; FUNCTIONS
 
@@ -94,6 +94,8 @@
                                         ; BINDINGS
 
 ;; MOTIONS
+(spacemacs/set-leader-keys "]" 'evil-avy-goto-char-2)
+(spacemacs/set-leader-keys "[" 'evil-avy-goto-word-or-subword-1)
 (define-key evil-motion-state-map "j" 'evil-next-visual-line)
 (define-key evil-visual-state-map "j" 'evil-next-visual-line)
 (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
@@ -130,10 +132,6 @@
 
 ;; LISP
 (spacemacs/set-leader-keys "kn" 'evil-lisp-state-sp-backward-up-sexp)
-
-;; JUMPS
-(spacemacs/set-leader-keys "]" 'evil-avy-goto-char)
-(spacemacs/set-leader-keys "[" 'evil-avy-goto-word-or-subword-1)
 
 ;; SHELLS
 (spacemacs/set-leader-keys "\"" 'spacemacs/shell-pop-term)

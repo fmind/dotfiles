@@ -6,18 +6,6 @@
 
   tasks:
 
-  - shell: test -f ~/.local/bin/stack
-    ignore_errors: True
-    register: local_stack_exists
-
-  - shell: test -f /usr/local/bin/stack
-    register: root_stack_exists
-    ignore_errors: True
-
-  - name: Installing haskell language
-    shell: curl -sSL https://get.haskellstack.org/ | sh
-    when: (root_stack_exists|failed) and (local_stack_exists|failed)
-
   - name: Upgrading stack
     command: "stack upgrade"
 
@@ -28,13 +16,10 @@
     command: "stack setup"
 
   - name: Installing plugins
-    command: "stack install hlint hindent hoogle hasktags intero"
+    command: "stack install hlint hindent hoogle hasktags intero stylish-haskell"
 
   - name: Generating hoogle database
     command: "hoogle generate"
 
   - name: Deploying stack configuration
     file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes
-
-  - name: Deploying haskline configuration
-    file: src="{{playbook_dir}}/haskeline" dest="~/.haskeline" state=link force=yes

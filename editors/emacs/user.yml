@@ -6,11 +6,11 @@
 
   tasks:
 
+  - name: Cloning spacemacs repository
+    git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d" depth=1
+
   - name: Deploying emacs configuration file
     file: src="{{playbook_dir}}/spacemacs" dest="~/.spacemacs" state=link force=yes
 
   - name: Deploying emacs configuration directory
     file: src="{{playbook_dir}}/spacemacs.d" dest="~/.spacemacs.d" state=link force=yes
-
-  - name: Cloning spacemacs repository
-    git: repo=https://github.com/syl20bnr/spacemacs dest="~/.emacs.d" depth=1
