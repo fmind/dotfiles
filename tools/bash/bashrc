@@ -61,7 +61,8 @@ fi
 
 export GOPATH="$HOME/go"
 
-export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:$HOME/.local/bin:$NIMPATH/bin:$GOPATH/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 
 
 if [ -f ~/.privenv ]; then

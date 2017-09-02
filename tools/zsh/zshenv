@@ -3,9 +3,11 @@
 export GOPATH="$HOME/go"
 export GOREPO="$GOPATH/src/github.com/fmind"
 
+export NIMPATH="$HOME/.nimble/"
+
 export PYENV_ROOT="$HOME/.pyenv"
 
-export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$PYENV_ROOT/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:$HOME/.local/bin:$NIMPATH/bin:$GOPATH/bin:$PYENV_ROOT/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 ### Private environment ###
 
