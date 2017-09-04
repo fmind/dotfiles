@@ -16,6 +16,7 @@
     default = simple
 
 [alias]
+    cl = clone
     st = status
     ss = status -s
     aa = add --all

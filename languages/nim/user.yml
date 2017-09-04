@@ -13,10 +13,6 @@
     register: nim_exists
     ignore_errors: True
 
-  - shell: test -f ~/bin/nimcr
-    register: nimcr_exists
-    ignore_errors: True
-
   - name: Downloading nim
     get_url: url="https://nim-lang.org/download/nim-{{version}}.tar.xz" dest="{{playbook_dir}}/nim-{{version}}.tar.xz"
     when: (nim_exists|failed)
@@ -36,8 +32,9 @@
       - nimble
       - nimgrep
       - nimsuggest
+  #
+  # - name: Creating ~/.zsh.d/plugins/nimble/ directory
+  #   file: path="~/.zsh.d/plugins/nimble/" state=directory
 
-  - name: Installing nimcr
-    command: "nimble install nimcr"
-    when: (nim_exists|failed)
-
+  # - name: Installating nimble completion
+  #   get_url: url="https://raw.githubusercontent.com/nim-lang/nimble/master/nimble.zsh-completion" dest="~/.zsh.d/plugins/nimble/"
