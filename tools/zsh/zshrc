@@ -22,14 +22,12 @@ plugins=(
          command-not-found
          docker
          encode64
-         golang
          httpie
          jsontools
-         lein
+         nimble
          pyenv
          pylint
          python
-         stack
          sudo
          systemd
          urltools
