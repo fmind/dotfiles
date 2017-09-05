@@ -37,7 +37,3 @@
       - nimgrep
       - nimsuggest
 
-  - name: Installing nimcr
-    command: "nimble install nimcr"
-    when: (nim_exists|failed)
-
