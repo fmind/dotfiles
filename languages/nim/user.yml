@@ -32,9 +32,9 @@
       - nimble
       - nimgrep
       - nimsuggest
-  #
-  # - name: Creating ~/.zsh.d/plugins/nimble/ directory
-  #   file: path="~/.zsh.d/plugins/nimble/" state=directory
 
-  # - name: Installating nimble completion
-  #   get_url: url="https://raw.githubusercontent.com/nim-lang/nimble/master/nimble.zsh-completion" dest="~/.zsh.d/plugins/nimble/"
+  - name: Creating ~/.zsh.d/plugins/nimble/ directory
+    file: path="~/.zsh.d/plugins/nimble/" state=directory
+
+  - name: Installating nimble completion
+    get_url: url="https://raw.githubusercontent.com/nim-lang/nimble/master/nimble.zsh-completion" dest="~/.zsh.d/plugins/nimble/nimble.plugin.zsh"

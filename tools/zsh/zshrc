@@ -24,7 +24,6 @@ plugins=(
          encode64
          httpie
          jsontools
-         nimble
          pyenv
          pylint
          python
