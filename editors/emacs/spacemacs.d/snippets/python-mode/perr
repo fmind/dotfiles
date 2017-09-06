@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# contributor: Freaxmind
-# name: printerr
-# key: printerr
+# contributor: fmind
+# name: perr
+# key: perr
 # --
   print($1, file=sys.stderr)

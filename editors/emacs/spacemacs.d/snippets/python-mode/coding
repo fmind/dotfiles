@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# contributor: Freaxmind
-# name: utf-8
-# key: utf8
+# contributor: fmind
+# name: coding
+# key: coding
 # --
 # -*- coding: utf-8 -*-

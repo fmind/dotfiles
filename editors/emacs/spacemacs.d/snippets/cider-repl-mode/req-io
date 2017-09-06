@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: req-io
+# key: req-io
+# --
+(require '[clojure.java.io :as io])

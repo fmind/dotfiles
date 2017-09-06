@@ -22,12 +22,13 @@
                           (require 'clojure.repl)
                           ;(require 'spyscope.core)
                           (require '[vinyasa.inject :as inject])
+                          (set! *print-length* 1000)
                           (inject/in
                            [alembic.still :refer [distill]]
                            [clojure.pprint :refer [pprint]]
                            [clojure.java.shell :refer [sh]]
                            [clojure.tools.namespace.repl :refer [refresh]]
-                           [clojure.repl :refer [apropos dir doc source find-doc]]
+                           [clojure.repl :refer [apropos source dir doc javadoc find-doc]]
                            ;;[vinyasa.lein :exclude [*project*]]
                            ;;[vinyasa.inject :refer [inject [in inject-in]]]
                            ;;[vinyasa.reflection .> .? .* .% .%> .& .>ns .>var]

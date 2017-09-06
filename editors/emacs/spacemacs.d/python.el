@@ -8,7 +8,7 @@
   (interactive)
   (switch-to-buffer "*pytest*"))
 
-(defun my-python-start-repl-with-devenv()
+(defun my-python-start-repl-with-venv ()
   (interactive)
   (pyvenv-activate (concat (projectile-project-root) "venv"))
   (python-start-or-switch-repl))
@@ -18,7 +18,7 @@
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
   "`" 'my-python-swith-to-repl
   "~" 'my-python-swith-to-report
-  "\"" 'my-python-start-repl-with-devenv
+  "\"" 'my-python-start-repl-with-venv
   "G" 'spacemacs/jump-to-definition
   "C" 'spacemacs/python-execute-file
   "D" 'spacemacs/python-toggle-breakpoint

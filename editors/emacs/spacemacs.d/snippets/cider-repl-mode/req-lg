@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: Freaxmind
-# name: req_lg
-# key: req_lg
-# --
-(require '[clojure.core.logic :as lg])

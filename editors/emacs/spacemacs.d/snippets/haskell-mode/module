@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: Médéric Hurier
-# name: module
-# key: module
-# --
-module $1 where

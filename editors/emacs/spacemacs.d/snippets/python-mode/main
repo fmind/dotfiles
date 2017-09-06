@@ -1,8 +1,7 @@
-# -*- mode: snippet -*-
-# contributor: Freaxmind
+#-*- mode: snippet -*-
+# contributor: fmind
 # name: main
 # key: main
 # --
 if __name__ == '__main__':
-    args = sys.argv[1:]
-    $1
+    $0

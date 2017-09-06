@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: Médéric Hurier
-# name: import
-# key: import
-# --
-import $1

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: reader
+# key: reader
+# --
+with open($1, 'r') as reader:
+    $0

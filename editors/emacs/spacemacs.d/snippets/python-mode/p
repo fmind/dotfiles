@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # contributor: fmind
-# name: img
-# key: \img
+# name: print
+# key: p
 # --
-![]($1)
+print($1)

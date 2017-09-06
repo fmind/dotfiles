@@ -156,11 +156,11 @@ let g:UltiSnipsEditSplit = 'context'
 let g:UltiSnipsSnippetsDir = $HOME.'/.vim/snippets/'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
-Plug 'janko-m/vim-test'
-let g:test#preserve_screen = 1
-let test#python#runner = 'pytest'
+" Plug 'janko-m/vim-test'
+" let g:test#preserve_screen = 1
+" let test#python#runner = 'pytest'
 Plug 'sheerun/vim-polyglot'
-Plug 'aklt/plantuml-syntax'
+" Plug 'aklt/plantuml-syntax'
 Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
@@ -178,13 +178,13 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 " Plug 'JuliaEditorSupport/julia-vim'
 "}}}
 """ NIM LANG {{{
-Plug 'baabelfish/nvim-nim'
-let g:nvim_nim_enable_default_binds = 0
+" Plug 'baabelfish/nvim-nim'
+" let g:nvim_nim_enable_default_binds = 0
 "}}}
 """ PYTHON LANG {{{
-Plug 'fisadev/vim-isort'
-Plug 'Chiel92/vim-autoformat'
-let g:formatters_python = ['yapf']
+" Plug 'fisadev/vim-isort'
+" Plug 'Chiel92/vim-autoformat'
+" let g:formatters_python = ['yapf']
 "}}}
 """ HASKELL LANG {{{
 " Plug 'Twinside/vim-hoogle', { 'for': 'haskell' }
@@ -399,11 +399,11 @@ nnoremap <leader>U :Thesaurus
 nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 "}}}
 """""" testing {{{
-nnoremap <silent> <leader>rf :TestFile<CR>
-nnoremap <silent> <leader>rl :TestLast<CR>
-nnoremap <silent> <leader>rs :TestSuite<CR>
-nnoremap <silent> <leader>rv :TestVisit<CR>
-nnoremap <silent> <leader>rr :TesgNearest<CR>
+" nnoremap <silent> <leader>rf :TestFile<CR>
+" nnoremap <silent> <leader>rl :TestLast<CR>
+" nnoremap <silent> <leader>rs :TestSuite<CR>
+" nnoremap <silent> <leader>rv :TestVisit<CR>
+" nnoremap <silent> <leader>rr :TesgNearest<CR>
 "}}}
 """""" toggling {{{
 nnoremap <silent> <leader>G :Goyo 120<CR>
@@ -426,9 +426,9 @@ nnoremap <silent> <leader>C :ALEToggle<CR>
 nnoremap <silent> <leader>c :ALENextWrap<CR>
 "}}}
 """""" pandoc management {{{
-nnoremap <silent> <leader>OD :Pandoc
-nnoremap <silent> <leader>OP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
-nnoremap <silent> <leader>OH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
+" nnoremap <silent> <leader>OD :Pandoc
+" nnoremap <silent> <leader>OP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
+" nnoremap <silent> <leader>OH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
 "}}}
 """""" session management {{{
 nnoremap <silent> <leader>NL :SLoad<CR>
@@ -440,32 +440,32 @@ nnoremap <silent> <leader>ND :SDelete<CR>
 nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 "}}}
 """""" uml language {{{
-autocmd BufWritePost *.uml :silent !plantuml <afile>
+" autocmd BufWritePost *.uml :silent !plantuml <afile>
 "}}}
 """""" nim language {{{
-autocmd FileType nim nmap <localleader>i :NimInfo<CR>
-autocmd FileType nim nmap <localleader>I :NimDebug<CR>
-autocmd FileType nim nmap <localleader>B :NimEdb<CR>
-autocmd FileType nim nmap <localleader>bs :NimEdbStop<CR>
-autocmd FileType nim nmap <localleader>bg :NimEdbIgnore<CR>
-autocmd FileType nim nmap <localleader>bc :NimEdbContinue<CR>
-autocmd FileType nim nmap <localleader>bk :NimSkipCurrent<CR>
-autocmd FileType nim nmap <localleader>bi :NimEdbStepInto<CR>
-autocmd FileType nim nmap <localleader>bo :NimEdbStepOver<CR>
-autocmd FileType nim nmap <localleader>bb :NimEdbToggleBP<CR>
-autocmd FileType nim nmap <localleader>b :NimEdb<CR>
-autocmd FileType nim nmap <localleader>b :NimEdb<CR>
-autocmd FileType nim nmap <localleader>d :NimDefition<CR>
-autocmd FileType nim nmap <localleader>D :NimWeb<CR>
-autocmd FileType nim nmap <localleader>o :NimOutline<CR>
-autocmd FileType nim nmap <localleader>O :NimOutlineUpdate<CR>
-autocmd FileType nim nmap <localleader>u :NimUsage<CR>
-autocmd FileType nim nmap <localleader>U :NimUsageProject<CR>
-autocmd FileType nim nmap <localleader>r :NimRenameSymbol<CR>
-autocmd FileType nim nmap <localleader>R :NimRenameSymbolProject<CR>
-autocmd FileType nim nmap <localleader>` :NimREPL<CR>
-autocmd FileType nim nmap <localleader>e :NimREPLEval<CR>
-autocmd FileType nim nmap <localleader>, :NimREPLEvalFile<CR>
+" autocmd FileType nim nmap <localleader>i :NimInfo<CR>
+" autocmd FileType nim nmap <localleader>I :NimDebug<CR>
+" autocmd FileType nim nmap <localleader>B :NimEdb<CR>
+" autocmd FileType nim nmap <localleader>bs :NimEdbStop<CR>
+" autocmd FileType nim nmap <localleader>bg :NimEdbIgnore<CR>
+" autocmd FileType nim nmap <localleader>bc :NimEdbContinue<CR>
+" autocmd FileType nim nmap <localleader>bk :NimSkipCurrent<CR>
+" autocmd FileType nim nmap <localleader>bi :NimEdbStepInto<CR>
+" autocmd FileType nim nmap <localleader>bo :NimEdbStepOver<CR>
+" autocmd FileType nim nmap <localleader>bb :NimEdbToggleBP<CR>
+" autocmd FileType nim nmap <localleader>b :NimEdb<CR>
+" autocmd FileType nim nmap <localleader>b :NimEdb<CR>
+" autocmd FileType nim nmap <localleader>d :NimDefition<CR>
+" autocmd FileType nim nmap <localleader>D :NimWeb<CR>
+" autocmd FileType nim nmap <localleader>o :NimOutline<CR>
+" autocmd FileType nim nmap <localleader>O :NimOutlineUpdate<CR>
+" autocmd FileType nim nmap <localleader>u :NimUsage<CR>
+" autocmd FileType nim nmap <localleader>U :NimUsageProject<CR>
+" autocmd FileType nim nmap <localleader>r :NimRenameSymbol<CR>
+" autocmd FileType nim nmap <localleader>R :NimRenameSymbolProject<CR>
+" autocmd FileType nim nmap <localleader>` :NimREPL<CR>
+" autocmd FileType nim nmap <localleader>e :NimREPLEval<CR>
+" autocmd FileType nim nmap <localleader>, :NimREPLEvalFile<CR>
 "}}}
 """""" golang language {{{
 " autocmd BufWritePost *.go :GoImports
@@ -503,10 +503,11 @@ autocmd FileType nim nmap <localleader>, :NimREPLEvalFile<CR>
 " autocmd FileType go nmap <localleader>z <Plug>(go-callstack)
 "}}}
 """""" python language {{{
-autocmd BufWritePost *.py :Isort
-autocmd BufWritePost *.py :Autoformat
-autocmd FileType python nnoremap <silent> <localleader>i :Isort<CR>
-autocmd FileType python nnoremap <silent> <localleader>t :SwitchPyTest<CR>
+" autocmd BufWritePost *.py :Isort
+" autocmd BufWritePost *.py :Autoformat
+autocmd FileType python setlocal foldmethod=indent
+" autocmd FileType python nnoremap <silent> <localleader>i :Isort<CR>
+" autocmd FileType python nnoremap <silent> <localleader>t :SwitchPyTest<CR>
 "}}}
 """""" haskell language {{{
 " autocmd FileType haskell nnoremap <silent> <localleader>h :Hoogle<CR>

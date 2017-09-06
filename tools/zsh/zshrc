@@ -20,8 +20,11 @@ plugins=(
          catimg
          celery
          command-not-found
+         dnf
          docker
          encode64
+         gitfast
+         git-extras
          httpie
          jsontools
          pyenv
@@ -84,16 +87,16 @@ export TERM=screen-256color
 
 ### Alias Configuration ###
 
+alias -g W='| wc'
 alias -g Z='| pigz'
 alias -g F='| head'
 alias -g T='| tail'
 alias -g L='| less'
 alias -g G='| grep'
-alias -g W='| wc -l'
 alias -g U='| unpigz -c'
 alias -g V='| $EDITOR -'
 alias -g J='| json_pp'
-alias -g N='&& notify'
+alias -g S='&& notify'
 alias -g D='&& notify "done"'
 alias -g C='| xsel --clipboard'
 alias -g X='| xmllint --format -'
