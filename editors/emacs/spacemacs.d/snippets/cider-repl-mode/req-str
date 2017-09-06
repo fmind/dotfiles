@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: req-str
+# key: req-str
+# --
+(require '[clojure.string :as Str])

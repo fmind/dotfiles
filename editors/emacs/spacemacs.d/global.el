@@ -10,7 +10,7 @@
 
 ;; projectile
 (setq projectile-globally-ignored-directories '("out"))
-(setq projectile-globally-ignored-file-suffixes '("jpg" "png" "gif"))
+(setq projectile-globally-ignored-file-suffixes '("jpg" "png" "gif" "pyc"))
 
 ;; abbreviations
 (setq-default abbrev-mode t)
@@ -22,15 +22,23 @@
 
                                         ; FUNCTIONS
 
-(defun my-config-open ()
+(defun my-config-open (file)
   "Open a configuration file in spacemacs directory."
-  (interactive)
-  (let* ((helm-name (concat "elisp files in: " SPMDIR))
-         (file (helm :sources (helm-build-sync-source helm-name
-                                :fuzzy-match t
-                                :candidates (lambda () (directory-files SPMDIR nil ".*el")))
-                     :buffer "Helm: open configuration file")))
-    (if file (find-file (my-config-path file)))))
+  (interactive (list nil))
+  (if file (find-file)
+    (helm-find-files-1 SPMDIR)))
+
+(defun my-snippet-open (file)
+  "Open a snippet file in spacemacs directory."
+  (interactive (list nil))
+  (if file (find-file file)
+    (let* ((snipdir (format "%s/%S/" auto-completion-private-snippets-directory major-mode)))
+      (unless (file-exists-p snipdir) (make-directory snipdir t))
+      (helm-find-files-1 snipdir)))
+  ;; insert default content to the snippet
+  (when (= (buffer-size (current-buffer)) 0)
+    (insert (format "# -*- mode: snippet -*-\n# contributor: fmind\n# name: %s\n# key: %s\n# --\n"
+                    (buffer-name) (buffer-name)))))
 
 (defun my-emacs-buffer-p (buf-name)
   "Test if a buffer is associated to emacs."
@@ -88,6 +96,8 @@
       (insert (shell-command-to-string "xsel -o -b"))))
 
                                         ; HOOKS
+
+;; (add-hook 'yas-after-exit-snippet-hook 'yas-reload-all)
 
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 
@@ -147,8 +157,9 @@
 ;; YASNIPPET
 (spacemacs/set-leader-keys "ic" 'aya-create)
 (spacemacs/set-leader-keys "ie" 'aya-expand)
-(spacemacs/set-leader-keys "ir" 'yas-reload-all)
 (spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
+(spacemacs/set-leader-keys "ir" 'yas-reload-all)
+(spacemacs/set-leader-keys "oi" 'my-snippet-open)
 
 ;; ABBREVIATIONS
 (spacemacs/set-leader-keys "oa" 'add-mode-abbrev)

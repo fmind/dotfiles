@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# contributor: Freaxmind
-# name: shellbang
+# contributor: fmind
+# name: bang
 # key: bang
 # --
 #!/usr/bin/env python3

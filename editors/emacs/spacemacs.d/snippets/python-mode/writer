@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: writer
+# key: writer
+# --
+with open($1, 'w') as writer:
+    $0

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: req-edn
+# key: req-edn
+# --
+(require '[clojure.edn :as Edn])

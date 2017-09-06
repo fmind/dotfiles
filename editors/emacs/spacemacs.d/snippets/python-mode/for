@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # contributor: fmind
-# name: img
-# key: \img
+# name: for
+# key: for
 # --
-![]($1)
+for $1 in $2:
+    $0

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: parser
+# key: parser
+# --
+PARSER = argparse.ArgumentParser(description="$1")
+PARSER.add_argument()

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: use-cnt
+# key: use-cnt
+# --
+(require '[clojure.math.combinatorics :as Cnt])

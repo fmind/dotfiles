@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: @task
-# key: @task
-# --
-@task
-def $1(ctx):
-    """TODO."""
-    ctx.run("")
