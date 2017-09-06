@@ -194,25 +194,25 @@ alias jaj="java -jar"
 # alias gros="groovysh"
 # alias grod="groovydoc"
 ## Clojure
-# alias cljs="planck"
-# alias leinr="lein repl"
-# alias leina="lein ancient"
-# alias leinfig="lein figwheel"
-# alias leincss="lein garden auto"
-# alias leinap="lein ancient check-profiles"
-# alias leinrc="$EDITOR ~/.lein/profiles.clj"
-# alias bootrc="$EDITOR ~/.boot/boot.properties"
-# function leinp {
-#   lein with-profile "$1" repl
-# } 
+alias cljs="planck"
+alias leinr="lein repl"
+alias leina="lein ancient"
+alias leinfig="lein figwheel"
+alias leincss="lein garden auto"
+alias leinap="lein ancient check-profiles"
+alias leinrc="$EDITOR ~/.lein/profiles.clj"
+alias bootrc="$EDITOR ~/.boot/boot.properties"
+function leinp {
+  lein with-profile "$1" repl
+} 
 ## (should) improve boot startup time
-# export BOOT_JVM_OPTIONS="-client 
-# -XX:+TieredCompilation 
-# -XX:TieredStopAtLevel=1 
-# -Xmx2g 
-# -XX:+UseConcMarkSweepGC 
-# -XX:+CMSClassUnloadingEnabled 
-# -Xverify:none"
+export BOOT_JVM_OPTIONS="-client 
+-XX:+TieredCompilation 
+-XX:TieredStopAtLevel=1 
+-Xmx2g 
+-XX:+UseConcMarkSweepGC 
+-XX:+CMSClassUnloadingEnabled 
+-Xverify:none"
 ## Haskell
 # alias hh="stack"
 # alias ho="hoogle"
@@ -236,20 +236,20 @@ alias jaj="java -jar"
 ## Go
 # alias mygo="cd $GOREPO"
 ## Nim
-alias n="nim"
-alias nb="nimble"
-alias nbt="nimble init"
-alias nbt="nimble tasks"
-alias nbs="nimble search"
-alias nbp="nimble publish"
-alias nbi="nimble install"
-alias nbu="nimble uninstall"
-alias nd="nim doc2"
-alias nk="nim check"
-alias ni="rlwrap nim secret"
-alias nc="nim compile -w:on"
-alias nr="nim compile --run -w:on"
-alias no="nim --compileOnly -w:on"
+# alias n="nim"
+# alias nb="nimble"
+# alias nbt="nimble init"
+# alias nbt="nimble tasks"
+# alias nbs="nimble search"
+# alias nbp="nimble publish"
+# alias nbi="nimble install"
+# alias nbu="nimble uninstall"
+# alias nd="nim doc2"
+# alias nk="nim check"
+# alias ni="rlwrap nim secret"
+# alias nc="nim compile -w:on"
+# alias nr="nim compile --run -w:on"
+# alias no="nim --compileOnly -w:on"
 ## Pip
 alias pp="pip"
 alias ppl="pip list"

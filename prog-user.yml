@@ -3,4 +3,6 @@
 - hosts: localhost
   connection: local
 
+- include: editors/emacs/user.yml
 - include: languages/python/user.yml
+- include: languages/clojure/user.yml

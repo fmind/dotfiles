@@ -9,11 +9,12 @@
   - name: Installing python3 librairies
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
-      # data
-      - visidata
       # shell
+      - hy
       - jupyter
       - ptpython
+      # data
+      - visidata
       # emacs
       - jedi
       - json-rpc
