@@ -27,7 +27,6 @@ plugins=(
          git-extras
          httpie
          jsontools
-         nimble
          pyenv
          pylint
          python
