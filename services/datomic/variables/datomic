@@ -1,0 +1,15 @@
+---
+
+datomic_install_version: "0.9.5554"
+datomic_install_link: "https://my.datomic.com/downloads/free/{{datomic_install_version}}" 
+
+datomic_memory_xms: "10g"
+datomic_memory_xmx: "10g"
+
+datomic_memory_index_threshold: "32m"
+datomic_memory_index_max: "512m"
+datomic_object_cache_max: "5g"
+
+datomic_uri_protocol: "free"
+datomic_uri_host: "localhost"
+datomic_uri_port: "4334"
