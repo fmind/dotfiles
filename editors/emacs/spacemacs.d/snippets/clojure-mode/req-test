@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: req-test
+# key: req-test
+# --
+[clojure.test :refer :all]
