@@ -30,6 +30,7 @@ plugins=(
          pyenv
          pylint
          python
+         stack
          sudo
          systemd
          urltools

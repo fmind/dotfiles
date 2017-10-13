@@ -49,6 +49,9 @@
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      graphviz
+     (haskell :variables
+              haskell-completion-backend 'intero
+              haskell-enable-hindent-style "johan-tibell")
      helm
      html
      (latex :variables
@@ -349,6 +352,7 @@ values."
   (my-config-load "elisp.el")
   (my-config-load "python.el")
   (my-config-load "clojure.el")
+  (my-config-load "haskell.el")
 
   ;; organization
   (my-config-load "org.el")

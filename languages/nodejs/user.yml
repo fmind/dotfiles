@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: no
+
+  tasks:
+
+  - name: Creating ~/.npm directory
+    file: path="~/.npm" state=directory
+
+  - name: Deploying npm configuration file
+    file: src="{{playbook_dir}}/npmrc" dest="~/.npmrc" state=link force=yes
+
+  - name: Installing nodejs librairies
+    npm: name="{{item}}" state="present" path="~/.npm/"
+    with_items:
+      - lumo-cljs
