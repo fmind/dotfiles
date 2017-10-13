@@ -1,8 +1,6 @@
 {
  :user     {:plugins [[lein-codox "0.10.3"]
                       [lein-ancient "0.6.10"]
-                      [refactor-nrepl "2.3.1"]
-                      [cider/cider-nrepl "0.14.0"]
                       [jonase/eastwood "0.2.4"]]
             :dependencies [[medley "1.0.0"]
                            [alembic "0.3.2"]
