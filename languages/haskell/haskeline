@@ -1,5 +1,5 @@
 editMode: Vi
 bellStyle: NoBell
-maxHistorySize: 1000
-completionPromptLimit: Just 300
+maxHistorySize: Just 1000
+completionPromptLimit: Just 1000
 historyDuplicates: IgnoreConsecutive

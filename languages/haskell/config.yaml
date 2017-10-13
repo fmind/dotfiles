@@ -1,8 +1,7 @@
 templates:
   params:
+    category: "Development"
+    github-username: "fmind"
     author-name: "Médéric Hurier"
     copyright: "(c) 2017 Médéric Hurier"
     author-email: "fmind@users.noreply.github.com"
-    github-username: "fmind"
-    category: "Development"
-    year: "2017"
