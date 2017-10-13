@@ -4,9 +4,14 @@
   (interactive)
   (switch-to-buffer "*Python*"))
 
-(defun my-python-swith-to-report()
+(defun my-python-swith-to-report ()
   (interactive)
   (switch-to-buffer "*pytest*"))
+
+(defun my-python-kill-yapify-buffers ()
+  (interactive)
+  (flet ((kill-buffer-ask (buffer) (kill-buffer buffer)))
+    (kill-matching-buffers  ".*\*yapfify\*.*")))
 
 (defun my-python-start-repl-with-venv ()
   (interactive)
@@ -23,6 +28,7 @@
   "C" 'spacemacs/python-execute-file
   "D" 'spacemacs/python-toggle-breakpoint
   "I" 'spacemacs/python-remove-unused-imports
+  "Y" 'my-python-kill-yapify-buffers
   "," 'python-shell-send-buffer
   "b" 'python-shell-send-buffer
   "B" 'python-shell-send-buffer-switch

@@ -39,6 +39,7 @@
       - pex
       - ipdb
       - autoenv
+      - profiling
       - virtualenv
       - cookiecutter
       # web client

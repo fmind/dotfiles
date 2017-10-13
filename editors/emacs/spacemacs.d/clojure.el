@@ -1,5 +1,9 @@
                                         ; CONFIGS
 
+(setq cider-auto-test-mode 1)
+(setq cider-save-file-on-load t)
+(setq cider-prompt-for-symbol nil)
+(setq nrepl-hide-special-buffers t)
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-display-help-banner nil)
 (setq cider-repl-display-in-current-window t)
@@ -55,35 +59,54 @@
     "A" 'clojure-align
     "B" 'spacemacs/cider-send-buffer-in-repl-and-focus
     "C" 'cider-repl-clear-buffer
-    "D" 'cider-debug-defun-at-point
+    "D" 'my-defonce-toggle
     "E" 'spacemacs/cider-display-error-buffer
     "F" 'cider-find-var
     "G" 'cider-inspect
     "H" 'cider-grimoire
     "I" 'cider-eval-last-sexp-and-replace
+    "J" 'cider-javadoc
+    "K" 'cider-doc
     "L" 'spacemacs/cider-send-last-sexp-to-repl-focus
     "M" 'cider-macroexpand-all
     "N" 'my-load-buffer-and-repl-set-ns
-    "O" 'spacemacs/cider-send-function-to-repl-focus
+    "O" 'cljr-move-to-let
     "P" 'cider-browse-ns
-    "Q" 'cider-restart
+    "Q" 'cljr-hotload-dependencies
     "R" 'cider-eval-region
+    "S" 'cider-switch-to-repl-buffer
+    ;; "T" RESERVED
+    "U" 'cider-test-show-report
     "V" 'cider-toggle-trace-ns
     "W" 'spacemacs/cider-send-region-to-repl-focus
+    "X" 'cider-restart
+    "Y" 'spacemacs/cider-test-rerun-failed-tests
+    "Z" 'cljr-add-project-dependency
     "`" 'cider-pop-back
     "a" 'cider-apropos
     "b" 'cider-load-buffer
-    "c" 'my-defonce-toggle
+    "c" 'cider-debug-defun-at-point
+    ;; "d" RESERVED
+    ;; "e" RESERVED
+    ;; "f" RESERVED
+    ;; "g" RESERVED
+    ;; "h" RESERVED
     "i" 'cider-eval-last-sexp
     "j" 'my-eval-and-next
     "k" 'my-eval-and-previous
     "l" 'spacemacs/cider-send-last-sexp-to-repl
     "m" 'cider-macroexpand-1
     "n" 'cider-repl-set-ns
-    "S" 'cider-switch-to-repl-buffer
-    "o" 'spacemacs/cider-send-function-to-repl
-    "p" 'spacemacs/cider-toggle-repl-pretty-printing
+    "o" 'spacemacs/cider-send-function-to-repl-focus
+    "p" 'cider-test-run-project-tests
     "q" 'cider-quit
+    ;; "r" RESERVED
+    ;; "s" RESERVED
+    ;; "t" RESERVED
+    "u" 'spacemacs/cider-test-run-focused-test
     "v" 'cider-toggle-trace-var
     "w" 'spacemacs/cider-send-region-to-repl
+    "x" 'cider-refresh
+    "y" 'cider-test-run-ns-tests
+    "z" 'cljr-add-require-to-ns
     ))

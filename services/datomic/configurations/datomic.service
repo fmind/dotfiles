@@ -1,0 +1,7 @@
+[Unit]
+Description=Start and Stop the Datomic server daemon
+After=graphical.target
+
+[Service]
+User={{host_service_user}}
+ExecStart={{host_install_current_dir}}/bin/transactor -Xms{{datomic_memory_xms}} -Xmx{{datomic_memory_xmx}} "{{host_config_file}}" 

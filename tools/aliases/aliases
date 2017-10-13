@@ -171,12 +171,9 @@ alias anpl-sys="anpls *sys.yml"
 alias anpl-user="anpl *user.yml"
 ## Docker
 alias dk="docker"
-alias dkrmf="docker rm --force"
 alias dkrmo="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
-alias dk-spark='docker run --name pyspark -p 9000:8888 -v  "$(pwd)":/home/jovyan/work jupyter/pyspark-notebook'
-alias dk-scipy="docker run --name pyscipy -p 9000:8888 -v "$(pwd)":/home/jovyan/work jupyter/scipy-notebook"
-alias dk-mongo='docker run --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
-alias dk-fxmongo='docker run --name pymongo -p 9000:8888 -v "$(pwd)":/home/jovyan/work --link mongo:mongo freaxmind/nosql'
+alias dk-mongo='docker run --rm --name mongo -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+alias dk-data='docker run --rm -it -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
 ## Watchdog
 alias wlog="watchmedo log"
 alias wcmd="watchmedo shell-command"
