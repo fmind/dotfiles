@@ -11,8 +11,8 @@
     ignore_errors: True
 
   - shell: test -f ~/.local/bin/stack
-    ignore_errors: True
     register: local_stack_exists
+    ignore_errors: True
 
   - name: Installing stack
     shell: curl -sSL https://get.haskellstack.org/ | sh

@@ -5,4 +5,5 @@
 
 - include: editors/emacs/user.yml
 - include: languages/python/user.yml
+- include: languages/haskell/user.yml
 - include: languages/clojure/user.yml
