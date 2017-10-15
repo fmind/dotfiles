@@ -3,9 +3,9 @@
 - hosts: localhost
   connection: local
 
-- include: editors/emacs/sys.yml
-- include: tools/plantuml/sys.yml
-- include: languages/java/sys.yml
-- include: languages/clang/sys.yml
-- include: languages/python/sys.yml
-- include: languages/haskell/sys.yml
+- import_playbook: editors/emacs/sys.yml
+- import_playbook: tools/plantuml/sys.yml
+- import_playbook: languages/java/sys.yml
+- import_playbook: languages/clang/sys.yml
+- import_playbook: languages/python/sys.yml
+- import_playbook: languages/haskell/sys.yml

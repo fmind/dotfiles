@@ -3,13 +3,13 @@
 - hosts: localhost
   connection: local
 
-- include: tools/xsel/sys.yml
-- include: editors/vim-gtk/sys.yml
-- include: applications/tlp/sys.yml
-- include: applications/anki/sys.yml
-- include: applications/gnome/sys.yml
-- include: applications/insync/sys.yml
-- include: applications/firefox/sys.yml
-- include: applications/zathura/sys.yml
-- include: applications/deja-dup/sys.yml
-- include: applications/keepassx/sys.yml
+- import_playbook: tools/xsel/sys.yml
+- import_playbook: editors/vim-gtk/sys.yml
+- import_playbook: applications/tlp/sys.yml
+- import_playbook: applications/anki/sys.yml
+- import_playbook: applications/gnome/sys.yml
+- import_playbook: applications/insync/sys.yml
+- import_playbook: applications/firefox/sys.yml
+- import_playbook: applications/zathura/sys.yml
+- import_playbook: applications/deja-dup/sys.yml
+- import_playbook: applications/keepassx/sys.yml

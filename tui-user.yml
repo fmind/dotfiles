@@ -3,13 +3,13 @@
 - hosts: localhost
   connection: local
 
-- include: tools/ag/user.yml
-- include: tools/aliases/user.yml
-- include: tools/ansible/user.yml
-- include: tools/bash/user.yml
-- include: tools/byobu/user.yml
-- include: tools/git/user.yml
-- include: tools/input/user.yml
-- include: tools/vimv/user.yml
-- include: tools/zsh/user.yml
-- include: editors/vim/user.yml
+- import_playbook: tools/ag/user.yml
+- import_playbook: tools/aliases/user.yml
+- import_playbook: tools/ansible/user.yml
+- import_playbook: tools/bash/user.yml
+- import_playbook: tools/byobu/user.yml
+- import_playbook: tools/git/user.yml
+- import_playbook: tools/input/user.yml
+- import_playbook: tools/vimv/user.yml
+- import_playbook: tools/zsh/user.yml
+- import_playbook: editors/vim/user.yml

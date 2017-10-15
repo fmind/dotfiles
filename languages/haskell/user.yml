@@ -16,8 +16,9 @@
     command: "stack setup"
 
   - name: Installing plugins
-    command: "stack install hlint hindent hoogle hasktags intero stylish-haskell"
-    # apply-refact
+    command: "stack install hlint hindent hoogle hasktags stylish-haskell"
+    # intero (automatically install)
+    # apply-refact (dependency warn)
 
   - name: Generating hoogle database
     command: "hoogle generate"

@@ -162,7 +162,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 " Plug 'aklt/plantuml-syntax'
 Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
+" let g:ycm_semantic_triggers = {'haskell' : ['.']}
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 let g:ycm_autoclose_preview_window_after_completion= 1
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']

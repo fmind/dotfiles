@@ -3,4 +3,4 @@
 - hosts: localhost
   connection: local
 
-- include: tools/latexmk/user.yml
+- import_playbook: tools/latexmk/user.yml

@@ -3,4 +3,4 @@
 - hosts: localhost
   connection: local
 
-- include: applications/gnome/user.yml
+- import_playbook: applications/gnome/user.yml

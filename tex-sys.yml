@@ -3,6 +3,6 @@
 - hosts: localhost
   connection: local
 
-- include: tools/pandoc/sys.yml
-- include: tools/latexmk/sys.yml
-- include: languages/tex/sys.yml
+- import_playbook: tools/pandoc/sys.yml
+- import_playbook: tools/latexmk/sys.yml
+- import_playbook: languages/tex/sys.yml
