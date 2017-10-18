@@ -9,21 +9,24 @@
   - name: Creating ~/bin directory
     file: path="~/bin" state=directory
 
-  - name: Creating ~/.lein directory
-    file: path="~/.lein" state=directory
+  # - name: Creating ~/.lein directory
+  #   file: path="~/.lein" state=directory
 
   - name: Creating ~/.boot directory
     file: path="~/.boot" state=directory
 
-  - name: Installing clojure language
-    get_url: url="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein" dest="~/bin/lein" mode=0750
+  # - name: Installing clojure language (lein)
+  #   get_url: url="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein" dest="~/bin/lein" mode=0750
 
-  - name: Installing clojure scripting
+  - name: Installing clojure language (boot)
     get_url: url="https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh" dest="~/bin/boot" mode=0750
 
-  - name: Deploying lein configuration file
-    file: src="{{playbook_dir}}/profiles.clj" dest="~/.lein/profiles.clj" state=link force=yes
+  # - name: Deploying lein configuration file
+  #   file: src="{{playbook_dir}}/profiles.clj" dest="~/.lein/profiles.clj" state=link force=yes
 
-  - name: Deploying boot configuration file
+  - name: Deploying profile file (boot)
+    file: src="{{playbook_dir}}/profile.boot" dest="~/.boot/profile.boot" state=link force=yes
+
+  - name: Deploying configuration file (boot)
     file: src="{{playbook_dir}}/boot.properties" dest="~/.boot/boot.properties" state=link force=yes
 

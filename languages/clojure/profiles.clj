@@ -19,13 +19,13 @@
  :sh       [:user
             {:dependencies [[me.raynes/fs "1.4.6"]]
              :injections   [(use '[clojure.java.shell])
-                            (require '[me.raynes.fs :as Fs])]}]
+                            (require '[me.raynes.fs :as fs])]}]
  :http     [:user
             {:dependencies [[http-kit "2.2.0"]
                             [enlive "1.1.6"]]
-             :injections   [(require '[org.httpkit.client :as Http])
+             :injections   [(require '[org.httpkit.client :as http])
                             (use '[net.cgrand.enlive-html])
-                            (import java.net.URL)]}]
+                            (import java.net.url)]}]
  :selenium [:user
             {:dependencies [[clj-webdriver/clj-webdriver "0.7.2"]
                             [org.seleniumhq.selenium/selenium-java "3.5.3"]]
@@ -44,19 +44,19 @@
             {:dependencies [[cheshire "5.8.0"]
                             [org.clojure/data.xml "0.0.8"]
                             [clojure-csv/clojure-csv "2.0.2"]]
-             :injections   [(require '[clojure.java.io :as Io])
-                            (require '[cheshire.core :as Json])
-                            (require '[clojure.data.xml :as Xml])
-                            (require '[clojure-csv.core :as Csv])]}]
+             :injections   [(require '[clojure.java.io :as io])
+                            (require '[cheshire.core :as json])
+                            (require '[clojure.data.xml :as xml])
+                            (require '[clojure-csv.core :as csv])]}]
  :graph    [:user
             {:dependencies [[aysylu/loom "1.0.0"]]
              :injections   [(require '[loom
-                                       [graph :as Graph]
-                                       [attr :as Attr]
-                                       [alg :as Alg]
-                                       [gen :as Gen]
-                                       [io :as Io]])]}]
+                                       [graph :as graph]
+                                       [attr :as attr]
+                                       [alg :as alg]
+                                       [gen :as gen]
+                                       [io :as io]])]}]
  :draw     [:user
             {:dependencies [[quil "2.6.0"]]
-             :injections   [(require '[quil.core :as Draw])]}]
+             :injections   [(require '[quil.core :as draw])]}]
  }

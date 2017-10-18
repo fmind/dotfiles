@@ -11,6 +11,20 @@
 
                                         ; FUNCTIONS
 
+(defun my-cider-connect ()
+  (interactive)
+  (let ((port (f-read-text ".nrepl-port")))
+    (cider-connect "localhost" port ".")))
+
+(defun my-cider-jack-in ()
+  (interactive)
+  (persp-load-state-from-file "clojure")
+  (winum-select-window-2)
+  (cider-switch-to-repl-buffer)
+  (winum-select-window-3)
+  (switch-to-buffer cider-test-report-buffer)
+  (winum-select-window-1))
+
 (defun my-defonce-toggle ()
   (interactive)
   (let* ((line (thing-at-point 'line t))
@@ -56,6 +70,9 @@
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (spacemacs/set-leader-keys-for-major-mode mode
     "," 'cider-load-buffer
+    "!" 'my-cider-connect
+    "1" 'my-cider-jack-in
+    "-" 'cider-connect
     "A" 'clojure-align
     "B" 'spacemacs/cider-send-buffer-in-repl-and-focus
     "C" 'cider-repl-clear-buffer

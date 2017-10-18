@@ -5,5 +5,4 @@
 
 - import_playbook: editors/emacs/user.yml
 - import_playbook: languages/python/user.yml
-- import_playbook: languages/haskell/user.yml
 - import_playbook: languages/clojure/user.yml
