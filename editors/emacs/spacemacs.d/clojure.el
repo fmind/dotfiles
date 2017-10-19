@@ -1,6 +1,5 @@
                                         ; CONFIGS
 
-(setq cider-auto-test-mode 1)
 (setq cider-save-file-on-load t)
 (setq cider-prompt-for-symbol nil)
 (setq nrepl-hide-special-buffers t)
@@ -69,39 +68,38 @@
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (spacemacs/set-leader-keys-for-major-mode mode
+    "`" 'cider-pop-back
     "," 'cider-load-buffer
     "!" 'my-cider-connect
     "1" 'my-cider-jack-in
-    "-" 'cider-connect
     "A" 'clojure-align
-    "B" 'spacemacs/cider-send-buffer-in-repl-and-focus
+    ;; "B"
     "C" 'cider-repl-clear-buffer
     "D" 'my-defonce-toggle
-    "E" 'spacemacs/cider-display-error-buffer
+    ;; "E"
     "F" 'cider-find-var
-    "G" 'cider-inspect
-    "H" 'cider-grimoire
-    "I" 'cider-eval-last-sexp-and-replace
+    "G" 'cider-grimoire
+    "H" 'cider-doc
+    "I" 'cider-inspect
     "J" 'cider-javadoc
-    "K" 'cider-doc
-    "L" 'spacemacs/cider-send-last-sexp-to-repl-focus
+    ;; "K"
+    "L" 'cider-enlighten-mode
     "M" 'cider-macroexpand-all
-    "N" 'my-load-buffer-and-repl-set-ns
-    "O" 'cljr-move-to-let
-    "P" 'cider-browse-ns
-    "Q" 'cljr-hotload-dependencies
-    "R" 'cider-eval-region
+    "N" 'cider-browse-ns
+    "O" 'cljr-hotload-dependencies
+    "P" 'spacemacs/cider-toggle-repl-pretty-printing
+    "Q" 'cider-quit
+    ;; "R"
     "S" 'cider-switch-to-repl-buffer
     ;; "T" RESERVED
-    "U" 'cider-test-show-report
+    "U" 'cider-auto-test-mode
     "V" 'cider-toggle-trace-ns
-    "W" 'spacemacs/cider-send-region-to-repl-focus
-    "X" 'cider-restart
+    "W" 'cider-eval-region
+    "X" 'spacemacs/cider-display-error-buffer
     "Y" 'spacemacs/cider-test-rerun-failed-tests
     "Z" 'cljr-add-project-dependency
-    "`" 'cider-pop-back
     "a" 'cider-apropos
-    "b" 'cider-load-buffer
+    "b" 'cider-eval-buffer
     "c" 'cider-debug-defun-at-point
     ;; "d" RESERVED
     ;; "e" RESERVED
@@ -114,16 +112,15 @@
     "l" 'spacemacs/cider-send-last-sexp-to-repl
     "m" 'cider-macroexpand-1
     "n" 'cider-repl-set-ns
-    "o" 'spacemacs/cider-send-function-to-repl-focus
+    "o" 'cider-eval-last-sexp-and-replace
     "p" 'cider-test-run-project-tests
-    "q" 'cider-quit
+    "q" 'cider-refresh
     ;; "r" RESERVED
     ;; "s" RESERVED
     ;; "t" RESERVED
     "u" 'spacemacs/cider-test-run-focused-test
     "v" 'cider-toggle-trace-var
     "w" 'spacemacs/cider-send-region-to-repl
-    "x" 'cider-refresh
+    "x" 'cider-debug-defun-at-point
     "y" 'cider-test-run-ns-tests
-    "z" 'cljr-add-require-to-ns
-    ))
+    "z" 'cljr-add-require-to-ns))
