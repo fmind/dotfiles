@@ -100,7 +100,7 @@
     "Z" 'cljr-add-project-dependency
     "a" 'cider-apropos
     "b" 'cider-eval-buffer
-    "c" 'cider-debug-defun-at-point
+    "c" 'spacemacs/cider-send-function-to-repl
     ;; "d" RESERVED
     ;; "e" RESERVED
     ;; "f" RESERVED

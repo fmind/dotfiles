@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing scala language (fedora)
+    dnf: pkg="scala" state=latest
+    when: ansible_distribution == 'Fedora'
+
+  - name: Installing sbt build tool (fedora)
+    dnf: pkg="sbt" state=latest
+    when: ansible_distribution == 'Fedora'

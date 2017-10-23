@@ -1,9 +1,11 @@
                                         ; BINDINGS
 
 (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
+  "b" 'eval-buffer
   "f" 'eval-defun
-  "," 'eval-buffer
+  "l" 'lisp-state-eval-sexp-end-of-line
   "r" 'eval-region
-  "i" 'eval-last-sexp
-  "x" 'eval-expression
+  "u" 'spacemacs/ert-run-tests-buffer
+  "y" 'spacemacs/eval-current-form
+  "," 'eval-last-sexp
   )
