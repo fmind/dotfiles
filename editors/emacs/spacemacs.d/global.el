@@ -122,8 +122,8 @@
 
 ;; BUFFERS
 (global-set-key [remap next-buffer] 'my-next-buffer)
-(define-key evil-normal-state-map "J" 'my-next-buffer)
-(define-key evil-normal-state-map "K" 'my-previous-buffer)
+(define-key evil-normal-state-map "K" 'my-next-buffer)
+(define-key evil-normal-state-map "J" 'my-previous-buffer)
 (global-set-key [remap previous-buffer] 'my-previous-buffer)
 
 ;; WINDOWS
