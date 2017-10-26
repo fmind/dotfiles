@@ -30,6 +30,8 @@ plugins=(
          pyenv
          pylint
          python
+         sbt
+         scala
          stack
          sudo
          systemd

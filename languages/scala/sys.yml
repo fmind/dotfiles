@@ -6,6 +6,10 @@
 
   tasks:
 
+  - name: Adding sbt repository (fedora)
+    yum_repository: name="sbt" description="SBT repository" gpgcheck=no enabled=1 baseurl="https://sbt.bintray.com/rpm"
+    when: ansible_distribution == 'Fedora'
+
   - name: Installing scala language (fedora)
     dnf: pkg="scala" state=latest
     when: ansible_distribution == 'Fedora'

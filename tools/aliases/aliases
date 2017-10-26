@@ -267,6 +267,8 @@ alias pi="ptpython"
 alias pss="python setup.py"
 alias ptd="python -m doctest"
 alias ptu="python -m unittest"
+## Hadoop
+alias hafs="hdfs dfs"
 ## Jupyter
 alias pnp="ipcluster start -n $(nproc)"
 alias pn="jupyter-notebook --profile=fmind --NotebookApp.token="

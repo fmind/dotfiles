@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing Hadoop service (fedora)
+    dnf: pkg="hadoop-mapreduce" state=latest
+    when: ansible_distribution == 'Fedora'

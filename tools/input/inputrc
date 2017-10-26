@@ -7,19 +7,16 @@ set mark-symlinked-directories on
 set menu-complete-display-prefix on
 
 $if mode=vi
-    set keymap vi-insert
-    TAB: menu-complete
-    "\e[Z": menu-complete-backward
-
+    set keymap vi-command
     "\C-o": clear-screen
-    "\C-n": history-search-forward
-    "\C-p": history-search-backward
     # arrow up/down
     "\e[B": history-search-forward
     "\e[A": history-search-backward
 
-    set keymap vi-command
+    set keymap vi-insert
     "\C-o": clear-screen
+    "\C-n": history-search-forward
+    "\C-p": history-search-backward
     # arrow up/down
     "\e[B": history-search-forward
     "\e[A": history-search-backward
