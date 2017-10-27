@@ -3,14 +3,16 @@ default_context:
     author: "Médéric Hurier"
     email: "fmind@users.noreply.github.com"
 abbreviations:
+    slides: https://github.com/fmind/html-slides-template.git
+    sp: https://github.com/fmind/scala-project-template.git
+    ss: https://github.com/fmind/scala-script-template.git
     cs: https://github.com/fmind/clojure-script-template.git
     pa: https://github.com/fmind/python-analysis-template.git
     hp: https://github.com/fmind/haskell-project-template.git
     hs: https://github.com/fmind/haskell-script-template.git
     pp: https://github.com/fmind/python-project-template.git
     ps: https://github.com/fmind/python-script-template.git
-    sh: https://github.com/fmind/bash-script-template.git
-    ss: https://github.com/fmind/html-slides-template.git
+    bs: https://github.com/fmind/bash-script-template.git
     gp: https://github.com/fmind/go-project-template.git
     gs: https://github.com/fmind/go-script-template.git
     mk: https://github.com/fmind/make-template.git

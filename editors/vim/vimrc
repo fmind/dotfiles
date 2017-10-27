@@ -342,6 +342,7 @@ nnoremap <silent> K :bnext<CR>
 nnoremap <silent> J :bprevious<CR>
 nnoremap <leader>b :Bdelete<CR> 
 nnoremap <silent> <leader>p :ccl<CR><CR>
+noremap <silent> <leader>K :set list<CR>
 nnoremap <silent> <leader><Tab> :bnext<cr>
 nnoremap <silent> <leader><S-Tab> :bprevious<cr>
 "}}}
