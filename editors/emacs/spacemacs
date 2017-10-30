@@ -58,7 +58,6 @@
      markdown
      (org :variables
           org-projectile-file "TODO.org")
-     scala
      semantic
      (shell :variables
             shell-default-height 30
