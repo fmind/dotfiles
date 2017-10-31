@@ -7,6 +7,7 @@ abbreviations:
     sp: https://github.com/fmind/scala-project-template.git
     ss: https://github.com/fmind/scala-script-template.git
     cs: https://github.com/fmind/clojure-script-template.git
+    cp: https://github.com/fmind/clojure-project-template.git
     pa: https://github.com/fmind/python-analysis-template.git
     hp: https://github.com/fmind/haskell-project-template.git
     hs: https://github.com/fmind/haskell-script-template.git
