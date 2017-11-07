@@ -15,15 +15,6 @@
   (let ((port (f-read-text ".nrepl-port")))
     (cider-connect "localhost" port ".")))
 
-(defun my-cider-jack-in ()
-  (interactive)
-  (persp-load-state-from-file "clojure")
-  (winum-select-window-2)
-  (cider-switch-to-repl-buffer)
-  (winum-select-window-3)
-  (switch-to-buffer cider-test-report-buffer)
-  (winum-select-window-1))
-
 (defun my-defonce-toggle ()
   (interactive)
   (let* ((line (thing-at-point 'line t))
@@ -71,7 +62,6 @@
     "`" 'cider-pop-back
     "," 'cider-load-buffer
     "!" 'my-cider-connect
-    "1" 'my-cider-jack-in
     "A" 'clojure-align
     ;; "B"
     "C" 'cider-repl-clear-buffer
@@ -86,7 +76,7 @@
     "L" 'cider-enlighten-mode
     "M" 'cider-macroexpand-all
     "N" 'cider-browse-ns
-    "O" 'cljr-hotload-dependencies
+    "O" 'cljr-hotload-dependency
     "P" 'spacemacs/cider-toggle-repl-pretty-printing
     "Q" 'cider-quit
     ;; "R"

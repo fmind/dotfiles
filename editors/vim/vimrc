@@ -138,7 +138,8 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 "}}}
 """ WRITING {{{
-Plug 'junegunn/goyo.vim'
+Plug 'reedes/vim-pencil'
+let g:pencil#textwidth = 80
 Plug 'godlygeek/tabular'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'plasticboy/vim-markdown'
@@ -215,8 +216,6 @@ autocmd! BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
-""" add spelling/wrapping for text files
-autocmd! BufNewFile,BufRead *.{txt,tex,rst,md} setlocal spell spelllang=en,fr textwidth=100 whichwrap+=h,l,<,>,[,]
 "}}}
 " FUNCTIONS {{{
 function! SwitchPyTest()
@@ -310,9 +309,9 @@ nnoremap <silent> <leader>ME :edit $MYVIMRC<CR>
 nnoremap <leader>! :!
 nnoremap <leader>1 :r!
 """""" format current buffer
-nnoremap <leader>+ gggqG
+nnoremap <leader>+ ggVGgq
 """""" format current paragrah
-nnoremap <leader>= gqip
+nnoremap <leader>= gqap
 """"""" highlight last inserted text
 nnoremap <leader>o `[v`]
 """"""" switch between the last two files
@@ -417,7 +416,7 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 " nnoremap <silent> <leader>rr :TesgNearest<CR>
 "}}}
 """""" toggling {{{
-nnoremap <silent> <leader>G :Goyo 120<CR>
+nnoremap <silent> <leader>G :HardPencil<CR>
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
 "}}}
@@ -435,6 +434,11 @@ nnoremap <leader>R :Move
 """""" error management {{{
 nnoremap <silent> <leader>C :ALEToggle<CR>
 nnoremap <silent> <leader>c :ALENextWrap<CR>
+"}}}
+"""""" text management {{{
+autocmd! FileType text         call pencil#init()
+autocmd! FileType markdown     call pencil#init()
+autocmd! BufNewFile,BufRead *.{txt,md} setlocal spell spelllang=en,fr whichwrap+=h,l,<,>,[,]
 "}}}
 """""" pandoc management {{{
 " nnoremap <silent> <leader>OD :Pandoc
