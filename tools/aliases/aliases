@@ -170,7 +170,7 @@ alias dk="docker"
 alias dk-start="service docker start"
 alias dk-rmo="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
 alias dk-mongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
-alias dk-data='docker run --rm --it --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
+alias dk-data='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
 ## Watchdog
 alias wlog="watchmedo log"
 alias wcmd="watchmedo shell-command"
