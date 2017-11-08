@@ -19,9 +19,7 @@ alias vig="$EDITOR -g"
 alias vip="$EDITOR -p"
 alias vir="$EDITOR -R"
 alias vis="sudo $EDITOR"
-alias e="emacs"
-alias ec="emacsclient -c"
-alias ed="emacs --daemon"
+alias e="emacsclient -a='' -qc"
 
 # NAVIGATION
 alias ..="cd .."
@@ -45,7 +43,6 @@ alias dark="xbacklight -set 10"
 alias bright="xbacklight -set 100"
 alias xcat="xsel --clipboard --output"
 alias xclear="xsel --clipboard --clear"
-alias wsh="watchmedo shell-command "
 
 # INFORMATION
 alias h="history"
@@ -151,7 +148,6 @@ function ghfirst {
     git remote add origin "git@github.com:fmind/$(basename $PWD).git"
     git push -u origin master
 }
-
 ## OAR
 alias oari="oarsub -I"
 alias oars="oarsub -S"
@@ -277,4 +273,3 @@ alias pva="source venv/bin/activate"
 function pvi {
   virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env
 }
-
