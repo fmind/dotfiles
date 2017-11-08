@@ -21,3 +21,6 @@
   - name: Installing docker service (fedora)
     dnf: pkg="docker" state=latest
     when: ansible_distribution == 'Fedora'
+
+  - name: Creating docker system group
+    group: name="docker" state=present system=yes
