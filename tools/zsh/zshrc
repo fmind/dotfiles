@@ -16,32 +16,32 @@ HIST_STAMPS="yyyy-mm-dd"
 
 # Set the ZSH plugins to load
 plugins=(
-         alias-tips
-         catimg
-         celery
-         command-not-found
-         dnf
-         docker
-         encode64
-         gitfast
-         git-extras
-         httpie
-         jsontools
-         pyenv
-         pylint
-         python
-         sbt
-         scala
-         stack
-         sudo
-         systemd
-         urltools
-         vi-mode
-         wd
-         web-search
-         zsh-autosuggestions
-         zsh-syntax-highlighting
-         )
+    alias-tips
+    catimg
+    celery
+    command-not-found
+    dnf
+    docker
+    encode64
+    gitfast
+    git-extras
+    httpie
+    jsontools
+    pyenv
+    pylint
+    python
+    sbt
+    scala
+    stack
+    sudo
+    systemd
+    urltools
+    vi-mode
+    wd
+    web-search
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
 
 # Set umask
 umask 0077

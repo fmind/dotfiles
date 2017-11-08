@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: use-repl
+# key: use-repl
+# --
+(use 'clojure.repl)

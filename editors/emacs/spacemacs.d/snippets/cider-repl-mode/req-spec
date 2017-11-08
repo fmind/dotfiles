@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: req-spec
+# key: req-spec
+# --
+(require '[clojure.alpha.spec :as s])

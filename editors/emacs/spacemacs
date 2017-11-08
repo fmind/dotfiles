@@ -57,6 +57,7 @@
             latex-enable-auto-fill nil)
      markdown
      (org :variables
+          org-enable-reveal-js-support t
           org-projectile-file "TODO.org")
      semantic
      (shell :variables

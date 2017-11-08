@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: in-boot
+# key: in-boot
+# --
+(in-ns 'boot.user)
