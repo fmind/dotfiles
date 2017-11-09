@@ -9,8 +9,8 @@
   - name: Cloning spacemacs repository
     git: repo="https://github.com/syl20bnr/spacemacs" dest="~/.emacs.d" depth=1
 
-  - name: Cloning spacemacs tabbar plugin
-    git: repo="https://github.com/evacchi/tabbar-layer" dest="~/.emacs.d/private/tabbar" depth=1
+  # - name: Cloning spacemacs tabbar plugin
+  #   git: repo="https://github.com/evacchi/tabbar-layer" dest="~/.emacs.d/private/tabbar" depth=1
 
   - name: Deploying emacs configuration file
     file: src="{{playbook_dir}}/spacemacs" dest="~/.spacemacs" state=link force=yes

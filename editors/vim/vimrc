@@ -166,8 +166,8 @@ Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do
 " let g:ycm_semantic_triggers = {'haskell' : ['.']}
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 let g:ycm_autoclose_preview_window_after_completion= 1
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
 "}}}
 """ GO LANG {{{
 " Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -278,6 +278,8 @@ nnoremap / /\v
 vnoremap / /\v
 xnoremap <  <gv
 xnoremap >  >gv
+nnoremap J <C-d>
+nnoremap K <C-u>
 " inoremap jk  <Esc>
 " inoremap kj  <Esc>
 nnoremap Q :x<CR>
@@ -333,12 +335,10 @@ nnoremap <leader>z za
 nnoremap <leader>Z zM
 "}}}
 """ BUFFER MANAGEMENT {{{
-nnoremap <silent> H <C-e>
-nnoremap <silent> L <C-y>
 nnoremap <leader>e :edit 
 nnoremap <leader>E :tabedit 
-nnoremap <silent> K :bnext<CR>
-nnoremap <silent> J :bprevious<CR>
+nnoremap <silent> L :bnext<CR>
+nnoremap <silent> H :bprevious<CR>
 nnoremap <leader>b :Bdelete<CR> 
 nnoremap <silent> <leader>p :ccl<CR><CR>
 noremap <silent> <leader>K :set list<CR>

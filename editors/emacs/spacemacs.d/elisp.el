@@ -1,4 +1,8 @@
-                                        ; BINDINGS
+                                        ; CONF
+
+(add-hook 'elisp-mode #'evil-cleverparens-mode)
+
+                                        ; KEYS
 
 (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
   "b" 'eval-buffer
@@ -7,5 +11,4 @@
   "r" 'eval-region
   "u" 'spacemacs/ert-run-tests-buffer
   "y" 'spacemacs/eval-current-form
-  "," 'eval-last-sexp
-  )
+  "," 'eval-last-sexp)

@@ -1,4 +1,4 @@
-                                        ; FUNCTIONS
+                                        ; FUNS
 
 (defun my-python-swith-to-repl ()
   (interactive)
@@ -18,7 +18,7 @@
   (pyvenv-activate (concat (projectile-project-root) "venv"))
   (python-start-or-switch-repl))
 
-                                        ; KEYBINDINGS
+                                        ; KEYS
 
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
   "`" 'my-python-swith-to-repl
@@ -37,7 +37,7 @@
   "n" 'python-shell-send-region
   "N" 'python-shell-send-region-switch)
 
-                                        ; NOTEBOOKS
+                                        ; NOTE
 
 ;; (setq ein:use-auto-complete t)
 ;; (spacemacs/set-leader-keys "oN" 'ein:notebooklist-open)

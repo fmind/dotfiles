@@ -1,4 +1,6 @@
-                                        ; CONFIGS
+                                        ; CONF
+
+(add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
 
 (setq cider-save-file-on-load t)
 (setq cider-prompt-for-symbol nil)
@@ -8,7 +10,7 @@
 (setq cider-repl-display-in-current-window t)
 (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
-                                        ; FUNCTIONS
+                                        ; FUNS
 
 (defun my-cider-connect ()
   (interactive)
@@ -43,7 +45,7 @@
   (cider-load-buffer)
   (cider-repl-set-ns (cider-current-ns)))
 
-                                        ; HOOKS
+                                        ; HOOK
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (add-hook mode #'aggressive-indent-mode)
@@ -55,7 +57,7 @@
 
 (add-hook 'cider-repl-mode-hook 'my-cider-mode-hook)
 
-                                        ; BINDINGS
+                                        ; KEYS
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (spacemacs/set-leader-keys-for-major-mode mode

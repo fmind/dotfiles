@@ -1,15 +1,10 @@
-                                        ; CONFIGURATION
-
-;; agenda
-(setq org-agenda-files (list "~/org/home.org"
-                             "~/org/work.org" 
-                             "~/org/idea.org"
-                             "~/org/tool.org"))
+                                        ; CONF
 
 ;; plant-uml
 (setq org-plantuml-jar-path (expand-file-name "~/bin/plantuml.jar"))
 (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 
-                                        ; HOOKS
+                                        ; HOOK
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+(add-hook 'org-mode-hook 'spacemacs/toggle-highlight-current-line-globally-on)

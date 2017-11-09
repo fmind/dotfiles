@@ -1,4 +1,4 @@
-                                        ; HOOKS
+                                        ; HOOK
 
 ;; docview
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)

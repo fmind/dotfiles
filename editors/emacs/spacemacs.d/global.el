@@ -1,8 +1,9 @@
-                                        ; CONFIG
+                                        ; CONF
 
 ;; minors
 (global-company-mode)
 (global-hl-line-mode -1)
+(spacemacs/toggle-evil-cleverparens-on)
 
 ;; scrolling
 (setq scroll-margin 10)
@@ -20,7 +21,7 @@
 ;; initialization
 (setq vc-follow-symlinks t)
 
-                                        ; FUNCTIONS
+                                        ; FUNS
 
 (defun my-config-open (file)
   "Open a configuration file in spacemacs directory."
@@ -96,49 +97,51 @@
       (clipboard-yank)
       (insert (shell-command-to-string "xsel -o -b"))))
 
-                                        ; HOOKS
+                                        ; HOOK
 
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 
-                                        ; BINDINGS
+                                        ; KEYS
 
 ;; MOTIONS
-(spacemacs/set-leader-keys "]" 'evil-avy-goto-char-2)
-(spacemacs/set-leader-keys "[" 'evil-avy-goto-word-or-subword-1)
-(define-key evil-motion-state-map "j" 'evil-next-visual-line)
+(define-key evil-normal-state-map "s" 'evil-snipe-s)
+(define-key evil-normal-state-map "S" 'evil-snipe-S)
+(define-key evil-normal-state-map "j" 'evil-next-visual-line)
 (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-(define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+(define-key evil-normal-state-map "k" 'evil-previous-visual-line)
 (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
 ;; EDITIONS
-(define-key evil-motion-state-map "U" 'redo)
+(define-key evil-normal-state-map "U" 'redo)
 (define-key evil-visual-state-map "U" 'redo)
-(spacemacs/set-leader-keys "oj" 'evil-join)
-(spacemacs/set-leader-keys "os" 'spacemacs/sort-lines)
-(define-key evil-motion-state-map "L" 'lisp-state-toggle-lisp-state)
-(define-key evil-motion-state-map "zj" 'spacemacs/evil-insert-line-below)
-(define-key evil-motion-state-map "zk" 'spacemacs/evil-insert-line-above)
-
-;; SERVER
-(spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
-(spacemacs/set-leader-keys "qQ" 'spacemacs/prompt-kill-emacs)
-(define-key evil-hybrid-state-map (kbd "C-z") 'suspend-frame)
+(define-key evil-normal-state-map "K" 'evil-scroll-up)
+(define-key evil-visual-state-map "K" 'evil-scroll-up)
+(define-key evil-normal-state-map "J" 'evil-scroll-down)
+(define-key evil-visual-state-map "J" 'evil-scroll-down)
+(define-key evil-normal-state-map "Q" 'lisp-state-toggle-lisp-state)
+(define-key evil-visual-state-map "Q" 'lisp-state-toggle-lisp-state)
+(define-key evil-normal-state-map "zj" 'spacemacs/evil-insert-line-below)
+(define-key evil-normal-state-map "zk" 'spacemacs/evil-insert-line-above)
 
 ;; BUFFERS
-(define-key evil-normal-state-map "K" 'my-next-buffer)
-(define-key evil-normal-state-map "J" 'my-previous-buffer)
+(define-key evil-normal-state-map "M" 'helm-mini)
+(define-key evil-visual-state-map "M" 'helm-mini)
+(define-key evil-normal-state-map "L" 'my-next-buffer)
+(define-key evil-visual-state-map "L" 'my-next-buffer)
+(define-key evil-normal-state-map "H" 'my-previous-buffer)
+(define-key evil-visual-state-map "H" 'my-previous-buffer)
 
-;; WINDOWS
+;; ;; WINDOWS
+(spacemacs/set-leader-keys "H" 'split-window-right)
+(spacemacs/set-leader-keys "K" 'split-window-below)
+(spacemacs/set-leader-keys "L" 'split-window-right-and-focus)
+(spacemacs/set-leader-keys "J" 'split-window-below-and-focus)
 (spacemacs/set-leader-keys "`" 'winum-select-window-0)
 (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
 (define-key evil-hybrid-state-map (kbd "C-k") 'tmux-nav-up)
 (define-key evil-hybrid-state-map (kbd "C-j") 'tmux-nav-down)
 (define-key evil-hybrid-state-map (kbd "C-h") 'tmux-nav-left)
 (define-key evil-hybrid-state-map (kbd "C-l") 'tmux-nav-right)
-(define-key evil-insert-state-map (kbd "C-k") 'tmux-nav-up)
-(define-key evil-insert-state-map (kbd "C-j") 'tmux-nav-down)
-(define-key evil-insert-state-map (kbd "C-h") 'tmux-nav-left)
-(define-key evil-insert-state-map (kbd "C-l") 'tmux-nav-right)
 (spacemacs/set-leader-keys "o0" 'eyebrowse-switch-to-window-config-0)
 (spacemacs/set-leader-keys "o1" 'eyebrowse-switch-to-window-config-1)
 (spacemacs/set-leader-keys "o2" 'eyebrowse-switch-to-window-config-2)
@@ -146,17 +149,26 @@
 (spacemacs/set-leader-keys "o4" 'eyebrowse-switch-to-window-config-4)
 (spacemacs/set-leader-keys "o5" 'eyebrowse-switch-to-window-config-5)
 (spacemacs/set-leader-keys "o6" 'eyebrowse-switch-to-window-config-6)
-(spacemacs/set-leader-keys "o7" 'eyebrowse-switch-to-window-config-7)
-(spacemacs/set-leader-keys "o8" 'eyebrowse-switch-to-window-config-8)
 (spacemacs/set-leader-keys "=" 'spacemacs/layouts-transient-state/body)
 (spacemacs/set-leader-keys "-" 'spacemacs/workspaces-transient-state/body)
 
 ;; SHELLS
 (spacemacs/set-leader-keys "\"" 'spacemacs/shell-pop-term)
 
+;; SERVER
+(spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
+(spacemacs/set-leader-keys "qQ" 'spacemacs/prompt-kill-emacs)
+(define-key evil-normal-state-map (kbd "C-z") 'suspend-frame)
+(define-key evil-visual-state-map (kbd "C-z") 'suspend-frame)
+(define-key evil-hybrid-state-map (kbd "C-z") 'suspend-frame)
+
 ;; ZOOMING
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
+
+;; CUSTOMS
+(spacemacs/set-leader-keys "oj" 'evil-join)
+(spacemacs/set-leader-keys "os" 'spacemacs/sort-lines)
 
 ;; COPY/PASTE
 (spacemacs/set-leader-keys "ox" 'my-cut-to-clipboard)
@@ -164,13 +176,11 @@
 (spacemacs/set-leader-keys "op" 'my-paste-from-clipboard)
 
 ;; YASNIPPET
-(spacemacs/set-leader-keys "ic" 'aya-create)
-(spacemacs/set-leader-keys "ie" 'aya-expand)
 (spacemacs/set-leader-keys "ir" 'yas-reload-all)
 (spacemacs/set-leader-keys "oi" 'my-snippet-open)
-(spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
 
 ;; ABBREVIATIONS
+
 (spacemacs/set-leader-keys "oa" 'add-mode-abbrev)
 (spacemacs/set-leader-keys "oA" 'add-global-abbrev)
 

@@ -1,8 +1,6 @@
-                                        ; IMPORT
-
 (require 'engine-mode)
 
-                                        ; CONFIG
+                                        ; CONF
 
 (defengine mygithub "https://github.com/fmind/%s")
 (defengine github "https://github.com/search?q=%s")
@@ -11,8 +9,9 @@
 (defengine translate-en "https://translate.google.com/?hl=fr#fr/en/%s")
 (defengine translate-fr "https://translate.google.com/?hl=fr#en/fr/%s")
 
-                                        ; BINDINGS
+                                        ; KEYS
 
+(spacemacs/set-leader-keys "aa" 'engine/search-google)
 (spacemacs/set-leader-keys "ag" 'engine/search-google)
 (spacemacs/set-leader-keys "ah" 'engine/search-github)
 (spacemacs/set-leader-keys "al" 'engine/search-scholar)

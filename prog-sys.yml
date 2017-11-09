@@ -5,6 +5,7 @@
 
 - import_playbook: editors/emacs/sys.yml
 - import_playbook: tools/plantuml/sys.yml
+- import_playbook: tools/shellcheck/sys.yml
 - import_playbook: languages/java/sys.yml
 - import_playbook: languages/clang/sys.yml
 - import_playbook: languages/python/sys.yml
