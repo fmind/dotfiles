@@ -151,14 +151,13 @@ function ghfirst {
     git remote add origin "git@github.com:fmind/$(basename $PWD).git"
     git push -u origin master
 }
-
+## UML
+alias uml="plantuml"
 ## OAR
 alias oari="oarsub -I"
 alias oars="oarsub -S"
 ## SRUN
 alias sri="srun -p interactive --qos qos-interactive --pty bash -i"
-## UML
-alias uml="plantuml"
 ## Project
 alias m="make"
 ## Template
