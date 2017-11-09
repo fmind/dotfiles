@@ -9,7 +9,7 @@
 (setq scroll-conservatively 10)
 
 ;; projectile
-(setq projectile-globally-ignored-directories '("out"))
+(setq projectile-globally-ignored-directories '("out" "target"))
 (setq projectile-globally-ignored-file-suffixes '("jpg" "png" "gif" "pyc"))
 
 ;; abbreviations
@@ -69,11 +69,6 @@
                (or (my-emacs-buffer-p (buffer-name))
                    (string= major-mode "dired-mode")))))))
 
-(defun my-split-and-go-to-test ()
-  (interactive)
-  (split-window-below-and-focus)
-  (projectile-toggle-between-implementation-and-test))
-
 (defun my-copy-to-clipboard ()
   "Copy to x-clipboard."
   (interactive)
@@ -88,6 +83,12 @@
           (deactivate-mark))
         (message "No region active; can't yank to clipboard!"))))
 
+(defun my-cut-to-clipboard ()
+  "Cut to x-clipboard."
+  (interactive)
+  (my-copy-to-clipboard)
+  (delete-region (region-beginning) (region-end)))
+
 (defun my-paste-from-clipboard ()
   "Paste from x-clipboard."
   (interactive)
@@ -96,8 +97,6 @@
       (insert (shell-command-to-string "xsel -o -b"))))
 
                                         ; HOOKS
-
-;; (add-hook 'yas-after-exit-snippet-hook 'yas-reload-all)
 
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 
@@ -120,16 +119,17 @@
 (define-key evil-motion-state-map "zj" 'spacemacs/evil-insert-line-below)
 (define-key evil-motion-state-map "zk" 'spacemacs/evil-insert-line-above)
 
+;; SERVER
+(spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
+(spacemacs/set-leader-keys "qQ" 'spacemacs/prompt-kill-emacs)
+(define-key evil-hybrid-state-map (kbd "C-z") 'suspend-frame)
+
 ;; BUFFERS
-(global-set-key [remap next-buffer] 'my-next-buffer)
 (define-key evil-normal-state-map "K" 'my-next-buffer)
 (define-key evil-normal-state-map "J" 'my-previous-buffer)
-(global-set-key [remap previous-buffer] 'my-previous-buffer)
 
 ;; WINDOWS
 (spacemacs/set-leader-keys "`" 'winum-select-window-0)
-(spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
-(spacemacs/set-leader-keys "pq" 'my-split-and-go-to-test)
 (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
 (define-key evil-hybrid-state-map (kbd "C-k") 'tmux-nav-up)
 (define-key evil-hybrid-state-map (kbd "C-j") 'tmux-nav-down)
@@ -146,11 +146,10 @@
 (spacemacs/set-leader-keys "o4" 'eyebrowse-switch-to-window-config-4)
 (spacemacs/set-leader-keys "o5" 'eyebrowse-switch-to-window-config-5)
 (spacemacs/set-leader-keys "o6" 'eyebrowse-switch-to-window-config-6)
-(spacemacs/set-leader-keys "L" 'spacemacs/workspaces-transient-state/body)
+(spacemacs/set-leader-keys "o7" 'eyebrowse-switch-to-window-config-7)
+(spacemacs/set-leader-keys "o8" 'eyebrowse-switch-to-window-config-8)
+(spacemacs/set-leader-keys "=" 'spacemacs/layouts-transient-state/body)
 (spacemacs/set-leader-keys "-" 'spacemacs/workspaces-transient-state/body)
-
-;; LISP
-(spacemacs/set-leader-keys "kn" 'evil-lisp-state-sp-backward-up-sexp)
 
 ;; SHELLS
 (spacemacs/set-leader-keys "\"" 'spacemacs/shell-pop-term)
@@ -160,15 +159,16 @@
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
 ;; COPY/PASTE
+(spacemacs/set-leader-keys "ox" 'my-cut-to-clipboard)
 (spacemacs/set-leader-keys "oy" 'my-copy-to-clipboard)
 (spacemacs/set-leader-keys "op" 'my-paste-from-clipboard)
 
 ;; YASNIPPET
 (spacemacs/set-leader-keys "ic" 'aya-create)
 (spacemacs/set-leader-keys "ie" 'aya-expand)
-(spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
 (spacemacs/set-leader-keys "ir" 'yas-reload-all)
 (spacemacs/set-leader-keys "oi" 'my-snippet-open)
+(spacemacs/set-leader-keys "iw" 'aya-persist-snippet)
 
 ;; ABBREVIATIONS
 (spacemacs/set-leader-keys "oa" 'add-mode-abbrev)

@@ -138,8 +138,8 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 "}}}
 """ WRITING {{{
-Plug 'reedes/vim-pencil'
-let g:pencil#textwidth = 80
+" Plug 'reedes/vim-pencil'
+" let g:pencil#textwidth = 80
 Plug 'godlygeek/tabular'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'plasticboy/vim-markdown'
@@ -416,7 +416,7 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 " nnoremap <silent> <leader>rr :TesgNearest<CR>
 "}}}
 """""" toggling {{{
-nnoremap <silent> <leader>G :HardPencil<CR>
+" nnoremap <silent> <leader>G :HardPencil<CR>
 nnoremap <silent> <leader>; :TagbarToggle<CR>
 nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
 "}}}
@@ -436,8 +436,8 @@ nnoremap <silent> <leader>C :ALEToggle<CR>
 nnoremap <silent> <leader>c :ALENextWrap<CR>
 "}}}
 """""" text management {{{
-autocmd! FileType text         call pencil#init()
-autocmd! FileType markdown     call pencil#init()
+" autocmd! FileType text         call pencil#init()
+" autocmd! FileType markdown     call pencil#init()
 autocmd! BufNewFile,BufRead *.{txt,md} setlocal spell spelllang=en,fr whichwrap+=h,l,<,>,[,]
 "}}}
 """""" pandoc management {{{
