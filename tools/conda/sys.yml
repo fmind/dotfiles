@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  # - name: Installing htop tool (ubuntu)
+  #   apt: pkg="htop" state=latest
+  #   when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing conda tool (fedora)
+    dnf: pkg="conda" state=latest
+    when: ansible_distribution == 'Fedora'
