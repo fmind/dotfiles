@@ -19,4 +19,4 @@
 (spacemacs/set-leader-keys "az" 'engine/search-thesaurus)
 (spacemacs/set-leader-keys "ae" 'engine/search-translate-en)
 (spacemacs/set-leader-keys "af" 'engine/search-translate-fr)
-(spacemacs/set-leader-keys "ao" 'engine/search-stack-overflow)
+(spacemacs/set-leader-keys "at" 'engine/search-stack-overflow)
