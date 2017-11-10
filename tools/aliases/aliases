@@ -105,8 +105,8 @@ alias imgwhite="convert -flatten "
 alias ka='fasd -al'
 alias kf='fasd -fl'
 alias kd='fasd -dl' 
-alias kv='fasd -le vim'
-alias ko='fasd -le xdg-open'
+alias kv='fasd -fe vim'
+alias ko='fasd -fe xdg-open'
 alias kai='fasd ali'
 alias kfi='fasd -fli'
 alias kdi='fasd -dli'
@@ -191,8 +191,9 @@ alias jaj="java -jar"
 ## Clojure
 alias y="boot repl"
 alias clx="boot bin"
+alias clr="boot run"
 alias clt="boot test"
-alias clr="boot repl"
+alias clj="boot repl"
 alias clb="boot build"
 alias cld="boot apidoc"
 alias cla="boot ancient"
@@ -253,6 +254,11 @@ alias ppf="pip freeze > requirements.txt"
 alias ppuf="pip freeze --user > requirements.txt"
 alias ppr="pip install -r requirements.txt"
 alias ppur="pip install --user -r requirements.txt"
+## Conda
+alias pac="conda create -y"
+alias paa="source activate"
+alias pad="source deactivate"
+alias pav="conda env export > environment.yml"
 ## Python
 alias p="python"
 alias py="python"
@@ -263,7 +269,7 @@ alias py3="python3"
 alias pyr="ptpython"
 alias pys="python setup.py"
 ## Jupyter
-alias pn="jupyter-notebook --profile=fmind --NotebookApp.token="
+alias pn="jupyter-notebook --NotebookApp.token="
 alias pnp="ipcluster start -n $(nproc)"
 ## VirtualEnv
 alias pe="source venv/bin/activate"

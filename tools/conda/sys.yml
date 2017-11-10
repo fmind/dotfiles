@@ -11,5 +11,5 @@
   #   when: ansible_distribution == 'Ubuntu'
 
   - name: Installing conda tool (fedora)
-    dnf: pkg="conda" state=latest
+    dnf: pkg="conda-activate" state=latest
     when: ansible_distribution == 'Fedora'
