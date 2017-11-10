@@ -1,12 +1,12 @@
 ### ZSH Configuration ###
 
 # Installation path
-export RPS1="%{$reset_color%}" # spaceship theme
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme
-ZSH_THEME="spaceship"
+export RPS1="%{$reset_color%}" # spaceship theme
 export SPACESHIP_EXIT_CODE_SHOW=true
+ZSH_THEME="spaceship"
 
 # Set the custom folder
 ZSH_CUSTOM=$HOME/.zsh.d
@@ -14,30 +14,24 @@ ZSH_CUSTOM=$HOME/.zsh.d
 # Set the execution time
 HIST_STAMPS="yyyy-mm-dd"
 
-# Set the ZSH plugins to load
+# Set the ZSH plugins list
 plugins=(
     alias-tips
-    catimg
     celery
     command-not-found
     dnf
     docker
     encode64
+    fasd
     gitfast
     git-extras
     httpie
     jsontools
     pyenv
-    pylint
     python
-    sbt
-    scala
-    stack
-    sudo
     systemd
     urltools
     vi-mode
-    wd
     web-search
     zsh-autosuggestions
     zsh-syntax-highlighting
@@ -88,16 +82,7 @@ export LANG=en_US.UTF-8
 # Add support for 256 colors
 export TERM=screen-256color
 
-## improve boot startup time
-# export BOOT_JVM_OPTIONS="-client 
-# -XX:+TieredCompilation 
-# -XX:TieredStopAtLevel=1 
-# -Xmx2g 
-# -XX:+UseConcMarkSweepGC 
-# -XX:+CMSClassUnloadingEnabled 
-# -Xverify:none"
-
-### Alias Configuration ###
+### Alias Configuration (zsh) ###
 
 alias -g W='| wc'
 alias -g Z='| pigz'

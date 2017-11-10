@@ -1,7 +1,5 @@
                                         ; CONF
 
-(add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
-
 (setq cider-save-file-on-load t)
 (setq cider-prompt-for-symbol nil)
 (setq nrepl-hide-special-buffers t)

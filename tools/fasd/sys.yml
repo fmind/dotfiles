@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  # - name: Installing jq tool (ubuntu)
+  #   apt: pkg="jq" state=latest
+  #   when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing fasd tool (fedora)
+    dnf: pkg="fasd" state=latest
+    when: ansible_distribution == 'Fedora'

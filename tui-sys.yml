@@ -7,8 +7,10 @@
 - import_playbook: tools/ansible/sys.yml
 - import_playbook: tools/byobu/sys.yml
 - import_playbook: tools/curl/sys.yml
+- import_playbook: tools/fasd/sys.yml
 - import_playbook: tools/git/sys.yml
 - import_playbook: tools/htop/sys.yml
+- import_playbook: tools/imagemagick/sys.yml
 - import_playbook: tools/input/sys.yml
 - import_playbook: tools/jq/sys.yml
 - import_playbook: tools/ncdu/sys.yml

@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  # - name: Installing jq tool (ubuntu)
+  #   apt: pkg="jq" state=latest
+  #   when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing ImageMagick tool (fedora)
+    dnf: pkg="ImageMagick" state=latest
+    when: ansible_distribution == 'Fedora'

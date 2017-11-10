@@ -1,7 +1,3 @@
-                                        ; CONF
-
-(add-hook 'elisp-mode #'evil-cleverparens-mode)
-
                                         ; KEYS
 
 (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode

@@ -11,13 +11,12 @@
 
                                         ; KEYS
 
-(spacemacs/set-leader-keys "aa" 'engine/search-google)
 (spacemacs/set-leader-keys "ag" 'engine/search-google)
 (spacemacs/set-leader-keys "ah" 'engine/search-github)
 (spacemacs/set-leader-keys "al" 'engine/search-scholar)
 (spacemacs/set-leader-keys "am" 'engine/search-mygithub)
 (spacemacs/set-leader-keys "aw" 'engine/search-wikipedia)
 (spacemacs/set-leader-keys "az" 'engine/search-thesaurus)
-(spacemacs/set-leader-keys "ar" 'engine/search-translate-en)
-(spacemacs/set-leader-keys "av" 'engine/search-translate-fr)
-(spacemacs/set-leader-keys "af" 'engine/search-stack-overflow)
+(spacemacs/set-leader-keys "ae" 'engine/search-translate-en)
+(spacemacs/set-leader-keys "af" 'engine/search-translate-fr)
+(spacemacs/set-leader-keys "ao" 'engine/search-stack-overflow)

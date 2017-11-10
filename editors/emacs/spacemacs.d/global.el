@@ -3,7 +3,7 @@
 ;; minors
 (global-company-mode)
 (global-hl-line-mode -1)
-(spacemacs/toggle-evil-cleverparens-on)
+(ranger-override-dired-mode t)
 
 ;; scrolling
 (setq scroll-margin 10)
@@ -102,6 +102,15 @@
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 
                                         ; KEYS
+
+;; FILES
+(define-key evil-normal-state-map "-" 'deer)
+(define-key evil-visual-state-map "-" 'deer)
+(define-key evil-normal-state-map "_" 'ranger)
+(define-key evil-visual-state-map "_" 'ranger)
+(spacemacs/set-leader-keys "fa" 'fasd-find-file)
+(spacemacs/set-leader-keys "fi" 'fasd-find-file-only)
+(spacemacs/set-leader-keys "fd" 'fasd-find-directory-only)
 
 ;; MOTIONS
 (define-key evil-normal-state-map "s" 'evil-snipe-s)

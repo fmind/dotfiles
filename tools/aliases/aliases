@@ -2,16 +2,14 @@
 alias df="df -hT"
 alias du="du -h"
 alias ps="ps aux"
-alias psg="ps aux | grep -v grep | grep "
 alias wget="wget -c"
 alias free="free -mt"
 alias mkdir="mkdir -pv"
 
 # EDITION
-alias a="cat"
-alias z="pigz"
-alias cl="clear"
-alias uz="unpigz -c"
+alias ca="cat"
+alias pz="pigz"
+alias pzd="unpigz -c"
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -22,7 +20,6 @@ alias vis="sudo $EDITOR"
 alias e="emacsclient -a='' -qc"
 
 # NAVIGATION
-alias ..="cd .."
 alias ls="ls --color=auto"
 alias l="ls"
 alias ll="ls -lFh"
@@ -30,23 +27,25 @@ alias la="ls -lAFh"
 alias lr="ls -lRFh"
 alias lt="ls -ltFh"
 alias lh="ls -ld .*"
-alias back="cd $OLDPWD"
+alias cb="cd $OLDPWD"
 function c {
   cd "$@" && ls
 }
 
 # INTEGRATION
 alias x="exit"
+alias r="clear"
+alias q="ranger"
 alias o="xdg-open"
-alias f='nautilus . &'
+alias u='nautilus . &'
 alias dark="xbacklight -set 10"
 alias bright="xbacklight -set 100"
-alias xcat="xsel --clipboard --output"
-alias xclear="xsel --clipboard --clear"
+alias xc="xsel --clipboard --output"
+alias xck="xsel --clipboard --clear"
 
 # INFORMATION
-alias h="history"
 alias gg="google"
+alias hh="history"
 alias ascii="man ascii"
 alias units="man units"
 alias release="lsb_release -c"
@@ -54,8 +53,8 @@ alias cmount="mount | column -t"
 alias extip='curl icanhazip.com'
 
 # DISTRIBUTION
-## replaced by dnf plugin
 alias notify='notify-send'
+alias n='notify'
 
 # CONFIGURATION
 alias virc='$EDITOR ~/.vimrc'
@@ -81,8 +80,6 @@ alias cookierc='$EDITOR ~/.cookiecutterrc'
 alias cpr="cp -r"
 alias rmr="rm -r"
 alias rmrf="rm -rf"
-alias ctl='systemctl'
-alias ctlu='systemctl --user'
 alias chx="chmod u+x "
 alias kila='killall -9'
 alias tunnel='ssh -nNT'
@@ -103,28 +100,32 @@ alias texlive="latexmk -pvc"
 alias texclean="latexmk -c"
 alias texpurge="latexmk -C"
 alias imgwhite="convert -flatten "
-alias slides="git clone git@github.com:fmind/my-slides"
+
+# # SEARCHING
+alias ka='fasd -al'
+alias kf='fasd -fl'
+alias kd='fasd -dl' 
+alias kv='fasd -le vim'
+alias ko='fasd -le xdg-open'
+alias kai='fasd ali'
+alias kfi='fasd -fli'
+alias kdi='fasd -dli'
+alias kvi='fasd -lie vim'
+alias koi='fasd -lie xdg-open'
+alias j='fasd_cd -d'
+alias ji='fasd_cd -di'
 
 # FILTERING
 alias jqr="jq -r"
-alias t="head -n1"
-alias h1="head -n1"
-alias h5="head -n5"
-alias h10="head -n10"
-alias h15="head -n15"
-alias t1="tail -n1"
-alias t5="tail -n5"
-alias t10="tail -n10"
-alias t15="tail -n15"
+alias h="head"
+alias hn="head -n"
+alias t="tail"
+alias tn="tail -n"
 alias igrep="grep -i"
 alias rgrep="grep -iR"
 alias colt="column -t"
-alias sortp='sort --parallel=$(nproc --all)'
-alias fhere="find . -iname "
-alias fhome="find ~ -iname "
-function fwild {
-    find . -iname "*$1*"
-}
+alias fid="find . -iname "
+alias fih="find ~ -iname "
 function union {
     sort $1 $2 | uniq
 }
@@ -139,20 +140,20 @@ function difference {
 ## Git
 alias g="git"
 alias gm="git submodule"
-alias gn="$EDITOR .gitignore"
+alias gri="$EDITOR .gitignore"
 alias grc="$EDITOR ~/.gitconfig"
-function ghclone {
+function gh {
   git clone git@github.com:fmind/$1.git
 }
-function ghfirst {
+function gho {
     git remote add origin "git@github.com:fmind/$(basename $PWD).git"
     git push -u origin master
 }
 ## UML
 alias uml="plantuml"
 ## OAR
-alias oari="oarsub -I"
-alias oars="oarsub -S"
+alias oai="oarsub -I"
+alias oas="oarsub -S"
 ## SRUN
 alias sri="srun -p interactive --qos qos-interactive --pty bash -i"
 ## Project
@@ -160,27 +161,27 @@ alias m="make"
 ## Template
 alias ck="cookiecutter"
 ## Ansible
-alias anpl="ansible-playbook"
-alias anpls="ansible-playbook --ask-become"
-alias anpl-all="ansible-playbook --ask-become *.yml"
-alias anpl-sys="anpls *sys.yml"
-alias anpl-user="anpl *user.yml"
+alias an="ansible-playbook"
+alias ans="ansible-playbook --ask-become"
+alias ana="ansible-playbook --ask-become *.yml"
 ## Docker
 alias dk="docker"
-alias dk-start="service docker start"
-alias dk-rmo="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
-alias dk-mongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
-alias dk-data='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
+alias dkgo="service docker start"
+alias dkrm="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
+alias dkdata='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
+alias dkmongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+## Hadoop
+alias haf="hdfs dfs"
 ## Watchdog
-alias wlog="watchmedo log"
-alias wcmd="watchmedo shell-command"
-alias wrest="watchmedo auto-restart"
+alias wdl="watchmedo log"
+alias wdr="watchmedo auto-restart"
+alias wds="watchmedo shell-command"
 
 # LANGUAGES
 ## Java
 alias ja="java"
 alias jac="javac"
-alias jaa="java -jar"
+alias jaj="java -jar"
 # ## Groovy
 # alias gro="groovy"
 # alias gron="groovy -n"
@@ -188,11 +189,12 @@ alias jaa="java -jar"
 # alias gros="groovysh"
 # alias grod="groovydoc"
 ## Clojure
-alias cln="boot bin"
-alias cld="boot doc"
+alias y="boot repl"
+alias clx="boot bin"
 alias clt="boot test"
 alias clr="boot repl"
 alias clb="boot build"
+alias cld="boot apidoc"
 alias cla="boot ancient"
 alias clu="boot --update"
 alias clw="rlwrap boot bare-repl"
@@ -224,7 +226,6 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 ## Go
 # alias mygo="cd $GOREPO"
 ## Nim
-# alias n="nim"
 # alias nb="nimble"
 # alias nbt="nimble init"
 # alias nbt="nimble tasks"
@@ -241,35 +242,32 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 ## Pip
 alias pp="pip"
 alias ppl="pip list"
-alias pul="pip list --user"
+alias ppul="pip list --user"
 alias pps="pip search"
-alias pus="pip search --user"
+alias ppus="pip search --user"
 alias ppi="pip install"
-alias pui="pip install --user"
+alias ppui="pip install --user"
 alias ppu="pip uninstall"
-alias puu="pip uninstall --user"
+alias ppuu="pip uninstall --user"
 alias ppf="pip freeze > requirements.txt"
-alias puf="pip freeze --user > requirements.txt"
+alias ppuf="pip freeze --user > requirements.txt"
 alias ppr="pip install -r requirements.txt"
-alias pur="pip install --user -r requirements.txt"
+alias ppur="pip install --user -r requirements.txt"
 ## Python
 alias p="python"
-alias ph="pydoc"
-alias pt="pytest"
-alias p2="python2"
-alias p3="python3"
-alias pi="ptpython"
-alias pss="python setup.py"
-alias ptd="python -m doctest"
-alias ptu="python -m unittest"
-## Hadoop
-alias hafs="hdfs dfs"
+alias py="python"
+alias pyh="pydoc"
+alias pyt="pytest"
+alias py2="python2"
+alias py3="python3"
+alias pyr="ptpython"
+alias pys="python setup.py"
 ## Jupyter
-alias pnp="ipcluster start -n $(nproc)"
 alias pn="jupyter-notebook --profile=fmind --NotebookApp.token="
+alias pnp="ipcluster start -n $(nproc)"
 ## VirtualEnv
-alias pvd="deactivate"
-alias pva="source venv/bin/activate"
-function pvi {
+alias pe="source venv/bin/activate"
+alias ped="deactivate"
+function pei {
   virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env
 }
