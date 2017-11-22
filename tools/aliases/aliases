@@ -166,7 +166,7 @@ alias ans="ansible-playbook --ask-become"
 alias ana="ansible-playbook --ask-become *.yml"
 ## Docker
 alias dk="docker"
-alias dkgo="service docker start"
+alias dkstart="service docker start"
 alias dkrm="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
 alias dkdata='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
 alias dkmongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
