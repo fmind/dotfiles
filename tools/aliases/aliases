@@ -9,7 +9,7 @@ alias mkdir="mkdir -pv"
 # EDITION
 alias ca="cat"
 alias pz="pigz"
-alias pzd="unpigz -c"
+alias puz="unpigz -c"
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -82,7 +82,8 @@ alias rmr="rm -r"
 alias rmrf="rm -rf"
 alias chx="chmod u+x "
 alias kila='killall -9'
-alias tunnel='ssh -nNT'
+alias tunnell='ssh -nNTL'
+alias tunnelr='ssh -nNTL'
 alias srv='sudo service'
 alias rsinc="rsync -avzu"
 alias pwgen="pwgen -N1 -y"
@@ -126,6 +127,7 @@ alias rgrep="grep -iR"
 alias colt="column -t"
 alias fid="find . -iname "
 alias fih="find ~ -iname "
+alias awktab="awk -F $'\t'"
 function union {
     sort $1 $2 | uniq
 }
