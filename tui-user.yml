@@ -4,13 +4,14 @@
   connection: local
 
 - import_playbook: tools/ag/user.yml
-- import_playbook: tools/aliases/user.yml
 - import_playbook: tools/ansible/user.yml
 - import_playbook: tools/bash/user.yml
 - import_playbook: tools/byobu/user.yml
 - import_playbook: tools/functools/user.yml
 - import_playbook: tools/git/user.yml
 - import_playbook: tools/input/user.yml
+- import_playbook: tools/shell/user.yml
+- import_playbook: tools/tldr/user.yml
 - import_playbook: tools/vimv/user.yml
 - import_playbook: tools/zsh/user.yml
 - import_playbook: editors/vim/user.yml

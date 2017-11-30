@@ -1,18 +1,16 @@
 ## SECURITY ##
 
-# if not running interactively, don't do anything
+# if not running interactively
+# don't do anything more !
 [ -z "$PS1" ] && return
 
 ## SETTINGS ##
-
-umask 0077
 
 HISTSIZE=100000
 HISTFILESIZE=2000000
 HISTCONTROL=ignoreboth
 
-# set preferred editor
-export EDITOR='vim'
+PS1='\[\033[01;31m\]∀\h\[\033[01;32m\]∃\u\[\033[01;34m\]∧\W\[\033[01;00m\]\$ '
 
 ## OPTIONS ##
 
@@ -57,27 +55,20 @@ fi
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-## Env Configuration ##
+## INCLUSIONS ##
 
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/local/bin::$PYENV_ROOT/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
-if [ -f ~/.privenv ]; then
-    . ~/.privenv
+if [ -f ~/.shellrc ]; then
+    . ~/.shellrc
 fi
 
-## Prompt Configuration ##
-
-PS1='\[\033[01;31m\]∀\h\[\033[01;32m\]∃\u\[\033[01;34m\]∧\W\[\033[01;00m\]\$ '
-
-## Alias Configuration ##
-
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
+if [ -f ~/.shell_environ ]; then
+    . ~/.shell_environ
 fi
 
-## Display Configuration ##
+if [ -f ~/.shell_aliases ]; then
+    . ~/.shell_aliases
+fi
 
-if [ -n "$DISPLAY" ]; then
-    xset r rate 125 50
-    setxkbmap -option caps:escape
+if [ -f ~/.shell_private ]; then
+    . ~/.shell_environ
 fi

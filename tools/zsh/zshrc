@@ -1,11 +1,13 @@
-### ZSH Configuration ###
+### SETTINGS ###
 
 # Installation path
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme
-export RPS1="%{$reset_color%}" # spaceship theme
+# required for spaceship theme
+export RPS1="%{$reset_color%}"
 export SPACESHIP_EXIT_CODE_SHOW=true
+
 ZSH_THEME="spaceship"
 
 # Set the custom folder
@@ -37,52 +39,15 @@ plugins=(
     zsh-syntax-highlighting
 )
 
-# Set umask
-umask 0077
-
-# Make awesome
-source $ZSH/oh-my-zsh.sh
-
 # Switch to vi
 bindkey -v
 export KEYTIMEOUT=1
 bindkey '^o' clear-screen
 
-# Enable byobu
-if [ -x "$(command -v byobu)" ]; then
-    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-fi
+# Make ZSH awesome
+source $ZSH/oh-my-zsh.sh
 
-# Enable pyenv
-if [ -d "$PYENV_ROOT" ]; then
-    eval "$(pyenv init -)"
-fi
-
-# Enable autoenv
-if [ -x "$(command -v activate.sh)" ]; then
-    source "$(which activate.sh)"
-fi
-
-# Set caps lock
-if [ -n "$DISPLAY" ]; then
-    xset r rate 200 50
-    setxkbmap -option caps:escape
-fi
-
-# Set preferred editor
-if [ -n "$DISPLAY" ]; then
-    export EDITOR='vimx'
-else
-    export EDITOR='vim'
-fi
-
-# Set preferred language
-export LANG=en_US.UTF-8
-
-# Add support for 256 colors
-export TERM=screen-256color
-
-### Alias Configuration (zsh) ###
+### ALIASES ###
 
 alias -g W='| wc'
 alias -g Z='| pigz'
@@ -101,6 +66,20 @@ alias -g H='--help'
 alias -g NE='2>/dev/null'
 alias -g NUL='>/dev/null2>&1'
 
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
+### INCLUSIONS ###
+
+if [ -f ~/.shellrc ]; then
+    . ~/.shellrc
+fi
+
+if [ -f ~/.shell_environ ]; then
+    . ~/.shell_environ
+fi
+
+if [ -f ~/.shell_aliases ]; then
+    . ~/.shell_aliases
+fi
+
+if [ -f ~/.shell_private ]; then
+    . ~/.shell_private
 fi

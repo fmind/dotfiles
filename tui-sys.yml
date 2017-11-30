@@ -11,11 +11,11 @@
 - import_playbook: tools/git/sys.yml
 - import_playbook: tools/htop/sys.yml
 - import_playbook: tools/imagemagick/sys.yml
-- import_playbook: tools/input/sys.yml
 - import_playbook: tools/jq/sys.yml
 - import_playbook: tools/ncdu/sys.yml
 - import_playbook: tools/pigz/sys.yml
 - import_playbook: tools/pv/sys.yml
+- import_playbook: tools/rlwrap/sys.yml
 - import_playbook: tools/zsh/sys.yml
 # - import_playbook: editors/vim/sys.yml
 - import_playbook: editors/fonts/sys.yml

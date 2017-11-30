@@ -112,11 +112,15 @@ Plug 'benmills/vimux'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
 Plug 'wellle/targets.vim'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree' 
-let NERDTreeQuitOnOpen = 1
+let NERDTreeQuitOnOpen=1
 let NERDTreeIgnore=['\.pyc$', '\~$']
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
@@ -124,8 +128,6 @@ Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/matchit.zip'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'junegunn/vim-easy-align'
-Plug 'easymotion/vim-easymotion'
-let g:EasyMotion_smartcase = 1
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
@@ -387,7 +389,6 @@ vnoremap <silent> <leader>a/ :Tabularize /|
 nnoremap <silent> <leader>q :Autoformat<CR>
 "}}}
 """""" navigation {{{
-nmap s <Plug>(easymotion-s2)
 nnoremap <silent> <leader>/ :Ag<CR>
 nnoremap <silent> <leader>T :Tags<CR>
 nnoremap <silent> <leader>t :BTags<CR>
