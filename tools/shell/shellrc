@@ -1,0 +1,28 @@
+umask 0077
+
+# remap capslock
+if [ -n "$DISPLAY" ]; then
+    xset r rate 200 50
+    setxkbmap -option caps:escape
+fi
+
+# change key repeat
+if [ -n "$DISPLAY" ]; then
+    xset r rate 200 50
+    setxkbmap -option caps:escape
+fi
+
+# Enable byobu
+if [ -x "$(command -v byobu)" ]; then
+    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+fi
+
+# Enable pyenv
+if [ -d "$PYENV_ROOT" ]; then
+    eval "$(pyenv init -)"
+fi
+
+# Enable autoenv
+if [ -x "$(command -v activate.sh)" ]; then
+    source "$(which activate.sh)"
+fi

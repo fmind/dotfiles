@@ -1,11 +1,13 @@
-### ZSH Configuration ###
+### SETTINGS ###
 
 # Installation path
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme
-export RPS1="%{$reset_color%}" # spaceship theme
+# required for spaceship theme
+export RPS1="%{$reset_color%}"
 export SPACESHIP_EXIT_CODE_SHOW=true
+
 ZSH_THEME="spaceship"
 
 # Set the custom folder
@@ -37,70 +39,47 @@ plugins=(
     zsh-syntax-highlighting
 )
 
-# Set umask
-umask 0077
-
-# Make awesome
-source $ZSH/oh-my-zsh.sh
-
 # Switch to vi
 bindkey -v
 export KEYTIMEOUT=1
 bindkey '^o' clear-screen
 
-# Enable byobu
-if [ -x "$(command -v byobu)" ]; then
-    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-fi
+# Make ZSH awesome
+source $ZSH/oh-my-zsh.sh
 
-# Enable pyenv
-if [ -d "$PYENV_ROOT" ]; then
-    eval "$(pyenv init -)"
-fi
+### ALIASES ###
 
-# Enable autoenv
-if [ -x "$(command -v activate.sh)" ]; then
-    source "$(which activate.sh)"
-fi
-
-# Set caps lock
-if [ -n "$DISPLAY" ]; then
-    xset r rate 175 50
-    setxkbmap -option caps:escape
-fi
-
-# Set preferred editor
-if [ -n "$DISPLAY" ]; then
-    export EDITOR='vimx'
-else
-    export EDITOR='vim'
-fi
-
-# Set preferred language
-export LANG=en_US.UTF-8
-
-# Add support for 256 colors
-export TERM=screen-256color
-
-### Alias Configuration (zsh) ###
-
-alias -g W='| wc'
-alias -g Z='| pigz'
-alias -g F='| head'
-alias -g T='| tail'
-alias -g L='| less'
-alias -g G='| grep'
-alias -g U='| unpigz -c'
-alias -g V='| $EDITOR -'
-alias -g J='| json_pp'
-alias -g S='&& notify'
-alias -g D='&& notify "done"'
 alias -g C='| xsel --clipboard'
-alias -g X='| xmllint --format -'
+alias -g D='&& notify "done"'
+alias -g F='| head'
+alias -g G='| grep'
 alias -g H='--help'
+alias -g J='| json_pp'
+alias -g L='| less'
 alias -g NE='2>/dev/null'
 alias -g NUL='>/dev/null2>&1'
+alias -g S='| sort'
+alias -g T='| tail'
+alias -g U='| unpigz -c'
+alias -g V='| $EDITOR -'
+alias -g W='| wc'
+alias -g X='| xmllint --format -'
+alias -g Z='| pigz'
 
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
+### INCLUSIONS ###
+
+if [ -f ~/.shellrc ]; then
+    . ~/.shellrc
+fi
+
+if [ -f ~/.shell_environ ]; then
+    . ~/.shell_environ
+fi
+
+if [ -f ~/.shell_aliases ]; then
+    . ~/.shell_aliases
+fi
+
+if [ -f ~/.shell_private ]; then
+    . ~/.shell_private
 fi

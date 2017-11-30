@@ -29,7 +29,6 @@
       - python-vim
       # system
       - sh
-      - tldr
       - envoy
       - howdoi
       - watchdog

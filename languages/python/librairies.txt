@@ -42,7 +42,7 @@
 - jellyfish
 - matplotlib
 - statsmodel
-- tensorflow-gpu
+- tensorflow
 
 # machine learning
 - nltk

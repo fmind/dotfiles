@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+  - name: Cloning shell functools repository
+    git: repo="https://github.com/sharkdp/shell-functools.git" dest="~/bin/functools"
+
+  - name: Deploying functools functions under ~/bin
+    file: src="~/bin/functools/ft/{{item}}" dest="~/bin/{{item}}" state=link force=yes
+    with_items:
+      - map
+      - foldl
+      - filter
+      - ft-functions

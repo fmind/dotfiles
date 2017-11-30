@@ -84,3 +84,24 @@
   []
   (merge-env! :dependencies '[[ubergraph "0.4.0"]])
   (require '[ubergraph.core :as Graph]))
+
+(deftask with-datomic-pro "Add datomic pro peer deps."
+  []
+  (merge-env!
+    :repositories [["datomic" {:url "https://my.datomic.com/repo"
+                               :username (System/getenv "DATOMIC_REPO_USERNAME")
+                               :password (System/getenv "DATOMIC_REPO_PASSWORD")}]]
+    :dependencies '[[org.clojure/java.jdbc "0.6.1"]
+                    [com.datomic/datomic-pro "0.9.5561.62"]
+                    [org.postgresql/postgresql "9.3-1102-jdbc41"]])
+  (require '[datomic.api :as Datom]))
+
+(deftask with-datomic-free "Add datomic free peer deps."
+  []
+  (merge-env! :dependencies '[[com.datomic/datomic-free "0.9.5561.62"]])
+  (require '[datomic.api :as Datom]))
+
+(deftask with-datomic-client "Add datomic client deps."
+  []
+  (merge-env! :dependencies '[[com.datomic/clj-client "0.8.606"]])
+  (require '[datomic.api :as Datom]))

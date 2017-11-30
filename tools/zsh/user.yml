@@ -6,9 +6,6 @@
 
   tasks:
 
-  - name: Deploying zsh environement file
-    file: src="{{playbook_dir}}/zshenv" dest="~/.zshenv" state=link force=yes
-
   - name: Deploying zsh configuration file
     file: src="{{playbook_dir}}/zshrc" dest="~/.zshrc" state=link force=yes
 

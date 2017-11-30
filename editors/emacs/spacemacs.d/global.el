@@ -3,6 +3,7 @@
 ;; minors
 (global-company-mode)
 (global-hl-line-mode -1)
+(setq create-lockfiles nil)
 (ranger-override-dired-mode t)
 
 ;; scrolling
