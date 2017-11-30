@@ -49,22 +49,22 @@ source $ZSH/oh-my-zsh.sh
 
 ### ALIASES ###
 
-alias -g W='| wc'
-alias -g Z='| pigz'
-alias -g F='| head'
-alias -g T='| tail'
-alias -g L='| less'
-alias -g G='| grep'
-alias -g U='| unpigz -c'
-alias -g V='| $EDITOR -'
-alias -g J='| json_pp'
-alias -g S='&& notify'
-alias -g D='&& notify "done"'
 alias -g C='| xsel --clipboard'
-alias -g X='| xmllint --format -'
+alias -g D='&& notify "done"'
+alias -g F='| head'
+alias -g G='| grep'
 alias -g H='--help'
+alias -g J='| json_pp'
+alias -g L='| less'
 alias -g NE='2>/dev/null'
 alias -g NUL='>/dev/null2>&1'
+alias -g S='| sort'
+alias -g T='| tail'
+alias -g U='| unpigz -c'
+alias -g V='| $EDITOR -'
+alias -g W='| wc'
+alias -g X='| xmllint --format -'
+alias -g Z='| pigz'
 
 ### INCLUSIONS ###
 
