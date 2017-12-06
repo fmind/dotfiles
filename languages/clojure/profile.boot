@@ -56,7 +56,12 @@
 (deftask with-stats "Add stats deps."
   []
   (merge-env! :dependencies '[[incanter "1.5.7"]])
-  (use '[incanter core stats charts]))
+  (require '[incanter.charts :as Charts])
+  (require '[incanter.bayes :as Bayes])
+  (require '[incanter.stats :as Stats])
+  (require '[incanter.io :as Statsio])
+  (use '[incanter.core :exclude [trace abs]])
+  )
 
 (deftask with-csv "Add csv deps."
   []
