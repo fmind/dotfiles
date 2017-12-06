@@ -1,7 +1,7 @@
                                         ; CONF
 
 ;; plant-uml
-(setq org-plantuml-jar-path (expand-file-name "~/bin/plantuml.jar"))
+(setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 
                                         ; FUNS

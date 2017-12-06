@@ -2,8 +2,7 @@
                             ; [spyscope "0.1.5"]
                             [boot-deps "0.1.8"]
                             ; [datawalk "0.1.4-SNAPSHOT"]
-                            [adzerk/boot-jar2bin "1.1.0"]
-                            [samestep/boot-refresh "0.1.0"]])
+                            [adzerk/boot-jar2bin "1.1.0"] ])
 
 ; (require 'spyscope.core)
 ; (boot.core/load-data-readers!)
@@ -11,7 +10,6 @@
 (require '[boot-deps :refer [ancient]])
 ; (require '[datawalk.core :as Datawalk])
 (require '[adzerk.boot-jar2bin :refer [bin]])
-(require '[samestep.boot-refresh :refer [refresh]])
 
 (task-options!
  repl      {:eval '(set! *print-length* 1000)}
@@ -79,6 +77,11 @@
   []
   (merge-env! :dependencies '[[quil "2.6.0"]])
   (require '[quil.core :as Draw]))
+
+(deftask with-music "Add music deps."
+  []
+  (merge-env! :dependencies '[[overtone "0.10.3"]])
+  #_(use 'overtone.core))
 
 (deftask with-graph "Add graph deps."
   []
