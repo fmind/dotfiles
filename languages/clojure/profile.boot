@@ -6,7 +6,7 @@
 
 ; (require 'spyscope.core)
 ; (boot.core/load-data-readers!)
-(require '[medley.core :refer :all])
+(require '[medley.core :as Medley])
 (require '[boot-deps :refer [ancient]])
 ; (require '[datawalk.core :as Datawalk])
 (require '[adzerk.boot-jar2bin :refer [bin]])
@@ -14,6 +14,10 @@
 (task-options!
  repl      {:eval '(set! *print-length* 1000)}
  bare-repl {:eval '(set! *print-length* 1000)})
+
+(deftask client "Start a client repl."
+  []
+  (repl :server false :client true))
 
 (deftask with-io "Add io deps."
   []
