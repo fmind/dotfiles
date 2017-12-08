@@ -83,3 +83,8 @@ fi
 if [ -f ~/.shell_private ]; then
     . ~/.shell_private
 fi
+
+# Enable autoenv (does not work in .shellrc)
+if [ -x "$(command -v activate.sh)" ]; then
+    source "$(which activate.sh)"
+fi

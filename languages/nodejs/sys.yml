@@ -11,5 +11,5 @@
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing node language (fedora)
-    dnf: pkg="nodejs" state="installed"
+    dnf: pkg="nodejs-latest-version" state="installed"
     when: ansible_distribution == 'Fedora'

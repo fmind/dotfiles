@@ -21,8 +21,3 @@ fi
 if [ -d "$PYENV_ROOT" ]; then
     eval "$(pyenv init -)"
 fi
-
-# Enable autoenv
-if [ -x "$(command -v activate.sh)" ]; then
-    source "$(which activate.sh)"
-fi

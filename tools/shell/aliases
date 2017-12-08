@@ -191,6 +191,7 @@ alias jaj="java -jar"
 # alias gros="groovysh"
 # alias grod="groovydoc"
 ## Clojure
+alias cls="lumo"
 alias y="boot repl"
 alias clx="boot bin"
 alias clr="boot run"
