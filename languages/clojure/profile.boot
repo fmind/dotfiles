@@ -1,8 +1,8 @@
 (merge-env! :dependencies '[[medley "1.0.0"]
                             ; [spyscope "0.1.5"]
-                            [boot-deps "0.1.8"]
+                            [boot-deps "0.1.9"]
                             ; [datawalk "0.1.4-SNAPSHOT"]
-                            [adzerk/boot-jar2bin "1.1.0"] ])
+                            [adzerk/boot-jar2bin "1.1.1"] ])
 
 ; (require 'spyscope.core)
 ; (boot.core/load-data-readers!)
@@ -21,34 +21,34 @@
 
 (deftask with-io "Add io deps."
   []
-  (require '[clojure.java.io :as Io]))
+  (require '[clojure.java.io :as io]))
 
 (deftask with-sh "Add shell deps."
   []
   (merge-env! :dependencies '[[me.raynes/conch "0.8.0"]])
-  (require '[clojure.java.shell :as Sh])
-  (require '[me.raynes.conch :as Ch]))
+  (require '[clojure.java.shell :as sh])
+  (require '[me.raynes.conch :as ch]))
 
 (deftask with-fs "Add files deps."
   []
   (merge-env! :dependencies '[[me.raynes/fs "1.4.6"]])
-  (require '[me.raynes.fs :as Fs]))
+  (require '[me.raynes.fs :as fs]))
 
 (deftask with-http "Add http deps."
   []
   (merge-env! :dependencies '[[http-kit "2.2.0"]])
-  (require '[org.httpkit.client :as Http])
+  (require '[org.httpkit.client :as http])
   (import java.net.url))
 
 (deftask with-html "Add enlive deps."
   []
   (merge-env! :dependencies '[[enlive "1.1.6"]])
-  (require '[net.cgrand.enlive-html :as Html]))
+  (require '[net.cgrand.enlive-html :as html]))
 
 (deftask with-ffox "Add firefox deps."
   []
   (merge-env! :dependencies '[[etaoin "0.1.8-SNAPSHOT"]])
-  (require '[etaoin.api :as Brow]))
+  (require '[etaoin.api :as browser]))
 
 (deftask with-maths "Add maths deps."
   []
@@ -60,42 +60,41 @@
 (deftask with-stats "Add stats deps."
   []
   (merge-env! :dependencies '[[incanter "1.5.7"]])
-  (require '[incanter.charts :as Charts])
-  (require '[incanter.bayes :as Bayes])
-  (require '[incanter.stats :as Stats])
-  (require '[incanter.io :as Statsio])
   (use '[incanter.core :exclude [trace abs]])
-  )
+  (require '[incanter.charts :as charts])
+  (require '[incanter.bayes :as bayes])
+  (require '[incanter.stats :as status])
+  (require '[incanter.io :as sio]))
 
 (deftask with-csv "Add csv deps."
   []
   (merge-env! :dependencies '[[clojure-csv/clojure-csv "2.0.2"]])
-  (require '[clojure-csv.core :as Csv]))
+  (require '[clojure-csv.core :as csv]))
 
 (deftask with-xml "Add xml deps."
   []
   (merge-env! :dependencies '[[org.clojure/data.xml "0.0.8"]])
-  (require '[clojure.data.xml :as Xml]))
+  (require '[clojure.data.xml :as xml]))
 
 (deftask with-json "Add json deps."
   []
   (merge-env! :dependencies '[[cheshire "5.8.0"]])
-  (require '[cheshire.core :as Json]))
+  (require '[cheshire.core :as json]))
 
 (deftask with-draw "Add draw deps."
   []
   (merge-env! :dependencies '[[quil "2.6.0"]])
-  (require '[quil.core :as Draw]))
+  (require '[quil.core :as draw]))
 
-(deftask with-music "Add music deps."
-  []
-  (merge-env! :dependencies '[[overtone "0.10.3"]])
-  #_(use 'overtone.core))
+; (deftask with-music "Add music deps."
+;   []
+;   (merge-env! :dependencies '[[overtone "0.10.3"]])
+;   #_(use 'overtone.core))
 
 (deftask with-graph "Add graph deps."
   []
   (merge-env! :dependencies '[[ubergraph "0.4.0"]])
-  (require '[ubergraph.core :as Graph]))
+  (require '[ubergraph.core :as g]))
 
 (deftask with-datomic-pro "Add datomic pro peer deps."
   []
@@ -106,14 +105,14 @@
     :dependencies '[[org.clojure/java.jdbc "0.6.1"]
                     [com.datomic/datomic-pro "0.9.5561.62"]
                     [org.postgresql/postgresql "9.3-1102-jdbc41"]])
-  (require '[datomic.api :as Datom]))
+  (require '[datomic.api :as d]))
 
 (deftask with-datomic-free "Add datomic free peer deps."
   []
   (merge-env! :dependencies '[[com.datomic/datomic-free "0.9.5561.62"]])
-  (require '[datomic.api :as Datom]))
+  (require '[datomic.api :as d]))
 
 (deftask with-datomic-client "Add datomic client deps."
   []
   (merge-env! :dependencies '[[com.datomic/clj-client "0.8.606"]])
-  (require '[datomic.api :as Datom]))
+  (require '[datomic.api :as d]))
