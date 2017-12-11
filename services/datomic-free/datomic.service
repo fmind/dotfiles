@@ -1,0 +1,13 @@
+[Unit]
+Description=Start and Stop the Datomic server daemon
+After=graphical.target
+
+[Service]
+Type=simple
+Restart=always
+User={{user}}
+Group={{group}}
+ExecStart={{datomic_dir}}/bin/transactor -Xms{{xms}} -Xmx{{xmx}} "{{config_file}}" 
+
+[Install]
+WantedBy=multi-user.target
