@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: code-clojure
+# key: code-clojure
+# --
+#+BEGIN_SRC clojure
+$0
+#+END_SRC

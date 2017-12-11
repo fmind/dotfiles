@@ -44,7 +44,6 @@
      ;; bibtex
      (clojure :variables
               cider-test-show-report t
-              clojure-enable-fancify-symbols t
               cider-repl-clear-help-banner nil)
      emacs-lisp
      evil-commentary
