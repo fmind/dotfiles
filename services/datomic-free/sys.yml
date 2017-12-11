@@ -1,0 +1,41 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  vars_files:
+    - variables/host
+    - variables/datomic
+
+  tasks:
+
+  - name: Ensure Datomic user exists; "{{group}}"
+    user: name="{{user}}" state="present"
+
+  - name: Ensure Datomic group exists; "{{group}}"
+    group: name="{{group}}" state="present"
+
+  - name: Ensure etc directory exists; "{{etc_dir}}"
+    file: path="{{etc_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
+
+  - name: Ensure log directory exists; "{{log_dir}}"
+    file: path="{{log_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
+
+  - name: Ensure run directory exists; "{{run_dir}}"
+    file: path="{{run_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
+
+  - name: Ensure data directory exists; "{{data_dir}}"
+    file: path="{{data_dir}}" state=directory owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
+
+  - name: Download Datomic free archive; "{{install_dir}}"
+    unarchive: src="{{download_url}}" dest="{{opt_dir}}" copy="no" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
+
+  - name: Link install with datomic dir; "{{datomic_dir}}"
+    file: src="{{install_dir}}" dest="{{datomic_dir}}" state="link" force="yes"
+
+  - name: Deploy conf file from template; "{{config_file}}"
+    template: src="transactor.properties" dest="{{config_file}}" owner="{{user}}" group="{{group}}" mode="{{file_mode}}"
+
+  - name: Deploy service file from template; "{{service_file}}"
+    template: src="datomic.service" dest="{{service_file}}" owner="{{user}}" group="{{group}}" mode="{{file_mode}}"

@@ -1,23 +1,19 @@
 (merge-env! :dependencies '[[medley "1.0.0"]
-                            ; [spyscope "0.1.5"]
+                            [datawalk "0.1.12"]
                             [boot-deps "0.1.9"]
-                            ; [datawalk "0.1.4-SNAPSHOT"]
                             [adzerk/boot-jar2bin "1.1.1"] ])
 
-; (require 'spyscope.core)
-; (boot.core/load-data-readers!)
-(require '[medley.core :as Medley])
+;; other ns
+(require '[medley.core :as m])
+(require '[datawalk.core :as dw])
+
+;; boot tasks
 (require '[boot-deps :refer [ancient]])
-; (require '[datawalk.core :as Datawalk])
 (require '[adzerk.boot-jar2bin :refer [bin]])
 
 (task-options!
  repl      {:eval '(set! *print-length* 1000)}
  bare-repl {:eval '(set! *print-length* 1000)})
-
-(deftask client "Start a client repl."
-  []
-  (repl :server false :client true))
 
 (deftask with-io "Add io deps."
   []
@@ -48,14 +44,14 @@
 (deftask with-ffox "Add firefox deps."
   []
   (merge-env! :dependencies '[[etaoin "0.1.8-SNAPSHOT"]])
-  (require '[etaoin.api :as browser]))
+  (require '[etaoin.api :as eta]))
 
 (deftask with-maths "Add maths deps."
   []
   (merge-env! :dependencies '[[org.clojure/math.combinatorics "0.1.4"]
                                      [org.clojure/math.numeric-tower "0.0.4"]])
-  (use 'clojure.math.combinatorics)
-  (use 'clojure.math.numeric-tower))
+  (require '[clojure.math.combinatorics :as mc])
+  (require '[clojure.math.numeric-tower :as mn]))
 
 (deftask with-stats "Add stats deps."
   []
@@ -84,7 +80,7 @@
 (deftask with-draw "Add draw deps."
   []
   (merge-env! :dependencies '[[quil "2.6.0"]])
-  (require '[quil.core :as draw]))
+  (require '[quil.core :as ql]))
 
 ; (deftask with-music "Add music deps."
 ;   []
@@ -96,18 +92,29 @@
   (merge-env! :dependencies '[[ubergraph "0.4.0"]])
   (require '[ubergraph.core :as g]))
 
+; (deftask with-gremlin "Add gremlin deps."
+;   []
+;   (merge-env! :dependencies '[[clojurewerkz/ogre "3.3.0.0"]
+;                               [org.apache.tinkerpop/tinkergraph-gremlin "3.3.0"]])
+;   (import '[org.apache.tinkerpop.gremlin.tinkergraph.structure TinkerGraph TinkerFactory])
+  ; (require '[clojurewerkz.ogre.core :as Grem]))
+
+(deftask with-cassandra "Add cass deps."
+  []
+  (merge-env! :dependencies '[[cc.qbits/alia-all "4.0.3"]])
+  (require '[qbits.alia :as alia]))
+
 (deftask with-datomic-pro "Add datomic pro peer deps."
   []
   (merge-env!
     :repositories [["datomic" {:url "https://my.datomic.com/repo"
                                :username (System/getenv "DATOMIC_REPO_USERNAME")
                                :password (System/getenv "DATOMIC_REPO_PASSWORD")}]]
-    :dependencies '[[org.clojure/java.jdbc "0.6.1"]
-                    [com.datomic/datomic-pro "0.9.5561.62"]
-                    [org.postgresql/postgresql "9.3-1102-jdbc41"]])
+    :dependencies '[[com.datomic/datomic-pro "0.9.5561.62"]
+                    [com.datastax.cassandra/cassandra-driver-core "3.1.0"] ])
   (require '[datomic.api :as d]))
 
-(deftask with-datomic-free "Add datomic free peer deps."
+(deftask with-datomic-free "Add datomic free deps."
   []
   (merge-env! :dependencies '[[com.datomic/datomic-free "0.9.5561.62"]])
   (require '[datomic.api :as d]))
@@ -115,4 +122,4 @@
 (deftask with-datomic-client "Add datomic client deps."
   []
   (merge-env! :dependencies '[[com.datomic/clj-client "0.8.606"]])
-  (require '[datomic.api :as d]))
+  (require '[datomic.client :as d]))
