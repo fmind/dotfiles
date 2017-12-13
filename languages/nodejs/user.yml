@@ -16,3 +16,4 @@
     npm: name="{{item}}" state="present" path="~/.npm/"
     with_items:
       - lumo-cljs
+      - phantomjs

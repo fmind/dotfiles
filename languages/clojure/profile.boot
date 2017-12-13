@@ -1,14 +1,14 @@
 (merge-env! :dependencies '[[medley "1.0.0"]
-                            ; [spyscope "0.1.5"]
-                            [boot-deps "0.1.8"]
-                            ; [datawalk "0.1.4-SNAPSHOT"]
-                            [adzerk/boot-jar2bin "1.1.0"] ])
+                            [datawalk "0.1.12"]
+                            [boot-deps "0.1.9"]
+                            [adzerk/boot-jar2bin "1.1.1"] ])
 
-; (require 'spyscope.core)
-; (boot.core/load-data-readers!)
-(require '[medley.core :refer :all])
+;; other ns
+(require '[medley.core :as m])
+(require '[datawalk.core :as dw])
+
+;; boot tasks
 (require '[boot-deps :refer [ancient]])
-; (require '[datawalk.core :as Datawalk])
 (require '[adzerk.boot-jar2bin :refer [bin]])
 
 (task-options!
@@ -56,11 +56,11 @@
 (deftask with-stats "Add stats deps."
   []
   (merge-env! :dependencies '[[incanter "1.5.7"]])
+  (use '[incanter.core :exclude [trace abs]])
   (require '[incanter.charts :as charts])
   (require '[incanter.bayes :as bayes])
-  (require '[incanter.stats :as stats])
-  (require '[incanter.io :as sio])
-  (use '[incanter.core :exclude [trace abs]]))
+  (require '[incanter.stats :as status])
+  (require '[incanter.io :as sio]))
 
 (deftask with-csv "Add csv deps."
   []
@@ -114,7 +114,7 @@
                     [com.datastax.cassandra/cassandra-driver-core "3.1.0"] ])
   (require '[datomic.api :as d]))
 
-(deftask with-datomic-free "Add datomic free peer deps."
+(deftask with-datomic-free "Add datomic free deps."
   []
   (merge-env! :dependencies '[[com.datomic/datomic-free "0.9.5561.62"]])
   (require '[datomic.api :as d]))
