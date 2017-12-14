@@ -3,4 +3,4 @@
 # name: req-edn
 # key: req-edn
 # --
-(require '[clojure.edn :as Edn])
+(require '[clojure.edn :as edn])

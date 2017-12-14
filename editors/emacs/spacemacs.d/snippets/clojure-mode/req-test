@@ -3,4 +3,4 @@
 # name: req-test
 # key: req-test
 # --
-[clojure.test :refer :all]
+[clojure.test :as t]
