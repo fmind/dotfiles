@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: use-specter
+# key: use-specter
+# --
+(use 'com.rpl.specter)

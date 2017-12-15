@@ -1,6 +1,7 @@
                                         ; CONF
 
 ;; minors
+(golden-ratio-mode)
 (global-company-mode)
 (global-hl-line-mode -1)
 (setq create-lockfiles nil)
@@ -41,6 +42,10 @@
   (when (= (buffer-size (current-buffer)) 0)
     (insert (format "# -*- mode: snippet -*-\n# contributor: fmind\n# name: %s\n# key: %s\n# --\n"
                     (buffer-name) (buffer-name)))))
+
+(defun my-eshell-opener (splitter)
+  "Open a window with splitter and start an eshell."
+  `(lambda () (interactive) (,splitter) (eshell)))
 
 (defun my-emacs-buffer-p (buf-name)
   "Test if a buffer is associated to emacs."
@@ -163,7 +168,20 @@
 (spacemacs/set-leader-keys "-" 'spacemacs/workspaces-transient-state/body)
 
 ;; SHELLS
-(spacemacs/set-leader-keys "\"" 'spacemacs/shell-pop-term)
+(spacemacs/set-leader-keys "aH" (my-eshell-opener 'split-window-right))
+(spacemacs/set-leader-keys "aK" (my-eshell-opener 'split-window-below))
+(spacemacs/set-leader-keys "aL" (my-eshell-opener 'split-window-right-and-focus))
+(spacemacs/set-leader-keys "aJ" (my-eshell-opener 'split-window-below-and-focus))
+(use-package eshell
+    :defer t
+    :init
+  (progn
+    (evil-define-key 'normal eshell-mode-map
+      (kbd "C-n") 'eshell-next-matching-input-from-input
+      (kbd "C-p") 'eshell-previous-matching-input-from-input)
+    (evil-define-key 'hybrid
+      (kbd "C-n") 'eshell-next-matching-input-from-input
+      (kbd "C-p") 'eshell-previous-matching-input-from-input)))
 
 ;; SERVER
 (spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
