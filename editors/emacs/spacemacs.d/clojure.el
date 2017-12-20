@@ -1,3 +1,5 @@
+(require 'cider)
+
                                         ; CONF
 
 (setq cider-save-file-on-load t)
@@ -117,19 +119,16 @@
 
 ;; SPECIAL BUFFERS
 
-(use-package cider
-  :defer t
-  :init
-  (progn
-    ;; stacktrace mode
-    (define-key cider-stacktrace-mode-map "J" 'cider-test-next-result)
-    (define-key cider-stacktrace-mode-map "K" 'cider-test-previous-result)
-    (evilified-state-evilify cider-stacktrace-mode cider-stacktrace-mode-map
-      (kbd "C-k") 'tmux-nav-up
-      (kbd "C-j") 'tmux-nav-down)
-    ;; test report mode
-    (define-key cider-test-report-mode-map "J" 'cider-test-next-result)
-    (define-key cider-test-report-mode-map "K" 'cider-test-previous-result)
-    (evilified-state-evilify cider-test-report-mode cider-test-report-mode-map
-      (kbd "C-k") 'tmux-nav-up
-      (kbd "C-j") 'tmux-nav-down)))
+;; stacktrace mode
+(define-key cider-stacktrace-mode-map "J" 'cider-test-next-result)
+(define-key cider-stacktrace-mode-map "K" 'cider-test-previous-result)
+(evilified-state-evilify cider-stacktrace-mode cider-stacktrace-mode-map
+  (kbd "C-k") 'tmux-nav-up
+  (kbd "C-j") 'tmux-nav-down)
+
+;; test report mode
+(define-key cider-test-report-mode-map "J" 'cider-test-next-result)
+(define-key cider-test-report-mode-map "K" 'cider-test-previous-result)
+(evilified-state-evilify cider-test-report-mode cider-test-report-mode-map
+  (kbd "C-k") 'tmux-nav-up
+  (kbd "C-j") 'tmux-nav-down)
