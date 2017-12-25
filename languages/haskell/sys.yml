@@ -6,23 +6,23 @@
 
   tasks:
 
-  - shell: test -f ~/.local/bin/stack
-    register: local_stack_exists
-    ignore_errors: True
-
   - shell: test -f /usr/local/bin/stack
-    register: root_stack_exists
+    register: root_stack_install
     ignore_errors: True
 
-  - name: Installing stack
-    shell: curl -sSL https://get.haskellstack.org/ | sh
-    when: (root_stack_exists|failed) and (local_stack_exists|failed)
+  - shell: test -f ~/.local/bin/stack
+    register: local_stack_install
+    ignore_errors: True
 
-  - name: Installing dependencies (ubuntu)
+  - name: Installing stack (root install)
+    shell: curl -sSL https://get.haskellstack.org/ | sh
+    when: (root_stack_install|failed) and (local_stack_install|failed)
+
+  - name: Installing stack dependencies (ubuntu)
     apt: pkg="libncurses-dev" state=latest
     when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing dependencies (fedora)
+  
+  - name: Installing stack dependencies (fedora)
     dnf: pkg="ncurses-devel" state=latest
     when: ansible_distribution == 'Fedora'
 

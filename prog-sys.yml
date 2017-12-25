@@ -11,3 +11,4 @@
 - import_playbook: languages/nodejs/sys.yml
 - import_playbook: languages/python/sys.yml
 - import_playbook: languages/nodejs/sys.yml
+- import_playbook: languages/haskell/sys.yml

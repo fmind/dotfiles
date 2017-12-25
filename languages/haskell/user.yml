@@ -9,16 +9,11 @@
   - name: Upgrading stack
     command: "stack upgrade"
 
-  - name: Updating stack
+  - name: Updating stack index
     command: "stack update"
 
-  - name: Setting-up stack
-    command: "stack setup"
-
-  - name: Installing plugins
-    command: "stack install hlint hindent hoogle hasktags stylish-haskell"
-    # intero (automatically install)
-    # apply-refact (dependency warn)
+  - name: Installing stack plugins
+    command: "stack install hlint intero hindent hoogle hasktags stylish-haskell"
 
   - name: Generating hoogle database
     command: "hoogle generate"
