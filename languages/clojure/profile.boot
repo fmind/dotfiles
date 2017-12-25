@@ -15,6 +15,18 @@
  repl      {:eval '(set! *print-length* 1000)}
  bare-repl {:eval '(set! *print-length* 1000)})
 
+(deftask cider "Add cider deps."
+  []
+  (require 'boot.repl)
+  (swap! @(resolve 'boot.repl/*default-dependencies*)
+         concat '[[org.clojure/tools.nrepl "0.2.12"]
+                  [cider/cider-nrepl "0.16.0-SNAPSHOT"]
+                  [refactor-nrepl "2.4.0-SNAPSHOT"]])
+  (swap! @(resolve 'boot.repl/*default-middleware*)
+        concat '[cider.nrepl/cider-middleware
+                 refactor-nrepl.middleware/wrap-refactor])
+  identity)
+
 (deftask with-io "Add io deps."
   []
   (require '[clojure.java.io :as io]))

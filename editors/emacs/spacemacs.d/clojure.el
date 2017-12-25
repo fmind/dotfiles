@@ -1,12 +1,10 @@
                                         ; CONF
 
 (setq cider-save-file-on-load t)
-(setq cider-prompt-for-symbol nil)
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-display-help-banner nil)
 (setq cider-repl-display-in-current-window t)
-(setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
                                         ; FUNS
 
@@ -45,23 +43,23 @@
 
                                         ; HOOK
 
+(defun my-cider-mode-hook ()
+  (define-key cider-repl-mode-map (kbd "C-n") #'cider-repl-forward-input)
+  (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input))
+
+(add-hook 'cider-repl-mode-hook 'my-cider-mode-hook)
+
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (add-hook mode #'aggressive-indent-mode)
   (add-hook mode #'evil-cleverparens-mode))
-
-(defun my-cider-mode-hook ()
-    (define-key cider-repl-mode-map (kbd "C-n") #'cider-repl-forward-input)
-    (define-key cider-repl-mode-map (kbd "C-p") #'cider-repl-backward-input))
-
-(add-hook 'cider-repl-mode-hook 'my-cider-mode-hook)
 
                                         ; KEYS
 
 (dolist (mode '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode cider-repl-mode))
   (spacemacs/set-leader-keys-for-major-mode mode
     "`" 'cider-pop-back
-    "," 'cider-load-buffer
     "!" 'my-cider-connect
+    "," 'cider-load-buffer
     "A" 'clojure-align
     ;; "B"
     "C" 'cider-repl-clear-buffer
