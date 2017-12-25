@@ -3,4 +3,4 @@
 # name: req-str
 # key: req-str
 # --
-[clojure.string :as Str]
+[clojure.string :as str]

@@ -1,7 +1,8 @@
 (merge-env! :dependencies '[[medley "1.0.0"]
                             [datawalk "0.1.12"]
                             [boot-deps "0.1.9"]
-                            [adzerk/boot-jar2bin "1.1.1"] ])
+                            [adzerk/boot-jar2bin "1.1.1"]
+                            [org.clojure/tools.trace "0.7.9"]])
 
 ;; other ns
 (require '[medley.core :as m])

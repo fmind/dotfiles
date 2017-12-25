@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: req-jio
-# key: req-jio
-# --
-[clojure.java.io :as Jio]

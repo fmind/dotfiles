@@ -56,6 +56,7 @@
      ;; (latex :variables
      ;;        latex-enable-folding t
      ;;        latex-enable-auto-fill nil)
+     javascript
      markdown
      (org :variables
           org-enable-reveal-js-support t
@@ -70,6 +71,8 @@
      search-engine
      semantic
      (shell :variables
+            shell-default-height 20
+            shell-default-shell 'eshell
             shell-default-term-shell "/bin/bash")
      shell-scripts
      speed-reading

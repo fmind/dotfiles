@@ -3,4 +3,4 @@
 # name: use-cnt
 # key: use-cnt
 # --
-(require '[clojure.math.combinatorics :as Cnt])
+(require '[clojure.math.combinatorics :as cnt])
