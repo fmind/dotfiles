@@ -216,7 +216,7 @@ alias hx="stack exec"
 alias hr="stack repl"
 alias ht="stack test"
 alias hb="stack build"
-alias hk="stack bench"
+alias hm="stack bench"
 alias hs="stack setup"
 alias hc="stack config"
 alias hk="stack docker"
@@ -224,12 +224,10 @@ alias hu="stack update"
 alias hv="stack upgrade"
 alias hd="stack haddock"
 alias hi="stack install"
-# alias hw="stack test --file-watch"
-# alias hp="stack repl --test --bench"
+alias hl="stack list-dependencies"
+alias hw="stack test --file-watch"
+alias hp="stack repl --test --bench"
 alias hrc="$EDITOR ~/.stack/config.yaml"
-# function ha {
-#   stack build ":$1" && stack exec -- "$@"
-# }
 # shell auto-completion with stack
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
