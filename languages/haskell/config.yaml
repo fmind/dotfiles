@@ -1,0 +1,7 @@
+templates:
+  scm-init: git
+  params:
+    github-username: fmind
+    author-name: Médéric Hurier
+    author-email: fmind@users.noreply.github.com
+    copyright: 'Copyright (c) 2017 Médéric Hurier'
