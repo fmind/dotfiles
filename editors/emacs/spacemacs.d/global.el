@@ -168,20 +168,13 @@
 (spacemacs/set-leader-keys "-" 'spacemacs/workspaces-transient-state/body)
 
 ;; SHELLS
+(spacemacs/set-leader-keys "\"" 'eshell)
+(spacemacs/set-leader-keys "aH" (my-eshell-opener 'split-window-right))
+(spacemacs/set-leader-keys "aK" (my-eshell-opener 'split-window-below))
 (spacemacs/set-leader-keys "aH" (my-eshell-opener 'split-window-right))
 (spacemacs/set-leader-keys "aK" (my-eshell-opener 'split-window-below))
 (spacemacs/set-leader-keys "aL" (my-eshell-opener 'split-window-right-and-focus))
 (spacemacs/set-leader-keys "aJ" (my-eshell-opener 'split-window-below-and-focus))
-(use-package eshell
-    :defer t
-    :init
-  (progn
-    (evil-define-key 'normal eshell-mode-map
-      (kbd "C-n") 'eshell-next-matching-input-from-input
-      (kbd "C-p") 'eshell-previous-matching-input-from-input)
-    (evil-define-key 'hybrid
-      (kbd "C-n") 'eshell-next-matching-input-from-input
-      (kbd "C-p") 'eshell-previous-matching-input-from-input)))
 
 ;; SERVER
 (spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)

@@ -51,7 +51,9 @@
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      deft
      fasd
-     haskell
+     (haskell :variables
+              haskell-completion-backend 'intero
+              haskell-enable-hindent-style "fundamental")
      helm
      html
      ;; (latex :variables

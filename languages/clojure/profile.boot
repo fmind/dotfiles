@@ -1,20 +1,16 @@
-(merge-env! :dependencies '[[medley "1.0.0"]
-                            [datawalk "0.1.12"]
-                            [boot-deps "0.1.9"]
-                            [adzerk/boot-jar2bin "1.1.1"]
-                            [org.clojure/tools.trace "0.7.9"]])
-
-;; other ns
-(require '[medley.core :as m])
-(require '[datawalk.core :as dw])
+(merge-env! :dependencies '[[boot-deps "0.1.9"]])
 
 ;; boot tasks
 (require '[boot-deps :refer [ancient]])
-(require '[adzerk.boot-jar2bin :refer [bin]])
 
 (task-options!
  repl      {:eval '(set! *print-length* 1000)}
  bare-repl {:eval '(set! *print-length* 1000)})
+
+(deftask with-dw "Add datawalk deps"
+  []
+  (merge-env! :dependencies '[[datawalk "0.1.12"]])
+  (require '[datawalk.core :as dw]))
 
 (deftask cider "Add cider deps."
   []

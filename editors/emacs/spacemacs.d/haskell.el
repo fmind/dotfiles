@@ -1,33 +1,36 @@
+(require 'intero)
+
                                         ; KEYBINDINGS
 
 (spacemacs/set-leader-keys-for-major-mode 'haskell-mode
-  "-" 'haskell-mode-jump-to-filename-in-string
+  "-" 'hindent-reformat-decl
   "=" 'haskell-mode-stylish-buffer
-  "\"" 'haskell-intero/display-repl
   "'" 'haskell-intero/pop-to-repl
+  "\"" 'haskell-intero/display-repl
   "," 'intero-repl-load
-  "A" 'haskell-process-cabal
-  "B" 'haskell-process-cabal-build
-  "C" 'intero-repl-clear-buffer
-  ;; "D"
+  "\\" 'helm-hoogle
+  ;; "A"
+  "B" 'intero-list-buffers
+  ;; "C"
+  "D" 'intero-devel-reload
   ;; "E"
   ;; "F" RESERVED -- stylish
   ;; "G"
   ;; "H"
   ;; "I"
   ;; "J"
-  "K" 'intero-destroy
-  "L" 'intero-list-buffers
+  ;; "K"
+  ;; "L"
   ;; "M"
   ;; "N"
   ;; "O"
   ;; "P"
-  ;; "Q"
+  "Q" 'intero-destroy
   "R" 'intero-restart
   ;; "S"
   ;; "T"
   ;; "U"
-  "V" 'haskell-cabal-visit-file
+  ;; "V"
   ;; "W"
   ;; "X"
   ;; "Y"
@@ -43,22 +46,21 @@
   ;; "i" RESERVED -- intero
   "j" 'intero-goto-definition
   "k" 'hoogle
-  "l" 'hlint-refactor-refactor-at-point
+  "l" 'intero-targets
   "m" 'intero-expand-splice-at-point
   "n" 'haskell-navigate-imports
   "o" 'intero-info
-  "p" 'helm-hoogle
-  "q" 'intero-targets
+  "p" 'hlint-refactor-refactor-at-point
+  ;; "q"
   ;; "r" RESERVED -- refactor
   ;; "s" RESERVED -- repl
   "t" 'intero-type-at
   "u" 'intero-uses-at
   "v" 'haskell-intero/insert-type
   "w" 'intero-cd
-  "x" 'haskell-compile
+  "x" 'intero-repl-clear-buffer
   "y" 'hayoo
-  "z" 'intero-devel-reload
-  )
+  "z" 'haskell-cabal-visit-file)
 
-(spacemacs/set-leader-keys-for-major-mode 'haskell-interactive-mode
-  "," 'haskell-interactive-switch-back)
+(define-key intero-repl-mode-map (kbd "C-k") 'tmux-nav-up)
+(define-key intero-repl-mode-map (kbd "C-j") 'tmux-nav-down)
