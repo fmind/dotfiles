@@ -26,4 +26,5 @@
         - transmission
         - dconf-editor
         - gnome-tweak-tool
+        - gnome-shell-extension-pomodoro
     when: ansible_distribution == 'Fedora'
