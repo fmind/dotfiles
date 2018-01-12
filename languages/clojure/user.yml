@@ -21,8 +21,8 @@
   - name: Installing clojure language (boot)
     get_url: url="https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh" dest="~/bin/boot" mode=0750
 
-  # - name: Deploying lein configuration file
-  #   file: src="{{playbook_dir}}/profiles.clj" dest="~/.lein/profiles.clj" state=link force=yes
+  - name: Deploying lein configuration file
+    file: src="{{playbook_dir}}/profiles.clj" dest="~/.lein/profiles.clj" state=link force=yes
 
   - name: Deploying profile file (boot)
     file: src="{{playbook_dir}}/profile.boot" dest="~/.boot/profile.boot" state=link force=yes
