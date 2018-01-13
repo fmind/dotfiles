@@ -4,10 +4,6 @@
   (interactive)
   (switch-to-buffer "*Python*"))
 
-(defun my-python-swith-to-report ()
-  (interactive)
-  (switch-to-buffer "*pytest*"))
-
 (defun my-python-kill-yapify-buffers ()
   (interactive)
   (flet ((kill-buffer-ask (buffer) (kill-buffer buffer)))
