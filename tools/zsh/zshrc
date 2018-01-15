@@ -29,7 +29,6 @@ plugins=(
     git-extras
     httpie
     jsontools
-    lein
     pyenv
     python
     systemd
