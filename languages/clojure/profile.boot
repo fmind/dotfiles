@@ -1,6 +1,5 @@
 (merge-env! :dependencies '[[boot-deps "0.1.9"]])
 
-;; boot tasks
 (require '[boot-deps :refer [ancient]])
 
 (task-options!
@@ -91,27 +90,15 @@
   (merge-env! :dependencies '[[quil "2.6.0"]])
   (require '[quil.core :as ql]))
 
-; (deftask with-music "Add music deps."
-;   []
-;   (merge-env! :dependencies '[[overtone "0.10.3"]])
-;   #_(use 'overtone.core))
-
 (deftask with-graph "Add graph deps."
   []
   (merge-env! :dependencies '[[ubergraph "0.4.0"]])
   (require '[ubergraph.core :as g]))
 
-; (deftask with-gremlin "Add gremlin deps."
-;   []
-;   (merge-env! :dependencies '[[clojurewerkz/ogre "3.3.0.0"]
-;                               [org.apache.tinkerpop/tinkergraph-gremlin "3.3.0"]])
-;   (import '[org.apache.tinkerpop.gremlin.tinkergraph.structure TinkerGraph TinkerFactory])
-  ; (require '[clojurewerkz.ogre.core :as Grem]))
-
-(deftask with-cassandra "Add cass deps."
+(deftask with-datomic-free "Add datomic free deps."
   []
-  (merge-env! :dependencies '[[cc.qbits/alia-all "4.0.3"]])
-  (require '[qbits.alia :as alia]))
+  (merge-env! :dependencies '[[com.datomic/datomic-free "0.9.5561.62"]])
+  (require '[datomic.api :as d]))
 
 (deftask with-datomic-pro "Add datomic pro peer deps."
   []
@@ -120,15 +107,5 @@
                                :username (System/getenv "DATOMIC_REPO_USERNAME")
                                :password (System/getenv "DATOMIC_REPO_PASSWORD")}]]
     :dependencies '[[com.datomic/datomic-pro "0.9.5561.62"]
-                    [com.datastax.cassandra/cassandra-driver-core "3.1.0"] ])
+                    [org.postgresql/postgresql "9.3-1102-jdbc41"]])
   (require '[datomic.api :as d]))
-
-(deftask with-datomic-free "Add datomic free deps."
-  []
-  (merge-env! :dependencies '[[com.datomic/datomic-free "0.9.5561.62"]])
-  (require '[datomic.api :as d]))
-
-(deftask with-datomic-client "Add datomic client deps."
-  []
-  (merge-env! :dependencies '[[com.datomic/clj-client "0.8.606"]])
-  (require '[datomic.client :as d]))
