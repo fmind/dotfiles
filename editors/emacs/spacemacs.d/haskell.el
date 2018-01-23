@@ -8,7 +8,7 @@
   "'" 'haskell-intero/pop-to-repl
   "\"" 'haskell-intero/display-repl
   "," 'intero-repl-load
-  "\/" 'helm-hoogle
+  "/" 'helm-hoogle
   ;; "A"
   "B" 'intero-list-buffers
   ;; "C"

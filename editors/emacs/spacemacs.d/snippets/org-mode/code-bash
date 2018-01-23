@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: code-bash
+# key: code-bash
+# --
+#+BEGIN_SRC bash
+$0
+#+END_SRC`
