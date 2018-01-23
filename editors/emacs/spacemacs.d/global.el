@@ -6,6 +6,7 @@
 (global-hl-line-mode -1)
 (setq create-lockfiles nil)
 (ranger-override-dired-mode t)
+(spacemacs/toggle-highlight-current-line-globally-on)
 
 ;; scrolling
 (setq scroll-margin 10)

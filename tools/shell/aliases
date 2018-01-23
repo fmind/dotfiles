@@ -5,6 +5,7 @@ alias ps="ps aux"
 alias wget="wget -c"
 alias free="free -mt"
 alias mkdir="mkdir -pv"
+alias parallel="parallel --will-cite"
 
 # EDITION
 alias ca="cat"
@@ -100,7 +101,8 @@ alias texview="latexmk -pv"
 alias texlive="latexmk -pvc"
 alias texclean="latexmk -c"
 alias texpurge="latexmk -C"
-alias imgwhite="convert -flatten "
+alias imgsize="mogrify -resize "
+alias imgwhite="mogrify -flatten "
 
 # # SEARCHING
 alias ka='fasd -al'

@@ -13,6 +13,7 @@
 - import_playbook: tools/imagemagick/sys.yml
 - import_playbook: tools/jq/sys.yml
 - import_playbook: tools/ncdu/sys.yml
+- import_playbook: tools/parallel/sys.yml
 - import_playbook: tools/pigz/sys.yml
 - import_playbook: tools/pv/sys.yml
 - import_playbook: tools/rlwrap/sys.yml
