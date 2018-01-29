@@ -6,6 +6,8 @@ alias wget="wget -c"
 alias free="free -mt"
 alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
+alias cd="echo 'use c instead' >&2; \cd"
+alias ls="echo 'use l instead' >&2; \ls"
 
 # EDITION
 alias ca="cat"
@@ -21,16 +23,15 @@ alias vis="sudo $EDITOR"
 alias e="emacsclient -a='' -qc"
 
 # NAVIGATION
-alias ls="ls --color=auto"
-alias l="ls"
-alias ll="ls -lFh"
-alias la="ls -lAFh"
-alias lr="ls -lRFh"
-alias lt="ls -ltFh"
-alias lh="ls -ld .*"
-alias cb="cd $OLDPWD"
+alias l="\ls --color=auto -CF"
+alias ll="l -lFh"
+alias la="l -lAFh"
+alias lr="l -lRFh"
+alias lt="l -ltFh"
+alias lh="l -ld .*"
+alias cb="\cd $OLDPWD"
 function c {
-  cd "$@" && ls
+  \cd "$@" && l
 }
 
 # INTEGRATION
