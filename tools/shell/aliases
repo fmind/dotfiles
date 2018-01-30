@@ -6,8 +6,6 @@ alias wget="wget -c"
 alias free="free -mt"
 alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
-alias cd="echo 'use c instead' >&2; \cd"
-alias ls="echo 'use l instead' >&2; \ls"
 
 # EDITION
 alias ca="cat"
@@ -23,15 +21,15 @@ alias vis="sudo $EDITOR"
 alias e="emacsclient -a='' -qc"
 
 # NAVIGATION
-alias l="\ls --color=auto -CF"
+alias l="ls --color=auto -CF"
 alias ll="l -lFh"
 alias la="l -lAFh"
 alias lr="l -lRFh"
 alias lt="l -ltFh"
 alias lh="l -ld .*"
-alias cb="\cd $OLDPWD"
+alias cb="cd $OLDPWD"
 function c {
-  \cd "$@" && l
+  cd "$@" && l
 }
 
 # INTEGRATION
@@ -193,9 +191,10 @@ alias jaj="java -jar"
 # alias grop="groovy -p"
 # alias gros="groovysh"
 # alias grod="groovydoc"
+## Racket
+alias rkclj="racket -I rackjure"
+alias rkrc="$EDITOR ~/.racketrc"
 ## Clojure
-alias cl="boot"
-alias cl="boot repl"
 alias clrc="$EDITOR ~/.lein/profiles.clj"
 alias clrb="$EDITOR ~/.boot/profile.boot"
 alias clrp="$EDITOR ~/.boot/boot.properties"

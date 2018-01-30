@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+  - name: Deploying racket configuration file
+    file: src="{{playbook_dir}}/racketrc" dest="~/.racketrc" state=link force=yes
+
+  - name: Installing racket dependencies
+    shell: raco pkg install --skip-installed --auto rackjure scripty
