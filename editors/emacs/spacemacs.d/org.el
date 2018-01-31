@@ -9,14 +9,7 @@
 
 (add-hook 'org-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
 
-                                        ; FUNS
-
-(defun my-org-html-export-body ()
-  (interactive)
-  (org-html-export-to-html nil nil nil t nil)
-  (message (concat "Exporting buffer to " (buffer-name) " (html)")))
-
                                         ; KEYS
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
-  "w" 'my-org-html-export-body)
+  "r" 'org-reveal-export-to-html)
