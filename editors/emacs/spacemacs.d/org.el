@@ -5,6 +5,10 @@
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 
+                                        ; HOOK
+
+(add-hook 'org-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
+
                                         ; FUNS
 
 (defun my-org-html-export-body ()
