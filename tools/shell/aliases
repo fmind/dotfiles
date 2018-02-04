@@ -192,6 +192,8 @@ alias jaj="java -jar"
 # alias gros="groovysh"
 # alias grod="groovydoc"
 ## Racket
+alias rc="raco"
+alias rk="racket"
 alias rkclj="racket -I rackjure"
 alias rkrc="$EDITOR ~/.racketrc"
 ## Clojure

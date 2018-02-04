@@ -9,8 +9,9 @@
   - name: Installing python3 librairies
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
-      # shell
+      # lang
       - hy
+      # shell
       - jupyter
       - ptpython
       # data
@@ -53,6 +54,12 @@
 
   - name: Creating ~/.ptpython directory
     file: path="~/.ptpython" state=directory
+
+  - name: Cloning Hy Kernel for Jupyter
+    pip: name="git+https://github.com/Calysto/calysto_hy.git" executable="pip3" extra_args="--user" state=latest
+
+  - name: Installing Hy Kernel for Jupyter
+    shell: python3 -m calysto_hy install --user
 
   - name: Deploying pip configuration file
     file: src="{{playbook_dir}}/pypirc" dest="~/.pypirc" state=link force=yes
