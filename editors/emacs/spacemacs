@@ -358,6 +358,7 @@ values."
 
   ;; programming
   (my-config-load "elisp.el")
+  (my-config-load "elixir.el")
   (my-config-load "python.el")
   (my-config-load "clojure.el")
   )
