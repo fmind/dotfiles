@@ -13,6 +13,7 @@ abbreviations:
     hp: https://github.com/fmind/haskell-project-template.git
     hs: https://github.com/fmind/haskell-script-template.git
     mk: https://github.com/fmind/make-template.git
+    la: https://github.com/fmind/latex-article-template.git
     pa: https://github.com/fmind/python-analysis-template.git
     pp: https://github.com/fmind/python-project-template.git
     ps: https://github.com/fmind/python-script-template.git
