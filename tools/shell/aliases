@@ -103,7 +103,7 @@ alias texpurge="latexmk -C"
 alias imgsize="mogrify -resize "
 alias imgwhite="mogrify -flatten "
 
-# # SEARCHING
+# SEARCHING
 alias ka='fasd -al'
 alias kf='fasd -fl'
 alias kd='fasd -dl' 
