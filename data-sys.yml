@@ -5,5 +5,4 @@
 
 - import_playbook: tools/conda/sys.yml
 - import_playbook: tools/graphviz/sys.yml
-- import_playbook: languages/rlang/sys.yml
 - import_playbook: languages/julia/sys.yml
