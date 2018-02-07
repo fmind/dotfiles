@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: datom
+# key: datom
+# --
+{:db/ident $1
+ :db/valueType :db.type/$2
+ :db/cardinality :db.cardinality/$3
+ :db/doc $4}

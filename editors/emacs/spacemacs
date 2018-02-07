@@ -38,7 +38,7 @@
                       ;; keys
                       auto-completion-tab-key-behavior 'cycle
                       auto-completion-return-key-behavior 'complete
-                      ;; snippet
+                      ;; snippets
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
      bibtex
@@ -52,9 +52,9 @@
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      deft
      fasd
-     (haskell :variables
-               haskell-completion-backend 'intero
-               haskell-enable-hindent-style "fundamental")
+     ;; (haskell :variables
+     ;;           haskell-completion-backend 'intero
+     ;;           haskell-enable-hindent-style "fundamental")
      helm
      html
      (latex :variables
@@ -65,14 +65,13 @@
      (org :variables
           org-enable-github-support t
           org-enable-reveal-js-support t
-          org-projectile-file "todo.org")
+          org-projectile-file "TODO.org")
      plantuml
      (python :variables
              python-fill-column 120
              python-test-runner 'pytest
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
-     racket
      ranger
      search-engine
      semantic
@@ -81,7 +80,6 @@
             shell-default-shell 'eshell
             shell-default-term-shell "/bin/bash")
      shell-scripts
-     speed-reading
      (spell-checking :variables
                      spell-checking-enable-auto-dictionary t)
      syntax-checking
@@ -361,7 +359,6 @@ values."
   ;; programming
   (my-config-load "elisp.el")
   (my-config-load "python.el")
-  (my-config-load "racket.el")
   (my-config-load "clojure.el")
   )
 

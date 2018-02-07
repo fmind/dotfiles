@@ -8,6 +8,11 @@
 (ranger-override-dired-mode t)
 (spacemacs/toggle-highlight-current-line-globally-on)
 
+;; ranger
+(setq ranger-show-hidden t)
+(setq ranger-cleanup-eagerly t)
+(setq ranger-cleanup-on-disable t)
+
 ;; scrolling
 (setq scroll-margin 10)
 (setq scroll-conservatively 10)
