@@ -77,7 +77,8 @@
      semantic
      (shell :variables
             shell-default-height 20
-            shell-default-shell 'eshell
+            shell-default-position 'bottom
+            shell-default-shell 'ansi-term
             shell-default-term-shell "/bin/bash")
      shell-scripts
      (spell-checking :variables

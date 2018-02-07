@@ -49,10 +49,6 @@
     (insert (format "# -*- mode: snippet -*-\n# contributor: fmind\n# name: %s\n# key: %s\n# --\n"
                     (buffer-name) (buffer-name)))))
 
-(defun my-eshell-opener (splitter)
-  "Open a window with splitter and start an eshell."
-  `(lambda () (interactive) (,splitter) (eshell)))
-
 (defun my-emacs-buffer-p (buf-name)
   "Test if a buffer is associated to emacs."
   (and (string-prefix-p "*" buf-name)
@@ -172,15 +168,6 @@
 (spacemacs/set-leader-keys "o6" 'eyebrowse-switch-to-window-config-6)
 (spacemacs/set-leader-keys "=" 'spacemacs/layouts-transient-state/body)
 (spacemacs/set-leader-keys "-" 'spacemacs/workspaces-transient-state/body)
-
-;; SHELLS
-(spacemacs/set-leader-keys "\"" 'eshell)
-(spacemacs/set-leader-keys "aH" (my-eshell-opener 'split-window-right))
-(spacemacs/set-leader-keys "aK" (my-eshell-opener 'split-window-below))
-(spacemacs/set-leader-keys "aH" (my-eshell-opener 'split-window-right))
-(spacemacs/set-leader-keys "aK" (my-eshell-opener 'split-window-below))
-(spacemacs/set-leader-keys "aL" (my-eshell-opener 'split-window-right-and-focus))
-(spacemacs/set-leader-keys "aJ" (my-eshell-opener 'split-window-below-and-focus))
 
 ;; SERVER
 (spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)

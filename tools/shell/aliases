@@ -222,10 +222,6 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 # alias hl="stack list-dependencies"
 # alias hp="stack repl --test --bench"
 # alias hrc="$EDITOR ~/.stack/config.yaml"
-# shell auto-completion with stack
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
-eval "$(stack --bash-completion-script stack)"
 ## Go
 # alias mygo="cd $GOREPO"
 ## Nim
