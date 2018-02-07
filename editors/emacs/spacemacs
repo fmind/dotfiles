@@ -46,6 +46,7 @@
      (clojure :variables
               cider-test-show-report t
               cider-repl-clear-help-banner nil)
+     elixir
      emacs-lisp
      evil-commentary
      (evil-snipe :variables

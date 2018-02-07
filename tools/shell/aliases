@@ -18,7 +18,7 @@ alias vig="$EDITOR -g"
 alias vip="$EDITOR -p"
 alias vir="$EDITOR -R"
 alias vis="sudo $EDITOR"
-alias e="emacsclient -a='' -qc"
+alias e="emacs-nox"
 
 # NAVIGATION
 alias l="ls --color=auto -CF"
