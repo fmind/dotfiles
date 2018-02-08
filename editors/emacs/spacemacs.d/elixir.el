@@ -24,7 +24,7 @@
 
                                         ; KEYS
 
-(spacemacs/set-leader-keys-for-major-mode 'elixir-mode
+;; (spacemacs/set-leader-keys-for-major-mode 'elixir-mode
 ;;   ;; tests
 ;;   "to" 'alchemist-test-toggle-test-report-display
   ;; help
@@ -52,4 +52,4 @@
 ;;   "L" 'alchemist-iex-send-current-line-and-go
 ;;   "r" 'alchemist-iex-send-region
 ;;   "R" 'alchemist-iex-send-region-and-go
-  )
+  ;; )

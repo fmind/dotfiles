@@ -18,6 +18,9 @@ alias vig="$EDITOR -g"
 alias vip="$EDITOR -p"
 alias vir="$EDITOR -R"
 alias vis="sudo $EDITOR"
+alias emacs-gui="\emacs"
+alias emacs="emacs-nox"
+alias egui="emacs-gui"
 alias e="emacs-nox"
 
 # NAVIGATION

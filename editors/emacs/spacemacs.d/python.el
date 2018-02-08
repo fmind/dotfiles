@@ -6,7 +6,7 @@
 
 (defun my-python-kill-yapify-buffers ()
   (interactive)
-  (flet ((kill-buffer-ask (buffer) (kill-buffer buffer)))
+  (cf-flet ((kill-buffer-ask (buffer) (kill-buffer buffer)))
     (kill-matching-buffers  ".*\*yapfify\*.*")))
 
 (defun my-python-start-repl-with-venv ()

@@ -13,6 +13,7 @@ abbreviations:
     gs: https://github.com/fmind/go-script-template.git
     hp: https://github.com/fmind/haskell-project-template.git
     hs: https://github.com/fmind/haskell-script-template.git
+    js: https://github.com/fmind/julia-script-template.git
     la: https://github.com/fmind/latex-article-template.git
     mk: https://github.com/fmind/make-template.git
     pa: https://github.com/fmind/python-analysis-template.git
