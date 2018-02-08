@@ -240,6 +240,9 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 # alias no="nim --compileOnly -w:on"
 ## Elixir
 export ERL_AFLAGS="-kernel shell_history enabled"
+## Julia
+alias jl="julia"
+alias jlp="julia -p auto"
 ## Pip
 alias pp="pip"
 alias ppl="pip list"
