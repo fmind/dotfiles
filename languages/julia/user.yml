@@ -11,6 +11,7 @@
 
 
   - name: Installing julia packages
-    shell: julia -e 'Pkg.add("{{item}}")'
+    shell: julia -e 'if Pkg.installed("{{item}}") == nothing Pkg.add("{{item}}") end'
     with_items:
       - IJulia
+      - PkgDev
