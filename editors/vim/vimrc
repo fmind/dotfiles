@@ -296,10 +296,10 @@ nnoremap <expr> N  'nN'[v:searchforward]
  "}}}
 """ BASIC ACTIONS {{{
 nnoremap <leader>? :help 
-nnoremap <leader>j :join<CR>
-vnoremap <leader>j :join<CR>
 vnoremap <leader>s :sort<CR>
 nnoremap <leader>m :make<CR>
+nnoremap <leader>oj :join<CR>
+vnoremap <leader>oj :join<CR>
 "}}}
 """ INTERNAL ACTIONS {{{
 nnoremap <leader>MR :source $MYVIMRC<CR>
@@ -316,8 +316,6 @@ nnoremap <leader>1 :r!
 nnoremap <leader>+ ggVGgq
 """""" format current paragrah
 nnoremap <leader>= gqap
-""""""" highlight last inserted text
-nnoremap <leader>o `[v`]
 """"""" switch between the last two files
 nnoremap <leader>k <c-^>
 """"""" get answer from the internet

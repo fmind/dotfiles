@@ -8,6 +8,8 @@
 (setq cider-repl-display-help-banner nil)
 (setq cider-repl-display-in-current-window t)
 
+(setq clojure-docstring-fill-prefix-width 0)
+
                                         ; FUNS
 
 (defun my-cider-connect ()
