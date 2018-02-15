@@ -30,3 +30,9 @@
   - name: Deploying configuration file (boot)
     file: src="{{playbook_dir}}/boot.properties" dest="~/.boot/boot.properties" state=link force=yes
 
+  - name: Deploying clojarvis repository (jupyter)
+    git: repo="https://github.com/clojupyter/clojupyter" dest="~/.clojupyter" depth=1
+
+  - name: Installing clojarvis plugin to notebook (jupyter)
+    shell: cd ~/.clojupyter; make; make install
+

@@ -6,9 +6,8 @@
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-display-help-banner nil)
-(setq cider-repl-display-in-current-window t)
-
 (setq clojure-docstring-fill-prefix-width 0)
+(setq cider-repl-display-in-current-window t)
 
                                         ; FUNS
 
@@ -81,7 +80,7 @@
     "O" 'cljr-hotload-dependency
     "P" 'spacemacs/cider-toggle-repl-pretty-printing
     "Q" 'cider-quit
-    ;; "R"
+    "R" 'cider-restart
     "S" 'cider-switch-to-repl-buffer
     ;; "T" RESERVED
     "U" 'cider-auto-test-mode
