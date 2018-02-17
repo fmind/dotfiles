@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: Installing golang tools
+  - name: Installing golang packages
     command: "go get -u {{item}}"
     with_items:
       - "github.com/motemen/gore"

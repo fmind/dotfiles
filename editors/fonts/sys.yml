@@ -13,17 +13,3 @@
   - name: Installing inconsolata font (fedora)
     dnf: pkg="levien-inconsolata-fonts" state="latest"
     when: ansible_distribution == 'Fedora'
-
-  - name: Disabling bitmap fonts blocker (ubuntu)
-    file: path="/etc/fonts/conf.d/70-no-bitmaps.conf" state="absent"
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Enabling bitmap fonts (ubuntu)
-    file: src="/etc/fonts/conf.avail/70-force-bitmaps.conf" dest="/etc/fonts/conf.d/70-force-bitmaps.conf" state="link"
-    when: ansible_distribution == 'Ubuntu'
-    notify:
-    - reconfigure fontconfig
-
-  handlers: 
-    - name: reconfigure fontconfig
-      command: dpkg-reconfigure fontconfig 
