@@ -27,5 +27,7 @@
   - name: Installing stack dependencies (fedora)
     dnf: pkg="{{item}}" state=latest
     when: ansible_distribution == 'Fedora'
+    with_items:
+      - zlib-devel
       - ncurses-devel
 

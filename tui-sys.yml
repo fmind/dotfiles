@@ -16,6 +16,7 @@
 - import_playbook: tools/parallel/sys.yml
 - import_playbook: tools/pigz/sys.yml
 - import_playbook: tools/pv/sys.yml
+- import_playbook: tools/ranger/sys.yml
 - import_playbook: tools/rlwrap/sys.yml
 - import_playbook: tools/zsh/sys.yml
 # - import_playbook: editors/vim/sys.yml
