@@ -7,7 +7,7 @@
   tasks:
 
   - name: Installing deja-dup application (ubuntu)
-    apt: pkg="deja-dup" state=latest
+    apt: pkg="deja-dup-nautilus" state=latest
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing deja-dup application (fedora)
