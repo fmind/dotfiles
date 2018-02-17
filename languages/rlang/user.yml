@@ -9,8 +9,8 @@
   - name: Creating ~/.R directory
     file: path="~/.R" state=directory
 
-  - name: Deploying R profile file
+  - name: Deploying rlang profile file
     file: src="{{playbook_dir}}/Rprofile" dest="~/.Rprofile" state=link force=yes
 
-  - name: Installing additional R packages
+  - name: Installing additional rlang packages
     shell: R -e 'install.packages(c("ggplot2", "ggthemes"))'

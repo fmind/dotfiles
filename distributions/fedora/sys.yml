@@ -10,29 +10,35 @@
     command: "rpm -E %fedora"
     register: fedora_version
 
-  - name: Setting SELinux to permissive mode (fedora)
+  - name: Setting selinux to permissive mode (fedora)
     replace: path="/etc/selinux/config" regexp='^SELINUX=.*' replace='SELINUX=permissive'
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing SELinux python binding (fedora)
+  - name: Installing selinux python binding (fedora)
     dnf: pkg="libselinux-python" state=latest
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing RPM Fusion repository (fedora)
+  - name: Installing rpm Fusion repository (fedora)
     dnf: name="{{item}}" state='present' disable_gpg_check=true
     with_items:
       - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{fedora_version.stdout}}.noarch.rpm
       - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{fedora_version.stdout}}.noarch.rpm
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing adobe repository (fedora)
-    dnf: name="http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm" state='present' disable_gpg_check=true
-    when: ansible_distribution == 'Fedora'
+  # - name: Installing adobe repository (fedora)
+  #   shell: rpm -ivh http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
+  #   when: ansible_distribution == 'Fedora'
+  #   ignore_errors: yes
+
+  # - name: Importing adobe certificate (fedora)
+  #   shell: rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+  #   when: ansible_distribution == 'Fedora'
 
   - name: Installing media codecs (fedora)
     dnf: pkg="{{item}}" state=latest
     with_items:
-      - flash-plugin
+      - vlc
+      # - flash-plugin
       - gstreamer-ffmpeg
       - gstreamer-plugins-bad
       - gstreamer-plugins-bad-free-extras

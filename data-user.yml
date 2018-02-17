@@ -3,4 +3,4 @@
 - hosts: localhost
   connection: local
 
-- import_playbook: languages/julia/user.yml
+- import_playbook: languages/python/user.yml

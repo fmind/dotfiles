@@ -19,10 +19,13 @@
     when: (root_stack_install|failed) and (local_stack_install|failed)
 
   - name: Installing stack dependencies (ubuntu)
-    apt: pkg="libncurses-dev" state=latest
+    apt: pkg="{{item}}" state=latest
     when: ansible_distribution == 'Ubuntu'
+    with_items:
+      - libncurses-dev
   
   - name: Installing stack dependencies (fedora)
-    dnf: pkg="ncurses-devel" state=latest
+    dnf: pkg="{{item}}" state=latest
     when: ansible_distribution == 'Fedora'
+      - ncurses-devel
 

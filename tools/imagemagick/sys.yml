@@ -10,6 +10,6 @@
   #   apt: pkg="jq" state=latest
   #   when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ImageMagick tool (fedora)
+  - name: Installing imagemagick tool (fedora)
     dnf: pkg="ImageMagick" state=latest
     when: ansible_distribution == 'Fedora'

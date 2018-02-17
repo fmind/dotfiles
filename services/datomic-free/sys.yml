@@ -10,32 +10,32 @@
 
   tasks:
 
-  - name: Ensure Datomic user exists; "{{group}}"
+  - name: Creating datomic user; "{{group}}"
     user: name="{{user}}" state="present"
 
-  - name: Ensure Datomic group exists; "{{group}}"
+  - name: Creating datomic group; "{{group}}"
     group: name="{{group}}" state="present"
 
-  - name: Ensure etc directory exists; "{{etc_dir}}"
+  - name: Creating etc directory; "{{etc_dir}}"
     file: path="{{etc_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Ensure log directory exists; "{{log_dir}}"
+  - name: Creating log directory; "{{log_dir}}"
     file: path="{{log_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Ensure run directory exists; "{{run_dir}}"
+  - name: Creating run directory; "{{run_dir}}"
     file: path="{{run_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Ensure data directory exists; "{{data_dir}}"
+  - name: Creating data directory; "{{data_dir}}"
     file: path="{{data_dir}}" state=directory owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Download Datomic free archive; "{{install_dir}}"
+  - name: Downloading Datomic free archive; "{{install_dir}}"
     unarchive: src="{{download_url}}" dest="{{opt_dir}}" copy="no" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Link install with datomic dir; "{{datomic_dir}}"
+  - name: Linking install with datomic dir; "{{datomic_dir}}"
     file: src="{{install_dir}}" dest="{{datomic_dir}}" state="link" force="yes"
 
-  - name: Deploy conf file from template; "{{config_file}}"
+  - name: Deploying conf file from template; "{{config_file}}"
     template: src="transactor.properties" dest="{{config_file}}" owner="{{user}}" group="{{group}}" mode="{{file_mode}}"
 
-  - name: Deploy service file from template; "{{service_file}}"
+  - name: Deploying service file from template; "{{service_file}}"
     template: src="datomic.service" dest="{{service_file}}" owner="{{user}}" group="{{group}}" mode="{{file_mode}}"

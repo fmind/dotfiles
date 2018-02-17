@@ -6,6 +6,6 @@
 
   tasks:
 
-  - name: Installing Hadoop service (fedora)
+  - name: Installing hadoop service (fedora)
     dnf: pkg="hadoop-mapreduce" state=latest
     when: ansible_distribution == 'Fedora'

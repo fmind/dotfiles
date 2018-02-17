@@ -6,7 +6,6 @@
 - import_playbook: tools/xsel/sys.yml
 - import_playbook: editors/vim-gtk/sys.yml
 - import_playbook: editors/emacs-gtk/sys.yml
-- import_playbook: applications/tlp/sys.yml
 - import_playbook: applications/anki/sys.yml
 - import_playbook: applications/gnome/sys.yml
 - import_playbook: applications/insync/sys.yml

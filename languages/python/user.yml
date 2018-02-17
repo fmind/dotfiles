@@ -9,8 +9,6 @@
   - name: Installing python3 librairies
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
-      # lang
-      - hy
       # shell
       - jupyter
       - ptpython
@@ -49,17 +47,8 @@
   - name: Creating ~/.config/yapf directory
     file: path="~/.config/yapf" state=directory
 
-  # - name: Creating ~/.config/bpython directory
-  #   file: path="~/.config/bpython" state=directory
-
   - name: Creating ~/.ptpython directory
     file: path="~/.ptpython" state=directory
-
-  - name: Cloning Hy Kernel for Jupyter
-    pip: name="git+https://github.com/Calysto/calysto_hy.git" executable="pip3" extra_args="--user" state=latest
-
-  - name: Installing Hy Kernel for Jupyter
-    shell: python3 -m calysto_hy install --user
 
   - name: Deploying pip configuration file
     file: src="{{playbook_dir}}/pypirc" dest="~/.pypirc" state=link force=yes
@@ -69,9 +58,6 @@
 
   - name: Deploying flake8 configuration file
     file: src="{{playbook_dir}}/flake8" dest="~/.config/flake8" state=link force=yes
-
-  # - name: Deploying bpython configuration file
-  #   file: src="{{playbook_dir}}/bpython" dest="~/.config/bpython/config" state=link force=yes
 
   - name: Deploying ptpython configuration file
     file: src="{{playbook_dir}}/ptpython.py" dest="~/.ptpython/config.py" state=link force=yes

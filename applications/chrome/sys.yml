@@ -19,7 +19,7 @@
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing chrome application (ubuntu)
-    apt: pkg="google-chrome-stable" state=latest
+    apt: pkg="google-chrome-stable" state=latest force=yes
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing chrome application (fedora)

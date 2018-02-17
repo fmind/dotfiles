@@ -6,10 +6,10 @@
 
   tasks:
 
-  - name: Installing R language (ubuntu)
+  - name: Installing rlang language (ubuntu)
     apt: pkg="r-base" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing R language (fedora)
+  - name: Installing rlang language (fedora)
     dnf: pkg="R-core" state=latest
     when: ansible_distribution == 'Fedora'

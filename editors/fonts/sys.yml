@@ -6,11 +6,11 @@
 
   tasks:
 
-  - name: Installing Inconsolata font (ubuntu)
+  - name: Installing inconsolata font (ubuntu)
     apt: pkg="fonts-inconsolata" state="latest"
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing Inconsolata font (fedora)
+  - name: Installing inconsolata font (fedora)
     dnf: pkg="levien-inconsolata-fonts" state="latest"
     when: ansible_distribution == 'Fedora'
 

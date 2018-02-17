@@ -6,18 +6,16 @@
 
   tasks:
 
-  - name: Installing Gnome applications (ubuntu)
+  - name: Installing gnome applications (ubuntu)
     apt: pkg="{{item}}" state=latest
     with_items:
         - vlc
         - gimp
-        - simple-scan
         - transmission
         - gnome-tweak-tool
-        - gnome-shell-extension-pomodoro
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing Gnome applications (fedora)
+  - name: Installing gnome applications (fedora)
     dnf: pkg="{{item}}" state=latest
     with_items:
         - gimp
