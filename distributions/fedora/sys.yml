@@ -33,7 +33,6 @@
     dnf: pkg="{{item}}" state=latest
     with_items:
       - vlc
-      - flash-plugin
       - gstreamer-ffmpeg
       - gstreamer-plugins-bad
       - gstreamer-plugins-bad-free-extras
