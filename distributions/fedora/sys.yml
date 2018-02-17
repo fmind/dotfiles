@@ -25,20 +25,15 @@
       - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{fedora_version.stdout}}.noarch.rpm
     when: ansible_distribution == 'Fedora'
 
-  # - name: Installing adobe repository (fedora)
-  #   shell: rpm -ivh http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
-  #   when: ansible_distribution == 'Fedora'
-  #   ignore_errors: yes
-
-  # - name: Importing adobe certificate (fedora)
-  #   shell: rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
-  #   when: ansible_distribution == 'Fedora'
+  - name: Installing adobe repository (fedora)
+    copy: src="{{playbook_dir}}/adobe.repo" dest="/etc/yum.repos.d/adobe.repo" owner='root' group='root' mode='0644'
+    when: ansible_distribution == 'Fedora'
 
   - name: Installing media codecs (fedora)
     dnf: pkg="{{item}}" state=latest
     with_items:
       - vlc
-      # - flash-plugin
+      - flash-plugin
       - gstreamer-ffmpeg
       - gstreamer-plugins-bad
       - gstreamer-plugins-bad-free-extras

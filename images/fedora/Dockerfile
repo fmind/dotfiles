@@ -6,8 +6,8 @@ RUN dnf -y update
 RUN dnf clean all
 
 RUN git clone https://github.com/fmind/dotfiles .dotfiles
-RUN cd .dotfiles && ansible-playbook --ask-become tui-sys.yml tui-user.yml
-RUN cd .dotfiles && ansible-playbook --ask-become prog-sys.yml prog-user.yml
-RUN cd .dotfiles && ansible-playbook --ask-become data-sys.yml data-user.yml
+RUN cd .dotfiles && ansible-playbook tui-sys.yml tui-user.yml
+RUN cd .dotfiles && ansible-playbook prog-sys.yml prog-user.yml
+RUN cd .dotfiles && ansible-playbook data-sys.yml data-user.yml
 
 CMD /bin/bash
