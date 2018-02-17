@@ -3,4 +3,3 @@
 - hosts: localhost
   connection: local
 
-- import_playbook: applications/gnome/user.yml

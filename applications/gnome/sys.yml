@@ -13,18 +13,15 @@
         - gimp
         - simple-scan
         - transmission
-        - dconf-editor
         - gnome-tweak-tool
+        - gnome-shell-extension-pomodoro
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing Gnome applications (fedora)
     dnf: pkg="{{item}}" state=latest
     with_items:
-        - vlc
         - gimp
-        - simple-scan
         - transmission
-        - dconf-editor
         - gnome-tweak-tool
         - gnome-shell-extension-pomodoro
     when: ansible_distribution == 'Fedora'

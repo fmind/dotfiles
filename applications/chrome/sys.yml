@@ -10,6 +10,10 @@
     apt_repository: repo="deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
+  - name: Installing chrome repository (fedora)
+    copy: src="{{playbook_dir}}/google-chrome.repo" dest="/etc/yum.repos.d/google-chrome.repo" owner='root' group='root' mode='0644'
+    when: ansible_distribution == 'Fedora'
+
   - name: Adding chrome certificate (ubuntu)
     apt_key: url="https://dl-ssl.google.com/linux/linux_signing_key.pub"
     when: ansible_distribution == 'Ubuntu'
@@ -17,10 +21,6 @@
   - name: Installing chrome application (ubuntu)
     apt: pkg="google-chrome-stable" state=latest
     when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing chrome repository (fedora)
-    copy: src="{{playbook_dir}}/google-chrome.repo" dest="/etc/yum.repos.d/google-chrome.repo" owner='root' group='root' mode='0644'
-    when: ansible_distribution == 'Fedora'
 
   - name: Installing chrome application (fedora)
     dnf: pkg="google-chrome-stable" state=latest

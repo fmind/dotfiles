@@ -18,8 +18,8 @@
     dnf: pkg="{{item}}" state=latest
     with_items:
       - gcc
-      - gcc-c++
       - make
       - cmake
       - ctags
+      - gcc-c++
     when: ansible_distribution == 'Fedora'

@@ -14,6 +14,7 @@
     copy: src="{{playbook_dir}}/virtualbox.repo" dest="/etc/yum.repos.d/virtualbox.repo" owner='root' group='root' mode='0644'
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing virtualbox application (fedora)
-    dnf: pkg="VirtualBox" state=latest
-    when: ansible_distribution == 'Fedora'
+    # depends on the version
+  # - name: Installing virtualbox application (fedora)
+  #   dnf: pkg="VirtualBox" state=latest
+  #   when: ansible_distribution == 'Fedora'
