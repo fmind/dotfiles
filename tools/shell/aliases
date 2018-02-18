@@ -1,16 +1,12 @@
-# DEFAULT
-alias df="df -hT"
-alias du="du -h"
+# DEFAULT{{{
 alias ps="ps aux"
+alias duh="du -h"
+alias dfh="df -hT"
 alias wget="wget -c"
-alias free="free -mt"
 alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
-
-# EDITION
-alias ca="cat"
-alias pz="pigz"
-alias puz="unpigz -c"
+#}}}
+# EDITION{{{
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -18,12 +14,12 @@ alias vig="$EDITOR -g"
 alias vip="$EDITOR -p"
 alias vir="$EDITOR -R"
 alias vis="sudo $EDITOR"
-alias emacs-gui="\emacs"
 alias emacs="emacs-nox"
-alias egui="emacs-gui"
+alias egui="\emacs"
 alias e="emacs-nox"
-
-# NAVIGATION
+#}}}
+# NAVIGATION{{{
+alias q="ranger"
 alias l="ls --color=auto -CF"
 alias ll="l -lFh"
 alias la="l -lAFh"
@@ -34,19 +30,17 @@ alias cb="cd $OLDPWD"
 function c {
   cd "$@" && l
 }
-
-# INTEGRATION
-alias x="exit"
+#}}}
+# INTEGRATION{{{
 alias r="clear"
-alias q="ranger"
 alias o="xdg-open"
 alias u='nautilus . &'
 alias dark="xbacklight -set 30"
 alias bright="xbacklight -set 100"
 alias xc="xsel --clipboard --output"
 alias xck="xsel --clipboard --clear"
-
-# INFORMATION
+#}}}
+# INFORMATION{{{
 alias gg="google"
 alias hh="history"
 alias ascii="man ascii"
@@ -54,32 +48,36 @@ alias units="man units"
 alias release="lsb_release -c"
 alias cmount="mount | column -t"
 alias extip='curl icanhazip.com'
-
-# DISTRIBUTION
+#}}}
+# COMPRESSION{{{
+alias pz="pigz"
+alias puz="unpigz -c"
+# }}}
+# NOTIFICATION{{{
+alias n='notify-send'
 alias notify='notify-send'
-alias n='notify'
-
-# CONFIGURATION
-alias virc='$EDITOR ~/.vimrc'
-alias zsrc='source ~/.zshrc'
-alias zrc='$EDITOR ~/.zshrc && zsrc'
-alias bsrc='source ~/.bashrc'
-alias brc='$EDITOR ~/.bashrc && bsrc'
-alias asrc='source ~/.shell_aliases'
+#}}}
+# CONFIGURATION{{{
 alias arc='$EDITOR ~/.shell_aliases && asrc'
-alias esrc='source ~/.shell_environ'
+alias asrc='source ~/.shell_aliases'
+alias brc='$EDITOR ~/.bashrc && bsrc'
+alias bsrc='source ~/.bashrc'
+alias cookierc='$EDITOR ~/.cookiecutterrc'
+alias emacsrc='$EDITOR ~/.spacemacs'
 alias erc='$EDITOR ~/.shell_environ && esrc'
-alias psrc='source ~/.shell_private'
+alias esrc='source ~/.shell_environ'
+alias idearc='$EDITOR ~/.ideavimrc'
+alias latexmkrc='$EDITOR ~/.latexmkrc'
 alias prc='$EDITOR ~/.shell_private && psrc'
-alias warprc='$EDITOR ~/.warprc'
+alias psrc='source ~/.shell_private'
 alias pypirc='$EDITOR ~/.pypirc'
 alias sshrc='$EDITOR ~/.ssh/config'
-alias idearc='$EDITOR ~/.ideavimrc'
-alias emacsrc='$EDITOR ~/.spacemacs'
-alias latexmkrc='$EDITOR ~/.latexmkrc'
-alias cookierc='$EDITOR ~/.cookiecutterrc'
-
-# ADMINISTRATION
+alias virc='$EDITOR ~/.vimrc'
+alias warprc='$EDITOR ~/.warprc'
+alias zrc='$EDITOR ~/.zshrc && zsrc'
+alias zsrc='source ~/.zshrc'
+#}}}
+# ADMINISTRATION{{{
 alias cpr="cp -r"
 alias rmr="rm -r"
 alias rmrf="rm -rf"
@@ -93,11 +91,11 @@ alias pwgen="pwgen -N1 -y"
 alias psmem='ps aux | sort -nk 4'
 alias psproc='ps aux | sort -nk 3'
 backup() { cp "$1"{,.bak}; }
-
-# SHARING
+#}}}
+# SHARING{{{
 alias httpserve="python3 -m http.server"
-
-# EDITING
+#}}}
+# EDITING{{{
 alias texmake="latexmk -pv"
 alias texview="latexmk -pv"
 alias texlive="latexmk -pvc"
@@ -105,8 +103,8 @@ alias texclean="latexmk -c"
 alias texpurge="latexmk -C"
 alias imgsize="mogrify -resize "
 alias imgwhite="mogrify -flatten "
-
-# SEARCHING
+#}}}
+# SEARCHING{{{
 alias ka='fasd -al'
 alias kf='fasd -fl'
 alias kd='fasd -dl' 
@@ -119,8 +117,8 @@ alias kvi='fasd -lie vim'
 alias koi='fasd -lie xdg-open'
 alias j='fasd_cd -d'
 alias ji='fasd_cd -di'
-
-# FILTERING
+#}}}
+# FILTERING{{{
 alias jqr="jq -r"
 alias h="head"
 alias hn="head -n"
@@ -141,9 +139,9 @@ function intersect {
 function difference {
     sort $1 $2 $1 | uniq -u
 }
-
-# PROGRAMMING
-## Git
+#}}}
+# PROGRAMMING{{{
+## Git{{{
 alias g="git"
 alias gm="git submodule"
 alias gri="$EDITOR .gitignore"
@@ -155,55 +153,60 @@ function gho {
     git remote add origin "git@github.com:fmind/$(basename $PWD).git"
     git push -u origin master
 }
-## UML
+#}}}
+## UML{{{
 alias uml="plantuml"
-## OAR
-alias oai="oarsub -I"
-alias oas="oarsub -S"
-## SRUN
+#}}}
+## SRUN{{{
 alias sri="srun -p interactive --qos qos-interactive --pty bash -i"
-## Project
+#}}}
+## Project{{{
 alias m="make"
-## Template
 alias ck="cookiecutter"
-## Ansible
+#}}}
+## Ansible{{{
 alias an="ansible-playbook"
 alias ans="ansible-playbook --ask-become"
 alias ana="ansible-playbook --ask-become *.yml"
-## Docker
+#}}}
+## Docker{{{
 alias dk="docker"
 alias dkstart="service docker start"
 alias dkrm="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
 alias dkdata='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
 alias dkmongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
-## Hadoop
-alias haf="hdfs dfs"
-## Watchdog
+#}}}
+## Watchdog{{{
 alias wdl="watchmedo log"
 alias wdr="watchmedo auto-restart"
 alias wds="watchmedo shell-command"
-
-# LANGUAGES
-## Java
+#}}}
+#}}}
+# LANGUAGES{{{
+## Java{{{
 alias ja="java"
 alias jac="javac"
 alias jaj="java -jar"
-# ## Groovy
+#}}}
+## Groovy{{{
 # alias gro="groovy"
 # alias gron="groovy -n"
 # alias grop="groovy -p"
 # alias gros="groovysh"
 # alias grod="groovydoc"
-## Racket
+#}}}
+## Racket{{{
 # alias rc="raco"
 # alias rk="racket"
 # alias rkclj="racket -I rackjure"
 # alias rkrc="$EDITOR ~/.racketrc"
-## Clojure
+#}}}
+## Clojure{{{
 alias clrc="$EDITOR ~/.lein/profiles.clj"
 alias clrb="$EDITOR ~/.boot/profile.boot"
 alias clrp="$EDITOR ~/.boot/boot.properties"
-## Haskell
+#}}}
+## Haskell{{{
 # alias hh="stack"
 # alias ho="hayoo"
 # alias hg="hoogle"
@@ -225,9 +228,11 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 # alias hl="stack list-dependencies"
 # alias hp="stack repl --test --bench"
 # alias hrc="$EDITOR ~/.stack/config.yaml"
-## Go
-# alias mygo="cd $GOREPO"
-## Nim
+#}}}
+## Go{{{
+alias mygo="cd $GOREPO"
+#}}}
+## Nim{{{
 # alias nb="nimble"
 # alias nbt="nimble init"
 # alias nbt="nimble tasks"
@@ -241,12 +246,15 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 # alias nc="nim compile -w:on"
 # alias nr="nim compile --run -w:on"
 # alias no="nim --compileOnly -w:on"
-## Elixir
-export ERL_AFLAGS="-kernel shell_history enabled"
-## Julia
-alias jl="julia"
-alias jlp="julia -p auto"
-## Pip
+#}}}
+## Julia{{{
+# alias jl="julia"
+# alias jlp="julia -p auto"
+#}}}
+## Elixir{{{
+# export ERL_AFLAGS="-kernel shell_history enabled"
+#}}}
+## Pip{{{
 alias pp="pip"
 alias ppl="pip list"
 alias ppul="pip list --user"
@@ -260,12 +268,14 @@ alias ppf="pip freeze > requirements.txt"
 alias ppuf="pip freeze --user > requirements.txt"
 alias ppr="pip install -r requirements.txt"
 alias ppur="pip install --user -r requirements.txt"
-## Conda
+#}}}
+## Conda{{{
 alias pac="conda create -y"
 alias paa="source activate"
 alias pad="source deactivate"
 alias pav="conda env export > environment.yml"
-## Python
+#}}}
+## Python{{{
 alias p="python"
 alias py="python"
 alias pyh="pydoc"
@@ -274,12 +284,16 @@ alias py2="python2"
 alias py3="python3"
 alias pyr="ptpython"
 alias pys="python setup.py"
-## Jupyter
+#}}}
+## Jupyter{{{
 alias pn="jupyter-notebook --NotebookApp.token="
 alias pnp="ipcluster start -n $(nproc)"
-## VirtualEnv
+#}}}
+## VirtualEnv{{{
 alias pe="source venv/bin/activate"
 alias ped="deactivate"
 function pei {
   virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env
 }
+#}}}
+#}}}

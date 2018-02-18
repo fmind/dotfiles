@@ -14,10 +14,6 @@
     apt_key: url="https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc"
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing elixir dependencies (ubuntu)
-    apt: pkg="erlang-dev" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
   - name: Installing elixir dependencies (fedora)
     dnf: pkg="{{item}}" state=latest
     when: ansible_distribution == 'Fedora'
