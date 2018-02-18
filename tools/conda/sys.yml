@@ -6,6 +6,7 @@
 
   tasks:
 
+  # not (yet) packaged on ubuntu ...
   # - name: Installing htop tool (ubuntu)
   #   apt: pkg="htop" state=latest
   #   when: ansible_distribution == 'Ubuntu'

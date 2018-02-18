@@ -6,9 +6,9 @@
 
   tasks:
 
-  # - name: Installing jq tool (ubuntu)
-  #   apt: pkg="jq" state=latest
-  #   when: ansible_distribution == 'Ubuntu'
+  - name: Installing imagemagick tool (ubuntu)
+    apt: pkg="imagemagick" state=latest
+    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing imagemagick tool (fedora)
     dnf: pkg="ImageMagick" state=latest

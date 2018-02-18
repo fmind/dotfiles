@@ -6,9 +6,9 @@
 
   tasks:
 
-  # - name: Installing shellcheck tool (ubuntu)
-  #   apt: pkg="shellcheck" state=latest
-  #   when: ansible_distribution == 'Ubuntu'
+  - name: Installing shellcheck tool (ubuntu)
+    apt: pkg="shellcheck" state=latest
+    when: ansible_distribution == 'Ubuntu'
 
   - name: Installing shellcheck tool (fedora)
     dnf: pkg="ShellCheck" state=latest
