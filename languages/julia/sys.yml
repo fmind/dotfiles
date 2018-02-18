@@ -6,12 +6,6 @@
 
   tasks:
 
-  - name: Installing julia dependencies (ubuntu)
-    apt: pkg="{{item}}" state=latest
-    when: ansible_distribution == 'Ubuntu'
-    with_items:
-      - czmq
-
   - name: Installing julia dependencies (fedora)
     dnf: pkg="{{item}}" state=latest
     when: ansible_distribution == 'Fedora'

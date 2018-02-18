@@ -22,7 +22,8 @@
     apt: pkg="{{item}}" state=latest
     when: ansible_distribution == 'Ubuntu'
     with_items:
-      - libncurses-dev
+      - ncurses-dev
+      - libzlib1g-dev
   
   - name: Installing stack dependencies (fedora)
     dnf: pkg="{{item}}" state=latest

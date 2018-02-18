@@ -7,7 +7,7 @@
   tasks:
 
   - name: Installing java language (ubuntu)
-    apt: pkg="openjdk-8-jdk" state=latest
+    apt: pkg="openjdk-7-jdk" state=latest
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing java language (fedora)
