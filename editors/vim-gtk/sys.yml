@@ -7,7 +7,7 @@
   tasks:
 
   - name: Installing vim gui (ubuntu)
-    apt: pkg="vim-gtk3" state=latest
+    apt: pkg="vim-gtk" state=latest
     when: ansible_distribution == 'Ubuntu'
 
   - name: Installing vim gui (fedora)
