@@ -13,4 +13,6 @@ RUN cd .dotfiles && ansible-playbook data-sys.yml data-user.yml
 
 RUN dnf clean all
 
-CMD /bin/zsh
+RUN usermod -s /usr/bin/zsh root
+
+ENTRYPOINT /usr/bin/zsh
