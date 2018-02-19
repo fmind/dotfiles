@@ -9,6 +9,9 @@
   - name: Installing golang packages
     command: "go get -u {{item}}"
     with_items:
+      - "github.com/nsf/gocode"
       - "github.com/motemen/gore"
-      - "github.com/glycerine/zygomys/cmd/zygo"
-
+      - "github.com/rogpeppe/godef"
+      - "golang.org/x/tools/cmd/guru"
+      - "golang.org/x/tools/cmd/gorename"
+      - "golang.org/x/tools/cmd/goimports"
