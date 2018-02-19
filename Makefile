@@ -1,9 +1,6 @@
 SHELL := /bin/bash
 
-all: fedora ubuntu;
+all: fedora;
 
 fedora:
 	docker build -t fmind/fedora images/fedora
-
-ubuntu:
-	docker build -t fmind/ubuntu images/ubuntu
