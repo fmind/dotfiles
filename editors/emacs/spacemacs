@@ -57,7 +57,6 @@
      ;;           haskell-enable-hindent-style "fundamental")
      ;; (go :variables
      ;;     gofmt-command "goimports")
-     groovy
      helm
      html
      (latex :variables
