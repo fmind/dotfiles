@@ -14,9 +14,8 @@ alias vig="$EDITOR -g"
 alias vip="$EDITOR -p"
 alias vir="$EDITOR -R"
 alias vis="sudo $EDITOR"
-alias emacs="emacs-nox"
-alias egui="\emacs"
-alias e="emacs-nox"
+alias e="emacs -nw"
+alias egui="emacs"
 #}}}
 # NAVIGATION{{{
 alias q="ranger"
@@ -189,11 +188,12 @@ alias jac="javac"
 alias jaj="java -jar"
 #}}}
 ## Groovy{{{
-# alias gro="groovy"
-# alias gron="groovy -n"
-# alias grop="groovy -p"
-# alias gros="groovysh"
-# alias grod="groovydoc"
+alias gro="groovy"
+alias gron="groovy -n"
+alias grop="groovy -p"
+alias gros="groovysh"
+alias groe="groovysh -e"
+alias grod="groovydoc"
 #}}}
 ## Racket{{{
 # alias rc="raco"

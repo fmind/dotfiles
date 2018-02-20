@@ -10,6 +10,5 @@ else
 fi
 
 export PYENV_ROOT="$HOME/.pyenv"
-export GOPATH="$HOME/go"
 
-export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$HOME/.npm/bin/:$PYENV_ROOT/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.npm/bin/:$PYENV_ROOT/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
