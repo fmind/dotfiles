@@ -1,0 +1,6 @@
+(setq cider-save-file-on-load t)
+(setq nrepl-hide-special-buffers t)
+(setq cider-repl-use-pretty-printing t)
+(setq cider-repl-display-help-banner nil)
+(setq clojure-docstring-fill-prefix-width 0)
+(setq cider-repl-display-in-current-window t)

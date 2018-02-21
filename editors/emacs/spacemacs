@@ -1,9 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
 
-;; setup spacemacs environment
-(setq SPMDIR "~/.spacemacs.d/")
-(load-file (expand-file-name "boot.el" SPMDIR))
-
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
   (setq-default
@@ -27,10 +23,11 @@
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path `(,SPMDIR)
+   dotspacemacs-configuration-layer-path `("~/.spacemacs.d/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '((
+      my-config
       auto-completion :variables
                       ;; tips
                       auto-completion-enable-help-tooltip t
@@ -46,36 +43,48 @@
      (clojure :variables
               cider-test-show-report t
               cider-repl-clear-help-banner nil)
+     my-clojure
+     elixir
+     my-elixir
      emacs-lisp
+     my-emacs-lisp
      evil-commentary
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
+     my-evil-snipe
      deft
      fasd
-     ;; (haskell :variables
-     ;;           haskell-completion-backend 'intero
-     ;;           haskell-enable-hindent-style "fundamental")
-     ;; (go :variables
-     ;;     gofmt-command "goimports")
+     my-fasd
+     (haskell :variables
+               haskell-completion-backend 'intero
+               haskell-enable-hindent-style "fundamental")
+     my-haskell
      helm
      html
      (latex :variables
             latex-enable-folding t
             latex-enable-auto-fill nil)
+     my-latex
      javascript
      markdown
      (org :variables
           org-enable-github-support t
           org-enable-reveal-js-support t
           org-projectile-file "TODO.org")
+     my-org
      plantuml
      (python :variables
              python-fill-column 120
              python-test-runner 'pytest
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
+     my-python
+     racket
+     my-racket
      ranger
+     my-ranger
      search-engine
+     my-search-engine
      semantic
      (shell :variables
             shell-default-height 20
@@ -88,6 +97,7 @@
      syntax-checking
      systemd
      tmux
+     my-tmux
      (version-control :variables
                       version-control-diff-tool 'diff-hl
                       version-control-global-margin t)
@@ -180,11 +190,11 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Hack"
-                               :size 12
-                               :weigh bold
-                               :width expanded
-                               :powerline-scale 1.2)
+   dotspacemacs-default-font '("DejaVu Sans Mono"
+                               :size 15
+                               :weight normal
+                               :width condensed
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -350,23 +360,7 @@ values."
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
-  (require 'helm-bookmark)
-
-  ;; custom
-  (my-config-load "global.el")
-  (my-config-load "engine.el")
-
-  ;; writing
-  (my-config-load "org.el")
-  (my-config-load "latex.el")
-
-  ;; programming
-  (my-config-load "elisp.el")
-  (my-config-load "elixir.el")
-  (my-config-load "python.el")
-  (my-config-load "clojure.el")
-  )
-
+)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -374,15 +368,7 @@ values."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (groovy-mode go-guru go-eldoc company-go go-mode org-mime ob-elixir flycheck-mix flycheck-credo alchemist elixir-mode ox-gfm racket-mode faceup pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core auctex rainbow-mode rainbow-identifiers color-identifiers-mode intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode ein request-deferred websocket deferred haml-mode web-completion-data markdown-mode powerline request org-category-capture alert log4e gntp org-plus-contrib dash-functional parent-mode projectile fringe-helper git-gutter+ git-commit with-editor git-gutter flyspell-correct flycheck flx smartparens iedit anzu evil goto-chg undo-tree diminish pos-tip company hydra inflections edn multiple-cursors paredit peg eval-sexp-fu highlight cider seq spinner queue pkg-info clojure-mode epl bind-map bind-key yasnippet packed anaconda-mode pythonic f dash s helm avy helm-core async auto-complete popup spray systemd ranger fasd evil-cleverparens deft web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern tern coffee-mode yapfify yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit tabbar stickyfunc-enhance srefactor spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox pandoc-mode ox-reveal ox-pandoc orgit org-ref org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint less-css-mode insert-shebang info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diff-hl define-word cython-mode csv-mode company-web company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
- '(safe-local-variable-values
-   (quote
-    ((cider-cljs-lein-repl . "(do (user/go) (user/cljs-repl))")
-     (cider-refresh-after-fn . "reloaded.repl/resume")
-     (cider-refresh-before-fn . "reloaded.repl/suspend")
-     (elixir-enable-compilation-checking . t)
-     (elixir-enable-compilation-checking))))
- '(tabbar-separator (quote (0.5))))
+    (web-completion-data auto-complete ob-elixir flycheck-mix flycheck-credo alchemist elixir-mode yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit systemd stickyfunc-enhance srefactor spaceline slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-mode rainbow-identifiers rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox pandoc-mode ox-reveal ox-pandoc ox-gfm org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc intero insert-shebang indent-guide hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-hoogle helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets groovy-mode google-translate golden-ratio gnuplot git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flycheck-haskell flx-ido fish-mode fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl deft define-word cython-mode company-web company-tern company-statistics company-shell company-quickhelp company-ghci company-ghc company-cabal company-auctex company-anaconda column-enforce-mode color-identifiers-mode coffee-mode cmm-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

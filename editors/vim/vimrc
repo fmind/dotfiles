@@ -481,6 +481,9 @@ nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
 " autocmd FileType nim nmap <localleader>e :NimREPLEval<CR>
 " autocmd FileType nim nmap <localleader>, :NimREPLEvalFile<CR>
 "}}}
+"""""" lisp language {{{
+autocmd FileType lisp setlocal tabstop=2 shiftwidth=2 softtabstop=2
+"}}}
 """""" golang language {{{
 " autocmd BufWritePost *.go :GoImports
 " autocmd FileType go nmap <localleader>a <Plug>(go-alternate-edit)
