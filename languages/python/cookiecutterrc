@@ -15,6 +15,7 @@ abbreviations:
     hs: https://github.com/fmind/haskell-script-template.git
     js: https://github.com/fmind/julia-script-template.git
     la: https://github.com/fmind/latex-article-template.git
+    layer: https://github.com/fmind/emacs-layer-template.git
     mk: https://github.com/fmind/make-template.git
     os: https://github.com/fmind/groovy-script-template.git
     op: https://github.com/fmind/groovy-project-template.git
