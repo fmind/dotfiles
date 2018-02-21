@@ -6,10 +6,10 @@
 
   tasks:
 
-  - name: Installing inconsolata font (ubuntu)
-    apt: pkg="fonts-inconsolata" state="latest"
+  - name: Installing dejavu font (ubuntu)
+    apt: pkg="fonts-dejavu-core" state="latest"
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing inconsolata font (fedora)
-    dnf: pkg="levien-inconsolata-fonts" state="latest"
+  - name: Installing dejavu font (fedora)
+    dnf: pkg="dejavu-sans-mono-fonts" state="latest"
     when: ansible_distribution == 'Fedora'

@@ -18,6 +18,14 @@
     apt: pkg="docker-engine" state=latest
     when: ansible_distribution == 'Ubuntu'
 
+  - name: Creating docker directory (fedora)
+    file: path="/home/docker" state=directory
+    when: ansible_distribution == 'Fedora'
+
+  - name: Linking to docker directory (fedora)
+    file: src="/home/docker" dest="/var/lib/docker" state=link
+    when: ansible_distribution == 'Fedora'
+
   - name: Installing docker service (fedora)
     dnf: pkg="docker" state=latest
     when: ansible_distribution == 'Fedora'
