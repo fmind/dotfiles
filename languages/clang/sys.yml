@@ -21,5 +21,6 @@
       - make
       - cmake
       - ctags
+      - clang
       - gcc-c++
     when: ansible_distribution == 'Fedora'

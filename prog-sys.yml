@@ -7,4 +7,5 @@
 - import_playbook: languages/java/sys.yml
 - import_playbook: languages/clang/sys.yml
 - import_playbook: languages/python/sys.yml
+- import_playbook: languages/racket/sys.yml
 - import_playbook: languages/groovy/sys.yml

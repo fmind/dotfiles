@@ -140,6 +140,10 @@ function difference {
     sort $1 $2 $1 | uniq -u
 }
 #}}}
+# TRANSFORMING{{{
+alias lower="tr '[:upper:]' '[:lower:]'"
+alias upper="tr '[:lower:]' '[:upper:]'"
+#}}}
 # PROGRAMMING{{{
 ## Git{{{
 alias g="git"
@@ -197,10 +201,10 @@ alias groe="groovysh -e"
 alias grod="groovydoc"
 #}}}
 ## Racket{{{
-# alias rc="raco"
-# alias rk="racket"
-# alias rkclj="racket -I rackjure"
-# alias rkrc="$EDITOR ~/.racketrc"
+alias rc="raco"
+alias rk="racket"
+alias rkclj="racket -I rackjure"
+alias rkrc="$EDITOR ~/.racketrc"
 #}}}
 ## Clojure{{{
 alias clrc="$EDITOR ~/.lein/profiles.clj"

@@ -26,18 +26,17 @@
    dotspacemacs-configuration-layer-path `("~/.spacemacs.d/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '((
-      my-config
-      auto-completion :variables
-                      ;; tips
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t
-                      ;; keys
-                      auto-completion-tab-key-behavior 'cycle
-                      auto-completion-return-key-behavior 'complete
-                      ;; snippets
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
+   '(my-config
+    (auto-completion :variables
+                    ;; tips
+                    auto-completion-enable-help-tooltip t
+                    auto-completion-enable-sort-by-usage t
+                    ;; keys
+                    auto-completion-tab-key-behavior 'cycle
+                    auto-completion-return-key-behavior 'complete
+                    ;; snippets
+                    auto-completion-enable-snippets-in-popup t
+                    auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
      bibtex
      colors
      (clojure :variables
