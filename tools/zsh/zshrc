@@ -49,16 +49,20 @@ source $ZSH/oh-my-zsh.sh
 
 ### ALIASES ###
 
+alias -g A='| notify-send'
 alias -g C='| xsel --clipboard'
 alias -g D='&& notify "done"'
-alias -g F='| head'
 alias -g G='| grep'
 alias -g H='--help'
 alias -g J='| json_pp'
 alias -g L='| less'
+alias -g N='| head'
+alias -g NN='| head -n5'
 alias -g NE='2>/dev/null'
 alias -g NUL='>/dev/null2>&1'
+alias -g Q='| percol'
 alias -g S='| sort'
+alias -g TT='| tail -n5'
 alias -g T='| tail'
 alias -g U='| unpigz -c'
 alias -g V='| $EDITOR -'
@@ -87,4 +91,20 @@ fi
 # Enable autoenv (does not work in .shellrc)
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
+fi
+
+# Enable percol history search
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
 fi

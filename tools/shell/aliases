@@ -32,6 +32,7 @@ function c {
 #}}}
 # INTEGRATION{{{
 alias r="clear"
+alias pq="percol"
 alias o="xdg-open"
 alias u='nautilus . &'
 alias dark="xbacklight -set 30"
@@ -41,7 +42,6 @@ alias xck="xsel --clipboard --clear"
 #}}}
 # INFORMATION{{{
 alias gg="google"
-alias hh="history"
 alias ascii="man ascii"
 alias units="man units"
 alias release="lsb_release -c"
@@ -122,8 +122,10 @@ alias ji='fasd_cd -di'
 alias jqr="jq -r"
 alias h="head"
 alias hn="head -n"
+alias hh="head -n5"
 alias t="tail"
 alias tn="tail -n"
+alias tt="tail -n5"
 alias igrep="grep -i"
 alias rgrep="grep -iR"
 alias colt="column -t"
@@ -267,6 +269,8 @@ alias pps="pip search"
 alias ppus="pip search --user"
 alias ppi="pip install"
 alias ppui="pip install --user"
+alias ppp="pip3 install --user"
+alias ppy="pip3 uninstall"
 alias ppu="pip uninstall"
 alias ppuu="pip uninstall --user"
 alias ppf="pip freeze > requirements.txt"
@@ -281,12 +285,15 @@ alias pad="source deactivate"
 alias pav="conda env export > environment.yml"
 #}}}
 ## Python{{{
-alias p="ptipython"
+alias p="ptpython"
+alias pi="ptpython -i"
 alias py="python"
-alias pyh="pydoc"
+alias pyd="pydoc"
 alias pyt="pytest"
 alias py2="python2"
+alias pi2="python2 -i"
 alias py3="python3"
+alias pi3="python3 -i"
 alias pys="python setup.py"
 #}}}
 ## Jupyter{{{

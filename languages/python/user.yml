@@ -29,7 +29,6 @@
       - flake8
       - pygments
       - autoflake
-      - python-vim
       # system
       - sh
       - envoy
@@ -49,6 +48,9 @@
       - httpie
       - http-prompt
 
+  - name: Creating ~/.config/try directory
+    file: path="~/.config/try" state=directory
+
   - name: Creating ~/.config/yapf directory
     file: path="~/.config/yapf" state=directory
 
@@ -57,6 +59,9 @@
 
   - name: Deploying pip configuration file
     file: src="{{playbook_dir}}/pypirc" dest="~/.pypirc" state=link force=yes
+
+  - name: Deploying try configuration file
+    file: src="{{playbook_dir}}/try.ini" dest="~/.config/try/config.ini" state=link force=yes
 
   - name: Deploying yapf configuration file
     file: src="{{playbook_dir}}/yapf" dest="~/.config/yapf/style" state=link force=yes
