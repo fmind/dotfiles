@@ -14,10 +14,12 @@
       # shell
       - jupyter
       - ptpython
+      - ptipython
       # data
       - visidata
       # emacs
       - jedi
+      - flake8
       - json-rpc
       - autoflake
       - service_factory
@@ -36,11 +38,12 @@
       - wormhole
       # project
       - tox
-      - pex
       - ipdb
+      - ptpdb
       - autoenv
       - profiling
       - virtualenv
+      - trypackage
       - cookiecutter
       # web client
       - httpie

@@ -3,10 +3,6 @@
 (setq create-lockfiles nil)
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 ;;}}}
-;; SCROLLING {{{
-(setq scroll-margin 10)
-(setq scroll-conservatively 10)
-;;}}}
 ;; PROJECTILE {{{
 (setq projectile-globally-ignored-directories '("out" "target"))
 (setq projectile-globally-ignored-file-suffixes '("jpg" "png" "gif" "pyc"))
