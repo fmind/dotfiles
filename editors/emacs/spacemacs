@@ -26,26 +26,25 @@
    dotspacemacs-configuration-layer-path `("~/.spacemacs.d/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '((
-      my-config
-      auto-completion :variables
-                      ;; tips
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t
-                      ;; keys
-                      auto-completion-tab-key-behavior 'cycle
-                      auto-completion-return-key-behavior 'complete
-                      ;; snippets
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
+   '(my-config
+    (auto-completion :variables
+                    ;; tips
+                    auto-completion-enable-help-tooltip t
+                    auto-completion-enable-sort-by-usage t
+                    ;; keys
+                    auto-completion-tab-key-behavior 'cycle
+                    auto-completion-return-key-behavior 'complete
+                    ;; snippets
+                    auto-completion-enable-snippets-in-popup t
+                    auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
      bibtex
      colors
      (clojure :variables
               cider-test-show-report t
               cider-repl-clear-help-banner nil)
      my-clojure
-     elixir
-     my-elixir
+     ;; elixir
+     ;; my-elixir
      emacs-lisp
      my-emacs-lisp
      evil-commentary
@@ -55,10 +54,10 @@
      deft
      fasd
      my-fasd
-     (haskell :variables
-               haskell-completion-backend 'intero
-               haskell-enable-hindent-style "fundamental")
-     my-haskell
+     ;; (haskell :variables
+     ;;           haskell-completion-backend 'intero
+     ;;           haskell-enable-hindent-style "fundamental")
+     ;; my-haskell
      helm
      html
      (latex :variables
@@ -80,8 +79,8 @@
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
      my-python
-     racket
-     my-racket
+     ;; racket
+     ;; my-racket
      ranger
      my-ranger
      search-engine
@@ -361,6 +360,7 @@ values."
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
+  (setq scroll-margin 10)
 )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

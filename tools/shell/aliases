@@ -32,6 +32,7 @@ function c {
 #}}}
 # INTEGRATION{{{
 alias r="clear"
+alias pq="percol"
 alias o="xdg-open"
 alias u='nautilus . &'
 alias dark="xbacklight -set 30"
@@ -42,7 +43,6 @@ alias pkgrm="sudo pkcon refresh force -c -1"
 #}}}
 # INFORMATION{{{
 alias gg="google"
-alias hh="history"
 alias ascii="man ascii"
 alias units="man units"
 alias release="lsb_release -c"
@@ -123,8 +123,10 @@ alias ji='fasd_cd -di'
 alias jqr="jq -r"
 alias h="head"
 alias hn="head -n"
+alias hh="head -n5"
 alias t="tail"
 alias tn="tail -n"
+alias tt="tail -n5"
 alias igrep="grep -i"
 alias rgrep="grep -iR"
 alias colt="column -t"
@@ -140,6 +142,10 @@ function intersect {
 function difference {
     sort $1 $2 $1 | uniq -u
 }
+#}}}
+# TRANSFORMING{{{
+alias lower="tr '[:upper:]' '[:lower:]'"
+alias upper="tr '[:lower:]' '[:upper:]'"
 #}}}
 # PROGRAMMING{{{
 ## Git{{{
@@ -198,10 +204,10 @@ alias groe="groovysh -e"
 alias grod="groovydoc"
 #}}}
 ## Racket{{{
-# alias rc="raco"
-# alias rk="racket"
-# alias rkclj="racket -I rackjure"
-# alias rkrc="$EDITOR ~/.racketrc"
+alias rc="raco"
+alias rk="racket"
+alias rkclj="racket -I rackjure"
+alias rkrc="$EDITOR ~/.racketrc"
 #}}}
 ## Clojure{{{
 alias clrc="$EDITOR ~/.lein/profiles.clj"
@@ -264,6 +270,8 @@ alias pps="pip search"
 alias ppus="pip search --user"
 alias ppi="pip install"
 alias ppui="pip install --user"
+alias ppp="pip3 install --user"
+alias ppy="pip3 uninstall"
 alias ppu="pip uninstall"
 alias ppuu="pip uninstall --user"
 alias ppf="pip freeze > requirements.txt"
@@ -279,11 +287,14 @@ alias pce="conda env export > environment.yml"
 #}}}
 ## Python{{{
 alias p="ptpython"
+alias pi="ptpython -i"
 alias py="python"
-alias pyh="pydoc"
+alias pyd="pydoc"
 alias pyt="pytest"
 alias py2="python2"
+alias pi2="python2 -i"
 alias py3="python3"
+alias pi3="python3 -i"
 alias pys="python setup.py"
 #}}}
 ## Jupyter{{{

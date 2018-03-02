@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: fmind
+# name: req-mount
+# key: req-mount
+# --
+(require '[mount.core :as mount])

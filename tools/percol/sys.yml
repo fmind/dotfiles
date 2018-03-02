@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+
+  - name: Installing percol tool (ubuntu)
+    apt: pkg="percol" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing percol tool (fedora)
+    dnf: pkg="percol" state=latest
+    when: ansible_distribution == 'Fedora'

@@ -6,18 +6,29 @@
     :init
     (progn
       (spacemacs/set-leader-keys-for-major-mode 'python-mode
-        "`" 'my-python-swith-to-repl
-        "~" 'my-python-swith-to-report
-        "\"" 'my-python-start-repl-with-venv
-        "G" 'spacemacs/jump-to-definition
+        "," 'python-shell-send-buffer
+        "-" 'spacemacs/python-remove-unused-imports
+        "=" 'my-python-kill-yapify-buffers
+        "B" 'python-shell-send-buffer-switch
         "C" 'spacemacs/python-execute-file
         "D" 'spacemacs/python-toggle-breakpoint
-        "I" 'spacemacs/python-remove-unused-imports
-        "Y" 'my-python-kill-yapify-buffers
-        "," 'python-shell-send-buffer
-        "b" 'python-shell-send-buffer
-        "B" 'python-shell-send-buffer-switch
-        "f" 'python-shell-send-defun
         "F" 'python-shell-send-defun-switch
-        "n" 'python-shell-send-region
-        "N" 'python-shell-send-region-switch))))
+        "J" 'spacemacs/jump-to-definition-other-window
+        "W" 'python-shell-send-region-switch
+        "Y" 'spacemacs/python-test-pdb-module
+        "Y" 'spacemacs/python-test-pdb-one
+        "\"" 'my-python-start-repl-with-venv
+        "`" 'my-python-swith-to-repl
+        "b" 'python-shell-send-buffer
+        "f" 'python-shell-send-defun
+        "j" 'spacemacs/jump-to-definition
+        "k" 'anaconda-mode-find-assignments
+        "k" 'anaconda-mode-go-back
+        "l" 'anaconda-mode-find-references
+        "o" 'anaconda-mode-show-doc
+        "u" 'spacemacs/python-test-one
+        "w" 'python-shell-send-region
+        "x" 'python-toggle-breakpoint
+        "y" 'spacemacs/python-test-module
+        "~" 'my-python-swith-to-report
+))))
