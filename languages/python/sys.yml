@@ -37,3 +37,11 @@
   - name: Installing python3 package manager (ubuntu)
     apt: pkg="python3-pip" state=latest
     when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing pypy2 language (fedora)
+    apt: pkg="pypy" state=latest
+    when: ansible_distribution == 'Fedora'
+
+  - name: Installing pypy3 language (fedora)
+    apt: pkg="pypy3" state=latest
+    when: ansible_distribution == 'Fedora'
