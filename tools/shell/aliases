@@ -38,6 +38,7 @@ alias dark="xbacklight -set 30"
 alias bright="xbacklight -set 100"
 alias xc="xsel --clipboard --output"
 alias xck="xsel --clipboard --clear"
+alias pkgrm="sudo pkcon refresh force -c -1"
 #}}}
 # INFORMATION{{{
 alias gg="google"
@@ -271,19 +272,18 @@ alias ppr="pip install -r requirements.txt"
 alias ppur="pip install --user -r requirements.txt"
 #}}}
 ## Conda{{{
-alias pac="conda create -y"
-alias paa="source activate"
-alias pad="source deactivate"
-alias pav="conda env export > environment.yml"
+alias pcc="conda create -y"
+alias pca="source activate"
+alias pcd="source deactivate"
+alias pce="conda env export > environment.yml"
 #}}}
 ## Python{{{
-alias p="python"
+alias p="ptpython"
 alias py="python"
 alias pyh="pydoc"
 alias pyt="pytest"
 alias py2="python2"
 alias py3="python3"
-alias pyr="ptpython"
 alias pys="python setup.py"
 #}}}
 ## Jupyter{{{
@@ -291,9 +291,9 @@ alias pn="jupyter-notebook --NotebookApp.token="
 alias pnp="ipcluster start -n $(nproc)"
 #}}}
 ## VirtualEnv{{{
-alias pe="source venv/bin/activate"
-alias ped="deactivate"
-function pei {
+alias pvv="source venv/bin/activate"
+alias pvd="deactivate"
+function pvc {
   virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env
 }
 #}}}

@@ -15,6 +15,7 @@
       - jupyter
       - ptpython
       # data
+      - mimesis
       - visidata
       # emacs
       - jedi

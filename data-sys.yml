@@ -5,4 +5,3 @@
 
 - import_playbook: tools/conda/sys.yml
 - import_playbook: tools/graphviz/sys.yml
-- import_playbook: languages/python/sys.yml
