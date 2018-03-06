@@ -9,20 +9,13 @@
   - name: Installing python3 librairies
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
-      # lang
-      - hy
       # shell
+      - hy
       - jupyter
       - ptpython
-      - ptipython
-      # data
-      - mimesis
-      - visidata
       # emacs
       - jedi
-      - flake8
       - json-rpc
-      - autoflake
       - service_factory
       # editor
       - yapf
@@ -31,18 +24,13 @@
       - pygments
       - autoflake
       # system
-      - sh
-      - envoy
-      - howdoi
       - watchdog
-      - wormhole
       # project
       - tox
-      - ipdb
       - ptpdb
-      - autoenv
+      - twine
+      - pipenv
       - profiling
-      - virtualenv
       - trypackage
       - cookiecutter
       # web client

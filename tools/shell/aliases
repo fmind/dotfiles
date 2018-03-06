@@ -263,27 +263,15 @@ alias mygo="cd $GOREPO"
 # export ERL_AFLAGS="-kernel shell_history enabled"
 #}}}
 ## Pip{{{
-alias pp="pip"
-alias ppl="pip list"
-alias ppul="pip list --user"
 alias pps="pip search"
-alias ppus="pip search --user"
 alias ppi="pip install"
-alias ppui="pip install --user"
-alias ppp="pip3 install --user"
-alias ppy="pip3 uninstall"
+alias ppy="pip install --user"
 alias ppu="pip uninstall"
-alias ppuu="pip uninstall --user"
-alias ppf="pip freeze > requirements.txt"
-alias ppuf="pip freeze --user > requirements.txt"
-alias ppr="pip install -r requirements.txt"
-alias ppur="pip install --user -r requirements.txt"
 #}}}
-## Conda{{{
-alias pcc="conda create -y"
-alias pca="source activate"
-alias pcd="source deactivate"
-alias pce="conda env export > environment.yml"
+## Pipenv{{{
+alias pes='pipenv shell --fancy'
+# pipenv install --system --deploy
+# pipenv install --system
 #}}}
 ## Python{{{
 alias p="ptpython"
@@ -292,20 +280,16 @@ alias py="python"
 alias pyd="pydoc"
 alias pyt="pytest"
 alias py2="python2"
-alias pi2="python2 -i"
 alias py3="python3"
-alias pi3="python3 -i"
 alias pys="python setup.py"
+alias pym="python -m doctest"
 #}}}
 ## Jupyter{{{
-alias pn="jupyter-notebook --NotebookApp.token="
 alias pnp="ipcluster start -n $(nproc)"
+alias pnn="jupyter-notebook --NotebookApp.token="
 #}}}
 ## VirtualEnv{{{
-alias pvv="source venv/bin/activate"
 alias pvd="deactivate"
-function pvc {
-  virtualenv "venv" "$@" && echo 'source "$(dirname $0)/venv/bin/activate"' > .env
-}
+alias pva="source venv/bin/activate"
 #}}}
 #}}}

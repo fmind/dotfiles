@@ -7,6 +7,10 @@
 - selenium
 - beautifulsoup4
 
+# data
+- mimesis
+- visidata
+
 # media
 - pillow
 
@@ -18,10 +22,12 @@
 - sh
 - envoy
 - celery
+- howdoi
 - glances
 
 # security
 - scapy
+- wormhole
 - mitmproxy
 
 # database
