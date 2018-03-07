@@ -13,6 +13,7 @@
       - hy
       - jupyter
       - ptpython
+      - jupyterlab
       # emacs
       - jedi
       - json-rpc

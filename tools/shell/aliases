@@ -285,6 +285,7 @@ alias pys="python setup.py"
 alias pym="python -m doctest"
 #}}}
 ## Jupyter{{{
+alias pnl="jupyter lab"
 alias pnp="ipcluster start -n $(nproc)"
 alias pnn="jupyter-notebook --NotebookApp.token="
 #}}}
