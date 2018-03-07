@@ -49,7 +49,8 @@ source $ZSH/oh-my-zsh.sh
 
 ### ALIASES ###
 
-alias -g A='| notify-send'
+alias -g B='| pyp'
+alias -g B='| notify-send'
 alias -g C='| xsel --clipboard'
 alias -g D='&& notify "done"'
 alias -g G='| grep'

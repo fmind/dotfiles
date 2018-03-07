@@ -17,8 +17,9 @@
 - import_playbook: tools/percol/sys.yml
 - import_playbook: tools/pigz/sys.yml
 - import_playbook: tools/pv/sys.yml
+- import_playbook: tools/pyped/sys.yml
 - import_playbook: tools/ranger/sys.yml
 - import_playbook: tools/rlwrap/sys.yml
 - import_playbook: tools/zsh/sys.yml
-# - import_playbook: editors/vim/sys.yml
+- import_playbook: editors/vim/sys.yml
 - import_playbook: editors/fonts/sys.yml
