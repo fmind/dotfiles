@@ -42,6 +42,11 @@
 (define-key evil-visual-state-map "j" 'evil-next-visual-line)
 (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
 (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous))
 ;;}}}
 ;; EDITIONS {{{
 (define-key evil-normal-state-map "U" 'redo)
