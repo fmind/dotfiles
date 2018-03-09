@@ -1,4 +1,5 @@
-# dotfiles
+dotfiles
+========
 
 Configurations for my favorite tools.
 
