@@ -4,6 +4,7 @@
   connection: local
 
 - import_playbook: editors/emacs/sys.yml
+- import_playbook: editors/neovim/sys.yml
 - import_playbook: languages/java/sys.yml
 - import_playbook: languages/clang/sys.yml
 - import_playbook: languages/python/sys.yml

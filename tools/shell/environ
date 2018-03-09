@@ -2,7 +2,10 @@ export LANG=en_US.UTF-8
 
 export TERM=screen-256color
 
-if [ -n "$DISPLAY" ]; then
+
+if [ -x "$(command -v nvim)" ]; then
+    export EDITOR='nvim'
+elif [ -n "$DISPLAY" ]; then
     # support X clipboard
     export EDITOR='vimx'
 else

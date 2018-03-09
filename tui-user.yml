@@ -10,6 +10,7 @@
 - import_playbook: tools/functools/user.yml
 - import_playbook: tools/git/user.yml
 - import_playbook: tools/input/user.yml
+- import_playbook: tools/percol/user.yml
 - import_playbook: tools/shell/user.yml
 - import_playbook: tools/tldr/user.yml
 - import_playbook: tools/zsh/user.yml
