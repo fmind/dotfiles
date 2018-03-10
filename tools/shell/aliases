@@ -7,15 +7,10 @@ alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
 #}}}
 # EDITION{{{
+alias n="nvim"
+alias a="emacs"
 alias v="$EDITOR"
-alias vi="$EDITOR"
-alias vim="$EDITOR"
-alias vig="$EDITOR -g"
-alias vip="$EDITOR -p"
-alias vir="$EDITOR -R"
-alias vis="sudo $EDITOR"
 alias e="emacs -nw"
-alias egui="emacs"
 #}}}
 # NAVIGATION{{{
 alias q="ranger"
