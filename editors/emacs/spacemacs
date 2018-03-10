@@ -26,7 +26,8 @@
    dotspacemacs-configuration-layer-path `("~/.spacemacs.d/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(my-config
+   '(
+     my-config
     (auto-completion :variables
                     ;; tips
                     auto-completion-enable-help-tooltip t
