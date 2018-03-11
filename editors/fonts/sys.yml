@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing dejavu font (ubuntu)
+  - name: Installing dejavu (ubuntu)
     apt: pkg="fonts-dejavu-core" state="latest"
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing dejavu font (fedora)
+  - name: Installing dejavu (fedora)
     dnf: pkg="dejavu-sans-mono-fonts" state="latest"
     when: ansible_distribution == 'Fedora'

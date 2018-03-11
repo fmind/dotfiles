@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -10,6 +9,6 @@
     copy: src="{{playbook_dir}}/steam.repo" dest="/etc/yum.repos.d/steam.repo" owner='root' group='root' mode='0644'
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing steam application (fedora)
+  - name: Installing steam (fedora)
     dnf: pkg="steam" state=latest
     when: ansible_distribution == 'Fedora'

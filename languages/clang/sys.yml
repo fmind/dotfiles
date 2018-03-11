@@ -1,12 +1,11 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing c language (ubuntu)
+  - name: Installing clang (ubuntu)
     apt: pkg="{{item}}" state=latest
     with_items:
       - cmake
@@ -14,7 +13,7 @@
       - exuberant-ctags
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing c language (fedora)
+  - name: Installing clang (fedora)
     dnf: pkg="{{item}}" state=latest
     with_items:
       - gcc

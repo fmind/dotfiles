@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  connection: local
   become: false
 
   tasks:
@@ -9,5 +8,5 @@
   - name: Creating ~/.percol.d/ directory
     file: path="~/.percol.d/" state=directory
 
-  - name: Deploying percol configuration file
+  - name: Deploying percol configuration
     file: src="{{playbook_dir}}/rc.py" dest="~/.percol.d/rc.py" state=link force=yes

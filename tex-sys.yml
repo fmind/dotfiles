@@ -1,8 +1,0 @@
----
-
-- hosts: localhost
-  connection: local
-
-- import_playbook: tools/pandoc/sys.yml
-- import_playbook: tools/latexmk/sys.yml
-- import_playbook: languages/tex/sys.yml

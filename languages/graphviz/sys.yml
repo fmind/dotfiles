@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: Installing graphviz (ubuntu)
+    apt: pkg="graphviz" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing graphviz (fedora)
+    dnf: pkg="graphviz" state=latest
+    when: ansible_distribution == 'Fedora'

@@ -1,0 +1,547 @@
+" CHECKUP {{{
+set nomodeline
+set nocompatible
+"}}}
+" STARTUP {{{
+let $VIMDIR=$HOME.'/.vim/'
+"}}}
+" SET-UP {{{
+""" WINDOW {{{
+set title
+set mouse=a
+set splitright
+set splitbelow
+set t_Co=256
+set conceallevel=2
+set background=dark
+" set colorcolumn=100
+" let g:loaded_matchparen=1
+"}}}
+""" SIDEBAR {{{
+set ruler
+set number
+set relativenumber
+"}}}
+""" STATUSBAR {{{
+set showcmd
+set showmode
+set wildmenu
+set shortmess=c
+set laststatus=2
+" set wildmode=longest:full,full
+set wildmode=list:longest,full
+set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
+"}}}
+""" FOLDING {{{
+set foldlevel=20
+set foldmethod=marker
+set foldlevelstart=99
+"}}}
+""" WRAPPING {{{
+set wrap
+set linebreak
+set textwidth=0
+"}}}
+""" EDITION {{{
+set hidden
+set confirm
+set autoread
+set autowrite
+set autowriteall
+set history=1000
+set encoding=utf-8
+set ffs=unix,dos,mac
+set formatoptions-=cro
+set clipboard=unnamedplus
+set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
+"}}}
+""" NAVIGATION {{{
+set mat=1
+set gdefault
+set hlsearch
+set incsearch
+set showmatch
+set smartcase
+set ignorecase
+set nojoinspaces
+set nostartofline
+set scrolloff=10
+set sidescrolloff=5
+"}}}
+""" IDENTATION {{{
+set expandtab
+set autoindent
+set copyindent
+set shiftround
+set tabstop=4 
+set shiftwidth=4
+set softtabstop=4
+set backspace=indent,eol,start
+"}}}
+""" NOTIFICATION {{{
+set noerrorbells
+set novisualbell
+"}}}
+""" OPTIMIZATION {{{
+set ttyfast
+set lazyredraw
+"}}}
+""" CONSERVATION {{{
+set backup
+set undofile
+set updatecount=100
+set undodir=$VIMDIR/undo/
+set directory=$VIMDIR/swap/
+set backupdir=$VIMDIR/backup/
+set viminfo ='200,n$VIMDIR/viminfo
+"}}}
+"}}}
+" PLUGUP {{{
+syntax enable
+filetype plugin on
+filetype indent on
+
+let $FZF_DEFAULT_COMMAND = 'ag -p ~/.agignore -g ""'
+
+if !empty(glob($HOME.'/.vim/autoload/plug.vim'))
+call plug#begin($HOME.'/.vim/plugged')
+""" TUNING {{{
+Plug 'tpope/vim-rsi'
+Plug 'moll/vim-bbye'
+Plug 'benmills/vimux'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
+Plug 'majutsushi/tagbar'
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
+Plug 'wellle/targets.vim'
+Plug 'alvan/vim-closetag'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree' 
+let NERDTreeQuitOnOpen=1
+let NERDTreeIgnore=['\.pyc$', '\~$']
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-speeddating'
+Plug 'vim-scripts/matchit.zip'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'junegunn/vim-easy-align'
+Plug 'christoomey/vim-sort-motion'
+Plug 'christoomey/vim-tmux-navigator'
+let g:tmux_navigator_save_on_switch = 1
+Plug 'michaeljsmith/vim-indent-object'
+"}}}
+""" THEMING {{{
+Plug 'tomasr/molokai'
+Plug 'bling/vim-airline' 
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+"}}}
+""" WRITING {{{
+" Plug 'reedes/vim-pencil'
+" let g:pencil#textwidth = 80
+Plug 'godlygeek/tabular'
+" Plug 'vim-pandoc/vim-pandoc'
+Plug 'plasticboy/vim-markdown'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'beloglazov/vim-online-thesaurus'
+"}}}
+""" VERSIONNING {{{
+Plug 'airblade/vim-gitgutter'
+"}}}
+""" DEVELOPPING {{{
+Plug 'w0rp/ale'
+Plug 'mattn/emmet-vim'
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsEditSplit = 'context'
+let g:UltiSnipsSnippetsDir = $HOME.'/.vim/snippets/'
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
+Plug 'junegunn/fzf.vim'
+" Plug 'janko-m/vim-test'
+" let g:test#preserve_screen = 1
+" let test#python#runner = 'pytest'
+Plug 'sheerun/vim-polyglot'
+" Plug 'aklt/plantuml-syntax'
+Plug 'Valloric/YouCompleteMe', {'dir': $HOME.'/.vim/plugged/YouCompleteMe/', 'do': './install.py'}
+" let g:ycm_semantic_triggers = {'haskell' : ['.']}
+let g:ycm_goto_buffer_command = 'new-or-existing-tab'
+let g:ycm_autoclose_preview_window_after_completion= 1
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
+"}}}
+""" GO LANG {{{
+" Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+" let g:go_metalinter_autosave = 1
+" let g:go_def_mapping_enabled = 0
+" let g:go_gocode_unimported_packages = 1
+"}}}
+""" NIM LANG {{{
+" Plug 'baabelfish/nvim-nim'
+" let g:nvim_nim_enable_default_binds = 0
+"}}}
+""" JULIA LANG {{{
+" Plug 'JuliaEditorSupport/julia-vim'
+"}}}
+""" PYTHON LANG {{{
+" Plug 'fisadev/vim-isort'
+" Plug 'Chiel92/vim-autoformat'
+" let g:formatters_python = ['yapf']
+"}}}
+""" HASKELL LANG {{{
+" Plug 'Twinside/vim-hoogle', { 'for': 'haskell' }
+" Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
+" au FileType haskell let g:ghcmod_use_basedir = getcwd()
+" Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+" Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
+" let g:haskellmode_completion_ghc = 0
+" let g:necoghc_enable_detailed_browse = 1
+" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+" Plug 'enomsg/vim-haskellConcealPlus', { 'for': 'haskell' }
+" hi clear Conceal
+" let hscoptions="𝐒𝐓𝐄𝐌xRtB𝔻w"
+" let g:haskell_conceal_wide = 1
+" let g:haskell_conceal_enumerations = 1
+" Plug 'mpickering/hlint-refactor-vim', { 'for': 'haskell' }
+" let g:hlintRefactor#disableDefaultKeybindings = 1
+"}}}
+call plug#end()
+colorscheme molokai
+endif
+""}}}
+" HOOKS {{{
+"""  save buffers on focus lost
+autocmd! FocusLost * silent! wa
+""" restore last cursor position
+autocmd! BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+"}}}
+" FUNCTIONS {{{
+function! SwitchPyTest()
+    let l:f = expand("%:p")
+    let l:fs = split(f, '/')
+    let l:fname = l:fs[-1]
+
+    if l:fname =~ "test_.*"
+        " switch to def
+        let l:fs[-2] = l:fs[-3]
+        let l:fs[-1] = substitute(l:fs[-1], 'test_', '', '') 
+    else
+        " switch to test
+        let l:fs[-2] = "tests"
+        let l:fs[-1] = "test_" . l:fs[-1]
+    endif
+
+    execute "edit " . "/" . join(l:fs, '/')
+endfunction
+
+command! SwitchPyTest call SwitchPyTest()
+"}}}
+" KEYBINDINGS {{{
+""" BETTER LEADER {{{
+map ; :
+vmap ; :
+noremap ;; ;
+let mapleader="\<Space>"
+let maplocalleader=","
+ "}}}
+""" BETTER HABITS {{{
+nnoremap <Up> <NOP>
+inoremap <Up> <NOP>
+nnoremap <Down> <NOP>
+inoremap <Down> <NOP>
+nnoremap <Left> <NOP>
+inoremap <Left> <NOP>
+nnoremap <Right> <NOP>
+inoremap <Right> <NOP>
+":inoremap <Esc> <NOP>
+"}}}
+""" BETTER DEFAULTS {{{
+map B ^
+map E $
+map Y y$
+map U <C-r>
+nnoremap j gj
+vnoremap j gj
+nnoremap k gk
+vnoremap k gk
+nnoremap 0 g0
+vnoremap 0 g0
+nnoremap $ g$
+vnoremap $ g$
+nnoremap ^ g^
+vnoremap ^ g^
+nnoremap _ g_
+vnoremap _ g_
+nnoremap / /\v
+vnoremap / /\v
+xnoremap <  <gv
+xnoremap >  >gv
+nnoremap J <C-d>
+nnoremap K <C-u>
+" inoremap jk  <Esc>
+" inoremap kj  <Esc>
+nnoremap Q :x<CR>
+nnoremap zj o<Esc>k
+nnoremap zk O<Esc>j
+nnoremap - :e .<CR>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+nnoremap <silent> <ESC> :nohl<CR>
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
+ "}}}
+""" BASIC ACTIONS {{{
+nnoremap <leader>? :help 
+vnoremap <leader>s :sort<CR>
+nnoremap <leader>m :make<CR>
+nnoremap <leader>oj :join<CR>
+vnoremap <leader>oj :join<CR>
+"}}}
+""" INTERNAL ACTIONS {{{
+nnoremap <leader>MR :source $MYVIMRC<CR>
+nnoremap <silent> <leader>MB :buffers<CR>
+nnoremap <silent> <leader>MM :message<CR>
+nnoremap <silent> <leader>MP :register<CR>
+nnoremap <silent> <leader>ME :edit $MYVIMRC<CR>
+"}}}
+""" ADVANCED ACTIONS {{{
+"""""" execute shell command
+nnoremap <leader>! :!
+nnoremap <leader>1 :r!
+"""""" format current buffer
+nnoremap <leader>+ ggVGgq
+"""""" format current paragrah
+nnoremap <leader>= gqap
+""""""" switch between the last two files
+nnoremap <leader>k <c-^>
+""""""" get answer from the internet
+nnoremap <leader>D :!howdoi 
+"""""" write a file as sudo
+nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
+"""""" add spelling for en/fr
+nnoremap <silent> <leader>S :setlocal spell! spelllang=en,fr<CR>
+"""""" edit the current macro
+nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+"""""" searches for the current selection
+vnoremap <silent> * :call VisualSelection('f', '')<CR>
+vnoremap <silent> # :call VisualSelection('b', '')<CR>
+"}}}
+""" FOLD MANAGEMENT {{{
+nnoremap <leader>z za
+nnoremap <leader>Z zM
+"}}}
+""" BUFFER MANAGEMENT {{{
+nnoremap <leader>e :edit 
+nnoremap <leader>E :tabedit 
+nnoremap <silent> L :bnext<CR>
+nnoremap <silent> H :bprevious<CR>
+nnoremap <leader>b :Bdelete<CR> 
+nnoremap <silent> <leader>p :ccl<CR><CR>
+noremap <silent> <leader>K :set list<CR>
+nnoremap <silent> <leader><Tab> :bnext<cr>
+nnoremap <silent> <leader><S-Tab> :bprevious<cr>
+"}}}
+""" WINDOWS MANAGEMENT {{{
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+noremap <silent> <leader>1 1gt
+noremap <silent> <leader>2 2gt
+noremap <silent> <leader>3 3gt
+noremap <silent> <leader>4 4gt
+noremap <silent> <leader>5 5gt
+noremap <silent> <leader>6 6gt
+noremap <silent> <leader>7 7gt
+noremap <silent> <leader>8 8gt
+noremap <silent> <leader>9 9gt
+noremap <silent> <leader>0 :tablast<cr>
+nnoremap <silent> <leader>x :x<CR>
+nnoremap <silent> <leader>v :ccl<CR>
+nnoremap <silent> <leader>H :split<CR>
+nnoremap <silent> <leader>V :vsplit<CR>
+"}}}
+""" PLUGINS MANAGEMENT {{{
+nnoremap <silent> <leader>PI :PlugInstall<CR>
+nnoremap <silent> <leader>PG :PlugUpgrade<CR>
+nnoremap <silent> <leader>PU :PlugUpdate<CR>
+nnoremap <silent> <leader>PS :PlugStatus<CR>
+nnoremap <silent> <leader>PC :PlugClean<CR>
+nnoremap <silent> <leader>PL :PlugList<CR>
+nnoremap <silent> <leader>PD :PlugDocs<CR>
+nnoremap <leader>PR :source $MYVIMRC<CR>
+"}}}
+""" PLUGINS CONFIGURATIONS {{{
+"""""" edition {{{
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+nnoremap <silent> <leader>A :Tabularize
+nnoremap <silent> <leader>a= :Tabularize /=
+vnoremap <silent> <leader>a= :Tabularize /=
+nnoremap <silent> <leader>a/ :Tabularize /|
+vnoremap <silent> <leader>a/ :Tabularize /|
+nnoremap <silent> <leader>q :Autoformat<CR>
+"}}}
+"""""" navigation {{{
+nnoremap <silent> <leader>/ :Ag<CR>
+nnoremap <silent> <leader>T :Tags<CR>
+nnoremap <silent> <leader>t :BTags<CR>
+nnoremap <silent> <leader>' :Marks<CR>
+nnoremap <silent> <leader>L :Lines<CR>
+nnoremap <silent> <leader>l :BLines<CR>
+nnoremap <silent> <leader>F :GFiles<CR>
+nnoremap <silent> <leader>f :Files .<CR>
+nnoremap <silent> <leader>B :Buffers<CR>
+nnoremap <silent> <leader>y :History<CR>
+nnoremap <silent> <leader>w :Windows<CR>
+nnoremap <silent> <leader>i :Snippets<CR>
+nnoremap <silent> <leader><Space> :Commands<CR>
+nnoremap <silent> <leader>d :YcmCompleter GetDoc<CR>
+nnoremap <silent> <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"}}}
+"""""" definition {{{
+nnoremap <leader>U :Thesaurus 
+nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
+"}}}
+"""""" testing {{{
+" nnoremap <silent> <leader>rf :TestFile<CR>
+" nnoremap <silent> <leader>rl :TestLast<CR>
+" nnoremap <silent> <leader>rs :TestSuite<CR>
+" nnoremap <silent> <leader>rv :TestVisit<CR>
+" nnoremap <silent> <leader>rr :TesgNearest<CR>
+"}}}
+"""""" toggling {{{
+" nnoremap <silent> <leader>G :HardPencil<CR>
+nnoremap <silent> <leader>; :TagbarToggle<CR>
+nnoremap <silent> <leader>` :NERDTreeTabsToggle<CR>
+"}}}
+"""""" tmux management {{{
+nnoremap <Leader>vq :VimuxCloseRunner<CR>
+nnoremap <Leader>vv :VimuxPromptCommand<CR>
+nnoremap <Leader>vi :VimuxInspectRunner<CR>
+nnoremap <Leader>vl :VimuxRunLastCommand<CR>
+nnoremap <Leader>vx :VimuxInterruptRunner<CR>
+nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
+"}}}
+"""""" file management {{{
+nnoremap <leader>R :Move 
+"}}}
+"""""" error management {{{
+nnoremap <silent> <leader>C :ALEToggle<CR>
+nnoremap <silent> <leader>c :ALENextWrap<CR>
+"}}}
+"""""" text management {{{
+" autocmd! FileType text         call pencil#init()
+" autocmd! FileType markdown     call pencil#init()
+autocmd! BufNewFile,BufRead *.{txt,md} setlocal spell spelllang=en,fr whichwrap+=h,l,<,>,[,]
+"}}}
+"""""" pandoc management {{{
+" nnoremap <silent> <leader>OD :Pandoc
+" nnoremap <silent> <leader>OP :autocmd! BufWrite <buffer> :Pandoc pdf<CR> 
+" nnoremap <silent> <leader>OH :autocmd! BufWrite <buffer> :Pandoc html5<CR> 
+"}}}
+"""""" session management {{{
+nnoremap <silent> <leader>NL :SLoad<CR>
+nnoremap <silent> <leader>NS :SSave<CR>
+nnoremap <silent> <leader>NC :SClose<CR>
+nnoremap <silent> <leader>ND :SDelete<CR>
+"}}}
+"""""" snippet management {{{
+nnoremap <silent> <leader>I :UltiSnipsEdit<CR>
+"}}}
+"""""" uml language {{{
+" autocmd BufWritePost *.uml :silent !plantuml <afile>
+"}}}
+"""""" nim language {{{
+" autocmd FileType nim nmap <localleader>i :NimInfo<CR>
+" autocmd FileType nim nmap <localleader>I :NimDebug<CR>
+" autocmd FileType nim nmap <localleader>B :NimEdb<CR>
+" autocmd FileType nim nmap <localleader>bs :NimEdbStop<CR>
+" autocmd FileType nim nmap <localleader>bg :NimEdbIgnore<CR>
+" autocmd FileType nim nmap <localleader>bc :NimEdbContinue<CR>
+" autocmd FileType nim nmap <localleader>bk :NimSkipCurrent<CR>
+" autocmd FileType nim nmap <localleader>bi :NimEdbStepInto<CR>
+" autocmd FileType nim nmap <localleader>bo :NimEdbStepOver<CR>
+" autocmd FileType nim nmap <localleader>bb :NimEdbToggleBP<CR>
+" autocmd FileType nim nmap <localleader>b :NimEdb<CR>
+" autocmd FileType nim nmap <localleader>b :NimEdb<CR>
+" autocmd FileType nim nmap <localleader>d :NimDefition<CR>
+" autocmd FileType nim nmap <localleader>D :NimWeb<CR>
+" autocmd FileType nim nmap <localleader>o :NimOutline<CR>
+" autocmd FileType nim nmap <localleader>O :NimOutlineUpdate<CR>
+" autocmd FileType nim nmap <localleader>u :NimUsage<CR>
+" autocmd FileType nim nmap <localleader>U :NimUsageProject<CR>
+" autocmd FileType nim nmap <localleader>r :NimRenameSymbol<CR>
+" autocmd FileType nim nmap <localleader>R :NimRenameSymbolProject<CR>
+" autocmd FileType nim nmap <localleader>` :NimREPL<CR>
+" autocmd FileType nim nmap <localleader>e :NimREPLEval<CR>
+" autocmd FileType nim nmap <localleader>, :NimREPLEvalFile<CR>
+"}}}
+"""""" lisp language {{{
+autocmd FileType lisp setlocal tabstop=2 shiftwidth=2 softtabstop=2
+"}}}
+"""""" golang language {{{
+" autocmd BufWritePost *.go :GoImports
+" autocmd FileType go nmap <localleader>a <Plug>(go-alternate-edit)
+" autocmd FileType go nmap <localleader>A <Plug>(go-alternate-vertical)
+" autocmd FileType go nmap <localleader>b <Plug>(go-build)
+" autocmd FileType go nmap <localleader>c <Plug>(go-callers)
+" autocmd FileType go nmap <localleader>d <Plug>(go-def-split)
+" autocmd FileType go nmap <localleader>D <Plug>(go-def-pop)
+" autocmd FileType go nmap <localleader>e <Plug>(go-callees)
+" autocmd FileType go nmap <localleader>f <Plug>(go-files)
+" autocmd FileType go nmap <localleader>g <Plug>(go-generate)
+" autocmd FileType go nmap <localleader>h <Plug>(go-doc-split)
+" autocmd FileType go nmap <localleader>H <Plug>(go-doc-browser)
+" autocmd FileType go nmap <localleader>i <Plug>(go-info)
+" autocmd FileType go nmap <localleader>I <Plug>(go-implements)
+" autocmd FileType go nmap <localleader>j <Plug>(go-describe)
+" autocmd FileType go nmap <localleader>k <Plug>(go-referrers)
+" autocmd FileType go nmap <localleader>l <Plug>(go-lint)
+" autocmd FileType go nmap <localleader>m <Plug>(go-metalinter)
+" autocmd FileType go nmap <localleader>n <Plug>(go-install)
+" autocmd FileType go nmap <localleader>o <Plug>(go-rename)
+" autocmd FileType go nmap <localleader>p <Plug>(go-import)
+" autocmd FileType go nmap <localleader>P <Plug>(go-deps)
+" autocmd FileType go nmap <localleader>r <Plug>(go-run-split)
+" autocmd FileType go nmap <localleader>R <Plug>(go-run)
+" autocmd FileType go nmap <localleader>s <Plug>(go-def-stack)
+" autocmd FileType go nmap <localleader>S <Plug>(go-def-clear)
+" autocmd FileType go nmap <localleader>t <Plug>(go-test-func)
+" autocmd FileType go nmap <localleader>T <Plug>(go-test)
+" autocmd FileType go nmap <localleader>v <Plug>(go-vet)
+" autocmd FileType go nmap <localleader>V <Plug>(go-freevars)
+" autocmd FileType go nmap <localleader>y <Plug>(go-coverage)
+" autocmd FileType go nmap <localleader>Y <Plug>(go-coverage-clear)
+" autocmd FileType go nmap <localleader>z <Plug>(go-callstack)
+"}}}
+"""""" python language {{{
+" autocmd BufWritePost *.py :Isort
+" autocmd BufWritePost *.py :Autoformat
+autocmd FileType python setlocal foldmethod=indent
+" autocmd FileType python nnoremap <silent> <localleader>i :Isort<CR>
+" autocmd FileType python nnoremap <silent> <localleader>t :SwitchPyTest<CR>
+"}}}
+"""""" haskell language {{{
+" autocmd FileType haskell nnoremap <silent> <localleader>h :Hoogle<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>H :Hoogle 
+" autocmd FileType haskell nnoremap <silent> <localleader>i :HoogleInfo<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>I :HoogleInfo
+" autocmd FileType haskell nnoremap <silent> <localleader><ESC> :HoogleClose<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>l :GhcModLint<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>c :GhcModCheck<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>v :GhcModType<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>V :GhcModTypeClear<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>e :GhcModExpand<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>s :GhcModSplitFunCase<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>r :call ApplyOneSuggestion()<CR>
+" autocmd FileType haskell nnoremap <silent> <localleader>R :call ApplyAllSuggestion()<CR>
+"""""" use hindent instead of par for haskell buffers
+" autocmd FileType haskell let &formatprg="hindent --tab-size 2 -XQuasiQuotes"
+"}}}
+"}}}
+"

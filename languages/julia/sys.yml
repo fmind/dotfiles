@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -12,10 +11,10 @@
     with_items:
       - czmq
 
-  - name: Installing julia language (ubuntu)
+  - name: Installing julia (ubuntu)
     apt: pkg="julia" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing julia language (fedora)
+  - name: Installing julia (fedora)
     dnf: pkg="julia" state=latest
     when: ansible_distribution == 'Fedora'

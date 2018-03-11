@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  connection: local
   become: false
 
   tasks:
@@ -9,5 +8,5 @@
   - name: Creating ~/bin directory
     file: path="~/bin" state=directory
 
-  - name: Downloading tldr application
+  - name: Installing tldr
     get_url: url="https://raw.githubusercontent.com/raylee/tldr/master/tldr" dest="~/bin/tldr" mode="0750"

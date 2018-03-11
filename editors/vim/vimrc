@@ -33,7 +33,7 @@ set mouse=a
 set splitright
 set splitbelow
 set cursorline
-set synmaxcol=200 
+set synmaxcol=1000
 set background=dark
 colorscheme darkblue
 "}}}
@@ -135,7 +135,7 @@ vmap ; :
 noremap ;; ;
 let maplocalleader=","
 let mapleader="\<Space>"
-nnoremap <leader><leader> :
+noremap <leader><leader> :
 "}}}
 "" ACTIONS {{{
 nnoremap <leader>o :set 

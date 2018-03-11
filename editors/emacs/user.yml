@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  connection: local
   become: false
 
   tasks:
@@ -9,8 +8,8 @@
   - name: Cloning spacemacs repository
     git: repo="https://github.com/syl20bnr/spacemacs" dest="~/.emacs.d" depth=1
 
-  - name: Deploying emacs configuration file
+  - name: Deploying emacs configuration
     file: src="{{playbook_dir}}/spacemacs" dest="~/.spacemacs" state=link force=yes
 
-  - name: Deploying emacs configuration directory
+  - name: Deploying emacs user directory
     file: src="{{playbook_dir}}/spacemacs.d" dest="~/.spacemacs.d" state=link force=yes

@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing ncdu tool (ubuntu)
+  - name: Installing ncdu (ubuntu)
     apt: pkg="ncdu" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ncdu tool (fedora)
+  - name: Installing ncdu (fedora)
     dnf: pkg="ncdu" state=latest
     when: ansible_distribution == 'Fedora'

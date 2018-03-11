@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing pv tool (ubuntu)
+  - name: Installing pv (ubuntu)
     apt: pkg="pv" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing pv tool (fedora)
+  - name: Installing pv (fedora)
     dnf: pkg="pv" state=latest
     when: ansible_distribution == 'Fedora'

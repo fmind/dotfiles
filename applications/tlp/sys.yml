@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  # - name: Installing tlp application (ubuntu)
+  # - name: Installing tlp (ubuntu)
   #   apt: pkg="tlp" state=latest
   #   when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing tlp application (fedora)
+  - name: Installing tlp (fedora)
     dnf: pkg="tlp" state=latest
     when: ansible_distribution == 'Fedora'

@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: Deploying shell environ
+    file: src="{{playbook_dir}}/environ" dest="~/.shell_environ" state=link force=yes
+

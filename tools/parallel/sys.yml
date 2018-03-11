@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing ag tool (ubuntu)
+  - name: Installing ag (ubuntu)
     apt: pkg="parallel" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ag tool (fedora)
+  - name: Installing ag (fedora)
     dnf: pkg="parallel" state=latest
     when: ansible_distribution == 'Fedora'

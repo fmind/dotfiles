@@ -1,24 +1,23 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing python2 language (ubuntu)
+  - name: Installing python2 (ubuntu)
     apt: pkg="python-dev" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing python2 language (fedora)
+  - name: Installing python2 (fedora)
     dnf: pkg="python-devel" state=latest
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing python3 language (ubuntu)
+  - name: Installing python3 (ubuntu)
     apt: pkg="python3-dev" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing python3 language (fedora)
+  - name: Installing python3 (fedora)
     dnf: pkg="python3-devel" state=latest
     when: ansible_distribution == 'Fedora'
 
@@ -38,10 +37,10 @@
     apt: pkg="python3-pip" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing pypy2 language (fedora)
+  - name: Installing pypy2 (ubuntu)
     apt: pkg="pypy" state=latest
-    when: ansible_distribution == 'Fedora'
+    when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing pypy3 language (fedora)
-    apt: pkg="pypy3" state=latest
+  - name: Installing pypy3 (fedora)
+    dnf: pkg="pypy3" state=latest
     when: ansible_distribution == 'Fedora'

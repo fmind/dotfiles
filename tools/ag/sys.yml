@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing ag tool (ubuntu)
+  - name: Installing ag (ubuntu)
     apt: pkg="silversearcher-ag" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ag tool (fedora)
+  - name: Installing ag (fedora)
     dnf: pkg="the_silver_searcher" state=latest
     when: ansible_distribution == 'Fedora'

@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -10,10 +9,10 @@
     apt_repository: repo="ppa:aacebedo/fasd" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing fasd tool (ubuntu)
+  - name: Installing fasd (ubuntu)
     apt: pkg="fasd" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing fasd tool (fedora)
+  - name: Installing fasd (fedora)
     dnf: pkg="fasd" state=latest
     when: ansible_distribution == 'Fedora'

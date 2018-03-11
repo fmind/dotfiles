@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -11,6 +10,6 @@
   #   apt: pkg="htop" state=latest
   #   when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing conda tool (fedora)
+  - name: Installing conda (fedora)
     dnf: pkg="conda-activate" state=latest
     when: ansible_distribution == 'Fedora'

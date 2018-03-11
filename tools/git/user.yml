@@ -1,13 +1,12 @@
 ---
 
 - hosts: localhost
-  connection: local
   become: false
 
   tasks:
 
-  - name: Deploying git ignore file
+  - name: Deploying git ignore
     file: src="{{playbook_dir}}/gitignore" dest="~/.gitignore" state=link force=yes
 
-  - name: Deploying git configuration file
+  - name: Deploying git configuration
     file: src="{{playbook_dir}}/gitconfig" dest="~/.gitconfig" state=link force=yes

@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing imagemagick tool (ubuntu)
+  - name: Installing imagemagick (ubuntu)
     apt: pkg="imagemagick" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing imagemagick tool (fedora)
+  - name: Installing imagemagick (fedora)
     dnf: pkg="ImageMagick" state=latest
     when: ansible_distribution == 'Fedora'

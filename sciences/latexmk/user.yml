@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: Deploying latexmk configuration
+    file: src="{{playbook_dir}}/latexmkrc" dest="~/.latexmkrc" state=link force=yes

@@ -1,14 +1,12 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: no
+  become: false
 
   tasks:
 
   - name: Deploying julia configuration
     file: src="{{playbook_dir}}/juliarc.jl" dest="~/.juliarc.jl" state=link force=yes
-
 
   - name: Installing julia packages
     shell: julia -e 'if Pkg.installed("{{item}}") == nothing Pkg.add("{{item}}") end'

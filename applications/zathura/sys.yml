@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing zathura application (ubuntu)
+  - name: Installing zathura (ubuntu)
     apt: pkg="zathura" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing zathura application (fedora)
+  - name: Installing zathura (fedora)
     dnf: pkg="zathura-plugins-all" state=latest
     when: ansible_distribution == 'Fedora'

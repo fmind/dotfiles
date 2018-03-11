@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -14,7 +13,7 @@
   #   apt_key: keyserver="keyserver.ubuntu.com" id="ACCAF35C"
   #   when: ansible_distribution == 'Ubuntu'
 
-  # - name: Installing insync application (ubuntu)
+  # - name: Installing insync (ubuntu)
   #   apt: pkg="insync" state=latest force=yes
   #   when: ansible_distribution == 'Ubuntu'
 
@@ -22,6 +21,6 @@
     copy: src="{{playbook_dir}}/insync.repo" dest="/etc/yum.repos.d/insync.repo" owner='root' group='root' mode='0644'
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing insync application (fedora)
+  - name: Installing insync (fedora)
     dnf: pkg="insync" state=latest
     when: ansible_distribution == 'Fedora'

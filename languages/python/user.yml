@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  connection: local
   become: false
 
   tasks:
@@ -14,10 +13,6 @@
       - jupyter
       - ptpython
       - jupyterlab
-      # emacs
-      - jedi
-      - json-rpc
-      - service_factory
       # editor
       - yapf
       - isort
@@ -27,11 +22,8 @@
       # system
       - watchdog
       # project
-      - tox
       - ptpdb
-      - twine
       - pipenv
-      - profiling
       - trypackage
       - cookiecutter
       # web client

@@ -1,12 +1,11 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing neovim editor (fedora)
+  - name: Installing neovim (fedora)
     dnf: pkg="neovim" state=latest
     when: ansible_distribution == 'Fedora'
 

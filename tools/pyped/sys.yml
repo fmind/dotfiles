@@ -1,11 +1,10 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing pyped tool (fedora)
+  - name: Installing pyped (fedora)
     dnf: pkg="python3-Pyped" state=latest
     when: ansible_distribution == 'Fedora'

@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing node language (ubuntu)
+  - name: Installing nodejs (ubuntu)
     apt: pkg="nodejs" state="installed"
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing node language (fedora)
+  - name: Installing nodejs (fedora)
     dnf: pkg="nodejs-latest-version" state="installed"
     when: ansible_distribution == 'Fedora'

@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing jq tool (ubuntu)
+  - name: Installing jq (ubuntu)
     apt: pkg="jq" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing jq tool (fedora)
+  - name: Installing jq (fedora)
     dnf: pkg="jq" state=latest
     when: ansible_distribution == 'Fedora'

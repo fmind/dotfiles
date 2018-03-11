@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing rlwrap tool (ubuntu)
+  - name: Installing rlwrap (ubuntu)
     apt: pkg="rlwrap" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing rlwrap tool (fedora)
+  - name: Installing rlwrap (fedora)
     dnf: pkg="rlwrap" state=latest
     when: ansible_distribution == 'Fedora'

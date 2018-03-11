@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -21,11 +20,11 @@
       - erlang-eunit
       - erlang-erl_interface
 
-  - name: Installing elixir language (ubuntu)
+  - name: Installing elixir (ubuntu)
     apt: pkg="elixir" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing elixir language (fedora)
+  - name: Installing elixir (fedora)
     dnf: pkg="elixir" state=latest
     when: ansible_distribution == 'Fedora'
 

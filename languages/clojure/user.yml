@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  connection: local
   become: false
 
   tasks:
@@ -21,11 +20,12 @@
   - name: Installing clojure language (boot)
     get_url: url="https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh" dest="~/bin/boot" mode=0750
 
-  - name: Deploying lein configuration file
+  - name: Deploying lein configuration
     file: src="{{playbook_dir}}/profiles.clj" dest="~/.lein/profiles.clj" state=link force=yes
 
-  - name: Deploying profile file (boot)
+  - name: Deploying boot configuration
+    file: src="{{playbook_dir}}/boot.properties" dest="~/.boot/boot.properties" state=link force=yes
+
+  - name: Deploying boot profile
     file: src="{{playbook_dir}}/profile.boot" dest="~/.boot/profile.boot" state=link force=yes
 
-  - name: Deploying configuration file (boot)
-    file: src="{{playbook_dir}}/boot.properties" dest="~/.boot/boot.properties" state=link force=yes

@@ -1,6 +1,0 @@
----
-
-- hosts: localhost
-  connection: local
-
-- import_playbook: tools/latexmk/user.yml

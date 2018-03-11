@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: Creating ~/.byobu directory
+    file: path="~/.byobu" state=directory
+
+  - name: Deploying byobu configuration
+    file: src="{{playbook_dir}}/{{item}}" dest="~/.byobu/{{item}}" state=link force=yes
+    with_items:
+      - status
+      - backend
+      - statusrc
+      - .tmux.conf
+      - keybindings.tmux

@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing keepassx application (ubuntu)
+  - name: Installing keepassx (ubuntu)
     apt: pkg="keepassx" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing keepassx application (fedora)
+  - name: Installing keepassx (fedora)
     dnf: pkg="keepassx" state=latest
     when: ansible_distribution == 'Fedora'

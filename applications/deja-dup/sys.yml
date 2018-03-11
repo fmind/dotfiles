@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing deja-dup application (ubuntu)
+  - name: Installing deja-dup (ubuntu)
     apt: pkg="deja-dup-nautilus" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing deja-dup application (fedora)
+  - name: Installing deja-dup (fedora)
     dnf: pkg="deja-dup-nautilus" state=latest
     when: ansible_distribution == 'Fedora'

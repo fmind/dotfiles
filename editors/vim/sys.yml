@@ -1,19 +1,26 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Adding vim repository (ubuntu)
-    apt_repository: repo="ppa:jonathonf/vim" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
+  - name: Installing vim (ubuntu + display)
+    apt: pkg="vim-gtk" state=latest
+    when: lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Ubuntu'
 
-  - name: Installing vim editor (ubuntu)
-    apt: pkg="vim" state=latest
-    when: ansible_distribution == 'Ubuntu'
+  - name: Installing vim (ubuntu + console)
+    apt: pkg="vim-X11" state=latest
+    when: not lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Ubuntu'
 
-  - name: Installing vim editor (fedora)
+  - name: Installing vim (fedora + display)
     dnf: pkg="vim" state=latest
-    when: ansible_distribution == 'Fedora'
+    when: lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Fedora'
+
+  - name: Installing vim (fedora + console)
+    dnf: pkg="vim" state=latest
+    when: not lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Fedora'

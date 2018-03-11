@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing htop tool (ubuntu)
+  - name: Installing htop (ubuntu)
     apt: pkg="htop" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing htop tool (fedora)
+  - name: Installing htop (fedora)
     dnf: pkg="htop" state=latest
     when: ansible_distribution == 'Fedora'

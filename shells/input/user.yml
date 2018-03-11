@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: Deploying shell input
+    file: src="{{playbook_dir}}/inputrc" dest="~/.inputrc" state=link force=yes

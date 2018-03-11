@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  connection: local
   become: true
 
   tasks:
@@ -14,10 +13,10 @@
     shell: dnf copr enable -y jsouthworth/racket
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing racket language (ubuntu)
+  - name: Installing racket (ubuntu)
     apt: pkg="racket" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing racket language (fedora)
+  - name: Installing racket (fedora)
     dnf: pkg="racket" state=latest
     when: ansible_distribution == 'Fedora'

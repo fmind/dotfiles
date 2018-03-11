@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -10,10 +9,10 @@
     apt_repository: repo="ppa:ansible/ansible" update_cache=yes
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ansible tool (ubuntu)
+  - name: Installing ansible (ubuntu)
     apt: pkg="ansible" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ansible tool (fedora)
+  - name: Installing ansible (fedora)
     dnf: pkg="ansible" state=latest
     when: ansible_distribution == 'Fedora'

@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: Deploying shell aliases
+    file: src="{{playbook_dir}}/aliases" dest="~/.shell_aliases" state=link force=yes
+

@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing git tool (ubuntu)
+  - name: Installing git (ubuntu)
     apt: pkg="git" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing git tool (fedora)
+  - name: Installing git (fedora)
     dnf: pkg="git" state=latest
     when: ansible_distribution == 'Fedora'

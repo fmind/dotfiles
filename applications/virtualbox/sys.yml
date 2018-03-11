@@ -1,12 +1,11 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing virtualbox application (ubuntu)
+  - name: Installing virtualbox (ubuntu)
     apt: pkg="virtualbox" state=latest
     when: ansible_distribution == 'Ubuntu'
 
@@ -14,12 +13,12 @@
     copy: src="{{playbook_dir}}/virtualbox.repo" dest="/etc/yum.repos.d/virtualbox.repo" owner='root' group='root' mode='0644'
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing virtualbox application (fedora 26)
+  - name: Installing virtualbox (fedora 26)
     dnf: pkg="VirtualBox" state=latest
     when: ansible_distribution == 'Fedora'
     ignore_errors: yes
 
-  - name: Installing virtualbox application (fedora 27)
+  - name: Installing virtualbox (fedora 27)
     dnf: pkg="VirtualBox-5.2" state=latest
     when: ansible_distribution == 'Fedora'
     ignore_errors: yes

@@ -1,15 +1,26 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing emacs editor (ubuntu)
-    apt: pkg="emacs24-nox" state=latest
-    when: ansible_distribution == 'Ubuntu'
+  - name: Installing emacs (ubuntu + display)
+    apt: pkg="emacs" state=latest
+    when: lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Ubuntu'
 
-  - name: Installing emacs editor (fedora)
+  - name: Installing emacs (ubuntu + console)
+    apt: pkg="emacs24-nox" state=latest
+    when: not lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Ubuntu'
+
+  - name: Installing emacs (fedora + display)
+    dnf: pkg="emacs" state=latest
+    when: lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Fedora'
+
+  - name: Installing emacs (fedora + console)
     dnf: pkg="emacs-nox" state=latest
-    when: ansible_distribution == 'Fedora'
+    when: not lookup('env', 'DISPLAY') and
+          ansible_distribution == 'Fedora'

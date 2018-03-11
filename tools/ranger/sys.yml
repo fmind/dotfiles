@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing ranger tool (ubuntu)
+  - name: Installing ranger (ubuntu)
     apt: pkg="ranger" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing ranger tool (fedora)
+  - name: Installing ranger (fedora)
     dnf: pkg="ranger" state=latest
     when: ansible_distribution == 'Fedora'

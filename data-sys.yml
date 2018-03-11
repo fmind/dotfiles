@@ -1,7 +1,0 @@
----
-
-- hosts: localhost
-  connection: local
-
-- import_playbook: tools/conda/sys.yml
-- import_playbook: tools/graphviz/sys.yml

@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: Installing zsh (ubuntu)
+    apt: pkg="zsh" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing zsh (fedora)
+    dnf: pkg="zsh" state=latest
+    when: ansible_distribution == 'Fedora'

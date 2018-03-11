@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing curl tool (ubuntu)
+  - name: Installing curl (ubuntu)
     apt: pkg="curl" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing curl tool (fedora)
+  - name: Installing curl (fedora)
     dnf: pkg="curl" state=latest
     when: ansible_distribution == 'Fedora'

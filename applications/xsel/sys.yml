@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: Installing xsel (ubuntu)
+    apt: pkg="xsel" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing xsel (fedora)
+    dnf: pkg="xsel" state=latest
+    when: ansible_distribution == 'Fedora'

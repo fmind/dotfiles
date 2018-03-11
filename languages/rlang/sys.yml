@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing rlang language (ubuntu)
+  - name: Installing rlang (ubuntu)
     apt: pkg="r-base" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing rlang language (fedora)
+  - name: Installing rlang (fedora)
     dnf: pkg="R-core" state=latest
     when: ansible_distribution == 'Fedora'

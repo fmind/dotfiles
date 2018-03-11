@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing firefox application (ubuntu)
+  - name: Installing firefox (ubuntu)
     apt: pkg="firefox" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing firefox application (fedora)
+  - name: Installing firefox (fedora)
     dnf: pkg="firefox" state=latest
     when: ansible_distribution == 'Fedora'

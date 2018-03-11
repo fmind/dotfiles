@@ -1,15 +1,14 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
-  - name: Installing java language (ubuntu)
+  - name: Installing java (ubuntu)
     apt: pkg="openjdk-7-jdk" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing java language (fedora)
+  - name: Installing java (fedora)
     dnf: pkg="java-1.8.0-openjdk-src" state=latest
     when: ansible_distribution == 'Fedora'

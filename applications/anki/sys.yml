@@ -1,8 +1,7 @@
 ---
 
 - hosts: localhost
-  connection: local
-  become: yes
+  become: true
 
   tasks:
 
@@ -14,10 +13,10 @@
     dnf: pkg="dvipng" state=latest
     when: ansible_distribution == 'Fedora'
 
-  - name: Installing anki application (ubuntu)
+  - name: Installing anki (ubuntu)
     apt: pkg="anki" state=latest
     when: ansible_distribution == 'Ubuntu'
 
-  - name: Installing anki application (fedora)
+  - name: Installing anki (fedora)
     dnf: pkg="anki" state=latest
     when: ansible_distribution == 'Fedora'
