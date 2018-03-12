@@ -60,7 +60,7 @@ editors: editors-sys editors-user;
 editors-sys: editors/emacs/$(SYS) editors/fonts/$(SYS) editors/neovim/$(SYS) editors/vim/$(SYS)
 	$(ANS) -K $^
 
-editors-user: editors/emacs/$(USER) editors/jupyter/$(USER) editors/neovim/$(USER) editors/vim/$(USER)
+editors-user: editors/emacs/$(USER) editors/neovim/$(USER) editors/vim/$(USER)
 	$(ANS) $^
 
 .PHONY: languages
@@ -78,7 +78,7 @@ sciences: science-user science-sys;
 sciences-sys: sciences/latexmk/$(SYS) sciences/pandoc/$(SYS) sciences/tex/$(SYS)
 	$(ANS) -K $^
 
-sciences-user: sciences/latexmk/$(USER)
+sciences-user: jupyter/jupyter/$(USER) sciences/latexmk/$(USER)
 	$(ANS) $^
 
 .PHONY: shells
