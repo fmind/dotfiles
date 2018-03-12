@@ -5,11 +5,11 @@
 
   tasks:
 
-  - name: Creating vim directory
-    file: path="~/.vim/" state=directory
+  - name: Creating neovim user directory
+    file: path="~/.config/nvim/" state=directory
 
-  - name: Creating vim subdirectories
-    file: path="~/.vim/{{item}}/" state=directory
+  - name: Creating neovim sub directories
+    file: path="~/.config/nvim/{{item}}/" state=directory
     with_items:
       - undo
       - swap
@@ -19,11 +19,11 @@
       - plugged
       - autoload
 
-  - name: Deploying vim configuration
-    file: src="{{playbook_dir}}/vimrc" dest="~/.vimrc" state=link force=yes
+  - name: Deploying neovim configuration
+    file: src="{{playbook_dir}}/init.vim" dest="~/.config/nvim/init.vim" state=link force=yes
 
-  - name: Deploying vim snippets files
-    file: src="{{playbook_dir}}/snippets" dest="~/.vim/snippets" state=link force=yes
+  - name: Deploying neovim snippet files
+    file: src="{{playbook_dir}}/snippets" dest="~/.config/nvim/snippets" state=link force=yes
 
-  - name: Installing vim plugin manager
-    get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.vim/autoload/plug.vim" mode=0600
+  - name: Installing neovim plugin manager
+    get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.config/nvim/autoload/plug.vim" mode=0600

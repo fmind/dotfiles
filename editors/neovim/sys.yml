@@ -5,6 +5,14 @@
 
   tasks:
 
+  - name: Installing neovim (ubuntu)
+    dnf: pkg="neovim" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing neovim python (ubuntu)
+    dnf: pkg="python3-neovim" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
   - name: Installing neovim (fedora)
     dnf: pkg="neovim" state=latest
     when: ansible_distribution == 'Fedora'

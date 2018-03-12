@@ -1,11 +1,15 @@
 " vim: fdm=marker
-" STARTING-UP {{{
-let $VIMDIR=$HOME.'/.vim/'
-"}}}
-" CHECKING-UP {{{
+" STARTING {{{
+if has('nvim')
+    let $VIMDIR=$HOME.'/.config/nvim'
+else
+    let $VIMDIR=$HOME.'/.vim/'
+endif
+" }}}
+" CHECKING {{{
 set nocompatible
-"}}}
-" SETTING-UP {{{
+" }}}
+" SETTING {{{
 "" FILES {{{
 set path+=**
 set report=0
@@ -13,11 +17,11 @@ set autochdir
 let g:netrw_liststyle=3
 let g:netrw_browse_split=4
 let g:netrw_list_hide=netrw_gitignore#Hide()
-"}}}
+" }}}
 "" RULER {{{
 set ruler
 set number
-"}}}
+" }}}
 "" STATUS {{{
 set showcmd
 set showmode
@@ -26,7 +30,7 @@ set shortmess=c
 set laststatus=2
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
 set statusline=%t\ %c,%l/%L\ %P\ %r%y\ [%{&ff}]\ [%{strlen(&fenc)?&fenc:'none'}]\ %m
-"}}}
+" }}}
 "" WINDOW {{{
 set title
 set mouse=a
@@ -36,7 +40,7 @@ set cursorline
 set synmaxcol=1000
 set background=dark
 colorscheme darkblue
-"}}}
+" }}}
 "" EDITING {{{
 set hidden
 set confirm
@@ -50,17 +54,17 @@ set ffs=unix,dos,mac
 set formatoptions-=cro
 set clipboard=unnamedplus
 set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
-"}}}
+" }}}
 "" FOLDING {{{
 set foldlevel=0
 set foldmethod=syntax
 set foldlevelstart=99
-"}}}
+" }}}
 "" WRAPPING {{{
 set wrap
 set linebreak
 set textwidth=0
-"}}}
+" }}}
 "" NAVIGATION {{{
 set mat=1
 set gdefault
@@ -74,7 +78,7 @@ set nojoinspaces
 set nostartofline
 set scrolloff=10
 set sidescrolloff=5
-"}}}
+" }}}
 "" IDENTATION {{{
 set expandtab
 set autoindent
@@ -84,15 +88,15 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
-"}}}
+" }}}
 "" NOTIFICATION {{{
 set noerrorbells
 set novisualbell
-"}}}
+" }}}
 "" OPTIMIZATION {{{
 set ttyfast
 set lazyredraw
-"}}}
+" }}}
 "" CONSERVATION {{{
 set backup
 set undofile
@@ -101,14 +105,14 @@ set undodir=$VIMDIR/undo/
 set directory=$VIMDIR/swap/
 set backupdir=$VIMDIR/backup/
 set viminfo ='200,n$VIMDIR/viminfo
-"}}}
-"}}}
-" PLUGING-UP {{{
+" }}}
+" }}}
+" PLUGING {{{
 syntax enable
 filetype plugin on
 filetype indent on
-if !empty(glob($HOME.'/.vim/autoload/plug.vim'))
-call plug#begin($HOME.'/.vim/plugged')
+if !empty(glob($VIMDIR.'/autoload/plug.vim'))
+call plug#begin($VIMDIR.'/plugged')
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -118,8 +122,8 @@ let g:tmux_navigator_save_on_switch = 1
 call plug#end()
 colorscheme molokai
 endif
-""}}}
-" HOOKING-UP {{{
+"" }}}
+" HOOKING {{{
 ""  save buffers on focus lost
 autocmd! FocusLost * silent! wa
 "" restore last cursor position
@@ -127,8 +131,8 @@ autocmd! BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
-"}}}
-" BINDING-UP {{{
+" }}}
+" BINDING {{{
 "" LEADERS {{{
 map ; :
 vmap ; :
@@ -136,7 +140,7 @@ noremap ;; ;
 let maplocalleader=","
 let mapleader="\<Space>"
 noremap <leader><leader> :
-"}}}
+" }}}
 "" ACTIONS {{{
 nnoremap <leader>o :set 
 nnoremap <leader>O :noset 
@@ -146,7 +150,7 @@ nnoremap <leader><Tab> <c-^>
 nnoremap <leader>m :edit $MYVIMRC<CR>
 nnoremap <leader>M :source $MYVIMRC<CR>
 nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
-"}}}
+" }}}
 "" DEFAULT {{{
 noremap j gj
 noremap k gk
@@ -164,9 +168,9 @@ nnoremap - :e .<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 nnoremap <silent> <ESC> :nohl<CR>
-"}}}
+" }}}
 "" EXTENDS {{{
 nnoremap zj o<Esc>k
 nnoremap zk O<Esc>j
-"}}}
-"}}}
+" }}}
+" }}}

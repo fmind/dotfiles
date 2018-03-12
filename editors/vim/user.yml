@@ -5,10 +5,10 @@
 
   tasks:
 
-  - name: Creating vim directory
+  - name: Creating vim user directory
     file: path="~/.vim/" state=directory
 
-  - name: Creating vim subdirectories
+  - name: Creating vim sub directories
     file: path="~/.vim/{{item}}/" state=directory
     with_items:
       - undo
@@ -21,9 +21,6 @@
 
   - name: Deploying vim configuration
     file: src="{{playbook_dir}}/vimrc" dest="~/.vimrc" state=link force=yes
-
-  - name: Deploying vim snippets files
-    file: src="{{playbook_dir}}/snippets" dest="~/.vim/snippets" state=link force=yes
 
   - name: Installing vim plugin manager
     get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.vim/autoload/plug.vim" mode=0600

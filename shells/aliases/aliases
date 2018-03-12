@@ -43,7 +43,7 @@ alias pz="pigz"
 alias puz="unpigz -c"
 # }}}
 # NOTIFICATION{{{
-alias n='notify-send'
+alias a='notify-send'
 alias notify='notify-send'
 #}}}
 # CONFIGURATION{{{
@@ -67,7 +67,6 @@ alias zrc='$EDITOR ~/.zshrc && zsrc'
 alias zsrc='source ~/.zshrc'
 #}}}
 # ADMINISTRATION{{{
-alias a="curl"
 alias r="clear"
 alias i="percol"
 alias cpr="cp -r"
