@@ -6,6 +6,9 @@ USER=user.yml
 HOSTS='localhost,'
 ANS=ansible-playbook -c$(CONN) -i$(HOSTS)
 
+docker:
+	docker build -t fmind/shell .
+
 # GROUPS
 
 all: sys user;
@@ -32,15 +35,12 @@ graphic-sys: applications-sys distributions-sys;
 
 graphic-user: applications-user distribution-user;
 
-docker:
-	docker build -t fmind/shell .
-
 # PROFILES
 
 .PHONY: applications
 applications: applications-user applications-sys;
 
-applications-sys: applications/anki/$(SYS) applications/chrome/$(SYS) applications/deja-dup/$(SYS) applications/insync/$(SYS) applications/keepassx/$(SYS) applications/tlp/$(SYS) applications/xsel/$(SYS)
+applications-sys: applications/anki/$(SYS) applications/chrome/$(SYS) applications/deja-dup/$(SYS) applications/insync/$(SYS) applications/keepassx/$(SYS) applications/tlp/$(SYS) applications/xbacklight/$(SYS) applications/xsel/$(SYS)
 	$(ANS) -K $^
 
 applications-user: ;
@@ -59,7 +59,7 @@ editors: editors-sys editors-user;
 editors-sys: editors/emacs/$(SYS) editors/fonts/$(SYS) editors/neovim/$(SYS) editors/vim/$(SYS)
 	$(ANS) -K $^
 
-editors-user: editors/emacs/$(USER) editors/neovim/$(USER) editors/vim/$(USER)
+editors-user: editors/emacs/$(USER) editors/jupyter/$(USER) editors/neovim/$(USER) editors/vim/$(USER)
 	$(ANS) $^
 
 .PHONY: languages
@@ -95,5 +95,5 @@ tools: tools-sys tools-user;
 tools-sys: tools/ag/$(SYS) tools/ansible/$(SYS) tools/curl/$(SYS) tools/fasd/$(SYS) tools/git/$(SYS) tools/htop/$(SYS) tools/imagemagick/$(SYS) tools/jq/$(SYS) tools/ncdu/$(SYS) tools/parallel/$(SYS) tools/percol/$(SYS) tools/pigz/$(SYS) tools/pv/$(SYS) tools/pyped/$(SYS) tools/ranger/$(SYS) tools/rlwrap/$(SYS)
 	$(ANS) -K $^
 
-tools-user: tools/ag/$(USER) tools/ansible/$(USER) tools/functools/$(USER) tools/git/$(USER) tools/percol/$(USER) tools/tldr/$(USER)
+tools-user: tools/ag/$(USER) tools/ansible/$(USER) tools/cookiecutter/$(USER) tools/functools/$(USER) tools/git/$(USER) tools/httpie/$(USER) tools/percol/$(USER) tools/tldr/$(USER) tools/watchdog/$(USER)
 	$(ANS) $^

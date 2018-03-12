@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: Installing cookiecutter
+    pip: name="cookiecutter" executable="pip3" extra_args="--user" state=latest
+
+  - name: Deploying cookiecutter configuration
+    file: src="{{playbook_dir}}/cookiecutterrc" dest="~/.cookiecutterrc" state=link force=yes

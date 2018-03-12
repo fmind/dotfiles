@@ -1,47 +1,41 @@
+# vim: fdm=marker
 # DEFAULT{{{
-alias ps="ps aux"
-alias duh="du -h"
-alias dfh="df -hT"
 alias wget="wget -c"
 alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
 #}}}
 # EDITION{{{
 alias n="nvim"
-alias a="emacs"
 alias v="$EDITOR"
 alias e="emacs -nw"
 #}}}
 # NAVIGATION{{{
-alias q="ranger"
 alias l="ls --color=auto -CF"
 alias ll="l -lFh"
 alias la="l -lAFh"
 alias lr="l -lRFh"
 alias lt="l -ltFh"
 alias lh="l -ld .*"
-alias cb="cd $OLDPWD"
+alias b="cd $OLDPWD"
+alias q="ranger"
 function c {
   cd "$@" && l
 }
 #}}}
 # INTEGRATION{{{
-alias r="clear"
-alias pq="percol"
 alias o="xdg-open"
 alias u='nautilus . &'
 alias dark="xbacklight -set 30"
 alias bright="xbacklight -set 100"
+alias xk="xsel --clipboard --clear"
 alias xc="xsel --clipboard --output"
-alias xck="xsel --clipboard --clear"
-alias pkgrm="sudo pkcon refresh force -c -1"
 #}}}
 # INFORMATION{{{
 alias gg="google"
-alias ascii="man ascii"
-alias units="man units"
+alias psh="ps aux"
+alias duh="du -h"
+alias dfh="df -hT"
 alias release="lsb_release -c"
-alias cmount="mount | column -t"
 alias extip='curl icanhazip.com'
 #}}}
 # COMPRESSION{{{
@@ -57,7 +51,7 @@ alias arc='$EDITOR ~/.shell_aliases && asrc'
 alias asrc='source ~/.shell_aliases'
 alias brc='$EDITOR ~/.bashrc && bsrc'
 alias bsrc='source ~/.bashrc'
-alias krc='$EDITOR ~/.cookiecutterrc'
+alias cookierc='$EDITOR ~/.cookiecutterrc'
 alias emacsrc='$EDITOR ~/.spacemacs'
 alias erc='$EDITOR ~/.shell_environ && esrc'
 alias esrc='source ~/.shell_environ'
@@ -73,49 +67,44 @@ alias zrc='$EDITOR ~/.zshrc && zsrc'
 alias zsrc='source ~/.zshrc'
 #}}}
 # ADMINISTRATION{{{
+alias a="curl"
+alias r="clear"
+alias i="percol"
 alias cpr="cp -r"
 alias rmr="rm -r"
 alias rmrf="rm -rf"
 alias chx="chmod u+x "
 alias kila='killall'
 alias kil9='killall -9'
+alias srv='sudo service'
 alias tunnell='ssh -nNTL'
 alias tunnelr='ssh -nNTR'
-alias srv='sudo service'
 alias rsinc="rsync -avzu"
 alias pwgen="pwgen -N1 -y"
-alias psmem='ps aux | sort -nk 4'
-alias psproc='ps aux | sort -nk 3'
+alias pkgrm="sudo pkcon refresh force -c -1"
 backup() { cp "$1"{,.bak}; }
 #}}}
 # SHARING{{{
 alias httpserve="python3 -m http.server"
 #}}}
 # EDITING{{{
-alias texmake="latexmk -pv"
-alias texview="latexmk -pv"
-alias texlive="latexmk -pvc"
-alias texclean="latexmk -c"
-alias texpurge="latexmk -C"
 alias imgsize="mogrify -resize "
 alias imgwhite="mogrify -flatten "
 #}}}
 # SEARCHING{{{
+alias k='fasd -al'
+alias ke='fasd -ae'
 alias ka='fasd -al'
 alias kf='fasd -fl'
 alias kd='fasd -dl' 
-alias kv='fasd -fe vim'
-alias ko='fasd -fe xdg-open'
-alias kai='fasd ali'
-alias kfi='fasd -fli'
-alias kdi='fasd -dli'
-alias kvi='fasd -lie vim'
-alias koi='fasd -lie xdg-open'
+alias kv='fasd -fe $EDITOR' 
 alias j='fasd_cd -d'
 alias ji='fasd_cd -di'
+alias f="find . -iname "
+alias fh="find ~ -iname "
 #}}}
 # FILTERING{{{
-alias jqr="jq -r"
+alias y="pyp"
 alias h="head"
 alias hn="head -n"
 alias hh="head -n5"
@@ -124,10 +113,6 @@ alias tn="tail -n"
 alias tt="tail -n5"
 alias igrep="grep -i"
 alias rgrep="grep -iR"
-alias colt="column -t"
-alias fid="find . -iname "
-alias fih="find ~ -iname "
-alias awktab="awk -F $'\t'"
 function union {
     sort $1 $2 | uniq
 }
@@ -139,6 +124,8 @@ function difference {
 }
 #}}}
 # TRANSFORMING{{{
+alias jqr="jq -r"
+alias colt="column -t"
 alias lower="tr '[:upper:]' '[:lower:]'"
 alias upper="tr '[:lower:]' '[:upper:]'"
 #}}}
@@ -156,11 +143,8 @@ function gho {
     git push -u origin master
 }
 #}}}
-## UML{{{
+## Uml{{{
 alias uml="plantuml"
-#}}}
-## SRUN{{{
-alias sri="srun -p interactive --qos qos-interactive --pty bash -i"
 #}}}
 ## Project{{{
 alias m="make"
@@ -169,7 +153,6 @@ alias ck="cookiecutter"
 ## Ansible{{{
 alias an="ansible-playbook -i 'localhost,' -c local"
 alias ans="an --ask-become"
-alias ana="ans *.yml"
 #}}}
 ## Docker{{{
 alias dk="docker"
@@ -177,6 +160,7 @@ alias dkstart="service docker start"
 alias dkrm="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
 alias dkdata='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
 alias dkmongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+alias dkshell='docker run --rm --name shell fmind/shell'
 #}}}
 ## Watchdog{{{
 alias wdl="watchmedo log"
@@ -191,18 +175,17 @@ alias jac="javac"
 alias jaj="java -jar"
 #}}}
 ## Groovy{{{
-alias gro="groovy"
-alias gron="groovy -n"
-alias grop="groovy -p"
-alias gros="groovysh"
-alias groe="groovysh -e"
-alias grod="groovydoc"
+alias gr="groovy"
+alias grn="groovy -n"
+alias grp="groovy -p"
+alias grs="groovysh"
+alias grd="groovydoc"
 #}}}
 ## Racket{{{
-alias rc="raco"
-alias rk="racket"
-alias rkclj="racket -I rackjure"
-alias rkrc="$EDITOR ~/.racketrc"
+# alias rc="raco"
+# alias rk="racket"
+# alias rkclj="racket -I rackjure"
+# alias rkrc="$EDITOR ~/.racketrc"
 #}}}
 ## Clojure{{{
 alias clrc="$EDITOR ~/.lein/profiles.clj"
@@ -233,7 +216,7 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 # alias hrc="$EDITOR ~/.stack/config.yaml"
 #}}}
 ## Go{{{
-alias mygo="cd $GOREPO"
+# alias mygo="cd $GOREPO"
 #}}}
 ## Nim{{{
 # alias nb="nimble"
@@ -254,38 +237,39 @@ alias mygo="cd $GOREPO"
 # alias jl="julia"
 # alias jlp="julia -p auto"
 #}}}
+## Latex {{{
+alias texmake="latexmk -pv"
+alias texview="latexmk -pv"
+alias texlive="latexmk -pvc"
+alias texclean="latexmk -c"
+alias texpurge="latexmk -C"
+#}}}
 ## Elixir{{{
 # export ERL_AFLAGS="-kernel shell_history enabled"
-#}}}
-## Pip{{{
-alias pps="pip search"
-alias ppi="pip install"
-alias ppy="pip install --user"
-alias ppu="pip uninstall"
-#}}}
-## Pipenv{{{
-alias pes='pipenv shell --fancy'
-# pipenv install --system --deploy
-# pipenv install --system
 #}}}
 ## Python{{{
 alias p="ptpython"
 alias pi="ptpython -i"
 alias py="python"
+alias pyp="try"
+alias pyy="yapf"
 alias pyd="pydoc"
+alias pys="isort"
+alias pyf="flake8"
 alias pyt="pytest"
 alias py2="python2"
 alias py3="python3"
 alias pys="python setup.py"
 alias pym="python -m doctest"
-#}}}
-## Jupyter{{{
+alias pps="pip search"
+alias ppi="pip install"
+alias ppu="pip uninstall"
+alias ppp="pip install --user"
+alias pes='pipenv shell --fancy'
+alias pva="source venv/bin/activate"
+alias pvd="deactivate"
 alias pnp="ipcluster start -n $(nproc)"
 alias pnl="jupyter lab --NotebookApp.token="
-alias pnn="jupyter-notebook --NotebookApp.token="
-#}}}
-## VirtualEnv{{{
-alias pvd="deactivate"
-alias pva="source venv/bin/activate"
+alias pnn="jupyter notebook --NotebookApp.token="
 #}}}
 #}}}

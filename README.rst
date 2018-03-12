@@ -1,6 +1,6 @@
 dotfiles
 ========
 
-Configurations for my favorite tools.
+Configuration of my favorite tools.
 
-Enjoy !
+Happy Hacking !

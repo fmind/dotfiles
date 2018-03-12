@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: Installing httpie
+    pip: name="httpie" executable="pip3" extra_args="--user" state=latest
+
+  - name: Installing httpie prompt
+    pip: name="http-prompt" executable="pip3" extra_args="--user" state=latest
