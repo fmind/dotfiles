@@ -7,7 +7,8 @@ HOSTS='localhost,'
 ANS=ansible-playbook -c$(CONN) -i$(HOSTS)
 
 docker:
-	docker build -t fmind/shell .
+	docker build --no-cache -t fmind/shell .
+	docker push fmind/shell
 
 # GROUPS
 
