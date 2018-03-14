@@ -1,8 +1,6 @@
 " vim: fdm=marker
 " STARTING {{{
-if has('nvim')
-    let $VIMDIR=$HOME.'/.config/nvim'
-else
+if !exists("$VIMDIR")
     let $VIMDIR=$HOME.'/.vim/'
 endif
 " }}}
@@ -143,13 +141,12 @@ noremap <leader><leader> :
 " }}}
 "" ACTIONS {{{
 nnoremap <leader>o :set 
-nnoremap <leader>O :noset 
 nnoremap <leader>= gqap
 nnoremap <leader>+ ggVGgq
 nnoremap <leader><Tab> <c-^>
 nnoremap <leader>m :edit $MYVIMRC<CR>
 nnoremap <leader>M :source $MYVIMRC<CR>
-nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
+nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
 " }}}
 "" DEFAULT {{{
 noremap j gj
@@ -157,17 +154,19 @@ noremap k gk
 noremap B g^
 noremap E g$
 noremap Y y$
+noremap gj gJ
 noremap U <C-r>
 noremap J <C-d>
 noremap K <C-u>
-noremap L :bnext<CR>
-noremap H :bprevious<CR>
 xnoremap <  <gv
 xnoremap >  >gv
-nnoremap - :e .<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+noremap L :bnext<CR>
+noremap H :bprevious<CR>
 nnoremap <silent> <ESC> :nohl<CR>
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
 " }}}
 "" EXTENDS {{{
 nnoremap zj o<Esc>k

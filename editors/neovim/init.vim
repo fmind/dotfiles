@@ -1,5 +1,6 @@
 " vim: fdm=marker
 " STARTING {{{
+let $VIMDIR=$HOME.'/.config/nvim'
 source ~/.vimrc
 "}}}
 " SETTING {{{
