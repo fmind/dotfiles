@@ -12,7 +12,7 @@ filetype plugin on
 filetype indent on
 if !empty(glob($VIMDIR.'/autoload/plug.vim'))
 call plug#begin($VIMDIR.'/plugged')
-"" UI {{{
+"" SIDE {{{
 Plug 'scrooloose/nerdtree' 
 let g:NERDTreeQuitOnOpen = 1
 let NERDTreeIgnore=['\.pyc$', '\~$']
@@ -20,21 +20,26 @@ nnoremap <silent> <leader>` :NERDTreeToggle<CR>
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 " Plug 'majutsushi/tagbar'
-" Plug 'bling/vim-airline' 
-" let g:airline_powerline_fonts=1
-" let g:airline#extensions#tabline#enabled = 1
+Plug 'bling/vim-airline' 
+" test powerline fonts symbol >
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_grep = 'ag'
 let g:gitgutter_map_keys = 0
+nnoremap ]c <Plug>GitGutterNextHunk
+nnoremap [c <Plug>GitGutterPrevHunk
+nnoremap <silent> <leader>G :GitGutterToggle<CR>
 " }}}
 "" THEME {{{
-" Plug 'tomasr/molokai'
-" let g:molokai_original = 1
-" colorscheme molokai
+Plug 'tomasr/molokai'
+colorscheme molokai
+let g:molokai_original = 1
 " }}}
 "" BASE {{{
 " Plug 'tpope/vim-repeat'
 " Plug 'wellle/targets.vim'
+" denite?
 " Plug 'tpope/vim-surround'
 " Plug 'tpope/vim-commentary'
 " Plug 'Raimondi/delimitMate'
@@ -69,6 +74,7 @@ let g:gitgutter_map_keys = 0
 ""}}}
 """" DEVELOPPING {{{
 "Plug 'w0rp/ale'
+"let $FZF_DEFAULT_COMMAND = 'ag -p ~/.agignore -g ""'
 "Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 "Plug 'junegunn/fzf.vim'
 " let $FZF_DEFAULT_COMMAND = 'ag -p ~/.agignore -g ""'

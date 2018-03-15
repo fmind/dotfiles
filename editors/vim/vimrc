@@ -112,8 +112,6 @@ filetype indent on
 if !empty(glob($VIMDIR.'/autoload/plug.vim'))
 call plug#begin($VIMDIR.'/plugged')
 Plug 'tomasr/molokai'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
