@@ -8,6 +8,7 @@
   - name: Installing python3 tools
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
+      - jedi
       - yapf
       - isort
       - pipenv

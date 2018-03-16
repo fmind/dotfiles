@@ -19,6 +19,7 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 "" RULER {{{
 set ruler
 set number
+set relativenumber
 " }}}
 "" STATUS {{{
 set showcmd
@@ -32,6 +33,7 @@ set statusline=%t\ %c,%l/%L\ %P\ %r%y\ [%{&ff}]\ [%{strlen(&fenc)?&fenc:'none'}]
 "" WINDOW {{{
 set title
 set mouse=a
+set t_Co=256
 set splitright
 set splitbelow
 set cursorline
@@ -142,8 +144,8 @@ nnoremap <leader>o :set
 nnoremap <leader>= gqap
 nnoremap <leader>+ ggVGgq
 nnoremap <leader><Tab> <c-^>
-nnoremap <leader>m :edit $MYVIMRC<CR>
-nnoremap <leader>M :source $MYVIMRC<CR>
+nnoremap <leader>' :edit $MYVIMRC<CR>
+nnoremap <leader>" :source $MYVIMRC<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
 " }}}
 "" DEFAULT {{{
@@ -158,6 +160,8 @@ noremap J <C-d>
 noremap K <C-u>
 xnoremap <  <gv
 xnoremap >  >gv
+nnoremap zj o<Esc>k
+nnoremap zk O<Esc>j
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 noremap L :bnext<CR>
@@ -165,9 +169,5 @@ noremap H :bprevious<CR>
 nnoremap <silent> <ESC> :nohl<CR>
 nnoremap <expr> n  'Nn'[v:searchforward]
 nnoremap <expr> N  'nN'[v:searchforward]
-" }}}
-"" EXTENDS {{{
-nnoremap zj o<Esc>k
-nnoremap zk O<Esc>j
 " }}}
 " }}}
