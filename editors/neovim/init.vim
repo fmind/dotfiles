@@ -149,9 +149,11 @@ let g:molokai_original = 1
 "" let g:test#preserve_screen = 1
 "" let test#strategy = "vimux"
 "" let test#python#runner = 'pytest'
+" https://github.com/roxma/vim-tmux-clipboard
 "
 "Plug 'sheerun/vim-polyglot'
 "" Plug 'aklt/plantuml-syntax'
+" https://github.com/donRaphaco/neotex
 "
 
 ""}}}
