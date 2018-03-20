@@ -1,6 +1,84 @@
 dotfiles
 ========
 
-Configuration of my favorite tools.
+Configuration of my favorite tools:
+
+- [applications] anki
+- [applications] chrome
+- [applications] deja-dup
+- [applications] firefox
+- [applications] insync
+- [applications] keepassx
+- [applications] skype
+- [applications] steam
+- [applications] teamviewer
+- [applications] tlp
+- [applications] unison
+- [applications] virtualbox
+- [applications] xbacklight
+- [applications] xsel
+- [applications] zathura
+- [distributions] fedora
+- [distributions] gnome
+- [editors] emacs
+- [editors] fonts
+- [editors] idea
+- [editors] neovim
+- [editors] vim
+- [languages] clang
+- [languages] clojure
+- [languages] elixir
+- [languages] golang
+- [languages] graphviz
+- [languages] groovy
+- [languages] haskell
+- [languages] java
+- [languages] julia
+- [languages] nim
+- [languages] nodejs
+- [languages] plantuml
+- [languages] python
+- [languages] racket
+- [languages] rlang
+- [sciences] jupyter
+- [sciences] latexmk
+- [sciences] pandoc
+- [sciences] tex
+- [services] datomic
+- [services] docker
+- [services] hadoop
+- [shells] aliases
+- [shells] bash
+- [shells] byobu
+- [shells] check
+- [shells] config
+- [shells] environ
+- [shells] input
+- [shells] zsh
+- [tools] ag
+- [tools] ansible
+- [tools] autoenv
+- [tools] conda
+- [tools] cookiecutter
+- [tools] curl
+- [tools] fasd
+- [tools] functools
+- [tools] git
+- [tools] htop
+- [tools] httpie
+- [tools] imagemagick
+- [tools] jq
+- [tools] ncdu
+- [tools] parallel
+- [tools] percol
+- [tools] pigz
+- [tools] pv
+- [tools] pyenv
+- [tools] pyped
+- [tools] ranger
+- [tools] rlwrap
+- [tools] tldr
+- [tools] watchdog
+- [tools] zsh
 
 Happy Hacking !

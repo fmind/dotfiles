@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+cat > README.rst <<EOF
+dotfiles
+========
+
+Configuration of my favorite tools:
+
+EOF
+
+find . -mindepth 2 -maxdepth 2 -type d -not -path '*/\.*' | sort | sed -E 's?./(.*)/(.*)?- [\1] \2?' >> README.rst
+
+printf "\n" >> README.rst
+echo 'Happy Hacking !' >> README.rst
