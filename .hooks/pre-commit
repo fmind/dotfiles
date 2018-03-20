@@ -15,4 +15,6 @@ find . -mindepth 2 -maxdepth 2 -type d -not -path '*/\.*' | sort | sed -E 's?./(
 printf "\n" >> README.rst
 echo 'Happy Hacking !' >> README.rst
 
+echo '[hook] README.rst generated'
+
 git add README.rst
