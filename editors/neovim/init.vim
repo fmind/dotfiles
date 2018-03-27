@@ -9,6 +9,14 @@ filetype plugin on
 filetype indent on
 if !empty(glob($VIMDIR.'/autoload/plug.vim'))
 call plug#begin($VIMDIR.'/plugged')
+"" PLUG {{{
+nnoremap <leader> pd :PlugDiff<CR>
+nnoremap <leader> pc :PlugClean<CR>
+nnoremap <leader> ps :PlugStatus<CR>
+nnoremap <leader> pu :PlugUpdate<CR>
+nnoremap <leader> pg :PlugUpgrade<CR>
+nnoremap <leader> pi :PlugInstall<CR>
+" }}}
 "" SIDE {{{
 Plug 'majutsushi/tagbar'
 let g:tagbar_autofocus = 1
@@ -45,18 +53,49 @@ Plug 'christoomey/vim-sort-motion'
 Plug 'michaeljsmith/vim-indent-object'
 " }}}
 "" EDITION {{{
+Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
+Plug 'reedes/vim-pencil'
+let g:pencil#textwidth = 80
+nnoremap <leader>W :HardPencil<CR>
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-speeddating'
+Plug 'junegunn/vim-easy-align'
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+Plug 'godlygeek/tabular'
+noremap <leader>X :Tabularize 
+noremap <leader>x, :Tabularize /,<CR>
+noremap <leader>x, :Tabularize /;<CR>
 " }}}
-"" INTEGRATION {{{
+"" INTERNAL {{{
 Plug 'w0rp/ale'
 nnoremap <leader>E :ALEToggle<CR>
 nnoremap <leader>e :ALENextWrap<CR>
-Plug 'tpope/vim-eunuch'
+Plug 'SirVer/ultisnips'
+nnoremap <leader>I :UltiSnipsEdit<CR>
+let g:UltiSnipsEditSplit = 'context'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsListSnippets="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+let g:UltiSnipsSnippetsDir = $VIMDIR.'/snippets/'
+Plug 'mhinz/vim-startify'
+let g:startify_session_dir = $VIMDIR.'/session/'
+nnoremap <leader>S :Startify<CR>
+nnoremap <leader>sl :SLoad<CR>
+nnoremap <leader>ss :SSave<CR>
+nnoremap <leader>sc :SClose<CR>
+nnoremap <leader>sd :SDelete<CR>
+Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
+Plug 'tpope/vim-projectionist'
+nnoremap <leader>k :A<CR>
+" }}}
+"" EXTERNAL {{{
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -p ~/.agignore -g ""'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
@@ -80,14 +119,24 @@ nnoremap <leader>: :History:<CR>
 nnoremap <leader>; :History/<CR>
 nnoremap <leader>? :Helptags<CR>
 nnoremap <leader><Space> :Commands<CR>
-Plug 'SirVer/ultisnips'
-nnoremap <leader>I :UltiSnipsEdit<CR>
-let g:UltiSnipsEditSplit = 'context'
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsListSnippets="<s-tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-p>"
-let g:UltiSnipsSnippetsDir = $VIMDIR.'/snippets/'
+Plug 'benmills/vimux'
+nnoremap <Leader>ro :VimuxOpenRunner<CR>
+nnoremap <Leader>rc :VimuxCloseRunner<CR>
+nnoremap <Leader>rr :VimuxPromptCommand<CR>
+nnoremap <Leader>ri :VimuxInspectRunner<CR>
+nnoremap <Leader>rl :VimuxRunLastCommand<CR>
+nnoremap <Leader>rx :VimuxInterruptRunner<CR>
+nnoremap <Leader>rz :call VimuxZoomRunner()<CR>
+Plug 'tpope/vim-eunuch'
+Plug 'janko-m/vim-test'
+let test#strategy = "vimux"
+let test#python#runner = 'pytest'
+let g:test#preserve_screen = 1
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>ts :TestSuite<CR>
+nnoremap <leader>tv :TestVisit<CR>
+nnoremap <leader>tt :TesgNearest<CR>
 Plug 'tpope/vim-fugitive'
 noremap <Leader>G Git 
 noremap <Leader>gj :Glcd 
@@ -101,10 +150,19 @@ noremap <Leader>go :Gbrowse<CR>
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
+Plug 'fisadev/vim-isort'
 Plug 'zchee/deoplete-jedi'
+Plug 'aklt/plantuml-syntax', {'for': 'plantuml'}
+Plug 'scrooloose/vim-slumlord', {'for': 'plantuml'}
+Plug 'Chiel92/vim-autoformat'
+let g:formatters_python = ['yapf']
+nnoremap <leader>= :Autoformat<CR>
 Plug 'wellle/tmux-complete.vim'
 let g:deoplete#enable_at_startup = 1
+Plug 'plytophogy/vim-virtualenv'
+nnoremap <leader>vl :VirtualEnvList<CR>
+nnoremap <leader>vv :VirtualEnvActivate
+nnoremap <leader>vd :VirtualEnvDeactivateh<CR>
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
 Plug 'beloglazov/vim-online-thesaurus'
@@ -116,97 +174,16 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 Plug 'tomasr/molokai'
 colorscheme molokai
 let g:molokai_original = 1
+Plug 'ryanoasis/vim-devicons'
 " }}}
-"
-"" BASE {{{
-" denite?
-" pencil ?
-" DEVICON
-" vim session
-"
-"let g:session_directory = "~/.vim/session"
-"let g:session_autoload = "no"
-"let g:session_autosave = "no"
-"let g:session_command_aliases = 1
-"nnoremap <leader>so :OpenSession<CR>
-"nnoremap <leader>ss :SaveSession<CR>
-"nnoremap <leader>sd :DeleteSession<CR>
-"nnoremap <leader>sc :CloseSession<CR>
-" }}}
-
-
-""" TUNING {{{
-" Plug 'moll/vim-bbye'
-" Plug 'benmills/vimux'
-" Plug 'junegunn/vim-easy-align'
-"}}}
-"""" WRITING {{{
-"Plug 'godlygeek/tabular'
-"Plug 'plasticboy/vim-markdown'
-""}}}
-"""" DEVELOPPING {{{
-"" Plug 'janko-m/vim-test'
-"" let g:test#preserve_screen = 1
-"" let test#strategy = "vimux"
-"" let test#python#runner = 'pytest'
-" https://github.com/roxma/vim-tmux-clipboard
-"
-"Plug 'sheerun/vim-polyglot'
-"" Plug 'aklt/plantuml-syntax'
-" https://github.com/donRaphaco/neotex
-"
-
-""}}}
 call plug#end()
 endif
-"""}}}
+" https://github.com/akrawchyk/awesome-vim
+" https://github.com/jarolrod/vim-python-ide
 ""}}}
-" BINDING {{{
-"" ACTIONS {{{
-"}}}
-
-"""" PLUGINS CONFIGURATIONS {{{
-""""""" edition {{{
-"xmap ga <Plug>(EasyAlign)
-"nmap ga <Plug>(EasyAlign)
-"nnoremap <leader>A :Tabularize
-"nnoremap <leader>a= :Tabularize /=
-"vnoremap <leader>a= :Tabularize /=
-"nnoremap <leader>a/ :Tabularize /|
-"vnoremap <leader>a/ :Tabularize /|
-"nnoremap <leader>q :Autoformat<CR>
-""}}}
-""""""" testing {{{
-"" nnoremap <leader>rf :TestFile<CR>
-"" nnoremap <leader>rl :TestLast<CR>
-"" nnoremap <leader>rs :TestSuite<CR>
-"" nnoremap <leader>rv :TestVisit<CR>
-"" nnoremap <leader>rr :TesgNearest<CR>
-""}}}
-""""""" toggling {{{
-"" nnoremap <leader>G :HardPencil<CR>
-""}}}
-""""""" tmux management {{{
-"nnoremap <Leader>vq :VimuxCloseRunner<CR>
-"nnoremap <Leader>vv :VimuxPromptCommand<CR>
-"nnoremap <Leader>vi :VimuxInspectRunner<CR>
-"nnoremap <Leader>vl :VimuxRunLastCommand<CR>
-"nnoremap <Leader>vx :VimuxInterruptRunner<CR>
-"nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
-""}}}
-""""""" error management {{{
-""}}}
-""""""" text management {{{
-"autocmd! BufNewFile,BufRead *.{txt,md} setlocal spell spelllang=en,fr whichwrap+=h,l,<,>,[,]
-""}}}
-""""""" uml language {{{
-"" autocmd BufWritePost *.uml :silent !plantuml <afile>
-""}}}
-""""""" python language {{{
-"" vim-virtualenv
-"" autocmd BufWritePost *.py :Isort
-"" autocmd BufWritePost *.py :Autoformat
-"" autocmd FileType python setlocal foldmethod=indent
-"" autocmd FileType python nnoremap <localleader>i :Isort<CR>
-""}}}
-""}}}
+" LANGUAGES {{{
+"" PYTHON {{{
+autocmd BufWritePost *.py :Isort
+autocmd BufWritePost *.py :Autoformat
+" }}}
+" }}}
