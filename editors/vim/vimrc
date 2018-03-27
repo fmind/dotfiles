@@ -122,15 +122,6 @@ call plug#end()
 colorscheme molokai
 endif
 "" }}}
-" HOOKING {{{
-""  save buffers on focus lost
-autocmd! FocusLost * silent! wa
-"" restore last cursor position
-autocmd! BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-" }}}
 " BINDING {{{
 "" LEADERS {{{
 map ; :

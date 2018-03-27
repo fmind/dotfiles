@@ -22,6 +22,7 @@ abbreviations:
     pa: https://github.com/fmind/python-analysis-template.git
     pp: https://github.com/fmind/python-project-template.git
     ps: https://github.com/fmind/python-script-template.git
+    pw: https://github.com/fmind/python-webstatic-template.git
     slides: https://github.com/fmind/html-slides-template.git
     sp: https://github.com/fmind/scala-project-template.git
     ss: https://github.com/fmind/scala-script-template.git

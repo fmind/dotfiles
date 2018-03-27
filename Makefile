@@ -10,6 +10,12 @@ docker:
 	docker build --no-cache -t fmind/shell .
 	docker push fmind/shell
 
+%/sys.yml:
+	$(ANS) -k $@
+
+%/user.yml:
+	$(ANS) $@
+
 # GROUPS
 
 all: sys user;
