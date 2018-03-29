@@ -37,9 +37,6 @@
   - name: Deploying yapf configuration
     file: src="{{playbook_dir}}/yapf" dest="~/.config/yapf/style" state=link force=yes
 
-  - name: Deploying flake8 configuration
-    file: src="{{playbook_dir}}/flake8" dest="~/.config/flake8" state=link force=yes
-
   - name: Creating ptpython user directory
     file: path="~/.ptpython" state=directory
 

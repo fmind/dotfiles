@@ -5,7 +5,6 @@ index-servers =
 
 [pypi]
 username = fmind
-repository = https://upload.pypi.org/legacy/
 
 [testpypi]
 username = fmind
