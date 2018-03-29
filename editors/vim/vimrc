@@ -144,7 +144,6 @@ noremap k gk
 noremap B g^
 noremap E g$
 noremap Y y$
-noremap gj gJ
 noremap U <C-r>
 noremap J <C-d>
 noremap K <C-u>
@@ -154,6 +153,8 @@ nnoremap zj o<Esc>k
 nnoremap zk O<Esc>j
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+noremap gs :sort<CR>
+noremap gj :join<CR>
 noremap L :bnext<CR>
 noremap H :bprevious<CR>
 nnoremap <silent> <ESC> :nohl<CR>
