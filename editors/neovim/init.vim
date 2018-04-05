@@ -40,12 +40,12 @@ nnoremap <leader><Space> :Commands<CR>
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -p ~/.agignore -g ""'
 " }}}
 "" plug {{{
-nnoremap <leader> pd :PlugDiff<CR>
-nnoremap <leader> pc :PlugClean<CR>
-nnoremap <leader> ps :PlugStatus<CR>
-nnoremap <leader> pu :PlugUpdate<CR>
-nnoremap <leader> pg :PlugUpgrade<CR>
-nnoremap <leader> pi :PlugInstall<CR>
+nnoremap <leader>pd :PlugDiff<CR>
+nnoremap <leader>pc :PlugClean<CR>
+nnoremap <leader>ps :PlugStatus<CR>
+nnoremap <leader>pu :PlugUpdate<CR>
+nnoremap <leader>pg :PlugUpgrade<CR>
+nnoremap <leader>pi :PlugInstall<CR>
 " }}}
 "" test {{{
 Plug 'janko-m/vim-test'
@@ -57,6 +57,10 @@ nnoremap <leader>tl :TestLast<CR>
 nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tv :TestVisit<CR>
 nnoremap <leader>tt :TesgNearest<CR>
+" }}}
+"" codi {{{
+Plug 'metakirby5/codi.vim'
+nnoremap <leader>c :Codi!!<CR>
 " }}}
 "" sneak {{{
 Plug 'justinmk/vim-sneak'
@@ -190,6 +194,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-eunuch'
 Plug 'reedes/vim-pencil'
 Plug 'tpope/vim-abolish'
+Plug 'lepture/vim-jinja'
 Plug 'fisadev/vim-isort'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
@@ -198,14 +203,14 @@ Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/matchit.zip'
+Plug 'farmergreg/vim-lastplace'
 Plug 'christoomey/vim-sort-motion'
 Plug 'michaeljsmith/vim-indent-object'
+Plug 'coderifous/textobj-word-column.vim'
 Plug 'aklt/plantuml-syntax', {'for': 'plantuml'}
 Plug 'scrooloose/vim-slumlord', {'for': 'plantuml'}
 call plug#end()
 endif
-" https://github.com/akrawchyk/awesome-vim
-" https://github.com/jarolrod/vim-python-ide
 ""}}}
 " LANGUAGES {{{
 "" python {{{
