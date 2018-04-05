@@ -13,6 +13,7 @@ call plug#begin($VIMDIR.'/plugged')
 Plug 'w0rp/ale'
 nnoremap <leader>E :ALEToggle<CR>
 nnoremap <leader>e :ALENextWrap<CR>
+nnoremap <leader><C-e> :ALEPreviousWrap<CR>
 " }}}
 "" fzf {{{
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
