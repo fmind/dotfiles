@@ -202,6 +202,7 @@ Plug 'fisadev/vim-isort'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['latex']
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-speeddating'
