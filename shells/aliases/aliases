@@ -237,13 +237,6 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 # alias jl="julia"
 # alias jlp="julia -p auto"
 #}}}
-## Latex {{{
-alias texmake="latexmk -pv"
-alias texview="latexmk -pv"
-alias texlive="latexmk -pvc"
-alias texclean="latexmk -c"
-alias texpurge="latexmk -C"
-#}}}
 ## Elixir{{{
 # export ERL_AFLAGS="-kernel shell_history enabled"
 #}}}

@@ -88,6 +88,9 @@ nnoremap <leader>j :TagbarToggle<CR>
 let g:pencil#textwidth = 80
 nnoremap <leader>W :HardPencil<CR>
 " }}}
+"" vimtex {{{
+Plug 'lervag/vimtex', { 'for': 'tex' }
+" }}}
 "" tabular {{{
 Plug 'godlygeek/tabular'
 noremap <leader>X :Tabularize 
