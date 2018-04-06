@@ -98,7 +98,6 @@ noremap <leader>x, :Tabularize /;<CR>
 Plug 'tomasr/molokai'
 colorscheme molokai
 let g:molokai_original = 1
-Plug 'ryanoasis/vim-devicons'
 " }}}
 "" airline {{{
 Plug 'bling/vim-airline' 
@@ -213,7 +212,7 @@ Plug 'scrooloose/vim-slumlord', {'for': 'plantuml'}
 call plug#end()
 endif
 ""}}}
-" LANGUAGES {{{
+" LANGS {{{
 "" python {{{
 autocmd BufWritePost *.py :Isort
 autocmd BufWritePost *.py :Autoformat
