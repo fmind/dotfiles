@@ -113,15 +113,6 @@ alias tn="tail -n"
 alias tt="tail -n5"
 alias igrep="grep -i"
 alias rgrep="grep -iR"
-function union {
-    sort $1 $2 | uniq
-}
-function intersect {
-    sort $1 $2 | uniq -d
-}
-function difference {
-    sort $1 $2 $1 | uniq -u
-}
 #}}}
 # TRANSFORMING{{{
 alias jqr="jq -r"
