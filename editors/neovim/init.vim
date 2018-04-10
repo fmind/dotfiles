@@ -218,7 +218,7 @@ endif
 ""}}}
 " LANGS {{{
 "" python {{{
-autocmd BufWritePost *.py :Isort
+"autocmd BufWritePost *.py :Isort
 autocmd BufWritePost *.py :Autoformat
 " }}}
 " }}}
