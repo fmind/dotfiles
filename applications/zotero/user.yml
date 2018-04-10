@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+
+  tasks:
+
+  - name: Downloading Zotero
+    unarchive: src="https://www.zotero.org/download/client/dl?channel=release&platform=linux-x86_64&version=5.0.44" dest="~/bin/" remote_src=yes
+
+  - name: Linking Zotero executable
+    file: src="~/bin/Zotero_linux-x86_64/zotero" dest="~/bin/zotero" state="link" force=yes
+
+  - name: Linking Zotero application
+    file: src="~/bin/Zotero_linux-x86_64/zotero.desktop" dest="~/.local/share/applications/zotero.desktop" state="link" force=yes

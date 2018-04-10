@@ -18,6 +18,7 @@ Configuration of my favorite tools:
 - [applications] xbacklight
 - [applications] xsel
 - [applications] zathura
+- [applications] zotero
 - [distributions] fedora
 - [distributions] gnome
 - [editors] emacs
