@@ -50,7 +50,8 @@ applications: applications-user applications-sys;
 applications-sys: applications/anki/$(SYS) applications/chrome/$(SYS) applications/deja-dup/$(SYS) applications/insync/$(SYS) applications/keepassx/$(SYS) applications/tlp/$(SYS) applications/xbacklight/$(SYS) applications/xsel/$(SYS)
 	$(ANS) -K $^
 
-applications-user: ;
+applications-user: applications/zotero/$(USER)
+	$(ANS) $^
 
 .PHONY: distributions
 distributions: distribution-sys distribution-user;

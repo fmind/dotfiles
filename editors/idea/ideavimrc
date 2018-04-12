@@ -38,7 +38,13 @@ let mapleader = " "
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
-vnoremap k gk
+nnoremap E g$
+nnoremap Y y$
+nnoremap U <C-r>
+nnoremap J <C-d>
+nnoremap K <C-u>
+noremap gs :sort<CR>
+noremap gj :join<CR>
 nnoremap U :action $Redo<CR>
 "" indent
 vnoremap <  <gv

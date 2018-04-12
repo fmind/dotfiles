@@ -1,17 +1,20 @@
-# CORE
+# IMPORT
 snippet from
 	from ${1:package} import ${0:module}
 snippet import
 	import ${0:module}
-snippet future
-	from __future__ import ${0:module}
+# DEFINITION
 snippet class
 	class ${1:class}(object):
+
 		"""${2:docstring}"""
 		def __init__(self):
 			${3:super($1, self).__init__()}
 			${0}
-snippet defm
+snippet init
+	def __init__(self, ${1:x}):
+		${0}
+snippet met
 	def ${1:fun}(self):
 		"""${2:docstring}."""
 		${0}
@@ -19,6 +22,7 @@ snippet def
 	def ${1:fun}():
 		"""${2:docstring}."""
 		${0}
+# CONTROL
 snippet if
 	if ${1:cond}:
 		${0:${VISUAL}}
@@ -31,16 +35,15 @@ snippet elif
 snippet for
 	for ${1:it} in ${2:coll}:
 		${0}
+snippet with
+	with ${1:expr} as ${2:var}:
+		${0:${VISUAL}}
+# ERROR
 snippet try Try/Except
 	try:
 		${1:${VISUAL}}
 	except ${2:Exception} as e:
 		print(e)
-snippet with
-	with ${1:expr} as ${2:var}:
-		${0:${VISUAL}}
-snippet docs
-	"""${0}."""
 # LOGGING
 snippet logi
 	logger.info(${0:msg})
@@ -72,5 +75,6 @@ snippet #u
 snippet ifmain
 	if __name__ == '__main__':
 		${0:main()}
-snippet here
-	${0} = os.path.dirname(os.path.realpath(__file__))
+# DOCUMENTATION
+snippet sdoc
+	"""${0}."""
