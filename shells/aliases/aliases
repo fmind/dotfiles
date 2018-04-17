@@ -233,7 +233,8 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 #}}}
 ## Python{{{
 alias p="ptpython"
-alias pi="ptpython -i"
+alias pp="ptpython -i"
+alias pi="ipython"
 alias py="python"
 alias pyp="try"
 alias pyy="yapf"

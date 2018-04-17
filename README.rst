@@ -68,6 +68,7 @@ Configuration of my favorite tools:
 - [tools] htop
 - [tools] httpie
 - [tools] imagemagick
+- [tools] ipcalc
 - [tools] jq
 - [tools] ncdu
 - [tools] parallel

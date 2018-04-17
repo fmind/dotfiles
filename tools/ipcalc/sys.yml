@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: Installing ipcalc (ubuntu)
+    apt: pkg="ipcalc" state=latest
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Installing ipcalc (fedora)
+    dnf: pkg="ipcalc" state=latest
+    when: ansible_distribution == 'Fedora'

@@ -220,5 +220,6 @@ endif
 "" python {{{
 "autocmd BufWritePost *.py :Isort
 autocmd BufWritePost *.py :Autoformat
+autocmd BufNewFile,BufRead *.py setlocal foldmethod=indent
 " }}}
 " }}}
