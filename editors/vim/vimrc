@@ -28,6 +28,7 @@ set showmode
 set wildmenu
 set shortmess=c
 set laststatus=2
+set completeopt=longest,menuone
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
 set statusline=%t\ %c,%l/%L\ %P\%=%r%y\ [%{&ff}]\ [%{strlen(&fenc)?&fenc:'none'}]\ %m
 " }}}

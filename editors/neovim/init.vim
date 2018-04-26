@@ -111,6 +111,7 @@ let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#wordcount#enabled = 1
 let g:airline#extensions#virtualenv#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 " }}}
 "" fugitive {{{
 Plug 'tpope/vim-fugitive'
@@ -217,8 +218,13 @@ call plug#end()
 endif
 ""}}}
 " LANGS {{{
+"" rst {{{
+autocmd BufNewFile,BufRead *.rst setlocal spell
+" }}}
+"" latex {{{
+autocmd BufNewFile,BufRead *.tex setlocal spell
+" }}}
 "" python {{{
-"autocmd BufWritePost *.py :Isort
 autocmd BufWritePost *.py :Autoformat
 autocmd BufNewFile,BufRead *.py setlocal foldmethod=indent
 " }}}
