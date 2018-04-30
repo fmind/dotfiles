@@ -5,6 +5,10 @@
 
   tasks:
 
+  - name: Installing pydoc zeromoq (fedora)
+    apt: pkg="zeromq-devel" state=latest
+    when: ansible_distribution == 'Fedora'
+
   - name: Installing pypy2 (ubuntu)
     apt: pkg="pypy" state=latest
     when: ansible_distribution == 'Ubuntu'

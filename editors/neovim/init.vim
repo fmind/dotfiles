@@ -85,8 +85,10 @@ let g:tagbar_autofocus = 1
 nnoremap <leader>j :TagbarToggle<CR>
 " }}}
 "" pencil {{{
-let g:pencil#textwidth = 80
-nnoremap <leader>W :HardPencil<CR>
+Plug 'reedes/vim-pencil'
+let g:pencil#textwidth = 100
+let g:pencil#wrapModeDefault = 'soft'
+nnoremap <leader>W :SoftPencil<CR>
 " }}}
 "" vimtex {{{
 Plug 'lervag/vimtex', { 'for': 'tex' }
@@ -196,7 +198,6 @@ let g:tmux_navigator_save_on_switch = 1
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-eunuch'
-Plug 'reedes/vim-pencil'
 Plug 'tpope/vim-abolish'
 Plug 'lepture/vim-jinja'
 Plug 'fisadev/vim-isort'
@@ -218,14 +219,17 @@ call plug#end()
 endif
 ""}}}
 " LANGS {{{
-"" rst {{{
-autocmd BufNewFile,BufRead *.rst setlocal spell
+"" tex {{{
+autocmd FileType tex setlocal spell
 " }}}
-"" latex {{{
-autocmd BufNewFile,BufRead *.tex setlocal spell
+"" text {{{
+autocmd FileType text setlocal spell
+" }}}
+"" rest {{{
+autocmd FileType rest setlocal spell
 " }}}
 "" python {{{
 autocmd BufWritePost *.py :Autoformat
-autocmd BufNewFile,BufRead *.py setlocal foldmethod=indent
+autocmd Filetype python setlocal foldmethod=indent
 " }}}
 " }}}
