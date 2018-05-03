@@ -13,3 +13,7 @@
         - transmission
         - gnome-tweak-tool
         - gnome-shell-extension-pomodoro
+        - gnome-shell-extension-openweather
+        - gnome-shell-extension-topicons-plus
+        - gnome-shell-extension-auto-move-windows
+        - gnome-shell-extension-do-not-disturb-button

@@ -5,10 +5,10 @@
 
   tasks:
 
-  - name: installing vim (display)
-    dnf: pkg="vim" state=latest
-    when: lookup('env', 'DISPLAY')
-
   - name: installing vim (console)
     dnf: pkg="vim" state=latest
     when: not lookup('env', 'DISPLAY')
+
+  - name: installing vim (display)
+    dnf: pkg="vim-X11" state=latest
+    when: lookup('env', 'DISPLAY')
