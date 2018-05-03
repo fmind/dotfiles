@@ -12,6 +12,7 @@
         - gimp
         - transmission
         - gnome-tweak-tool
+        - chrome-gnome-shell
         - gnome-shell-extension-pomodoro
         - gnome-shell-extension-openweather
         - gnome-shell-extension-topicons-plus
