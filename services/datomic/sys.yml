@@ -9,32 +9,32 @@
 
   tasks:
 
-  - name: Creating datomic user; "{{group}}"
+  - name: creating datomic user; "{{group}}"
     user: name="{{user}}" state="present"
 
-  - name: Creating datomic group; "{{group}}"
+  - name: creating datomic group; "{{group}}"
     group: name="{{group}}" state="present"
 
-  - name: Creating etc directory; "{{etc_dir}}"
+  - name: creating etc directory; "{{etc_dir}}"
     file: path="{{etc_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Creating log directory; "{{log_dir}}"
+  - name: creating log directory; "{{log_dir}}"
     file: path="{{log_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Creating run directory; "{{run_dir}}"
+  - name: creating run directory; "{{run_dir}}"
     file: path="{{run_dir}}" state="directory" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Creating data directory; "{{data_dir}}"
+  - name: creating data directory; "{{data_dir}}"
     file: path="{{data_dir}}" state=directory owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Downloading Datomic free archive; "{{install_dir}}"
+  - name: downloading Datomic free archive; "{{install_dir}}"
     unarchive: src="{{download_url}}" dest="{{opt_dir}}" copy="no" owner="{{user}}" group="{{group}}" mode="{{dir_mode}}"
 
-  - name: Linking install with datomic dir; "{{datomic_dir}}"
+  - name: linking install with datomic dir; "{{datomic_dir}}"
     file: src="{{install_dir}}" dest="{{datomic_dir}}" state="link" force="yes"
 
-  - name: Deploying conf file from template; "{{config_file}}"
+  - name: deploying conf file from template; "{{config_file}}"
     template: src="transactor.properties" dest="{{config_file}}" owner="{{user}}" group="{{group}}" mode="{{file_mode}}"
 
-  - name: Deploying service file from template; "{{service_file}}"
+  - name: deploying service file from template; "{{service_file}}"
     template: src="datomic.service" dest="{{service_file}}" owner="{{user}}" group="{{group}}" mode="{{file_mode}}"

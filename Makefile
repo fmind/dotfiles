@@ -40,7 +40,7 @@ graphic: graphic-sys graphic-user;
 
 graphic-sys: applications-sys distributions-sys;
 
-graphic-user: applications-user distribution-user;
+graphic-user: applications-user distributions-user;
 
 # PROFILES
 
@@ -54,44 +54,44 @@ applications-user: applications/zotero/$(USER)
 	$(ANS) $^
 
 .PHONY: distributions
-distributions: distribution-sys distribution-user;
+distributions: distributions-sys distributions-user;
 
 distributions-sys: distributions/fedora/$(SYS) distributions/gnome/$(SYS)
 	$(ANS) -K $^
 
-distribution-user: ;
+distributions-user: ;
 
 .PHONY: editors
 editors: editors-sys editors-user;
 
-editors-sys: editors/emacs/$(SYS) editors/fonts/$(SYS) editors/neovim/$(SYS) editors/vim/$(SYS)
+editors-sys: editors/fonts/$(SYS) editors/neovim/$(SYS) editors/vim/$(SYS)
 	$(ANS) -K $^
 
-editors-user: editors/emacs/$(USER) editors/neovim/$(USER) editors/vim/$(USER)
+editors-user: editors/neovim/$(USER) editors/vim/$(USER)
 	$(ANS) $^
 
 .PHONY: languages
 languages: languages-sys languages-user;
 
-languages-sys: languages/clang/$(SYS) languages/graphviz/$(SYS) languages/groovy/$(SYS) languages/java/$(SYS) languages/nodejs/$(SYS) languages/python/$(SYS);
+languages-sys: languages/clang/$(SYS) languages/graphviz/$(SYS) languages/python/$(SYS);
 	$(ANS) -K $^
 
-languages-user: languages/clojure/$(USER) languages/nodejs/$(USER) languages/plantuml/$(USER) languages/python/$(USER)
+languages-user: languages/plantuml/$(USER) languages/python/$(USER)
 	$(ANS) $^
 
 .PHONY: sciences
 sciences: science-user science-sys;
 
-sciences-sys: sciences/latexmk/$(SYS) sciences/pandoc/$(SYS) sciences/tex/$(SYS)
+sciences-sys: sciences/latexmk/$(SYS) sciences/tex/$(SYS)
 	$(ANS) -K $^
 
-sciences-user: jupyter/jupyter/$(USER) sciences/latexmk/$(USER)
+sciences-user: sciences/jupyter/$(USER) sciences/latexmk/$(USER)
 	$(ANS) $^
 
 .PHONY: shells
 shells: shells-sys shells-user;
 
-shells-sys: shells/byobu/$(SYS) shells/check/$(SYS) shells/zsh/$(SYS)
+shells-sys: shells/byobu/$(SYS) shells/zsh/$(SYS)
 	$(ANS) -K $^
 
 shells-user: shells/aliases/$(USER) shells/bash/$(USER) shells/byobu/$(USER) shells/config/$(USER) shells/environ/$(USER) shells/input/$(USER) shells/zsh/$(USER)

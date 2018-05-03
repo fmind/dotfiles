@@ -5,14 +5,5 @@
 
   tasks:
 
-  - name: Adding fasd repository (ubuntu)
-    apt_repository: repo="ppa:aacebedo/fasd" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing fasd (ubuntu)
-    apt: pkg="fasd" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing fasd (fedora)
+  - name: installing fasd
     dnf: pkg="fasd" state=latest
-    when: ansible_distribution == 'Fedora'

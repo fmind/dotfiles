@@ -5,12 +5,12 @@
 
   tasks:
 
-  - name: Creating ~/bin directory
+  - name: creating ~/bin directory
     file: path="~/bin" state=directory
 
-  - name: Installing plantuml
+  - name: installing plantuml
     get_url: url="http://sourceforge.net/projects/plantuml/files/plantuml.jar/download" dest="~/bin/plantuml.jar" mode=0600
 
-  - name: Deploying plantuml config
+  - name: deploying plantuml config
     file: src="{{playbook_dir}}/plantuml" dest="~/bin/plantuml" state=link force=yes
 

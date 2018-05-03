@@ -5,10 +5,5 @@
 
   tasks:
 
-  # - name: Installing tlp (ubuntu)
-  #   apt: pkg="tlp" state=latest
-  #   when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing tlp (fedora)
+  - name: installing tlp
     dnf: pkg="tlp" state=latest
-    when: ansible_distribution == 'Fedora'

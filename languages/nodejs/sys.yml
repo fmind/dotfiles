@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing nodejs (ubuntu)
-    apt: pkg="nodejs" state="installed"
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing nodejs (fedora)
+  - name: installing nodejs
     dnf: pkg="nodejs-latest-version" state="installed"
-    when: ansible_distribution == 'Fedora'

@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing ranger (ubuntu)
-    apt: pkg="ranger" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing ranger (fedora)
+  - name: installing ranger
     dnf: pkg="ranger" state=latest
-    when: ansible_distribution == 'Fedora'

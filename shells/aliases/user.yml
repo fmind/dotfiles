@@ -5,6 +5,6 @@
 
   tasks:
 
-  - name: Deploying shell aliases
+  - name: deploying shell aliases
     file: src="{{playbook_dir}}/aliases" dest="~/.shell_aliases" state=link force=yes
 

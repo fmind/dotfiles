@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing git (ubuntu)
-    apt: pkg="git" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing git (fedora)
+  - name: installing git
     dnf: pkg="git" state=latest
-    when: ansible_distribution == 'Fedora'

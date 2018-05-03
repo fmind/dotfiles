@@ -5,5 +5,5 @@
 
   tasks:
 
-  - name: Deploying ansible configuration
+  - name: deploying ansible configuration
     file: src="{{playbook_dir}}/ansible.cfg" dest="~/.ansible.cfg" state=link force=yes

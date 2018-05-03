@@ -5,17 +5,17 @@
 
   tasks:
 
-  - name: Upgrading stack
+  - name: upgrading stack
     command: "/usr/local/bin/stack upgrade"
 
-  - name: Updating stack index
+  - name: updating stack index
     command: "/usr/local/bin/stack update"
 
-  - name: Installing stack plugins
+  - name: installing stack plugins
     command: "/usr/local/bin/stack install hlint intero hindent hoogle hasktags stylish-haskell"
 
-  - name: Deploying haskeline configuration
+  - name: deploying haskeline configuration
     file: src="{{playbook_dir}}/haskeline" dest="~/.haskeline" state=link force=yes
 
-  - name: Deploying stack platform configuration
+  - name: deploying stack platform configuration
     file: src="{{playbook_dir}}/config.yaml" dest="~/.stack/config.yaml" state=link force=yes

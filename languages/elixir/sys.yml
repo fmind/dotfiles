@@ -5,26 +5,9 @@
 
   tasks:
 
-  - name: Adding erlang repository (ubuntu)
-    apt_repository: repo="deb http://binaries.erlang-solutions.com/debian xenial contrib" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Adding erlang certificate (ubuntu)
-    apt_key: url="https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc"
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing elixir dependencies (fedora)
+  - name: Installing elixir
     dnf: pkg="{{item}}" state=latest
-    when: ansible_distribution == 'Fedora'
     with_items:
+      - elixir
       - erlang-eunit
       - erlang-erl_interface
-
-  - name: Installing elixir (ubuntu)
-    apt: pkg="elixir" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing elixir (fedora)
-    dnf: pkg="elixir" state=latest
-    when: ansible_distribution == 'Fedora'
-

@@ -5,22 +5,10 @@
 
   tasks:
 
-  - name: Installing emacs (ubuntu + display)
-    apt: pkg="emacs" state=latest
-    when: lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Ubuntu'
-
-  - name: Installing emacs (ubuntu + console)
-    apt: pkg="emacs24-nox" state=latest
-    when: not lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Ubuntu'
-
-  - name: Installing emacs (fedora + display)
+  - name: installing emacs (display)
     dnf: pkg="emacs" state=latest
-    when: lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Fedora'
+    when: lookup('env', 'DISPLAY')
 
-  - name: Installing emacs (fedora + console)
+  - name: installing emacs (console)
     dnf: pkg="emacs-nox" state=latest
-    when: not lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Fedora'
+    when: not lookup('env', 'DISPLAY')

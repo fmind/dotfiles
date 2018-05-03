@@ -5,33 +5,28 @@
 
   tasks:
 
-  - name: Getting fedora version
+  - name: getting fedora version
     command: "rpm -E %fedora"
     register: fedora_version
 
-  - name: Setting selinux to permissive mode (fedora)
-    replace: path="/etc/selinux/config" regexp='^SELINUX=.*' replace='SELINUX=permissive'
-    when: ansible_distribution == 'Fedora'
-
-  - name: Installing selinux python binding (fedora)
+  - name: installing selinux bindings
     dnf: pkg="libselinux-python" state=latest
-    when: ansible_distribution == 'Fedora'
 
-  - name: Installing rpm Fusion repository (fedora)
+  - name: setting selinux to permissive
+    replace: path="/etc/selinux/config" regexp='^SELINUX=.*' replace='SELINUX=permissive'
+
+  - name: installing rpm Fusion repository
     dnf: name="{{item}}" state='present' disable_gpg_check=true
     with_items:
       - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{fedora_version.stdout}}.noarch.rpm
       - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{fedora_version.stdout}}.noarch.rpm
-    when: ansible_distribution == 'Fedora'
 
-  - name: Installing adobe repository (fedora)
-    copy: src="{{playbook_dir}}/adobe.repo" dest="/etc/yum.repos.d/adobe.repo" owner='root' group='root' mode='0644'
-    when: ansible_distribution == 'Fedora'
+  - name: installing graphic driver
+    dnf: pkg="akmod-nvidia" state=latest
 
-  - name: Installing media codecs (fedora)
+  - name: installing media codecs
     dnf: pkg="{{item}}" state=latest
     with_items:
-      - vlc
       - gstreamer-ffmpeg
       - gstreamer-plugins-bad
       - gstreamer-plugins-bad-free-extras
@@ -47,7 +42,6 @@
       - gstreamer1-plugins-good
       - gstreamer1-plugins-good-extras
       - gstreamer1-plugins-ugly
-      - p7zip
       - p7zip-plugins
+      - p7zip
       - unrar
-    when: ansible_distribution == 'Fedora'

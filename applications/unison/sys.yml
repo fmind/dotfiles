@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing unison (ubuntu)
-    apt: pkg="unison-gtk" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing unison (fedora)
+  - name: installing unison
     dnf: pkg="unison240-gtk" state=latest
-    when: ansible_distribution == 'Fedora'

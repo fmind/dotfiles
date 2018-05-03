@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing xbacklight (ubuntu)
-    apt: pkg="xbacklight" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing xbacklight (fedora)
+  - name: installing xbacklight
     dnf: pkg="xbacklight" state=latest
-    when: ansible_distribution == 'Fedora'

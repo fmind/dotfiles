@@ -5,8 +5,8 @@
 
   tasks:
 
-  - name: Deploying bash config
+  - name: deploying bash config
     file: src="{{playbook_dir}}/bashrc" dest="~/.bashrc" state=link force=yes
 
-  - name: Deploying bash logout
+  - name: deploying bash logout
     file: src="{{playbook_dir}}/bash_logout" dest="~/.bash_logout" state=link force=yes

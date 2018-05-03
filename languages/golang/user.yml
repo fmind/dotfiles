@@ -5,7 +5,7 @@
 
   tasks:
 
-  - name: Installing golang packages
+  - name: installing golang packages
     command: "go get -u {{item}}"
     with_items:
       - "github.com/nsf/gocode"

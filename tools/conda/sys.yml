@@ -5,11 +5,5 @@
 
   tasks:
 
-  # not (yet) packaged on ubuntu ...
-  # - name: Installing htop tool (ubuntu)
-  #   apt: pkg="htop" state=latest
-  #   when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing conda (fedora)
+  - name: installing conda
     dnf: pkg="conda-activate" state=latest
-    when: ansible_distribution == 'Fedora'

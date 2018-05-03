@@ -5,8 +5,8 @@
 
   tasks:
 
-  - name: Creating ~/.percol.d/ directory
+  - name: creating ~/.percol.d/ directory
     file: path="~/.percol.d/" state=directory
 
-  - name: Deploying percol configuration
+  - name: deploying percol configuration
     file: src="{{playbook_dir}}/rc.py" dest="~/.percol.d/rc.py" state=link force=yes

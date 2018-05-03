@@ -5,18 +5,8 @@
 
   tasks:
 
-  - name: Enabling racket repository (ubuntu)
-    apt_repository: repo="ppa:plt/racket" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Enabling racket repository (fedora)
+  - name: enabling racket repository
     shell: dnf copr enable -y jsouthworth/racket
-    when: ansible_distribution == 'Fedora'
 
-  - name: Installing racket (ubuntu)
-    apt: pkg="racket" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing racket (fedora)
+  - name: installing racket
     dnf: pkg="racket" state=latest
-    when: ansible_distribution == 'Fedora'

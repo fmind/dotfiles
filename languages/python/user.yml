@@ -5,7 +5,7 @@
 
   tasks:
 
-  - name: Installing python3 tools
+  - name: installing python3 tools
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
       - jedi
@@ -15,30 +15,30 @@
       - flake8
       - autoflake
 
-  - name: Installing python3 shells
+  - name: installing python3 shells
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
     with_items:
       - hy
       - ptpython
       - trypackage
 
-  - name: Deploying pip configuration
+  - name: deploying pip configuration
     file: src="{{playbook_dir}}/pypirc" dest="~/.pypirc" state=link force=yes
 
-  - name: Creating try user directory
+  - name: creating try user directory
     file: path="~/.config/try" state=directory
 
-  - name: Deploying try configuration
+  - name: deploying try configuration
     file: src="{{playbook_dir}}/try.ini" dest="~/.config/try/config.ini" state=link force=yes
 
-  - name: Creating yapf user directory
+  - name: creating yapf user directory
     file: path="~/.config/yapf" state=directory
 
-  - name: Deploying yapf configuration
+  - name: deploying yapf configuration
     file: src="{{playbook_dir}}/yapf" dest="~/.config/yapf/style" state=link force=yes
 
-  - name: Creating ptpython user directory
+  - name: creating ptpython user directory
     file: path="~/.ptpython" state=directory
 
-  - name: Deploying ptpython configuration
+  - name: deploying ptpython configuration
     file: src="{{playbook_dir}}/ptpython.py" dest="~/.ptpython/config.py" state=link force=yes

@@ -5,8 +5,8 @@
 
   tasks:
 
-  - name: Installing httpie
+  - name: installing httpie
     pip: name="httpie" executable="pip3" extra_args="--user" state=latest
 
-  - name: Installing httpie prompt
+  - name: installing httpie prompt
     pip: name="http-prompt" executable="pip3" extra_args="--user" state=latest

@@ -5,17 +5,7 @@
 
   tasks:
 
-  - name: Installing tex language (ubuntu)
-    apt: pkg="{{item}}" state=latest
-    with_items:
-      - texlive
-      - texlive-xetex
-      - texlive-science
-      - texlive-math-extra
-      - texlive-latex-extra
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing tex language (fedora)
+  - name: installing tex
     dnf: pkg="{{item}}" state=latest
     with_items:
       - texlive
@@ -23,4 +13,3 @@
       - texlive-collection-science
       - texlive-collection-mathextra
       - texlive-collection-latexextra
-    when: ansible_distribution == 'Fedora'

@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing percol (ubuntu)
-    apt: pkg="percol" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing percol (fedora)
+  - name: installing percol
     dnf: pkg="percol" state=latest
-    when: ansible_distribution == 'Fedora'

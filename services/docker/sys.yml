@@ -5,29 +5,14 @@
 
   tasks:
 
-  - name: Adding docker repository (ubuntu)
-    apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-xenial main" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Adding docker certificate (ubuntu)
-    apt_key: url="https://apt.dockerproject.org/gpg"
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing docker service (ubuntu)
-    apt: pkg="docker-engine" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Creating docker directory (fedora)
+  - name: creating docker directory
     file: path="/home/docker" state=directory
-    when: ansible_distribution == 'Fedora'
 
-  - name: Linking to docker directory (fedora)
+  - name: linking to docker directory
     file: src="/home/docker" dest="/var/lib/docker" state=link
-    when: ansible_distribution == 'Fedora'
 
-  - name: Installing docker service (fedora)
+  - name: installing docker service
     dnf: pkg="docker" state=latest
-    when: ansible_distribution == 'Fedora'
 
-  - name: Creating docker system group
+  - name: creating docker group
     group: name="docker" state=present system=yes

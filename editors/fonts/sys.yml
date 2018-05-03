@@ -5,18 +5,8 @@
 
   tasks:
 
-  - name: Installing dejavu (ubuntu)
-    apt: pkg="fonts-dejavu-core" state="latest"
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing powerline (ubuntu)
-    apt: pkg="fonts-powerline" state="latest"
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing dejavu (fedora)
-    dnf: pkg="dejavu-sans-mono-fonts" state="latest"
-    when: ansible_distribution == 'Fedora'
-
-  - name: Installing powerline (fedora)
-    dnf: pkg="powerline-fonts" state="latest"
-    when: ansible_distribution == 'Fedora'
+  - name: installing fonts
+    dnf: pkg="{{item}}" state="latest"
+    with_items:
+      - powerline-fonts
+      - dejavu-sans-mono-fonts

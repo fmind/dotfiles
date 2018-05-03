@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing deja-dup (ubuntu)
-    apt: pkg="deja-dup-nautilus" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing deja-dup (fedora)
+  - name: installing deja-dup
     dnf: pkg="deja-dup-nautilus" state=latest
-    when: ansible_distribution == 'Fedora'

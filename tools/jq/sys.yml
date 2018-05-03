@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing jq (ubuntu)
-    apt: pkg="jq" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing jq (fedora)
+  - name: installing jq
     dnf: pkg="jq" state=latest
-    when: ansible_distribution == 'Fedora'

@@ -5,14 +5,5 @@
 
   tasks:
 
-  - name: Adding golang repository (ubuntu)
-    apt_repository: repo="ppa:gophers/archive" update_cache=yes
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing golang (ubuntu)
-    apt: pkg="golang-1.9" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing golang (fedora)
+  - name: installing golang
     dnf: pkg="golang" state=latest
-    when: ansible_distribution == 'Fedora'

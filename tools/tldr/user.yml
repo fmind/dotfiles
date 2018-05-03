@@ -5,8 +5,8 @@
 
   tasks:
 
-  - name: Creating ~/bin directory
+  - name: creating ~/bin directory
     file: path="~/bin" state=directory
 
-  - name: Installing tldr
+  - name: installing tldr
     get_url: url="https://raw.githubusercontent.com/raylee/tldr/master/tldr" dest="~/bin/tldr" mode="0750"

@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing shell check (ubuntu)
-    apt: pkg="shellcheck" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing shell check (fedora)
+  - name: installing shell check
     dnf: pkg="ShellCheck" state=latest
-    when: ansible_distribution == 'Fedora'

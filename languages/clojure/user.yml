@@ -5,27 +5,27 @@
 
   tasks:
 
-  - name: Creating ~/bin directory
+  - name: creating ~/bin directory
     file: path="~/bin" state=directory
 
-  - name: Creating ~/.lein directory
+  - name: creating ~/.lein directory
     file: path="~/.lein" state=directory
 
-  - name: Creating ~/.boot directory
+  - name: creating ~/.boot directory
     file: path="~/.boot" state=directory
 
-  - name: Installing clojure language (lein)
+  - name: installing clojure language (lein)
     get_url: url="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein" dest="~/bin/lein" mode=0750
 
-  - name: Installing clojure language (boot)
+  - name: installing clojure language (boot)
     get_url: url="https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh" dest="~/bin/boot" mode=0750
 
-  - name: Deploying lein configuration
+  - name: deploying lein configuration
     file: src="{{playbook_dir}}/profiles.clj" dest="~/.lein/profiles.clj" state=link force=yes
 
-  - name: Deploying boot configuration
+  - name: deploying boot configuration
     file: src="{{playbook_dir}}/boot.properties" dest="~/.boot/boot.properties" state=link force=yes
 
-  - name: Deploying boot profile
+  - name: deploying boot profile
     file: src="{{playbook_dir}}/profile.boot" dest="~/.boot/profile.boot" state=link force=yes
 

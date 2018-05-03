@@ -5,6 +5,6 @@
 
   tasks:
 
-  - name: Deploying shell environ
+  - name: deploying shell environ
     file: src="{{playbook_dir}}/environ" dest="~/.shell_environ" state=link force=yes
 

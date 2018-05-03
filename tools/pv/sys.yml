@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing pv (ubuntu)
-    apt: pkg="pv" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing pv (fedora)
+  - name: installing pv
     dnf: pkg="pv" state=latest
-    when: ansible_distribution == 'Fedora'

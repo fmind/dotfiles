@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing imagemagick (ubuntu)
-    apt: pkg="imagemagick" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing imagemagick (fedora)
+  - name: installing imagemagick
     dnf: pkg="ImageMagick" state=latest
-    when: ansible_distribution == 'Fedora'

@@ -5,20 +5,11 @@
 
   tasks:
 
-  - name: Installing gnome (ubuntu)
-    apt: pkg="{{item}}" state=latest
+  - name: installing gnome
+    dnf: pkg="{{item}}" state=latest
     with_items:
         - vlc
         - gimp
         - transmission
         - gnome-tweak-tool
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing gnome (fedora)
-    dnf: pkg="{{item}}" state=latest
-    with_items:
-        - gimp
-        - transmission
-        - gnome-tweak-tool
         - gnome-shell-extension-pomodoro
-    when: ansible_distribution == 'Fedora'

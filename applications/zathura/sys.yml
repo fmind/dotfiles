@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing zathura (ubuntu)
-    apt: pkg="zathura" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing zathura (fedora)
+  - name: installing zathura
     dnf: pkg="zathura-plugins-all" state=latest
-    when: ansible_distribution == 'Fedora'

@@ -5,18 +5,8 @@
 
   tasks:
 
-  - name: Installing pandoc (ubuntu)
-    apt: pkg="pandoc" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing pandoc (fedora)
-    dnf: pkg="pandoc" state=latest
-    when: ansible_distribution == 'Fedora'
-
-  - name: Installing pandoc-citeproc (ubuntu)
-    apt: pkg="pandoc-citeproc" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing pandoc-citeproc (fedora)
-    dnf: pkg="pandoc-citeproc" state=latest
-    when: ansible_distribution == 'Fedora'
+  - name: installing pandoc
+    dnf: pkg="{{item}}" state=latest
+    with_items:
+      - pandoc
+      - pandoc-citeproc

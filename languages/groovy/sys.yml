@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing groovy (ubuntu)
-    apt: pkg="groovy" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing groovy (fedora)
+  - name: installing groovy
     dnf: pkg="groovy" state=latest
-    when: ansible_distribution == 'Fedora'

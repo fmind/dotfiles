@@ -5,15 +5,7 @@
 
   tasks:
 
-  - name: Installing clang (ubuntu)
-    apt: pkg="{{item}}" state=latest
-    with_items:
-      - cmake
-      - build-essential
-      - exuberant-ctags
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing clang (fedora)
+  - name: Installing clang
     dnf: pkg="{{item}}" state=latest
     with_items:
       - gcc
@@ -22,4 +14,3 @@
       - ctags
       - clang
       - gcc-c++
-    when: ansible_distribution == 'Fedora'

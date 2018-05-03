@@ -5,6 +5,5 @@
 
   tasks:
 
-  - name: Installing pyped (fedora)
+  - name: installing pyped
     dnf: pkg="python3-Pyped" state=latest
-    when: ansible_distribution == 'Fedora'

@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing zsh (ubuntu)
-    apt: pkg="zsh" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing zsh (fedora)
+  - name: installing zsh
     dnf: pkg="zsh" state=latest
-    when: ansible_distribution == 'Fedora'

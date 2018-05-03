@@ -5,22 +5,10 @@
 
   tasks:
 
-  - name: Installing vim (ubuntu + display)
-    apt: pkg="vim-gtk" state=latest
-    when: lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Ubuntu'
-
-  - name: Installing vim (ubuntu + console)
-    apt: pkg="vim-X11" state=latest
-    when: not lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Ubuntu'
-
-  - name: Installing vim (fedora + display)
+  - name: installing vim (display)
     dnf: pkg="vim" state=latest
-    when: lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Fedora'
+    when: lookup('env', 'DISPLAY')
 
-  - name: Installing vim (fedora + console)
+  - name: installing vim (console)
     dnf: pkg="vim" state=latest
-    when: not lookup('env', 'DISPLAY') and
-          ansible_distribution == 'Fedora'
+    when: not lookup('env', 'DISPLAY')

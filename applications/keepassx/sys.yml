@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing keepassx (ubuntu)
-    apt: pkg="keepassx" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing keepassx (fedora)
+  - name: installing keepassx
     dnf: pkg="keepassx" state=latest
-    when: ansible_distribution == 'Fedora'

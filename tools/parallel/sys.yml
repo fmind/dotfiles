@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing ag (ubuntu)
-    apt: pkg="parallel" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing ag (fedora)
+  - name: installing parallel
     dnf: pkg="parallel" state=latest
-    when: ansible_distribution == 'Fedora'

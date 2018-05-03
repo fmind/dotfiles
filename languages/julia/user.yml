@@ -5,10 +5,10 @@
 
   tasks:
 
-  - name: Deploying julia configuration
+  - name: deploying julia configuration
     file: src="{{playbook_dir}}/juliarc.jl" dest="~/.juliarc.jl" state=link force=yes
 
-  - name: Installing julia packages
+  - name: installing julia packages
     shell: julia -e 'if Pkg.installed("{{item}}") == nothing Pkg.add("{{item}}") end'
     with_items:
       - IJulia

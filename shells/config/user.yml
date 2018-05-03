@@ -5,5 +5,5 @@
 
   tasks:
 
-  - name: Deploying shell configuration
+  - name: deploying shell configuration
     file: src="{{playbook_dir}}/shellrc" dest="~/.shellrc" state=link force=yes

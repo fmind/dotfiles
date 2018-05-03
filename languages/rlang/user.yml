@@ -5,11 +5,11 @@
 
   tasks:
 
-  - name: Creating ~/.R directory
+  - name: creating ~/.R directory
     file: path="~/.R" state=directory
 
-  - name: Deploying rlang profile
+  - name: deploying rlang profile
     file: src="{{playbook_dir}}/Rprofile" dest="~/.Rprofile" state=link force=yes
 
-  - name: Installing additional rlang packages
+  - name: installing additional rlang packages
     shell: R -e 'install.packages(c("ggplot2", "ggthemes"))'

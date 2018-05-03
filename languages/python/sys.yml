@@ -5,54 +5,8 @@
 
   tasks:
 
-  - name: Installing pydoc zeromoq (fedora)
-    apt: pkg="zeromq-devel" state=latest
-    when: ansible_distribution == 'Fedora'
+  - name: installing pypy3
+    dnf: pkg="pypy3-devel" state=latest
 
-  - name: Installing pypy2 (ubuntu)
-    apt: pkg="pypy" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing pypy2 (fedora)
-    dnf: pkg="pypy" state=latest
-    when: ansible_distribution == 'Fedora'
-
-  - name: Installing pypy3 (ubuntu)
-    apt: pkg="pypy3" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing pypy3 (fedora)
-    dnf: pkg="pypy3" state=latest
-    when: ansible_distribution == 'Fedora'
-
-  - name: Installing python2 (ubuntu)
-    apt: pkg="python-dev" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing python2 (fedora)
-    dnf: pkg="python-devel" state=latest
-    when: ansible_distribution == 'Fedora'
-
-  - name: Installing python3 (ubuntu)
-    apt: pkg="python3-dev" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing python3 (fedora)
+  - name: installing python3
     dnf: pkg="python3-devel" state=latest
-    when: ansible_distribution == 'Fedora'
-
-  - name: Installing python2 setuptools (ubuntu)
-    apt: pkg="python-setuptools" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing python3 setuptools (ubuntu)
-    apt: pkg="python3-setuptools" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing python2 package manager (ubuntu)
-    apt: pkg="python-pip" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing python3 package manager (ubuntu)
-    apt: pkg="python3-pip" state=latest
-    when: ansible_distribution == 'Ubuntu'

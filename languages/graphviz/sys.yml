@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing graphviz (ubuntu)
-    apt: pkg="graphviz" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing graphviz (fedora)
+  - name: installing graphviz
     dnf: pkg="graphviz" state=latest
-    when: ansible_distribution == 'Fedora'

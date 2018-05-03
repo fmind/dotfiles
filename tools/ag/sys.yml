@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing ag (ubuntu)
-    apt: pkg="silversearcher-ag" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing ag (fedora)
+  - name: installing ag
     dnf: pkg="the_silver_searcher" state=latest
-    when: ansible_distribution == 'Fedora'

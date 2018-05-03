@@ -5,5 +5,5 @@
 
   tasks:
 
-  - name: Deploying elixir configuration
+  - name: deploying elixir configuration
     file: src="{{playbook_dir}}/iex.exs" dest="~/.iex.exs" state=link force=yes

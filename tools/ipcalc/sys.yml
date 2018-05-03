@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing ipcalc (ubuntu)
-    apt: pkg="ipcalc" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing ipcalc (fedora)
+  - name: installing ipcalc
     dnf: pkg="ipcalc" state=latest
-    when: ansible_distribution == 'Fedora'

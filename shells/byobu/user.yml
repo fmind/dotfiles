@@ -5,10 +5,10 @@
 
   tasks:
 
-  - name: Creating ~/.byobu directory
+  - name: creating ~/.byobu directory
     file: path="~/.byobu" state=directory
 
-  - name: Deploying byobu configuration
+  - name: deploying byobu configuration
     file: src="{{playbook_dir}}/{{item}}" dest="~/.byobu/{{item}}" state=link force=yes
     with_items:
       - status

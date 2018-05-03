@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing firefox (ubuntu)
-    apt: pkg="firefox" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing firefox (fedora)
+  - name: installing firefox
     dnf: pkg="firefox" state=latest
-    when: ansible_distribution == 'Fedora'

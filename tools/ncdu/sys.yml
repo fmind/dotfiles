@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing ncdu (ubuntu)
-    apt: pkg="ncdu" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing ncdu (fedora)
+  - name: installing ncdu
     dnf: pkg="ncdu" state=latest
-    when: ansible_distribution == 'Fedora'

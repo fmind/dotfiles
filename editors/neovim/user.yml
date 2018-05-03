@@ -5,10 +5,10 @@
 
   tasks:
 
-  - name: Creating neovim user directory
+  - name: creating neovim user directory
     file: path="~/.config/nvim/" state=directory
 
-  - name: Creating neovim sub directories
+  - name: creating neovim sub directories
     file: path="~/.config/nvim/{{item}}/" state=directory
     with_items:
       - undo
@@ -19,11 +19,11 @@
       - plugged
       - autoload
 
-  - name: Deploying neovim configuration
+  - name: deploying neovim configuration
     file: src="{{playbook_dir}}/init.vim" dest="~/.config/nvim/init.vim" state=link force=yes
 
-  - name: Deploying neovim snippet files
+  - name: deploying neovim snippet files
     file: src="{{playbook_dir}}/snippets" dest="~/.config/nvim/snippets" state=link force=yes
 
-  - name: Installing neovim plugin manager
+  - name: installing neovim plugin manager
     get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.config/nvim/autoload/plug.vim" mode=0600

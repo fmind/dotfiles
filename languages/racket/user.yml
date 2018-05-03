@@ -5,8 +5,8 @@
 
   tasks:
 
-  - name: Deploying racket configuration
+  - name: deploying racket configuration
     file: src="{{playbook_dir}}/racketrc" dest="~/.racketrc" state=link force=yes
 
-  - name: Installing racket dependencies
+  - name: installing racket dependencies
     shell: raco pkg install --skip-installed --auto rackjure scripty

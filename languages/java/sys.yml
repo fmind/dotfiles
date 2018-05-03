@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing java (ubuntu)
-    apt: pkg="openjdk-7-jdk" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing java (fedora)
-    dnf: pkg="java-1.8.0-openjdk-src" state=latest
-    when: ansible_distribution == 'Fedora'
+  - name: installing java
+    dnf: pkg="java-openjdk" state=latest

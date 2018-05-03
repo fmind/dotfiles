@@ -5,5 +5,5 @@
 
   tasks:
 
-  - name: Deploying idea configuration
+  - name: deploying idea configuration
     file: src="{{playbook_dir}}/ideavimrc" dest="~/.ideavimrc" state=link force=yes

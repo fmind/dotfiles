@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing teamviewer (ubuntu)
-    apt: deb="https://download.teamviewer.com/download/teamviewer_i386.deb"
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing teamviewer (fedora)
+  - name: installing teamviewer
     dnf: pkg="https://download.teamviewer.com/download/teamviewer.i686.rpm"
-    when: ansible_distribution == 'Fedora'

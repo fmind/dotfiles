@@ -5,5 +5,5 @@
 
   tasks:
 
-  - name: Deploying latexmk configuration
+  - name: deploying latexmk configuration
     file: src="{{playbook_dir}}/latexmkrc" dest="~/.latexmkrc" state=link force=yes

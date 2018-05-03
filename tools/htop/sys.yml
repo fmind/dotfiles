@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing htop (ubuntu)
-    apt: pkg="htop" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing htop (fedora)
+  - name: installing htop
     dnf: pkg="htop" state=latest
-    when: ansible_distribution == 'Fedora'

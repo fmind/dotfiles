@@ -5,10 +5,5 @@
 
   tasks:
 
-  - name: Installing pigz (ubuntu)
-    apt: pkg="pigz" state=latest
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Installing pigz (fedora)
+  - name: installing pigz
     dnf: pkg="pigz" state=latest
-    when: ansible_distribution == 'Fedora'

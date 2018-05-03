@@ -13,20 +13,12 @@
     register: local_stack_install
     ignore_errors: True
 
-  - name: Installing stack (root install)
+  - name: installing stack (root install)
     shell: curl -sSL https://get.haskellstack.org/ | sh
     when: (root_stack_install|failed) and (local_stack_install|failed)
 
-  - name: Installing stack dependencies (ubuntu)
-    apt: pkg="{{item}}" state=latest
-    when: ansible_distribution == 'Ubuntu'
-    with_items:
-      - ncurses-dev
-      - libzlib1g-dev
-  
-  - name: Installing stack dependencies (fedora)
+  - name: installing stack dependencies
     dnf: pkg="{{item}}" state=latest
-    when: ansible_distribution == 'Fedora'
     with_items:
       - zlib-devel
       - ncurses-devel
