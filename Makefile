@@ -10,6 +10,9 @@ docker:
 	docker build --no-cache -t fmind/shell .
 	docker push fmind/shell
 
+init:
+	sudo dnf -y install git ansible
+
 %/sys.yml:
 	$(ANS) -k $@
 
@@ -47,7 +50,7 @@ graphic-user: applications-user distributions-user;
 .PHONY: applications
 applications: applications-user applications-sys;
 
-applications-sys: applications/anki/$(SYS) applications/chrome/$(SYS) applications/deja-dup/$(SYS) applications/insync/$(SYS) applications/keepassx/$(SYS) applications/tlp/$(SYS) applications/xbacklight/$(SYS) applications/xsel/$(SYS)
+applications-sys: applications/anki/$(SYS) applications/chrome/$(SYS) applications/deja-dup/$(SYS) applications/keepassx/$(SYS) applications/tlp/$(SYS) applications/xbacklight/$(SYS) applications/xsel/$(SYS)
 	$(ANS) -K $^
 
 applications-user: applications/zotero/$(USER)

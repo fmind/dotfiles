@@ -1,18 +1,16 @@
 FROM fedora
 
-MAINTAINER fmind <fmind@users.noreply.github.com>
-
-RUN dnf -y install git ansible libselinux-python
-
-RUN dnf -y update
-
 WORKDIR /root
+
+MAINTAINER fmind <fmind@users.noreply.github.com>
 
 RUN git clone https://github.com/fmind/dotfiles .dotfiles
 
-RUN cd .dotfiles && make console
+RUN cd .dotfiles && make init console develop
 
 RUN usermod -s /usr/bin/zsh root
+
+RUN dnf -y update
 
 RUN dnf clean all
 
