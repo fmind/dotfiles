@@ -14,6 +14,7 @@
       - pipenv
       - flake8
       - autoflake
+      - pipenv-pipes
 
   - name: installing python3 shells
     pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest

@@ -7,9 +7,7 @@ Configuration of my favorite tools:
 - [applications] chrome
 - [applications] deja-dup
 - [applications] firefox
-- [applications] insync
 - [applications] keepassx
-- [applications] skype
 - [applications] steam
 - [applications] teamviewer
 - [applications] tlp

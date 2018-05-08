@@ -14,7 +14,7 @@ init:
 	sudo dnf -y install git ansible
 
 %/sys.yml:
-	$(ANS) -k $@
+	$(ANS) -K $@
 
 %/user.yml:
 	$(ANS) $@
@@ -83,7 +83,7 @@ languages-user: languages/plantuml/$(USER) languages/python/$(USER)
 	$(ANS) $^
 
 .PHONY: sciences
-sciences: science-user science-sys;
+sciences: sciences-sys sciences-user;
 
 sciences-sys: sciences/latexmk/$(SYS) sciences/tex/$(SYS)
 	$(ANS) -K $^
