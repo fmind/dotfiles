@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: installing nextcloud
+    dnf: pkg="nextcloud-client-nautilus" state=latest
