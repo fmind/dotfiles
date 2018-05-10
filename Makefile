@@ -14,7 +14,7 @@ init:
 	sudo dnf -y install git ansible
 
 %/sys.yml:
-	$(ANS) -k $@
+	$(ANS) -K $@
 
 %/user.yml:
 	$(ANS) $@
