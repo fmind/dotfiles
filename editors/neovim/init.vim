@@ -101,7 +101,10 @@ noremap <leader>x, :Tabularize /;<CR>
 " }}}
 "" molokai {{{
 Plug 'tomasr/molokai'
-colorscheme molokai
+try
+    colorscheme molokai
+catch
+endtry
 let g:molokai_original = 1
 " }}}
 "" airline {{{

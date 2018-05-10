@@ -50,7 +50,7 @@ graphic-user: applications-user distributions-user;
 .PHONY: applications
 applications: applications-user applications-sys;
 
-applications-sys: applications/anki/$(SYS) applications/chrome/$(SYS) applications/deja-dup/$(SYS) applications/keepassx/$(SYS) applications/tlp/$(SYS) applications/xbacklight/$(SYS) applications/xsel/$(SYS)
+applications-sys: applications/anki/$(SYS) applications/firefox/$(SYS) applications/deja-dup/$(SYS) applications/keepassx/$(SYS) applications/nextcloud/$(SYS) applications/tlp/$(SYS) applications/xbacklight/$(SYS) applications/xsel/$(SYS)
 	$(ANS) -K $^
 
 applications-user: applications/zotero/$(USER)
@@ -83,7 +83,7 @@ languages-user: languages/plantuml/$(USER) languages/python/$(USER)
 	$(ANS) $^
 
 .PHONY: sciences
-sciences: science-user science-sys;
+sciences: sciences-sys sciences-user;
 
 sciences-sys: sciences/latexmk/$(SYS) sciences/tex/$(SYS)
 	$(ANS) -K $^

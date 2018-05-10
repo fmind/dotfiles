@@ -250,6 +250,7 @@ alias pps="pip search"
 alias ppi="pip install"
 alias ppu="pip uninstall"
 alias ppp="pip install --user"
+alias pep='pipes'
 alias per='pipenv run'
 alias pei='pipenv install'
 alias pes='pipenv shell --fancy'
