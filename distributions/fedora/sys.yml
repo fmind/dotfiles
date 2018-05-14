@@ -22,7 +22,7 @@
       - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{fedora_version.stdout}}.noarch.rpm
 
   - name: installing graphic driver
-    dnf: pkg="akmod-nvidia" state=latest
+    dnf: pkg="kmod-nvidia" state=latest
 
   - name: installing media codecs
     dnf: pkg="{{item}}" state=latest

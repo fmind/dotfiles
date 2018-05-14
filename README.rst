@@ -8,6 +8,7 @@ Configuration of my favorite tools:
 - [applications] deja-dup
 - [applications] firefox
 - [applications] keepassx
+- [applications] nextcloud
 - [applications] steam
 - [applications] teamviewer
 - [applications] tlp
