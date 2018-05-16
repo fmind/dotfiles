@@ -12,10 +12,6 @@ set nocompatible
 set path+=**
 set report=0
 set autochdir
-let g:netrw_liststyle=3
-let g:netrw_browse_split=4
-let g:netrw_list_hide= '.*\.pyc$'
-let g:netrw_list_hide=netrw_gitignore#Hide()
 " }}}
 "" RULER {{{
 set ruler
@@ -26,7 +22,6 @@ set relativenumber
 set showcmd
 set showmode
 set wildmenu
-set shortmess=c
 set laststatus=2
 set completeopt=longest,menuone
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
