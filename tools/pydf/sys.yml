@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: installing pydf
+    dnf: pkg="pydf" state=latest

@@ -74,6 +74,7 @@ Configuration of my favorite tools:
 - [tools] percol
 - [tools] pigz
 - [tools] pv
+- [tools] pydf
 - [tools] pyenv
 - [tools] pyped
 - [tools] ranger

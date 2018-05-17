@@ -103,7 +103,7 @@ shells-user: shells/aliases/$(USER) shells/bash/$(USER) shells/byobu/$(USER) she
 .PHONY: tools
 tools: tools-sys tools-user;
 
-tools-sys: tools/ag/$(SYS) tools/ansible/$(SYS) tools/curl/$(SYS) tools/fasd/$(SYS) tools/git/$(SYS) tools/htop/$(SYS) tools/imagemagick/$(SYS) tools/ipcalc/$(SYS) tools/jq/$(SYS) tools/ncdu/$(SYS) tools/parallel/$(SYS) tools/percol/$(SYS) tools/pigz/$(SYS) tools/pv/$(SYS) tools/pyped/$(SYS) tools/ranger/$(SYS) tools/rlwrap/$(SYS)
+tools-sys: tools/ag/$(SYS) tools/ansible/$(SYS) tools/curl/$(SYS) tools/fasd/$(SYS) tools/git/$(SYS) tools/htop/$(SYS) tools/imagemagick/$(SYS) tools/ipcalc/$(SYS) tools/jq/$(SYS) tools/ncdu/$(SYS) tools/parallel/$(SYS) tools/percol/$(SYS) tools/pigz/$(SYS) tools/pv/$(SYS) tools/pydf/$(SYS) tools/pyped/$(SYS) tools/ranger/$(SYS) tools/rlwrap/$(SYS)
 	$(ANS) -K $^
 
 tools-user: tools/ag/$(USER) tools/ansible/$(USER) tools/cookiecutter/$(USER) tools/functools/$(USER) tools/git/$(USER) tools/httpie/$(USER) tools/percol/$(USER) tools/tldr/$(USER) tools/watchdog/$(USER)
