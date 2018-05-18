@@ -142,8 +142,15 @@ alias m="make"
 alias ck="cookiecutter"
 #}}}
 ## Ansible{{{
-alias an="ansible-playbook -i 'localhost,' -c local"
-alias ans="an --ask-become"
+alias aa="ansible"
+alias ad="ansible-doc"
+alias au="ansible-pull"
+alias av="ansible-vault"
+alias af="ansible-config"
+alias ay="ansible-galaxy"
+alias al="ansible-console"
+alias ap="ansible-playbook"
+alias ai="ansible-inventory"
 #}}}
 ## Docker{{{
 alias dk="docker"
