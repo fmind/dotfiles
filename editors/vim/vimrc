@@ -148,6 +148,7 @@ noremap Y y$
 noremap U <C-r>
 noremap J <C-d>
 noremap K <C-u>
+nnoremap <CR> <C-e>
 xnoremap <  <gv
 xnoremap >  >gv
 nnoremap Q gqap
