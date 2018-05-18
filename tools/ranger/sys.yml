@@ -7,3 +7,4 @@
 
   - name: installing ranger
     package: pkg="ranger"
+    when: ansible_distribution != 'CentOS'
