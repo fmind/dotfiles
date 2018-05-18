@@ -10,4 +10,4 @@
 
   - name: installing powerline fonts
     package: pkg="powerline-fonts"
-    when: ansible_distribution = 'Fedora'
+    when: ansible_distribution == 'Fedora'
