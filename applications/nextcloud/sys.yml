@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing nextcloud
-    dnf: pkg="nextcloud-client-nautilus" state=latest
+    package: pkg="nextcloud-client-nautilus"

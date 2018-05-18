@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing tex
-    dnf: pkg="{{item}}" state=latest
+    package: pkg="{{item}}"
     with_items:
       - texlive
       - texlive-xetex

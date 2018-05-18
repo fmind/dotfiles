@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing zathura
-    dnf: pkg="zathura-plugins-all" state=latest
+    package: pkg="zathura-plugins-all"

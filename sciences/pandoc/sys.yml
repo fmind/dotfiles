@@ -1,4 +1,4 @@
----
+
 
 - hosts: localhost
   become: true
@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing pandoc
-    dnf: pkg="{{item}}" state=latest
+    package: pkg="{{item}}"
     with_items:
       - pandoc
       - pandoc-citeproc

@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing gnome
-    dnf: pkg="{{item}}" state=latest
+    package: pkg="{{item}}"
     with_items:
         - vlc
         - gimp

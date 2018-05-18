@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing watchdog
-    pip: name="watchdog" executable="pip3" extra_args="--user" state=latest
+    pip: name="watchdog" executable="pip3" extra_args="--user"

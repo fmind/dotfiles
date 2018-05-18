@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing pigz
-    dnf: pkg="pigz" state=latest
+    package: pkg="pigz"

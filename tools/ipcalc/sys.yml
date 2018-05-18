@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing ipcalc
-    dnf: pkg="ipcalc" state=latest
+    package: pkg="ipcalc"

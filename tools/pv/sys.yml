@@ -1,4 +1,4 @@
----
+
 
 - hosts: localhost
   become: true
@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing pv
-    dnf: pkg="pv" state=latest
+    package: pkg="pv"

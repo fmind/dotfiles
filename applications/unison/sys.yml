@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing unison
-    dnf: pkg="unison240-gtk" state=latest
+    package: pkg="unison240-gtk"

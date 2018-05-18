@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing pyenv dependencies
-    dnf: pkg="{{item}}" state=latest
+    package: pkg="{{item}}"
     with_items:
       - bzip2
       - bzip2-devel

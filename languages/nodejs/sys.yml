@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing nodejs
-    dnf: pkg="nodejs-latest-version" state="installed"
+    package: pkg="nodejs-latest-version"

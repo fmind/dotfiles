@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing deja-dup
-    dnf: pkg="deja-dup-nautilus" state=latest
+    package: pkg="deja-dup-nautilus"

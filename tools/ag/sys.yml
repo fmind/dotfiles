@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing ag
-    dnf: pkg="the_silver_searcher" state=latest
+    package: pkg="the_silver_searcher"

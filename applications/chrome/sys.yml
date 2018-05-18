@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing chrome
-    dnf: pkg="google-chrome-stable" state=latest
+    package: pkg="google-chrome-stable"

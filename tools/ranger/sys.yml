@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing ranger
-    dnf: pkg="ranger" state=latest
+    package: pkg="ranger"

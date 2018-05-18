@@ -5,6 +5,9 @@
 
   tasks:
 
+  - name: installing percol
+    pip: name="percol" executable="pip3" extra_args="--user"
+
   - name: creating ~/.percol.d/ directory
     file: path="~/.percol.d/" state=directory
 

@@ -9,7 +9,7 @@
     file: path="~/.npm" state=directory
 
   - name: installing nodejs librairies
-    npm: name="{{item}}" state="present" path="~/.npm/"
+    npm: name="{{item}}" path="~/.npm/"
     with_items:
       - tern
       - js-beautify

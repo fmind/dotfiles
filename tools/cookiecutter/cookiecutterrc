@@ -4,6 +4,7 @@ default_context:
     email: "fmind@users.noreply.github.com"
 abbreviations:
     aa: https://github.com/fmind/polyglot-analysis-template.git
+    ar: https://github.com/fmind/ansible-role-template.git
     bs: https://github.com/fmind/bash-script-template.git
     cp: https://github.com/fmind/clojure-project-template.git
     cs: https://github.com/fmind/clojure-script-template.git

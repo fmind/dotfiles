@@ -6,7 +6,4 @@
   tasks:
 
   - name: Installing neovim
-    dnf: pkg="{{item}}" state=latest
-    with_items:
-      - neovim
-      - python3-neovim
+    package: pkg="neovim"

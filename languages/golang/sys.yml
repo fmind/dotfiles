@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing golang
-    dnf: pkg="golang" state=latest
+    package: pkg="golang"

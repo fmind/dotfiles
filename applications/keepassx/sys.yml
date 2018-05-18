@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing keepassx
-    dnf: pkg="keepassx" state=latest
+    package: pkg="keepassx"

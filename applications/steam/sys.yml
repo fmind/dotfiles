@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing steam
-    dnf: pkg="steam" state=latest
+    package: pkg="steam"

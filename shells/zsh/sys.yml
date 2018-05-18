@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing zsh
-    dnf: pkg="zsh" state=latest
+    package: pkg="zsh"

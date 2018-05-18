@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing virtualbox
-    dnf: pkg="VirtualBox" state=latest
+    package: pkg="VirtualBox"

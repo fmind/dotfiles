@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing imagemagick
-    dnf: pkg="ImageMagick" state=latest
+    package: pkg="ImageMagick"

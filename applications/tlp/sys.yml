@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing tlp
-    dnf: pkg="tlp" state=latest
+    package: pkg="tlp"

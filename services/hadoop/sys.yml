@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing hadoop service
-    dnf: pkg="hadoop-mapreduce" state=latest
+    package: pkg="hadoop-mapreduce"

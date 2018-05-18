@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing jupyter lab
-    pip: name="jupyterlab" executable="pip3" extra_args="--user" state=latest
+    pip: name="jupyterlab" executable="pip3" extra_args="--user"
 
   - name: installing jupyter notebook
-    pip: name="notebook" executable="pip3" extra_args="--user" state=latest
+    pip: name="notebook" executable="pip3" extra_args="--user"

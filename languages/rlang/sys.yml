@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing rlang
-    dnf: pkg="R-core" state=latest
+    package: pkg="R-core"

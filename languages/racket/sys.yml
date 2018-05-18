@@ -9,4 +9,4 @@
     shell: dnf copr enable -y jsouthworth/racket
 
   - name: installing racket
-    dnf: pkg="racket" state=latest
+    package: pkg="racket"

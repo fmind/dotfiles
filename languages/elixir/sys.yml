@@ -6,7 +6,7 @@
   tasks:
 
   - name: Installing elixir
-    dnf: pkg="{{item}}" state=latest
+    package: pkg="{{item}}"
     with_items:
       - elixir
       - erlang-eunit

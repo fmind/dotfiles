@@ -5,6 +5,9 @@
 
   tasks:
 
+  - name: installing neovim for python
+    pip: name="neovim" executable="pip3" extra_args="--user"
+
   - name: creating neovim user directory
     file: path="~/.config/nvim/" state=directory
 

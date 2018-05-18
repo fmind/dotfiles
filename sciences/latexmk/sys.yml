@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing latexmk
-    dnf: pkg="latexmk" state=latest
+    package: pkg="latexmk"

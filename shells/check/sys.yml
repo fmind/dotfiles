@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing shell check
-    dnf: pkg="ShellCheck" state=latest
+    package: pkg="ShellCheck"

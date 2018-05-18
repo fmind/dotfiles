@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing graphviz
-    dnf: pkg="graphviz" state=latest
+    package: pkg="graphviz"

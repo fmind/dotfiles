@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing java
-    dnf: pkg="java-openjdk" state=latest
+    package: pkg="java-openjdk"

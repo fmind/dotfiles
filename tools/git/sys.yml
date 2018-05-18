@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing git
-    dnf: pkg="git" state=latest
+    package: pkg="git"

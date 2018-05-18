@@ -6,7 +6,7 @@
   tasks:
 
   - name: Installing clang
-    dnf: pkg="{{item}}" state=latest
+    package: pkg="{{item}}"
     with_items:
       - gcc
       - make

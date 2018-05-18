@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing jq
-    dnf: pkg="jq" state=latest
+    package: pkg="jq"

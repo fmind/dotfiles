@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+  - name: installing pyped
+    pip: name="Pyped" executable="pip3" extra_args="--user"

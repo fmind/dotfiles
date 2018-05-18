@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing xsel
-    dnf: pkg="xsel" state=latest
+    package: pkg="xsel"

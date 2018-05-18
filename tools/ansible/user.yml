@@ -5,5 +5,8 @@
 
   tasks:
 
+  - name: installing ansible
+    pip: name="ansible" executable="pip3" extra_args="--user"
+
   - name: deploying ansible configuration
     file: src="{{playbook_dir}}/ansible.cfg" dest="~/.ansible.cfg" state=link force=yes

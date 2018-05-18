@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing parallel
-    dnf: pkg="parallel" state=latest
+    package: pkg="parallel"

@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing anki
-    dnf: pkg="{{item}}" state=latest
-    with_items:
-      - anki
-      - dvipng
+    package: pkg="anki"
+
+  - name: installing anki dependencies
+    package: pkg="dvipng"

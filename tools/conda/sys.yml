@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing conda
-    dnf: pkg="conda-activate" state=latest
+    package: pkg="conda-activate"

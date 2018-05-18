@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing ncdu
-    dnf: pkg="ncdu" state=latest
+    package: pkg="ncdu"

@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing htop
-    dnf: pkg="htop" state=latest
+    package: pkg="htop"

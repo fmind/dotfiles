@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing fonts
-    dnf: pkg="{{item}}" state="latest"
+    package: pkg="{{item}}"
     with_items:
       - powerline-fonts
       - dejavu-sans-mono-fonts

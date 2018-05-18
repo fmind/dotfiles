@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing xbacklight
-    dnf: pkg="xbacklight" state=latest
+    package: pkg="xbacklight"

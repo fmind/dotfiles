@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing rlwrap
-    dnf: pkg="rlwrap" state=latest
+    package: pkg="rlwrap"

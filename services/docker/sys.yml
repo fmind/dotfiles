@@ -12,7 +12,7 @@
     file: src="/home/docker" dest="/var/lib/docker" state=link
 
   - name: installing docker service
-    dnf: pkg="docker" state=latest
+    package: pkg="docker"
 
   - name: creating docker group
     group: name="docker" state=present system=yes

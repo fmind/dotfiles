@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing byobu
-    dnf: pkg="byobu" state=latest
+    package: pkg="byobu"

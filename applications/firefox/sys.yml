@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing firefox
-    dnf: pkg="firefox" state=latest
+    package: pkg="firefox"

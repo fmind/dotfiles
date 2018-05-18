@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing pypy3
-    dnf: pkg="pypy3-devel" state=latest
+    package: pkg="pypy3-devel"
 
   - name: installing python3
-    dnf: pkg="python3-devel" state=latest
+    package: pkg="python3-devel"

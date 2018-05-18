@@ -5,8 +5,5 @@
 
   tasks:
 
-  - name: creating ~/bin directory
-    file: path="~/bin" state=directory
-
   - name: installing tldr
-    get_url: url="https://raw.githubusercontent.com/raylee/tldr/master/tldr" dest="~/bin/tldr" mode="0750"
+    pip: name="tldr.py" executable="pip3" extra_args="--user"

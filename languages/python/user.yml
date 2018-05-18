@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing python3 tools
-    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+    pip: name="{{item}}" executable="pip3" extra_args="--user"
     with_items:
       - jedi
       - yapf
@@ -17,7 +17,7 @@
       - pipenv-pipes
 
   - name: installing python3 shells
-    pip: name="{{item}}" executable="pip3" extra_args="--user" state=latest
+    pip: name="{{item}}" executable="pip3" extra_args="--user"
     with_items:
       - hy
       - ptpython

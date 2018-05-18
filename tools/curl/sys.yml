@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing curl
-    dnf: pkg="curl" state=latest
+    package: pkg="curl"

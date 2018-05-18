@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing fasd
-    dnf: pkg="fasd" state=latest
+    package: pkg="fasd"
