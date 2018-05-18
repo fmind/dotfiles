@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: installing pypy3
+    package: pkg="pypy3-devel"

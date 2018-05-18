@@ -5,8 +5,5 @@
 
   tasks:
 
-  - name: installing pypy3
-    package: pkg="pypy3-devel"
-
   - name: installing python3
     package: pkg="python3-devel"

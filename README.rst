@@ -37,6 +37,7 @@ Configuration of my favorite tools:
 - [languages] nim
 - [languages] nodejs
 - [languages] plantuml
+- [languages] pypy
 - [languages] python
 - [languages] racket
 - [languages] rlang
