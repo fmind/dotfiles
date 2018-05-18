@@ -3,7 +3,5 @@ $pdf_mode = 1;
 $dvi_mode = 0;
 $postscript_mode = 0;
 
-$view = 'none';
-
 # Halt auto-compilation on error
 $pdflatex="pdflatex -interaction=nonstopmode -halt-on-error %O %S"
