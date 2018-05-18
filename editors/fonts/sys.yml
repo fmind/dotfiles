@@ -5,8 +5,9 @@
 
   tasks:
 
-  - name: installing fonts
-    package: pkg="{{item}}"
-    with_items:
-      - powerline-fonts
-      - dejavu-sans-mono-fonts
+  - name: installing dejavu fonts
+    package: pkg="dejavu-sans-mono-fonts"
+
+  - name: installing powerline fonts
+    package: pkg="powerline-fonts"
+    when: ansible_distribution = 'Fedora'
