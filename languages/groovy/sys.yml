@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing groovy
-    package: pkg="groovy"
+    package: name="groovy"

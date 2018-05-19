@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing firefox
-    package: pkg="firefox"
+    package: name="firefox"

@@ -6,4 +6,4 @@
   tasks:
 
   - name: Installing neovim
-    package: pkg="neovim"
+    package: name="neovim"

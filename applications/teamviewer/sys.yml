@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing teamviewer
-    dnf: pkg="https://download.teamviewer.com/download/teamviewer.i686.rpm"
+    dnf: name="https://download.teamviewer.com/download/teamviewer.i686.rpm"

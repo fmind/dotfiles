@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing pandoc
-    package: pkg="{{item}}"
-    with_items:
-      - pandoc
-      - pandoc-citeproc
+    package: name="pandoc"
+
+  - name: installing pandoc dependencies
+    package: name="pandoc-citeproc"

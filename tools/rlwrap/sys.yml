@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing rlwrap
-    package: pkg="rlwrap"
+    package: name="rlwrap"

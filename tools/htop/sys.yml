@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing htop
-    package: pkg="htop"
+    package: name="htop"

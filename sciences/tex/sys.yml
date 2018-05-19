@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing tex
-    package: pkg="{{item}}"
+    package: name="{{item}}"
     with_items:
       - texlive
       - texlive-xetex

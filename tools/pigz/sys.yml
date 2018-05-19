@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing pigz
-    package: pkg="pigz"
+    package: name="pigz"

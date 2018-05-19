@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing deja-dup
-    package: pkg="deja-dup-nautilus"
+    package: name="deja-dup-nautilus"

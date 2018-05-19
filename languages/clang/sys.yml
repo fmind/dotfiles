@@ -6,10 +6,9 @@
   tasks:
 
   - name: Installing clang
-    package: pkg="{{item}}"
+    package: name="{{item}}"
     with_items:
       - gcc
-      - make
       - cmake
       - ctags
       - clang

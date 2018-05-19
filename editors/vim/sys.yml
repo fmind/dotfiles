@@ -6,9 +6,9 @@
   tasks:
 
   - name: installing vim (console)
-    package: pkg="vim"
+    package: name="vim"
     when: not lookup("env", "DISPLAY")
 
   - name: installing vim (display)
-    package: pkg="vim-X11"
+    package: name="vim-X11"
     when: lookup("env", "DISPLAY")

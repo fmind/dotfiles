@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing graphviz
-    package: pkg="graphviz"
+    package: name="graphviz"

@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing virtualbox
-    package: pkg="VirtualBox"
+    package: name="VirtualBox"

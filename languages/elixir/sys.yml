@@ -6,8 +6,10 @@
   tasks:
 
   - name: Installing elixir
-    package: pkg="{{item}}"
+    package: name="elixir"
+
+  - name: Installing elixir dependencies
+    package: name="{{item}}"
     with_items:
-      - elixir
       - erlang-eunit
       - erlang-erl_interface

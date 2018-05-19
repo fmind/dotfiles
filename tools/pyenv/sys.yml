@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing pyenv dependencies
-    package: pkg="{{item}}"
+    package: name="{{item}}"
     with_items:
       - bzip2
       - bzip2-devel

@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing latexmk
-    package: pkg="latexmk"
+    package: name="latexmk"

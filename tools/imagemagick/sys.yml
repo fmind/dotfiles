@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing imagemagick
-    package: pkg="ImageMagick"
+    package: name="ImageMagick"

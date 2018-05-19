@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing nextcloud
-    package: pkg="nextcloud-client-nautilus"
+    package: name="nextcloud-client-nautilus"

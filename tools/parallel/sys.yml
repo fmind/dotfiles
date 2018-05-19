@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing parallel
-    package: pkg="parallel"
+    package: name="parallel"

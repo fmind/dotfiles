@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing fasd
-    package: pkg="fasd"
+    package: name="fasd"

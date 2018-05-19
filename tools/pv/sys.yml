@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing pv
-    package: pkg="pv"
+    package: name="pv"

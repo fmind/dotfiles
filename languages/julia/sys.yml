@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing julia
-    package: pkg="{{item}}"
-    with_items:
-      - czmq
-      - julia
+    package: name="julia"
+
+  - name: installing julia dependencies
+    package: name="czmq"

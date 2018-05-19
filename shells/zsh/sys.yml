@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing zsh
-    package: pkg="zsh"
+    package: name="zsh"

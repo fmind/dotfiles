@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing steam
-    package: pkg="steam"
+    package: name="steam"

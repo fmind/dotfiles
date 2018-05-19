@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing ipcalc
-    package: pkg="ipcalc"
+    package: name="ipcalc"

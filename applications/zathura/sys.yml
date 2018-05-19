@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing zathura
-    package: pkg="zathura-plugins-all"
+    package: name="zathura-plugins-all"

@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing chrome
-    package: pkg="google-chrome-stable"
+    package: name="google-chrome-stable"

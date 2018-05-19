@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing rlang
-    package: pkg="R-core"
+    package: name="R-core"

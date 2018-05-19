@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing hadoop service
-    package: pkg="hadoop-mapreduce"
+    package: name="hadoop-mapreduce"

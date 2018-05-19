@@ -5,14 +5,21 @@
 
   tasks:
 
-  - name: installing gnome
-    package: pkg="{{item}}"
+  - name: installing vlc
+    package: name="vlc"
+
+  - name: installing gimp
+    package: name="gimp"
+
+  - name: installing gnome-weak-tool
+    package: name="gnome-weak-tool"
+
+  - name: installing chrome-gnome-shell
+    package: name="chrome-gnome-shell"
+
+  - name: installing gnome shell extensions
+    package: name="{{item}}"
     with_items:
-        - vlc
-        - gimp
-        - transmission
-        - gnome-tweak-tool
-        - chrome-gnome-shell
         - gnome-shell-extension-pomodoro
         - gnome-shell-extension-openweather
         - gnome-shell-extension-topicons-plus

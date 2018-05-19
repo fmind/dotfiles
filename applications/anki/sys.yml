@@ -6,7 +6,7 @@
   tasks:
 
   - name: installing anki
-    package: pkg="anki"
+    package: name="anki"
 
   - name: installing anki dependencies
-    package: pkg="dvipng"
+    package: name="dvipng"

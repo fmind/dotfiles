@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing nodejs
-    package: pkg="nodejs-latest-version"
+    package: name="nodejs-latest-version"

@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing golang
-    package: pkg="golang"
+    package: name="golang"

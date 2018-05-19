@@ -18,7 +18,7 @@
     when: (root_stack_install|failed) and (local_stack_install|failed)
 
   - name: installing stack dependencies
-    package: pkg="{{item}}"
+    package: name="{{item}}"
     with_items:
       - zlib-devel
       - ncurses-devel

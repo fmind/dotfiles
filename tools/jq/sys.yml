@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing jq
-    package: pkg="jq"
+    package: name="jq"

@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing ag
-    package: pkg="the_silver_searcher"
+    package: name="the_silver_searcher"

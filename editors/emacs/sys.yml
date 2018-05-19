@@ -6,9 +6,9 @@
   tasks:
 
   - name: installing emacs (display)
-    package: pkg="emacs"
+    package: name="emacs"
     when: lookup("env", "DISPLAY")
 
   - name: installing emacs (console)
-    package: pkg="emacs-nox"
+    package: name="emacs-nox"
     when: not lookup("env", "DISPLAY")

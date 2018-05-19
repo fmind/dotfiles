@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing unison
-    package: pkg="unison240-gtk"
+    package: name="unison240-gtk"

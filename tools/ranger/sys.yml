@@ -6,5 +6,5 @@
   tasks:
 
   - name: installing ranger
-    package: pkg="ranger"
+    package: name="ranger"
     when: ansible_distribution != 'CentOS'

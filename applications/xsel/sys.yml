@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing xsel
-    package: pkg="xsel"
+    package: name="xsel"

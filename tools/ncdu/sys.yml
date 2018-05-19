@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing ncdu
-    package: pkg="ncdu"
+    package: name="ncdu"

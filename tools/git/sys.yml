@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing git
-    package: pkg="git"
+    package: name="git"

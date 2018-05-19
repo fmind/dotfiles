@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing conda
-    package: pkg="conda-activate"
+    package: name="conda-activate"

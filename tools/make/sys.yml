@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: true
+
+  tasks:
+
+  - name: installing make
+    package: name="make"

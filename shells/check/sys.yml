@@ -6,4 +6,4 @@
   tasks:
 
   - name: installing shell check
-    package: pkg="ShellCheck"
+    package: name="ShellCheck"
