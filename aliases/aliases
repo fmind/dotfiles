@@ -1,0 +1,271 @@
+# vim: fdm=marker
+# DEFAULT{{{
+alias wget="wget -c"
+alias mkdir="mkdir -pv"
+alias parallel="parallel --will-cite"
+#}}}
+# EDITION{{{
+alias n="nvim"
+alias v="$EDITOR"
+alias e="emacs -nw"
+#}}}
+# NAVIGATION{{{
+alias l="ls --color=auto -CF"
+alias ll="l -lFh"
+alias la="l -lAFh"
+alias lr="l -lRFh"
+alias lt="l -ltFh"
+alias lh="l -ld .*"
+alias b="cd $OLDPWD"
+alias q="ranger"
+function c {
+  cd "$@" && l
+}
+#}}}
+# INTEGRATION{{{
+alias o="xdg-open"
+alias u='nautilus . &'
+alias dark="xbacklight -set 30"
+alias bright="xbacklight -set 100"
+alias xk="xsel --clipboard --clear"
+alias xc="xsel --clipboard --output"
+#}}}
+# INFORMATION{{{
+alias gg="google"
+alias psh="ps aux"
+alias duh="du -h"
+alias dfh="df -hT"
+alias release="lsb_release -c"
+alias extip='curl icanhazip.com'
+#}}}
+# COMPRESSION{{{
+alias pz="pigz"
+alias puz="unpigz -c"
+# }}}
+# NOTIFICATION{{{
+alias a='notify-send'
+alias notify='notify-send'
+#}}}
+# CONFIGURATION{{{
+alias arc='$EDITOR ~/.shell_aliases && asrc'
+alias asrc='source ~/.shell_aliases'
+alias brc='$EDITOR ~/.bashrc && bsrc'
+alias bsrc='source ~/.bashrc'
+alias cookierc='$EDITOR ~/.cookiecutterrc'
+alias emacsrc='$EDITOR ~/.spacemacs'
+alias erc='$EDITOR ~/.shell_environ && esrc'
+alias esrc='source ~/.shell_environ'
+alias idearc='$EDITOR ~/.ideavimrc'
+alias latexmkrc='$EDITOR ~/.latexmkrc'
+alias prc='$EDITOR ~/.shell_private && psrc'
+alias psrc='source ~/.shell_private'
+alias pypirc='$EDITOR ~/.pypirc'
+alias sshrc='$EDITOR ~/.ssh/config'
+alias vrc='$EDITOR ~/.vimrc'
+alias nrc='$EDITOR ~/.config/nvim/init.vim'
+alias warprc='$EDITOR ~/.warprc'
+alias zrc='$EDITOR ~/.zshrc && zsrc'
+alias zsrc='source ~/.zshrc'
+#}}}
+# ADMINISTRATION{{{
+alias r="clear"
+alias i="percol"
+alias cpr="cp -r"
+alias rmr="rm -r"
+alias rmrf="rm -rf"
+alias chx="chmod u+x "
+alias kila='killall'
+alias kil9='killall -9'
+alias srv='sudo service'
+alias tunnell='ssh -nNTL'
+alias tunnelr='ssh -nNTR'
+alias rsinc="rsync -avzu"
+alias pwgen="pwgen -N1 -y"
+alias pkgrm="sudo pkcon refresh force -c -1"
+backup() { cp "$1"{,.bak}; }
+#}}}
+# SHARING{{{
+alias httpserve="python3 -m http.server"
+#}}}
+# EDITING{{{
+alias imgsize="mogrify -resize "
+alias imgwhite="mogrify -flatten "
+#}}}
+# SEARCHING{{{
+alias k='fasd -al'
+alias ke='fasd -ae'
+alias ka='fasd -al'
+alias kf='fasd -fl'
+alias kd='fasd -dl' 
+alias kv='fasd -fe $EDITOR' 
+alias j='fasd_cd -d'
+alias ji='fasd_cd -di'
+alias f="find . -iname "
+alias fh="find ~ -iname "
+#}}}
+# FILTERING{{{
+alias y="pyp"
+alias h="head"
+alias hn="head -n"
+alias hh="head -n5"
+alias t="tail"
+alias tn="tail -n"
+alias tt="tail -n5"
+alias igrep="grep -i"
+alias rgrep="grep -iR"
+#}}}
+# TRANSFORMING{{{
+alias jqr="jq -r"
+alias colt="column -t"
+alias lower="tr '[:upper:]' '[:lower:]'"
+alias upper="tr '[:lower:]' '[:upper:]'"
+#}}}
+# PROGRAMMING{{{
+## Git{{{
+alias g="git"
+alias gm="git submodule"
+alias gri="$EDITOR .gitignore"
+alias grc="$EDITOR ~/.gitconfig"
+function gh {
+  git clone git@github.com:fmind/$1.git
+}
+function gho {
+    git remote add origin "git@github.com:fmind/$(basename $PWD).git"
+    git push -u origin master
+}
+#}}}
+## Uml{{{
+alias uml="plantuml"
+#}}}
+## Project{{{
+alias m="make"
+alias ck="cookiecutter"
+#}}}
+## Ansible{{{
+alias aa="ansible"
+alias ad="ansible-doc"
+alias au="ansible-pull"
+alias av="ansible-vault"
+alias af="ansible-config"
+alias ay="ansible-galaxy"
+alias al="ansible-console"
+alias ap="ansible-playbook"
+alias ai="ansible-inventory"
+#}}}
+## Docker{{{
+alias dk='docker'
+alias dr='docker run --rm'
+alias dkstart="service docker start"
+alias dksh='docker run --rm --name shell fmind/shell'
+alias dkrm="docker rmi $(docker images -q -f dangling=true)"
+alias dkdata='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
+alias dkmongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+#}}}
+## Watchdog{{{
+alias wdl="watchmedo log"
+alias wdr="watchmedo auto-restart"
+alias wds="watchmedo shell-command"
+#}}}
+#}}}
+# LANGUAGES{{{
+## Java{{{
+alias ja="java"
+alias jac="javac"
+alias jaj="java -jar"
+#}}}
+## Groovy{{{
+alias gr="groovy"
+alias grn="groovy -n"
+alias grp="groovy -p"
+alias grs="groovysh"
+alias grd="groovydoc"
+#}}}
+## Racket{{{
+# alias rc="raco"
+# alias rk="racket"
+# alias rkclj="racket -I rackjure"
+# alias rkrc="$EDITOR ~/.racketrc"
+#}}}
+## Clojure{{{
+alias clrc="$EDITOR ~/.lein/profiles.clj"
+alias clrb="$EDITOR ~/.boot/profile.boot"
+alias clrp="$EDITOR ~/.boot/boot.properties"
+#}}}
+## Haskell{{{
+# alias hh="stack"
+# alias ho="hayoo"
+# alias hg="hoogle"
+# alias he="stack eval"
+# alias hx="stack exec"
+# alias hr="stack repl"
+# alias ht="stack test"
+# alias hb="stack build"
+# alias hm="stack bench"
+# alias hs="stack setup"
+# alias hc="stack config"
+# alias hk="stack docker"
+# alias hu="stack update"
+# alias hv="stack upgrade"
+# alias hd="stack haddock"
+# alias hi="stack install"
+# alias hww="stack exec site watch"
+# alias hwb="stack exec site build"
+# alias hl="stack list-dependencies"
+# alias hp="stack repl --test --bench"
+# alias hrc="$EDITOR ~/.stack/config.yaml"
+#}}}
+## Go{{{
+# alias mygo="cd $GOREPO"
+#}}}
+## Nim{{{
+# alias nb="nimble"
+# alias nbt="nimble init"
+# alias nbt="nimble tasks"
+# alias nbs="nimble search"
+# alias nbp="nimble publish"
+# alias nbi="nimble install"
+# alias nbu="nimble uninstall"
+# alias nd="nim doc2"
+# alias nk="nim check"
+# alias ni="rlwrap nim secret"
+# alias nc="nim compile -w:on"
+# alias nr="nim compile --run -w:on"
+# alias no="nim --compileOnly -w:on"
+#}}}
+## Julia{{{
+# alias jl="julia"
+# alias jlp="julia -p auto"
+#}}}
+## Elixir{{{
+# export ERL_AFLAGS="-kernel shell_history enabled"
+#}}}
+## Python{{{
+alias p="ptpython"
+alias pp="ptpython -i"
+alias pi="ipython"
+alias py="python"
+alias pyp="try"
+alias pyy="yapf"
+alias pyd="pydoc"
+alias pys="isort"
+alias pyf="flake8"
+alias pyt="pytest"
+alias py2="python2"
+alias py3="python3"
+alias pys="python setup.py"
+alias pym="python -m doctest"
+alias pps="pip search"
+alias ppi="pip install"
+alias ppu="pip uninstall"
+alias ppp="pip install --user"
+alias pep='pipes'
+alias per='pipenv run'
+alias pei='pipenv install'
+alias pes='pipenv shell --fancy'
+alias pva="source venv/bin/activate"
+alias pvd="deactivate"
+alias pnp="ipcluster start -n $(nproc)"
+alias pnl="jupyter lab --NotebookApp.token="
+alias pnn="jupyter notebook --NotebookApp.token="
+#}}}
+#}}}

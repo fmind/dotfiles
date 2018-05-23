@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: true
-
-  tasks:
-
-  - name: installing chrome
-    package: name="google-chrome-stable"

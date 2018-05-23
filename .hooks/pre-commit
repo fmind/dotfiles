@@ -6,15 +6,15 @@ cat > README.rst <<EOF
 dotfiles
 ========
 
-Configuration of my favorite tools:
+Configuration of my favorite tools, shells and editors:
 
 EOF
 
-find . -mindepth 2 -maxdepth 2 -type d -not -path '*/\.*' | sort | sed -E 's?./(.*)/(.*)?- [\1] \2?' >> README.rst
+find . -maxdepth 1 -type d -not -path '*/\.*' | sort | sed -E 's?^./??' >> README.rst
 
 printf "\n" >> README.rst
 echo 'Happy Hacking !' >> README.rst
 
-echo '[hook] README.rst generated'
+echo '[hook] README.rst was generated'
 
 git add README.rst

@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: true
-
-  tasks:
-
-  - name: installing nodejs
-    package: name="nodejs-latest-version"

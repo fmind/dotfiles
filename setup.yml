@@ -1,0 +1,227 @@
+---
+
+- hosts: localhost
+  become: false
+
+  tasks:
+
+# SHELL {{{
+
+## ZSH {{{
+
+  - name: deploy zsh dir
+    file: src="{{playbook_dir}}/zsh/zsh.d" dest="~/.zsh.d" state=link force=yes
+
+  - name: deploy zsh file
+    file: src="{{playbook_dir}}/zsh/zshrc" dest="~/.zshrc" state=link force=yes
+
+  - name: clone zsh oh-my-zsh
+    git: repo="https://github.com/robbyrussell/oh-my-zsh.git" dest="~/.oh-my-zsh" depth=1
+
+  - name: clone zsh alias-tips
+    git: repo="https://github.com/djui/alias-tips.git" dest="~/.zsh.d/plugins/alias-tips" depth=1
+
+  - name: clone zsh auto-suggestions
+    git: repo="git://github.com/zsh-users/zsh-autosuggestions.git" dest="~/.zsh.d/plugins/zsh-autosuggestions" depth=1
+
+  - name: clone zsh syntax-highlighting plug
+    git: repo="https://github.com/zsh-users/zsh-syntax-highlighting.git" dest="~/.zsh.d/plugins/zsh-syntax-highlighting" depth=1
+
+# }}}
+
+## BASH {{{
+
+  - name: deploy bash file
+    file: src="{{playbook_dir}}/bash/bashrc" dest="~/.bashrc" state=link force=yes
+
+  - name: deploy bash logout
+    file: src="{{playbook_dir}}/bash/bash_logout" dest="~/.bash_logout" state=link force=yes
+
+# }}}
+
+## BYOBU {{{
+
+  - name: create byobu dir
+    file: path="~/.byobu" state=directory
+
+  - name: deploy byobu files
+    file: src="{{playbook_dir}}/byobu/{{item}}" dest="~/.byobu/{{item}}" state=link force=yes
+    with_items:
+      - status
+      - backend
+      - statusrc
+      - .tmux.conf
+      - keybindings.tmux
+
+# }}}
+
+## COMMON {{{
+
+  - name: deploy shell file
+    file: src="{{playbook_dir}}/shell/shellrc" dest="~/.shellrc" state=link force=yes
+
+  - name: deploy shell input
+    file: src="{{playbook_dir}}/input/inputrc" dest="~/.inputrc" state=link force=yes
+
+  - name: deploy shell aliases
+    file: src="{{playbook_dir}}/aliases/aliases" dest="~/.shell_aliases" state=link force=yes
+
+  - name: deploy shell environ
+    file: src="{{playbook_dir}}/environ/environ" dest="~/.shell_environ" state=link force=yes
+
+  - name: clone shell functools
+    git: repo="https://github.com/sharkdp/shell-functools.git" dest="~/bin/functools"
+
+  - name: deploy shell functools
+    file: src="~/bin/functools/ft/{{item}}" dest="~/bin/{{item}}" state=link force=yes
+    with_items:
+      - map
+      - foldl
+      - filter
+      - ft-functions
+
+# }}}
+
+# }}}
+
+# TOOLS {{{
+
+## NETWORK {{{
+
+  - name: install httpie
+    pip: name="httpie" executable="pip3" extra_args="--user"
+
+  - name: install httpie prompt
+    pip: name="http-prompt" executable="pip3" extra_args="--user"
+
+# }}}
+
+## SYSADMIN {{{
+
+  - name: install pyenv
+    git: repo=https://github.com/pyenv/pyenv.git dest="~/.pyenv" depth=1
+
+  - name: install watchdog
+    pip: name="watchdog" executable="pip3" extra_args="--user"
+
+  - name: deploy git file
+    file: src="{{playbook_dir}}/git/gitconfig" dest="~/.gitconfig" state=link force=yes
+
+  - name: deploy git ignore
+    file: src="{{playbook_dir}}/git/gitignore" dest="~/.gitignore" state=link force=yes
+
+  - name: install cookiecutter
+    pip: name="cookiecutter" executable="pip3" extra_args="--user"
+
+  - name: deploy cookiecutter file
+    file: src="{{playbook_dir}}/cookiecutter/cookiecutterrc" dest="~/.cookiecutterrc" state=link force=yes
+
+# }}}
+
+## DEVELOPER {{{
+
+  - name: install pydf
+    pip: name="pydf" executable="pip3" extra_args="--user"
+
+  - name: install tldr
+    pip: name="tldr.py" executable="pip3" extra_args="--user"
+
+  - name: install pyped
+    pip: name="Pyped" executable="pip3" extra_args="--user"
+
+  - name: deploy ag file
+    file: src="{{playbook_dir}}/ag/agignore" dest="~/.agignore" state=link force=yes
+
+  - name: install percol
+    pip: name="percol" executable="pip3" extra_args="--user"
+
+  - name: create percol dir
+    file: path="~/.percol.d/" state=directory
+
+  - name: deploy percol file
+    file: src="{{playbook_dir}}/percol/rc.py" dest="~/.percol.d/rc.py" state=link force=yes
+
+  - name: deploy ansible file
+    file: src="{{playbook_dir}}/ansible/ansible.cfg" dest="~/.ansible.cfg" state=link force=yes
+
+# }}}
+
+# }}}
+
+# EDITORS {{{
+
+## VIM {{{
+
+  - name: create vim dir
+    file: path="~/.vim/" state=directory
+
+  - name: deploy vim file
+    file: src="{{playbook_dir}}/vim/vimrc" dest="~/.vimrc" state=link force=yes
+
+  - name: create vim subdirs
+    file: path="~/.vim/{{item}}/" state=directory
+    with_items:
+      - undo
+      - swap
+      - spell
+      - backup
+      - session
+      - plugged
+      - autoload
+
+  - name: install vim manager
+    get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.vim/autoload/plug.vim" mode=0600
+
+# }}}
+
+## NEOVIM {{{
+
+  - name: create neovim dir
+    file: path="~/.config/nvim/" state=directory
+
+  - name: deploy neovim file
+    file: src="{{playbook_dir}}/neovim/init.vim" dest="~/.config/nvim/init.vim" state=link force=yes
+
+  - name: create neovim subdirs
+    file: path="~/.config/nvim/{{item}}/" state=directory
+    with_items:
+      - undo
+      - swap
+      - spell
+      - backup
+      - session
+      - plugged
+      - autoload
+
+  - name: install neovim python
+    pip: name="neovim" executable="pip3" extra_args="--user"
+
+  - name: deploy neovim snippets
+    file: src="{{playbook_dir}}/neovim/snippets" dest="~/.config/nvim/snippets" state=link force=yes
+
+  - name: install neovim manager
+    get_url: url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" dest="~/.config/nvim/autoload/plug.vim" mode=0600
+
+# }}}
+
+## INTELLIJ {{{
+
+  - name: deploy idea file
+    file: src="{{playbook_dir}}/idea/ideavimrc" dest="~/.ideavimrc" state=link force=yes
+
+# }}}
+
+## SPACEMACS {{{
+
+  - name: deploy emacs dir
+    file: src="{{playbook_dir}}/emacs/spacemacs.d" dest="~/.spacemacs.d" state=link force=yes
+
+  - name: deploy emacs file
+    file: src="{{playbook_dir}}/emacs/spacemacs" dest="~/.spacemacs" state=link force=yes
+
+  - name: clone emacs spacemacs
+    git: repo="https://github.com/syl20bnr/spacemacs" dest="~/.emacs.d" depth=1
+
+# }}}
+
+# }}}

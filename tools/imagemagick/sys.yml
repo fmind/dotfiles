@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: true
-
-  tasks:
-
-  - name: installing imagemagick
-    package: name="ImageMagick"

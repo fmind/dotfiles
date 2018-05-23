@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: true
-
-  tasks:
-
-  - name: installing teamviewer
-    dnf: name="https://download.teamviewer.com/download/teamviewer.i686.rpm"

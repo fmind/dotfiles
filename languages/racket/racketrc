@@ -1,3 +1,0 @@
-(require xrepl)
-(require readline)
-(require readline/rep-start)

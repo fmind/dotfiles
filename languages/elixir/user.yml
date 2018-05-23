@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: false
-
-  tasks:
-
-  - name: deploying elixir configuration
-    file: src="{{playbook_dir}}/iex.exs" dest="~/.iex.exs" state=link force=yes

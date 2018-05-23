@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: false
-
-  tasks:
-
-  - name: installing watchdog
-    pip: name="watchdog" executable="pip3" extra_args="--user"

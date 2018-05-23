@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: false
-
-  tasks:
-
-  - name: installing pydf
-    pip: name="pydf" executable="pip3" extra_args="--user"

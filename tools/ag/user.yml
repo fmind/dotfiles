@@ -1,9 +1,0 @@
----
-
-- hosts: localhost
-  become: false
-
-  tasks:
-
-  - name: deploying ag ignore file
-    file: src="{{playbook_dir}}/agignore" dest="~/.agignore" state=link force=yes

@@ -11,59 +11,7 @@ docker:
 	docker push fmind/shell
 
 init:
-	sudo dnf -y install git
-	pip3 install --user ansible
-
-%/sys.yml:
-	$(ANS) -K $@
-
-%/user.yml:
-	$(ANS) $@
-
-# GROUPS
-
-all: sys user;
-
-sys: console-sys develop-sys graphic-sys;
-
-user: console-user develop-user graphic-user;
-
-console: console-sys console-user;
-
-console-sys: editors-sys shells-sys tools-sys;
-
-console-user: editors-user shells-user tools-user;
-
-develop: develop-sys develop-user
-
-develop-sys: languages-sys;
-
-develop-user: languages-user;
-
-graphic: graphic-sys graphic-user;
-
-graphic-sys: applications-sys distributions-sys;
-
-graphic-user: applications-user distributions-user;
-
-# PROFILES
-
-.PHONY: applications
-applications: applications-user applications-sys;
-
-applications-sys: applications/anki/$(SYS) applications/firefox/$(SYS) applications/deja-dup/$(SYS) applications/keepassx/$(SYS) applications/nextcloud/$(SYS) applications/tlp/$(SYS) applications/xbacklight/$(SYS) applications/xsel/$(SYS)
-	$(ANS) -K $^
-
-applications-user: applications/zotero/$(USER)
-	$(ANS) $^
-
-.PHONY: distributions
-distributions: distributions-sys distributions-user;
-
-distributions-sys: distributions/fedora/$(SYS) distributions/gnome/$(SYS)
-	$(ANS) -K $^
-
-distributions-user: ;
+	sudo dnf -y install git python3-ansible
 
 .PHONY: editors
 editors: editors-sys editors-user;
@@ -72,24 +20,6 @@ editors-sys: editors/fonts/$(SYS) editors/neovim/$(SYS) editors/vim/$(SYS)
 	$(ANS) -K $^
 
 editors-user: editors/neovim/$(USER) editors/vim/$(USER)
-	$(ANS) $^
-
-.PHONY: languages
-languages: languages-sys languages-user;
-
-languages-sys: languages/clang/$(SYS) languages/graphviz/$(SYS) languages/python/$(SYS);
-	$(ANS) -K $^
-
-languages-user: languages/plantuml/$(USER) languages/python/$(USER)
-	$(ANS) $^
-
-.PHONY: sciences
-sciences: sciences-sys sciences-user;
-
-sciences-sys: sciences/latexmk/$(SYS) sciences/tex/$(SYS)
-	$(ANS) -K $^
-
-sciences-user: sciences/jupyter/$(USER) sciences/latexmk/$(USER)
 	$(ANS) $^
 
 .PHONY: shells
