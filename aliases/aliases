@@ -157,7 +157,7 @@ alias dk='docker'
 alias dr='docker run --rm'
 alias dkstart="service docker start"
 alias dksh='docker run --rm --name shell fmind/shell'
-alias dkrm="docker rmi $(docker images -q -f dangling=true)"
+alias dkrm="docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f"
 alias dkdata='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
 alias dkmongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
 #}}}
