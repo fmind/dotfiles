@@ -25,7 +25,7 @@ before_script:
 
 script:
     - docker exec ${DIST}-tests ansible-galaxy install -ifr /repo/role.yml
-    - docker exec ${DIST}-tests ansible-playbook -i 'localhost,' --tag usr /repo/site.yml
+    - docker exec ${DIST}-tests ansible-playbook -i 'localhost,' -c local --tag usr /repo/site.yml
 
 after_script:
     - docker rm -f ${DIST}-test
