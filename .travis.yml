@@ -1,0 +1,31 @@
+---
+
+services:
+    - docker
+
+sudo: enabled
+
+language: generic
+
+env:
+    global:
+        - PKG=dnf
+        - TAG=latest
+        - SHELL=bash
+        - DIST=fedora
+
+before_install:
+    - docker run --name ${DIST}-tests --rm -dt ${DIST}:${TAG} ${SHELL}
+
+install:
+    - docker exec ${DIST}-tests ${PKG} install -y ansible
+
+before_script:
+    - docker cp . ${DIST}-tests:/devfiles
+
+script:
+    - docker exec ${DIST}-tests ansible-galaxy install -ifr /devfiles/role.yml
+    - docker exec ${DIST}-tests ansible-playbook -i 'localhost,' --tag usr /devfiles/site.yml
+
+after_script:
+    - docker rm -f ${DIST}-test

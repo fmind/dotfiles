@@ -151,8 +151,9 @@ noremap K <C-u>
 nnoremap <CR> <C-e>
 xnoremap <  <gv
 xnoremap >  >gv
-nnoremap Q gqap
-nnoremap = gg=G
+nnoremap Q :w<CR>:bd<CR>
+nnoremap = gqap
+nnoremap + gg=G
 nnoremap zj o<Esc>k
 nnoremap zk O<Esc>j
 cnoremap <C-p> <Up>
