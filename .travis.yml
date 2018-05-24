@@ -21,11 +21,11 @@ install:
     - docker exec ${DIST}-tests ${PKG} install -y ansible
 
 before_script:
-    - docker cp . ${DIST}-tests:/devfiles
+    - docker cp . ${DIST}-tests:/repo
 
 script:
-    - docker exec ${DIST}-tests ansible-galaxy install -ifr /devfiles/role.yml
-    - docker exec ${DIST}-tests ansible-playbook -i 'localhost,' --tag usr /devfiles/site.yml
+    - docker exec ${DIST}-tests ansible-galaxy install -ifr /repo/role.yml
+    - docker exec ${DIST}-tests ansible-playbook -i 'localhost,' --tag usr /repo/site.yml
 
 after_script:
     - docker rm -f ${DIST}-test
