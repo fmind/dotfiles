@@ -54,7 +54,7 @@ set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
 " }}}
 "" FOLDING {{{
 set foldlevel=0
-set foldmethod=syntax
+set foldmethod=marker
 set foldlevelstart=99
 " }}}
 "" WRAPPING {{{
