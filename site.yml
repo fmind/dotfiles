@@ -147,6 +147,10 @@
     file: src='{{playbook_dir}}/ag/agignore' dest='~/.agignore' state=link force=yes
     tags: ['usr', 'tool', 'system', 'file', 'conf']
 
+  - name: install howdoi
+    pip: name='howdoi' executable='pip3' extra_args='--user'
+    tags: ['usr', 'tool', 'system', 'pip', 'exec']
+
   - name: install percol
     pip: name='percol' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system', 'pip', 'exec']
