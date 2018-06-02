@@ -8,6 +8,7 @@ Requirements
 
 - git
 - ansible
+- python3-pip
 
 Installation
 ------------
