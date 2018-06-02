@@ -8,7 +8,7 @@ export ZSH=~/.oh-my-zsh
 export RPS1="%{$reset_color%}"
 export SPACESHIP_EXIT_CODE_SHOW=true
 
-ZSH_THEME="norm"
+ZSH_THEME="amuse"
 
 # Set the custom folder
 ZSH_CUSTOM=$HOME/.zsh.d
