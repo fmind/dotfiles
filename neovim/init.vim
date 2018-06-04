@@ -1,4 +1,8 @@
 " vim: fdm=marker
+" SETTINGS {{{
+set spell
+set spelllang=en,fr
+" }}}
 " STARTING {{{
 let $VIMDIR=$HOME.'/.config/nvim'
 source ~/.vimrc
@@ -198,6 +202,9 @@ nnoremap <leader>k :A<CR>
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
 " }}}
+"" vim-multiple-cursors {{{
+Plug 'terryma/vim-multiple-cursors'
+" }}}
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-eunuch'
@@ -222,15 +229,6 @@ call plug#end()
 endif
 ""}}}
 " LANGS {{{
-"" tex {{{
-autocmd FileType tex setlocal spell
-" }}}
-"" text {{{
-autocmd FileType text setlocal spell
-" }}}
-"" rest {{{
-autocmd FileType rest setlocal spell
-" }}}
 "" python {{{
 autocmd BufWritePost *.py :Autoformat
 autocmd Filetype python setlocal foldmethod=indent

@@ -18,6 +18,8 @@ alias lt="l -ltFh"
 alias lh="l -ld .*"
 alias b="cd $OLDPWD"
 alias q="ranger"
+alias d="pushd"
+alias dp="popd"
 function c {
   cd "$@" && l
 }

@@ -40,6 +40,7 @@ colorscheme darkblue
 " }}}
 "" EDITING {{{
 set hidden
+set nospell
 set confirm
 set autoread
 set autowrite
