@@ -4,29 +4,28 @@
 
 #ROLES{{{
   roles:
-      -{ role: fmind.ag, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.ansible, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.bash, become: true, tags: ['sys', 'shell', 'bash', 'role', 'exec']}
-      -{ role: fmind.byobu, become: true, tags: ['sys', 'shell', 'byobu', 'role', 'exec']}
-      -{ role: fmind.curl, become: true, tags: ['sys', 'tool', 'network', 'role', 'exec']}
-      -{ role: fmind.emacs, become: true, tags: ['sys', 'editor', 'emacs', 'role', 'exec']}
-      -{ role: fmind.fasd, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.git, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec']}
-      -{ role: fmind.htop, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.imagemagick, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.ipcalc, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.jq, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.make, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec']}
-      -{ role: fmind.ncdu, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.neovim, become: true, tags: ['sys', 'editor', 'neovim', 'role', 'exec']}
-      -{ role: fmind.parallel, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.pigz, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.pv, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.ranger, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.rlwrap, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
-      -{ role: fmind.vim, become: true, tags: ['sys', 'editor', 'vim', 'role', 'exec']}
-      -{ role: fmind.zsh, become: true, tags: ['sys', 'shell', 'zsh', 'role', 'exec']}
-#}}}
+    - { role: fmind.ag, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.ansible, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.bash, become: true, tags: ['sys', 'shell', 'bash', 'role', 'exec']}
+    - { role: fmind.byobu, become: true, tags: ['sys', 'shell', 'byobu', 'role', 'exec']}
+    - { role: fmind.curl, become: true, tags: ['sys', 'tool', 'network', 'role', 'exec']}
+    - { role: fmind.fasd, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.git, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec']}
+    - { role: fmind.htop, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.imagemagick, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.ipcalc, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.jq, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.make, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec']}
+    - { role: fmind.ncdu, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.neovim, become: true, tags: ['sys', 'editor', 'neovim', 'role', 'exec']}
+    - { role: fmind.parallel, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.pigz, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.pv, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.ranger, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.rlwrap, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+    - { role: fmind.vim, become: true, tags: ['sys', 'editor', 'vim', 'role', 'exec']}
+    - { role: fmind.zsh, become: true, tags: ['sys', 'shell', 'zsh', 'role', 'exec']}
+# }}}
   tasks:
 #SHELL{{{
 ##ZSH{{{
