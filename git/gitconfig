@@ -1,6 +1,6 @@
 [user]
     name = fmind
-    email = fmind@users.noreply.github.com
+    email = dev@fmind.me
 
 [core]
     editor = vim
@@ -22,9 +22,9 @@
     aa = add --all
     ci = commit -m
     ca = commit -am
+    pl = pull
     ph = push
     phsu = push --set-upstream origin master
-    pl = pull
     df = diff
     br = branch
     ck = checkout
@@ -32,9 +32,3 @@
     lo = log --oneline
     lg = log --graph
     lp = log --graph --decorate --pretty=oneline --abbrev-commit
-
-[url "https://github.com/"]
-    insteadOf = ghh:
-
-[url "ssh://git@github.com/"]
-    insteadOf = ghs:
