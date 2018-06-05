@@ -2,12 +2,7 @@ export LANG=en_US.UTF-8
 
 export TERM=screen-256color
 
-if [ -n "$DISPLAY" ]; then
-    # support X clipboard
-    export EDITOR='vimx'
-else
-    export EDITOR='vim'
-fi
+export EDITOR='vim'
 
 export PYENV_ROOT="$HOME/.pyenv"
 

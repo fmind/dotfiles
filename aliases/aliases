@@ -5,7 +5,6 @@ alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
 #}}}
 # EDITION{{{
-alias n="nvim"
 alias v="$EDITOR"
 alias e="emacs -nw"
 #}}}
@@ -86,6 +85,12 @@ alias pwgen="pwgen -N1 -y"
 alias pkgrm="sudo pkcon refresh force -c -1"
 backup() { cp "$1"{,.bak}; }
 #}}}
+# UBUNTU{{{
+alias ur="sudo apt-get purge"
+alias ui="sudo apt-get install"
+alias us="sudo apt-cache search"
+alias uu="sudo apt-get update && sudo apt-get upgrade"
+# }}}
 # SHARING{{{
 alias httpserve="python3 -m http.server"
 #}}}

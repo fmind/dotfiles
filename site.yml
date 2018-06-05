@@ -139,10 +139,6 @@
     pip: name='tldr.py' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system', 'pip', 'exec']
 
-  - name: install pyped
-    pip: name='Pyped' executable='pip3' extra_args='--user'
-    tags: ['usr', 'tool', 'system', 'pip', 'exec']
-
   - name: deploy ag conf
     file: src='{{playbook_dir}}/ag/agignore' dest='~/.agignore' state=link force=yes
     tags: ['usr', 'tool', 'system', 'file', 'conf']
