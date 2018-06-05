@@ -1,29 +1,13 @@
 default_context:
     username: "fmind"
     author: "Médéric Hurier"
-    email: "fmind@users.noreply.github.com"
+    email: "dev@fmind.me"
 abbreviations:
-    aa: https://github.com/fmind/polyglot-analysis-template.git
-    ar: https://github.com/fmind/ansible-role-template.git
-    bs: https://github.com/fmind/bash-script-template.git
-    cp: https://github.com/fmind/clojure-project-template.git
-    cs: https://github.com/fmind/clojure-script-template.git
-    ep: https://github.com/fmind/elixir-project-template.git
-    gh: https://github.com/{0}.git
-    gp: https://github.com/fmind/go-project-template.git
-    gs: https://github.com/fmind/go-script-template.git
-    hp: https://github.com/fmind/haskell-project-template.git
-    hs: https://github.com/fmind/haskell-script-template.git
-    js: https://github.com/fmind/julia-script-template.git
-    la: https://github.com/fmind/latex-article-template.git
-    layer: https://github.com/fmind/emacs-layer-template.git
     mk: https://github.com/fmind/make-template.git
-    os: https://github.com/fmind/groovy-script-template.git
-    op: https://github.com/fmind/groovy-project-template.git
+    sh: https://github.com/fmind/bash-script-template.git
+    ar: https://github.com/fmind/ansible-role-template.git
+    lx: https://github.com/fmind/latex-article-template.git
     pa: https://github.com/fmind/python-analysis-template.git
     pp: https://github.com/fmind/python-project-template.git
     ps: https://github.com/fmind/python-script-template.git
     pw: https://github.com/fmind/python-webstatic-template.git
-    slides: https://github.com/fmind/html-slides-template.git
-    sp: https://github.com/fmind/scala-project-template.git
-    ss: https://github.com/fmind/scala-script-template.git
