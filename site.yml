@@ -2,40 +2,34 @@
 
 - hosts: localhost
 
-# ROLES {{{
-
+#ROLES{{{
   roles:
-      - { role: fmind.ag, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.ansible, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.bash, become: true, tags: ['sys', 'shell', 'bash', 'role', 'exec'] }
-      - { role: fmind.byobu, become: true, tags: ['sys', 'shell', 'byobu', 'role', 'exec'] }
-      - { role: fmind.curl, become: true, tags: ['sys', 'tool', 'network', 'role', 'exec'] }
-      - { role: fmind.emacs, become: true, tags: ['sys', 'editor', 'emacs', 'role', 'exec'] }
-      - { role: fmind.fasd, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.git, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec'] }
-      - { role: fmind.htop, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.imagemagick, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.ipcalc, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.jq, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.make, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec'] }
-      - { role: fmind.ncdu, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.neovim, become: true, tags: ['sys', 'editor', 'neovim', 'role', 'exec'] }
-      - { role: fmind.parallel, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.pigz, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.pv, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.ranger, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.rlwrap, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec'] }
-      - { role: fmind.vim, become: true, tags: ['sys', 'editor', 'vim', 'role', 'exec'] }
-      - { role: fmind.zsh, become: true, tags: ['sys', 'shell', 'zsh', 'role', 'exec'] }
-
-# }}}
-
+      -{ role: fmind.ag, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.ansible, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.bash, become: true, tags: ['sys', 'shell', 'bash', 'role', 'exec']}
+      -{ role: fmind.byobu, become: true, tags: ['sys', 'shell', 'byobu', 'role', 'exec']}
+      -{ role: fmind.curl, become: true, tags: ['sys', 'tool', 'network', 'role', 'exec']}
+      -{ role: fmind.emacs, become: true, tags: ['sys', 'editor', 'emacs', 'role', 'exec']}
+      -{ role: fmind.fasd, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.git, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec']}
+      -{ role: fmind.htop, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.imagemagick, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.ipcalc, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.jq, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.make, become: true, tags: ['sys', 'tool', 'develop', 'role', 'exec']}
+      -{ role: fmind.ncdu, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.neovim, become: true, tags: ['sys', 'editor', 'neovim', 'role', 'exec']}
+      -{ role: fmind.parallel, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.pigz, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.pv, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.ranger, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.rlwrap, become: true, tags: ['sys', 'tool', 'system', 'role', 'exec']}
+      -{ role: fmind.vim, become: true, tags: ['sys', 'editor', 'vim', 'role', 'exec']}
+      -{ role: fmind.zsh, become: true, tags: ['sys', 'shell', 'zsh', 'role', 'exec']}
+#}}}
   tasks:
-
-# SHELL {{{
-
-## ZSH {{{
-
+#SHELL{{{
+##ZSH{{{
   - name: deploy zsh dir
     file: src='{{playbook_dir}}/zsh/zsh.d' dest='~/.zsh.d' state=link force=yes
     tags: ['usr', 'shell', 'zsh', 'file', 'dir']
@@ -59,11 +53,8 @@
   - name: clone zsh syntax-highlighting plug
     git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
     tags: ['usr', 'shell', 'zsh', 'git', 'plug']
-
-# }}}
-
-## BASH {{{
-
+#}}}
+##BASH{{{
   - name: deploy bash conf
     file: src='{{playbook_dir}}/bash/bashrc' dest='~/.bashrc' state=link force=yes
     tags: ['usr', 'shell', 'bash', 'file', 'conf']
@@ -71,11 +62,8 @@
   - name: deploy bash logout
     file: src='{{playbook_dir}}/bash/bash_logout' dest='~/.bash_logout' state=link force=yes
     tags: ['usr', 'shell', 'bash', 'file', 'logout']
-
-# }}}
-
-## BYOBU {{{
-
+#}}}
+##BYOBU{{{
   - name: create byobu dir
     file: path='~/.byobu' state=directory
     tags: ['usr', 'shell', 'byobu', 'file', 'dir']
@@ -89,11 +77,8 @@
       - .tmux.conf
       - keybindings.tmux
     tags: ['usr', 'shell', 'byobu', 'file', 'conf']
-
-# }}}
-
-## COMMON {{{
-
+#}}}
+##COMMON{{{
   - name: deploy shell conf
     file: src='{{playbook_dir}}/shell/shellrc' dest='~/.shellrc' state=link force=yes
     tags: ['usr', 'shell', 'common', 'file', 'conf']
@@ -122,15 +107,10 @@
       - filter
       - ft-functions
     tags: ['usr', 'shell', 'common', 'file', 'exec']
-
-# }}}
-
-# }}}
-
-# TOOLS {{{
-
-## SYSTEM {{{
-
+#}}}
+#}}}
+#TOOLS{{{
+##SYSTEM{{{
   - name: install pydf
     pip: name='pydf' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system', 'pip', 'exec']
@@ -162,11 +142,8 @@
   - name: deploy ansible file
     file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
     tags: ['usr', 'tool', 'system', 'file', 'conf']
-
-# }}}
-
-## NETWORK {{{
-
+#}}}
+##NETWORK{{{
   - name: install httpie
     pip: name='httpie' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'network', 'pip', 'exec']
@@ -174,11 +151,8 @@
   - name: install httpie prompt
     pip: name='http-prompt' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'network', 'pip', 'exec']
-
-# }}}
-
-## DEVELOP {{{
-
+#}}}
+##DEVELOP{{{
   - name: install pyenv
     git: repo=https://github.com/pyenv/pyenv.git dest='~/.pyenv' depth=1
     tags: ['usr', 'tool', 'develop', 'git', 'exec']
@@ -206,15 +180,10 @@
   - name: deploy cookiecutter conf
     file: src='{{playbook_dir}}/cookiecutter/cookiecutterrc' dest='~/.cookiecutterrc' state=link force=yes
     tags: ['usr', 'tool', 'develop', 'file', 'conf']
-
-# }}}
-
-# }}}
-
-# EDITORS {{{
-
-## VIM {{{
-
+#}}}
+#}}}
+#EDITORS{{{
+##VIM{{{
   - name: create vim dir
     file: path='~/.vim/' state=directory
     tags: ['usr', 'editor', 'vim', 'file', 'dir']
@@ -238,11 +207,8 @@
   - name: install vim manager
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
     tags: ['usr', 'editor', 'vim', 'url', 'plug']
-
-# }}}
-
-## NVIM {{{
-
+#}}}
+##NVIM{{{
   - name: create neovim dir
     file: path='~/.config/nvim/' state=directory
     tags: ['usr', 'editor', 'nvim', 'file', 'dir']
@@ -274,11 +240,8 @@
   - name: install neovim manager
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.config/nvim/autoload/plug.vim' mode=0600
     tags: ['usr', 'editor', 'nvim', 'url', 'plug']
-
-# }}}
-
-## EMACS {{{
-
+#}}}
+##EMACS{{{
   - name: deploy emacs dir
     file: src='{{playbook_dir}}/emacs/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
     tags: ['usr', 'editor', 'emacs', 'file', 'dir']
@@ -290,15 +253,10 @@
   - name: clone emacs spacemacs
     git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
     tags: ['usr', 'editor', 'emacs', 'git', 'plug']
-
-# }}}
-
-## INTELLIJ {{{
-
+#}}}
+##INTELLIJ{{{
   - name: deploy idea conf
     file: src='{{playbook_dir}}/idea/ideavimrc' dest='~/.ideavimrc' state=link force=yes
     tags: ['usr', 'editor', 'idea', 'file', 'conf']
-
-# }}}
-
-# }}}
+#}}}
+#}}}
