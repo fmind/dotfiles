@@ -1,24 +1,24 @@
-" vim: fdm=marker
-" STARTING {{{
+"vim: fdm=marker
+"STARTING{{{
 if !exists("$VIMDIR")
     let $VIMDIR=$HOME.'/.vim/'
 endif
-" }}}
-" CHECKING {{{
+"}}}
+"CHECKING{{{
 set nocompatible
-" }}}
-" SETTING {{{
-"" FILES {{{
+"}}}
+"SETTING{{{
+""FILES{{{
 set path+=**
 set report=0
 set autochdir
-" }}}
-"" RULER {{{
+"}}}
+""RULER{{{
 set ruler
 set number
 set relativenumber
-" }}}
-"" STATUS {{{
+"}}}
+""STATUS{{{
 set showcmd
 set showmode
 set wildmenu
@@ -26,8 +26,8 @@ set laststatus=2
 set completeopt=longest,menuone
 set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
 set statusline=%t\ %c,%l/%L\ %P\%=%r%y\ [%{&ff}]\ [%{strlen(&fenc)?&fenc:'none'}]\ %m
-" }}}
-"" WINDOW {{{
+"}}}
+""WINDOW{{{
 set title
 set mouse=a
 set t_Co=256
@@ -37,8 +37,8 @@ set cursorline
 set synmaxcol=1000
 set background=dark
 colorscheme darkblue
-" }}}
-"" EDITING {{{
+"}}}
+""EDITING{{{
 set hidden
 set nospell
 set confirm
@@ -52,18 +52,18 @@ set ffs=unix,dos,mac
 set formatoptions-=cro
 set clipboard=unnamedplus
 set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
-" }}}
-"" FOLDING {{{
+"}}}
+""FOLDING{{{
 set foldlevel=0
 set foldmethod=marker
 set foldlevelstart=99
-" }}}
-"" WRAPPING {{{
+"}}}
+""WRAPPING{{{
 set wrap
 set linebreak
 set textwidth=0
-" }}}
-"" NAVIGATION {{{
+"}}}
+""NAVIGATION{{{
 set mat=1
 set gdefault
 set wrapscan
@@ -76,8 +76,8 @@ set nojoinspaces
 set nostartofline
 set scrolloff=10
 set sidescrolloff=5
-" }}}
-"" IDENTATION {{{
+"}}}
+""IDENTATION{{{
 set smarttab
 set expandtab
 set autoindent
@@ -87,17 +87,17 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
-" }}}
-"" NOTIFICATION {{{
+"}}}
+""NOTIFICATION{{{
 set noerrorbells
 set novisualbell
-" }}}
-"" OPTIMIZATION {{{
+"}}}
+""OPTIMIZATION{{{
 set ttyfast
 set lazyredraw
 set shell=/bin/bash
-" }}}
-"" CONSERVATION {{{
+"}}}
+""CONSERVATION{{{
 set backup
 set undofile
 set backupext=-vimbackup
@@ -105,9 +105,9 @@ set undodir=$VIMDIR/undo/
 set directory=$VIMDIR/swap/
 set backupdir=$VIMDIR/backup/
 set viminfo ='200,n$VIMDIR/viminfo
-" }}}
-" }}}
-" PLUGING {{{
+"}}}
+"}}}
+"PLUGING{{{
 syntax enable
 filetype plugin on
 filetype indent on
@@ -122,25 +122,25 @@ try
 catch
 endtry
 endif
-"" }}}
-" BINDING {{{
-"" LEADERS {{{
+""}}}
+"BINDING{{{
+""LEADERS{{{
 map ; :
 vmap ; :
 noremap ;; ;
 let maplocalleader=","
 let mapleader="\<Space>"
 noremap <leader><leader> :
-" }}}
-"" ACTIONS {{{
+"}}}
+""ACTIONS{{{
 nnoremap <leader>\ :set 
 nnoremap <leader><Tab> <c-^>
 nnoremap <leader>' :edit $MYVIMRC<CR>
 nnoremap <leader># :setlocal spell!<CR>
-nnoremap <leader>" :source $MYVIMRC<CR>
+nnoremap <leader>":source $MYVIMRC<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
-" }}}
-"" DEFAULT {{{
+"}}}
+""DEFAULT{{{
 noremap j gj
 noremap k gk
 noremap B g^
@@ -166,5 +166,5 @@ noremap H :bprevious<CR>
 nnoremap <silent> <ESC> :nohl<CR>
 nnoremap <expr> n  'Nn'[v:searchforward]
 nnoremap <expr> N  'nN'[v:searchforward]
-" }}}
-" }}}
+"}}}
+"}}}
