@@ -21,7 +21,6 @@ plugins=(
     alias-tips
     celery
     command-not-found
-    dnf
     docker
     encode64
     fasd
@@ -52,25 +51,23 @@ source $ZSH/oh-my-zsh.sh
 alias -g A='| ag'
 alias -g B='| column -t'
 alias -g C='| xsel --clipboard'
+alias -g D='| uniq'
+alias -g F='| python3 -m json.tools'
 alias -g G='| grep'
 alias -g H='| head'
-alias -g HH='| head -n5'
 alias -g I='| percol'
-alias -g JP='| python3 -m json.tools'
-alias -g JS='| jq -r'
+alias -g J='| jq -r'
 alias -g L='| less'
 alias -g M='--help'
 alias -g N='| notify-send'
 alias -g S='| sort'
 alias -g T='| tail'
-alias -g TT='| tail -n5'
-alias -g U='| uniq'
+alias -g U='| unpigz -c'
 alias -g V='| $EDITOR -'
 alias -g W='| wc -l'
 alias -g X='| xmllint --format -'
 alias -g Y='| pyp'
 alias -g Z='| pigz'
-alias -g ZU='| unpigz -c'
 
 ### INCLUSIONS ###
 

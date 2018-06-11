@@ -3,11 +3,9 @@ default_context:
     author: "Médéric Hurier"
     email: "dev@fmind.me"
 abbreviations:
-    mk: https://github.com/fmind/make-template.git
-    sh: https://github.com/fmind/bash-script-template.git
-    ar: https://github.com/fmind/ansible-role-template.git
-    lx: https://github.com/fmind/latex-article-template.git
-    pa: https://github.com/fmind/python-analysis-template.git
-    pp: https://github.com/fmind/python-project-template.git
-    ps: https://github.com/fmind/python-script-template.git
-    pw: https://github.com/fmind/python-webstatic-template.git
+    mk: https://github.com/fmind/cookiecutter-make-file.git
+    ar: https://github.com/fmind/cookiecutter-ansible-role.git
+    ps: https://github.com/fmind/cookiecutter-python-script.git
+    pp: https://github.com/fmind/cookiecutter-python-project.git
+    pa: https://github.com/fmind/cookiecutter-python-analysis.git
+    pw: https://github.com/fmind/cookiecutter-python-webstatic.git

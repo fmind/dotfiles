@@ -86,13 +86,14 @@ alias pkgrm="sudo pkcon refresh force -c -1"
 backup() { cp "$1"{,.bak}; }
 #}}}
 # UBUNTU{{{
+alias us="apt-cache search"
 alias ur="sudo apt-get purge"
 alias ui="sudo apt-get install"
-alias us="sudo apt-cache search"
+alias uc="sudo apt-get autoremove --purge"
 alias uu="sudo apt-get update && sudo apt-get upgrade"
 # }}}
 # SHARING{{{
-alias httpserve="python3 -m http.server"
+alias httpsrv="python3 -m http.server"
 #}}}
 # EDITING{{{
 alias imgsize="mogrify -resize "
@@ -265,6 +266,7 @@ alias pps="pip search"
 alias ppi="pip install"
 alias ppu="pip uninstall"
 alias ppp="pip install --user"
+alias ppo="pip3 install --user"
 alias pep='pipes'
 alias per='pipenv run'
 alias pei='pipenv install'
@@ -272,6 +274,7 @@ alias pes='pipenv shell --fancy'
 alias pva="source venv/bin/activate"
 alias pvd="deactivate"
 alias pnp="ipcluster start -n $(nproc)"
+alias sm="snakemake"
 alias pnl="jupyter lab"
 alias pnn="jupyter notebook"
 #}}}
