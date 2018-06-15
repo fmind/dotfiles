@@ -36,37 +36,40 @@ alias gg="google"
 alias psh="ps aux"
 alias duh="du -h"
 alias dfh="df -hT"
-alias release="lsb_release -c"
-alias extip='curl icanhazip.com'
+alias rel="lsb_release -c"
+alias xip='curl icanhazip.com'
 #}}}
 # COMPRESSION{{{
-alias pz="pigz"
-alias puz="unpigz -c"
+alias zc="pigz"
+alias zd="unpigz -c"
 # }}}
 # NOTIFICATION{{{
 alias a='notify-send'
 alias notify='notify-send'
 #}}}
 # CONFIGURATION{{{
-alias arc='$EDITOR ~/.shell_aliases && asrc'
 alias asrc='source ~/.shell_aliases'
-alias brc='$EDITOR ~/.bashrc && bsrc'
+alias arc='$EDITOR ~/.shell_aliases && asrc'
 alias bsrc='source ~/.bashrc'
-alias cookierc='$EDITOR ~/.cookiecutterrc'
-alias emacsrc='$EDITOR ~/.spacemacs'
-alias erc='$EDITOR ~/.shell_environ && esrc'
-alias esrc='source ~/.shell_environ'
-alias idearc='$EDITOR ~/.ideavimrc'
-alias latexmkrc='$EDITOR ~/.latexmkrc'
-alias prc='$EDITOR ~/.shell_private && psrc'
+alias brc='$EDITOR ~/.bashrc && bsrc'
+alias ckrc='$EDITOR ~/.cookiecutterrc'
+alias esrc='$EDITOR ~/.spacemacs'
+alias erc='$EDITOR ~/.spacemacs && esrc'
+alias vsrc='$EDITOR ~/.shell_environ'
+alias vrc='$EDITOR ~/.shell_environ && vsrc'
+alias grc="$EDITOR ~/.gitconfig"
+alias gri="$EDITOR .gitignore"
+alias idrc='$EDITOR ~/.ideavimrc'
+alias lkrc='$EDITOR ~/.latexmkrc'
+alias nrc='$EDITOR ~/.config/nvim/init.vim'
 alias psrc='source ~/.shell_private'
-alias pypirc='$EDITOR ~/.pypirc'
+alias prc='$EDITOR ~/.shell_private && psrc'
+alias pyrc='$EDITOR ~/.pypirc'
 alias sshrc='$EDITOR ~/.ssh/config'
 alias vrc='$EDITOR ~/.vimrc'
-alias nrc='$EDITOR ~/.config/nvim/init.vim'
-alias warprc='$EDITOR ~/.warprc'
-alias zrc='$EDITOR ~/.zshrc && zsrc'
+alias wrc='$EDITOR ~/.warprc'
 alias zsrc='source ~/.zshrc'
+alias zrc='$EDITOR ~/.zshrc && zsrc'
 #}}}
 # ADMINISTRATION{{{
 alias r="clear"
@@ -114,11 +117,7 @@ alias fh="find ~ -iname "
 # FILTERING{{{
 alias y="pyp"
 alias h="head"
-alias hn="head -n"
-alias hh="head -n5"
 alias t="tail"
-alias tn="tail -n"
-alias tt="tail -n5"
 alias igrep="grep -i"
 alias rgrep="grep -iR"
 #}}}
@@ -132,8 +131,6 @@ alias upper="tr '[:lower:]' '[:upper:]'"
 ## Git{{{
 alias g="git"
 alias gm="git submodule"
-alias gri="$EDITOR .gitignore"
-alias grc="$EDITOR ~/.gitconfig"
 function gh {
   git clone git@github.com:fmind/$1.git
 }
@@ -145,8 +142,19 @@ function gho {
 ## Uml{{{
 alias uml="plantuml"
 #}}}
+## Docker{{{
+alias dk='docker'
+alias dr='docker run --rm'
+alias dkstart="service docker start"
+alias dksh='docker run --rm --name shell fmind/shell'
+alias dkrm="docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f"
+alias dkdata='docker run --rm -it --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
+alias dkmongo='docker run --rm -it --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
+#}}}
 ## Project{{{
-alias m="make"
+alias mk="make"
+alias lk="latexmk"
+alias sk="snakemake"
 alias ck="cookiecutter"
 #}}}
 ## Ansible{{{
@@ -160,15 +168,6 @@ alias al="ansible-console"
 alias ap="ansible-playbook"
 alias ai="ansible-inventory"
 #}}}
-## Docker{{{
-alias dk='docker'
-alias dr='docker run --rm'
-alias dkstart="service docker start"
-alias dksh='docker run --rm --name shell fmind/shell'
-alias dkrm="docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f"
-alias dkdata='docker run --rm --name data -v "$(pwd)":/home/jovyan/work -p 8888:8888 fmind/bigdata'
-alias dkmongo='docker run --rm --name mongo --net=host -v "$(pwd)/data/db":/data/db mongo --smallfiles'
-#}}}
 ## Watchdog{{{
 alias wdl="watchmedo log"
 alias wdr="watchmedo auto-restart"
@@ -177,16 +176,16 @@ alias wds="watchmedo shell-command"
 #}}}
 # LANGUAGES{{{
 ## Java{{{
-alias ja="java"
-alias jac="javac"
-alias jaj="java -jar"
+# alias ja="java"
+# alias jac="javac"
+# alias jaj="java -jar"
 #}}}
 ## Groovy{{{
-alias gr="groovy"
-alias grn="groovy -n"
-alias grp="groovy -p"
-alias grs="groovysh"
-alias grd="groovydoc"
+# alias gr="groovy"
+# alias grn="groovy -n"
+# alias grp="groovy -p"
+# alias grs="groovysh"
+# alias grd="groovydoc"
 #}}}
 ## Racket{{{
 # alias rc="raco"
@@ -195,9 +194,9 @@ alias grd="groovydoc"
 # alias rkrc="$EDITOR ~/.racketrc"
 #}}}
 ## Clojure{{{
-alias clrc="$EDITOR ~/.lein/profiles.clj"
-alias clrb="$EDITOR ~/.boot/profile.boot"
-alias clrp="$EDITOR ~/.boot/boot.properties"
+# alias clrc="$EDITOR ~/.lein/profiles.clj"
+# alias clrb="$EDITOR ~/.boot/profile.boot"
+# alias clrp="$EDITOR ~/.boot/boot.properties"
 #}}}
 ## Haskell{{{
 # alias hh="stack"
@@ -250,32 +249,41 @@ alias clrp="$EDITOR ~/.boot/boot.properties"
 ## Python{{{
 alias p="ptpython"
 alias pp="ptpython -i"
-alias pi="ipython"
-alias py="python"
-alias pyp="try"
-alias pyy="yapf"
-alias pyd="pydoc"
-alias pys="isort"
-alias pyf="flake8"
-alias pyt="pytest"
-alias py2="python2"
-alias py3="python3"
-alias pys="python setup.py"
-alias pym="python -m doctest"
+alias pt="try"
+alias pi="python"
+alias p2="python2"
+alias p3="python3"
+alias py="ipython"
+### Pip{{{
 alias pps="pip search"
 alias ppi="pip install"
 alias ppu="pip uninstall"
 alias ppp="pip install --user"
 alias ppo="pip3 install --user"
+#}}}
+### Tools{{{
+alias pyy="yapf"
+alias pyd="pydoc"
+alias pyi="isort"
+alias pyf="flake8"
+alias pyt="pytest"
+alias pydt="python -m doctest"
+#}}}
+### Pipenv{{{
 alias pep='pipes'
 alias per='pipenv run'
 alias pei='pipenv install'
 alias pes='pipenv shell --fancy'
-alias pva="source venv/bin/activate"
+#}}}
+### Virtualenv{{{
 alias pvd="deactivate"
-alias pnp="ipcluster start -n $(nproc)"
-alias sm="snakemake"
-alias pnl="jupyter lab"
-alias pnn="jupyter notebook"
+alias pva="source venv/bin/activate"
+#
+#}}}
+#}}}
+## Jupyter{{{
+alias jl="jupyter lab"
+alias jn="jupyter notebook"
+alias jp="ipcluster start -n $(nproc)"
 #}}}
 #}}}
