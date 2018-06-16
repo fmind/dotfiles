@@ -136,8 +136,8 @@ noremap <leader><leader> :
 nnoremap <leader>\ :set 
 nnoremap <leader><Tab> <c-^>
 nnoremap <leader>' :edit $MYVIMRC<CR>
+nnoremap <leader>" :source $MYVIMRC<CR>
 nnoremap <leader># :setlocal spell!<CR>
-nnoremap <leader>":source $MYVIMRC<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
 "}}}
 ""DEFAULT{{{

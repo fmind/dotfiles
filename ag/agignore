@@ -1,8 +1,3 @@
-*pyc
-*.pyo
-
 venv/
 .git/
 .tox/
-.devenv/
-*.egg-info/*
