@@ -18,6 +18,6 @@ if [ -n "$ZSH_VERSION" ]; then
 fi
 
 # Enable pyenv
-if [ -d "$PYENV_ROOT" ]; then
-    eval "$(pyenv init -)"
-fi
+# if [ -d "$PYENV_ROOT" ]; then
+#     eval "$(pyenv init -)"
+# fi
