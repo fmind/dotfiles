@@ -20,3 +20,4 @@
 - src: fmind.rlwrap
 - src: fmind.vim
 - src: fmind.zsh
+- src: fmind.python

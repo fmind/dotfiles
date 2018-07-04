@@ -8,4 +8,6 @@ abbreviations:
     ps: https://github.com/fmind/cookiecutter-python-script.git
     pp: https://github.com/fmind/cookiecutter-python-project.git
     pa: https://github.com/fmind/cookiecutter-python-analysis.git
-    pw: https://github.com/fmind/cookiecutter-python-webstatic.git
+    pu: https://github.com/fmind/cookiecutter-python-webstatic.git
+    pw: https://github.com/fmind/cookiecutter-python-webserver.git
+    pr: https://github.com/fmind/cookiecutter-python-webscrape.git

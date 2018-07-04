@@ -126,6 +126,10 @@
     pip: name='howdoi' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']
 
+  - name: install pythonpy
+    pip: name='pythonpy' executable='pip3' extra_args='--user'
+    tags: ['usr', 'tool', 'system']
+
   - name: install percol
     pip: name='percol' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']

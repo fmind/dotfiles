@@ -253,7 +253,7 @@ alias pt="try"
 alias pi="python"
 alias p2="python2"
 alias p3="python3"
-alias py="ipython"
+alias ipy="ipython"
 ### Pip{{{
 alias pps="pip search"
 alias ppi="pip install"
