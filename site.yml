@@ -195,6 +195,10 @@
     file: src='{{playbook_dir}}/vim/vimrc' dest='~/.vimrc' state=link force=yes
     tags: ['usr', 'editor', 'vim']
 
+  - name: deploy vim pyconf
+    file: src='{{playbook_dir}}/vim/vimrc.py' dest='~/.vimrc.py' state=link force=yes
+    tags: ['usr', 'editor', 'vim']
+
   - name: create vim subdirs
     file: path='~/.vim/{{item}}/' state=directory
     with_items:
