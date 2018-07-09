@@ -85,7 +85,6 @@ alias tunnell='ssh -nNTL'
 alias tunnelr='ssh -nNTR'
 alias rsinc="rsync -avzu"
 alias pwgen="pwgen -N1 -y"
-alias pkgrm="sudo pkcon refresh force -c -1"
 backup() { cp "$1"{,.bak}; }
 #}}}
 # UBUNTU{{{
