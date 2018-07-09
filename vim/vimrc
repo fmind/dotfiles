@@ -136,6 +136,7 @@ noremap <leader><leader> :
 nnoremap <leader>\ :set 
 nnoremap <leader><Tab> <c-^>
 nnoremap <leader>' :edit $MYVIMRC<CR>
+nnoremap <leader>@ :edit ~/.vimrc.py<CR>
 nnoremap <leader>" :source $MYVIMRC<CR>
 nnoremap <leader># :setlocal spell!<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
@@ -152,6 +153,7 @@ noremap K <C-u>
 nnoremap <CR> <C-e>
 xnoremap <  <gv
 xnoremap >  >gv
+nnoremap Z :x<CR>
 nnoremap Q :w<CR>:bd<CR>
 nnoremap = gqap
 nnoremap + gg=G
