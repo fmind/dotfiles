@@ -17,7 +17,7 @@ if [ -n "$ZSH_VERSION" ]; then
     fi
 fi
 
-# Enable pyenv
-# if [ -d "$PYENV_ROOT" ]; then
-#     eval "$(pyenv init -)"
-# fi
+Enable pyenv
+if [ -d "$PYENV_ROOT" ]; then
+    eval "$(pyenv init -)"
+fi
