@@ -2,33 +2,14 @@
 
 - hosts: localhost
 
-#ROLES{{{
-  roles:
-    - { role: fmind.ag, become: true, tags: ['sys', 'tool', 'ag']}
-    - { role: fmind.ansible, become: true, tags: ['sys', 'tool', 'ansible']}
-    - { role: fmind.bash, become: true, tags: ['sys', 'shell', 'bash']}
-    - { role: fmind.byobu, become: true, tags: ['sys', 'shell', 'byobu']}
-    - { role: fmind.curl, become: true, tags: ['sys', 'tool', 'curl']}
-    - { role: fmind.fasd, become: true, tags: ['sys', 'tool', 'fasd']}
-    - { role: fmind.git, become: true, tags: ['sys', 'tool', 'git']}
-    - { role: fmind.htop, become: true, tags: ['sys', 'tool', 'htop']}
-    - { role: fmind.imagemagick, become: true, tags: ['sys', 'imagemagick']}
-    - { role: fmind.ipcalc, become: true, tags: ['sys', 'tool', 'ipcalc']}
-    - { role: fmind.jq, become: true, tags: ['sys', 'tool', 'jq']}
-    - { role: fmind.make, become: true, tags: ['sys', 'tool', 'make']}
-    - { role: fmind.ncdu, become: true, tags: ['sys', 'tool', 'ncdu']}
-    - { role: fmind.neovim, become: true, tags: ['sys', 'editor', 'neovim']}
-    - { role: fmind.parallel, become: true, tags: ['sys', 'tool', 'parallel']}
-    - { role: fmind.pigz, become: true, tags: ['sys', 'tool', 'pigz']}
-    - { role: fmind.pv, become: true, tags: ['sys', 'tool', 'pv']}
-    - { role: fmind.ranger, become: true, tags: ['sys', 'tool', 'ranger']}
-    - { role: fmind.rlwrap, become: true, tags: ['sys', 'tool', 'rlwrap']}
-    - { role: fmind.vim, become: true, tags: ['sys', 'editor', 'vim']}
-    - { role: fmind.zsh, become: true, tags: ['sys', 'shell', 'zsh']}
-# }}}
   tasks:
-#SHELL{{{
-##ZSH{{{
+# SHELL{{{
+# # ZSH{{{
+  - name: install zsh
+    package: name='zsh'
+    tags: ['sys', 'shell', 'zsh']
+    become: true
+
   - name: deploy zsh dir
     file: src='{{playbook_dir}}/zsh/zsh.d' dest='~/.zsh.d' state=link force=yes
     tags: ['usr', 'shell', 'zsh']
@@ -52,8 +33,8 @@
   - name: clone zsh syntax-highlighting plug
     git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
     tags: ['usr', 'shell', 'zsh']
-#}}}
-##BASH{{{
+# }}}
+# # BASH{{{
   - name: deploy bash conf
     file: src='{{playbook_dir}}/bash/bashrc' dest='~/.bashrc' state=link force=yes
     tags: ['usr', 'shell', 'bash']
@@ -61,8 +42,13 @@
   - name: deploy bash logout
     file: src='{{playbook_dir}}/bash/bash_logout' dest='~/.bash_logout' state=link force=yes
     tags: ['usr', 'shell', 'bash']
-#}}}
-##BYOBU{{{
+# }}}
+# # BYOBU{{{
+  - name: install byobu
+    package: name='byobu'
+    tags: ['sys', 'shell', 'byobu']
+    become: true
+
   - name: create byobu dir
     file: path='~/.byobu' state=directory
     tags: ['usr', 'shell', 'byobu']
@@ -76,8 +62,8 @@
       - .tmux.conf
       - keybindings.tmux
     tags: ['usr', 'shell', 'byobu']
-#}}}
-##COMMON{{{
+# }}}
+# # COMMON{{{
   - name: deploy shell conf
     file: src='{{playbook_dir}}/shell/shellrc' dest='~/.shellrc' state=link force=yes
     tags: ['usr', 'shell', 'common']
@@ -94,22 +80,72 @@
     file: src='{{playbook_dir}}/environ/environ' dest='~/.shell_environ' state=link force=yes
     tags: ['usr', 'shell', 'common']
 
-  - name: clone shell functools
-    git: repo='https://github.com/sharkdp/shell-functools.git' dest='~/bin/functools'
-    tags: ['usr', 'shell', 'common']
+  #  - name: clone shell functools
+  #    git: repo='https://github.com/sharkdp/shell-functools.git' dest='~/bin/functools'
+  #    tags: ['usr', 'shell', 'common']
 
-  - name: deploy shell functools
-    file: src='~/bin/functools/ft/{{item}}' dest='~/bin/{{item}}' state=link force=yes
-    with_items:
-      - map
-      - foldl
-      - filter
-      - ft-functions
-    tags: ['usr', 'shell', 'common']
-#}}}
-#}}}
-#TOOLS{{{
-##SYSTEM{{{
+  #  - name: deploy shell functools
+  #    file: src='~/bin/functools/ft/{{item}}' dest='~/bin/{{item}}' state=link force=yes
+  #    with_items:
+  #      - map
+  #      - foldl
+  #      - filter
+  #      - ft-functions
+  #    tags: ['usr', 'shell', 'common']
+# }}}
+# }}}
+# TOOLS{{{
+# # SYSTEM{{{
+  - name: install jq
+    package: name='jq'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install pv
+    package: name='pv'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install htop
+    package: name='htop'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install ncdu
+    package: name='ncdu'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install fasd
+    package: name='fasd'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install pigz
+    package: name='pigz'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install rlwrap
+    package: name='rlwrap'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install ranger
+    package: name='ranger'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install parallel
+    package: name='parallel'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: install imagemagick
+    package: name='imagemagick'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
   - name: install pydf
     pip: name='pydf' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']
@@ -117,6 +153,11 @@
   - name: install tldr
     pip: name='tldr.py' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']
+
+  - name: install silversearcher
+    package: name='silversearcher-ag'
+    tags: ['sys', 'tool', 'system']
+    become: true
 
   - name: deploy ag conf
     file: src='{{playbook_dir}}/ag/agignore' dest='~/.agignore' state=link force=yes
@@ -142,11 +183,26 @@
     file: src='{{playbook_dir}}/percol/rc.py' dest='~/.percol.d/rc.py' state=link force=yes
     tags: ['usr', 'tool', 'system']
 
+  - name: install ansible
+    package: name='ansible'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
   - name: deploy ansible file
     file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
     tags: ['usr', 'tool', 'system']
-#}}}
-##NETWORK{{{
+# }}}
+# # NETWORK{{{
+  - name: install curl
+    package: name='curl'
+    tags: ['sys', 'tool', 'network']
+    become: true
+
+  - name: install ipcalc
+    package: name='ipcalc'
+    tags: ['sys', 'tool', 'network']
+    become: true
+
   - name: install httpie
     pip: name='httpie' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'network']
@@ -154,8 +210,13 @@
   - name: install httpie prompt
     pip: name='http-prompt' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'network']
-#}}}
-##DEVELOP{{{
+# }}}
+# # DEVELOP{{{
+  - name: install make
+    package: name='make'
+    tags: ['sys', 'tool', 'develop']
+    become: true
+
   - name: install pyenv
     git: repo=https://github.com/pyenv/pyenv.git dest='~/.pyenv' depth=1
     tags: ['usr', 'tool', 'develop']
@@ -167,6 +228,11 @@
   - name: install watchdog
     pip: name='watchdog' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'develop']
+
+  - name: install git
+    package: name='git'
+    tags: ['sys', 'tool', 'develop']
+    become: true
 
   - name: deploy git conf
     file: src='{{playbook_dir}}/git/gitconfig' dest='~/.gitconfig' state=link force=yes
@@ -183,10 +249,15 @@
   - name: deploy cookiecutter conf
     file: src='{{playbook_dir}}/cookiecutter/cookiecutterrc' dest='~/.cookiecutterrc' state=link force=yes
     tags: ['usr', 'tool', 'develop']
-#}}}
-#}}}
-#EDITORS{{{
-##VIM{{{
+# }}}
+# }}}
+# EDITORS{{{
+# # VIM{{{
+  - name: install vim
+    package: name='vim'
+    tags: ['sys', 'editor', 'vim']
+    become: true
+
   - name: create vim dir
     file: path='~/.vim/' state=directory
     tags: ['usr', 'editor', 'vim']
@@ -210,8 +281,13 @@
   - name: install vim manager
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
     tags: ['usr', 'editor', 'vim']
-#}}}
-##NVIM{{{
+# }}}
+# # NVIM{{{
+  - name: install neovim
+    package: name='neovim'
+    tags: ['sys', 'editor', 'neovim']
+    become: true
+
   - name: create neovim dir
     file: path='~/.config/nvim/' state=directory
     tags: ['usr', 'editor', 'nvim']
@@ -243,8 +319,13 @@
   - name: install neovim manager
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.config/nvim/autoload/plug.vim' mode=0600
     tags: ['usr', 'editor', 'nvim']
-#}}}
-##EMACS{{{
+# }}}
+# # EMACS{{{
+  - name: install emacs
+    package: name='emacs-nox'
+    tags: ['sys', 'editor', 'emacs']
+    become: true
+
   - name: deploy emacs dir
     file: src='{{playbook_dir}}/emacs/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
     tags: ['usr', 'editor', 'emacs']
@@ -256,10 +337,10 @@
   - name: clone emacs spacemacs
     git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
     tags: ['usr', 'editor', 'emacs']
-#}}}
-##INTELLIJ{{{
+# }}}
+# # INTELLIJ{{{
   - name: deploy idea conf
     file: src='{{playbook_dir}}/idea/ideavimrc' dest='~/.ideavimrc' state=link force=yes
     tags: ['usr', 'editor', 'idea']
-#}}}
-#}}}
+# }}}
+# }}}
