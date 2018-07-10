@@ -73,6 +73,12 @@ let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
 "}}}
+""sneak{{{
+Plug 'amoffat/snake'
+if filereadable(expand($VIMDIR.'/bundle/snake/plugin/snake.vim'))
+    source $VIMDIR/bundle/snake/plugin/snake.vim
+endif
+"}}}
 ""vimux{{{
 Plug 'benmills/vimux'
 nnoremap <Leader>ro :VimuxOpenRunner<CR>
