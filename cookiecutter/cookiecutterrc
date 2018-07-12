@@ -7,9 +7,9 @@ abbreviations:
     a: https://github.com/fmind/cookiecutter-ansible-role.git
     l: https://github.com/fmind/cookiecutter-latex-article.git
     ps: https://github.com/fmind/cookiecutter-python-script.git
+    pj: https://github.com/fmind/cookiecutter-python-slides.git
     pp: https://github.com/fmind/cookiecutter-python-project.git
     pa: https://github.com/fmind/cookiecutter-python-analysis.git
     pwh: https://github.com/fmind/cookiecutter-python-webstatic.git
-    pwj: https://github.com/fmind/cookiecutter-python-webslides.git
     pws: https://github.com/fmind/cookiecutter-python-webserver.git
     pww: https://github.com/fmind/cookiecutter-python-webscrape.git
