@@ -3,11 +3,13 @@ default_context:
     author: "Médéric Hurier"
     email: "dev@fmind.me"
 abbreviations:
-    mk: https://github.com/fmind/cookiecutter-make-file.git
-    ar: https://github.com/fmind/cookiecutter-ansible-role.git
+    m: https://github.com/fmind/cookiecutter-make-file.git
+    a: https://github.com/fmind/cookiecutter-ansible-role.git
+    l: https://github.com/fmind/cookiecutter-latex-article.git
     ps: https://github.com/fmind/cookiecutter-python-script.git
     pp: https://github.com/fmind/cookiecutter-python-project.git
     pa: https://github.com/fmind/cookiecutter-python-analysis.git
-    pu: https://github.com/fmind/cookiecutter-python-webstatic.git
-    pw: https://github.com/fmind/cookiecutter-python-webserver.git
-    pr: https://github.com/fmind/cookiecutter-python-webscrape.git
+    pwh: https://github.com/fmind/cookiecutter-python-webstatic.git
+    pwj: https://github.com/fmind/cookiecutter-python-webslides.git
+    pws: https://github.com/fmind/cookiecutter-python-webserver.git
+    pww: https://github.com/fmind/cookiecutter-python-webscrape.git
