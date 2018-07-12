@@ -173,9 +173,9 @@ alias ap="ansible-playbook"
 alias ai="ansible-inventory"
 #}}}
 ## Watchdog{{{
-alias wdl="watchmedo log"
-alias wdr="watchmedo auto-restart"
-alias wds="watchmedo shell-command"
+alias wl="watchmedo log"
+alias wr="watchmedo auto-restart"
+alias ws="watchmedo shell-command"
 #}}}
 #}}}
 # LANGUAGES{{{
