@@ -141,6 +141,11 @@ function gho {
 ## Uml{{{
 alias uml="plantuml"
 #}}}
+## TLDR{{{
+function m {
+    curl "https://cheat.sh/$1"
+}
+#}}}
 ## Docker{{{
 alias dk='docker'
 alias dr='docker run --rm'

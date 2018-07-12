@@ -4,7 +4,7 @@
 
   tasks:
 # SHELL{{{
-# # ZSH{{{
+## ZSH{{{
   - name: install zsh
     package: name='zsh'
     tags: ['sys', 'shell', 'zsh']
@@ -34,7 +34,7 @@
     git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
     tags: ['usr', 'shell', 'zsh']
 # }}}
-# # BASH{{{
+## BASH{{{
   - name: deploy bash conf
     file: src='{{playbook_dir}}/bash/bashrc' dest='~/.bashrc' state=link force=yes
     tags: ['usr', 'shell', 'bash']
@@ -43,7 +43,7 @@
     file: src='{{playbook_dir}}/bash/bash_logout' dest='~/.bash_logout' state=link force=yes
     tags: ['usr', 'shell', 'bash']
 # }}}
-# # BYOBU{{{
+## BYOBU{{{
   - name: install byobu
     package: name='byobu'
     tags: ['sys', 'shell', 'byobu']
@@ -63,7 +63,7 @@
       - keybindings.tmux
     tags: ['usr', 'shell', 'byobu']
 # }}}
-# # COMMON{{{
+## COMMON{{{
   - name: deploy shell conf
     file: src='{{playbook_dir}}/shell/shellrc' dest='~/.shellrc' state=link force=yes
     tags: ['usr', 'shell', 'common']
@@ -95,7 +95,7 @@
 # }}}
 # }}}
 # TOOLS{{{
-# # SYSTEM{{{
+## SYSTEM{{{
   - name: install jq
     package: name='jq'
     tags: ['sys', 'tool', 'system']
@@ -126,6 +126,11 @@
     tags: ['sys', 'tool', 'system']
     become: true
 
+  - name: install petit
+    package: name='petit'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
   - name: install rlwrap
     package: name='rlwrap'
     tags: ['sys', 'tool', 'system']
@@ -150,10 +155,6 @@
     pip: name='pydf' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']
 
-  - name: install tldr
-    pip: name='tldr.py' executable='pip3' extra_args='--user'
-    tags: ['usr', 'tool', 'system']
-
   - name: install silversearcher
     package: name='silversearcher-ag'
     tags: ['sys', 'tool', 'system']
@@ -161,10 +162,6 @@
 
   - name: deploy ag conf
     file: src='{{playbook_dir}}/ag/agignore' dest='~/.agignore' state=link force=yes
-    tags: ['usr', 'tool', 'system']
-
-  - name: install howdoi
-    pip: name='howdoi' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']
 
   - name: install pythonpy
@@ -192,7 +189,7 @@
     file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
     tags: ['usr', 'tool', 'system']
 # }}}
-# # NETWORK{{{
+## NETWORK{{{
   - name: install curl
     package: name='curl'
     tags: ['sys', 'tool', 'network']
@@ -211,7 +208,7 @@
     pip: name='http-prompt' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'network']
 # }}}
-# # DEVELOP{{{
+## DEVELOP{{{
   - name: install make
     package: name='make'
     tags: ['sys', 'tool', 'develop']
@@ -252,7 +249,7 @@
 # }}}
 # }}}
 # EDITORS{{{
-# # VIM{{{
+## VIM{{{
   - name: install vim
     package: name='vim'
     tags: ['sys', 'editor', 'vim']
@@ -286,7 +283,7 @@
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
     tags: ['usr', 'editor', 'vim']
 # }}}
-# # NVIM{{{
+## NVIM{{{
   - name: install neovim
     package: name='neovim'
     tags: ['sys', 'editor', 'neovim']
@@ -324,7 +321,7 @@
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.config/nvim/autoload/plug.vim' mode=0600
     tags: ['usr', 'editor', 'nvim']
 # }}}
-# # EMACS{{{
+## EMACS{{{
   - name: install emacs
     package: name='emacs-nox'
     tags: ['sys', 'editor', 'emacs']
@@ -342,7 +339,7 @@
     git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
     tags: ['usr', 'editor', 'emacs']
 # }}}
-# # INTELLIJ{{{
+## INTELLIJ{{{
   - name: deploy idea conf
     file: src='{{playbook_dir}}/idea/ideavimrc' dest='~/.ideavimrc' state=link force=yes
     tags: ['usr', 'editor', 'idea']
