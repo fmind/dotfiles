@@ -80,18 +80,18 @@
     file: src='{{playbook_dir}}/environ/environ' dest='~/.shell_environ' state=link force=yes
     tags: ['usr', 'shell', 'common']
 
-  #  - name: clone shell functools
-  #    git: repo='https://github.com/sharkdp/shell-functools.git' dest='~/bin/functools'
-  #    tags: ['usr', 'shell', 'common']
+  - name: clone shell functools
+    git: repo='https://github.com/sharkdp/shell-functools.git' dest='~/bin/functools'
+    tags: ['usr', 'shell', 'common']
 
-  #  - name: deploy shell functools
-  #    file: src='~/bin/functools/ft/{{item}}' dest='~/bin/{{item}}' state=link force=yes
-  #    with_items:
-  #      - map
-  #      - foldl
-  #      - filter
-  #      - ft-functions
-  #    tags: ['usr', 'shell', 'common']
+  - name: deploy shell functools
+    file: src='~/bin/functools/ft/{{item}}' dest='~/bin/{{item}}' state=link force=yes
+    with_items:
+      - map
+      - foldl
+      - filter
+      - ft-functions
+    tags: ['usr', 'shell', 'common']
 # }}}
 # }}}
 # TOOLS{{{
