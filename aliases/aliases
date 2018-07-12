@@ -102,9 +102,9 @@ alias imgsize="mogrify -resize "
 alias imgwhite="mogrify -flatten "
 #}}}
 # SEARCHING{{{
-alias k='fasd -al'
+alias k='fasd -as'
 alias ke='fasd -ae'
-alias ka='fasd -al'
+alias ka='fasd -la'
 alias kf='fasd -fl'
 alias kd='fasd -dl' 
 alias kv='fasd -fe $EDITOR' 
