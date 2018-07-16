@@ -53,7 +53,7 @@
     file: path='~/.byobu' state=directory
     tags: ['usr', 'shell', 'byobu']
 
-  - name: deploy byobu confs
+  - name: deploy byobu conf
     file: src='{{playbook_dir}}/byobu/{{item}}' dest='~/.byobu/{{item}}' state=link force=yes
     with_items:
       - status
@@ -160,7 +160,7 @@
     tags: ['sys', 'tool', 'system']
     become: true
 
-  - name: deploy ag conf
+  - name: deploy silversearcher conf
     file: src='{{playbook_dir}}/ag/agignore' dest='~/.agignore' state=link force=yes
     tags: ['usr', 'tool', 'system']
 
@@ -209,6 +209,19 @@
     tags: ['usr', 'tool', 'network']
 # }}}
 ## DEVELOP{{{
+  - name: install git
+    package: name='git'
+    tags: ['sys', 'tool', 'develop']
+    become: true
+
+  - name: deploy git conf
+    file: src='{{playbook_dir}}/git/gitconfig' dest='~/.gitconfig' state=link force=yes
+    tags: ['usr', 'tool', 'develop']
+
+  - name: deploy git ignore
+    file: src='{{playbook_dir}}/git/gitignore' dest='~/.gitignore' state=link force=yes
+    tags: ['usr', 'tool', 'develop']
+
   - name: install make
     package: name='make'
     tags: ['sys', 'tool', 'develop']
@@ -224,19 +237,6 @@
 
   - name: install watchdog
     pip: name='watchdog' executable='pip3' extra_args='--user'
-    tags: ['usr', 'tool', 'develop']
-
-  - name: install git
-    package: name='git'
-    tags: ['sys', 'tool', 'develop']
-    become: true
-
-  - name: deploy git conf
-    file: src='{{playbook_dir}}/git/gitconfig' dest='~/.gitconfig' state=link force=yes
-    tags: ['usr', 'tool', 'develop']
-
-  - name: deploy git ignore
-    file: src='{{playbook_dir}}/git/gitignore' dest='~/.gitignore' state=link force=yes
     tags: ['usr', 'tool', 'develop']
 
   - name: install cookiecutter
@@ -267,7 +267,7 @@
     file: src='{{playbook_dir}}/vim/vimrc.py' dest='~/.vimrc.py' state=link force=yes
     tags: ['usr', 'editor', 'vim']
 
-  - name: create vim subdirs
+  - name: create vim subdir
     file: path='~/.vim/{{item}}/' state=directory
     with_items:
       - undo

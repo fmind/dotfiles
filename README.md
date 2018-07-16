@@ -11,6 +11,5 @@ Dotfiles of my favorite tools, shells and editors.
 ## Installation
 
 ```bash
-ansible-galaxy install -fr role.yml
 ansible-playbook --ask-become site.yml
 ```
