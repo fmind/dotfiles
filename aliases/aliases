@@ -1,5 +1,6 @@
 # vim: fdm=marker
 # DEFAULT{{{
+alias mutt="neomutt"
 alias wget="wget -c"
 alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
@@ -141,8 +142,11 @@ function gho {
 ## Uml{{{
 alias uml="plantuml"
 #}}}
+## Mail{{{
+alias m="mutt"
+#}}}
 ## TLDR{{{
-function m {
+function n {
     curl "https://cheat.sh/$1"
 }
 #}}}

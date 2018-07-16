@@ -49,9 +49,9 @@ set history=1000
 set encoding=utf-8
 set spelllang=en,fr
 set ffs=unix,dos,mac
-set formatoptions-=cro
 set clipboard=unnamedplus
 set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 "}}}
 ""FOLDING{{{
 set foldlevel=0
