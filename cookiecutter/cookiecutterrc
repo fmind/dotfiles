@@ -2,10 +2,12 @@ default_context:
     username: "fmind"
     author: "Médéric Hurier"
     email: "dev@fmind.me"
+    control: "github.com"
+    python: "3.6"
 abbreviations:
-    m: https://github.com/fmind/cookiecutter-make-file.git
-    a: https://github.com/fmind/cookiecutter-ansible-role.git
-    l: https://github.com/fmind/cookiecutter-latex-article.git
+    mk: https://github.com/fmind/cookiecutter-make-file.git
+    ar: https://github.com/fmind/cookiecutter-ansible-role.git
+    lk: https://github.com/fmind/cookiecutter-latex-article.git
     ps: https://github.com/fmind/cookiecutter-python-script.git
     pj: https://github.com/fmind/cookiecutter-python-slides.git
     pp: https://github.com/fmind/cookiecutter-python-project.git
