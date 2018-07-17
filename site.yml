@@ -209,6 +209,11 @@
     tags: ['usr', 'tool', 'network']
 # }}}
 ## DEVELOP{{{
+  - name: install neomutt
+    package: name='neomutt'
+    tags: ['sys', 'tool', 'develop']
+    become: true
+
   - name: install git
     package: name='git'
     tags: ['sys', 'tool', 'develop']
