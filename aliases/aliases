@@ -134,8 +134,15 @@ alias gm="git submodule"
 function gh {
   git clone git@github.com:fmind/$1.git
 }
+function gf {
+  git clone gitea@git.fmind.me:fmind/$1.git
+}
 function gho {
     git remote add origin "git@github.com:fmind/$(basename $PWD).git"
+    git push -u origin master
+}
+function gfo {
+    git remote add origin "git@git.fmind.me:fmind/$(basename $PWD).git"
     git push -u origin master
 }
 #}}}

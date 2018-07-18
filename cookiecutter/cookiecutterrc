@@ -1,17 +1,17 @@
 default_context:
     username: "fmind"
+    control: "git.fmind.me"
     author: "Médéric Hurier"
     email: "dev@fmind.me"
-    control: "github.com"
     python: "3.6"
 abbreviations:
-    mk: https://github.com/fmind/cookiecutter-make-file.git
-    ar: https://github.com/fmind/cookiecutter-ansible-role.git
-    lk: https://github.com/fmind/cookiecutter-latex-article.git
-    ps: https://github.com/fmind/cookiecutter-python-script.git
-    pj: https://github.com/fmind/cookiecutter-python-slides.git
-    pp: https://github.com/fmind/cookiecutter-python-project.git
-    pa: https://github.com/fmind/cookiecutter-python-analysis.git
-    pwh: https://github.com/fmind/cookiecutter-python-webstatic.git
-    pws: https://github.com/fmind/cookiecutter-python-webserver.git
-    pww: https://github.com/fmind/cookiecutter-python-webscrape.git
+    mk: https://git.fmind.me/fmind/cookiecutter-make-file.git
+    ar: https://git.fmind.me/fmind/cookiecutter-ansible-role.git
+    lk: https://git.fmind.me/fmind/cookiecutter-latex-article.git
+    ps: https://git.fmind.me/fmind/cookiecutter-python-script.git
+    pj: https://git.fmind.me/fmind/cookiecutter-python-slides.git
+    pp: https://git.fmind.me/fmind/cookiecutter-python-project.git
+    pa: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
+    pwh: https://git.fmind.me/fmind/cookiecutter-python-webstatic.git
+    pws: https://git.fmind.me/fmind/cookiecutter-python-webserver.git
+    pww: https://git.fmind.me/fmind/cookiecutter-python-webscrape.git
