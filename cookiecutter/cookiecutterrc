@@ -6,12 +6,11 @@ default_context:
     python: "3.6"
 abbreviations:
     mk: https://git.fmind.me/fmind/cookiecutter-make-file.git
-    ar: https://git.fmind.me/fmind/cookiecutter-ansible-role.git
     lk: https://git.fmind.me/fmind/cookiecutter-latex-article.git
     ps: https://git.fmind.me/fmind/cookiecutter-python-script.git
     pj: https://git.fmind.me/fmind/cookiecutter-python-slides.git
+    pd: https://git.fmind.me/fmind/cookiecutter-python-spider.git
     pp: https://git.fmind.me/fmind/cookiecutter-python-project.git
     pa: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
     pwh: https://git.fmind.me/fmind/cookiecutter-python-webstatic.git
     pws: https://git.fmind.me/fmind/cookiecutter-python-webserver.git
-    pww: https://git.fmind.me/fmind/cookiecutter-python-webscrape.git
