@@ -232,10 +232,6 @@
     tags: ['sys', 'tool', 'develop']
     become: true
 
-  - name: install pyenv
-    git: repo=https://github.com/pyenv/pyenv.git dest='~/.pyenv' depth=1
-    tags: ['usr', 'tool', 'develop']
-
   - name: install autoenv
     pip: name='autoenv' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'develop']
