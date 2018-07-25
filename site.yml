@@ -219,6 +219,10 @@
     tags: ['sys', 'tool', 'develop']
     become: true
 
+  - name: install gws
+    get_url: url='https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws' dest='~/bin/gws' mode='0700'
+    tags: ['usr', 'tool', 'develop']
+
   - name: deploy git conf
     file: src='{{playbook_dir}}/git/gitconfig' dest='~/.gitconfig' state=link force=yes
     tags: ['usr', 'tool', 'develop']
