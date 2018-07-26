@@ -141,6 +141,15 @@
     tags: ['sys', 'tool', 'system']
     become: true
 
+  - name: install ansible
+    package: name='ansible'
+    tags: ['sys', 'tool', 'system']
+    become: true
+
+  - name: deploy ansible file
+    file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
+    tags: ['usr', 'tool', 'system']
+
   - name: install parallel
     package: name='parallel'
     tags: ['sys', 'tool', 'system']
@@ -151,10 +160,6 @@
     tags: ['sys', 'tool', 'system']
     become: true
 
-  - name: install pydf
-    pip: name='pydf' executable='pip3' extra_args='--user'
-    tags: ['usr', 'tool', 'system']
-
   - name: install silversearcher
     package: name='silversearcher-ag'
     tags: ['sys', 'tool', 'system']
@@ -164,8 +169,8 @@
     file: src='{{playbook_dir}}/ag/agignore' dest='~/.agignore' state=link force=yes
     tags: ['usr', 'tool', 'system']
 
-  - name: install pythonpy
-    pip: name='pythonpy' executable='pip3' extra_args='--user'
+  - name: install pydf
+    pip: name='pydf' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']
 
   - name: install percol
@@ -180,14 +185,10 @@
     file: src='{{playbook_dir}}/percol/rc.py' dest='~/.percol.d/rc.py' state=link force=yes
     tags: ['usr', 'tool', 'system']
 
-  - name: install ansible
-    package: name='ansible'
-    tags: ['sys', 'tool', 'system']
-    become: true
-
-  - name: deploy ansible file
-    file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
+  - name: install pythonpy
+    pip: name='pythonpy' executable='pip3' extra_args='--user'
     tags: ['usr', 'tool', 'system']
+
 # }}}
 ## NETWORK{{{
   - name: install curl
@@ -209,19 +210,14 @@
     tags: ['usr', 'tool', 'network']
 # }}}
 ## DEVELOP{{{
-  - name: install neomutt
-    package: name='neomutt'
-    tags: ['sys', 'tool', 'develop']
-    become: true
+  - name: install gws
+    get_url: url='https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws' dest='~/bin/gws' mode='0700'
+    tags: ['usr', 'tool', 'develop']
 
   - name: install git
     package: name='git'
     tags: ['sys', 'tool', 'develop']
     become: true
-
-  - name: install gws
-    get_url: url='https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws' dest='~/bin/gws' mode='0700'
-    tags: ['usr', 'tool', 'develop']
 
   - name: deploy git conf
     file: src='{{playbook_dir}}/git/gitconfig' dest='~/.gitconfig' state=link force=yes
@@ -238,6 +234,10 @@
 
   - name: install autoenv
     pip: name='autoenv' executable='pip3' extra_args='--user'
+    tags: ['usr', 'tool', 'develop']
+
+  - name: deploy autoenv
+    file: src='{{playbook_dir}}/autoenv/venv-deactivate' dest='~/.env' state=link force=yes
     tags: ['usr', 'tool', 'develop']
 
   - name: install watchdog

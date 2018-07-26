@@ -274,6 +274,10 @@ alias ppp="pip3 install --user"
 ### Venv{{{
 alias pvd="deactivate"
 alias pva="source venv/bin/activate"
+function pvi {
+  "./venv/bin/$@"
+}
+alias pvp="pvi python"
 #}}}
 ### Shells{{{
 alias ph="hy"
@@ -288,8 +292,8 @@ alias pp="ptpython"
 #}}}
 #}}}
 ## Jupyter{{{
-alias jl="jupyter lab"
-alias jn="jupyter notebook"
+alias jl="jupyter-lab"
+alias jn="jupyter-notebook"
 alias jp="ipcluster start -n $(nproc)"
 #}}}
 #}}}
