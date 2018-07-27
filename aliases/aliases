@@ -81,6 +81,8 @@ alias chx="chmod u+x "
 alias kila='killall'
 alias kil9='killall -9'
 alias srv='sudo service'
+alias sys='sudo systemctl'
+alias nal='sudo journalctl'
 alias tunnell='ssh -nNTL'
 alias tunnelr='ssh -nNTR'
 alias rsinc="rsync -avzu"
@@ -261,43 +263,36 @@ alias ws="watchmedo shell-command"
 # export ERL_AFLAGS="-kernel shell_history enabled"
 #}}}
 ## Python{{{
-alias p="ptpython"
-alias pp="ptpython -i"
-alias pt="try"
-alias pi="python"
-alias p2="python2"
-alias p3="python3"
-alias ipy="ipython"
 ### Pip{{{
+alias ppf="pip freeze"
 alias pps="pip search"
 alias ppi="pip install"
 alias ppu="pip uninstall"
-alias ppp="pip install --user"
-alias ppo="pip3 install --user"
+alias ppp="pip3 install --user"
 #}}}
-### Tools{{{
-alias pyy="yapf"
-alias pyd="pydoc"
-alias pyi="isort"
-alias pyf="flake8"
-alias pyt="pytest"
-alias pydt="python -m doctest"
-#}}}
-### Pipenv{{{
-alias pep='pipes'
-alias per='pipenv run'
-alias pei='pipenv install'
-alias pes='pipenv shell --fancy'
-#}}}
-### Virtualenv{{{
+### Venv{{{
 alias pvd="deactivate"
 alias pva="source venv/bin/activate"
-#
+function pvi {
+  "./venv/bin/$@"
+}
+alias pvp="pvi python"
+#}}}
+### Shells{{{
+alias ph="hy"
+alias pr="try"
+alias p="python"
+alias pd="pydoc3"
+alias pt="pytest"
+alias p2="python2"
+alias p3="python3"
+alias pi="ipython"
+alias pp="ptpython"
 #}}}
 #}}}
 ## Jupyter{{{
-alias jl="jupyter lab"
-alias jn="jupyter notebook"
+alias jl="jupyter-lab"
+alias jn="jupyter-notebook"
 alias jp="ipcluster start -n $(nproc)"
 #}}}
 #}}}

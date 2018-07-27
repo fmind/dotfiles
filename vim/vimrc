@@ -140,6 +140,9 @@ nnoremap <leader>@ :edit ~/.vimrc.py<CR>
 nnoremap <leader>" :source $MYVIMRC<CR>
 nnoremap <leader># :setlocal spell!<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
+nnoremap <leader>GM :setlocal foldmethod=marker<CR>
+nnoremap <leader>GS :setlocal foldmethod=syntax<CR>
+nnoremap <leader>GI :setlocal foldmethod=indent<CR>
 "}}}
 ""DEFAULT{{{
 noremap j gj

@@ -24,8 +24,6 @@ plugins=(
     docker
     encode64
     fasd
-    gitfast
-    git-extras
     httpie
     jsontools
     pyenv
