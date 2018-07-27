@@ -9,9 +9,9 @@ abbreviations:
     ar: https://git.fmind.me/fmind/cookiecutter-ansible-role.git
     lk: https://git.fmind.me/fmind/cookiecutter-latex-article.git
     ps: https://git.fmind.me/fmind/cookiecutter-python-script.git
-    pj: https://git.fmind.me/fmind/cookiecutter-python-slides.git
+    po: https://git.fmind.me/fmind/cookiecutter-python-slides.git
     pp: https://git.fmind.me/fmind/cookiecutter-python-project.git
+    pb: https://git.fmind.me/fmind/cookiecutter-python-static.git
+    pw: https://git.fmind.me/fmind/cookiecutter-python-server.git
+    pc: https://git.fmind.me/fmind/cookiecutter-python-spider.git
     pa: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
-    pwh: https://git.fmind.me/fmind/cookiecutter-python-webstatic.git
-    pws: https://git.fmind.me/fmind/cookiecutter-python-webserver.git
-    pww: https://git.fmind.me/fmind/cookiecutter-python-webscrape.git
