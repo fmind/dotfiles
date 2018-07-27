@@ -284,69 +284,35 @@
       - autoload
     tags: ['usr', 'editor', 'vim']
 
+  - name: deploy vim snippets
+    file: src='{{playbook_dir}}/vim/snippets' dest='~/.vim/snippets' state=link force=yes
+    tags: ['usr', 'editor', 'vim']
+
   - name: install vim manager
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
     tags: ['usr', 'editor', 'vim']
 # }}}
-## NVIM{{{
-  - name: install neovim
-    package: name='neovim'
-    tags: ['sys', 'editor', 'neovim']
-    become: true
-
-  - name: create neovim dir
-    file: path='~/.config/nvim/' state=directory
-    tags: ['usr', 'editor', 'nvim']
-
-  - name: deploy neovim conf
-    file: src='{{playbook_dir}}/neovim/init.vim' dest='~/.config/nvim/init.vim' state=link force=yes
-    tags: ['usr', 'editor', 'nvim']
-
-  - name: create neovim subdirs
-    file: path='~/.config/nvim/{{item}}/' state=directory
-    with_items:
-      - undo
-      - swap
-      - spell
-      - backup
-      - session
-      - plugged
-      - autoload
-    tags: ['usr', 'editor', 'nvim']
-
-  - name: install neovim python
-    pip: name='neovim' executable='pip3' extra_args='--user'
-    tags: ['usr', 'editor', 'nvim']
-
-  - name: deploy neovim snippets
-    file: src='{{playbook_dir}}/neovim/snippets' dest='~/.config/nvim/snippets' state=link force=yes
-    tags: ['usr', 'editor', 'nvim']
-
-  - name: install neovim manager
-    get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.config/nvim/autoload/plug.vim' mode=0600
-    tags: ['usr', 'editor', 'nvim']
-# }}}
 ## EMACS{{{
-  - name: install emacs
-    package: name='emacs-nox'
-    tags: ['sys', 'editor', 'emacs']
-    become: true
+  # - name: install emacs
+  #   package: name='emacs-nox'
+  #   tags: ['sys', 'editor', 'emacs']
+  #   become: true
 
-  - name: deploy emacs dir
-    file: src='{{playbook_dir}}/emacs/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
-    tags: ['usr', 'editor', 'emacs']
+  # - name: deploy emacs dir
+  #   file: src='{{playbook_dir}}/emacs/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
+  #   tags: ['usr', 'editor', 'emacs']
 
-  - name: deploy emacs conf
-    file: src='{{playbook_dir}}/emacs/spacemacs' dest='~/.spacemacs' state=link force=yes
-    tags: ['usr', 'editor', 'emacs']
+  # - name: deploy emacs conf
+  #   file: src='{{playbook_dir}}/emacs/spacemacs' dest='~/.spacemacs' state=link force=yes
+  #   tags: ['usr', 'editor', 'emacs']
 
-  - name: clone emacs spacemacs
-    git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
-    tags: ['usr', 'editor', 'emacs']
+  # - name: clone emacs spacemacs
+  #   git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
+  #   tags: ['usr', 'editor', 'emacs']
 # }}}
 ## INTELLIJ{{{
-  - name: deploy idea conf
-    file: src='{{playbook_dir}}/idea/ideavimrc' dest='~/.ideavimrc' state=link force=yes
-    tags: ['usr', 'editor', 'idea']
+  # - name: deploy idea conf
+  #   file: src='{{playbook_dir}}/idea/ideavimrc' dest='~/.ideavimrc' state=link force=yes
+  #   tags: ['usr', 'editor', 'idea']
 # }}}
 # }}}
