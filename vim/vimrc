@@ -121,10 +121,10 @@ let maplocalleader=","
 "" ACTIONS{{{
 nnoremap <leader>\ :set 
 nnoremap <leader><Tab> <c-^>
+nnoremap <leader># :set spell!<CR>
 nnoremap <leader>' :edit $MYVIMRC<CR>
 nnoremap <leader>@ :edit ~/.vimrc.py<CR>
 nnoremap <leader>"  :source $MYVIMRC<CR>
-nnoremap <leader># :setlocal spell!<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
 nnoremap <leader>NM :setlocal foldmethod=marker<CR>
 nnoremap <leader>NS :setlocal foldmethod=syntax<CR>
