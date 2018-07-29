@@ -77,6 +77,7 @@ alias i="percol"
 alias cpr="cp -r"
 alias rmr="rm -r"
 alias rmrf="rm -rf"
+alias gtop='glances'
 alias chx="chmod u+x "
 alias kila='killall'
 alias kil9='killall -9'

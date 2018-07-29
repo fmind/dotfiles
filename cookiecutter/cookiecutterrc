@@ -15,3 +15,5 @@ abbreviations:
     pw: https://git.fmind.me/fmind/cookiecutter-python-server.git
     pc: https://git.fmind.me/fmind/cookiecutter-python-spider.git
     pa: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
+    cs: https://git.fmind.me/fmind/cookiecutter-clojure-script.git
+    cp: https://git.fmind.me/fmind/cookiecutter-clojure-project.git
