@@ -276,12 +276,23 @@ alias ppp="pip3 install --user"
 alias pvd="deactivate"
 alias pva="source venv/bin/activate"
 alias pvc="python3.6 -m venv ./venv"
+function pve {
+  echo 'source "$(dirname $0)/venv/bin/activate"' > .env
+}
 #}}}
 ### Tools{{{
 alias p="python"
 alias pd="pydoc"
 alias pt="pytest"
 alias pi="ipython"
+function pj {
+cat << EOF > .projections.json
+{
+  "$(basename $PWD)/*.py": {"alternate": "tests/test_{}.py", "type": "test"},
+  "tests/test_*.py": {"alternate": "$(basename $PWD)/{}.py", "type": "source"}
+}
+EOF
+}
 #}}}
 #}}}
 ## Jupyter{{{
