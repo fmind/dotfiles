@@ -169,8 +169,8 @@ call plug#begin($VIMDIR.'/plugged')
 Plug 'w0rp/ale'
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
-let b:ale_fixers = ['isort', 'yapf']
-let b:ale_linters = ['isort', 'flake8', 'mypy']
+let b:ale_fixers = ['black']
+let b:ale_linters = ['black', 'mypy']
 nnoremap <leader>= :ALEFix<CR>
 nnoremap <leader>E :ALEToggle<CR>
 nnoremap <leader>e :ALENextWrap<CR>
@@ -232,7 +232,7 @@ let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
 " }}}
-"" sneak{{{
+"" snake{{{
 Plug 'amoffat/snake'
 if filereadable(expand($VIMDIR.'/bundle/snake/plugin/snake.vim'))
     source $VIMDIR/bundle/snake/plugin/snake.vim

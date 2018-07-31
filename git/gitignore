@@ -1,9 +1,2 @@
-# Python #
-##########
-*.pyc
-*.pyo
-
-# Others #
-##########
-.#*
-*.log
+.mypy_cache
+.projections.json
