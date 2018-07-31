@@ -298,14 +298,6 @@ noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
 " }}}
-"" deoplete{{{
-Plug 'Shougo/deoplete.nvim',{ 'do': ':UpdateRemotePlugins', 'for': 'python' }
-Plug 'wellle/tmux-complete.vim'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'zchee/deoplete-jedi'
-Plug 'roxma/nvim-yarp'
-let g:deoplete#enable_at_startup = 1
-" }}}
 "" startify{{{
 Plug 'mhinz/vim-startify'
 let g:startify_session_dir = $VIMDIR.'/session/'
@@ -330,6 +322,9 @@ let g:gitgutter_grep = 'ag'
 let g:gitgutter_map_keys = 0
 nnoremap ]g <Plug>GitGutterNextHunk
 nnoremap [g <Plug>GitGutterPrevHunk
+" }}}
+"" completor{{{
+Plug 'maralla/completor.vim'
 " }}}
 "" ultisnips{{{
 Plug 'SirVer/ultisnips'

@@ -2,6 +2,7 @@
 # DEFAULT{{{
 alias wget="wget -c"
 alias mkdir="mkdir -pv"
+alias python="python3"
 alias parallel="parallel --will-cite"
 #}}}
 # EDITION{{{
@@ -274,21 +275,13 @@ alias ppp="pip3 install --user"
 ### Venv{{{
 alias pvd="deactivate"
 alias pva="source venv/bin/activate"
-function pvi {
-  "./venv/bin/$@"
-}
-alias pvp="pvi python"
+alias pvc="python3.6 -m venv ./venv"
 #}}}
-### Shells{{{
-alias ph="hy"
-alias pr="try"
+### Tools{{{
 alias p="python"
-alias pd="pydoc3"
+alias pd="pydoc"
 alias pt="pytest"
-alias p2="python2"
-alias p3="python3"
 alias pi="ipython"
-alias pp="ptpython"
 #}}}
 #}}}
 ## Jupyter{{{
