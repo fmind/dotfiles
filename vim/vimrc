@@ -121,14 +121,15 @@ let maplocalleader=","
 "" ACTIONS{{{
 nnoremap <leader>\ :set 
 nnoremap <leader><Tab> <c-^>
+nnoremap <leader>>  :shell<CR>
 nnoremap <leader># :set spell!<CR>
 nnoremap <leader>' :edit $MYVIMRC<CR>
 nnoremap <leader>@ :edit ~/.vimrc.py<CR>
 nnoremap <leader>"  :source $MYVIMRC<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
-nnoremap <leader>NM :setlocal foldmethod=marker<CR>
-nnoremap <leader>NS :setlocal foldmethod=syntax<CR>
-nnoremap <leader>NI :setlocal foldmethod=indent<CR>
+nnoremap <leader>.m :setlocal foldmethod=marker<CR>
+nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
+nnoremap <leader>.i :setlocal foldmethod=indent<CR>
 " }}}
 "" DEFAULT{{{
 noremap j gj
@@ -165,19 +166,6 @@ filetype plugin on
 filetype indent on
 if !empty(glob($VIMDIR.'/autoload/plug.vim'))
 call plug#begin($VIMDIR.'/plugged')
-"" ale{{{
-Plug 'w0rp/ale'
-let g:ale_fix_on_save = 1
-let g:ale_linters_explicit = 1
-let b:ale_fixers = ['black']
-let b:ale_linters = ['black', 'mypy']
-nnoremap <leader>= :ALEFix<CR>
-nnoremap <leader>E :ALEToggle<CR>
-nnoremap <leader>e :ALENextWrap<CR>
-nnoremap <leader><C-e> :ALEPreviousWrap<CR>
-nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
-nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
-" }}}
 "" fzf{{{
 Plug 'junegunn/fzf',{'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
@@ -203,6 +191,18 @@ nnoremap <leader>? :Helptags<CR>
 nnoremap <leader><Space> :Commands<CR>
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -p ~/.agignore -g "" '
 " }}}
+"" ycm{{{
+Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --clang-completer'}
+nnoremap <leader>j :YcmCompleter GoTo<CR>
+nnoremap <leader>d :YcmCompleter GetDoc<CR>
+nnoremap <leader>v :YcmCompleter GoToReferences<CR>
+let g:ycm_key_list_select_completion = ['<C-n>']
+let g:ycm_key_list_previous_completion = ['<C-p>']
+" }}}
+"" codi{{{
+Plug 'metakirby5/codi.vim'
+nnoremap <leader>c :Codi!!<CR>
+" }}}
 "" plug{{{
 nnoremap <leader>pd :PlugDiff<CR>
 nnoremap <leader>pc :PlugClean<CR>
@@ -213,24 +213,22 @@ nnoremap <leader>pi :PlugInstall<CR>
 " }}}
 "" test{{{
 Plug 'janko-m/vim-test'
-let test#strategy = " vimux" 
-let test#python#runner = 'pytest'
+let test#strategy = "vimux" 
 let g:test#preserve_screen = 1
 nnoremap <leader>tf :TestFile<CR>
 nnoremap <leader>tl :TestLast<CR>
 nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tv :TestVisit<CR>
-nnoremap <leader>tt :TesgNearest<CR>
-" }}}
-"" codi{{{
-Plug 'metakirby5/codi.vim'
-nnoremap <leader>c :Codi!!<CR>
+nnoremap <leader>tt :TestNearest<CR>
 " }}}
 "" sneak{{{
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
+" }}}
+"" emmet {{{
+Plug 'mattn/emmet-vim'
 " }}}
 "" snake{{{
 Plug 'amoffat/snake'
@@ -240,18 +238,15 @@ endif
 " }}}
 "" vimux{{{
 Plug 'benmills/vimux'
-nnoremap <Leader>ro :VimuxOpenRunner<CR>
-nnoremap <Leader>rc :VimuxCloseRunner<CR>
-nnoremap <Leader>rr :VimuxPromptCommand<CR>
-nnoremap <Leader>ri :VimuxInspectRunner<CR>
-nnoremap <Leader>rl :VimuxRunLastCommand<CR>
-nnoremap <Leader>rx :VimuxInterruptRunner<CR>
-nnoremap <Leader>rz :call VimuxZoomRunner()<CR>
+nnoremap <leader>r :VimuxPromptCommand<CR>
+nnoremap <leader>R :VimuxRunLastCommand<CR>
 " }}}
-"" tagbar{{{
-Plug 'majutsushi/tagbar'
-let g:tagbar_autofocus = 1
-nnoremap <leader>j :TagbarToggle<CR>
+"" eunuch {{{
+Plug 'tpope/vim-eunuch'
+nnoremap <leader>ox :Chmod 
+nnoremap <leader>oc :Mkdir 
+nnoremap <leader>oo :Rename 
+nnoremap <leader>oD :Delete<CR>
 " }}}
 "" pencil{{{
 Plug 'reedes/vim-pencil'
@@ -259,8 +254,23 @@ let g:pencil#textwidth = 100
 let g:pencil#wrapModeDefault = 'soft'
 nnoremap <leader>W :SoftPencil<CR>
 " }}}
+"" tagbar{{{
+Plug 'majutsushi/tagbar'
+let g:tagbar_autofocus = 1
+nnoremap <leader>n :TagbarToggle<CR>
+" }}}
 "" vimtex{{{
 Plug 'lervag/vimtex',{ 'for': 'tex' }
+" }}}
+"" airline{{{
+Plug 'bling/vim-airline' 
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+" }}}
+"" molokai{{{
+Plug 'tomasr/molokai'
+let g:molokai_original = 1
 " }}}
 "" tabular{{{
 Plug 'godlygeek/tabular'
@@ -268,44 +278,20 @@ noremap <leader>X :Tabularize
 noremap <leader>x, :Tabularize /,<CR>
 noremap <leader>x, :Tabularize /;<CR>
 " }}}
-"" molokai{{{
-Plug 'tomasr/molokai'
-let g:molokai_original = 1
-" }}}
-"" airline{{{
-Plug 'bling/vim-airline' 
-let g:airline_powerline_fonts=1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#wordcount#enabled = 1
-let g:airline#extensions#virtualenv#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-" }}}
 "" fugitive{{{
 Plug 'tpope/vim-fugitive'
-noremap <Leader>G Git 
-noremap <Leader>gj :Glcd 
-noremap <Leader>gh :Gpush<CR>
-noremap <Leader>gl :Gpull<CR>
-noremap <Leader>gm :Gmove
-noremap <Leader>gw :Gwrite<CR>
-noremap <Leader>gc :Gcommit<CR>
-noremap <Leader>gs :Gstatus<CR>
-noremap <Leader>go :Gbrowse<CR>
-noremap <Leader>gb :Gblame<CR>
-noremap <Leader>gd :Gvdiff<CR>
-noremap <Leader>gr :Gremove<CR>
-" }}}
-"" startify{{{
-Plug 'mhinz/vim-startify'
-let g:startify_session_dir = $VIMDIR.'/session/'
-nnoremap <leader>S :Startify<CR>
-nnoremap <leader>sl :SLoad<CR>
-nnoremap <leader>ss :SSave<CR>
-nnoremap <leader>sc :SClose<CR>
-nnoremap <leader>sd :SDelete<CR>
+noremap <leader>G Git 
+noremap <leader>gj :Glcd 
+noremap <leader>gh :Gpush<CR>
+noremap <leader>gl :Gpull<CR>
+noremap <leader>gm :Gmove
+noremap <leader>gw :Gwrite<CR>
+noremap <leader>gc :Gcommit<CR>
+noremap <leader>gs :Gstatus<CR>
+noremap <leader>go :Gbrowse<CR>
+noremap <leader>gb :Gblame<CR>
+noremap <leader>gd :Gvdiff<CR>
+noremap <leader>gr :Gremove<CR>
 " }}}
 "" nerdtree{{{
 Plug 'scrooloose/nerdtree' 
@@ -316,6 +302,15 @@ let NERDTreeIgnore=['\.pyc$', '__pycache__', '\~$']
 nnoremap <leader>~ :NERDTreeFind<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
 " }}}
+"" startify{{{
+Plug 'mhinz/vim-startify'
+let g:startify_session_dir = $VIMDIR.'/session/'
+nnoremap <leader>S :Startify<CR>
+nnoremap <leader>sl :SLoad<CR>
+nnoremap <leader>ss :SSave<CR>
+nnoremap <leader>sc :SClose<CR>
+nnoremap <leader>sd :SDelete<CR>
+" }}}
 "" gitgutter{{{
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_grep = 'ag'
@@ -323,8 +318,21 @@ let g:gitgutter_map_keys = 0
 nnoremap ]g <Plug>GitGutterNextHunk
 nnoremap [g <Plug>GitGutterPrevHunk
 " }}}
-"" completor{{{
-Plug 'maralla/completor.vim'
+"" syntastic{{{
+Plug 'vim-syntastic/syntastic'
+nnoremap <leader>e :Errors<CR>
+nnoremap <leader>E :SyntasticToggleMode<CR>
+let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_always_populate_loc_list = 1
+" }}}
+"" thesaurus{{{
+Plug 'beloglazov/vim-online-thesaurus'
+let g:online_thesaurus_map_keys = 0
+nnoremap <leader>U :Thesaurus 
+nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 " }}}
 "" ultisnips{{{
 Plug 'SirVer/ultisnips'
@@ -336,11 +344,10 @@ let g:UltiSnipsJumpForwardTrigger=" <c-n>"
 let g:UltiSnipsJumpBackwardTrigger=" <c-p>" 
 let g:UltiSnipsSnippetsDir = $VIMDIR.'/snippets/'
 " }}}
-"" thesaurus{{{
-Plug 'beloglazov/vim-online-thesaurus'
-let g:online_thesaurus_map_keys = 0
-nnoremap <leader>U :Thesaurus 
-nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
+"" autoformat {{{
+Plug 'Chiel92/vim-autoformat'
+nnoremap <leader>= :Autoformat<CR>
+let g:formatdef_black = "'black --quiet -'"
 " }}}
 "" easy-align{{{
 Plug 'junegunn/vim-easy-align'
@@ -359,16 +366,14 @@ nnoremap <leader>k :A<CR>
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
 " }}}
-Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-abolish'
 Plug 'lepture/vim-jinja'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
-Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/matchit.zip'
 Plug 'farmergreg/vim-lastplace'
 Plug 'christoomey/vim-sort-motion'
@@ -387,6 +392,10 @@ endtry
 "" }}}
 " PROLANG{{{
 "" python{{{
+let test#python#runner = 'pytest'
+let g:formatters_python = ['black']
+let g:syntastic_python_checkers = ['mypy', 'pyflakes']
 autocmd Filetype python setlocal foldmethod=indent
+autocmd BufWrite *.py :Autoformat
 " }}}
 " }}}

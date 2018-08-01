@@ -1,3 +1,4 @@
 .env
+*.log
 .mypy_cache
 .projections.json

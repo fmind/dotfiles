@@ -1,8 +1,9 @@
 # vim: fdm=marker
 # DEFAULT{{{
 alias wget="wget -c"
-alias mkdir="mkdir -pv"
 alias python="python3"
+alias black="black -q"
+alias mkdir="mkdir -pv"
 alias parallel="parallel --will-cite"
 #}}}
 # EDITION{{{
