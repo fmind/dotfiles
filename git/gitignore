@@ -1,6 +1,6 @@
 .env
 *.log
+.tmuxp.yaml
 .mypy_cache
-.session.yml
 .projections.json
 .ipynb_checkpoints
