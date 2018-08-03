@@ -153,8 +153,9 @@ function gfo {
 ## Uml{{{
 alias uml="plantuml"
 #}}}
-## Mail{{{
-alias m="mutt"
+## Tmux{{{
+alias tl='tmuxp load'
+alias ts='tmuxp freeze'
 #}}}
 ## TLDR{{{
 function n {
