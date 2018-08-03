@@ -2,3 +2,4 @@
 *.log
 .mypy_cache
 .projections.json
+.ipynb_checkpoints

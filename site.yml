@@ -49,6 +49,11 @@
     tags: ['sys', 'shell', 'byobu']
     become: true
 
+  - name: install tmuxp
+    pip: name='tmuxp' executable='pip3' extra_args='--user'
+    tags: ['usr', 'shell', 'byobu']
+    become: true
+
   - name: create byobu dir
     file: path='~/.byobu' state=directory
     tags: ['usr', 'shell', 'byobu']
