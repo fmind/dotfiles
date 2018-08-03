@@ -153,14 +153,15 @@ function gfo {
 ## Uml{{{
 alias uml="plantuml"
 #}}}
-## Tmux{{{
-alias tl='tmuxp load'
-alias ts='tmuxp freeze'
-#}}}
 ## TLDR{{{
 function n {
     curl "https://cheat.sh/$1"
 }
+#}}}
+## Tmuxp{{{
+alias tl='tmuxp load -y'
+alias tp='tmuxp load -y .'
+alias tf='tmuxp freeze'
 #}}}
 ## Docker{{{
 alias dk='docker'

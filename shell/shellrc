@@ -1,5 +1,7 @@
 umask 0077
 
+export DISABLE_AUTO_TITLE='true'
+
 # remap capslock
 if [ -n "$DISPLAY" ]; then
     setxkbmap -option caps:escape

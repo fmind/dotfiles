@@ -1,0 +1,9 @@
+session_name: serval
+windows:
+- window_name: serval
+  layout: tiled
+  panes:
+    - ssh serval01
+    - ssh serval02
+    - ssh serval03
+    - ssh serval04

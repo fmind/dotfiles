@@ -54,6 +54,10 @@
     tags: ['usr', 'shell', 'byobu']
     become: true
 
+  - name: deploy tmuxp dir
+    file: src='{{playbook_dir}}/tmuxp' dest='~/.tmuxp' state=link force=yes
+    tags: ['usr', 'shell', 'byobu']
+
   - name: create byobu dir
     file: path='~/.byobu' state=directory
     tags: ['usr', 'shell', 'byobu']

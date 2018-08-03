@@ -1,0 +1,13 @@
+session_name: py
+windows:
+  - window_name: py
+    layout: main-vertical
+    options:
+      main-pane-width: 90
+    panes:
+      - shell_command:
+        - cd .
+        - vi
+        focus: true
+      - cd .; clear
+      - cd .; ipython

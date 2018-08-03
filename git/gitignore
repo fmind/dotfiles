@@ -1,5 +1,6 @@
 .env
 *.log
 .mypy_cache
+.session.yml
 .projections.json
 .ipynb_checkpoints
