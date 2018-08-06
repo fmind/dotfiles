@@ -3,7 +3,7 @@ windows:
   - window_name: py
     layout: main-vertical
     options:
-      main-pane-width: 90
+      main-pane-width: 100
     panes:
       - shell_command:
         - cd .
