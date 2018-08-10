@@ -52,7 +52,6 @@
   - name: install tmuxp
     pip: name='tmuxp' executable='pip3' extra_args='--user'
     tags: ['usr', 'shell', 'byobu']
-    become: true
 
   - name: deploy tmuxp dir
     file: src='{{playbook_dir}}/tmuxp' dest='~/.tmuxp' state=link force=yes
