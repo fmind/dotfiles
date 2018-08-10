@@ -163,6 +163,13 @@ alias tl='tmuxp load -y'
 alias tp='tmuxp load -y .'
 alias tf='tmuxp freeze'
 #}}}
+## Snap{{{
+alias sf='snap find'
+alias sr='snap remove'
+alias si='snap install'
+alias sc='snapcraft'
+alias sci='snapcraft init'
+#}}}
 ## Docker{{{
 alias dk='docker'
 alias dr='docker run --rm'
@@ -261,8 +268,8 @@ alias ws="watchmedo shell-command"
 # alias no="nim --compileOnly -w:on"
 #}}}
 ## Julia{{{
-# alias jl="julia"
-# alias jlp="julia -p auto"
+alias jl="julia-stable"
+alias jlrc="$EDITOR ~/.juliarc.jl"
 #}}}
 ## Elixir{{{
 # export ERL_AFLAGS="-kernel shell_history enabled"
