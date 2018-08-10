@@ -268,10 +268,10 @@ alias ws="watchmedo shell-command"
 # alias no="nim --compileOnly -w:on"
 #}}}
 ## Julia{{{
-alias jl="julia-stable"
-alias jlp="julia-stable -p auto"
-alias jlrc="$EDITOR ~/.juliarc.jl"
-alias julia="julia-stable"
+# alias jl="julia-stable"
+# alias jlp="julia-stable -p auto"
+# alias jlrc="$EDITOR ~/.juliarc.jl"
+# alias julia="julia-stable"
 #}}}
 ## Elixir{{{
 # export ERL_AFLAGS="-kernel shell_history enabled"
