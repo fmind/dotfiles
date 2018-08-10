@@ -269,7 +269,9 @@ alias ws="watchmedo shell-command"
 #}}}
 ## Julia{{{
 alias jl="julia-stable"
+alias jlp="julia-stable -p auto"
 alias jlrc="$EDITOR ~/.juliarc.jl"
+alias julia="julia-stable"
 #}}}
 ## Elixir{{{
 # export ERL_AFLAGS="-kernel shell_history enabled"
@@ -306,7 +308,7 @@ EOF
 #}}}
 #}}}
 ## Jupyter{{{
-alias jl="jupyter-lab"
+alias jb="jupyter-lab"
 alias jn="jupyter-notebook"
 alias jp="ipcluster start -n $(nproc)"
 #}}}
