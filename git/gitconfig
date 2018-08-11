@@ -1,6 +1,7 @@
 [user]
-    name = fmind
+    username = fmind
     email = dev@fmind.me
+    name = Médéric Hurier
 
 [core]
     editor = vim
@@ -24,11 +25,11 @@
     ca = commit -am
     pl = pull
     ph = push
-    phsu = push --set-upstream origin master
+    pu = push --set-upstream origin master
     df = diff
     br = branch
     ck = checkout
     sm = submodule
-    lo = log --oneline
     lg = log --graph
+    lo = log --oneline
     lp = log --graph --decorate --pretty=oneline --abbrev-commit

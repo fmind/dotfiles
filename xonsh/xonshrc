@@ -1,0 +1,53 @@
+# vim: filetype=python foldmethod=marker
+# IMPORTS{{{
+import os
+import re
+import csv
+import sys
+import math
+import time
+import errno
+import base64
+import random
+import filecmp
+import hashlib
+import calendar
+import datetime
+import statistics
+try:
+    import simplejson as json
+except:
+    import json
+try:
+    import funpy as fp
+except ImportError:
+    pass
+from pathlib import Path
+# }}}
+# SETTINGS{{{
+if 'TMUX' not in ${...}:
+    byobu
+
+$AUTO_CD = True
+$AUTO_PUSHD = True
+$AUTO_SUGGEST = True
+$XONSH_SHOW_TRACEBACK = False
+# }}}
+# TRIGGERS{{{
+@events.on_chdir
+def listdir(olddir, newdir, **kw):
+    $[ls]
+# }}}
+# vi
+# z
+# CONFIGURATIONS{{{
+if Path('~/.aliases').expanduser().exists():
+    $[source-bash --overwrite-alias ~/.aliases]
+if Path('~/.environ').expanduser().exists():
+    $[source-bash --overwrite-alias ~/.environ]
+if Path('~/.private').expanduser().exists():
+    $[source-bash --overwrite-alias ~/.private]
+if 'DISPLAY' in ${...} and \
+   Path('~/.display').expanduser().exists():
+    $[source-bash --overwrite-alias ~/.display]
+# }}}

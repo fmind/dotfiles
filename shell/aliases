@@ -1,0 +1,179 @@
+# vim: foldmethod=marker
+# DEFAULT{{{
+alias vi='vim'
+alias du='du -h'
+alias df='df -h'
+alias ps='ps aux'
+alias wget='wget -c'
+alias python='python3'
+alias black='black -q'
+alias mkdir='mkdir -pv'
+alias rsync='rsync -avzu'
+alias pwgen='pwgen -N1 -y'
+alias ls='ls --color=auto -CF'
+alias parallel='parallel --will-cite'
+# }}}
+# OTHERS{{{
+## MAP{{{
+alias lower='tr "[:upper:]" "[:lower:]"'
+alias upper='tr "[:lower:]" "[:upper:]"'
+# }}}
+## FILTER{{{
+alias igrep='grep -i'
+alias rgrep='grep -iR'
+# }}}
+## INFORM{{{
+alias rel='lsb_release -c'
+alias ext='curl icanhazip.com'
+# }}}
+## EFFECT{{{
+alias chx='chmod u+x '
+alias srv='python3 -m http.server'
+# }}}
+# }}}
+# GLOBAL{{{
+alias a='ag'
+alias b='less'
+alias c='cd'
+alias d='ncdu'
+alias e='onset'
+alias f='sudo systemctl'
+alias g='git'
+alias h='head'
+alias i='pv'
+alias j='jqfpy'
+alias k='cookiecutter'
+alias l='ls'
+alias m='man'
+alias n='notify-send'
+alias o='glances'
+alias p='python'
+alias q='ranger'
+alias r='sudo service'
+alias s='ssh'
+alias t='tail'
+alias u='sudo journalctl'
+alias v='vim'
+alias w='http-prompt'
+alias x='tldr | less'
+alias y='pyp'
+# }}}
+# LOCAL{{{
+## Ansible{{{
+alias aa='ansible'
+alias ad='ansible-doc'
+alias au='ansible-pull'
+alias av='ansible-vault'
+alias ac='ansible-config'
+alias ay='ansible-galaxy'
+alias ae='ansible-console'
+alias ap='ansible-playbook'
+alias ai='ansible-inventory'
+# }}}
+## Docker{{{
+alias dk='docker'
+alias dkrn='docker run --rm'
+alias dkgo='service docker start'
+alias dksh='docker run --rm --name shell fmind/shell'
+alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f'
+#alias dkdata='docker run --rm -it --name data -v '$(pwd)':/home/jovyan/work -p 8888:8888 fmind/bigdata'
+#alias dkmongo='docker run --rm -it --name mongo --net=host -v '$(pwd)/data/db':/data/db mongo --smallfiles'
+# }}}
+## Find{{{
+alias ff='find . -iname '
+alias fn='find . -iname '
+alias fh='find ~ -iname '
+# }}}
+## Image{{{
+alias ii='mogrify'
+alias ir='mogrify -resize'
+alias iw='mogrify -flatten'
+# }}}
+## Jupyter{{{
+alias jj='jupyter'
+alias jb='jupyter-lab'
+alias jn='jupyter-notebook'
+alias jp='ipcluster start'
+# }}}
+## Kill{{{
+alias kila='killall'
+alias kil9='killall -9'
+# }}}
+## Make{{{
+alias mk='make'
+# }}}
+## Python{{{
+alias pt='pytest'
+alias pd='pydoc3'
+alias pi='ptpython'
+### Env{{{
+alias pvd='deactivate'
+alias pva='source venv/bin/activate'
+alias pvc='python3 -m venv ./venv --clear'
+# }}}
+### Pip{{{
+alias ppf='pip freeze'
+alias pps='pip search'
+alias ppi='pip install'
+alias ppu='pip uninstall'
+alias ppp='pip3 install --user'
+# }}}
+# }}}
+## RConf{{{
+alias rca='vi ~/.aliases'
+alias rcb='vi ~/.bashrc'
+alias rcd='vi ~/.display'
+alias rce='vi ~/.environ'
+alias rcg="vi ~/.gitconfig"
+alias rci="vi ./.gitignore"
+alias rcj='vi ~/.ideavimrc'
+alias rck='vi ~/.cookiecutterrc'
+alias rcl='vi ~/.latexmkrc'
+alias rcn='vi ~/.input'
+alias rco='vi ~/.private'
+alias rcp='vi ~/.ptpython/config.py'
+alias rcs='vi ~/.ssh/config'
+alias rcv='vi ~/.vimrc'
+alias rcx='vi ~/.xonshrc'
+alias rcy='vi ~/.pypirc'
+alias rc='source-bash --overwrite-alias'
+# }}}
+## SSH{{{
+alias ss='ssh'
+alias sshl='ssh -nNTL'
+alias sshr='ssh -nNTR'
+# }}}
+## Tmuxp{{{{
+alias tt='tmuxp'
+alias tf='tmuxp freeze'
+alias tl='tmuxp load -y'
+alias tp='tmuxp load -y .'
+# }}}
+## Ubuntu{{{
+alias uu='sudo apt'
+alias us='apt search'
+alias ur='sudo apt purge'
+alias ui='sudo apt install'
+alias uc='sudo apt autoremove --purge'
+alias uu='sudo apt update && sudo apt upgrade'
+# }}}
+## Watchdog{{{
+alias ww='watchmedo'
+alias wl='watchmedo log'
+alias wr='watchmedo auto-restart'
+alias ws='watchmedo shell-command'
+# }}}
+## XDesk{{{
+alias xf='xdg-open'
+alias xu='nautilus . &'
+alias xd='xbacklight -set 30'
+alias xb='xbacklight -set 100'
+alias xc='xsel --clipboard --clear'
+alias xi='xsel --clipboard --input'
+alias xo='xsel --clipboard --output'
+# }}}
+## Zip{{{
+alias zz='pigz'
+alias zd='unpigz -c'
+# }}}
+# }}}

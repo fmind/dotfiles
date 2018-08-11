@@ -1,49 +1,35 @@
-## SECURITY ##
-
-# if not running interactively
-# don't do anything more !
+# vim: fdm=marker
+# SECURITY{{{
+# don't run interactively
 [ -z "$PS1" ] && return
-
-## SETTINGS ##
-
+# }}}
+# SETTINGS{{{
 HISTSIZE=100000
 HISTFILESIZE=2000000
 HISTCONTROL=ignoreboth
-
 PS1='\[\033[02;91m\]\u \[\033[01;00m\]at\[\033[02;92m\] \h \[\033[01;00m\]in\[\033[02;94m\] \W\[\033[01;00m\] \$ '
-
-## OPTIONS ##
-
+# }}}
+# OPTIONS{{{
 # switch to vi
 set -o vi
-
 # extended pattern matching
 shopt -s extglob
-
 # includes files beginning with a ‘.’
 shopt -s dotglob
-
 # matches files in a case-insensitive
 shopt -s nocaseglob
-
 # correct minor spelling errors in cd
 shopt -s cdspell
-
 # correct minor spelling errors in dir
 shopt -s dirspell
-
 # check the window size after each command
 shopt -s checkwinsize
-
 # match all files and zero or more directories
 shopt -s globstar
-
 # append to the history file, don't overwrite it
 shopt -s histappend
-
-## COMPLETIONS ##
-
-# enable programmable completion features
+# }}}
+# COMPLETIONS{{{
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -51,21 +37,18 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-## INCLUSIONS ##
-
-if [ -f ~/.shellrc ]; then
-    . ~/.shellrc
+# }}}
+# CONFIGURATIONS{{{
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
 fi
-
-if [ -f ~/.shell_environ ]; then
-    . ~/.shell_environ
+if [ -f ~/.environ ]; then
+    . ~/.environ
 fi
-
-if [ -f ~/.shell_aliases ]; then
-    . ~/.shell_aliases
+if [ -f ~/.private ]; then
+    . ~/.private
 fi
-
-if [ -f ~/.shell_private ]; then
-    . ~/.shell_environ
+if [ -n "$DISPLAY" ]; then
+    . ~/.display
 fi
+# }}}
