@@ -1,5 +1,0 @@
-export EDITOR='vim'
-
-export PYTHONDONTWRITEBYTECODE=1
-
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.npm/bin/:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
