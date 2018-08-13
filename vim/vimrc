@@ -125,7 +125,7 @@ nnoremap <leader>>  :shell<CR>
 nnoremap <leader># :set spell!<CR>
 nnoremap <leader>' :edit $MYVIMRC<CR>
 nnoremap <leader>@ :edit ~/.vimrc.py<CR>
-nnoremap <leader>"  :source $MYVIMRC<CR>
+nnoremap <leader>" :source $MYVIMRC<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
 nnoremap <leader>.m :setlocal foldmethod=marker<CR>
 nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
@@ -235,6 +235,7 @@ Plug 'amoffat/snake'
 if filereadable(expand($VIMDIR.'/bundle/snake/plugin/snake.vim'))
     source $VIMDIR/bundle/snake/plugin/snake.vim
 endif
+nnoremap <leader>$ :edit ~/.vimrc.py<CR>
 " }}}
 "" vimux{{{
 Plug 'benmills/vimux'
