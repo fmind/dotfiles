@@ -5,11 +5,10 @@ default_context:
     email: "dev@fmind.me"
     python: "3.6"
 abbreviations:
-    ps: https://git.fmind.me/fmind/cookiecutter-python-script.git
-    pj: https://git.fmind.me/fmind/cookiecutter-python-slides.git
-    pd: https://git.fmind.me/fmind/cookiecutter-python-spider.git
-    pp: https://git.fmind.me/fmind/cookiecutter-python-project.git
-    pb: https://git.fmind.me/fmind/cookiecutter-python-static.git
-    pw: https://git.fmind.me/fmind/cookiecutter-python-server.git
-    pc: https://git.fmind.me/fmind/cookiecutter-python-spider.git
-    pa: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
+    analysis: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
+    project: https://git.fmind.me/fmind/cookiecutter-python-project.git
+    script: https://git.fmind.me/fmind/cookiecutter-python-script.git
+    server: https://git.fmind.me/fmind/cookiecutter-python-server.git
+    slides: https://git.fmind.me/fmind/cookiecutter-python-slides.git
+    spider: https://git.fmind.me/fmind/cookiecutter-python-spider.git
+    static: https://git.fmind.me/fmind/cookiecutter-python-static.git

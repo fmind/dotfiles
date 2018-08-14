@@ -253,7 +253,12 @@
   - name: install make
     package: name='make'
     tags: ['sys', 'develop']
+    ignore_errors: yes
     become: true
+
+  - name: install doit
+    pip: name='doit' executable='pip3' extra_args='--user'
+    tags: ['usr', 'develop']
 
   - name: install watchdog
     pip: name='watchdog' executable='pip3' extra_args='--user'
