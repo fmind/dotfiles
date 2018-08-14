@@ -14,21 +14,21 @@ alias ls='ls --color=auto -CF'
 alias parallel='parallel --will-cite'
 # }}}
 # OTHERS{{{
-## MAP{{{
-alias lower='tr "[:upper:]" "[:lower:]"'
-alias upper='tr "[:lower:]" "[:upper:]"'
-# }}}
 ## FILTER{{{
 alias igrep='grep -i'
 alias rgrep='grep -iR'
 # }}}
+## MAPPER{{{
+alias lower='tr "[:upper:]" "[:lower:]"'
+alias upper='tr "[:lower:]" "[:upper:]"'
+# }}}
+## CHANGE{{{
+alias chx='chmod u+x '
+alias srv='python -m http.server'
+# }}}
 ## INFORM{{{
 alias rel='lsb_release -c'
 alias ext='curl icanhazip.com'
-# }}}
-## EFFECT{{{
-alias chx='chmod u+x '
-alias srv='python3 -m http.server'
 # }}}
 # }}}
 # GLOBAL{{{
@@ -41,8 +41,8 @@ alias f='sudo systemctl'
 alias g='git'
 alias h='head'
 alias i='pv'
-alias j='jqfpy'
-alias k='cookiecutter'
+alias j='simplejump'
+alias k='popd'
 alias l='ls'
 alias m='man'
 alias n='notify-send'
@@ -57,6 +57,7 @@ alias v='vim'
 alias w='http-prompt'
 alias x='tldr | less'
 alias y='pyp'
+#alias z=''
 # }}}
 # LOCAL{{{
 ## Ansible{{{
@@ -105,11 +106,12 @@ alias mk='make'
 ## Python{{{
 alias pt='pytest'
 alias pd='pydoc3'
-alias pi='ptpython'
+alias pi='ptipython'
+alias pk='cookiecutter'
 ### Env{{{
-alias pvd='deactivate'
-alias pva='source venv/bin/activate'
-alias pvc='python3 -m venv ./venv --clear'
+alias pvb='deactivate'
+alias pvv='source venv/bin/activate'
+alias pvn='python -m venv ./venv --clear'
 # }}}
 ### Pip{{{
 alias ppf='pip freeze'
@@ -136,7 +138,8 @@ alias rcs='vi ~/.ssh/config'
 alias rcv='vi ~/.vimrc'
 alias rcx='vi ~/.xonshrc'
 alias rcy='vi ~/.pypirc'
-alias rc='source-bash --overwrite-alias'
+alias rcc='source-bash --overwrite-alias'
+alias rc='source'
 # }}}
 ## SSH{{{
 alias ss='ssh'

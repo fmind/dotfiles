@@ -1,5 +1,6 @@
 *.log
 *.retry
+.autoxsh
 .tmuxp.yaml
 .mypy_cache
 .pytest_cache

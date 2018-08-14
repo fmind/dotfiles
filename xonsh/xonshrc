@@ -2,52 +2,63 @@
 # IMPORTS{{{
 import os
 import re
-import csv
 import sys
-import math
-import time
-import errno
-import base64
-import random
-import filecmp
-import hashlib
-import calendar
-import datetime
-import statistics
-try:
-    import simplejson as json
-except:
-    import json
 try:
     import funpy as fp
 except ImportError:
     pass
-from pathlib import Path
+# }}}
+# ALIASES{{{
+aliases['pvl'] = 'vox list'
+aliases['pvd'] = 'vox deactivate'
+aliases['pvc'] = 'vox create $BASEDIR'
+aliases['pvr'] = 'vox remove $BASEDIR'
+aliases['pva'] = 'vox activate $BASEDIR'
+aliases['pve'] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
 # SETTINGS{{{
-if 'TMUX' not in ${...}:
-    byobu
-
+$VI_MODE = True
 $AUTO_CD = True
 $AUTO_PUSHD = True
 $AUTO_SUGGEST = True
-$XONSH_SHOW_TRACEBACK = False
+$XONSH_AUTOPAIR = True
+$XONSH_SHOW_TRACEBACK = True
+
+$PATHEXT = ['.py', '.xsh']
+
+$PROMPT = '{env_name:{} }{INTENSE_RED}{user} {NO_COLOR}' + \
+          'at {INTENSE_GREEN}{hostname} {NO_COLOR}' + \
+          'in {INTENSE_BLUE}{cwd_base}{branch_color}' + \
+          '{curr_branch: {}}{NO_COLOR} {prompt_end} '
 # }}}
 # TRIGGERS{{{
+if 'TMUX' not in ${...}:
+    byobu
+
 @events.on_chdir
-def listdir(olddir, newdir, **kw):
+def listdir(olddir, newdir):
     $[ls]
+
+@events.on_chdir
+def basedir(olddir, newdir):
+    $BASEDIR = os.path.basename(newdir)
+
+# on initialization
+basedir($PWD, $PWD)
 # }}}
-# vi
-# z
+# XONTRIBS{{{
+xontrib load vox
+xontrib load autoxsh
+xontrib load simplejump
+# }}}
 # CONFIGURATIONS{{{
-if Path('~/.aliases').expanduser().exists():
+if os.path.exists(os.path.expanduser('~/.aliases')):
     $[source-bash --overwrite-alias ~/.aliases]
-if Path('~/.environ').expanduser().exists():
+if os.path.exists(os.path.expanduser('~/.environ')):
     $[source-bash --overwrite-alias ~/.environ]
-if Path('~/.private').expanduser().exists():
+if os.path.exists(os.path.expanduser('~/.private')):
     $[source-bash --overwrite-alias ~/.private]
 if 'DISPLAY' in ${...} and \
-   Path('~/.display').expanduser().exists():
+   os.path.exists(os.path.expanduser('~/.display')):
     $[source-bash --overwrite-alias ~/.display]
 # }}}
