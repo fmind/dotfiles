@@ -3,10 +3,6 @@
 import os
 import re
 import sys
-try:
-    import funpy as fp
-except ImportError:
-    pass
 # }}}
 # ALIASES{{{
 aliases['pvl'] = 'vox list'
