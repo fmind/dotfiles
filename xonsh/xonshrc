@@ -12,6 +12,10 @@ aliases['pvr'] = 'vox remove $BASEDIR'
 aliases['pva'] = 'vox activate $BASEDIR'
 aliases['pve'] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
+# COMMANDS{{{
+# def gitea(repo):
+#     $[git clone gitea\@git.fmind.me/fmind/@(repo)]
+# }}}
 # SETTINGS{{{
 $VI_MODE = True
 $AUTO_CD = True
@@ -20,7 +24,7 @@ $AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
 $XONSH_SHOW_TRACEBACK = True
 
-$PATHEXT = ['.py', '.xsh']
+$PATHEXT = ['.py', '.sh', '.xsh']
 
 $PROMPT = '{env_name:{} }{INTENSE_RED}{user} {NO_COLOR}' + \
           'at {INTENSE_GREEN}{hostname} {NO_COLOR}' + \
@@ -39,7 +43,6 @@ def listdir(olddir, newdir):
 def basedir(olddir, newdir):
     $BASEDIR = os.path.basename(newdir)
 
-# on initialization
 basedir($PWD, $PWD)
 # }}}
 # XONTRIBS{{{

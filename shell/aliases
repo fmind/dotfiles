@@ -157,9 +157,10 @@ alias tp='tmuxp load -y .'
 alias uu='sudo apt'
 alias us='apt search'
 alias ur='sudo apt purge'
+alias up='sudo apt update'
+alias uu='sudo apt upgrade'
 alias ui='sudo apt install'
 alias uc='sudo apt autoremove --purge'
-alias uu='sudo apt update && sudo apt upgrade'
 # }}}
 ## Watchdog{{{
 alias ww='watchmedo'
