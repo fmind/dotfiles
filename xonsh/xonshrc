@@ -26,7 +26,7 @@ $XONSH_SHOW_TRACEBACK = True
 
 $PATHEXT = ['.py', '.sh', '.xsh']
 
-$PROMPT = '{env_name:{} }{INTENSE_RED}{user} {NO_COLOR}' + \
+$PROMPT = '{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}' + \
           'at {INTENSE_GREEN}{hostname} {NO_COLOR}' + \
           'in {INTENSE_BLUE}{cwd_base}{branch_color}' + \
           '{curr_branch: {}}{NO_COLOR} {prompt_end} '
