@@ -13,8 +13,14 @@ aliases['pva'] = 'vox activate $BASEDIR'
 aliases['pve'] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
 # COMMANDS{{{
-# def gitea(repo):
-#     $[git clone gitea\@git.fmind.me/fmind/@(repo)]
+def gitea(args, stdin, stdout, stderr):
+    $[git clone @(f'ssh://gitea@git.fmind.me/fmind/{args[0]}')]
+
+def github(args, stdin, stdout, stderr):
+    $[git clone @(f'ssh://git@github.com/fmind/{args[0]}')]
+
+aliases['gitea'] = gitea
+aliases['github'] = gitea
 # }}}
 # SETTINGS{{{
 $VI_MODE = True
