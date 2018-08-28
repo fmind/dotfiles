@@ -110,7 +110,7 @@ alias mk='make'
 ## Python{{{
 alias pt='pytest'
 alias pd='pydoc3'
-alias pi='ptipython'
+alias pi='ptpython'
 ### Env{{{
 alias pvb='deactivate'
 alias pvv='source venv/bin/activate'
