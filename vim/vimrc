@@ -130,6 +130,8 @@ nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
 nnoremap <leader>.m :setlocal foldmethod=marker<CR>
 nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
 nnoremap <leader>.i :setlocal foldmethod=indent<CR>
+nnoremap <leader>.p :setlocal filetype=python<CR>
+nnoremap <leader>.t :setlocal filetype=text<CR>
 " }}}
 "" DEFAULT{{{
 noremap j gj

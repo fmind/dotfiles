@@ -72,6 +72,9 @@ alias ae='ansible-console'
 alias ap='ansible-playbook'
 alias ai='ansible-inventory'
 # }}}
+## Cookie{{{
+alias ck='cookiecutter'
+# }}}
 ## Docker{{{
 alias dk='docker'
 alias dkrn='docker run --rm'
@@ -108,7 +111,6 @@ alias mk='make'
 alias pt='pytest'
 alias pd='pydoc3'
 alias pi='ptipython'
-alias pk='cookiecutter'
 ### Env{{{
 alias pvb='deactivate'
 alias pvv='source venv/bin/activate'
@@ -141,6 +143,9 @@ alias rcx='vi ~/.xonshrc'
 alias rcy='vi ~/.pypirc'
 alias rcc='source-bash --overwrite-alias'
 alias rc='source'
+# }}}
+## Snakemake{{{
+alias sk='snakemake'
 # }}}
 ## SSH{{{
 alias ss='ssh'

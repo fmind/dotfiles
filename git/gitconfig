@@ -23,6 +23,7 @@
     aa = add --all
     ci = commit -m
     ca = commit -am
+    cn = commit -nm
     pl = pull
     ph = push
     pu = push --set-upstream origin master
