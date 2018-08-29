@@ -6,8 +6,7 @@ windows:
       main-pane-width: 100
     panes:
       - shell_command:
-        - cd .
-        - vi
+        - cd .; vi
         focus: true
       - cd .; clear
-      - cd .; ipython
+      - cd .; ptpython
