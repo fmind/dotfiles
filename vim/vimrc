@@ -351,6 +351,7 @@ let g:UltiSnipsSnippetsDir = $VIMDIR.'/snippets/'
 Plug 'Chiel92/vim-autoformat'
 nnoremap <leader>= :Autoformat<CR>
 let g:formatdef_black = "'black --quiet -'"
+let g:formatdef_black = "'black --quiet -'"
 " }}}
 "" easy-align{{{
 Plug 'junegunn/vim-easy-align'

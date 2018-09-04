@@ -199,7 +199,6 @@
   - name: install onset
     pip: name='onset' executable='pip3' extra_args='--user'
     tags: ['usr', 'system']
-
 # }}}
 # NETWORK{{{
   - name: install curl
