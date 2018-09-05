@@ -30,6 +30,8 @@ alias srv='python -m http.server'
 ## INFORM{{{
 alias rel='lsb_release -c'
 alias ext='curl icanhazip.com'
+## REMOVE{{{
+alias rmgit='rm -rf .git'
 # }}}
 # }}}
 # GLOBAL{{{
@@ -46,7 +48,7 @@ alias j='simplejump'
 alias k='popd'
 alias l='ls'
 alias m='man'
-alias n='notify-send'
+alias n='note'
 alias o='glances'
 alias p='python'
 alias q='ranger'
@@ -56,9 +58,9 @@ alias t='tail'
 alias u='sudo journalctl'
 alias v='vim'
 alias w='http-prompt'
-alias x='tldr | less'
+alias x='tldr'
 alias y='pyp'
-#alias z=''
+alias z='notify-send'
 # }}}
 # LOCAL{{{
 ## Ansible{{{
@@ -125,24 +127,23 @@ alias ppp='pip3 install --user'
 # }}}
 # }}}
 ## RConf{{{
-alias rca='vi ~/.aliases'
-alias rcb='vi ~/.bashrc'
-alias rcd='vi ~/.display'
-alias rce='vi ~/.environ'
-alias rcg="vi ~/.gitconfig"
-alias rci="vi ./.gitignore"
-alias rcj='vi ~/.ideavimrc'
-alias rck='vi ~/.cookiecutterrc'
-alias rcl='vi ~/.latexmkrc'
-alias rcn='vi ~/.input'
-alias rco='vi ~/.private'
-alias rcp='vi ~/.ptpython/config.py'
-alias rcs='vi ~/.ssh/config'
-alias rcv='vi ~/.vimrc'
-alias rcx='vi ~/.xonshrc'
-alias rcy='vi ~/.pypirc'
-alias rcc='source-bash --overwrite-alias'
-alias rc='source'
+alias ra='vi ~/.aliases'
+alias rb='vi ~/.bashrc'
+alias rc='source-bash --overwrite-alias'
+alias rd='vi ~/.display'
+alias re='vi ~/.environ'
+alias rg="vi ~/.gitconfig"
+alias ri="vi ./.gitignore"
+alias rj='vi ~/.ideavimrc'
+alias rk='vi ~/.cookiecutterrc'
+alias rl='vi ~/.latexmkrc'
+alias rn='vi ~/.input'
+alias ro='vi ~/.private'
+alias rp='vi ~/.ptpython/config.py'
+alias rr='source'
+alias rs='vi ~/.ssh/config'
+alias rv='vi ~/.vimrc'
+alias rx='vi ~/.xonshrc'
 # }}}
 ## Snakemake{{{
 alias sk='snakemake'

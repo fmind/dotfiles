@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import json
 # }}}
 # ALIASES{{{
 aliases['pvl'] = 'vox list'
@@ -13,14 +14,36 @@ aliases['pva'] = 'vox activate $BASEDIR'
 aliases['pve'] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
 # COMMANDS{{{
-def gitea(args, stdin, stdout, stderr):
+def note(args):
+    $[$EDITOR @(f'note:{args[0]}')]
+
+
+def gitea(args):
     $[git clone @(f'ssh://gitea@git.fmind.me/fmind/{args[0]}')]
 
-def github(args, stdin, stdout, stderr):
+
+def github(args):
     $[git clone @(f'ssh://git@github.com/fmind/{args[0]}')]
 
+
+def projections(args):
+    basedir = $BASEDIR
+
+    sources = {
+        f"{basedir}/*.py": {"alternate": f"{basedir}/tests/test_{{}}.py", "type": "test"},
+        f"{basedir}/tests/test_*.py": {"alternate": f"{basedir}/{{}}.py", "type": "source"},
+    }
+
+    with open(".projections.json", "w") as w:
+        json.dump(sources, w, indent=2)
+
+    return 0
+
+
+aliases['note'] = note
 aliases['gitea'] = gitea
-aliases['github'] = gitea
+aliases['github'] = github
+aliases['project'] = projections
 # }}}
 # SETTINGS{{{
 $VI_MODE = True
