@@ -350,8 +350,9 @@ let g:UltiSnipsSnippetsDir = $VIMDIR.'/snippets/'
 "" autoformat {{{
 Plug 'Chiel92/vim-autoformat'
 nnoremap <leader>= :Autoformat<CR>
-let g:formatdef_black = "'black --quiet -'"
-let g:formatdef_black = "'black --quiet -'"
+let g:formatdef_black = '"black --quiet -"'
+let g:formatdef_isort = '"isort --quiet -"'
+let g:formatdef_isort_black = '"isort --quiet - | black --quiet -"'
 " }}}
 "" easy-align{{{
 Plug 'junegunn/vim-easy-align'
@@ -397,7 +398,7 @@ endtry
 " PROLANG{{{
 "" python{{{
 let test#python#runner = 'pytest'
-let g:formatters_python = ['black']
+let g:formatters_python = ['isort_black', 'black', 'isort']
 let g:syntastic_python_checkers = ['mypy', 'pyflakes']
 autocmd Filetype python setlocal foldmethod=indent
 autocmd BufWrite *.py :Autoformat

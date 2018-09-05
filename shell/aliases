@@ -175,7 +175,7 @@ alias ws='watchmedo shell-command'
 # }}}
 ## XDesk{{{
 alias xf='xdg-open'
-alias xu='nautilus . &'
+alias xu='nautilus .'
 alias xd='xbacklight -set 30'
 alias xb='xbacklight -set 100'
 alias xc='xsel --clipboard --clear'
