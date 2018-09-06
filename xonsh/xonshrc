@@ -1,7 +1,8 @@
 # vim: filetype=python foldmethod=marker
 
 # BYOBU {{{
-if "BYOBU_SOURCED" not in ${...}:
+if "TMUX" not in ${...} and \
+   "BYOBU_SOURCED" not in ${...}:
     from sys import exit
     $BYOBU_SOURCED = 1
     byobu-launcher
