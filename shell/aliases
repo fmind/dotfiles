@@ -113,6 +113,7 @@ alias mk='make'
 alias pt='pytest'
 alias pd='pydoc3'
 alias pi='ptpython'
+alias pb='python -m pdb'
 ### Env {{{
 alias pvb='deactivate'
 alias pvv='source venv/bin/activate'
