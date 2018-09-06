@@ -1,7 +1,7 @@
 # vim: filetype=python foldmethod=marker
 
 # BYOBU {{{
-if 'BYOBU_SOURCED' not in ${...}:
+if "BYOBU_SOURCED" not in ${...}:
     from sys import exit
     $BYOBU_SOURCED = 1
     byobu-launcher
@@ -14,32 +14,32 @@ import sys
 import json
 # }}}
 # ALIASES {{{
-aliases['pvl'] = 'vox list'
-aliases['pvd'] = 'vox deactivate'
-aliases['pvc'] = 'vox create $BASEDIR'
-aliases['pvr'] = 'vox remove $BASEDIR'
-aliases['pva'] = 'vox activate $BASEDIR'
-aliases['pve'] = 'echo "vox activate $BASEDIR" > .autoxsh'
+aliases["pvl"] = "vox list"
+aliases["pvd"] = "vox deactivate"
+aliases["pvc"] = "vox create $BASEDIR"
+aliases["pvr"] = "vox remove $BASEDIR"
+aliases["pva"] = "vox activate $BASEDIR"
+aliases["pve"] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
 # COMMANDS {{{
 def note(args):
-    $[$EDITOR @(f'note:{args[0]}')]
+    $[$EDITOR @("note:{file}".format(file=args[0]))]
 
 
 def gitea(args):
-    $[git clone @(f'ssh://gitea@git.fmind.me/fmind/{args[0]}')]
+    $[git clone @("ssh://gitea@git.fmind.me/fmind/{repo}".format(repo=args[0]))]
 
 
 def github(args):
-    $[git clone @(f'ssh://git@github.com/fmind/{args[0]}')]
+    $[git clone @("ssh://git@github.com/fmind/{repo}".format(repo=args[0]))]
 
 
 def projections(args):
-    basedir = $BASEDIR
+    base= $BASEDIR
 
     sources = {
-        f"{basedir}/*.py": {"alternate": f"{basedir}/tests/test_{{}}.py", "type": "test"},
-        f"{basedir}/tests/test_*.py": {"alternate": f"{basedir}/{{}}.py", "type": "source"},
+        "{}/*.py".format(base): {"alternate": "{}/tests/test_{{}}.py".format(base), "type": "test"},
+        "{}/tests/test_*.py".format(base): {"alternate": "{}/{{}}.py".format(base), "type": "source"},
     }
 
     with open(".projections.json", "w") as w:
@@ -48,10 +48,10 @@ def projections(args):
     return 0
 
 
-aliases['note'] = note
-aliases['gitea'] = gitea
-aliases['github'] = github
-aliases['project'] = projections
+aliases["note"] = note
+aliases["gitea"] = gitea
+aliases["github"] = github
+aliases["project"] = projections
 # }}}
 # SETTINGS {{{
 $VI_MODE = True
@@ -61,12 +61,12 @@ $AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
 $XONSH_SHOW_TRACEBACK = True
 
-$PATHEXT = ['.py', '.sh', '.xsh']
+$PATHEXT = [".py", ".sh", ".xsh"]
 
-$PROMPT = '{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}' + \
-          'at {INTENSE_GREEN}{hostname} {NO_COLOR}' + \
-          'in {INTENSE_BLUE}{cwd_base}{branch_color}' + \
-          '{curr_branch: {}}{NO_COLOR} {prompt_end} '
+$PROMPT = "{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}" + \
+          "at {INTENSE_GREEN}{hostname} {NO_COLOR}" + \
+          "in {INTENSE_BLUE}{cwd_base}{branch_color}" + \
+          "{curr_branch: {}}{NO_COLOR} {prompt_end} "
 # }}}
 # TRIGGERS {{{
 @events.on_chdir
@@ -85,13 +85,13 @@ xontrib load autoxsh
 xontrib load simplejump
 # }}}
 # CONFIGURATIONS {{{
-if os.path.exists(os.path.expanduser('~/.aliases')):
+if os.path.exists(os.path.expanduser("~/.aliases")):
     $[source-bash --overwrite-alias ~/.aliases]
-if os.path.exists(os.path.expanduser('~/.environ')):
+if os.path.exists(os.path.expanduser("~/.environ")):
     $[source-bash --overwrite-alias ~/.environ]
-if os.path.exists(os.path.expanduser('~/.private')):
+if os.path.exists(os.path.expanduser("~/.private")):
     $[source-bash --overwrite-alias ~/.private]
-if 'DISPLAY' in ${...} and \
-   os.path.exists(os.path.expanduser('~/.display')):
+if "DISPLAY" in ${...} and \
+   os.path.exists(os.path.expanduser("~/.display")):
     $[source-bash --overwrite-alias ~/.display]
 # }}}
