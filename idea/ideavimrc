@@ -1,7 +1,7 @@
 " PLUGINS "{{{
 set surround
 "}}}
-" SETTINGS "{{{
+" SETTINGS {{{
 " show
 set nonumber
 set noshowmode
@@ -29,7 +29,7 @@ set selection=inclusive
 set clipboard=unnamedplus,unnamed
 set viminfo=<1000,'100,/50,:100,s100,h
 "}}}
-" BINDINGS "{{{
+" BINDINGS {{{
 "" lead
 nnoremap ; :
 vnoremap ; :

@@ -1,5 +1,5 @@
 # vim: foldmethod=marker
-# DEFAULT{{{
+# DEFAULT {{{
 alias vi='vim'
 alias du='du -h'
 alias df='df -h'
@@ -14,27 +14,27 @@ alias pwgen='pwgen -N1 -y'
 alias ls='ls --color=auto -CF'
 alias parallel='parallel --will-cite'
 # }}}
-# OTHERS{{{
-## FILTER{{{
+# OTHERS {{{
+## FILTER {{{
 alias igrep='grep -i'
 alias rgrep='grep -iR'
 # }}}
-## MAPPER{{{
+## MAPPER {{{
 alias lower='tr "[:upper:]" "[:lower:]"'
 alias upper='tr "[:lower:]" "[:upper:]"'
 # }}}
-## CHANGE{{{
+## CHANGE {{{
 alias chx='chmod u+x '
 alias srv='python -m http.server'
 # }}}
-## INFORM{{{
+## INFORM {{{
 alias rel='lsb_release -c'
 alias ext='curl icanhazip.com'
-## REMOVE{{{
+## REMOVE {{{
 alias rmgit='rm -rf .git'
 # }}}
 # }}}
-# GLOBAL{{{
+# GLOBAL {{{
 alias a='ag'
 alias b='less'
 alias c='cd'
@@ -62,8 +62,8 @@ alias x='tldr'
 alias y='pyp'
 alias z='notify-send'
 # }}}
-# LOCAL{{{
-## Ansible{{{
+# LOCAL {{{
+## Ansible {{{
 alias aa='ansible'
 alias ad='ansible-doc'
 alias au='ansible-pull'
@@ -74,10 +74,10 @@ alias ae='ansible-console'
 alias ap='ansible-playbook'
 alias ai='ansible-inventory'
 # }}}
-## Cookie{{{
+## Cookie {{{
 alias ck='cookiecutter'
 # }}}
-## Docker{{{
+## Docker {{{
 alias dk='docker'
 alias dkrn='docker run --rm'
 alias dkgo='service docker start'
@@ -86,39 +86,39 @@ alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-emp
 #alias dkdata='docker run --rm -it --name data -v '$(pwd)':/home/jovyan/work -p 8888:8888 fmind/bigdata'
 #alias dkmongo='docker run --rm -it --name mongo --net=host -v '$(pwd)/data/db':/data/db mongo --smallfiles'
 # }}}
-## Find{{{
+## Find {{{
 alias ff='find . -iname '
 alias fn='find . -iname '
 alias fh='find ~ -iname '
 # }}}
-## Image{{{
+## Image {{{
 alias ii='mogrify'
 alias ir='mogrify -resize'
 alias iw='mogrify -flatten'
 # }}}
-## Jupyter{{{
+## Jupyter {{{
 alias jj='jupyter'
 alias jb='jupyter-lab'
 alias jn='jupyter-notebook'
 alias jp='ipcluster start'
 # }}}
-## Kill{{{
+## Kill {{{
 alias kila='killall'
 alias kil9='killall -9'
 # }}}
-## Make{{{
+## Make {{{
 alias mk='make'
 # }}}
-## Python{{{
+## Python {{{
 alias pt='pytest'
 alias pd='pydoc3'
 alias pi='ptpython'
-### Env{{{
+### Env {{{
 alias pvb='deactivate'
 alias pvv='source venv/bin/activate'
 alias pvn='python -m venv ./venv --clear'
 # }}}
-### Pip{{{
+### Pip {{{
 alias ppf='pip freeze'
 alias pps='pip search'
 alias ppi='pip install'
@@ -126,7 +126,7 @@ alias ppu='pip uninstall'
 alias ppp='pip3 install --user'
 # }}}
 # }}}
-## RConf{{{
+## RConf {{{
 alias ra='vi ~/.aliases'
 alias rb='vi ~/.bashrc'
 alias rc='source-bash --overwrite-alias'
@@ -145,21 +145,21 @@ alias rs='vi ~/.ssh/config'
 alias rv='vi ~/.vimrc'
 alias rx='vi ~/.xonshrc'
 # }}}
-## Snakemake{{{
+## Snakemake {{{
 alias sk='snakemake'
 # }}}
-## SSH{{{
+## SSH {{{
 alias ss='ssh'
 alias sshl='ssh -nNTL'
 alias sshr='ssh -nNTR'
 # }}}
-## Tmuxp{{{{
+## Tmuxp{ {{{
 alias tt='tmuxp'
 alias tf='tmuxp freeze'
 alias tl='tmuxp load -y'
 alias tp='tmuxp load -y .'
 # }}}
-## Ubuntu{{{
+## Ubuntu {{{
 alias uu='sudo apt'
 alias us='apt search'
 alias ur='sudo apt purge'
@@ -168,13 +168,13 @@ alias uu='sudo apt upgrade'
 alias ui='sudo apt install'
 alias uc='sudo apt autoremove --purge'
 # }}}
-## Watchdog{{{
+## Watchdog {{{
 alias ww='watchmedo'
 alias wl='watchmedo log'
 alias wr='watchmedo auto-restart'
 alias ws='watchmedo shell-command'
 # }}}
-## XDesk{{{
+## XDesk {{{
 alias xf='xdg-open'
 alias xu='nautilus .'
 alias xd='xbacklight -set 30'
@@ -183,7 +183,7 @@ alias xc='xsel --clipboard --clear'
 alias xi='xsel --clipboard --input'
 alias xo='xsel --clipboard --output'
 # }}}
-## Zip{{{
+## Zip {{{
 alias zz='pigz'
 alias zd='unpigz -c'
 # }}}

@@ -3,13 +3,16 @@
 # don't run interactively
 [ -z "$PS1" ] && return
 # }}}
-# SETTINGS{{{
+# BYOBU {{{
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+# }}}
+# SETTINGS {{{
 HISTSIZE=100000
 HISTFILESIZE=2000000
 HISTCONTROL=ignoreboth
 PS1='🐚 \[\033[02;91m\]\u \[\033[01;00m\]at\[\033[02;92m\] \h \[\033[01;00m\]in\[\033[02;94m\] \W\[\033[01;00m\] \$ '
 # }}}
-# OPTIONS{{{
+# OPTIONS {{{
 # switch to vi
 set -o vi
 # extended pattern matching
@@ -29,7 +32,7 @@ shopt -s globstar
 # append to the history file, don't overwrite it
 shopt -s histappend
 # }}}
-# COMPLETIONS{{{
+# COMPLETIONS {{{
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -38,7 +41,7 @@ if ! shopt -oq posix; then
   fi
 fi
 # }}}
-# CONFIGURATIONS{{{
+# CONFIGURATIONS {{{
 if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
