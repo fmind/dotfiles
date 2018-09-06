@@ -1,11 +1,19 @@
 # vim: filetype=python foldmethod=marker
-# IMPORTS{{{
+
+# BYOBU {{{
+if 'BYOBU_SOURCED' not in ${...}:
+    from sys import exit
+    $BYOBU_SOURCED = 1
+    byobu-launcher
+    exit(0)
+# }}}
+# IMPORTS {{{
 import os
 import re
 import sys
 import json
 # }}}
-# ALIASES{{{
+# ALIASES {{{
 aliases['pvl'] = 'vox list'
 aliases['pvd'] = 'vox deactivate'
 aliases['pvc'] = 'vox create $BASEDIR'
@@ -13,7 +21,7 @@ aliases['pvr'] = 'vox remove $BASEDIR'
 aliases['pva'] = 'vox activate $BASEDIR'
 aliases['pve'] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
-# COMMANDS{{{
+# COMMANDS {{{
 def note(args):
     $[$EDITOR @(f'note:{args[0]}')]
 
@@ -45,7 +53,7 @@ aliases['gitea'] = gitea
 aliases['github'] = github
 aliases['project'] = projections
 # }}}
-# SETTINGS{{{
+# SETTINGS {{{
 $VI_MODE = True
 $AUTO_CD = True
 $AUTO_PUSHD = True
@@ -60,10 +68,7 @@ $PROMPT = '{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}' + \
           'in {INTENSE_BLUE}{cwd_base}{branch_color}' + \
           '{curr_branch: {}}{NO_COLOR} {prompt_end} '
 # }}}
-# TRIGGERS{{{
-if 'TMUX' not in ${...}:
-    byobu
-
+# TRIGGERS {{{
 @events.on_chdir
 def listdir(olddir, newdir):
     $[ls]
@@ -74,12 +79,12 @@ def basedir(olddir, newdir):
 
 basedir($PWD, $PWD)
 # }}}
-# XONTRIBS{{{
+# XONTRIBS {{{
 xontrib load vox
 xontrib load autoxsh
 xontrib load simplejump
 # }}}
-# CONFIGURATIONS{{{
+# CONFIGURATIONS {{{
 if os.path.exists(os.path.expanduser('~/.aliases')):
     $[source-bash --overwrite-alias ~/.aliases]
 if os.path.exists(os.path.expanduser('~/.environ')):
