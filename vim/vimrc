@@ -132,6 +132,10 @@ nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
 nnoremap <leader>.i :setlocal foldmethod=indent<CR>
 nnoremap <leader>.p :setlocal filetype=python<CR>
 nnoremap <leader>.t :setlocal filetype=text<CR>
+nnoremap <leader>qp :!python %<CR>
+nnoremap <leader>qd :!pydoc 
+nnoremap <leader>qt :!tldr 
+nnoremap <leader>qq :!man 
 " }}}
 "" DEFAULT {{{
 noremap j gj
@@ -227,7 +231,7 @@ nnoremap <leader>tt :TestNearest<CR>
 Plug 'xolox/vim-notes'
 let g:notes_smart_quotes = 0
 let g:notes_directories = ['~/note']
-let g:notes_title_sync = 'change_title'
+let g:notes_title_sync = 'no'
 nnoremap <leader>N :Note 
 " }}}
 "" sneak {{{
@@ -415,7 +419,7 @@ endtry
 let test#python#runner = 'pytest'
 let g:formatters_python = ['isort_black', 'black', 'isort']
 let g:syntastic_python_checkers = ['mypy', 'pyflakes']
-autocmd Filetype python setlocal foldmethod=indent
 autocmd BufWrite *.py :Autoformat
+autocmd Filetype python setlocal foldmethod=indent
 " }}}
 " }}}

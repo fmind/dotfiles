@@ -115,7 +115,7 @@ alias pd='pydoc3'
 alias pi='ptpython'
 alias pb='python -m pdb'
 ### Env {{{
-alias pvb='deactivate'
+alias pvq='deactivate'
 alias pvv='source venv/bin/activate'
 alias pvn='python -m venv ./venv --clear'
 # }}}
