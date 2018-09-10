@@ -7,6 +7,7 @@ alias ps='ps aux'
 alias pip='pip3'
 alias wget='wget -c'
 alias python='python3'
+alias pip='python -m pip'
 alias black='black -q'
 alias mkdir='mkdir -pv'
 alias rsync='rsync -avzu'
@@ -124,7 +125,7 @@ alias ppf='pip freeze'
 alias pps='pip search'
 alias ppi='pip install'
 alias ppu='pip uninstall'
-alias ppp='pip3 install --user'
+alias ppp='pip install --user'
 # }}}
 # }}}
 ## RConf {{{

@@ -83,6 +83,7 @@ basedir($PWD, $PWD)
 # XONTRIBS {{{
 xontrib load vox
 xontrib load autoxsh
+xontrib load aliastips
 xontrib load simplejump
 # }}}
 # CONFIGURATIONS {{{
