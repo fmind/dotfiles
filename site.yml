@@ -35,7 +35,7 @@
     pip: name='{{item}}' executable='pip3' extra_args='--user'
     with_items:
       - xonsh-autoxsh
-      - xonsh-aliastips
+      - xontrib-aliastips
       - xontrib-simplejump
     tags: ['usr', 'shell']
 
