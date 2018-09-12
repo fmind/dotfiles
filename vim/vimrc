@@ -229,9 +229,10 @@ nnoremap <leader>tt :TestNearest<CR>
 " }}}
 "" notes {{{
 Plug 'xolox/vim-notes'
-let g:notes_smart_quotes = 0
+let g:notes_suffix = '.md'
+let g:notes_conceal_code = 0
 let g:notes_directories = ['~/note']
-let g:notes_title_sync = 'no'
+let g:notes_title_sync = 'change_title'
 nnoremap <leader>N :Note 
 " }}}
 "" sneak {{{
@@ -327,8 +328,8 @@ nnoremap <leader>sd :SDelete<CR>
 " }}}
 "" markdown {{{
 Plug 'plasticboy/vim-markdown'
+
 let g:vim_markdown_math = 1
-let g:vim_markdown_conceal = 2
 let g:vim_markdown_emphasis_multiline = 0
 let g:vim_markdown_no_default_key_mappings = 1
 " }}}

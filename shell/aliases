@@ -27,6 +27,7 @@ alias upper='tr "[:lower:]" "[:upper:]"'
 ## CHANGE {{{
 alias chx='chmod u+x '
 alias srv='python -m http.server'
+alias secret='openssl rand -hex 32'
 # }}}
 ## INFORM {{{
 alias rel='lsb_release -c'
@@ -54,7 +55,7 @@ alias o='glances'
 alias p='python'
 alias q='ranger'
 alias r='sudo service'
-alias s='ssh'
+#alias s='ssh'
 alias t='tail'
 alias u='sudo journalctl'
 alias v='vim'
