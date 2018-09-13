@@ -360,8 +360,7 @@ nnoremap <leader>u :OnlineThesaurusCurrentWord<CR>
 Plug 'SirVer/ultisnips'
 nnoremap <leader>I :UltiSnipsEdit<CR>
 let g:UltiSnipsEditSplit = 'context'
-let g:UltiSnipsExpandTrigger=" <tab>" 
-let g:UltiSnipsListSnippets=" <s-tab>" 
+let g:UltiSnipsExpandTrigger=" <c-e>" 
 let g:UltiSnipsJumpForwardTrigger=" <c-n>" 
 let g:UltiSnipsJumpBackwardTrigger=" <c-p>" 
 let g:UltiSnipsSnippetsDir = $VIMDIR.'/snippets/'
