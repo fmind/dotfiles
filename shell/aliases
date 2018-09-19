@@ -46,7 +46,7 @@ alias ff='find . -iname'
 alias fh='find ~ -iname'
 # }}}
 # Git {{{
-alias gg='git'
+alias g='git'
 alias grr='rm -rf .git'
 function gf {
   git clone gitea@git.fmind.me:fmind/$1.git
@@ -89,8 +89,8 @@ alias nn='note'
 alias nt='todo'
 alias ni='idea'
 alias np='projects'
-# }}}
-# Python {{{
+# # }}}
+# # Python {{{
 alias pt='pytest'
 alias pd='pydoc3'
 alias p2='python2'
@@ -110,6 +110,7 @@ cat << EOF > .projections.json
   "$(basename $PWD)/*.py": {"alternate": "tests/test_{}.py", "type": "test"},
   "tests/test_*.py": {"alternate": "$(basename $PWD)/{}.py", "type": "source"}
 }
+EOF
 }
 # }}}
 ## Pip {{{
