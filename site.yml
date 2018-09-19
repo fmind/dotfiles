@@ -25,7 +25,7 @@
     become: true
 
   - name: deploy zsh dir
-    file: src='{{playbook_dir}}/zsh/zsh.d' dest='~/.zsh.d' state=link force=yes
+    file: src='{{playbook_dir}}/zsh/zsh.d' dest='~/.zsh.d' state='directory' force=yes
     tags: ['usr', 'zsh']
 
   - name: deploy zsh conf
