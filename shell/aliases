@@ -4,68 +4,18 @@ alias vi='vim'
 alias du='du -h'
 alias df='df -h'
 alias ps='ps aux'
-alias pip='pip3'
 alias wget='wget -c'
+alias grep='grep -i'
 alias python='python3'
-alias pip='python -m pip'
+alias pip='python3 -m pip'
+alias netstat='netstat -nlp'
 alias black='black -q'
 alias mkdir='mkdir -pv'
 alias rsync='rsync -avzu'
-alias pwgen='pwgen -N1 -y'
 alias ls='ls --color=auto -CF'
 alias parallel='parallel --will-cite'
 # }}}
-# OTHERS {{{
-## FILTER {{{
-alias igrep='grep -i'
-alias rgrep='grep -iR'
-# }}}
-## MAPPER {{{
-alias lower='tr "[:upper:]" "[:lower:]"'
-alias upper='tr "[:lower:]" "[:upper:]"'
-# }}}
-## CHANGE {{{
-alias chx='chmod u+x '
-alias srv='python -m http.server'
-alias secret='openssl rand -hex 32'
-# }}}
-## INFORM {{{
-alias rel='lsb_release -c'
-alias ext='curl icanhazip.com'
-## REMOVE {{{
-alias rmgit='rm -rf .git'
-# }}}
-# }}}
-# GLOBAL {{{
-alias a='ag'
-alias b='less'
-alias c='cd'
-alias d='ncdu'
-alias e='onset'
-alias f='sudo systemctl'
-alias g='git'
-alias h='head'
-alias i='pv'
-alias j='simplejump'
-alias k='popd'
-alias l='ls'
-alias m='man'
-alias n='note'
-alias o='glances'
-alias p='python'
-alias q='ranger'
-alias r='sudo service'
-#alias s='ssh'
-alias t='tail'
-alias u='sudo journalctl'
-alias v='vim'
-alias w='http-prompt'
-alias x='tldr'
-alias y='pyp'
-alias z='notify-send'
-# }}}
-# LOCAL {{{
-## Ansible {{{
+# Ansible {{{
 alias aa='ansible'
 alias ad='ansible-doc'
 alias au='ansible-pull'
@@ -76,52 +26,93 @@ alias ae='ansible-console'
 alias ap='ansible-playbook'
 alias ai='ansible-inventory'
 # }}}
-## Cookie {{{
+# Cookie {{{
 alias ck='cookiecutter'
 # }}}
-## Docker {{{
+# Docker {{{
 alias dk='docker'
-alias dkrn='docker run --rm'
+alias dkdo='docker run --rm'
 alias dkgo='service docker start'
 alias dksh='docker run --rm --name shell fmind/shell'
 alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f'
 #alias dkdata='docker run --rm -it --name data -v '$(pwd)':/home/jovyan/work -p 8888:8888 fmind/bigdata'
 #alias dkmongo='docker run --rm -it --name mongo --net=host -v '$(pwd)/data/db':/data/db mongo --smallfiles'
 # }}}
-## Find {{{
-alias ff='find . -iname '
-alias fn='find . -iname '
-alias fh='find ~ -iname '
+# Extern {{{
+alias eip='curl icanhazip.com'
 # }}}
-## Image {{{
+# Find {{{
+alias ff='find . -iname'
+alias fh='find ~ -iname'
+# }}}
+# Git {{{
+alias gg='git'
+alias grr='rm -rf .git'
+function gf {
+  git clone gitea@git.fmind.me:fmind/$1.git
+}
+function gh {
+  git clone git@github.com:fmind/$1.git
+}
+function gfo {
+    git remote add origin "git@git.fmind.me:fmind/$(basename $PWD).git"
+    git push -u origin master
+}
+function gho {
+    git remote add origin "git@github.com:fmind/$(basename $PWD).git"
+    git push -u origin master
+}
+# }}}
+# Image {{{
 alias ii='mogrify'
 alias ir='mogrify -resize'
 alias iw='mogrify -flatten'
 # }}}
-## Jupyter {{{
+# Jupyter {{{
 alias jj='jupyter'
-alias jb='jupyter-lab'
+alias jl='jupyter-lab'
 alias jn='jupyter-notebook'
 alias jp='ipcluster start'
 # }}}
-## Kill {{{
-alias kila='killall'
-alias kil9='killall -9'
+# Kill {{{
+alias ka='killall'
+alias k9='killall -9'
 # }}}
-## Make {{{
+# Linux {{{
+alias lx='chmod u+x '
+# }}}
+# Make {{{
 alias mk='make'
 # }}}
-## Python {{{
+# Note {{{
+alias nn='note'
+alias nt='todo'
+alias ni='idea'
+alias np='projects'
+# }}}
+# Python {{{
 alias pt='pytest'
 alias pd='pydoc3'
+alias p2='python2'
+alias p3='python3'
 alias pi='ptpython'
 alias pb='python -m pdb'
-### Env {{{
+## Env {{{
 alias pvq='deactivate'
 alias pvv='source venv/bin/activate'
 alias pvn='python -m venv ./venv --clear'
+function pve {
+  echo 'source "$(dirname $0)/venv/bin/activate"' > .env
+}
+function pvp {
+cat << EOF > .projections.json
+{
+  "$(basename $PWD)/*.py": {"alternate": "tests/test_{}.py", "type": "test"},
+  "tests/test_*.py": {"alternate": "$(basename $PWD)/{}.py", "type": "source"}
+}
+}
 # }}}
-### Pip {{{
+## Pip {{{
 alias ppf='pip freeze'
 alias pps='pip search'
 alias ppi='pip install'
@@ -129,10 +120,9 @@ alias ppu='pip uninstall'
 alias ppp='pip install --user'
 # }}}
 # }}}
-## RConf {{{
+# Rconf {{{
 alias ra='vi ~/.aliases'
 alias rb='vi ~/.bashrc'
-alias rc='source-bash --overwrite-alias'
 alias rd='vi ~/.display'
 alias re='vi ~/.environ'
 alias rg="vi ~/.gitconfig"
@@ -147,23 +137,25 @@ alias rr='source'
 alias rs='vi ~/.ssh/config'
 alias rv='vi ~/.vimrc'
 alias rx='vi ~/.xonshrc'
+alias rz='vi ~/.zshrc'
 # }}}
-## Snakemake {{{
+# Snakemake {{{
 alias sk='snakemake'
 # }}}
-## SSH {{{
+# Ssh {{{
 alias ss='ssh'
-alias sshl='ssh -nNTL'
-alias sshr='ssh -nNTR'
+alias sl='ssh -nNTL'
+alias sr='ssh -nNTR'
 # }}}
-## Tmuxp{ {{{
+# Tmuxp{ {{{
 alias tt='tmuxp'
 alias tf='tmuxp freeze'
 alias tl='tmuxp load -y'
 alias tp='tmuxp load -y .'
 # }}}
-## Ubuntu {{{
+# Ubuntu {{{
 alias uu='sudo apt'
+alias ua='lsb_release -c'
 alias us='apt search'
 alias ur='sudo apt purge'
 alias up='sudo apt update'
@@ -171,23 +163,22 @@ alias uu='sudo apt upgrade'
 alias ui='sudo apt install'
 alias uc='sudo apt autoremove --purge'
 # }}}
-## Watchdog {{{
+# Watch {{{
 alias ww='watchmedo'
 alias wl='watchmedo log'
 alias wr='watchmedo auto-restart'
 alias ws='watchmedo shell-command'
 # }}}
-## XDesk {{{
+# Xdesk {{{
 alias xf='xdg-open'
-alias xu='nautilus .'
+alias xu='dolphin .'
 alias xd='xbacklight -set 30'
 alias xb='xbacklight -set 100'
 alias xc='xsel --clipboard --clear'
 alias xi='xsel --clipboard --input'
 alias xo='xsel --clipboard --output'
 # }}}
-## Zip {{{
+# Zip {{{
 alias zz='pigz'
 alias zd='unpigz -c'
-# }}}
 # }}}

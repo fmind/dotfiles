@@ -22,38 +22,6 @@ aliases["pvr"] = "vox remove $BASEDIR"
 aliases["pva"] = "vox activate $BASEDIR"
 aliases["pve"] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
-# COMMANDS {{{
-def note(args):
-    $[$EDITOR @("note:{file}".format(file=args[0]))]
-
-
-def gitea(args):
-    $[git clone @("ssh://gitea@git.fmind.me/fmind/{repo}".format(repo=args[0]))]
-
-
-def github(args):
-    $[git clone @("ssh://git@github.com/fmind/{repo}".format(repo=args[0]))]
-
-
-def projections(args):
-    base= $BASEDIR
-
-    sources = {
-        "{}/*.py".format(base): {"alternate": "{}/tests/test_{{}}.py".format(base), "type": "test"},
-        "{}/tests/test_*.py".format(base): {"alternate": "{}/{{}}.py".format(base), "type": "source"},
-    }
-
-    with open(".projections.json", "w") as w:
-        json.dump(sources, w, indent=2)
-
-    return 0
-
-
-aliases["note"] = note
-aliases["gitea"] = gitea
-aliases["github"] = github
-aliases["project"] = projections
-# }}}
 # SETTINGS {{{
 $VI_MODE = True
 $AUTO_CD = True
