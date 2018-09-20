@@ -1,6 +1,7 @@
 *.log
 *.retry
 
+.env
 .autoxsh
 .tmuxp.yaml
 .projections.json
