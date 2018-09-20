@@ -78,6 +78,10 @@
     file: src='~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme' dest='~/.zsh.d/themes/spaceship.zsh-theme' state=link force=yes
     tags: ['usr', 'zsh']
 
+  - name: clone zsh matrix
+    git: repo='https://github.com/amstrad/oh-my-matrix' dest='~/.zsh.d/plugins/oh-my-matrix' depth=1
+    tags: ['usr', 'zsh']
+
   - name: clone zsh oh-my-zsh
     git: repo='https://github.com/robbyrussell/oh-my-zsh.git' dest='~/.oh-my-zsh' depth=1
     tags: ['usr', 'zsh']

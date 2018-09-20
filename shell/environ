@@ -6,4 +6,6 @@ export DISABLE_AUTO_TITLE='true'
 
 export PYTHONDONTWRITEBYTECODE=1
 
-export PATH="$HOME/bin:$HOME/.npm/bin/:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+export PYENV_ROOT="$HOME/.pyenv"
+
+export PATH="$HOME/bin:$HOME/.npm/bin/:$PYENV_ROOT/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"

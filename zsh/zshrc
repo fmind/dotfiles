@@ -6,19 +6,27 @@
 # BYOBU {{{
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}
-# SETTINGS {{{
-export ZSH=~/.oh-my-zsh
-export LANG=en_US.UTF-8
-export RPS1="%{$reset_color%}"
-export SPACESHIP_EXIT_CODE_SHOW=true
-
+# THEME {{{
 ZSH_THEME="spaceship"
-ZSH_CUSTOM=$HOME/.zsh.d
-HIST_STAMPS="yyyy-mm-dd"
-
+export SPACESHIP_EXIT_CODE_SHOW=true
+export SPACESHIP_VENV_SUFFIX='\033[02;92m (venv)\033[01;00m'
+# }}}
+# EVENTS {{{
+function chpwd() {
+    emulate -L zsh
+    ls -a --color=auto -CF
+}
+# }}}
+# PLUGINS {{{
 plugins=(
+    pip
+    pyenv
+    httpie
+    celery
+    systemd
     vi-mode
     alias-tips
+    oh-my-matrix
     colored-man-pages
     command-not-found
     zsh-autosuggestions
@@ -28,6 +36,13 @@ plugins=(
 bindkey -v
 export KEYTIMEOUT=1
 bindkey '^o' clear-screen
+# }}}
+# SETTINGS {{{
+export ZSH=~/.oh-my-zsh
+export LANG=en_US.UTF-8
+
+ZSH_CUSTOM=$HOME/.zsh.d
+HIST_STAMPS="yyyy-mm-dd"
 
 source $ZSH/oh-my-zsh.sh
 # }}}
@@ -53,6 +68,10 @@ alias -g Z='| pigz'
 # COMPLETIONS {{{
 # enable fasd
 eval "$(fasd --init auto)"
+# enable pyenv
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
 # enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
