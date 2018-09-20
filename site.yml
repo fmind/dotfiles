@@ -94,6 +94,10 @@
     git: repo='https://github.com/djui/alias-tips.git' dest='~/.zsh.d/plugins/alias-tips' depth=1
     tags: ['usr', 'zsh']
 
+  - name: clone zsh zsh-completions
+    git: repo='https://github.com/zsh-users/zsh-completions' dest='~/.zsh.d/plugins/zsh-completions' depth=1
+    tags: ['usr', 'zsh']
+
   - name: clone zsh auto-suggestions
     git: repo='git://github.com/zsh-users/zsh-autosuggestions.git' dest='~/.zsh.d/plugins/zsh-autosuggestions' depth=1
     tags: ['usr', 'zsh']
