@@ -132,8 +132,8 @@ nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
 nnoremap <leader>.i :setlocal foldmethod=indent<CR>
 nnoremap <leader>.p :setlocal filetype=python<CR>
 nnoremap <leader>.t :setlocal filetype=text<CR>
-nnoremap <leader>qp :!python %<CR>
-nnoremap <leader>qd :!pydoc 
+nnoremap <leader>qp :!python3 %<CR>
+nnoremap <leader>qd :!pydoc3 
 nnoremap <leader>qt :!tldr 
 nnoremap <leader>qq :!man 
 " }}}

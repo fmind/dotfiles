@@ -68,11 +68,17 @@ alias ii='mogrify'
 alias ir='mogrify -resize'
 alias iw='mogrify -flatten'
 # }}}
-# Jupyter {{{
-alias jj='jupyter'
-alias jl='jupyter-lab'
-alias jn='jupyter-notebook'
-alias jp='ipcluster start'
+# Jump {{{
+alias jj='fasd'
+alias ja='fasd -A'
+alias jd='fasd -D'
+alias jf='fasd -lf'
+alias jd='fasd -ld' 
+alias js='fasd -si' 
+alias j='fasd_cd -d'
+alias ji='fasd_cd -di'
+alias je='fasd -fe $EDITOR' 
+alias jv='fasd -fie $EDITOR' 
 # }}}
 # Kill {{{
 alias ka='killall'
@@ -85,17 +91,21 @@ alias lx='chmod u+x '
 alias mk='make'
 # }}}
 # Note {{{
+function note {
+    vi "note:$1"
+}
 alias nn='note'
-alias nt='todo'
-alias ni='idea'
-alias np='projects'
-# # }}}
-# # Python {{{
+alias nt='note todo'
+alias ni='note idea'
+alias np='note projects'
+# }}}
+# Python {{{
 alias pt='pytest'
 alias pd='pydoc3'
 alias p2='python2'
 alias p3='python3'
 alias pi='ptpython'
+alias pm='snakemake'
 alias pb='python -m pdb'
 ## Env {{{
 alias pvq='deactivate'
@@ -140,9 +150,6 @@ alias rv='vi ~/.vimrc'
 alias rx='vi ~/.xonshrc'
 alias rz='vi ~/.zshrc'
 # }}}
-# Snakemake {{{
-alias sk='snakemake'
-# }}}
 # Ssh {{{
 alias ss='ssh'
 alias sl='ssh -nNTL'
@@ -178,6 +185,12 @@ alias xb='xbacklight -set 100'
 alias xc='xsel --clipboard --clear'
 alias xi='xsel --clipboard --input'
 alias xo='xsel --clipboard --output'
+# }}}
+# jupYter {{{
+alias yj='jupyter'
+alias yl='jupyter-lab'
+alias yn='jupyter-notebook'
+alias yp='ipcluster start'
 # }}}
 # Zip {{{
 alias zz='pigz'

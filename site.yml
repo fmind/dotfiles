@@ -14,127 +14,7 @@
     file: name='~/bin' state='directory'
     tags: ['usr', 'init']
 # }}}
-# SHELL{{{
-  - name: deploy bash conf
-    file: src='{{playbook_dir}}/bash/bashrc' dest='~/.bashrc' state=link force=yes
-    tags: ['usr', 'shell']
-
-  - name: install zsh
-    package: name='zsh'
-    tags: ['sys', 'zsh']
-    become: true
-
-  - name: deploy zsh dir
-    file: src='{{playbook_dir}}/zsh/zsh.d' dest='~/.zsh.d' state='directory' force=yes
-    tags: ['usr', 'zsh']
-
-  - name: deploy zsh conf
-    file: src='{{playbook_dir}}/zsh/zshrc' dest='~/.zshrc' state=link force=yes
-    tags: ['usr', 'zsh']
-
-  - name: clone zsh oh-my-zsh
-    git: repo='https://github.com/robbyrussell/oh-my-zsh.git' dest='~/.oh-my-zsh' depth=1
-    tags: ['usr', 'zsh']
-
-  - name: clone zsh alias-tips
-    git: repo='https://github.com/djui/alias-tips.git' dest='~/.zsh.d/plugins/alias-tips' depth=1
-    tags: ['usr', 'zsh']
-
-  - name: clone zsh auto-suggestions
-    git: repo='git://github.com/zsh-users/zsh-autosuggestions.git' dest='~/.zsh.d/plugins/zsh-autosuggestions' depth=1
-    tags: ['usr', 'zsh']
-
-  - name: clone zsh syntax-highlighting plug
-    git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
-    tags: ['usr', 'zsh']
-
-  - name: install xonsh
-    pip: name='xonsh[{{item}}]' executable='pip3' extra_args='--user'
-    with_items:
-      - ptk
-      - linux
-      - pygments
-      - proctitle
-    tags: ['usr', 'shell']
-
-  - name: deploy xonsh conf
-    file: src='{{playbook_dir}}/xonsh/xonshrc' dest='~/.xonshrc' state=link force=yes
-    tags: ['usr', 'shell']
-
-  - name: enable xonsh exts
-    pip: name='{{item}}' executable='pip3' extra_args='--user'
-    with_items:
-      - xonsh-autoxsh
-      - xontrib-aliastips
-      - xontrib-simplejump
-    ignore_errors: true
-    tags: ['usr', 'shell']
-
-  - name: install tmuxp
-    pip: name='tmuxp' executable='pip3' extra_args='--user'
-    tags: ['usr', 'shell']
-
-  - name: deploy tmuxp dir
-    file: src='{{playbook_dir}}/tmuxp' dest='~/.tmuxp' state=link force=yes
-    tags: ['usr', 'shell']
-
-  - name: install byobu
-    package: name='byobu'
-    tags: ['sys', 'shell']
-    become: true
-
-  - name: create byobu dir
-    file: path='~/.byobu' state=directory
-    tags: ['usr', 'shell']
-
-  - name: deploy byobu conf
-    file: src='{{playbook_dir}}/byobu/{{item}}' dest='~/.byobu/{{item}}' state=link force=yes
-    with_items:
-      - status
-      - backend
-      - statusrc
-      - .tmux.conf
-      - keybindings.tmux
-    tags: ['usr', 'shell']
-
-  - name: deploy shell input
-    file: src='{{playbook_dir}}/shell/inputrc' dest='~/.inputrc' state=link force=yes
-    tags: ['usr', 'shell']
-
-  - name: deploy shell aliases
-    file: src='{{playbook_dir}}/shell/aliases' dest='~/.aliases' state=link force=yes
-    tags: ['usr', 'shell']
-
-  - name: deploy shell display
-    file: src='{{playbook_dir}}/shell/display' dest='~/.display' state=link force=yes
-    tags: ['usr', 'shell']
-
-  - name: deploy shell environ
-    file: src='{{playbook_dir}}/shell/environ' dest='~/.environ' state=link force=yes
-    tags: ['usr', 'shell']
-# }}}
-# ADMIN{{{
-  - name: install ncdu
-    package: name='ncdu'
-    tags: ['sys', 'admin']
-    ignore_errors: true
-    become: true
-
-  - name: install petit
-    package: name='petit'
-    tags: ['sys', 'admin']
-    ignore_errors: true
-    become: true
-
-  - name: install pydf
-    pip: name='pydf' executable='pip3' extra_args='--user'
-    tags: ['usr', 'admin']
-
-  - name: install glances
-    pip: name='glances' executable='pip3' extra_args='--user'
-    tags: ['usr', 'admin']
-# }}}
-# EDITOR{{{
+# VIM{{{
   - name: install vim
     package: name='vim'
     tags: ['sys', 'vim']
@@ -172,15 +52,166 @@
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
     tags: ['usr', 'vim']
 # }}}
-# SYSTEM {{{
-  - name: install pigz
-    package: name='pigz'
-    tags: ['sys', 'system']
+# ZSH {{{
+  - name: install zsh
+    package: name='zsh'
+    tags: ['sys', 'zsh']
+    become: true
+
+  - name: deploy zsh dir
+    file: name='{{item}}' state='directory'
+    with_items:
+      - ~/.zsh.d/
+      - ~/.zsh.d/themes
+      - ~/.zsh.d/plugins
+    tags: ['usr', 'zsh']
+
+  - name: deploy zsh conf
+    file: src='{{playbook_dir}}/zsh/zshrc' dest='~/.zshrc' state=link force=yes
+    tags: ['usr', 'zsh']
+
+  - name: clone zsh theme
+    git: repo='https://github.com/denysdovhan/spaceship-prompt.git' dest='~/.zsh.d/themes/spaceship-prompt' depth=1
+    tags: ['usr', 'zsh']
+
+  - name: link zsh theme
+    file: src='~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme' dest='~/.zsh.d/themes/spaceship.zsh-theme' state=link force=yes
+    tags: ['usr', 'zsh']
+
+  - name: clone zsh oh-my-zsh
+    git: repo='https://github.com/robbyrussell/oh-my-zsh.git' dest='~/.oh-my-zsh' depth=1
+    tags: ['usr', 'zsh']
+
+  - name: clone zsh alias-tips
+    git: repo='https://github.com/djui/alias-tips.git' dest='~/.zsh.d/plugins/alias-tips' depth=1
+    tags: ['usr', 'zsh']
+
+  - name: clone zsh auto-suggestions
+    git: repo='git://github.com/zsh-users/zsh-autosuggestions.git' dest='~/.zsh.d/plugins/zsh-autosuggestions' depth=1
+    tags: ['usr', 'zsh']
+
+  - name: clone zsh syntax-highlighting plug
+    git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
+    tags: ['usr', 'zsh']
+# }}}
+# BASH{{{
+  - name: deploy bash conf
+    file: src='{{playbook_dir}}/bash/bashrc' dest='~/.bashrc' state=link force=yes
+    tags: ['usr', 'bash']
+# }}}
+# TMUX {{{
+  - name: install tmuxp
+    pip: name='tmuxp' executable='pip3' extra_args='--user'
+    tags: ['usr', 'tmux']
+
+  - name: deploy tmuxp dir
+    file: src='{{playbook_dir}}/tmuxp' dest='~/.tmuxp' state=link force=yes
+    tags: ['usr', 'tmux']
+
+  - name: install byobu
+    package: name='byobu'
+    tags: ['sys', 'tmux']
+    become: true
+
+  - name: create byobu dir
+    file: path='~/.byobu' state=directory
+    tags: ['usr', 'tmux']
+
+  - name: deploy byobu conf
+    file: src='{{playbook_dir}}/byobu/{{item}}' dest='~/.byobu/{{item}}' state=link force=yes
+    with_items:
+      - status
+      - backend
+      - statusrc
+      - .tmux.conf
+      - keybindings.tmux
+    tags: ['usr', 'tmux']
+# }}}
+# XONSH {{{
+  - name: install xonsh
+    pip: name='xonsh[{{item}}]' executable='pip3' extra_args='--user'
+    with_items:
+      - ptk
+      - linux
+      - pygments
+      - proctitle
+    tags: ['usr', 'xonsh']
+
+  - name: deploy xonsh conf
+    file: src='{{playbook_dir}}/xonsh/xonshrc' dest='~/.xonshrc' state=link force=yes
+    tags: ['usr', 'xonsh']
+
+  - name: enable xonsh exts
+    pip: name='{{item}}' executable='pip3' extra_args='--user'
+    with_items:
+      - xonsh-autoxsh
+      - xontrib-aliastips
+      - xontrib-simplejump
+    ignore_errors: true
+    tags: ['usr', 'xonsh']
+# }}}
+# SHELL {{{
+  - name: deploy shell input
+    file: src='{{playbook_dir}}/shell/inputrc' dest='~/.inputrc' state=link force=yes
+    tags: ['usr', 'shell']
+
+  - name: deploy shell aliases
+    file: src='{{playbook_dir}}/shell/aliases' dest='~/.aliases' state=link force=yes
+    tags: ['usr', 'shell']
+
+  - name: deploy shell display
+    file: src='{{playbook_dir}}/shell/display' dest='~/.display' state=link force=yes
+    tags: ['usr', 'shell']
+
+  - name: deploy shell environ
+    file: src='{{playbook_dir}}/shell/environ' dest='~/.environ' state=link force=yes
+    tags: ['usr', 'shell']
+# }}}
+# ADMIN{{{
+  - name: install htop
+    package: name='htop'
+    tags: ['sys', 'admin']
+    ignore_errors: true
+    become: true
+
+  - name: install ncdu
+    package: name='ncdu'
+    tags: ['sys', 'admin']
     ignore_errors: true
     become: true
 
   - name: install petit
     package: name='petit'
+    tags: ['sys', 'admin']
+    ignore_errors: true
+    become: true
+
+  - name: install ansible
+    package: name='ansible'
+    tags: ['sys', 'admin']
+    become: true
+
+  - name: deploy ansible conf
+    file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
+    tags: ['usr', 'admin']
+
+  - name: install pydf
+    pip: name='pydf' executable='pip3' extra_args='--user'
+    tags: ['usr', 'admin']
+
+  - name: install glances
+    pip: name='glances' executable='pip3' extra_args='--user'
+    tags: ['usr', 'admin']
+# }}}
+# SYSTEM {{{
+  - name: install fasd
+    package: name='fasd'
+    tags: ['sys', 'system']
+    ignore_errors: true
+    become: true
+
+  - name: install pigz
+    package: name='pigz'
     tags: ['sys', 'system']
     ignore_errors: true
     become: true
@@ -190,15 +221,6 @@
     tags: ['sys', 'system']
     ignore_errors: true
     become: true
-
-  - name: install ansible
-    package: name='ansible'
-    tags: ['sys', 'system']
-    become: true
-
-  - name: deploy ansible conf
-    file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
-    tags: ['usr', 'system']
 
   - name: install parallel
     package: name='parallel'
@@ -222,12 +244,12 @@
     file: src='{{playbook_dir}}/silversearcher/agignore' dest='~/.agignore' state=link force=yes
     tags: ['usr', 'system']
 
-  - name: install onset
-    pip: name='onset' executable='pip3' extra_args='--user'
-    tags: ['usr', 'system']
-
   - name: install tldr
     pip: name='tldr' executable='pip3' extra_args='--user'
+    tags: ['usr', 'system']
+
+  - name: install onset
+    pip: name='onset' executable='pip3' extra_args='--user'
     tags: ['usr', 'system']
 # }}}
 # NETWORK{{{

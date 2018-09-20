@@ -8,30 +8,21 @@ _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}
 # SETTINGS {{{
 export ZSH=~/.oh-my-zsh
+export LANG=en_US.UTF-8
 export RPS1="%{$reset_color%}"
 export SPACESHIP_EXIT_CODE_SHOW=true
 
-ZSH_THEME="steeef"
+ZSH_THEME="spaceship"
 ZSH_CUSTOM=$HOME/.zsh.d
 HIST_STAMPS="yyyy-mm-dd"
 
 plugins=(
-    # alias-tips
-    # celery
-    # command-not-found
-    # docker
-    # encode64
-    # fasd
-    # httpie
-    # jsontools
-    # pyenv
-    # python
-    # systemd
-    # urltools
-    # vi-mode
-    # web-search
-    # zsh-autosuggestions
-    # zsh-syntax-highlighting
+    vi-mode
+    alias-tips
+    colored-man-pages
+    command-not-found
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 bindkey -v
@@ -58,14 +49,16 @@ alias -g V='| $EDITOR -'
 alias -g W='| wc -l'
 alias -g Y='| pyp'
 alias -g Z='| pigz'
+# }}}
 # COMPLETIONS {{{
-# Enable autoenv (does not work in .shellrc)
+# enable fasd
+eval "$(fasd --init auto)"
+# enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
 fi
-# Enable percol history search
+# enable percol
 function exists { which $1 &> /dev/null }
-
 if exists percol; then
     function percol_select_history() {
         local tac
