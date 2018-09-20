@@ -19,16 +19,17 @@ function chpwd() {
 # }}}
 # PLUGINS {{{
 plugins=(
-    pip
-    pyenv
-    httpie
-    celery
-    systemd
-    vi-mode
     alias-tips
-    oh-my-matrix
+    celery
     colored-man-pages
     command-not-found
+    httpie
+    oh-my-matrix
+    pip
+    pyenv
+    systemd
+    vi-mode
+    zsh-autopair
     zsh-autosuggestions
     zsh-syntax-highlighting
 )
