@@ -40,7 +40,9 @@ export LANG=en_US.UTF-8
 ZSH_CUSTOM=$HOME/.zsh.d
 HIST_STAMPS="yyyy-mm-dd"
 
-source $ZSH/oh-my-zsh.sh
+if [[ $EUID -ne 0 ]]; then
+    source $ZSH/oh-my-zsh.sh
+fi
 # }}}
 # ALIASES {{{
 alias -g A='| ag'

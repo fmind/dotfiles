@@ -164,6 +164,7 @@ alias tp='tmuxp load -y .'
 # Ubuntu {{{
 alias uu='sudo apt'
 alias ua='lsb_release -c'
+alias uh='apt show'
 alias us='apt search'
 alias ur='sudo apt purge'
 alias up='sudo apt update'
