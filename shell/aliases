@@ -55,7 +55,7 @@ function gh {
   git clone git@github.com:fmind/$1.git
 }
 function gfo {
-    git remote add origin "git@git.fmind.me:fmind/$(basename $PWD).git"
+    git remote add origin "gitea@git.fmind.me:fmind/$(basename $PWD).git"
     git push -u origin master
 }
 function gho {
@@ -105,12 +105,11 @@ alias pd='pydoc3'
 alias p2='python2'
 alias p3='python3'
 alias pi='ptpython'
-alias pm='snakemake'
 alias pb='python -m pdb'
 ## Env {{{
 alias pvq='deactivate'
 alias pvv='source venv/bin/activate'
-alias pvn='python -m venv ./venv --clear'
+alias pvc='python -m venv ./venv --clear'
 function pve {
   echo 'source "$(dirname $0)/venv/bin/activate"' > .env
 }
@@ -128,6 +127,7 @@ alias ppf='pip freeze'
 alias pps='pip search'
 alias ppi='pip install'
 alias ppu='pip uninstall'
+alias ppe='pip install -e'
 alias ppp='pip install --user'
 # }}}
 # }}}
@@ -150,10 +150,8 @@ alias rv='vi ~/.vimrc'
 alias rx='vi ~/.xonshrc'
 alias rz='vi ~/.zshrc'
 # }}}
-# Ssh {{{
-alias ss='ssh'
-alias sl='ssh -nNTL'
-alias sr='ssh -nNTR'
+# Snakemake {{{
+alias sk='snakemake'
 # }}}
 # Tmuxp{ {{{
 alias tt='tmuxp'
