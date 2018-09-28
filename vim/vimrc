@@ -235,6 +235,9 @@ let g:notes_directories = ['~/note']
 let g:notes_title_sync = 'change_title'
 nnoremap <leader>N :Note 
 " }}}
+"" julia {{{
+Plug 'JuliaEditorSupport/julia-vim'
+" }}}
 "" sneak {{{
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1

@@ -84,9 +84,6 @@ alias jv='fasd -fie $EDITOR'
 alias ka='killall'
 alias k9='killall -9'
 # }}}
-# Linux {{{
-alias lx='chmod u+x '
-# }}}
 # Make {{{
 alias mk='make'
 # }}}
