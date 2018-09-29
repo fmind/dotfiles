@@ -2,11 +2,10 @@
 *.retry
 
 venv
-
 .env
-.tmuxp.yaml
 
 .snakemake
+.tmuxp.yaml
 .mypy_cache
 .pytest_cache
 .ipynb_checkpoints
