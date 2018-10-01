@@ -3,7 +3,6 @@ default_context:
     control: "git.fmind.me"
     author: "Médéric Hurier"
     email: "dev@fmind.me"
-    python: "3.6"
 abbreviations:
     analysis: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
     project: https://git.fmind.me/fmind/cookiecutter-python-project.git

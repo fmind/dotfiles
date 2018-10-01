@@ -64,19 +64,33 @@ alias -g W='| wc -l'
 alias -g Y='| pyp'
 alias -g Z='| pigz'
 # }}}
+# EXTENSIONS {{{
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+if [ -f ~/.environ ]; then
+    . ~/.environ
+fi
+if [ -f ~/.private ]; then
+    . ~/.private
+fi
+if [ -n "$DISPLAY" ]; then
+    . ~/.display
+fi
+# }}}
 # COMPLETIONS {{{
 # enable fasd
-if command -v fasd 1>/dev/null 2>&1; then
+if [ -x "$(command -v fasd)" ]; then
     eval "$(fasd --init auto)"
 fi
 # enable pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
+if [ -x "$(command -v pyenv)" ]; then
     eval "$(pyenv init -)"
 fi
-# enable autoenv
-if [ -x "$(command -v activate.sh)" ]; then
-    source "$(which activate.sh)"
-fi
+# # enable autoenv
+# if [ -x "$(command -v activate.sh)" ]; then
+#     source "$(which activate.sh)"
+# fi
 # enable percol
 function exists { which $1 &> /dev/null }
 if exists percol; then
@@ -90,19 +104,5 @@ if exists percol; then
 
     zle -N percol_select_history
     bindkey '^R' percol_select_history
-fi
-# }}}
-# CONFIGURATIONS {{{
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-if [ -f ~/.environ ]; then
-    . ~/.environ
-fi
-if [ -f ~/.private ]; then
-    . ~/.private
-fi
-if [ -n "$DISPLAY" ]; then
-    . ~/.display
 fi
 # }}}

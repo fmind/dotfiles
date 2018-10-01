@@ -7,8 +7,6 @@ alias jp='jp.py'
 alias ps='ps aux'
 alias wget='wget -c'
 alias grep='grep -i'
-alias python='python3'
-alias pip='python3 -m pip'
 alias netstat='netstat -nlp'
 alias black='black -q'
 alias mkdir='mkdir -pv'
@@ -127,12 +125,12 @@ EOF
 }
 # }}}
 ## Pip {{{
-alias ppf='pip freeze'
-alias pps='pip search'
-alias ppi='pip install'
-alias ppu='pip uninstall'
-alias ppe='pip install -e'
-alias ppp='pip install --user'
+alias ppf='python -m pip freeze'
+alias pps='python -m pip search'
+alias ppi='python -m pip install'
+alias ppu='python -m pip uninstall'
+alias ppe='python -m pip install -e'
+alias ppp='python -m pip install --user'
 # }}}
 # }}}
 # Rconf {{{
