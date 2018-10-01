@@ -192,14 +192,8 @@
     ignore_errors: true
     become: true
 
-  - name: install petit
-    package: name='petit'
-    tags: ['sys', 'admin']
-    ignore_errors: true
-    become: true
-
   - name: install ansible
-    package: name='ansible'
+    pip: name='ansible' executable='pip3' extra_args='--user'
     tags: ['sys', 'admin']
     become: true
 
@@ -285,11 +279,9 @@
     tags: ['usr', 'network']
 # }}}
 # PROCESS{{{
-  - name: install jq
-    package: name='jq'
-    tags: ['sys', 'process']
-    ignore_errors: true
-    become: true
+  - name: install jp
+    pip: name='jmespath' executable='pip3' extra_args='--user'
+    tags: ['usr', 'process']
 
   - name: install pv
     package: name='pv'
@@ -299,15 +291,15 @@
 
   - name: install percol
     pip: name='percol' executable='pip3' extra_args='--user'
-    tags: ['usr', 'system']
+    tags: ['usr', 'process']
  
   - name: create percol dir
     file: path='~/.percol.d/' state=directory
-    tags: ['usr', 'system']
+    tags: ['usr', 'process']
 
   - name: deploy percol conf
     file: src='{{playbook_dir}}/percol/rc.py' dest='~/.percol.d/rc.py' state=link force=yes
-    tags: ['usr', 'system']
+    tags: ['usr', 'process']
 
   - name: install pythonpy
     pip: name='pythonpy' executable='pip3' extra_args='--user'

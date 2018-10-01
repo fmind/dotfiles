@@ -320,6 +320,9 @@ let NERDTreeIgnore=['\.pyc$', '__pycache__', '\~$']
 nnoremap <leader>~ :NERDTreeFind<CR>
 nnoremap <leader>` :NERDTreeToggle<CR>
 " }}}
+"" lastplace {{{
+Plug 'armergreg/vim-lastplace'
+" }}}
 "" startify {{{
 Plug 'mhinz/vim-startify'
 let g:startify_session_dir = $VIMDIR.'/session/'
