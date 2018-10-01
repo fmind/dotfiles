@@ -65,7 +65,9 @@ alias -g Z='| pigz'
 # }}}
 # COMPLETIONS {{{
 # enable fasd
-eval "$(fasd --init auto)"
+if command -v fasd 1>/dev/null 2>&1; then
+    eval "$(fasd --init auto)"
+fi
 # enable pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
