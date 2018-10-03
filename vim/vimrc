@@ -102,26 +102,6 @@ noremap ;; ;
 let mapleader=" " 
 let maplocalleader="," 
 " }}}
-"" ACTIONS {{{
-nnoremap <leader>\ :set 
-nnoremap <leader><Tab> <c-^>
-nnoremap <leader>j :find 
-nnoremap <leader>> :shell<CR>
-nnoremap <leader># :set spell!<CR>
-nnoremap <leader>' :edit $MYVIMRC<CR>
-nnoremap <leader>@ :edit ~/.vimrc.py<CR>
-nnoremap <leader>" :source $MYVIMRC<CR>
-nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
-nnoremap <leader>.m :setlocal foldmethod=marker<CR>
-nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
-nnoremap <leader>.i :setlocal foldmethod=indent<CR>
-nnoremap <leader>.p :setlocal filetype=python<CR>
-nnoremap <leader>.t :setlocal filetype=text<CR>
-nnoremap <leader>qp :!python3 %<CR>
-nnoremap <leader>qd :!pydoc3 
-nnoremap <leader>qt :!tldr 
-nnoremap <leader>qq :!man 
-" }}}
 "" DEFAULT {{{
 noremap j gj
 noremap k gk
@@ -149,6 +129,26 @@ noremap H :bprevious<CR>
 nnoremap <silent> <ESC> :nohl<CR>
 nnoremap <expr> n  'Nn'[v:searchforward]
 nnoremap <expr> N  'nN'[v:searchforward]
+" }}}
+"" COMMANDS {{{
+nnoremap <leader>\ :set 
+nnoremap <leader>j :find 
+nnoremap <leader><Tab> <c-^>
+nnoremap <leader>> :shell<CR>
+nnoremap <leader># :set spell!<CR>
+nnoremap <leader>' :edit $MYVIMRC<CR>
+nnoremap <leader>" :source $MYVIMRC<CR>
+nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
+nnoremap <leader>.m :setlocal foldmethod=marker<CR>
+nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
+nnoremap <leader>.i :setlocal foldmethod=indent<CR>
+nnoremap <leader>.p :setlocal filetype=python<CR>
+nnoremap <leader>.t :setlocal filetype=text<CR>
+nnoremap <leader>qp :!python3 %<CR>
+nnoremap <leader>qt :!pytest % <CR>
+nnoremap <leader>qd :!pydoc3 
+nnoremap <leader>qt :!tldr 
+nnoremap <leader>qq :!man 
 " }}}
 " }}}
 " PLUGINS {{{
