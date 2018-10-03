@@ -5,7 +5,7 @@
   tasks:
 
 # INIT{{{
-  - name: install pip
+  - name: install pip3
     package: name='python3-pip'
     tags: ['sys', 'init']
     become: true
@@ -28,10 +28,6 @@
     file: src='{{playbook_dir}}/vim/vimrc' dest='~/.vimrc' state=link force=yes
     tags: ['usr', 'vim']
 
-  - name: deploy vim pyconf
-    file: src='{{playbook_dir}}/vim/vimrc.py' dest='~/.vimrc.py' state=link force=yes
-    tags: ['usr', 'vim']
-
   - name: create vim subdir
     file: path='~/.vim/{{item}}/' state=directory
     with_items:
@@ -44,10 +40,6 @@
       - autoload
     tags: ['usr', 'vim']
 
-  - name: deploy vim snippets
-    file: src='{{playbook_dir}}/vim/snippets' dest='~/.vim/snippets' state=link force=yes
-    tags: ['usr', 'vim']
-
   - name: install vim manager
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
     tags: ['usr', 'vim']
@@ -58,7 +50,7 @@
     tags: ['sys', 'zsh']
     become: true
 
-  - name: deploy zsh dir
+  - name: create zsh dir
     file: name='{{item}}' state='directory'
     with_items:
       - ~/.zsh.d/
@@ -76,10 +68,6 @@
 
   - name: link zsh theme
     file: src='~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme' dest='~/.zsh.d/themes/spaceship.zsh-theme' state=link force=yes
-    tags: ['usr', 'zsh']
-
-  - name: clone zsh matrix
-    git: repo='https://github.com/amstrad/oh-my-matrix.git' dest='~/.zsh.d/plugins/oh-my-matrix' depth=1
     tags: ['usr', 'zsh']
 
   - name: clone zsh oh-my-zsh
@@ -102,7 +90,7 @@
     git: repo='git://github.com/zsh-users/zsh-autosuggestions.git' dest='~/.zsh.d/plugins/zsh-autosuggestions' depth=1
     tags: ['usr', 'zsh']
 
-  - name: clone zsh syntax-highlighting plug
+  - name: clone zsh syntax-highlighting
     git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
     tags: ['usr', 'zsh']
 # }}}
@@ -111,7 +99,7 @@
     file: src='{{playbook_dir}}/bash/bashrc' dest='~/.bashrc' state=link force=yes
     tags: ['usr', 'bash']
 # }}}
-# TMUX {{{
+# BYOBU {{{
   - name: install tmuxp
     pip: name='tmuxp' executable='pip3' extra_args='--user'
     tags: ['usr', 'tmux']
@@ -151,15 +139,6 @@
 
   - name: deploy xonsh conf
     file: src='{{playbook_dir}}/xonsh/xonshrc' dest='~/.xonshrc' state=link force=yes
-    tags: ['usr', 'xonsh']
-
-  - name: enable xonsh exts
-    pip: name='{{item}}' executable='pip3' extra_args='--user'
-    with_items:
-      - xonsh-autoxsh
-      - xontrib-aliastips
-      - xontrib-simplejump
-    ignore_errors: true
     tags: ['usr', 'xonsh']
 # }}}
 # SHELL {{{

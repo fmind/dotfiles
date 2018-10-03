@@ -1,11 +1,12 @@
 *.log
 *.retry
 
-venv
 .env
+venv
 
 .snakemake
 .tmuxp.yaml
+.hypothesis
 .mypy_cache
 .pytest_cache
 .ipynb_checkpoints

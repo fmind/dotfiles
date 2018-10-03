@@ -1,5 +1,4 @@
 # vim: filetype=python foldmethod=marker
-
 # BYOBU {{{
 if "TMUX" not in ${...} and \
    "BYOBU_SOURCED" not in ${...}:
@@ -11,16 +10,9 @@ if "TMUX" not in ${...} and \
 # IMPORTS {{{
 import os
 import re
+import csv
 import sys
 import json
-# }}}
-# ALIASES {{{
-aliases["pvl"] = "vox list"
-aliases["pvd"] = "vox deactivate"
-aliases["pvc"] = "vox create $BASEDIR"
-aliases["pvr"] = "vox remove $BASEDIR"
-aliases["pva"] = "vox activate $BASEDIR"
-aliases["pve"] = 'echo "vox activate $BASEDIR" > .autoxsh'
 # }}}
 # SETTINGS {{{
 $VI_MODE = True
@@ -41,18 +33,6 @@ $PROMPT = "{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}" + \
 @events.on_chdir
 def listdir(olddir, newdir):
     $[ls]
-
-@events.on_chdir
-def basedir(olddir, newdir):
-    $BASEDIR = os.path.basename(newdir)
-
-basedir($PWD, $PWD)
-# }}}
-# XONTRIBS {{{
-xontrib load vox
-xontrib load autoxsh
-xontrib load aliastips
-xontrib load simplejump
 # }}}
 # CONFIGURATIONS {{{
 if os.path.exists(os.path.expanduser("~/.aliases")):

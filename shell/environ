@@ -2,10 +2,12 @@ umask 0077
 
 export EDITOR='vim'
 
+export LANG='en_US.UTF-8'
+
 export DISABLE_AUTO_TITLE='true'
 
-export PYTHONDONTWRITEBYTECODE=1
-
 export PYENV_ROOT="$HOME/.pyenv"
+
+export PYTHONBREAKPOINT='ipdb.set_trace'
 
 export PATH="$HOME/bin:$HOME/.npm/bin/:$PYENV_ROOT/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"

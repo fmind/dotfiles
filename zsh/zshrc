@@ -22,7 +22,6 @@ function chpwd() {
 plugins=(
     vi-mode
     alias-tips
-    oh-my-matrix
     zsh-autopair
     colored-man-pages
     command-not-found
@@ -36,8 +35,6 @@ bindkey '^o' clear-screen
 # }}}
 # SETTINGS {{{
 export ZSH=~/.oh-my-zsh
-export LANG=en_US.UTF-8
-
 ZSH_CUSTOM=$HOME/.zsh.d
 HIST_STAMPS="yyyy-mm-dd"
 

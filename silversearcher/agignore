@@ -1,5 +1,8 @@
-.git/
 venv/
+
+.tox/
+.git/
+.hypothesis/
 .mypy_cache/
 .pytest_cache/
 .ipynb_checkpoints/
