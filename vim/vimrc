@@ -36,6 +36,7 @@ set hidden
 set confirm
 set autoread
 set autowrite
+set linebreak
 set autowriteall
 set nojoinspaces
 set nostartofline
