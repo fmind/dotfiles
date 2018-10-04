@@ -1,8 +1,9 @@
 default_context:
     username: "fmind"
-    control: "git.fmind.me"
     author: "Médéric Hurier"
     email: "dev@fmind.me"
+    control: "git.fmind.me"
+    license: "EUPL-1.2"
 abbreviations:
     interact: https://git.fmind.me/fmind/cookiecutter-python-interact.git
     analysis: https://git.fmind.me/fmind/cookiecutter-python-analysis.git

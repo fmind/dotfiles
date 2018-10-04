@@ -22,6 +22,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 set relativenumber
 " }}}
 "" STATUS {{{
+set shortmess=a
+set cmdheight=2
 set statusline=%t\ %c,%l/%L\ %P\%=%r%y\ [%{&ff}]\ [%{strlen(&fenc)?&fenc:'none'}]\ %m
 " }}}
 "" WINDOW {{{
@@ -267,6 +269,7 @@ catch
     colorscheme darkblue
 endtry
 "" }}}
-" PYTHON {{{
+" FILETYPES {{{
+autocmd Filetype json setlocal foldmethod=syntax
 autocmd Filetype python setlocal foldmethod=indent
 " }}}
