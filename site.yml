@@ -258,18 +258,22 @@
     tags: ['usr', 'network']
 # }}}
 # PROCESS{{{
-  - name: install jp
-    pip: name='jmespath' executable='pip3' extra_args='--user'
-    tags: ['usr', 'process']
-
   - name: install pv
     package: name='pv'
     tags: ['sys', 'process']
     ignore_errors: true
     become: true
 
+  - name: install jp
+    pip: name='jmespath' executable='pip3' extra_args='--user'
+    tags: ['usr', 'process']
+
   - name: install csvkit
     pip: name='csvkit' executable='pip3' extra_args='--user'
+    tags: ['usr', 'process']
+
+  - name: install pandashells
+    pip: name='pandashells' executable='pip3' extra_args='--user'
     tags: ['usr', 'process']
 
   - name: install percol
