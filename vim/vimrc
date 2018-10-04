@@ -192,6 +192,7 @@ nnoremap <leader>pg :PlugUpgrade<CR>
 nnoremap <leader>pi :PlugInstall<CR>
 " }}}
 "" notes {{{
+Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 let g:notes_suffix = '.md'
 let g:notes_conceal_code = 0
@@ -243,7 +244,6 @@ nmap ga <Plug>(EasyAlign)
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_save_on_switch = 1
 " }}}
-Plug 'xolox/vim-misc'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'

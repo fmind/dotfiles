@@ -4,7 +4,7 @@ default_context:
     author: "Médéric Hurier"
     email: "dev@fmind.me"
 abbreviations:
-    complete: https://git.fmind.me/fmind/cookiecutter-python-complete.git
+    interact: https://git.fmind.me/fmind/cookiecutter-python-interact.git
     analysis: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
     project: https://git.fmind.me/fmind/cookiecutter-python-project.git
     xontrib: https://git.fmind.me/fmind/cookiecutter-python-xontrib.git
