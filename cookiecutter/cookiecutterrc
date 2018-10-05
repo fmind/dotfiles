@@ -5,7 +5,6 @@ default_context:
     control: "git.fmind.me"
     license: "EUPL-1.2"
 abbreviations:
-    interact: https://git.fmind.me/fmind/cookiecutter-python-interact.git
     analysis: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
     project: https://git.fmind.me/fmind/cookiecutter-python-project.git
     xontrib: https://git.fmind.me/fmind/cookiecutter-python-xontrib.git
