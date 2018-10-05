@@ -172,8 +172,9 @@
     become: true
 
   - name: install ansible
-    pip: name='ansible' executable='pip3' extra_args='--user'
-    tags: ['usr', 'admin']
+    package: name='ansible'
+    tags: ['sys', 'admin']
+    become: true
 
   - name: deploy ansible conf
     file: src='{{playbook_dir}}/ansible/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
