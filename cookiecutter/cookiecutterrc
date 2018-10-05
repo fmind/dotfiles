@@ -5,11 +5,8 @@ default_context:
     control: "git.fmind.me"
     license: "EUPL-1.2"
 abbreviations:
-    analysis: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
-    project: https://git.fmind.me/fmind/cookiecutter-python-project.git
-    xontrib: https://git.fmind.me/fmind/cookiecutter-python-xontrib.git
-    script: https://git.fmind.me/fmind/cookiecutter-python-script.git
-    server: https://git.fmind.me/fmind/cookiecutter-python-server.git
-    slides: https://git.fmind.me/fmind/cookiecutter-python-slides.git
-    spider: https://git.fmind.me/fmind/cookiecutter-python-spider.git
-    static: https://git.fmind.me/fmind/cookiecutter-python-static.git
+    python: https://git.fmind.me/fmind/cookiecutter-python.git
+    code: https://git.fmind.me/fmind/cookiecutter-python-code.git
+    dist: https://git.fmind.me/fmind/cookiecutter-python-dist.git
+    pytest: https://git.fmind.me/fmind/cookiecutter-python-pytest.git
+    scripts: https://git.fmind.me/fmind/cookiecutter-python-scripts.git
