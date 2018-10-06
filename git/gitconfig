@@ -6,6 +6,7 @@
 [core]
     editor = vim
     excludesfile = ~/.gitignore
+	hooksPath = hooks/
 
 [color]
     ui = auto

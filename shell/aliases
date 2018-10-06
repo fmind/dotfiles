@@ -31,6 +31,7 @@ alias ai='ansible-inventory'
 # }}}
 # Cookie {{{
 alias ck='cookiecutter'
+alias cn='cookiecutter --no-input'
 # }}}
 # Docker {{{
 alias dk='docker'
@@ -51,6 +52,7 @@ alias fh='find ~ -iname'
 # Git {{{
 alias g='git'
 alias grr='rm -rf .git'
+alias grc='vi .git/config'
 function gf {
   git clone gitea@git.fmind.me:fmind/$1.git
 }
@@ -110,18 +112,11 @@ alias pe='python -m venv'
 alias px='python -m trace'
 ## Env {{{
 alias pvq='deactivate'
-alias pvv='source venv/bin/activate'
-alias pvc='python -m venv ./venv --clear'
+alias pvw='source venv/bin/activate'
+alias pvv='source .venv/bin/activate'
+alias pvc='python -m venv .venv --clear'
 function pve {
-  echo 'source "$(dirname $0)/venv/bin/activate"' > .env
-}
-function pvp {
-cat << EOF > .projections.json
-{
-  "$(basename $PWD)/*.py": {"alternate": "tests/test_{}.py", "type": "test"},
-  "tests/test_*.py": {"alternate": "$(basename $PWD)/{}.py", "type": "source"}
-}
-EOF
+  echo 'source "$(dirname $0)/.venv/bin/activate"' > .env
 }
 # }}}
 ## Pip {{{
