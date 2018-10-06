@@ -1,12 +1,9 @@
 default_context:
-    username: "fmind"
-    author: "Médéric Hurier"
+    user: "fmind"
     email: "dev@fmind.me"
+    author: "Médéric Hurier"
     control: "git.fmind.me"
     license: "EUPL-1.2"
+    python: "3.7.0"
 abbreviations:
     python: https://git.fmind.me/fmind/cookiecutter-python.git
-    code: https://git.fmind.me/fmind/cookiecutter-python-code.git
-    dist: https://git.fmind.me/fmind/cookiecutter-python-dist.git
-    pytest: https://git.fmind.me/fmind/cookiecutter-python-pytest.git
-    scripts: https://git.fmind.me/fmind/cookiecutter-python-scripts.git
