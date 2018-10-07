@@ -10,18 +10,17 @@ abbreviations:
     mypy: https://git.fmind.me/fmind/cookiecutter-python-mypy.git
     rise: https://git.fmind.me/fmind/cookiecutter-python-rise.git
     black: https://git.fmind.me/fmind/cookiecutter-python-black.git
-    flask: https://git.fmind.me/fmind/cookiecutter-python-flask.git
     wheel: https://git.fmind.me/fmind/cookiecutter-python-wheel.git
     pylint: https://git.fmind.me/fmind/cookiecutter-python-pylint.git
-    legacy: https://git.fmind.me/fmind/cookiecutter-python-legacy.git
     zipapp: https://git.fmind.me/fmind/cookiecutter-python-zipapp.git
     pytest: https://git.fmind.me/fmind/cookiecutter-python-pytest.git
     scrapy: https://git.fmind.me/fmind/cookiecutter-python-scrapy.git
+    safety: https://git.fmind.me/fmind/cookiecutter-python-safety.git
     script: https://git.fmind.me/fmind/cookiecutter-python-script.git
     scripts: https://git.fmind.me/fmind/cookiecutter-python-scripts.git
     pelican: https://git.fmind.me/fmind/cookiecutter-python-pelican.git
-    analysis: https://git.fmind.me/fmind/cookiecutter-python-analysis.git
     coverage: https://git.fmind.me/fmind/cookiecutter-python-coverage.git
+    notebook: https://git.fmind.me/fmind/cookiecutter-python-notebook.git
     githooks: https://git.fmind.me/fmind/cookiecutter-python-githooks.git
     snakemake: https://git.fmind.me/fmind/cookiecutter-python-snakemake.git
     hypothesis: https://git.fmind.me/fmind/cookiecutter-python-hypothesis.git
