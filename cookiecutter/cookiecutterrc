@@ -8,9 +8,12 @@ default_context:
 abbreviations:
     black: https://git.fmind.me/fmind/cookiecutter-python-black.git
     coverage: https://git.fmind.me/fmind/cookiecutter-python-coverage.git
+    flask-website: https://git.fmind.me/fmind/cookiecutter-python-flask-website.git
+    flask-restapi: https://git.fmind.me/fmind/cookiecutter-python-flask-restapi.git
     githooks: https://git.fmind.me/fmind/cookiecutter-python-githooks.git
     hypothesis: https://git.fmind.me/fmind/cookiecutter-python-hypothesis.git
     jupyterlab: https://git.fmind.me/fmind/cookiecutter-python-jupyterlab.git
+    mkdocs: https://git.fmind.me/fmind/cookiecutter-python-mkdocs.git
     mypy: https://git.fmind.me/fmind/cookiecutter-python-mypy.git
     notebook: https://git.fmind.me/fmind/cookiecutter-python-notebook.git
     pelican: https://git.fmind.me/fmind/cookiecutter-python-pelican.git
@@ -18,8 +21,6 @@ abbreviations:
     pytest: https://git.fmind.me/fmind/cookiecutter-python-pytest.git
     python: https://git.fmind.me/fmind/cookiecutter-python.git
     rise: https://git.fmind.me/fmind/cookiecutter-python-rise.git
-    mkdocs: https://git.fmind.me/fmind/cookiecutter-python-mkdocs.git
-    sphinx: https://git.fmind.me/fmind/cookiecutter-python-sphinx.git
     safety: https://git.fmind.me/fmind/cookiecutter-python-safety.git
     scrapy: https://git.fmind.me/fmind/cookiecutter-python-scrapy.git
     script: https://git.fmind.me/fmind/cookiecutter-python-script.git
