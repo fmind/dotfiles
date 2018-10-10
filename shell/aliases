@@ -17,6 +17,9 @@ alias parallel='parallel --will-cite'
 # COMMANDS {{{
 alias gtop='glances'
 alias chx='chmod u+x'
+function cl {
+    ls --color=auto -F
+}
 # }}}
 # Ansible {{{
 alias aa='ansible'

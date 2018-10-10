@@ -12,12 +12,6 @@ export SPACESHIP_BATTERY_SHOW=false
 export SPACESHIP_EXIT_CODE_SHOW=true
 export SPACESHIP_VENV_SUFFIX='\033[02;92m (venv)\033[01;00m '
 # }}}
-# EVENTS {{{
-function chpwd() {
-    emulate -L zsh
-    ls -a --color=auto -CF
-}
-# }}}
 # PLUGINS {{{
 plugins=(
     vi-mode
@@ -85,9 +79,9 @@ if [ -x "$(command -v pyenv)" ]; then
     eval "$(pyenv init -)"
 fi
 # # enable autoenv
-# if [ -x "$(command -v activate.sh)" ]; then
-#     source "$(which activate.sh)"
-# fi
+if [ -x "$(command -v activate.sh)" ]; then
+    source "$(which activate.sh)"
+fi
 # enable percol
 function exists { which $1 &> /dev/null }
 if exists percol; then
