@@ -8,11 +8,13 @@ default_context:
 abbreviations:
     black: https://git.fmind.me/fmind/cookiecutter-python-black.git
     coverage: https://git.fmind.me/fmind/cookiecutter-python-coverage.git
+    dev: https://git.fmind.me/fmind/cookiecutter-python-dev.git
     docker: https://git.fmind.me/fmind/cookiecutter-python-docker.git
     flask-restapi: https://git.fmind.me/fmind/cookiecutter-python-flask-restapi.git
     flask-website: https://git.fmind.me/fmind/cookiecutter-python-flask-website.git
     githooks: https://git.fmind.me/fmind/cookiecutter-python-githooks.git
     hypothesis: https://git.fmind.me/fmind/cookiecutter-python-hypothesis.git
+    ipython: https://git.fmind.me/fmind/cookiecutter-python-ipython.git
     lab: https://git.fmind.me/fmind/cookiecutter-python-lab.git
     mkdocs: https://git.fmind.me/fmind/cookiecutter-python-mkdocs.git
     mypy: https://git.fmind.me/fmind/cookiecutter-python-mypy.git
