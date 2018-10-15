@@ -42,11 +42,11 @@ if ! shopt -oq posix; then
 fi
 # }}}
 # CONFIGURATIONS {{{
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
 if [ -f ~/.environ ]; then
     . ~/.environ
+fi
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
 fi
 if [ -f ~/.private ]; then
     . ~/.private

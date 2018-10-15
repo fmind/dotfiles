@@ -17,6 +17,7 @@ alias parallel='parallel --will-cite'
 # COMMANDS {{{
 alias gtop='glances'
 alias chx='chmod u+x'
+alias acrontab="$EDITOR ~/.anacron/etc/anacrontab"
 function cl {
     ls --color=auto -F
 }

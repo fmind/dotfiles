@@ -56,11 +56,11 @@ alias -g Y='| pyp'
 alias -g Z='| pigz'
 # }}}
 # EXTENSIONS {{{
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
 if [ -f ~/.environ ]; then
     . ~/.environ
+fi
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
 fi
 if [ -f ~/.private ]; then
     . ~/.private
