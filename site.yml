@@ -159,6 +159,12 @@
     tags: ['usr', 'shell']
 # }}}
 # ADMIN{{{
+  - name: install at
+    package: name='at'
+    tags: ['sys', 'admin']
+    ignore_errors: true
+    become: true
+
   - name: install htop
     package: name='htop'
     tags: ['sys', 'admin']
