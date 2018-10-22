@@ -57,6 +57,7 @@ alias fh='find ~ -iname'
 # }}}
 # Git {{{
 alias g='git'
+alias gm='git submodule'
 alias grr='rm -rf .git'
 alias grc='vi .git/config'
 alias gwc='gws status --only-changes'
