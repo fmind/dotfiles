@@ -12,6 +12,7 @@ alias mkdir='mkdir -pv'
 alias rsync='rsync -avzu'
 alias netstat='netstat -nlp'
 alias ls='ls --color=auto -CF'
+alias tsvg='termtosvg -g "88x15"'
 alias parallel='parallel --will-cite'
 # }}}
 # COMMANDS {{{
