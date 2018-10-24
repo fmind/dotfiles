@@ -193,6 +193,10 @@
   - name: install glances
     pip: name='glances' executable='pip3' extra_args='--user'
     tags: ['usr', 'admin']
+
+  - name: install termtosvg
+    pip: name='termtosvg' executable='pip3' extra_args='--user'
+    tags: ['usr', 'admin']
 # }}}
 # SYSTEM {{{
   - name: install fasd
