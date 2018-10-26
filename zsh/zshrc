@@ -9,8 +9,7 @@ _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # THEME {{{
 ZSH_THEME="spaceship"
 export SPACESHIP_BATTERY_SHOW=false
-export SPACESHIP_EXIT_CODE_SHOW=true
-export SPACESHIP_VENV_SUFFIX='\033[02;92m (venv)\033[01;00m '
+# export SPACESHIP_VENV_SUFFIX='\033[02;92m (venv)\033[01;00m '
 # }}}
 # PLUGINS {{{
 plugins=(
