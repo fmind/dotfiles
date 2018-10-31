@@ -1,12 +1,16 @@
+# common
 *.log
 *.retry
 
+# python
 .env
-venv
-
+.venv
 .snakemake
 .tmuxp.yaml
 .hypothesis
 .mypy_cache
 .pytest_cache
 .ipynb_checkpoints
+
+# clojure
+.nrepl-history
