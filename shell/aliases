@@ -61,6 +61,7 @@ alias g='git'
 alias gm='git submodule'
 alias grr='rm -rf .git'
 alias grc='vi .git/config'
+alias gwf='gws fetch'
 alias gwc='gws status --only-changes'
 function gf {
   git clone gitea@git.fmind.me:fmind/$1.git
@@ -109,6 +110,11 @@ alias nn='note'
 alias nt='note todo'
 alias ni='note idea'
 alias np='note projects'
+# }}}
+# clOjure {{{
+alias oo='lein'
+alias ob='boot'
+alias oi='lein repl'
 # }}}
 # Python {{{
 alias pt='pytest'
