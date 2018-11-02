@@ -4,6 +4,7 @@ default_context:
     author: "Médéric Hurier"
     control: "git.fmind.me"
     license: "EUPL-1.2"
+    clojure: "1.9.0"
     python: "3.7.0"
 abbreviations:
     black: https://git.fmind.me/fmind/cookiecutter-python-black.git

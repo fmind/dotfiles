@@ -61,6 +61,7 @@ alias g='git'
 alias gm='git submodule'
 alias grr='rm -rf .git'
 alias grc='vi .git/config'
+alias gwi='gws init'
 alias gwf='gws fetch'
 alias gwc='gws status --only-changes'
 function gf {
@@ -112,9 +113,7 @@ alias ni='note idea'
 alias np='note projects'
 # }}}
 # clOjure {{{
-alias oo='lein'
-alias ob='boot'
-alias oi='lein repl'
+alias ok='lein'
 # }}}
 # Python {{{
 alias pt='pytest'
@@ -190,7 +189,7 @@ alias ws='watchmedo shell-command'
 # }}}
 # Xdesk {{{
 alias xf='xdg-open'
-alias xu='dolphin .'
+alias xu='nautilus'
 alias xd='xbacklight -set 30'
 alias xb='xbacklight -set 100'
 alias xc='xsel --clipboard --clear'
