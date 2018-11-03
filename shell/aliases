@@ -79,6 +79,13 @@ function gho {
     git push -u origin master
 }
 # }}}
+# Hylang {{{
+alias hi='hy -i'
+alias hk='hy -c'
+alias hm='hy -m'
+alias hp='hy2py'
+alias hs='hy --spy'
+# }}}
 # Image {{{
 alias ii='mogrify'
 alias ir='mogrify -resize'
@@ -113,7 +120,21 @@ alias ni='note idea'
 alias np='note projects'
 # }}}
 # clOjure {{{
-alias ok='lein'
+alias oo='lein'
+alias ob='lein dist'
+alias oc='lein covs'
+alias od='lein docs'
+alias od='lein olds'
+alias oe='lein edit'
+alias of='lein ffmt'
+alias oh='lein hook'
+alias oi='lein init'
+alias ol='lein lint'
+alias oq='lein clean'
+alias or='lein repl'
+alias ot='lein test'
+alias ou='lein uberjar'
+alias ov='lein vuln'
 # }}}
 # Python {{{
 alias pt='pytest'
