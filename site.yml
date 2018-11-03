@@ -45,22 +45,22 @@
     tags: ['usr', 'vim']
 # }}}
 # EMACS{{{
- - name: install emacs
-   package: name='emacs-nox'
-   tags: ['sys', 'emacs']
-   become: true
+  - name: install emacs
+    package: name='emacs-nox'
+    tags: ['sys', 'emacs']
+    become: true
 
- - name: deploy emacs dir
-   file: src='{{playbook_dir}}/emacs/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
-   tags: ['usr', 'emacs']
+  - name: deploy emacs dir
+    file: src='{{playbook_dir}}/emacs/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
+    tags: ['usr', 'emacs']
 
- - name: deploy emacs conf
-   file: src='{{playbook_dir}}/emacs/spacemacs' dest='~/.spacemacs' state=link force=yes
-   tags: ['usr', 'emacs']
+  - name: deploy emacs conf
+    file: src='{{playbook_dir}}/emacs/spacemacs' dest='~/.spacemacs' state=link force=yes
+    tags: ['usr', 'emacs']
 
- - name: clone emacs spacemacs
-   git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
-   tags: ['usr', 'emacs']
+  - name: clone emacs spacemacs
+    git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
+    tags: ['usr', 'emacs']
 # }}}
 # ZSH {{{
   - name: install zsh
