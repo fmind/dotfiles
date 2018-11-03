@@ -44,6 +44,24 @@
     get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
     tags: ['usr', 'vim']
 # }}}
+# EMACS{{{
+ - name: install emacs
+   package: name='emacs-nox'
+   tags: ['sys', 'emacs']
+   become: true
+
+ - name: deploy emacs dir
+   file: src='{{playbook_dir}}/emacs/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
+   tags: ['usr', 'emacs']
+
+ - name: deploy emacs conf
+   file: src='{{playbook_dir}}/emacs/spacemacs' dest='~/.spacemacs' state=link force=yes
+   tags: ['usr', 'emacs']
+
+ - name: clone emacs spacemacs
+   git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
+   tags: ['usr', 'emacs']
+# }}}
 # ZSH {{{
   - name: install zsh
     package: name='zsh'
@@ -126,20 +144,6 @@
       - .tmux.conf
       - keybindings.tmux
     tags: ['usr', 'tmux']
-# }}}
-# XONSH {{{
-  - name: install xonsh
-    pip: name='xonsh[{{item}}]' executable='pip3' extra_args='--user'
-    with_items:
-      - ptk
-      - linux
-      - pygments
-      - proctitle
-    tags: ['usr', 'xonsh']
-
-  - name: deploy xonsh conf
-    file: src='{{playbook_dir}}/xonsh/xonshrc' dest='~/.xonshrc' state=link force=yes
-    tags: ['usr', 'xonsh']
 # }}}
 # SHELL {{{
   - name: deploy shell input
@@ -274,9 +278,11 @@
     ignore_errors: true
     become: true
 
-  - name: install jp
-    pip: name='jmespath' executable='pip3' extra_args='--user'
-    tags: ['usr', 'process']
+  - name: install jq
+    package: name='jq'
+    tags: ['sys', 'process']
+    ignore_errors: true
+    become: true
 
   - name: install csvkit
     pip: name='csvkit' executable='pip3' extra_args='--user'

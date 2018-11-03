@@ -3,7 +3,6 @@
 alias vi='vim'
 alias du='du -h'
 alias df='df -h'
-alias jp='jp.py'
 alias ps='ps aux'
 alias wget='wget -c'
 alias grep='grep -i'
@@ -103,9 +102,10 @@ alias ji='fasd_cd -di'
 alias je='fasd -fe $EDITOR' 
 alias jv='fasd -fie $EDITOR' 
 # }}}
-# Kill {{{
-alias ka='killall'
-alias k9='killall -9'
+# Racket {{{
+alias kp='raco'
+alias kk='racket'
+alias ke='racket -e'
 # }}}
 # Make {{{
 alias mk='make'
