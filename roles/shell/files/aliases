@@ -5,18 +5,17 @@ alias df='df -h'
 alias ps='ps aux'
 alias wget='wget -c'
 alias grep='grep -i'
-alias chx='chmod u+x'
-alias black='black -q'
 alias mkdir='mkdir -pv'
 alias rsync='rsync -avzu'
 alias netstat='netstat -nlp'
 alias ls='ls --color=auto -CF'
-alias tsvg='termtosvg -g "88x15"'
 alias parallel='parallel --will-cite'
+alias termtosvg='termtosvg -g "88x15"'
 # }}}
 # COMMANDS {{{
 alias vi='vim'
 alias gtop='glances'
+alias chux='chmod u+x'
 alias extip='curl icanhazip.com'
 # }}}
 # Ansible {{{
