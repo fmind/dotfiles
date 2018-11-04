@@ -2,4 +2,4 @@
 xset r rate 200 50
 
 # remap capslock key
-setxkbmap -option caps:escape
+setxkbmap -option ctrl:nocaps

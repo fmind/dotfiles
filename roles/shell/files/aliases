@@ -158,6 +158,7 @@ alias ppp='python -m pip install --user'
 # Rconf {{{
 alias ra='vi ~/.aliases'
 alias rb='vi ~/.bashrc'
+alias rc='vi ~/.spacemacs'
 alias rd='vi ~/.display'
 alias re='vi ~/.environ'
 alias rg="vi ~/.gitconfig"
@@ -165,7 +166,6 @@ alias ri="vi ./.gitignore"
 alias rj='vi ~/.ideavimrc'
 alias rk='vi ~/.cookiecutterrc'
 alias rl='vi ~/.latexmkrc'
-alias rm='vi ~/.spacemacs'
 alias rn='vi ~/.input'
 alias ro='vi ~/.private'
 alias rp='vi ~/.ptpython/config.py'

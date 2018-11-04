@@ -17,3 +17,5 @@
 # SESSIONS
 # bind-key -n M-k switch-client -n
 # bind-key -n M-j switch-client -p
+set -g prefix F12
+unbind-key -n C-a
