@@ -19,10 +19,6 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
 )
-
-# bindkey -v
-# export KEYTIMEOUT=1
-# bindkey '^o' clear-screen
 # }}}
 # SETTINGS {{{
 export ZSH=~/.oh-my-zsh

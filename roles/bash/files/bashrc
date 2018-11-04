@@ -13,8 +13,6 @@ HISTCONTROL=ignoreboth
 PS1='\[\033[02;91m\]\u \[\033[01;00m\]at\[\033[02;92m\] \h \[\033[01;00m\]in\[\033[02;94m\] \W\[\033[01;00m\] \$ '
 # }}}
 # OPTIONS {{{
-# switch to vi
-# set -o vi
 # extended pattern matching
 shopt -s extglob
 # includes files beginning with a ‘.’
