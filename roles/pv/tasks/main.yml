@@ -1,0 +1,6 @@
+---
+
+- name: install package
+  package: name='pv'
+  ignore_errors: true
+  become: true

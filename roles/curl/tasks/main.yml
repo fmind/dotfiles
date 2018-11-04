@@ -1,0 +1,5 @@
+---
+
+- name: install package
+  package: name='curl'
+  become: true

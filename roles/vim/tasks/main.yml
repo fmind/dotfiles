@@ -1,0 +1,29 @@
+---
+
+- name: create directory
+  file: path='~/.vim/' state=directory
+  tags: ['usr']
+
+- name: install package
+  package: name='vim'
+  become: true
+
+- name: deploy config
+  file: src='{{role_path}}/files/vimrc' dest='~/.vimrc' state=link force=yes
+  tags: ['usr']
+
+- name: create subs
+  file: path='~/.vim/{{item}}/' state=directory
+  with_items:
+    - undo
+    - swap
+    - spell
+    - backup
+    - session
+    - plugged
+    - autoload
+  tags: ['usr']
+
+- name: install manager
+  get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
+  tags: ['usr']

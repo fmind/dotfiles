@@ -1,0 +1,10 @@
+---
+
+- name: install package
+  package: name='silversearcher-ag'
+  ignore_errors: true
+  become: true
+
+- name: deploy config
+  file: src='{{role_path}}/files/agignore' dest='~/.agignore' state=link force=yes
+  tags: ['usr']

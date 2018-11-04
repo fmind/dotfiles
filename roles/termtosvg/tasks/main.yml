@@ -1,0 +1,5 @@
+---
+
+- name: install package
+  pip: name='termtosvg' executable='pip3' extra_args='--user'
+  tags: ['usr']

@@ -1,0 +1,17 @@
+---
+
+- name: install package
+  package: name='emacs-nox'
+  become: true
+
+- name: deploy directory
+  file: src='{{role_path}}/files/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
+  tags: ['usr']
+
+- name: clone spacemacs
+  git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
+  tags: ['usr']
+
+- name: deploy config
+  file: src='{{role_path}}/files/spacemacs' dest='~/.spacemacs' state=link force=yes
+  tags: ['usr']

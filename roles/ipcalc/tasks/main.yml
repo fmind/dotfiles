@@ -1,0 +1,6 @@
+---
+
+- name: install package
+  package: name='ipcalc'
+  ignore_errors: true
+  become: true

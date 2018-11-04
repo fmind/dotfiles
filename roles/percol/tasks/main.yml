@@ -1,0 +1,13 @@
+---
+
+- name: create directory
+  file: path='~/.percol.d/' state=directory
+  tags: ['usr']
+
+- name: install package
+  pip: name='percol' executable='pip3' extra_args='--user'
+  tags: ['usr']
+
+- name: deploy config
+  file: src='{{role_path}}/files/rc.py' dest='~/.percol.d/rc.py' state=link force=yes
+  tags: ['usr']
