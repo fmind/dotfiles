@@ -16,7 +16,7 @@
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation nil
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
@@ -27,92 +27,94 @@
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     my-config
-    (auto-completion :variables
-                    ;; tips
-                    auto-completion-enable-help-tooltip t
-                    auto-completion-enable-sort-by-usage t
-                    ;; keys
-                    auto-completion-tab-key-behavior 'cycle
-                    auto-completion-return-key-behavior 'complete
-                    ;; snippets
-                    auto-completion-enable-snippets-in-popup t
-                    auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
-     bibtex
+    ;;  my-config
+     ansible
+     (auto-completion :variables
+                      ;; tips
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-sort-by-usage t
+                      ;; keys
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-return-key-behavior 'complete
+                      ;; snippets
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
+     better-defaults
+    ;;  bibtex
      colors
-     (clojure :variables
-              cider-test-show-report t
-              cider-repl-clear-help-banner nil)
-     my-clojure
-     ;; elixir
-     ;; my-elixir
+    ;;  (clojure :variables
+    ;;           cider-test-show-report t
+    ;;           cider-repl-clear-help-banner nil)
+     ;; my-clojure
+     csv
      emacs-lisp
-     my-emacs-lisp
-     evil-commentary
-     (evil-snipe :variables
-                 evil-snipe-enable-alternate-f-and-t-behaviors t)
-     my-evil-snipe
+     ;; my-emacs-lisp
+     ;; evil-commentary
+     ;; (evil-snipe :variables
+     ;;             evil-snipe-enable-alternate-f-and-t-behaviors t)
+     ;; my-evil-snipe
      deft
      fasd
-     my-fasd
-     ;; (haskell :variables
-     ;;           haskell-completion-backend 'intero
-     ;;           haskell-enable-hindent-style "fundamental")
-     ;; my-haskell
-     helm
+     ;; my-fasd
+     graphviz
+     ;; helm
      html
-     (latex :variables
-            latex-enable-folding t
-            latex-enable-auto-fill nil)
-     my-latex
-     javascript
-     markdown
-     (org :variables
-          org-enable-github-support t
-          org-enable-reveal-js-support t
-          org-projectile-file "TODO.org")
-     my-org
-     org-brain
+     ;; (latex :variables
+     ;;        latex-enable-folding t
+     ;;        latex-enable-auto-fill nil)
+     ;; my-latex
+     ;; javascript
+     ;; markdown
+     nginx
+     ;; (org :variables
+     ;;      org-enable-github-support t
+     ;;      org-enable-reveal-js-support t
+     ;;      org-projectile-file "TODO.org")
+     ;; my-org
+     ;; org-brain
      plantuml
-     (python :variables
-             python-fill-column 120
-             python-test-runner 'pytest
-             python-sort-imports-on-save t
-             python-enable-yapf-format-on-save t)
-     my-python
-     ;; racket
-     ;; my-racket
-     ranger
-     my-ranger
+     prodigy
+     ;; (python :variables
+     ;;         python-fill-column 120
+     ;;         python-test-runner 'pytest
+     ;;         python-sort-imports-on-save t
+     ;;         python-enable-yapf-format-on-save t)
+     ;; my-python
+     restclient
      search-engine
-     my-search-engine
+     ;; my-search-engine
+     selectric
      semantic
-     (shell :variables
-            shell-default-height 20
-            shell-default-position 'bottom
-            shell-default-shell 'ansi-term
-            shell-default-term-shell "/bin/bash")
+     ;; (shell :variables
+     ;;        shell-default-height 20
+     ;;        shell-default-position 'bottom
+     ;;        shell-default-shell 'ansi-term
+     ;;        shell-default-term-shell "/bin/bash")
      shell-scripts
+     speed-reading
      (spell-checking :variables
                      spell-checking-enable-auto-dictionary t)
-     syntax-checking
+     sql
+     (syntax-checking :variables
+                      syntax-checking-enable-tooltips t)
      systemd
      tmux
-     my-tmux
+     ;; my-tmux
      (version-control :variables
                       version-control-diff-tool 'diff-hl
                       version-control-global-margin t)
-     yaml)
+     xkcd
+     yaml
+     )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(aggressive-indent
-                                      groovy-mode)
+   dotspacemacs-additional-packages '(aggressive-indent)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(evil-jumper evil-search-highlight-persist)
+   dotspacemacs-excluded-packages '(evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -156,7 +158,9 @@ values."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style '(hybrid :variables
-                                       hybrid-mode-enable-hjkl-bindings t)
+                                       hybrid-mode-enable-evilified-state t
+                                       hybrid-mode-enable-hjkl-bindings t
+                                       hybrid-mode-default-state 'normal)
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -184,9 +188,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
-                         spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(monokai)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -210,7 +212,7 @@ values."
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
    dotspacemacs-major-mode-leader-key ","
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m)
+   ;; (default "C-M-m"
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs C-i, TAB and C-m, RET.
@@ -237,7 +239,7 @@ values."
    dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -290,17 +292,17 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 100
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 100
    ;; If non nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -361,8 +363,7 @@ values."
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
-  (setq scroll-margin 10)
-)
+  (setq scroll-margin 10))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -370,7 +371,7 @@ values."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit systemd stickyfunc-enhance srefactor spaceline powerline slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm org-ref pdf-tools key-chord ivy tablist org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain org-plus-contrib open-junk-file neotree multi-term move-text mmm-mode markdown-toc markdown-mode macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc insert-shebang indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-bibtex parsebib helm-ag haml-mode groovy-mode google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip flycheck flx-ido flx fish-mode fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl deft define-word cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-shell company-quickhelp pos-tip company-auctex company-anaconda company column-enforce-mode color-identifiers-mode coffee-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key biblio biblio-core auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed auctex-latexmk auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup monokai-theme))))
+    (xkcd unfill sql-indent spray selectric-mode restclient-helm prodigy ob-restclient ob-http nginx-mode mwim jinja2-mode graphviz-dot-mode evil-nerd-commenter csv-mode company-restclient restclient know-your-http-well company-ansible ansible-doc ansible evil-search-highlight-persist yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit systemd stickyfunc-enhance srefactor spaceline slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc insert-shebang indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fish-mode fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl deft define-word cython-mode company-web company-tern company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

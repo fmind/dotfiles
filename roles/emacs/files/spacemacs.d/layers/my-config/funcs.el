@@ -27,32 +27,14 @@
                (or (my-emacs-buffer-p (buffer-name))
                    (string= major-mode "dired-mode")))))))
 
-(defun my-cut-to-clipboard ()
-  "Cut to x-clipboard."
-  (interactive)
-  (my-copy-to-clipboard)
-  (delete-region (region-beginning) (region-end)))
+(defun xclip-cut-function (text &optional push)
+  (with-temp-buffer
+    (insert text)
+    (call-process-region (point-min) (point-max) "xclip" nil 0 nil "-i" "-selection" "clipboard")))
 
-(defun my-paste-from-clipboard ()
-  "Paste from x-clipboard."
-  (interactive)
-  (if (display-graphic-p)
-      (clipboard-yank)
-      (insert (shell-command-to-string "xsel -o -b"))))
-
-(defun my-copy-to-clipboard ()
-  "Copy to X-clipboard."
-  (interactive)
-  (if (display-graphic-p)
-      (progn
-        (message "Yanked region to x-clipboard!")
-        (call-interactively 'clipboard-kill-ring-save))
-    (if (region-active-p)
-        (progn
-          (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-          (message "Yanked region to clipboard!")
-          (deactivate-mark))
-        (message "No region active; can't yank to clipboard!"))))
+(defun xclip-paste-function()
+  (let ((xclip-output (shell-command-to-string "xclip -o -selection clipboard")))
+  (unless (string= (car kill-ring) xclip-output) xclip-output)))
 
 (defun my-config-open (file)
   "Open a configuration file in spacemacs directory."

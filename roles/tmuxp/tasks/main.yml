@@ -5,5 +5,5 @@
   tags: ['usr']
 
 - name: deploy directory
-  file: src='{{role_path}}/files/tmuxp' dest='~/.tmuxp' state=link force=yes
+  file: src='{{role_path}}/files' dest='~/.tmuxp' state=link force=yes
   tags: ['usr']

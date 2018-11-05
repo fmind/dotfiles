@@ -15,6 +15,10 @@ alias termtosvg='termtosvg -g "88x15"'
 # COMMANDS {{{
 alias vi='vim'
 alias gtop='glances'
+alias sys='systemctl'
+alias log='journalctl'
+alias sys='systemctl --user'
+alias lou='journalctl --user'
 alias chux='chmod u+x'
 alias extip='curl icanhazip.com'
 # }}}
@@ -43,11 +47,11 @@ alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-emp
 #alias dkmongo='docker run --rm -it --name mongo --net=host -v '$(pwd)/data/db':/data/db mongo --smallfiles'
 # }}}
 # Emacs {{{
-alias ex='emacs'
-alias ed='emacs .'
-alias eo='emacs-nox'
-alias ec='emacsclient'
-alias es='emacs --daemon'
+alias em='emacs'
+alias en='emacs -nw'
+alias ed='emacs --daemon'
+alias ec='emacsclient -ca ""'
+alias et='emacsclient -cta ""'
 # }}}
 # Find {{{
 alias ff='find . -iname'

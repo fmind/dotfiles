@@ -2,6 +2,7 @@
 
 - name: install package
   package: name='emacs-nox'
+  when: not lookup('env','DISPLAY')
   become: true
 
 - name: deploy directory
@@ -13,5 +14,5 @@
   tags: ['usr']
 
 - name: deploy config
-  file: src='{{role_path}}/files/spacemacs' dest='~/.spacemacs' state=link force=yes
+  file: src='{{role_path}}/files/spacemacs' dest='~/.spacemacs' state='link' force='yes'
   tags: ['usr']

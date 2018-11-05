@@ -64,11 +64,6 @@
 (spacemacs/set-leader-keys "ir" 'yas-reload-all)
 (spacemacs/set-leader-keys "oi" 'my-snippet-open)
 ;;}}}
-;; COPY/PASTE {{{
-(spacemacs/set-leader-keys "ox" 'my-cut-to-clipboard)
-(spacemacs/set-leader-keys "oy" 'my-copy-to-clipboard)
-(spacemacs/set-leader-keys "op" 'my-paste-from-clipboard)
-;;}}}
 ;; ABBREVIATIONS {{{
 (spacemacs/set-leader-keys "oa" 'add-mode-abbrev)
 (spacemacs/set-leader-keys "oA" 'add-global-abbrev)
