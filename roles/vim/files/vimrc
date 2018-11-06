@@ -107,6 +107,7 @@ let mapleader=" "
 let maplocalleader="," 
 " }}}
 "" DEFAULT {{{
+imap fd <Esc>
 noremap j gj
 noremap k gk
 noremap B g^

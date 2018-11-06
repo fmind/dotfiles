@@ -4,7 +4,9 @@
 [ -z "$PS1" ] && return
 # }}}
 # BYOBU {{{
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+if [ -z "$EMACS" ]; then
+    byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+fi
 # }}}
 # SETTINGS {{{
 HISTSIZE=100000

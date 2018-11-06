@@ -118,6 +118,7 @@ alias np='note projects'
 # }}}
 # clOjure {{{
 alias oo='lein'
+alias oj='lumo'
 alias ob='lein dist'
 alias oc='lein covs'
 alias od='lein docs'
@@ -222,6 +223,7 @@ alias yk='jupyter kernel'
 alias yc='jupyter convert'
 alias yp='jupyter console'
 alias yn='jupyter notebook'
+alias yo='jupyter notebook --NotebookApp.token=""'
 alias ym='ipcluster start'
 # }}}
 # Zip {{{

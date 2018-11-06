@@ -27,7 +27,6 @@
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-    ;;  my-config
      ansible
      (auto-completion :variables
                       ;; tips
@@ -40,68 +39,52 @@
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
      better-defaults
-    ;;  bibtex
+     bibtex
+     clipboard
      colors
-    ;;  (clojure :variables
-    ;;           cider-test-show-report t
-    ;;           cider-repl-clear-help-banner nil)
-     ;; my-clojure
+     ;; (clojure :variables
+     ;;          cider-test-show-report t
+     ;;          cider-repl-clear-help-banner nil)
      csv
      emacs-lisp
-     ;; my-emacs-lisp
-     ;; evil-commentary
-     ;; (evil-snipe :variables
-     ;;             evil-snipe-enable-alternate-f-and-t-behaviors t)
-     ;; my-evil-snipe
+     evil-commentary
+     (evil-snipe :variables
+                 evil-snipe-enable-alternate-f-and-t-behaviors t)
      deft
      fasd
-     ;; my-fasd
+     git
      graphviz
-     ;; helm
      html
-     ;; (latex :variables
-     ;;        latex-enable-folding t
-     ;;        latex-enable-auto-fill nil)
-     ;; my-latex
-     ;; javascript
-     ;; markdown
+     (latex :variables
+            latex-enable-folding t
+            latex-enable-auto-fill t)
+     markdown
      nginx
-     ;; (org :variables
-     ;;      org-enable-github-support t
-     ;;      org-enable-reveal-js-support t
-     ;;      org-projectile-file "TODO.org")
-     ;; my-org
-     ;; org-brain
+     (org :variables
+          org-enable-github-support t
+          org-enable-reveal-js-support t
+          org-projectile-file "TODO.org")
      plantuml
      prodigy
-     ;; (python :variables
-     ;;         python-fill-column 120
-     ;;         python-test-runner 'pytest
-     ;;         python-sort-imports-on-save t
-     ;;         python-enable-yapf-format-on-save t)
-     ;; my-python
+     (python :variables
+             python-fill-column 88
+             python-test-runner 'pytest)
      restclient
      search-engine
-     ;; my-search-engine
-     selectric
      semantic
-     ;; (shell :variables
-     ;;        shell-default-height 20
-     ;;        shell-default-position 'bottom
-     ;;        shell-default-shell 'ansi-term
-     ;;        shell-default-term-shell "/bin/bash")
+     (shell :variables
+            shell-default-shell 'term
+            shell-default-term-shell "/usr/bin/zsh")
      shell-scripts
      speed-reading
      (spell-checking :variables
-                     spell-checking-enable-auto-dictionary t)
+                      spell-checking-enable-auto-dictionary t)
      sql
      (syntax-checking :variables
                       syntax-checking-enable-tooltips t)
      systemd
-     tmux
-     ;; my-tmux
      (version-control :variables
-                      version-control-diff-tool 'diff-hl
+                      version-control-diff-tool'diff-hl
                       version-control-global-margin t)
      xkcd
      yaml
@@ -110,11 +93,11 @@
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(aggressive-indent)
+   dotspacemacs-additional-packages '()
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(evil-search-highlight-persist)
+   dotspacemacs-excluded-packages '(auto-compile)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -125,11 +108,7 @@
    dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
-  "Initialization function.
-This function is called at the very startup of Spacemacs initialization
-before layers configuration.
-You should not put any user code in there besides modifying the variable
-values."
+  "Initialization function."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
@@ -158,9 +137,9 @@ values."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style '(hybrid :variables
-                                       hybrid-mode-enable-evilified-state t
-                                       hybrid-mode-enable-hjkl-bindings t
-                                       hybrid-mode-default-state 'normal)
+                                hybrid-mode-enable-evilified-state t
+                                hybrid-mode-enable-hjkl-bindings t
+                                hybrid-mode-default-state 'normal)
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -228,12 +207,12 @@ values."
    dotspacemacs-retain-visual-state-on-shift t
    ;; If non-nil, J and K move lines up and down when in visual mode.
    ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
+   dotspacemacs-visual-line-move-text t
    ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
    ;; (default nil)
    dotspacemacs-ex-substitute-global t
    ;; Name of the default layout (default "Default")
-   dotspacemacs-default-layout-name "Default"
+   dotspacemacs-default-layout-name "default"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
    dotspacemacs-display-default-layout t
@@ -302,7 +281,7 @@ values."
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols nil
+   dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -320,10 +299,9 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers '(
-    :relative 'relative
-    :size-limit-kb 1000
-    :disabled-for-modes org-mode dired-mode pdf-view-mode doc-view-mode)
+   dotspacemacs-line-numbers '(:relative 'relative
+                               :size-limit-kb 1000
+                               :disabled-for-modes org-mode dired-mode pdf-view-mode doc-view-mode)
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -358,23 +336,106 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code."
-  ;; disable warnings on startup (PATH variable)
-  (setq exec-path-from-shell-check-startup-files nil))
+  (setq create-lockfiles nil)
+  (setq vc-follow-symlinks t)
+  (setq exec-path-from-shell-check-startup-files nil)
+  (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
-  (setq scroll-margin 10))
+  (engine-mode t)
+  (golden-ratio-mode 1)
+  (global-company-mode)
+
+  (setq scroll-margin 10)
+
+  ;; (with-eval-after-load 'cider
+  ;;   (setq cider-save-file-on-load t)
+  ;;   (setq nrepl-hide-special-buffers t)
+  ;;   (setq cider-repl-use-pretty-printing t)
+  ;;   (setq cider-repl-display-help-banner nil)
+  ;;   (setq clojure-docstring-fill-prefix-width 0)
+  ;;   (setq cider-repl-display-in-current-window t))
+
+  (with-eval-after-load 'core-keybindings
+    (spacemacs/set-leader-keys "\"" 'ielm))
+
+  (with-eval-after-load 'engine-mode
+    (defengine qwant "http://lite.qwant.com/?l=en&q=%s")
+    (defengine thesaurus "http://thesaurus.com/browse/%s")
+    (spacemacs/set-leader-keys "swj" 'engine/search-qwant)
+    (spacemacs/set-leader-keys "swh" 'engine/search-github)
+    (spacemacs/set-leader-keys "swl" 'engine/search-thesaurus)
+    (spacemacs/set-leader-keys "swk" 'engine/search-stack-overflow))
+
+  (with-eval-after-load 'evil
+    (define-key evil-normal-state-map "U" 'redo)
+    (define-key evil-normal-state-map "K" 'evil-scroll-up)
+    (define-key evil-normal-state-map "J" 'evil-scroll-down)
+    (define-key evil-normal-state-map "L" 'evil-next-buffer)
+    (define-key evil-normal-state-map "H" 'evil-prev-buffer)
+    (define-key evil-normal-state-map "Q" 'kill-this-buffer)
+    (define-key evil-normal-state-map "j" 'evil-next-visual-line)
+    (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
+    (define-key evil-normal-state-map "E" 'evil-end-of-visual-line)
+    (define-key evil-normal-state-map "B" 'evil-first-non-blank-of-visual-line)
+    (define-key evil-normal-state-map "gj" 'evil-join)
+    (define-key evil-visual-state-map "gs" 'sort-lines))
+
+  (with-eval-after-load 'evil-snipe
+    (define-key evil-normal-state-map "s" 'evil-snipe-s)
+    (define-key evil-normal-state-map "S" 'evil-snipe-S))
+
+  (with-eval-after-load 'eww
+    (setq eww-search-prefix "http://lite.qwant.com/?l=en&q=")
+    (setq browse-url-browser-function 'eww-browse-url)
+    (evil-define-key 'normal 'eww-mode-map
+      "O" 'eww
+      "R" 'eww-reload
+      "Q" 'quit-window
+      "F" 'ace-link-eww
+      "D" 'eww-download
+      "P" 'eww-readable
+      "S" 'eww-view-source
+      "C" 'url-cookie-list
+      "H" 'eww-back-url
+      "L" 'eww-forward-url
+      "U" 'eww-up-url
+      "T" 'eww-top-url
+      "]" 'eww-next-url
+      "[" 'eww-previous-url
+      "Y" 'eww-copy-page-url
+      "I" 'eww-browse-with-external-browser))
+  (spacemacs/set-leader-keys "." 'eww)
+
+  (with-eval-after-load 'magit
+    (setq magit-repository-directories '("~/code")))
+
+  (with-eval-after-load 'org
+    (setq plantuml-jar-path "/usr/share/java/plantuml.jar")
+    (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
+    (add-hook 'org-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
+    (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
+
+  (with-eval-after-load 'tex
+    (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+    (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-golden-ratio-off)
+    (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on))
+
+  (with-eval-after-load 'yasnippet (spacemacs/set-leader-keys "ir" 'yas-reload-all) (spacemacs/set-leader-keys "is" 'yas/visit-snippet-file)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol t)
  '(package-selected-packages
    (quote
-    (xkcd unfill sql-indent spray selectric-mode restclient-helm prodigy ob-restclient ob-http nginx-mode mwim jinja2-mode graphviz-dot-mode evil-nerd-commenter csv-mode company-restclient restclient know-your-http-well company-ansible ansible-doc ansible evil-search-highlight-persist yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit systemd stickyfunc-enhance srefactor spaceline slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc insert-shebang indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fish-mode fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl deft define-word cython-mode company-web company-tern company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd eww-lnum xclip haml-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck web-completion-data git-commit with-editor pos-tip company yasnippet auto-complete dash-functional anaconda-mode pythonic pdf-tools key-chord ivy tablist org-category-capture alert log4e gntp markdown-mode htmlize helm-bibtex parsebib inflections edn multiple-cursors paredit peg cider sesman queue clojure-mode biblio biblio-core auctex smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup ghub treepy let-alist graphql xkcd unfill sql-indent spray selectric-mode restclient-helm prodigy ob-restclient ob-http nginx-mode mwim jinja2-mode graphviz-dot-mode evil-nerd-commenter csv-mode company-restclient restclient know-your-http-well company-ansible ansible-doc ansible evil-search-highlight-persist yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit systemd stickyfunc-enhance srefactor spaceline slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc insert-shebang indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fish-mode fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl deft define-word cython-mode company-web company-tern company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822")) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C")))))
