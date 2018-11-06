@@ -42,9 +42,7 @@
      bibtex
      clipboard
      colors
-     ;; (clojure :variables
-     ;;          cider-test-show-report t
-     ;;          cider-repl-clear-help-banner nil)
+     clojure
      csv
      emacs-lisp
      evil-commentary
@@ -87,8 +85,7 @@
                       version-control-diff-tool'diff-hl
                       version-control-global-margin t)
      xkcd
-     yaml
-     )
+     yaml)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -349,13 +346,13 @@
 
   (setq scroll-margin 10)
 
-  ;; (with-eval-after-load 'cider
-  ;;   (setq cider-save-file-on-load t)
-  ;;   (setq nrepl-hide-special-buffers t)
-  ;;   (setq cider-repl-use-pretty-printing t)
-  ;;   (setq cider-repl-display-help-banner nil)
-  ;;   (setq clojure-docstring-fill-prefix-width 0)
-  ;;   (setq cider-repl-display-in-current-window t))
+  (with-eval-after-load 'cider
+    (setq cider-save-file-on-load t)
+    (setq nrepl-hide-special-buffers t)
+    (setq cider-repl-use-pretty-printing t)
+    (setq cider-repl-display-help-banner nil)
+    (setq cider-repl-history-file "~/.cider.log")
+    (setq cider-repl-pop-to-buffer-on-connect 'display-only))
 
   (with-eval-after-load 'core-keybindings
     (spacemacs/set-leader-keys "\"" 'ielm))
@@ -422,7 +419,9 @@
     (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-golden-ratio-off)
     (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on))
 
-  (with-eval-after-load 'yasnippet (spacemacs/set-leader-keys "ir" 'yas-reload-all) (spacemacs/set-leader-keys "is" 'yas/visit-snippet-file)))
+  (with-eval-after-load 'yasnippet
+    (spacemacs/set-leader-keys "ir" 'yas-reload-all)
+    (spacemacs/set-leader-keys "is" 'yas/visit-snippet-file)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
