@@ -80,6 +80,25 @@ function gho {
     git push -u origin master
 }
 # }}}
+# Konf {{{
+alias ka='vi ~/.aliases'
+alias kb='vi ~/.bashrc'
+alias kc='vi ~/.cookiecutterrc'
+alias kd='vi ~/.display'
+alias ke='vi ~/.environ'
+alias kg="vi ~/.gitconfig"
+alias ki='vi ~/.input'
+alias kj='vi ~/.ideavimrc'
+alias kl='vi ~/.latexmkrc'
+alias km='vi ~/.spacemacs'
+alias kn="vi ./.gitignore"
+alias kp='vi ~/.private'
+alias kr='source'
+alias ks='vi ~/.ssh/config'
+alias kt="$EDITOR ~/.anacron/etc/anacrontab"
+alias kv='vi ~/.vimrc'
+alias kz='vi ~/.zshrc'
+# }}}
 # Hylang {{{
 alias hi='hy -i'
 alias hk='hy -c'
@@ -117,12 +136,12 @@ alias ni='note idea'
 alias np='note projects'
 # }}}
 # clOjure {{{
-alias oo='lein'
+alias ok='lein'
 alias oj='lumo'
 alias ob='lein dist'
 alias oc='lein covs'
 alias od='lein docs'
-alias od='lein olds'
+alias oo='lein olds'
 alias oe='lein edit'
 alias of='lein ffmt'
 alias oh='lein hook'
@@ -160,26 +179,9 @@ alias ppe='python -m pip install -e'
 alias ppp='python -m pip install --user'
 # }}}
 # }}}
-# Rconf {{{
-alias ra='vi ~/.aliases'
-alias rb='vi ~/.bashrc'
-alias rc='vi ~/.spacemacs'
-alias rd='vi ~/.display'
-alias re='vi ~/.environ'
-alias rg="vi ~/.gitconfig"
-alias ri="vi ./.gitignore"
-alias rj='vi ~/.ideavimrc'
-alias rk='vi ~/.cookiecutterrc'
-alias rl='vi ~/.latexmkrc'
-alias rn='vi ~/.input'
-alias ro='vi ~/.private'
-alias rp='vi ~/.ptpython/config.py'
-alias rr='source'
-alias rs='vi ~/.ssh/config'
-alias rt="$EDITOR ~/.anacron/etc/anacrontab"
-alias rv='vi ~/.vimrc'
-alias rx='vi ~/.xonshrc'
-alias rz='vi ~/.zshrc'
+# Racket {{{
+alias rk='raco'
+alias ra='racket'
 # }}}
 # Snakemake {{{
 alias sk='snakemake'
