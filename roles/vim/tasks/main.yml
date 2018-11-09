@@ -2,15 +2,16 @@
 
 - name: create directory
   file: path='~/.vim/' state=directory
-  tags: ['usr']
+  tags: user
 
 - name: install package
   package: name='vim'
   become: true
+  tags: admin
 
 - name: deploy config
   file: src='{{role_path}}/files/vimrc' dest='~/.vimrc' state=link force=yes
-  tags: ['usr']
+  tags: user
 
 - name: create subs
   file: path='~/.vim/{{item}}/' state=directory
@@ -22,8 +23,8 @@
     - session
     - plugged
     - autoload
-  tags: ['usr']
+  tags: user
 
 - name: install manager
   get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.vim/autoload/plug.vim' mode=0600
-  tags: ['usr']
+  tags: user

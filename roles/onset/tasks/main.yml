@@ -2,4 +2,4 @@
 
 - name: install package
   pip: name='onset' executable='pip3' extra_args='--user'
-  tags: ['usr']
+  tags: user

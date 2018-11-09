@@ -14,35 +14,32 @@
     tags: ['pre', 'directory']
 
   roles:
-    - {role: ansible, tags: ['ansible', 'admin']}
-    - {role: autoenv, tags: ['autoenv', 'project']}
+    - {role: ansible, tags: ['ansible', 'setup']}
+    - {role: autoenv, tags: ['autoenv', 'shell']}
     - {role: bash, tags: ['bash', 'shell']}
     - {role: byobu, tags: ['byobu', 'shell']}
+    - {role: common, tags: ['common', 'shell']}
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}
     - {role: csvkit, tags: ['csvkit', 'data']}
     - {role: curl, tags: ['curl',  'network']}
-    - {role: emacs, tags: ['emacs', 'editor']}
-    - {role: fasd, tags: ['fasd', 'project']}
+    - {role: fasd, tags: ['fasd', 'shell']}
     - {role: git, tags: ['git', 'project']}
-    - {role: glances, tags: ['glances', 'process']}
-    - {role: htop, tags: ['htop', 'process']}
+    - {role: glances, tags: ['glances', 'monitor']}
+    - {role: htop, tags: ['htop', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
-    - {role: idea, tags: ['idea', 'network']}
-    - {role: imagemagick, tags: ['imagemagick', 'data']}
+    - {role: imagemagick, tags: ['imagemagick', 'file']}
     - {role: ipcalc, tags: ['ipcalc', 'network']}
     - {role: jq, tags: ['jq', 'data']}
     - {role: make, tags: ['make', 'project']}
-    - {role: ncdu, tags: ['ncdu', 'admin']}
-    - {role: onset, tags: ['onset', 'data']}
-    - {role: parallel, tags: ['parallel', 'data']}
+    - {role: ncdu, tags: ['ncdu', 'monitor']}
+    - {role: onset, tags: ['onset', 'pipe']}
+    - {role: parallel, tags: ['parallel', 'pipe']}
     - {role: percol, tags: ['percol', 'shell']}
-    - {role: pv, tags: ['pv', 'process']}
-    - {role: shell, tags: ['shell']}
-    - {role: silversearcher, tags: ['silversearcher', 'data']}
-    - {role: termtosvg, tags: ['termtosvg', 'record']}
-    - {role: tldr, tags: ['tldr', 'admin']}
+    - {role: pv, tags: ['pv', 'pipe']}
+    - {role: silversearcher, tags: ['silversearcher', 'pipe']}
+    - {role: termtosvg, tags: ['termtosvg', 'shell']}
+    - {role: tldr, tags: ['tldr', 'help']}
     - {role: tmuxp, tags: ['tmuxp', 'shell']}
     - {role: vim, tags: ['vim', 'editor']}
     - {role: watchdog, tags: ['watchdog', 'project']}
-    - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: zsh, tags: ['zsh', 'shell']}

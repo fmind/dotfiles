@@ -2,11 +2,12 @@
 
 - name: create directory
   file: path='~/.byobu' state=directory
-  tags: ['usr']
+  tags: user
 
 - name: install package
   package: name='byobu'
   become: true
+  tags: admin
 
 - name: deploy config
   file: src='{{role_path}}/files/{{item}}' dest='~/.byobu/{{item}}' state=link force=yes
@@ -16,4 +17,4 @@
     - statusrc
     - .tmux.conf
     - keybindings.tmux
-  tags: ['usr']
+  tags: user
