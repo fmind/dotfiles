@@ -4,3 +4,4 @@
   package: name='fasd'
   ignore_errors: true
   become: true
+  tags: admin

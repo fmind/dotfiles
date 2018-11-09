@@ -3,6 +3,7 @@
 - name: install package
   package: name='zsh'
   become: true
+  tags: admin
 
 - name: create directory
   file: name='{{item}}' state='directory'
@@ -10,40 +11,40 @@
     - ~/.zsh.d/
     - ~/.zsh.d/themes
     - ~/.zsh.d/plugins
-  tags: ['usr']
+  tags: user
 
 - name: deploy config
   file: src='{{role_path}}/files/zshrc' dest='~/.zshrc' state=link force=yes
-  tags: ['usr']
+  tags: user
 
 - name: clone theme
   git: repo='https://github.com/denysdovhan/spaceship-prompt.git' dest='~/.zsh.d/themes/spaceship-prompt' depth=1
-  tags: ['usr']
+  tags: user
 
 - name: link theme
   file: src='~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme' dest='~/.zsh.d/themes/spaceship.zsh-theme' state=link force=yes
-  tags: ['usr']
+  tags: user
 
 - name: clone oh-my-zsh
   git: repo='https://github.com/robbyrussell/oh-my-zsh.git' dest='~/.oh-my-zsh' depth=1
-  tags: ['usr']
+  tags: user
 
 - name: clone auto-pair
   git: repo='https://github.com/hlissner/zsh-autopair.git' dest='~/.zsh.d/plugins/zsh-autopair' depth=1
-  tags: ['usr']
+  tags: user
 
 - name: clone alias-tips
   git: repo='https://github.com/djui/alias-tips.git' dest='~/.zsh.d/plugins/alias-tips' depth=1
-  tags: ['usr']
+  tags: user
 
 - name: clone zsh-completions
   git: repo='https://github.com/zsh-users/zsh-completions' dest='~/.zsh.d/plugins/zsh-completions' depth=1
-  tags: ['usr']
+  tags: user
 
 - name: clone auto-suggestions
   git: repo='git://github.com/zsh-users/zsh-autosuggestions.git' dest='~/.zsh.d/plugins/zsh-autosuggestions' depth=1
-  tags: ['usr']
+  tags: user
 
 - name: clone syntax-highlighting
   git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
-  tags: ['usr']
+  tags: user

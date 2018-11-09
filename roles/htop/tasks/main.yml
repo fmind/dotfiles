@@ -4,3 +4,4 @@
   package: name='htop'
   ignore_errors: true
   become: true
+  tags: admin
