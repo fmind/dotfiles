@@ -353,7 +353,10 @@
     (setq cider-repl-use-pretty-printing t)
     (setq cider-repl-display-help-banner nil)
     (setq cider-repl-history-file "~/.cider.log")
-    (setq cider-repl-pop-to-buffer-on-connect 'display-only))
+    (setq cider-repl-pop-to-buffer-on-connect 'display-only)
+    (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
+      "," 'cider-load-buffer
+      "n" 'cider-repl-set-ns))
 
   (with-eval-after-load 'core-keybindings
     (spacemacs/set-leader-keys "\"" 'ielm))
