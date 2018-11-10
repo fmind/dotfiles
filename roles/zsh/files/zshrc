@@ -4,9 +4,7 @@
 [ -z "$PS1" ] && return
 # }}}
 # BYOBU {{{
-if [ -z "$EMACS" ]; then
-    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-fi
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}
 # THEME {{{
 ZSH_THEME="spaceship"
@@ -33,11 +31,11 @@ fi
 # }}}
 # ALIASES {{{
 alias -g A='| ag'
-alias -g C='| xsel --clipboard'
 alias -g D='| unpigz -c'
 alias -g G='| grep'
 alias -g H='| head'
 alias -g J='| jq -r'
+alias -g K='| xsel --clipboard'
 alias -g L='| less'
 alias -g M='--help'
 alias -g N='| notify-send'
@@ -60,7 +58,7 @@ fi
 if [ -f ~/.private ]; then
     . ~/.private
 fi
-if [ -n "$DISPLAY" ]; then
+if [ -f ~/.display ]; then
     . ~/.display
 fi
 # }}}
@@ -76,19 +74,5 @@ fi
 # # enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
-fi
-# enable percol
-function exists { which $1 &> /dev/null }
-if exists percol; then
-    function percol_select_history() {
-        local tac
-        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-        CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
-    }
-
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
 fi
 # }}}

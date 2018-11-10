@@ -1,9 +1,9 @@
 # common
+.env
 *.log
 *.retry
 
 # python
-.env
 .venv
 .snakemake
 .tmuxp.yaml
@@ -11,7 +11,3 @@
 .mypy_cache
 .pytest_cache
 .ipynb_checkpoints
-
-# clojure
-.lein-*
-.nrepl-*

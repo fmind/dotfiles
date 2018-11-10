@@ -1,5 +1,6 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
+alias vi='vim'
 alias du='du -h'
 alias df='df -h'
 alias ps='ps aux'
@@ -13,14 +14,10 @@ alias parallel='parallel --will-cite'
 alias termtosvg='termtosvg -g "88x15"'
 # }}}
 # COMMANDS {{{
-alias vi='vim'
-alias gtop='glances'
+alias srv='service'
 alias sys='systemctl'
 alias log='journalctl'
-alias sys='systemctl --user'
-alias lou='journalctl --user'
 alias chux='chmod u+x'
-alias extip='curl icanhazip.com'
 # }}}
 # Ansible {{{
 alias aa='ansible'
@@ -28,8 +25,8 @@ alias ad='ansible-doc'
 alias au='ansible-pull'
 alias av='ansible-vault'
 alias ac='ansible-config'
-alias ay='ansible-galaxy'
-alias ae='ansible-console'
+alias ax='ansible-galaxy'
+alias ar='ansible-console'
 alias ap='ansible-playbook'
 alias ai='ansible-inventory'
 # }}}
@@ -45,13 +42,6 @@ alias dksh='docker run --rm --name shell fmind/shell'
 alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f'
 #alias dkdata='docker run --rm -it --name data -v '$(pwd)':/home/jovyan/work -p 8888:8888 fmind/bigdata'
 #alias dkmongo='docker run --rm -it --name mongo --net=host -v '$(pwd)/data/db':/data/db mongo --smallfiles'
-# }}}
-# Emacs {{{
-alias em='emacs'
-alias en='emacs -nw'
-alias ed='emacs --daemon'
-alias ec='emacsclient -ca ""'
-alias et='emacsclient -cta ""'
 # }}}
 # Find {{{
 alias ff='find . -iname'
@@ -88,9 +78,7 @@ alias kd='vi ~/.display'
 alias ke='vi ~/.environ'
 alias kg="vi ~/.gitconfig"
 alias ki='vi ~/.input'
-alias kj='vi ~/.ideavimrc'
 alias kl='vi ~/.latexmkrc'
-alias km='vi ~/.spacemacs'
 alias kn="vi ./.gitignore"
 alias kp='vi ~/.private'
 alias kr='source'
@@ -98,13 +86,6 @@ alias ks='vi ~/.ssh/config'
 alias kt="$EDITOR ~/.anacron/etc/anacrontab"
 alias kv='vi ~/.vimrc'
 alias kz='vi ~/.zshrc'
-# }}}
-# Hylang {{{
-alias hi='hy -i'
-alias hk='hy -c'
-alias hm='hy -m'
-alias hp='hy2py'
-alias hs='hy --spy'
 # }}}
 # Image {{{
 alias ii='mogrify'
@@ -135,23 +116,6 @@ alias nt='note todo'
 alias ni='note idea'
 alias np='note projects'
 # }}}
-# clOjure {{{
-alias ok='lein'
-alias oj='lumo'
-alias ob='lein dist'
-alias oc='lein covs'
-alias od='lein docs'
-alias oo='lein olds'
-alias oe='lein edit'
-alias of='lein ffmt'
-alias oh='lein hook'
-alias oi='lein init'
-alias ol='lein lint'
-alias oq='lein clean'
-alias or='lein repl'
-alias ot='lein test'
-alias ov='lein vuln'
-# }}}
 # Python {{{
 alias pt='pytest'
 alias pd='pydoc3'
@@ -179,10 +143,6 @@ alias ppe='python -m pip install -e'
 alias ppp='python -m pip install --user'
 # }}}
 # }}}
-# Racket {{{
-alias rk='raco'
-alias ra='racket'
-# }}}
 # Snakemake {{{
 alias sk='snakemake'
 # }}}
@@ -204,31 +164,28 @@ alias ui='sudo apt install'
 alias uc='sudo apt autoremove --purge'
 # }}}
 # Watch {{{
-alias ww='watchmedo'
+alias wm='watchmedo'
 alias wl='watchmedo log'
 alias wr='watchmedo auto-restart'
 alias ws='watchmedo shell-command'
 # }}}
-# Xdesk {{{
+# XServer {{{
 alias xf='xdg-open'
-alias xu='nautilus'
+alias xu'nautilus . &'
+
 alias xd='xbacklight -set 30'
 alias xb='xbacklight -set 100'
+
 alias xc='xsel --clipboard --clear'
 alias xi='xsel --clipboard --input'
 alias xo='xsel --clipboard --output'
 # }}}
 # jupYter {{{
-alias yy='jupyter'
+alias yj='jupyter'
 alias yl='jupyter lab'
 alias yk='jupyter kernel'
 alias yc='jupyter convert'
-alias yp='jupyter console'
 alias yn='jupyter notebook'
-alias yo='jupyter notebook --NotebookApp.token=""'
-alias ym='ipcluster start'
-# }}}
-# Zip {{{
-alias zz='gzip'
-alias zd='gunzip -c'
+alias ym='jupyter notebook --NotebookApp.token=""'
+alias ys='ipcluster start'
 # }}}

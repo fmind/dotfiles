@@ -1,267 +1,125 @@
 " vim: fdm=marker
-" STARTING {{{
-if !exists(" $VIMDIR" )
-    let $VIMDIR=$HOME.'/.vim/'
-endif
-" }}}
-" CHECKING {{{
+" INIT {{{
 set nocompatible
-" }}}
-" SETTING {{{
-"" DIRS {{{
-set autochdir
-" }}}
-"" FILES {{{
-set path+=**
-set encoding=utf-8
-set ffs=unix,dos,mac
-set suffixes=.swp,.jpg,.png,.jpeg,.gif,.pyc,.pyo
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-" }}}
-"" RULER {{{
-set number
-set relativenumber
-" }}}
-"" STATUS {{{
-set shortmess=a
-set cmdheight=2
-set statusline=%t\ %c,%l/%L\ %P\%=%r%y\ [%{&ff}]\ [%{strlen(&fenc)?&fenc:'none'}]\ %m
-" }}}
-"" WINDOW {{{
-set splitright
-set splitbelow
 set shortmess=I
-set synmaxcol=1000
-set background=dark
 " }}}
-"" EDITING {{{
-set hidden
-set confirm
-set autoread
-set autowrite
+" FILE {{{
+set path+=**
 set linebreak
-set autowriteall
-set nojoinspaces
-set nostartofline
+" }}}
+" MENU {{{
+set confirm
+set wildmenu
+set completeopt=longest,menuone
+" }}}
+" PASTE {{{
 set clipboard=unnamedplus
 " }}}
-"" SEARCHING {{{
+" STATUS {{{
+set laststatus=2
+set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
+" }}}
+" SEARCH {{{
 set gdefault
-set wrapscan
 set hlsearch
 set incsearch
-set showmatch
-set smartcase
-set ignorecase
 " }}}
-"" FOLDING {{{
-set foldmethod=marker
-set foldlevelstart=99
-" }}}
-"" SPELLING {{{
-set spell
-set spelllang=en,fr
-" }}}
-"" NAVIGATION {{{
-set scrolloff=10
-set sidescrolloff=5
-" }}}
-"" INDENTATION {{{
+" INDENT {{{
 set smarttab
 set expandtab
 set autoindent
 set copyindent
-set shiftround
 set tabstop=4 
+set shiftround
 set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
 " }}}
-" COMPLETION {{{
-set wildmenu
-set completeopt=longest,menuone
-set wildignore+=*.pdf,*.bbl,*.aux,*.pyc
+" BUFFER {{{
+set hidden
+set scrolloff=10
 " }}}
-"" OPTIMIZATION {{{
-set ttyfast
-set lazyredraw
-set shell=/bin/bash
+" NUMBER {{{
+set number
+set relativenumber
 " }}}
-"" CONSERVATION {{{
-set backup
+" FOLDER {{{
+set foldmethod=syntax
+set foldlevelstart=99
+" }}}
+" BACKUP {{{
 set undofile
-set history=1000
-set backupext=-vimbackup
-set undodir=$VIMDIR/undo/
-set directory=$VIMDIR/swap/
-set backupdir=$VIMDIR/backup/
-set viminfo ='200,n$VIMDIR/viminfo
+set undodir=~/.vim/undo/
+set directory=~/.vim/swap/
+set viminfo ='200,n~/.vim/viminfo
 " }}}
-" }}}
-" BINDING {{{
-"" LEADERS {{{
-map ; :
-vmap ; :
-noremap ;; ;
-let mapleader=" " 
-let maplocalleader="," 
-" }}}
-"" DEFAULT {{{
-imap fd <Esc>
-noremap j gj
-noremap k gk
-noremap B g^
-noremap E g$
-noremap Y y$
-noremap U <C-r>
-noremap J <C-d>
-noremap K <C-u>
-nnoremap <CR> <C-e>
-xnoremap < <gv
-xnoremap > >gv
-nnoremap Z :x<CR>
+" KEYMAP {{{
+nnoremap ; :
+
+nnoremap j gj
+nnoremap k gk
+
+nnoremap B g^
+nnoremap E g$
+nnoremap Y y$
+
+nnoremap J <C-d>
+nnoremap K <C-u>
+nnoremap U <C-r>
+
+nnoremap H :w<CR>:bp<CR>
+nnoremap L :w<CR>:bn<CR>
 nnoremap Q :w<CR>:bd<CR>
-nnoremap = gqap
-nnoremap + gg=G
+
+noremap + gg=G
+noremap = gqap
+
+nnoremap <CR> <C-e>
 nnoremap zj o<Esc>k
 nnoremap zk O<Esc>j
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-noremap gs :sort<CR>
-noremap gj :join<CR>
-noremap L :bnext<CR>
-noremap H :bprevious<CR>
-nnoremap <silent> <ESC> :nohl<CR>
-nnoremap <expr> n  'Nn'[v:searchforward]
-nnoremap <expr> N  'nN'[v:searchforward]
+
+xnoremap < <gv
+xnoremap > >gv
+
+noremap! <C-k> <Up>
+noremap! <C-j> <Down>
+noremap! <C-h> <Left>
+noremap! <C-l> <Right>
+
+inoremap ' ''<Esc>i
+inoremap " ""<Esc>i
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+inoremap { {}<Esc>i
+inoremap < <><Esc>i
 " }}}
-"" COMMANDS {{{
-nnoremap <leader>\ :set 
-nnoremap <leader>j :find 
+" LEADER {{{
+let mapleader=" " 
+let maplocalleader="," 
+nnoremap <leader>o :set 
+nnoremap <leader>f :find 
+nnoremap <leader>h :nohl<CR>
 nnoremap <leader><Tab> <c-^>
-nnoremap <leader>> :shell<CR>
-nnoremap <leader># :set spell!<CR>
+nnoremap <leader>s :set spell!<CR>
+nnoremap <leader>t :!pytest % <CR>
+nnoremap <leader>p :!python3 %<CR>
 nnoremap <leader>' :edit $MYVIMRC<CR>
 nnoremap <leader>" :source $MYVIMRC<CR>
+nnoremap <leader>; :s/^/# /<CR>:nohl<CR>
+vnoremap <leader>; :s/^/# /<CR>:nohl<CR>
+nnoremap <leader>: :s/^# //<CR>:nohl<CR>
+vnoremap <leader>: :s/^# //<CR>:nohl<CR>
 nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
-nnoremap <leader>.m :setlocal foldmethod=marker<CR>
-nnoremap <leader>.s :setlocal foldmethod=syntax<CR>
-nnoremap <leader>.i :setlocal foldmethod=indent<CR>
-nnoremap <leader>.p :setlocal filetype=python<CR>
-nnoremap <leader>.t :setlocal filetype=text<CR>
-nnoremap <leader>qp :!python3 %<CR>
-nnoremap <leader>qt :!pytest % <CR>
-nnoremap <leader>qd :!pydoc3 
-nnoremap <leader>qt :!tldr 
-nnoremap <leader>qq :!man 
 " }}}
-" }}}
-" PLUGINS {{{
+" PLUGIN {{{
 syntax enable
-filetype plugin on
+
 filetype indent on
-if !empty(glob($VIMDIR.'/autoload/plug.vim'))
-call plug#begin($VIMDIR.'/plugged')
-"" fzf {{{
-Plug 'junegunn/fzf',{'dir': '~/.fzf', 'do': './install --bin'}
-Plug 'junegunn/fzf.vim'
-nnoremap <leader>/ :Ag<CR>
-nnoremap <leader>A :Tags<CR>
-nnoremap <leader>a :BTags<CR>
-nnoremap <leader>m :Marks<CR>
-nnoremap <leader>L :Lines<CR>
-nnoremap <leader>C :Colors<CR>
-nnoremap <leader>l :BLines<CR>
-nnoremap <leader>F :GFiles<CR>
-nnoremap <leader>f :Files .<CR>
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>B :Filetypes<CR>
-nnoremap <leader>y :BCommits<CR>
-nnoremap <leader>Y :Commits<CR>
-nnoremap <leader>w :Windows<CR>
-nnoremap <leader>i :Snippets<CR>
-nnoremap <leader>h :History<CR>
-nnoremap <leader>: :History:<CR>
-nnoremap <leader>; :History/<CR>
-nnoremap <leader>? :Helptags<CR>
-nnoremap <leader><Space> :Commands<CR>
-let $FZF_DEFAULT_COMMAND = 'ag --hidden -p ~/.agignore -g "" '
-" }}}
-"" plug {{{
-nnoremap <leader>pd :PlugDiff<CR>
-nnoremap <leader>pc :PlugClean<CR>
-nnoremap <leader>ps :PlugStatus<CR>
-nnoremap <leader>pu :PlugUpdate<CR>
-nnoremap <leader>pg :PlugUpgrade<CR>
-nnoremap <leader>pi :PlugInstall<CR>
-" }}}
-"" notes {{{
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-notes'
-let g:notes_suffix = '.md'
-let g:notes_conceal_code = 0
-let g:notes_directories = ['~/note']
-let g:notes_title_sync = 'change_title'
-nnoremap <leader>N :Note 
-" }}}
-"" sneak {{{
-Plug 'justinmk/vim-sneak'
-let g:sneak#label = 1
-let g:sneak#s_next = 1
-let g:sneak#use_ic_scs = 1
-" }}}
-"" eunuch  {{{
-Plug 'tpope/vim-eunuch'
-nnoremap <leader>ox :Chmod 
-nnoremap <leader>oc :Mkdir 
-nnoremap <leader>oo :Rename 
-nnoremap <leader>oD :Delete<CR>
-" }}}
-"" airline {{{
-Plug 'bling/vim-airline' 
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-" }}}
-"" molokai {{{
-Plug 'tomasr/molokai'
-let g:molokai_original = 1
-" }}}
-"" gitgutter {{{
-Plug 'airblade/vim-gitgutter'
-let g:gitgutter_grep = 'ag'
-let g:gitgutter_map_keys = 0
-nnoremap ]g <Plug>GitGutterNextHunk
-nnoremap [g <Plug>GitGutterPrevHunk
-" }}}
-"" easy-align {{{
-Plug 'junegunn/vim-easy-align'
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-" }}}
-"" tmux-navigator {{{
-Plug 'christoomey/vim-tmux-navigator'
-let g:tmux_navigator_save_on_switch = 1
-" }}}
-Plug 'tpope/vim-repeat'
-Plug 'wellle/targets.vim'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-commentary'
-Plug 'Raimondi/delimitMate'
-Plug 'vim-scripts/matchit.zip'
-Plug 'farmergreg/vim-lastplace'
-Plug 'christoomey/vim-sort-motion'
-Plug 'michaeljsmith/vim-indent-object'
-call plug#end()
-endif
+filetype plugin on
+
 try
     colorscheme molokai
 catch
     colorscheme darkblue
 endtry
-"" }}}
-" FILETYPES {{{
-autocmd Filetype json setlocal foldmethod=syntax
-autocmd Filetype python setlocal foldmethod=indent
 " }}}

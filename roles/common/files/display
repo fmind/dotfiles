@@ -1,5 +1,7 @@
-# change repeat
-xset r rate 200 50
+if [ -n "$DISPLAY" ]; then
+    # change repeat
+    xset r rate 200 50
 
-# remap capslock key
-setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
+    # remap caps lock key
+    setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
+fi

@@ -6,7 +6,7 @@ windows:
       main-pane-width: 100
     panes:
       - shell_command:
-        - source venv/bin/activate; vi
+        - source .venv/bin/activate; vi
         focus: true
-      - source venv/bin/activate; clear
-      - source venv/bin/activate; ptpython
+      - source .venv/bin/activate; clear
+      - source .venv/bin/activate; ptpython

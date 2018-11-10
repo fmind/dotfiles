@@ -4,14 +4,9 @@
 [ -z "$PS1" ] && return
 # }}}
 # BYOBU {{{
-if [ -z "$EMACS" ]; then
-    byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-fi
+byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}
 # SETTINGS {{{
-HISTSIZE=100000
-HISTFILESIZE=2000000
-HISTCONTROL=ignoreboth
 PS1='\[\033[02;91m\]\u \[\033[01;00m\]at\[\033[02;92m\] \h \[\033[01;00m\]in\[\033[02;94m\] \W\[\033[01;00m\] \$ '
 # }}}
 # OPTIONS {{{
@@ -51,7 +46,7 @@ fi
 if [ -f ~/.private ]; then
     . ~/.private
 fi
-if [ -n "$DISPLAY" ]; then
+if [ -f ~/.display ]; then
     . ~/.display
 fi
 # }}}
