@@ -1,23 +1,12 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
-alias vi='vim'
-alias du='du -h'
-alias df='df -h'
-alias ps='ps aux'
-alias wget='wget -c'
-alias grep='grep -i'
-alias mkdir='mkdir -pv'
-alias rsync='rsync -avzu'
-alias netstat='netstat -nlp'
 alias ls='ls --color=auto -CF'
-alias parallel='parallel --will-cite'
 alias termtosvg='termtosvg -g "88x15"'
 # }}}
 # COMMANDS {{{
 alias srv='service'
 alias sys='systemctl'
 alias log='journalctl'
-alias chux='chmod u+x'
 # }}}
 # Ansible {{{
 alias aa='ansible'
@@ -36,7 +25,6 @@ alias cn='cookiecutter --no-input'
 # }}}
 # Docker {{{
 alias dk='docker'
-alias dkdo='docker run --rm'
 alias dkgo='service docker start'
 alias dksh='docker run --rm --name shell fmind/shell'
 alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f'
@@ -51,7 +39,6 @@ alias fh='find ~ -iname'
 alias g='git'
 alias gm='git submodule'
 alias grr='rm -rf .git'
-alias grc='vi .git/config'
 alias gwi='gws init'
 alias gwf='gws fetch'
 alias gwc='gws status --only-changes'
@@ -78,7 +65,6 @@ alias kd='vi ~/.display'
 alias ke='vi ~/.environ'
 alias kg="vi ~/.gitconfig"
 alias ki='vi ~/.input'
-alias kl='vi ~/.latexmkrc'
 alias kn="vi ./.gitignore"
 alias kp='vi ~/.private'
 alias kr='source'
@@ -109,11 +95,10 @@ alias mk='make'
 # }}}
 # Note {{{
 function note {
-    vi "note:$1"
+    $EDITOR "$HOME/note/$1.md"
 }
-alias nn='note'
+
 alias nt='note todo'
-alias ni='note idea'
 alias np='note projects'
 # }}}
 # Python {{{
@@ -153,11 +138,10 @@ alias tl='tmuxp load -y'
 alias tp='tmuxp load -y .'
 # }}}
 # Ubuntu {{{
-alias uu='sudo apt'
-alias ua='lsb_release -c'
+alias ua='sudo apt'
 alias uh='apt show'
 alias us='apt search'
-alias ur='sudo apt purge'
+alias up='sudo apt purge'
 alias up='sudo apt update'
 alias uu='sudo apt upgrade'
 alias ui='sudo apt install'
@@ -171,11 +155,9 @@ alias ws='watchmedo shell-command'
 # }}}
 # XServer {{{
 alias xf='xdg-open'
-alias xu'nautilus . &'
-
+alias xu='nautilus . &'
 alias xd='xbacklight -set 30'
 alias xb='xbacklight -set 100'
-
 alias xc='xsel --clipboard --clear'
 alias xi='xsel --clipboard --input'
 alias xo='xsel --clipboard --output'
