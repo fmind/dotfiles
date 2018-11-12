@@ -21,6 +21,7 @@
     - {role: common, tags: ['common', 'shell']}
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}
     - {role: csvkit, tags: ['csvkit', 'data']}
+    - {role: ctags, tags: ['ctags', 'project']}
     - {role: curl, tags: ['curl',  'network']}
     - {role: fasd, tags: ['fasd', 'shell']}
     - {role: git, tags: ['git', 'project']}

@@ -1,0 +1,6 @@
+---
+
+- name: install package
+  package: name='exuberant-ctags'
+  become: true
+  tags: admin
