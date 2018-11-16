@@ -26,9 +26,7 @@
    dotspacemacs-configuration-layer-path `("~/.spacemacs.d/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-     ansible
-     (auto-completion :variables
+   '((auto-completion :variables
                       ;; tips
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
@@ -41,14 +39,11 @@
      better-defaults
      bibtex
      clipboard
-     colors
      clojure
-     csv
      emacs-lisp
      evil-commentary
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
-     deft
      fasd
      git
      graphviz
@@ -57,36 +52,26 @@
             latex-enable-folding t
             latex-enable-auto-fill t)
      markdown
-     nginx
      (org :variables
           org-enable-github-support t
           org-enable-reveal-js-support t
           org-projectile-file "TODO.org")
+     pdf-tools
      plantuml
-     prodigy
      (python :variables
              python-fill-column 88
              python-test-runner 'pytest)
-     racket
-     restclient
      search-engine
-     semantic
      (shell :variables
             shell-default-shell 'term
             shell-default-term-shell "/usr/bin/zsh")
-     shell-scripts
-     speed-reading
      (spell-checking :variables
                       spell-checking-enable-auto-dictionary t)
-     sql
      (syntax-checking :variables
                       syntax-checking-enable-tooltips t)
-     systemd
      (version-control :variables
                       version-control-diff-tool'diff-hl
-                      version-control-global-margin t)
-     xkcd
-     yaml)
+                      version-control-global-margin t))
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -419,7 +404,6 @@
     (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
 
   (with-eval-after-load 'tex
-    (add-hook 'doc-view-mode-hook 'auto-revert-mode)
     (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-golden-ratio-off)
     (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on))
 

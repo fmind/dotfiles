@@ -22,7 +22,8 @@
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}
     - {role: csvkit, tags: ['csvkit', 'data']}
     - {role: ctags, tags: ['ctags', 'project']}
-    - {role: curl, tags: ['curl',  'network']}
+    - {role: curl, tags: ['curl', 'network']}
+    - {role: emacs, tags: ['emacs', 'editor']}
     - {role: fasd, tags: ['fasd', 'shell']}
     - {role: git, tags: ['git', 'project']}
     - {role: glances, tags: ['glances', 'monitor']}
