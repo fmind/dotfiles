@@ -98,7 +98,9 @@ let mapleader=" "
 let maplocalleader="," 
 nnoremap <leader>o :set 
 nnoremap <leader>f :find 
-nnoremap <leader>h :nohl<CR>
+nnoremap <leader>h :help 
+nnoremap <leader>H :helpgrep 
+nnoremap <leader>l :nohl<CR>
 nnoremap <leader><Tab> <c-^>
 nnoremap <leader>s :set spell!<CR>
 nnoremap <leader>t :!pytest % <CR>
