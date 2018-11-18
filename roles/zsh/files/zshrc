@@ -4,7 +4,9 @@
 [ -z "$PS1" ] && return
 # }}}
 # BYOBU {{{
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+if [ -z "$EMACS" ]; then
+    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+fi
 # }}}
 # THEME {{{
 ZSH_THEME="spaceship"
@@ -74,5 +76,19 @@ fi
 # # enable autoenv
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
+fi
+# enable percol
+function exists { which $1 &> /dev/null }
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
 fi
 # }}}

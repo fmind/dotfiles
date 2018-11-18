@@ -1,5 +1,10 @@
 ---
 
+- name: install package
+  package: name='vim'
+  become: true
+  tags: admin
+
 - name: create directory
   file: path='{{item}}' state=directory
   with_items:
@@ -9,11 +14,6 @@
     - ~/.vim/colors
     - ~/.vim/session
   tags: user
-
-- name: install package
-  package: name='vim'
-  become: true
-  tags: admin
 
 - name: deploy config
   file: src='{{role_path}}/files/vimrc' dest='~/.vimrc' state=link force=yes

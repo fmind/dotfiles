@@ -7,6 +7,7 @@ default_context:
     python: "3.7.0"
 abbreviations:
     black: https://git.fmind.me/fmind/cookiecutter-python-black.git
+    clojure: https://git.fmind.me/fmind/cookiecutter-clojure.git
     coverage: https://git.fmind.me/fmind/cookiecutter-python-coverage.git
     dev: https://git.fmind.me/fmind/cookiecutter-python-dev.git
     docker: https://git.fmind.me/fmind/cookiecutter-python-docker.git

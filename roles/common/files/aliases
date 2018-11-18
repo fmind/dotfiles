@@ -1,12 +1,12 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
 alias ls='ls --color=auto -CF'
-alias termtosvg='termtosvg -g "88x15"'
 # }}}
 # COMMANDS {{{
 alias srv='service'
 alias sys='systemctl'
 alias log='journalctl'
+alias tsvg='termtosvg -g "88x15"'
 # }}}
 # Ansible {{{
 alias aa='ansible'
@@ -33,8 +33,10 @@ alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-emp
 # }}}
 # Editor {{{
 alias e='vim'
-alias em='vim -R'
-alias eo='code --reuse-window --goto'
+alias en='emacs'
+alias er='vim -R'
+alias em='emacs -nw'
+alias ef='emacs --find-file'
 # }}}
 # Find {{{
 alias ff='find . -iname'
@@ -70,6 +72,7 @@ alias kd='vi ~/.display'
 alias ke='vi ~/.environ'
 alias kg="vi ~/.gitconfig"
 alias ki='vi ~/.input'
+alias ke='vi ~/.spacemacs'
 alias kn="vi ./.gitignore"
 alias kp='vi ~/.private'
 alias kr='source'
