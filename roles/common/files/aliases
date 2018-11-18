@@ -176,6 +176,6 @@ alias yl='jupyter lab'
 alias yk='jupyter kernel'
 alias yc='jupyter convert'
 alias yn='jupyter notebook'
-alias ym='jupyter notebook --NotebookApp.token=""'
+alias ym='jupyter notebook --NotebookApp.token="" --NotebookApp.disable_check_xsrf=True'
 alias ys='ipcluster start'
 # }}}

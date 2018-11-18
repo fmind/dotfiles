@@ -54,6 +54,8 @@ set directory=~/.vim/swap/
 set viminfo ='200,n~/.vim/viminfo
 " }}}
 " KEYMAP {{{
+imap fd <Esc>
+
 vnoremap ; :
 nnoremap ; :
 
