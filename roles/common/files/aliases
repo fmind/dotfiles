@@ -31,6 +31,11 @@ alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-emp
 #alias dkdata='docker run --rm -it --name data -v '$(pwd)':/home/jovyan/work -p 8888:8888 fmind/bigdata'
 #alias dkmongo='docker run --rm -it --name mongo --net=host -v '$(pwd)/data/db':/data/db mongo --smallfiles'
 # }}}
+# Editor {{{
+alias e='vim'
+alias em='vim -R'
+alias eo='code --reuse-window --goto'
+# }}}
 # Find {{{
 alias ff='find . -iname'
 alias fh='find ~ -iname'
