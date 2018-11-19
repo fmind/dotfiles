@@ -1,0 +1,24 @@
+# vim: fdm=marker
+# LOCAL {{{
+ZSH_THEME="spaceship"
+ZSH_CUSTOM=$HOME/.zsh.d
+HIST_STAMPS="yyyy-mm-dd"
+# }}}
+# ENVIRON {{{
+export ZSH=~/.oh-my-zsh
+export SPACESHIP_BATTERY_SHOW=false
+# }}}
+# EXTERNAL {{{
+if [ -f ~/.environ ]; then
+    . ~/.environ
+fi
+if [ -f ~/.display ]; then
+    . ~/.display
+fi
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+if [ -f ~/.private ]; then
+    . ~/.private
+fi
+# }}}

@@ -2,33 +2,9 @@
 # SECURITY{{{
 # don't run interactively
 [ -z "$PS1" ] && return
-# }}}
-# BYOBU {{{
+# don't run in emacs editor
 if [ -z "$EMACS" ]; then
     _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-fi
-# }}}
-# THEME {{{
-ZSH_THEME="spaceship"
-export SPACESHIP_BATTERY_SHOW=false
-# }}}
-# PLUGINS {{{
-plugins=(
-    alias-tips
-    zsh-autopair
-    colored-man-pages
-    command-not-found
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
-# }}}
-# SETTINGS {{{
-export ZSH=~/.oh-my-zsh
-ZSH_CUSTOM=$HOME/.zsh.d
-HIST_STAMPS="yyyy-mm-dd"
-
-if [[ $EUID -ne 0 ]]; then
-    source $ZSH/oh-my-zsh.sh
 fi
 # }}}
 # ALIASES {{{
@@ -50,21 +26,21 @@ alias -g V='| $EDITOR -'
 alias -g W='| wc -l'
 alias -g Z='| pigz'
 # }}}
-# EXTENSIONS {{{
-if [ -f ~/.environ ]; then
-    . ~/.environ
-fi
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-if [ -f ~/.private ]; then
-    . ~/.private
-fi
-if [ -f ~/.display ]; then
-    . ~/.display
+# PLUGINS {{{
+plugins=(
+    alias-tips
+    zsh-autopair
+    colored-man-pages
+    command-not-found
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+# don't run as root
+if [[ $EUID -ne 0 ]]; then
+    source $HOME/.oh-my-zsh/oh-my-zsh.sh
 fi
 # }}}
-# COMPLETIONS {{{
+# ADDONS {{{
 # enable fasd
 if [ -x "$(command -v fasd)" ]; then
     eval "$(fasd --init auto)"
@@ -72,10 +48,6 @@ fi
 # enable pyenv
 if [ -x "$(command -v pyenv)" ]; then
     eval "$(pyenv init -)"
-fi
-# # enable autoenv
-if [ -x "$(command -v activate.sh)" ]; then
-    source "$(which activate.sh)"
 fi
 # enable percol
 function exists { which $1 &> /dev/null }
@@ -91,4 +63,8 @@ if exists percol; then
     zle -N percol_select_history
     bindkey '^R' percol_select_history
 fi
-# }}}
+# enable autoenv
+if [ -x "$(command -v activate.sh)" ]; then
+    source "$(which activate.sh)"
+fi
+# # }}}

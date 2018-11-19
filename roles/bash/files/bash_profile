@@ -1,0 +1,18 @@
+# vim: fdm=marker
+# LOCAL {{{
+PS1='\[\033[02;91m\]\u \[\033[01;00m\]at\[\033[02;92m\] \h \[\033[01;00m\]in\[\033[02;94m\] \W\[\033[01;00m\] \$ '
+# }}}
+# EXTERNAL {{{
+if [ -f ~/.environ ]; then
+    . ~/.environ
+fi
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+if [ -f ~/.private ]; then
+    . ~/.private
+fi
+if [ -f ~/.display ]; then
+    . ~/.display
+fi
+# }}}

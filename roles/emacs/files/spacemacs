@@ -332,22 +332,37 @@
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code."
-  (setq create-lockfiles nil)
   (setq vc-follow-symlinks t)
   (setq exec-path-from-shell-check-startup-files nil))
 
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code."
+  "configuration function for user code."
   (engine-mode t)
   (golden-ratio-mode 1)
   (global-company-mode)
 
   (setq scroll-margin 10)
   (setq deft-directory "~/note")
-  (setq pdf-view-incompatible-modes '())
+  ;; (setq pdf-view-incompatible-modes '())
   (setq browse-url-browser-function 'eww-browse-url)
+  ;; (setq flycheck-disabled-checkers '(python-pycompile))
 
   (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
+
+  (spacemacs/set-leader-keys "." 'eww)
+
+  (define-key evil-normal-state-map "U" 'redo)
+  (define-key evil-normal-state-map "K" 'evil-scroll-up)
+  (define-key evil-normal-state-map "J" 'evil-scroll-down)
+  (define-key evil-normal-state-map "L" 'evil-next-buffer)
+  (define-key evil-normal-state-map "H" 'evil-prev-buffer)
+  (define-key evil-normal-state-map "Q" 'kill-this-buffer)
+  (define-key evil-normal-state-map "j" 'evil-next-visual-line)
+  (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
+  (define-key evil-normal-state-map "E" 'evil-end-of-visual-line)
+  (define-key evil-normal-state-map "B" 'evil-first-non-blank-of-visual-line)
+  (define-key evil-normal-state-map "gj" 'evil-join)
+  (define-key evil-visual-state-map "gs" 'sort-lines)
 
   (with-eval-after-load 'cider
     (setq cider-save-file-on-load t)
@@ -366,26 +381,12 @@
     (spacemacs/set-leader-keys "\"" 'ielm))
 
   (with-eval-after-load 'engine-mode
-    (defengine qwant "http://lite.qwant.com/?l=en&q=%s")
+    (defengine duckgo "https://duckduckgo.com/lite/?q=%s")
     (defengine thesaurus "http://thesaurus.com/browse/%s")
-    (spacemacs/set-leader-keys "swj" 'engine/search-qwant)
+    (spacemacs/set-leader-keys "swj" 'engine/search-duckgo)
     (spacemacs/set-leader-keys "swh" 'engine/search-github)
     (spacemacs/set-leader-keys "swl" 'engine/search-thesaurus)
     (spacemacs/set-leader-keys "swk" 'engine/search-stack-overflow))
-
-  (with-eval-after-load 'evil
-    (define-key evil-normal-state-map "U" 'redo)
-    (define-key evil-normal-state-map "K" 'evil-scroll-up)
-    (define-key evil-normal-state-map "J" 'evil-scroll-down)
-    (define-key evil-normal-state-map "L" 'evil-next-buffer)
-    (define-key evil-normal-state-map "H" 'evil-prev-buffer)
-    (define-key evil-normal-state-map "Q" 'kill-this-buffer)
-    (define-key evil-normal-state-map "j" 'evil-next-visual-line)
-    (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
-    (define-key evil-normal-state-map "E" 'evil-end-of-visual-line)
-    (define-key evil-normal-state-map "B" 'evil-first-non-blank-of-visual-line)
-    (define-key evil-normal-state-map "gj" 'evil-join)
-    (define-key evil-visual-state-map "gs" 'sort-lines))
 
   (with-eval-after-load 'evil-snipe
     (define-key evil-normal-state-map "s" 'evil-snipe-s)
@@ -410,7 +411,6 @@
       "[" 'eww-previous-url
       "Y" 'eww-copy-page-url
       "I" 'eww-browse-with-external-browser))
-  (spacemacs/set-leader-keys "." 'eww)
 
   (with-eval-after-load 'magit
     (setq magit-repository-directories '("~/code")))

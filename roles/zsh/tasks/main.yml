@@ -13,6 +13,10 @@
     - ~/.zsh.d/plugins
   tags: user
 
+- name: deploy environ
+  file: src='{{role_path}}/files/zshenv' dest='~/.zshenv' state=link force=yes
+  tags: user
+
 - name: deploy config
   file: src='{{role_path}}/files/zshrc' dest='~/.zshrc' state=link force=yes
   tags: user
