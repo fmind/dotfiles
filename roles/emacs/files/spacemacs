@@ -57,7 +57,8 @@
      ipython-notebook
      (latex :variables
             latex-enable-folding t
-            latex-enable-auto-fill t)
+            latex-enable-auto-fill nil
+            latex-build-command "LatexMk")
      markdown
      nginx
      (org :variables
@@ -76,6 +77,8 @@
             shell-default-shell 'term
             shell-default-term-shell "/usr/bin/zsh")
      (spell-checking :variables
+                      enable-flyspell-auto-completion t
+                      spell-checking-enable-by-default t
                       spell-checking-enable-auto-dictionary t)
      sql
      (syntax-checking :variables
@@ -356,6 +359,7 @@
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
   ;; pdf
   (setq pdf-view-incompatible-modes '())
+  (add-to-list 'spacemacs-useless-buffers-regexp ".+\\.pdf")
   ;; deft
   (setq deft-directory "~/note")
   ;; cider
@@ -393,8 +397,9 @@
   ;; org
   (add-hook 'org-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
   ;; latex
-  (add-hook 'LaTeX-mode-hook 'writegood-mode)
+  (add-hook 'LaTeX-mode-hook (lambda () (writegood-mode 1)))
   (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-golden-ratio-off)
+  (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-spelling-checking-on)
   (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
   ;; python
   (add-hook 'projectile-after-switch-project-hook 'my-set-project-virtualenv)
@@ -465,7 +470,7 @@
  '(evil-want-Y-yank-to-eol t)
  '(package-selected-packages
    (quote
-    (writegood-mode vimrc-mode dactyl-mode slime-company slime common-lisp-snippets evil-cleverparens command-log-mode powerline org-plus-contrib parent-mode projectile flx smartparens iedit anzu evil goto-chg undo-tree hydra eval-sexp-fu highlight seq spinner pkg-info epl bind-map bind-key f dash s helm avy helm-core async popup packed racket-mode faceup ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd eww-lnum xclip haml-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck web-completion-data git-commit with-editor pos-tip company yasnippet auto-complete dash-functional anaconda-mode pythonic pdf-tools key-chord ivy tablist org-category-capture alert log4e gntp markdown-mode htmlize helm-bibtex parsebib inflections edn multiple-cursors paredit peg cider sesman queue clojure-mode biblio biblio-core auctex smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup ghub treepy let-alist graphql xkcd unfill sql-indent spray selectric-mode restclient-helm prodigy ob-restclient ob-http nginx-mode mwim jinja2-mode graphviz-dot-mode evil-nerd-commenter csv-mode company-restclient restclient know-your-http-well company-ansible ansible-doc ansible evil-search-highlight-persist yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit systemd stickyfunc-enhance srefactor spaceline slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc insert-shebang indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fish-mode fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl deft define-word cython-mode company-web company-tern company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (flyspell-popup writegood-mode vimrc-mode dactyl-mode slime-company slime common-lisp-snippets evil-cleverparens command-log-mode powerline org-plus-contrib parent-mode projectile flx smartparens iedit anzu evil goto-chg undo-tree hydra eval-sexp-fu highlight seq spinner pkg-info epl bind-map bind-key f dash s helm avy helm-core async popup packed racket-mode faceup ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd eww-lnum xclip haml-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck web-completion-data git-commit with-editor pos-tip company yasnippet auto-complete dash-functional anaconda-mode pythonic pdf-tools key-chord ivy tablist org-category-capture alert log4e gntp markdown-mode htmlize helm-bibtex parsebib inflections edn multiple-cursors paredit peg cider sesman queue clojure-mode biblio biblio-core auctex smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup ghub treepy let-alist graphql xkcd unfill sql-indent spray selectric-mode restclient-helm prodigy ob-restclient ob-http nginx-mode mwim jinja2-mode graphviz-dot-mode evil-nerd-commenter csv-mode company-restclient restclient know-your-http-well company-ansible ansible-doc ansible evil-search-highlight-persist yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit systemd stickyfunc-enhance srefactor spaceline slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc insert-shebang indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fish-mode fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl deft define-word cython-mode company-web company-tern company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

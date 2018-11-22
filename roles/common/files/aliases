@@ -98,6 +98,10 @@ alias ji='fasd_cd -di'
 alias je='fasd -fe $EDITOR' 
 alias jv='fasd -fie $EDITOR' 
 # }}}
+# Latex {{{
+alias lc='latexmk -C'
+alias lk='latexmk -pvc'
+# }}}
 # Make {{{
 alias mk='make'
 # }}}

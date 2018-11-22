@@ -2,6 +2,7 @@
 .env
 *.log
 *.retry
+*.layout
 
 # python
 .venv
