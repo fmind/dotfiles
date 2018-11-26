@@ -113,6 +113,10 @@ function note {
 alias nt='note todo'
 alias np='note projects'
 # }}}
+# clOjure {{{
+alias oh='lein githooks install'
+alias oc='lein githooks run pre-push'
+# }}}
 # Python {{{
 alias pt='pytest'
 alias pd='pydoc3'

@@ -45,7 +45,6 @@
      common-lisp
      csv
      emacs-lisp
-     evil-cleverparens
      evil-commentary
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
@@ -411,10 +410,10 @@
 
   ;; EVIL
   (define-key evil-normal-state-map "U" 'redo)
+  (define-key evil-normal-state-map "L" 'next-buffer)
+  (define-key evil-normal-state-map "H" 'previous-buffer)
   (define-key evil-normal-state-map "K" 'evil-scroll-up)
   (define-key evil-normal-state-map "J" 'evil-scroll-down)
-  (define-key evil-normal-state-map "L" 'evil-next-buffer)
-  (define-key evil-normal-state-map "H" 'evil-prev-buffer)
   (define-key evil-normal-state-map "Q" 'kill-this-buffer)
   (define-key evil-normal-state-map "j" 'evil-next-visual-line)
   (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
@@ -422,8 +421,8 @@
   (define-key evil-normal-state-map "B" 'evil-first-non-blank-of-visual-line)
   (define-key evil-normal-state-map "s" 'evil-snipe-s)
   (define-key evil-normal-state-map "S" 'evil-snipe-S)
-  (define-key evil-visual-state-map "gs" 'sort-lines)
-  (define-key evil-normal-state-map "gj" 'evil-join)
+  (define-key evil-normal-state-map "gs" 'sort-lines)
+  (define-key evil-visual-state-map "gj" 'evil-join)
 
   ;; MAJOR
   ;; cider
@@ -436,7 +435,7 @@
     "H" 'previous-buffer
     "L" 'next-buffer)
   ;; web
-  (evil-define-key 'normal 'eww-mode-map
+  (evil-define-key 'normal eww-mode-map
     "O" 'eww
     "R" 'eww-reload
     "Q" 'quit-window
