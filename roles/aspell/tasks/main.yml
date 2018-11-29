@@ -1,0 +1,6 @@
+---
+
+- name: install package
+  package: name='aspell-fr'
+  become: true
+  tags: admin

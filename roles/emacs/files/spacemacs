@@ -73,7 +73,8 @@
      search-engine
      semantic
      (shell :variables
-            shell-default-shell 'term
+            shell-default-shell 'eshell
+            shell-default-position 'full
             shell-default-term-shell "/usr/bin/zsh")
      (spell-checking :variables
                       spell-checking-enable-by-default t

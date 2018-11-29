@@ -15,6 +15,7 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
+    - {role: aspell, tags: ['aspell', 'editor']}
     - {role: autoenv, tags: ['autoenv', 'shell']}
     - {role: bash, tags: ['bash', 'shell']}
     - {role: byobu, tags: ['byobu', 'shell']}
