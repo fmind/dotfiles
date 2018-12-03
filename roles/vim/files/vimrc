@@ -100,13 +100,16 @@ inoremap < <><Esc>i
 let mapleader=" " 
 let maplocalleader="," 
 nnoremap <leader>o :set 
+nnoremap <leader>O :setl 
 nnoremap <leader>f :find 
 nnoremap <leader>h :help 
 nnoremap <leader>H :helpgrep 
 nnoremap <leader>l :nohl<CR>
 nnoremap <leader><Tab> <c-^>
 nnoremap <leader>s :set spell!<CR>
-nnoremap <leader>t :!pytest % <CR>
+nnoremap <leader>i :py
+nnoremap <leader>d :!pydoc 
+nnoremap <leader>t :!pytest %<CR>
 nnoremap <leader>p :!python3 %<CR>
 nnoremap <leader>' :edit $MYVIMRC<CR>
 nnoremap <leader>" :source $MYVIMRC<CR>
@@ -118,10 +121,8 @@ nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
 " }}}
 " PLUGIN {{{
 syntax enable
-
 filetype indent on
 filetype plugin on
-
 try
     colorscheme molokai
 catch

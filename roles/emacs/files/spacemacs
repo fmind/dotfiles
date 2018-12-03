@@ -351,7 +351,6 @@
   (fset 'yes-or-no-p 'y-or-n-p)
   ;; cider
   (setq cider-save-file-on-load t
-        nrepl-hide-special-buffers t
         cider-repl-use-pretty-printing t
         cider-repl-display-help-banner nil
         cider-repl-history-file "~/.cider.log"
@@ -426,7 +425,7 @@
   (define-key evil-visual-state-map "gj" 'evil-join)
 
   ;; MAJOR
-  ;; cider
+  ;; clojure
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
     "," 'cider-load-buffer
     "n" 'cider-repl-set-ns)

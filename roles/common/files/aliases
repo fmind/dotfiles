@@ -33,10 +33,7 @@ alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-emp
 # }}}
 # Editor {{{
 alias e='vim'
-alias en='emacs'
-alias er='vim -R'
-alias em='emacs -nw'
-alias ef='emacs --find-file'
+alias eo='vim -R'
 # }}}
 # Find {{{
 alias ff='find . -iname'
@@ -109,20 +106,17 @@ alias mk='make'
 function note {
     $EDITOR "$HOME/note/$1.md"
 }
-
+alias ni='note idea'
 alias nt='note todo'
+alias nm='note mentor'
 alias np='note projects'
-# }}}
-# clOjure {{{
-alias oh='lein githooks install'
-alias oc='lein githooks run pre-push'
 # }}}
 # Python {{{
 alias pt='pytest'
 alias pd='pydoc3'
 alias p2='python2'
 alias p3='python3'
-alias pi='ipython'
+alias pi='ipython -i'
 alias pb='python -m pdb'
 alias pe='python -m venv'
 alias px='python -m trace'
@@ -144,10 +138,7 @@ alias ppe='python -m pip install -e'
 alias ppp='python -m pip install --user'
 # }}}
 # }}}
-# Snakemake {{{
-alias sk='snakemake'
-# }}}
-# Tmuxp{ {{{
+# Tmuxp {{{
 alias tt='tmuxp'
 alias tf='tmuxp freeze'
 alias tl='tmuxp load -y'
@@ -184,6 +175,5 @@ alias yl='jupyter lab'
 alias yk='jupyter kernel'
 alias yc='jupyter convert'
 alias yn='jupyter notebook'
-alias ym='jupyter notebook --NotebookApp.token="" --NotebookApp.disable_check_xsrf=True'
 alias ys='ipcluster start'
 # }}}
