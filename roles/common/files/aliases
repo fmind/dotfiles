@@ -1,11 +1,6 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
 alias ls='ls --color=auto -CF'
-# }}}
-# COMMANDS {{{
-alias srv='service'
-alias sys='systemctl'
-alias log='journalctl'
 alias tsvg='termtosvg -g "88x15"'
 # }}}
 # Ansible {{{
@@ -31,21 +26,17 @@ alias dkrm='docker images --quiet --filter=dangling=true | xargs --no-run-if-emp
 #alias dkdata='docker run --rm -it --name data -v '$(pwd)':/home/jovyan/work -p 8888:8888 fmind/bigdata'
 #alias dkmongo='docker run --rm -it --name mongo --net=host -v '$(pwd)/data/db':/data/db mongo --smallfiles'
 # }}}
-# Editor {{{
-alias e='vim'
-alias eo='vim -R'
-# }}}
 # Find {{{
 alias ff='find . -iname'
 alias fh='find ~ -iname'
 # }}}
 # Git {{{
 alias g='git'
-alias gm='git submodule'
 alias grr='rm -rf .git'
-alias gwi='gws init'
+alias gm='git submodule'
 alias gwf='gws fetch'
 alias gwc='gws status --only-changes'
+alias gwi='rm -f .projects.gws && gws init'
 function gf {
   git clone gitea@git.fmind.me:fmind/$1.git
 }
@@ -78,11 +69,6 @@ alias kt="$EDITOR ~/.anacron/etc/anacrontab"
 alias kv='vi ~/.vimrc'
 alias kz='vi ~/.zshrc'
 # }}}
-# Image {{{
-alias ii='mogrify'
-alias ir='mogrify -resize'
-alias iw='mogrify -flatten'
-# }}}
 # Jump {{{
 alias jj='fasd'
 alias ja='fasd -A'
@@ -99,17 +85,10 @@ alias jv='fasd -fie $EDITOR'
 alias lc='latexmk -C'
 alias lk='latexmk -pvc'
 # }}}
-# Make {{{
-alias mk='make'
-# }}}
 # Note {{{
 function note {
     $EDITOR "$HOME/note/$1.md"
 }
-alias ni='note idea'
-alias nt='note todo'
-alias nm='note mentor'
-alias np='note projects'
 # }}}
 # Python {{{
 alias pt='pytest'

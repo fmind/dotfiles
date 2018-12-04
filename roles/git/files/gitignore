@@ -6,7 +6,6 @@
 
 # python
 .venv
-.snakemake
 .tmuxp.yaml
 .hypothesis
 .mypy_cache

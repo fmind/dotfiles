@@ -5,7 +5,6 @@ set shortmess=I
 " }}}
 " FILE {{{
 set path+=**
-set linebreak
 " }}}
 " MENU {{{
 set confirm
@@ -54,7 +53,7 @@ set directory=~/.vim/swap/
 set viminfo ='200,n~/.vim/viminfo
 " }}}
 " KEYMAP {{{
-imap fd <Esc>
+imap jk <Esc>
 
 vnoremap ; :
 nnoremap ; :
@@ -70,20 +69,16 @@ nnoremap J <C-d>
 nnoremap K <C-u>
 nnoremap U <C-r>
 
-nnoremap H :w<CR>:bp<CR>
-nnoremap L :w<CR>:bn<CR>
-nnoremap Q :w<CR>:bd<CR>
-
-noremap + gg=G
-noremap = gqap
-
-nnoremap <CR> <C-e>
-nnoremap zj o<Esc>k
-nnoremap zk O<Esc>j
+nnoremap H :bp<CR>
+nnoremap L :bn<CR>
+nnoremap Q :bd<CR>
 
 xnoremap < <gv
 xnoremap > >gv
+nnoremap + gg=G
+nnoremap = gqap
 
+nnoremap <CR> <C-e>
 noremap! <C-k> <Up>
 noremap! <C-j> <Down>
 noremap! <C-h> <Left>
@@ -95,29 +90,13 @@ inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
 inoremap { {}<Esc>i
 inoremap < <><Esc>i
-" }}}
-" LEADER {{{
-let mapleader=" " 
-let maplocalleader="," 
-nnoremap <leader>o :set 
-nnoremap <leader>O :setl 
-nnoremap <leader>f :find 
-nnoremap <leader>h :help 
-nnoremap <leader>H :helpgrep 
-nnoremap <leader>l :nohl<CR>
-nnoremap <leader><Tab> <c-^>
-nnoremap <leader>s :set spell!<CR>
-nnoremap <leader>i :py
-nnoremap <leader>d :!pydoc 
-nnoremap <leader>t :!pytest %<CR>
-nnoremap <leader>p :!python3 %<CR>
-nnoremap <leader>' :edit $MYVIMRC<CR>
-nnoremap <leader>" :source $MYVIMRC<CR>
-nnoremap <leader>; :s/^/# /<CR>:nohl<CR>
-vnoremap <leader>; :s/^/# /<CR>:nohl<CR>
-nnoremap <leader>: :s/^# //<CR>:nohl<CR>
-vnoremap <leader>: :s/^# //<CR>:nohl<CR>
-nnoremap <leader>! :w !sudo tee > /dev/null %<CR>
+
+nnoremap g/ :find 
+nnoremap gl :nohl<CR>
+nnoremap g<Tab> <c-^>
+nnoremap g. :edit $MYVIMRC<CR>
+nnoremap g, :source $MYVIMRC<CR>
+nnoremap g! :w !sudo tee > /dev/null %<CR>
 " }}}
 " PLUGIN {{{
 syntax enable
