@@ -54,18 +54,19 @@ function gho {
 # }}}
 # Konf {{{
 alias ka='vi ~/.aliases && source ~/.aliases'
+alias kb='vi ~/.anacron/etc/anacrontab'
 alias kb='vi ~/.bashrc && source ~/.bashrc'
 alias kc='vi ~/.cookiecutterrc'
 alias kd='vi ~/.display && source ~/.display'
 alias ke='vi ~/.environ && source ~/.environ'
-alias kg="vi ~/.gitconfig"
+alias kg='vi ~/.gitconfig'
 alias ki='vi ~/.input'
 alias ke='vi ~/.spacemacs'
-alias kn="vi ./.gitignore"
+alias kn='vi ./.gitignore'
 alias kp='vi ~/.private && source ~/.private'
 alias kr='source'
 alias ks='vi ~/.ssh/config'
-alias kt="$EDITOR ~/.anacron/etc/anacrontab"
+alias kt='vi ~/.ctags'
 alias kv='vi ~/.vimrc'
 alias kz='vi ~/.zshrc && source ~/.zshrc'
 # }}}

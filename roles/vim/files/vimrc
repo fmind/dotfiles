@@ -1,15 +1,16 @@
 " vim: fdm=marker
 " INIT {{{
+set nocompatible
 set shortmess=I
 " }}}
 " FILE {{{
 set path+=**
 set autoread
+set autowrite
 " }}}
 " MENU {{{
 set confirm
 set wildmenu
-set complete-=i
 set completeopt=longest,menuone
 " }}}
 " WORD {{{
