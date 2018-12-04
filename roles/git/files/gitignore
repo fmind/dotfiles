@@ -1,5 +1,6 @@
 # common
 .env
+.vim
 *.log
 *.retry
 *.layout

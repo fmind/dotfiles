@@ -53,29 +53,23 @@ function gho {
 }
 # }}}
 # Konf {{{
-alias ka='vi ~/.aliases'
-alias kb='vi ~/.bashrc'
+alias ka='vi ~/.aliases && source ~/.aliases'
+alias kb='vi ~/.bashrc && source ~/.bashrc'
 alias kc='vi ~/.cookiecutterrc'
-alias kd='vi ~/.display'
-alias ke='vi ~/.environ'
+alias kd='vi ~/.display && source ~/.display'
+alias ke='vi ~/.environ && source ~/.environ'
 alias kg="vi ~/.gitconfig"
 alias ki='vi ~/.input'
 alias ke='vi ~/.spacemacs'
 alias kn="vi ./.gitignore"
-alias kp='vi ~/.private'
+alias kp='vi ~/.private && source ~/.private'
 alias kr='source'
 alias ks='vi ~/.ssh/config'
 alias kt="$EDITOR ~/.anacron/etc/anacrontab"
 alias kv='vi ~/.vimrc'
-alias kz='vi ~/.zshrc'
+alias kz='vi ~/.zshrc && source ~/.zshrc'
 # }}}
 # Jump {{{
-alias jj='fasd'
-alias ja='fasd -A'
-alias jd='fasd -D'
-alias jf='fasd -lf'
-alias jd='fasd -ld' 
-alias js='fasd -si' 
 alias j='fasd_cd -d'
 alias ji='fasd_cd -di'
 alias je='fasd -fe $EDITOR' 
@@ -127,6 +121,7 @@ alias tp='tmuxp load -y .'
 alias ua='sudo apt'
 alias uh='apt show'
 alias us='apt search'
+alias uf='dpkg-query -L'
 alias ur='sudo apt purge'
 alias up='sudo apt update'
 alias uu='sudo apt upgrade'

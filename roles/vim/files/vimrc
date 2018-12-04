@@ -1,15 +1,20 @@
 " vim: fdm=marker
 " INIT {{{
-set nocompatible
 set shortmess=I
 " }}}
 " FILE {{{
 set path+=**
+set autoread
 " }}}
 " MENU {{{
 set confirm
 set wildmenu
+set complete-=i
 set completeopt=longest,menuone
+" }}}
+" WORD {{{
+set dictionary+=/usr/share/dict/words
+set thesaurus+=/usr/share/dict/thesaurus
 " }}}
 " PASTE {{{
 set clipboard=unnamedplus
@@ -51,53 +56,82 @@ set undofile
 set undodir=~/.vim/undo/
 set directory=~/.vim/swap/
 set viminfo ='200,n~/.vim/viminfo
+" BROWSER {{{
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
+" }}}
+" SESSION {{{
+set sessionoptions-=options
+" }}}
 " }}}
 " KEYMAP {{{
+" esc
 imap jk <Esc>
-
+" cmd
 vnoremap ; :
 nnoremap ; :
-
+" mark
+nnoremap ' `
+" line
 nnoremap j gj
 nnoremap k gk
-
+" move
 nnoremap B g^
 nnoremap E g$
 nnoremap Y y$
-
+" scroll
 nnoremap J <C-d>
 nnoremap K <C-u>
 nnoremap U <C-r>
-
+" buffer
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
 nnoremap Q :bd<CR>
-
+" indent
 xnoremap < <gv
 xnoremap > >gv
 nnoremap + gg=G
 nnoremap = gqap
-
+" habits
 nnoremap <CR> <C-e>
 noremap! <C-k> <Up>
 noremap! <C-j> <Down>
 noremap! <C-h> <Left>
 noremap! <C-l> <Right>
-
+" quotes
 inoremap ' ''<Esc>i
 inoremap " ""<Esc>i
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
 inoremap { {}<Esc>i
 inoremap < <><Esc>i
+" xemacs
+cnoremap <C-D> <Del>
+inoremap <C-D> <Del>
 
-nnoremap g/ :find 
+cnoremap <C-E> <End>
+inoremap <C-E> <End>
+cnoremap <C-A> <Home>
+inoremap <C-A> <Home>
+
+cnoremap <C-K> <Up>
+inoremap <C-K> <Up>
+cnoremap <C-J> <Down>
+inoremap <C-J> <Down>
+
+cnoremap <C-L> <Left>
+inoremap <C-L> <Left>
+cnoremap <C-H> <Right>
+inoremap <C-H> <Right>
+inoremap <C-F> <S-Right>
+" extends
 nnoremap gl :nohl<CR>
 nnoremap g<Tab> <c-^>
 nnoremap g. :edit $MYVIMRC<CR>
 nnoremap g, :source $MYVIMRC<CR>
 nnoremap g! :w !sudo tee > /dev/null %<CR>
-" }}}
+
+"}}}
 " PLUGIN {{{
 syntax enable
 filetype indent on
