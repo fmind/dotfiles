@@ -34,6 +34,7 @@
     - {role: jq, tags: ['jq', 'data']}
     - {role: make, tags: ['make', 'project']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
+    - {role: neovim, tags: ['neovim', 'editor']}
     - {role: onset, tags: ['onset', 'pipe']}
     - {role: parallel, tags: ['parallel', 'pipe']}
     - {role: percol, tags: ['percol', 'pipe']}

@@ -1,21 +1,23 @@
 " vim: fdm=marker
 " INIT {{{
-set nocompatible
 set shortmess=I
+set nocompatible
 " }}}
 " FILE {{{
 set path+=**
-set autoread
-set autowrite
+set encoding=UTF-8
+set fileformats=unix,mac,dos
 " }}}
 " MENU {{{
 set confirm
 set wildmenu
+set complete-=i
 set completeopt=longest,menuone
 " }}}
-" WORD {{{
+" SPELL {{{
+set spelllang=en,fr
+set thesaurus+=/usr/share/dict/theses
 set dictionary+=/usr/share/dict/words
-set thesaurus+=/usr/share/dict/thesaurus
 " }}}
 " PASTE {{{
 set clipboard=unnamedplus
@@ -33,7 +35,6 @@ set incsearch
 set smarttab
 set expandtab
 set autoindent
-set copyindent
 set tabstop=4 
 set shiftround
 set shiftwidth=4
@@ -42,9 +43,11 @@ set backspace=indent,eol,start
 " }}}
 " BUFFER {{{
 set hidden
+set autoread
+set autowriteall
 set scrolloff=10
 " }}}
-" NUMBER {{{
+" GUTTER {{{
 set number
 set relativenumber
 " }}}
@@ -54,87 +57,104 @@ set foldlevelstart=99
 " }}}
 " BACKUP {{{
 set undofile
+set noswapfile
 set undodir=~/.vim/undo/
-set directory=~/.vim/swap/
 set viminfo ='200,n~/.vim/viminfo
-" BROWSER {{{
-let g:loaded_netrw       = 1
-let g:loaded_netrwPlugin = 1
-" }}}
-" SESSION {{{
-set sessionoptions-=options
-" }}}
 " }}}
 " KEYMAP {{{
-" esc
+" esc {{{
 imap jk <Esc>
-" cmd
+" }}}
+" cmd {{{
 vnoremap ; :
 nnoremap ; :
-" mark
+" }}}
+" mark {{{
 nnoremap ' `
-" line
+" }}}
+" line {{{
 nnoremap j gj
 nnoremap k gk
-" move
+" }}}
+" move {{{
 nnoremap B g^
 nnoremap E g$
 nnoremap Y y$
-" scroll
+" }}}
+" scroll {{{
 nnoremap J <C-d>
 nnoremap K <C-u>
 nnoremap U <C-r>
-" buffer
+" }}}
+" buffer {{{
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
 nnoremap Q :bd<CR>
-" indent
+" }}}
+" indent {{{
 xnoremap < <gv
 xnoremap > >gv
+" }}}
+" format {{{
 nnoremap + gg=G
 nnoremap = gqap
-" habits
+" }}}
+" habits {{{
 nnoremap <CR> <C-e>
 noremap! <C-k> <Up>
 noremap! <C-j> <Down>
 noremap! <C-h> <Left>
 noremap! <C-l> <Right>
-" quotes
+" }}}
+" quotes {{{
 inoremap ' ''<Esc>i
 inoremap " ""<Esc>i
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
 inoremap { {}<Esc>i
 inoremap < <><Esc>i
-" xemacs
+" }}}
+" xemacs {{{
 cnoremap <C-D> <Del>
 inoremap <C-D> <Del>
-
 cnoremap <C-E> <End>
 inoremap <C-E> <End>
 cnoremap <C-A> <Home>
 inoremap <C-A> <Home>
-
 cnoremap <C-K> <Up>
 inoremap <C-K> <Up>
 cnoremap <C-J> <Down>
 inoremap <C-J> <Down>
-
 cnoremap <C-L> <Left>
 inoremap <C-L> <Left>
 cnoremap <C-H> <Right>
 inoremap <C-H> <Right>
+cnoremap <C-B> <S-Left>
 inoremap <C-F> <S-Right>
-" extends
+" }}}
+" comment {{{
+vnoremap ,# :s/^/#/<CR>
+vnoremap ,,# :s/^#//<CR>
+vnoremap ,% :s/^/%/<CR>
+vnoremap ,,% :s/^%//<CR>
+vnoremap ," :s/^/\"/<CR>
+vnoremap ,," :s/^\"//<CR>
+vnoremap ,/ :s/^/\/\//<CR>
+vnoremap ,,/ :s/^\/\///<CR>
+" }}}
+" extends {{{
+nnoremap gb :b#<CR>
 nnoremap gl :nohl<CR>
-nnoremap g<Tab> <c-^>
+nnoremap gs :sort<CR>
+nnoremap gj :join<CR>
+nnoremap gk :shell<CR>
 nnoremap g. :edit $MYVIMRC<CR>
-nnoremap g, :source $MYVIMRC<CR>
 nnoremap g! :w !sudo tee > /dev/null %<CR>
-
+" }}}
 "}}}
 " PLUGIN {{{
 syntax enable
+set synmaxcol=1000
 filetype indent on
 filetype plugin on
 try
@@ -143,3 +163,16 @@ catch
     colorscheme darkblue
 endtry
 " }}}
+" BROWSER {{{
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
+" }}}
+" SESSION {{{
+set sessionoptions-=options
+" }}}
+" AUTOCMD {{{
+augroup vimrc
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source %
+augroup end
+"}}}

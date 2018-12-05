@@ -1,5 +1,8 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
+alias vo='nvim'
+alias sys='systemctl'
+alias log='journalctl'
 alias ls='ls --color=auto -CF'
 alias tsvg='termtosvg -g "88x15"'
 # }}}
@@ -63,6 +66,7 @@ alias kg='vi ~/.gitconfig'
 alias ki='vi ~/.input'
 alias ke='vi ~/.spacemacs'
 alias kn='vi ./.gitignore'
+alias kp='vi ~/.config/nvim/init.vim'
 alias kp='vi ~/.private && source ~/.private'
 alias kr='source'
 alias ks='vi ~/.ssh/config'
