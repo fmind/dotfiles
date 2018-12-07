@@ -8,20 +8,12 @@ source ~/.vimrc
 " PLUGIN {{{
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'w0rp/ale'
+let g:ale_set_quickfix = 1
 call plug#end()
 " }}}
 " KEYMAPS {{{
-" other {{{
 nnoremap gk :terminal<CR>
 tnoremap <Esc> <C-\><C-n>
-" }}}
-" leader {{{
-let mapleader="\<space>"
-nnoremap <leader><Space> :mak<CR>
-" }}}
-" localleader {{{
-let maplocalleader="\<c-space>"
-" }}}
 " }}}
 " AUTOCMD {{{
 augroup nterm

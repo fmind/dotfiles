@@ -7,12 +7,6 @@ set shortmess=I
 set path+=**
 set encoding=UTF-8
 set fileformats=unix,mac,dos
-if executable('ag')
-set grepprg=ag\ --nogroup\ --nocolor\ --column
-endif
-" }}}
-" MESS {{{
-set shortmess=a
 " }}}
 " MENU {{{
 set wildmenu
@@ -20,8 +14,14 @@ set complete=.,w,b,u,t,i
 set wildmode=list:longest,full
 set completeopt=menuone,preview
 " }}}
+" GREP {{{
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+endif
+" }}}
 " SHELL {{{
 set shell=/bin/bash
+" }}}
 " SPELL {{{
 set spelllang=en,fr
 set thesaurus+=/usr/share/dict/theses
@@ -31,6 +31,7 @@ set dictionary+=/usr/share/dict/words
 set clipboard=unnamedplus
 " }}}
 " STATUS {{{
+set cmdheight=2
 set laststatus=2
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
 " }}}
@@ -163,22 +164,22 @@ cnoremap <C-B> <S-Left>
 inoremap <C-F> <S-Right>
 " }}}
 " comment {{{
-vnoremap ,# :s/^/#/<CR>
-nnoremap ,# :s/^/#/<CR>
-vnoremap ,,# :s/^#//<CR>
-nnoremap ,,# :s/^#//<CR>
-vnoremap ,% :s/^/%/<CR>
-nnoremap ,% :s/^/%/<CR>
-vnoremap ,,% :s/^%//<CR>
-nnoremap ,,% :s/^%//<CR>
-vnoremap ," :s/^/\"/<CR>
-nnoremap ," :s/^/\"/<CR>
-vnoremap ,," :s/^\"//<CR>
-nnoremap ,," :s/^\"//<CR>
-vnoremap ,/ :s/^/\/\//<CR>
-nnoremap ,/ :s/^/\/\//<CR>
-vnoremap ,,/ :s/^\/\///<CR>
-nnoremap ,,/ :s/^\/\///<CR>
+vnoremap ,# :s/^/#/<CR>:nohl<CR>
+nnoremap ,# :s/^/#/<CR>:nohl<CR>
+vnoremap ,,# :s/^#//<CR>:nohl<CR>
+nnoremap ,,# :s/^#//<CR>:nohl<CR>
+vnoremap ,% :s/^/%/<CR>:nohl<CR>
+nnoremap ,% :s/^/%/<CR>:nohl<CR>
+vnoremap ,,% :s/^%//<CR>:nohl<CR>
+nnoremap ,,% :s/^%//<CR>:nohl<CR>
+vnoremap ," :s/^/\"/<CR>:nohl<CR>
+nnoremap ," :s/^/\"/<CR>:nohl<CR>
+vnoremap ,," :s/^\"//<CR>:nohl<CR>
+nnoremap ,," :s/^\"//<CR>:nohl<CR>
+vnoremap ,/ :s/^/\/\//<CR>:nohl<CR>
+nnoremap ,/ :s/^/\/\//<CR>:nohl<CR>
+vnoremap ,,/ :s/^\/\///<CR>:nohl<CR>
+nnoremap ,,/ :s/^\/\///<CR>:nohl<CR>
 " }}}
 " command {{{
 nnoremap g! :w !sudo tee > /dev/null %<CR>
@@ -190,10 +191,25 @@ nnoremap g# :set spell<CR>
 nnoremap gl :nohl<CR>
 nnoremap gs :sort<CR>
 " }}}
+" leaders {{{
+let mapleader="\<space>"
+nnoremap <leader><CR>> :make
+nnoremap <leader><Space> :make<CR>
+" }}}
+" localleaders {{{
+let maplocalleader="\<c-space>"
+" }}}
 " }}}
 " AUTOCMD {{{
 augroup vimrc
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup end
+augroup python
+    autocmd!
+    autocmd FileType python setlocal foldmethod=indent
+    autocmd FileType python setlocal errorformat=%f:%l:%c:\ %m
+    autocmd FileType python setlocal makeprg=pylint\ --errors-only\ %
+    autocmd FileType python setlocal shellpipe=\|\ grep\ \".py\"\ \|\ tee
 augroup end
 " }}}

@@ -1,5 +1,4 @@
 # common
-tags
 .env
 .vim
 *.log
