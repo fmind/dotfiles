@@ -3,7 +3,7 @@
 # don't run interactively
 [ -z "$PS1" ] && return
 # don't run in emacs editor
-if [ -z "$EMACS" ]; then
+if [ -z "$EMACS" ] && [ -z "$MYVIMRC" ]; then
     _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
 # }}}
@@ -29,7 +29,6 @@ alias -g Z='| pigz'
 # PLUGINS {{{
 plugins=(
     alias-tips
-    zsh-autopair
     colored-man-pages
     command-not-found
     zsh-autosuggestions

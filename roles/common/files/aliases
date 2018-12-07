@@ -1,10 +1,13 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
 alias vo='nvim'
+alias mk='make'
+alias mak='make'
 alias sys='systemctl'
 alias log='journalctl'
 alias ls='ls --color=auto -CF'
 alias tsvg='termtosvg -g "88x15"'
+alias vp='NVIM_LISTEN_ADDRESS=.vim nvim'
 # }}}
 # Ansible {{{
 alias aa='ansible'

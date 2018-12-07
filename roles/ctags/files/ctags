@@ -1,3 +1,4 @@
 --exclude=.git
 --exclude=.venv
 --exclude=build
+--python-kinds=-i

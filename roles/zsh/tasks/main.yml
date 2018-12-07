@@ -33,10 +33,6 @@
   git: repo='https://github.com/robbyrussell/oh-my-zsh.git' dest='~/.oh-my-zsh' depth=1
   tags: user
 
-- name: clone auto-pair
-  git: repo='https://github.com/hlissner/zsh-autopair.git' dest='~/.zsh.d/plugins/zsh-autopair' depth=1
-  tags: user
-
 - name: clone alias-tips
   git: repo='https://github.com/djui/alias-tips.git' dest='~/.zsh.d/plugins/alias-tips' depth=1
   tags: user

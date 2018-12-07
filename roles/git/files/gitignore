@@ -5,6 +5,8 @@ tags
 *.log
 *.retry
 *.layout
+*.session
+.projections.json
 
 # python
 .venv

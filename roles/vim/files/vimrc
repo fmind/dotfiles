@@ -1,19 +1,27 @@
 " vim: fdm=marker
 " INIT {{{
-set shortmess=I
 set nocompatible
+set shortmess=I
 " }}}
 " FILE {{{
 set path+=**
 set encoding=UTF-8
 set fileformats=unix,mac,dos
+if executable('ag')
+set grepprg=ag\ --nogroup\ --nocolor\ --column
+endif
+" }}}
+" MESS {{{
+set shortmess=a
 " }}}
 " MENU {{{
-set confirm
 set wildmenu
-set complete-=i
-set completeopt=longest,menuone
+set complete=.,w,b,u,t,i
+set wildmode=list:longest,full
+set completeopt=menuone,preview
 " }}}
+" SHELL {{{
+set shell=/bin/bash
 " SPELL {{{
 set spelllang=en,fr
 set thesaurus+=/usr/share/dict/theses
@@ -41,8 +49,18 @@ set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
 " }}}
+" BACKUP {{{
+set nobackup
+set noswapfile
+set nowritebackup 
+" WINDOW {{{
+set splitbelow
+set splitright
+" }}}
+" }}}
 " BUFFER {{{
 set hidden
+set confirm
 set autoread
 set autowriteall
 set scrolloff=10
@@ -55,13 +73,25 @@ set relativenumber
 set foldmethod=syntax
 set foldlevelstart=99
 " }}}
-" BACKUP {{{
-set undofile
-set noswapfile
-set undodir=~/.vim/undo/
-set viminfo ='200,n~/.vim/viminfo
+" PLUGIN {{{
+syntax enable
+set synmaxcol=1000
+filetype indent on
+filetype plugin on
+try
+    colorscheme molokai
+catch
+    colorscheme darkblue
+endtry
 " }}}
-" KEYMAP {{{
+" BROWSER {{{
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
+" }}}
+" SESSION {{{
+set sessionoptions-=options
+" }}}
+" KEYMAPS {{{
 " esc {{{
 imap jk <Esc>
 " }}}
@@ -80,11 +110,19 @@ nnoremap k gk
 nnoremap B g^
 nnoremap E g$
 nnoremap Y y$
+" tags {{{
+nnoremap <C-j> :tnext<CR>
+nnoremap <C-k> :tprev<CR>
+" }}}
 " }}}
 " scroll {{{
 nnoremap J <C-d>
 nnoremap K <C-u>
 nnoremap U <C-r>
+" }}}
+" errors {{{
+nnoremap <C-h> :cprev<CR>
+nnoremap <C-l> :cnext<CR>
 " }}}
 " buffer {{{
 nnoremap H :bp<CR>
@@ -106,14 +144,6 @@ noremap! <C-j> <Down>
 noremap! <C-h> <Left>
 noremap! <C-l> <Right>
 " }}}
-" quotes {{{
-inoremap ' ''<Esc>i
-inoremap " ""<Esc>i
-inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-inoremap { {}<Esc>i
-inoremap < <><Esc>i
-" }}}
 " xemacs {{{
 cnoremap <C-D> <Del>
 inoremap <C-D> <Del>
@@ -134,45 +164,36 @@ inoremap <C-F> <S-Right>
 " }}}
 " comment {{{
 vnoremap ,# :s/^/#/<CR>
+nnoremap ,# :s/^/#/<CR>
 vnoremap ,,# :s/^#//<CR>
+nnoremap ,,# :s/^#//<CR>
 vnoremap ,% :s/^/%/<CR>
+nnoremap ,% :s/^/%/<CR>
 vnoremap ,,% :s/^%//<CR>
+nnoremap ,,% :s/^%//<CR>
 vnoremap ," :s/^/\"/<CR>
+nnoremap ," :s/^/\"/<CR>
 vnoremap ,," :s/^\"//<CR>
+nnoremap ,," :s/^\"//<CR>
 vnoremap ,/ :s/^/\/\//<CR>
+nnoremap ,/ :s/^/\/\//<CR>
 vnoremap ,,/ :s/^\/\///<CR>
+nnoremap ,,/ :s/^\/\///<CR>
 " }}}
-" extends {{{
+" command {{{
+nnoremap g! :w !sudo tee > /dev/null %<CR>
+nnoremap g. :edit $MYVIMRC<CR>
 nnoremap gb :b#<CR>
-nnoremap gl :nohl<CR>
-nnoremap gs :sort<CR>
 nnoremap gj :join<CR>
 nnoremap gk :shell<CR>
-nnoremap g. :edit $MYVIMRC<CR>
-nnoremap g! :w !sudo tee > /dev/null %<CR>
+nnoremap g# :set spell<CR>
+nnoremap gl :nohl<CR>
+nnoremap gs :sort<CR>
 " }}}
-"}}}
-" PLUGIN {{{
-syntax enable
-set synmaxcol=1000
-filetype indent on
-filetype plugin on
-try
-    colorscheme molokai
-catch
-    colorscheme darkblue
-endtry
-" }}}
-" BROWSER {{{
-let g:loaded_netrw       = 1
-let g:loaded_netrwPlugin = 1
-" }}}
-" SESSION {{{
-set sessionoptions-=options
 " }}}
 " AUTOCMD {{{
 augroup vimrc
     autocmd!
-    autocmd BufWritePost $MYVIMRC source %
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup end
-"}}}
+" }}}

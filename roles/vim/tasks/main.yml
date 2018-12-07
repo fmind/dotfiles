@@ -8,8 +8,6 @@
 - name: create directory
   file: path='{{item}}' state=directory
   with_items:
-    - ~/.vim/undo
-    - ~/.vim/spell
     - ~/.vim/colors
   tags: user
 
