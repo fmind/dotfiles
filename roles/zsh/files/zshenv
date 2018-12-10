@@ -4,7 +4,11 @@ ZSH_THEME="spaceship"
 ZSH_CUSTOM=$HOME/.zsh.d
 HIST_STAMPS="yyyy-mm-dd"
 # }}}
+# OPTION {{{
+bindkey -v
+# }}}
 # ENVIRON {{{
+export KEYTIMEOUT=1
 export ZSH=~/.oh-my-zsh
 export SPACESHIP_BATTERY_SHOW=false
 # }}}

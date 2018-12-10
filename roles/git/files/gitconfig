@@ -5,8 +5,8 @@
 
 [core]
     editor = vim
-    excludesfile = ~/.gitignore
 	hooksPath = hooks/
+    excludesfile = ~/.gitignore
 
 [color]
     ui = auto
@@ -18,20 +18,18 @@
     default = simple
 
 [alias]
-    cl = clone
-    st = status
-    ss = status -s
     aa = add --all
-    ci = commit -m
-    ca = commit -am
-    cn = commit -nm
-    pl = pull
-    ph = push
-    pu = push --set-upstream origin master
-    df = diff
     br = branch
+    ca = commit -am
+    ci = commit -m
     ck = checkout
-    sm = submodule
+    cl = clone
+    cn = commit -nm
+    df = diff
     lg = log --graph
     lo = log --oneline
     lp = log --graph --decorate --pretty=oneline --abbrev-commit
+    ph = push
+    pl = pull
+    sm = submodule
+    st = status

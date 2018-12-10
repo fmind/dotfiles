@@ -2,7 +2,7 @@
 # SECURITY{{{
 # don't run interactively
 [ -z "$PS1" ] && return
-# don't run in emacs editor
+# don't run in external editor
 if [ -z "$EMACS" ] && [ -z "$MYVIMRC" ]; then
     _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
@@ -28,6 +28,7 @@ alias -g Z='| pigz'
 # }}}
 # PLUGINS {{{
 plugins=(
+    vi-mode
     alias-tips
     colored-man-pages
     command-not-found
@@ -40,15 +41,17 @@ if [[ $EUID -ne 0 ]]; then
 fi
 # }}}
 # ADDONS {{{
-# enable fasd
+# enable fasd {{{
 if [ -x "$(command -v fasd)" ]; then
     eval "$(fasd --init auto)"
 fi
-# enable pyenv
+# }}}
+# enable pyenv {{{
 if [ -x "$(command -v pyenv)" ]; then
     eval "$(pyenv init -)"
 fi
-# enable percol
+# }}}
+# enable percol {{{
 function exists { which $1 &> /dev/null }
 if exists percol; then
     function percol_select_history() {
@@ -62,8 +65,10 @@ if exists percol; then
     zle -N percol_select_history
     bindkey '^R' percol_select_history
 fi
-# enable autoenv
+# }}}
+# enable autoenv {{{
 if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
 fi
+# }}}
 # # }}}

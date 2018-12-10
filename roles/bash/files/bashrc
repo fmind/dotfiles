@@ -8,16 +8,6 @@ if [ -z "$EMACS" ]; then
 fi
 # }}}
 # OPTIONS {{{
-# extended pattern matching
-shopt -s extglob
-# includes files beginning with a ‘.’
-shopt -s dotglob
-# matches files in a case-insensitive
-shopt -s nocaseglob
-# correct minor spelling errors in cd
-shopt -s cdspell
-# correct minor spelling errors in dir
-shopt -s dirspell
 # check the window size after each command
 shopt -s checkwinsize
 # match all files and zero or more directories
@@ -26,7 +16,7 @@ shopt -s globstar
 shopt -s histappend
 # }}}
 # ADDONS {{{
-# sudo hint
+# sudo hint {{{
 if [ ! -e "$HOME/.sudo_as_admin_successful" ] && [ ! -e "$HOME/.hushlogin" ] ; then
     case " $(groups) " in *\ admin\ *|*\ sudo\ *)
     if [ -x /usr/bin/sudo ]; then
@@ -38,7 +28,8 @@ if [ ! -e "$HOME/.sudo_as_admin_successful" ] && [ ! -e "$HOME/.hushlogin" ] ; t
     fi
     esac
 fi
-# bash completion
+# }}}
+# bash completion {{{
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -46,7 +37,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-# command not found
+# }}}
+# command not found {{{
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
 	function command_not_found_handle {
 	        # check because c-n-f could've been removed in the meantime
@@ -62,4 +54,5 @@ if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-no
 		fi
 	}
 fi
+# }}}
 # }}}
