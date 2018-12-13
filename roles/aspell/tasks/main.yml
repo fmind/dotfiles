@@ -1,6 +1,11 @@
 ---
 
-- name: install package
+- name: install french package
   package: name='aspell-fr'
+  become: true
+  tags: admin
+
+- name: install english package
+  package: name='aspell-en'
   become: true
   tags: admin

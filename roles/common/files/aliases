@@ -1,13 +1,10 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
-alias vo='nvim'
-alias mk='make'
-alias mak='make'
+alias srv='service'
 alias sys='systemctl'
 alias log='journalctl'
 alias ls='ls --color=auto -CF'
 alias tsvg='termtosvg -g "88x15"'
-alias vp='NVIM_LISTEN_ADDRESS=.vim nvim'
 # }}}
 # Ansible {{{
 alias aa='ansible'
@@ -43,6 +40,7 @@ alias gm='git submodule'
 alias gwf='gws fetch'
 alias gwc='gws status --only-changes'
 alias gwi='rm -f .projects.gws && gws init'
+
 function gf {
   git clone gitea@git.fmind.me:fmind/$1.git
 }
@@ -60,7 +58,6 @@ function gho {
 # }}}
 # Konf {{{
 alias ka='vi ~/.aliases && source ~/.aliases'
-alias kb='vi ~/.anacron/etc/anacrontab'
 alias kb='vi ~/.bashrc && source ~/.bashrc'
 alias kc='vi ~/.cookiecutterrc'
 alias kd='vi ~/.display && source ~/.display'
@@ -87,16 +84,19 @@ alias jv='fasd -fie $EDITOR'
 alias lc='latexmk -C'
 alias lk='latexmk -pvc'
 # }}}
+# Make {{{
+alias mk='make'
+# }}}
 # Note {{{
+alias ne='note'
+
 function note {
     $EDITOR "$HOME/note/$1.md"
 }
 # }}}
 # Python {{{
+alias pd='pydoc'
 alias pt='pytest'
-alias pd='pydoc3'
-alias p2='python2'
-alias p3='python3'
 alias pi='ipython -i'
 alias pb='python -m pdb'
 alias pe='python -m venv'
@@ -105,7 +105,8 @@ alias px='python -m trace'
 alias pvq='deactivate'
 alias pvw='source venv/bin/activate'
 alias pvv='source .venv/bin/activate'
-alias pvc='python -m venv .venv --clear'
+alias pvc='python -m venv .venv --symlinks'
+
 function pve {
   echo 'source "$(dirname $0)/.venv/bin/activate"' > .env
 }
@@ -126,7 +127,6 @@ alias tl='tmuxp load -y'
 alias tp='tmuxp load -y .'
 # }}}
 # Ubuntu {{{
-alias ua='sudo apt'
 alias uh='apt show'
 alias us='apt search'
 alias uf='dpkg-query -L'
@@ -135,6 +135,11 @@ alias up='sudo apt update'
 alias uu='sudo apt upgrade'
 alias ui='sudo apt install'
 alias uc='sudo apt autoremove --purge'
+# }}}
+# Vim {{{
+alias vi='vim'
+alias vo='nvim'
+alias vp='NVIM_LISTEN_ADDRESS=.vim nvim'
 # }}}
 # Watch {{{
 alias wm='watchmedo'
@@ -157,5 +162,4 @@ alias yl='jupyter lab'
 alias yk='jupyter kernel'
 alias yc='jupyter convert'
 alias yn='jupyter notebook'
-alias ys='ipcluster start'
 # }}}

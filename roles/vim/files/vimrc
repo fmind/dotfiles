@@ -16,11 +16,15 @@ set completeopt=menuone,preview
 " }}}
 " GREP {{{
 if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepprg=ag\ --column\ --nogroup\ --nocolor
 endif
 " }}}
 " SHELL {{{
-set shell=/bin/bash
+if executable('zsh')
+    set shell=/usr/bin/zsh
+else
+    set shell=/bin/bash
+endif
 " }}}
 " SPELL {{{
 set spelllang=en,fr
@@ -31,7 +35,6 @@ set dictionary+=/usr/share/dict/words
 set clipboard=unnamedplus
 " }}}
 " STATUS {{{
-set cmdheight=2
 set laststatus=2
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
 " }}}
@@ -54,10 +57,10 @@ set backspace=indent,eol,start
 set nobackup
 set noswapfile
 set nowritebackup 
+" }}}
 " WINDOW {{{
 set splitbelow
 set splitright
-" }}}
 " }}}
 " BUFFER {{{
 set hidden
@@ -198,10 +201,13 @@ let maplocalleader="\<c-space>"
 " }}}
 " }}}
 " AUTOCMD {{{
+" vimrc {{{
 augroup vimrc
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup end
+" }}}
+" python {{{
 augroup python
     autocmd!
     autocmd FileType python setlocal foldmethod=indent
@@ -209,4 +215,5 @@ augroup python
     autocmd FileType python setlocal makeprg=pylint\ --errors-only\ %
     autocmd FileType python setlocal shellpipe=\|\ grep\ \".py\"\ \|\ tee
 augroup end
+" }}}
 " }}}
