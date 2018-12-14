@@ -57,22 +57,22 @@ function gho {
 }
 # }}}
 # Konf {{{
-alias ka='vi ~/.aliases && source ~/.aliases'
-alias kb='vi ~/.bashrc && source ~/.bashrc'
-alias kc='vi ~/.cookiecutterrc'
-alias kd='vi ~/.display && source ~/.display'
-alias ke='vi ~/.environ && source ~/.environ'
-alias kg='vi ~/.gitconfig'
-alias ki='vi ~/.input'
-alias ke='vi ~/.spacemacs'
-alias kn='vi ./.gitignore'
-alias kp='vi ~/.config/nvim/init.vim'
-alias kp='vi ~/.private && source ~/.private'
-alias kr='source'
-alias ks='vi ~/.ssh/config'
-alias kt='vi ~/.ctags'
-alias kv='vi ~/.vimrc'
-alias kz='vi ~/.zshrc && source ~/.zshrc'
+alias ka="$EDITOR ~/.aliases && source ~/.aliases"
+alias kb="$EDITOR ~/.bashrc && source ~/.bashrc"
+alias kc="$EDITOR ~/.cookiecutterrc"
+alias kd="$EDITOR ~/.display && source ~/.display"
+alias ke="$EDITOR ~/.environ && source ~/.environ"
+alias kg="$EDITOR ~/.gitconfig"
+alias ki="$EDITOR ~/.input"
+alias kn="$EDITOR ~/.config/nvim/init.vim"
+alias ko="$EDITOR ./.gitignore"
+alias kp="$EDITOR ~/.private && source ~/.private"
+alias kq="$EDITOR ~/.config/qutebrowser/config.py"
+alias kr="source"
+alias ks="$EDITOR ~/.ssh/config"
+alias kt="$EDITOR ~/.ctags"
+alias kv="$EDITOR ~/.vimrc"
+alias kz="$EDITOR ~/.zshrc && source ~/.zshrc"
 # }}}
 # Jump {{{
 alias j='fasd_cd -d'

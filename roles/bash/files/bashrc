@@ -1,11 +1,13 @@
 # vim: fdm=marker
 # SECURITY{{{
-# don't run interactively
+# don't run interactively {{{
 [ -z "$PS1" ] && return
-# don't run in emacs editor
+# }}}
+# don't run in emacs editor {{{
 if [ -z "$EMACS" ]; then
     byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
+# }}}
 # }}}
 # OPTIONS {{{
 # check the window size after each command

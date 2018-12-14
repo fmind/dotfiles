@@ -1,11 +1,13 @@
 # vim: fdm=marker
 # SECURITY{{{
-# don't run interactively
+# don't run interactively {{{
 [ -z "$PS1" ] && return
-# don't run in external editor
+# }}}
+# don't run in external editor {{{
 if [ -z "$EMACS" ] && [ -z "$MYVIMRC" ]; then
     _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
+# }}}
 # }}}
 # ALIASES {{{
 alias -g A='| ag'
@@ -27,6 +29,7 @@ alias -g W='| wc -l'
 alias -g Z='| pigz'
 # }}}
 # PLUGINS {{{
+# oh-my-zsh plugins {{{
 plugins=(
     vi-mode
     alias-tips
@@ -35,10 +38,12 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
 )
-# don't run as root
+# }}}
+# don't run as root {{{
 if [[ $EUID -ne 0 ]]; then
     source $HOME/.oh-my-zsh/oh-my-zsh.sh
 fi
+# }}}
 # }}}
 # ADDONS {{{
 # enable fasd {{{
@@ -71,4 +76,4 @@ if [ -x "$(command -v activate.sh)" ]; then
     source "$(which activate.sh)"
 fi
 # }}}
-# # }}}
+# }}}

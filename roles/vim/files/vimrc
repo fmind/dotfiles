@@ -96,9 +96,6 @@ let g:loaded_netrwPlugin = 1
 set sessionoptions-=options
 " }}}
 " KEYMAPS {{{
-" esc {{{
-imap jk <Esc>
-" }}}
 " cmd {{{
 vnoremap ; :
 nnoremap ; :
@@ -114,10 +111,10 @@ nnoremap k gk
 nnoremap B g^
 nnoremap E g$
 nnoremap Y y$
+" }}}
 " tags {{{
 nnoremap <C-j> :tnext<CR>
 nnoremap <C-k> :tprev<CR>
-" }}}
 " }}}
 " scroll {{{
 nnoremap J <C-d>
