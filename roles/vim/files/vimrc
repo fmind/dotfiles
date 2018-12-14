@@ -193,7 +193,7 @@ nnoremap gs :sort<CR>
 " }}}
 " leaders {{{
 let mapleader="\<space>"
-nnoremap <leader><CR>> :make
+nnoremap <leader><CR> :make
 nnoremap <leader><Space> :make<CR>
 " }}}
 " localleaders {{{
