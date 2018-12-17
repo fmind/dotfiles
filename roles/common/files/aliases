@@ -122,9 +122,9 @@ alias ppp='python -m pip install --user'
 # }}}
 # Tmuxp {{{
 alias tt='tmuxp'
-alias tf='tmuxp freeze'
 alias tl='tmuxp load -y'
 alias tp='tmuxp load -y .'
+alias tf='tmuxp freeze .tmux'
 # }}}
 # Ubuntu {{{
 alias uh='apt show'

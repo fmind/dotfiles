@@ -1,6 +1,7 @@
 # common
 .env
 .vim
+.tmux
 *.log
 *.retry
 *.layout
