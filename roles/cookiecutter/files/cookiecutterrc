@@ -1,6 +1,6 @@
 default_context:
     user: "fmind"
-    email: "dev@fmind.me"
+    email: "fmind@fmind.me"
     author: "Médéric Hurier"
     control: "git.fmind.me"
     license: "AGPL-3.0"
