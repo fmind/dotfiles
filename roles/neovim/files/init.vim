@@ -8,7 +8,9 @@ source ~/.vimrc
 " PLUGIN {{{
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'w0rp/ale'
+let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
+let g:ale_sign_column_always = 1
 call plug#end()
 " }}}
 " KEYMAPS {{{

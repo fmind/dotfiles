@@ -63,7 +63,7 @@ set splitbelow
 set splitright
 " }}}
 " BUFFER {{{
-set hidden
+"set hidden
 set confirm
 set autoread
 set autowriteall
@@ -77,11 +77,15 @@ set relativenumber
 set foldmethod=syntax
 set foldlevelstart=99
 " }}}
-" PLUGIN {{{
+" SYNTAX {{{
 syntax enable
 set synmaxcol=1000
+" }}}
+" PLUGIN {{{
 filetype indent on
 filetype plugin on
+" }}}
+" COLORS {{{
 try
     colorscheme molokai
 catch
@@ -89,19 +93,16 @@ catch
 endtry
 " }}}
 " BROWSER {{{
-let g:loaded_netrw       = 1
+let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 " }}}
 " SESSION {{{
 set sessionoptions-=options
 " }}}
 " KEYMAPS {{{
-" cmd {{{
+" exec {{{
 vnoremap ; :
 nnoremap ; :
-" }}}
-" mark {{{
-nnoremap ' `
 " }}}
 " line {{{
 nnoremap j gj
@@ -112,18 +113,20 @@ nnoremap B g^
 nnoremap E g$
 nnoremap Y y$
 " }}}
+" redo {{{
+nnoremap U <C-r>
+" }}}
 " tags {{{
 nnoremap <C-j> :tnext<CR>
 nnoremap <C-k> :tprev<CR>
 " }}}
-" scroll {{{
-nnoremap J <C-d>
-nnoremap K <C-u>
-nnoremap U <C-r>
-" }}}
 " errors {{{
 nnoremap <C-h> :cprev<CR>
 nnoremap <C-l> :cnext<CR>
+" }}}
+" scroll {{{
+nnoremap J <C-d>
+nnoremap K <C-u>
 " }}}
 " buffer {{{
 nnoremap H :bp<CR>
@@ -133,17 +136,6 @@ nnoremap Q :bd<CR>
 " indent {{{
 xnoremap < <gv
 xnoremap > >gv
-" }}}
-" format {{{
-nnoremap + gg=G
-nnoremap = gqap
-" }}}
-" habits {{{
-nnoremap <CR> <C-e>
-noremap! <C-k> <Up>
-noremap! <C-j> <Down>
-noremap! <C-h> <Left>
-noremap! <C-l> <Right>
 " }}}
 " xemacs {{{
 cnoremap <C-D> <Del>
@@ -156,10 +148,10 @@ cnoremap <C-K> <Up>
 inoremap <C-K> <Up>
 cnoremap <C-J> <Down>
 inoremap <C-J> <Down>
-cnoremap <C-L> <Left>
-inoremap <C-L> <Left>
-cnoremap <C-H> <Right>
-inoremap <C-H> <Right>
+cnoremap <C-H> <Left>
+inoremap <C-H> <Left>
+cnoremap <C-L> <Right>
+inoremap <C-L> <Right>
 cnoremap <C-B> <S-Left>
 inoremap <C-F> <S-Right>
 " }}}
@@ -183,11 +175,11 @@ nnoremap ,,/ :s/^\/\///<CR>:nohl<CR>
 " }}}
 " command {{{
 nnoremap g! :w !sudo tee > /dev/null %<CR>
+nnoremap g# :set spell<CR>
 nnoremap g. :edit $MYVIMRC<CR>
 nnoremap gb :b#<CR>
 nnoremap gj :join<CR>
 nnoremap gk :shell<CR>
-nnoremap g# :set spell<CR>
 nnoremap gl :nohl<CR>
 nnoremap gs :sort<CR>
 " }}}
