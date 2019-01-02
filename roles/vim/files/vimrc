@@ -63,7 +63,7 @@ set splitbelow
 set splitright
 " }}}
 " BUFFER {{{
-"set hidden
+set hidden
 set confirm
 set autoread
 set autowriteall
