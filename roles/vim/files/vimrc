@@ -13,7 +13,7 @@ set wildmenu
 set complete=.,w,b,u,t,i
 set wildmode=list:longest,full
 set completeopt=menuone,preview
-set wildignore+=*.aux,*.fls,*.pdf
+set wildignore+=*.aux,*.bbl,*.blg,*.fls,*.pdf
 " }}}
 " GREP {{{
 if executable('ag')
