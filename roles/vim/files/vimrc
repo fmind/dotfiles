@@ -13,6 +13,7 @@ set wildmenu
 set complete=.,w,b,u,t,i
 set wildmode=list:longest,full
 set completeopt=menuone,preview
+set wildignore+=*.aux,*.fls,*.pdf
 " }}}
 " GREP {{{
 if executable('ag')
@@ -35,6 +36,7 @@ set dictionary+=/usr/share/dict/words
 set clipboard=unnamedplus
 " }}}
 " STATUS {{{
+set cmdheight=2
 set laststatus=2
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
 " }}}
@@ -42,6 +44,7 @@ set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\
 set gdefault
 set hlsearch
 set incsearch
+set ignorecase
 " }}}
 " INDENT {{{
 set smarttab
@@ -154,6 +157,8 @@ cnoremap <C-L> <Right>
 inoremap <C-L> <Right>
 cnoremap <C-B> <S-Left>
 inoremap <C-F> <S-Right>
+cnoremap <C-O> <C-R><C-W>
+inoremap <C-O> <C-R><C-W>
 " }}}
 " comment {{{
 vnoremap ,# :s/^/#/<CR>:nohl<CR>
@@ -185,7 +190,7 @@ nnoremap gs :sort<CR>
 " }}}
 " leaders {{{
 let mapleader="\<space>"
-nnoremap <leader><CR> :make
+nnoremap <leader><CR> :make 
 nnoremap <leader><Space> :make<CR>
 " }}}
 " localleaders {{{
@@ -197,6 +202,13 @@ let maplocalleader="\<c-space>"
 augroup vimrc
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup end
+" }}}
+" tex {{{
+augroup tex
+    autocmd!
+    autocmd FileType tex setlocal makeprg=chktex\ -q\ -v0\ %
+    autocmd FileType tex setlocal errorformat=%f:%l:%c:%n:%m
 augroup end
 " }}}
 " python {{{
