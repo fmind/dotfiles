@@ -1,11 +1,9 @@
 ---
 
-- name: install french package
-  package: name='aspell-fr'
-  become: true
-  tags: admin
-
-- name: install english package
-  package: name='aspell-en'
+- name: install languages
+  package: name='{{item}}'
+  with_items:
+      - aspell-en
+      - aspell-fr
   become: true
   tags: admin

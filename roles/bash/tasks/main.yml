@@ -1,9 +1,9 @@
 ---
 
-- name: deploy environ
-  file: src='{{role_path}}/files/bash_profile' dest='~/.bash_profile' state=link force=yes
-  tags: user
-
 - name: deploy config
   file: src='{{role_path}}/files/bashrc' dest='~/.bashrc' state=link force=yes
+  tags: user
+
+- name: deploy environ
+  file: src='{{role_path}}/files/bash_profile' dest='~/.bash_profile' state=link force=yes
   tags: user

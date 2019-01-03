@@ -8,6 +8,11 @@ set path+=**
 set encoding=UTF-8
 set fileformats=unix,mac,dos
 " }}}
+" GREP {{{
+if executable('ag')
+    set grepprg=ag\ --column\ --nogroup\ --nocolor
+endif
+" }}}
 " MENU {{{
 set wildmenu
 set complete=.,w,b,u,t,i
@@ -15,10 +20,11 @@ set wildmode=list:longest,full
 set completeopt=menuone,preview
 set wildignore+=*.aux,*.bbl,*.blg,*.fls,*.pdf
 " }}}
-" GREP {{{
-if executable('ag')
-    set grepprg=ag\ --column\ --nogroup\ --nocolor
-endif
+" BREAK {{{
+set linebreak
+" }}}
+" PASTE {{{
+set clipboard=unnamedplus
 " }}}
 " SHELL {{{
 if executable('zsh')
@@ -32,19 +38,16 @@ set spelllang=en,fr
 set thesaurus+=/usr/share/dict/theses
 set dictionary+=/usr/share/dict/words
 " }}}
-" PASTE {{{
-set clipboard=unnamedplus
+" BACKUP {{{
+set nobackup
+set noswapfile
 " }}}
-" STATUS {{{
-set cmdheight=2
-set laststatus=2
-set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
-" }}}
-" SEARCH {{{
-set gdefault
-set hlsearch
-set incsearch
-set ignorecase
+" BUFFER {{{
+set hidden
+set confirm
+set autoread
+set autowriteall
+set scrolloff=10
 " }}}
 " INDENT {{{
 set smarttab
@@ -56,25 +59,20 @@ set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
 " }}}
-" BACKUP {{{
-set nobackup
-set noswapfile
-set nowritebackup 
+" STATUS {{{
+set cmdheight=2
+set laststatus=2
+set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
 " }}}
 " WINDOW {{{
 set splitbelow
 set splitright
 " }}}
-" BUFFER {{{
-set hidden
-set confirm
-set autoread
-set autowriteall
-set scrolloff=10
-" }}}
-" GUTTER {{{
-set number
-set relativenumber
+" SEARCH {{{
+set gdefault
+set hlsearch
+set incsearch
+set ignorecase
 " }}}
 " FOLDER {{{
 set foldmethod=syntax
@@ -103,18 +101,18 @@ let g:loaded_netrwPlugin = 1
 set sessionoptions-=options
 " }}}
 " KEYMAPS {{{
+" copy {{{
+nnoremap Y y$
+" }}}
 " exec {{{
 vnoremap ; :
 nnoremap ; :
 " }}}
-" line {{{
+" move {{{
 nnoremap j gj
 nnoremap k gk
-" }}}
-" move {{{
 nnoremap B g^
 nnoremap E g$
-nnoremap Y y$
 " }}}
 " redo {{{
 nnoremap U <C-r>
@@ -123,22 +121,22 @@ nnoremap U <C-r>
 nnoremap <C-j> :tnext<CR>
 nnoremap <C-k> :tprev<CR>
 " }}}
-" errors {{{
-nnoremap <C-h> :cprev<CR>
-nnoremap <C-l> :cnext<CR>
-" }}}
-" scroll {{{
-nnoremap J <C-d>
-nnoremap K <C-u>
-" }}}
 " buffer {{{
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
 nnoremap Q :bd<CR>
 " }}}
+" errors {{{
+nnoremap <C-h> :cprev<CR>
+nnoremap <C-l> :cnext<CR>
+" }}}
 " indent {{{
 xnoremap < <gv
 xnoremap > >gv
+" }}}
+" scroll {{{
+nnoremap J <C-d>
+nnoremap K <C-u>
 " }}}
 " xemacs {{{
 cnoremap <C-D> <Del>
@@ -160,6 +158,16 @@ inoremap <C-F> <S-Right>
 cnoremap <C-O> <C-R><C-W>
 inoremap <C-O> <C-R><C-W>
 " }}}
+" command {{{
+nnoremap g! :w !sudo tee > /dev/null %<CR>
+nnoremap g# :set spell<CR>
+nnoremap g. :edit $MYVIMRC<CR>
+nnoremap gb :b#<CR>
+nnoremap gj :join<CR>
+nnoremap gk :shell<CR>
+nnoremap gl :nohl<CR>
+nnoremap gs :sort<CR>
+" }}}
 " comment {{{
 vnoremap ,# :s/^/#/<CR>:nohl<CR>
 nnoremap ,# :s/^/#/<CR>:nohl<CR>
@@ -177,16 +185,6 @@ vnoremap ,/ :s/^/\/\//<CR>:nohl<CR>
 nnoremap ,/ :s/^/\/\//<CR>:nohl<CR>
 vnoremap ,,/ :s/^\/\///<CR>:nohl<CR>
 nnoremap ,,/ :s/^\/\///<CR>:nohl<CR>
-" }}}
-" command {{{
-nnoremap g! :w !sudo tee > /dev/null %<CR>
-nnoremap g# :set spell<CR>
-nnoremap g. :edit $MYVIMRC<CR>
-nnoremap gb :b#<CR>
-nnoremap gj :join<CR>
-nnoremap gk :shell<CR>
-nnoremap gl :nohl<CR>
-nnoremap gs :sort<CR>
 " }}}
 " leaders {{{
 let mapleader="\<space>"
@@ -207,8 +205,11 @@ augroup end
 " tex {{{
 augroup tex
     autocmd!
+    autocmd FileType tex setlocal spell
+    autocmd FileType tex setlocal foldmethod=expr
     autocmd FileType tex setlocal makeprg=chktex\ -q\ -v0\ %
     autocmd FileType tex setlocal errorformat=%f:%l:%c:%n:%m
+    autocmd FileType tex setlocal foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
 augroup end
 " }}}
 " python {{{

@@ -1,7 +1,7 @@
 [user]
-    username = fmind
     email = fmind@fmind.me
     name = Médéric Hurier
+    username = fmind
 
 [core]
     editor = vim
@@ -33,3 +33,5 @@
     pl = pull
     sm = submodule
     st = status
+    tr = ls-tree -r master
+    tn = ls-tree -r master --name-only
