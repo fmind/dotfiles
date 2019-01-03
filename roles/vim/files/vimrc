@@ -13,12 +13,12 @@ if executable('ag')
     set grepprg=ag\ --column\ --nogroup\ --nocolor
 endif
 " }}}
-" MENU {{{
-set wildmenu
-set complete=.,w,b,u,t,i
-set wildmode=list:longest,full
-set completeopt=menuone,preview
-set wildignore+=*.aux,*.bbl,*.blg,*.fls,*.pdf
+" SHELL {{{
+if executable('zsh')
+    set shell=/usr/bin/zsh
+else
+    set shell=/bin/bash
+endif
 " }}}
 " BREAK {{{
 set linebreak
@@ -26,12 +26,12 @@ set linebreak
 " PASTE {{{
 set clipboard=unnamedplus
 " }}}
-" SHELL {{{
-if executable('zsh')
-    set shell=/usr/bin/zsh
-else
-    set shell=/bin/bash
-endif
+" POPUP {{{
+set wildmenu
+set complete=.,w,b,u,t,i
+set wildmode=list:longest,full
+set completeopt=menuone,preview
+set wildignore+=*.aux,*.bbl,*.blg,*.fls,*.pdf
 " }}}
 " SPELL {{{
 set spelllang=en,fr
@@ -49,6 +49,10 @@ set autoread
 set autowriteall
 set scrolloff=10
 " }}}
+" FOLDER {{{
+set foldmethod=syntax
+set foldlevelstart=99
+" }}}
 " INDENT {{{
 set smarttab
 set expandtab
@@ -59,6 +63,12 @@ set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
 " }}}
+" SEARCH {{{
+set gdefault
+set hlsearch
+set incsearch
+set ignorecase
+" }}}
 " STATUS {{{
 set cmdheight=2
 set laststatus=2
@@ -68,15 +78,8 @@ set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\
 set splitbelow
 set splitright
 " }}}
-" SEARCH {{{
-set gdefault
-set hlsearch
-set incsearch
-set ignorecase
-" }}}
-" FOLDER {{{
-set foldmethod=syntax
-set foldlevelstart=99
+" SESSION {{{
+set sessionoptions-=options
 " }}}
 " SYNTAX {{{
 syntax enable
@@ -97,13 +100,7 @@ endtry
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 " }}}
-" SESSION {{{
-set sessionoptions-=options
-" }}}
 " KEYMAPS {{{
-" copy {{{
-nnoremap Y y$
-" }}}
 " exec {{{
 vnoremap ; :
 nnoremap ; :
@@ -117,18 +114,21 @@ nnoremap E g$
 " redo {{{
 nnoremap U <C-r>
 " }}}
-" tags {{{
+" yank {{{
+nnoremap Y y$
+" }}}
+" ctags {{{
 nnoremap <C-j> :tnext<CR>
 nnoremap <C-k> :tprev<CR>
+" }}}
+" errors {{{
+nnoremap <C-h> :cprev<CR>
+nnoremap <C-l> :cnext<CR>
 " }}}
 " buffer {{{
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
 nnoremap Q :bd<CR>
-" }}}
-" errors {{{
-nnoremap <C-h> :cprev<CR>
-nnoremap <C-l> :cnext<CR>
 " }}}
 " indent {{{
 xnoremap < <gv
@@ -196,19 +196,13 @@ let maplocalleader="\<c-space>"
 " }}}
 " }}}
 " AUTOCMD {{{
-" vimrc {{{
-augroup vimrc
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup end
-" }}}
 " tex {{{
 augroup tex
     autocmd!
     autocmd FileType tex setlocal spell
     autocmd FileType tex setlocal foldmethod=expr
-    autocmd FileType tex setlocal makeprg=chktex\ -q\ -v0\ %
     autocmd FileType tex setlocal errorformat=%f:%l:%c:%n:%m
+    autocmd FileType tex setlocal makeprg=chktex\ -q\ -v0\ %
     autocmd FileType tex setlocal foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
 augroup end
 " }}}
@@ -219,6 +213,12 @@ augroup python
     autocmd FileType python setlocal errorformat=%f:%l:%c:\ %m
     autocmd FileType python setlocal makeprg=pylint\ --errors-only\ %
     autocmd FileType python setlocal shellpipe=\|\ grep\ \".py\"\ \|\ tee
+augroup end
+" }}}
+" vim {{{
+augroup vim
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup end
 " }}}
 " }}}
