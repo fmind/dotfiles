@@ -46,6 +46,7 @@ set noswapfile
 set hidden
 set confirm
 set autoread
+set autowrite
 set autowriteall
 set scrolloff=10
 " }}}
