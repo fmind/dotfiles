@@ -50,6 +50,10 @@ set autowrite
 set autowriteall
 set scrolloff=10
 " }}}
+" GUTTER {{{
+set number
+set relativenumber
+" }}}
 " FOLDER {{{
 set foldmethod=syntax
 set foldlevelstart=99
