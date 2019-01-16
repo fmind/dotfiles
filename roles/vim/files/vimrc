@@ -205,10 +205,9 @@ let maplocalleader="\<c-space>"
 augroup tex
     autocmd!
     autocmd FileType tex setlocal spell
-    autocmd FileType tex setlocal foldmethod=expr
+    autocmd FileType tex setlocal foldmethod=marker
     autocmd FileType tex setlocal errorformat=%f:%l:%c:%n:%m
     autocmd FileType tex setlocal makeprg=chktex\ -q\ -v0\ %
-    autocmd FileType tex setlocal foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
 augroup end
 " }}}
 " python {{{
