@@ -2,7 +2,6 @@
 # DEFAULT {{{
 alias srv='service'
 alias say='espeak-ng'
-alias dit='espeak-ng -vfr'
 alias sys='systemctl'
 alias log='journalctl'
 alias ls='ls --color=auto -CF'

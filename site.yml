@@ -32,6 +32,7 @@
     - {role: ipcalc, tags: ['ipcalc', 'network']}
     - {role: jq, tags: ['jq', 'data']}
     - {role: make, tags: ['make', 'project']}
+    - {role: neovim, tags: ['neovim', 'editor']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: onset, tags: ['onset', 'pipe']}
     - {role: parallel, tags: ['parallel', 'pipe']}
