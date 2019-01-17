@@ -140,7 +140,7 @@ inoremap <C-b> <C-x><C-l>
 inoremap <C-n> <C-x><C-n>
 inoremap <C-r> <C-x><C-k>
 inoremap <C-t> <C-x><C-t>
-inoremap <C-i> <C-x><C-i>
+inoremap <C-y> <C-x><C-i>
 inoremap <C-]> <C-x><C-]>
 inoremap <C-g> <C-x><C-f>
 inoremap <C-'> <C-x><C-d>
