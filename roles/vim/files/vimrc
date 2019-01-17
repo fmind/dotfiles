@@ -135,6 +135,20 @@ nnoremap H :bp<CR>
 nnoremap L :bn<CR>
 nnoremap Q :bd<CR>
 " }}}
+" insert {{{
+inoremap <C-b> <C-x><C-l>
+inoremap <C-n> <C-x><C-n>
+inoremap <C-r> <C-x><C-k>
+inoremap <C-t> <C-x><C-t>
+inoremap <C-i> <C-x><C-i>
+inoremap <C-]> <C-x><C-]>
+inoremap <C-g> <C-x><C-f>
+inoremap <C-'> <C-x><C-d>
+inoremap <C-v> <C-x><C-v>
+inoremap <C-u> <C-x><C-u>
+inoremap <C-o> <C-x><C-o>
+inoremap <C-s> <C-x>s
+" }}}
 " indent {{{
 xnoremap < <gv
 xnoremap > >gv
@@ -144,24 +158,22 @@ nnoremap J <C-d>
 nnoremap K <C-u>
 " }}}
 " xemacs {{{
-cnoremap <C-D> <Del>
-inoremap <C-D> <Del>
-cnoremap <C-E> <End>
-inoremap <C-E> <End>
-cnoremap <C-A> <Home>
-inoremap <C-A> <Home>
-cnoremap <C-K> <Up>
-inoremap <C-K> <Up>
-cnoremap <C-J> <Down>
+cnoremap <C-d> <Del>
+inoremap <C-d> <Del>
+cnoremap <C-e> <End>
+inoremap <C-e> <End>
+cnoremap <C-a> <Home>
+inoremap <C-a> <Home>
+cnoremap <C-k> <Up>
+inoremap <C-k> <Up>
+cnoremap <C-j> <Down>
 inoremap <C-J> <Down>
-cnoremap <C-H> <Left>
-inoremap <C-H> <Left>
-cnoremap <C-L> <Right>
-inoremap <C-L> <Right>
-cnoremap <C-B> <S-Left>
-inoremap <C-F> <S-Right>
-cnoremap <C-O> <C-R><C-W>
-inoremap <C-O> <C-R><C-W>
+cnoremap <C-h> <Left>
+inoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+inoremap <C-l> <Right>
+cnoremap <C-b> <S-Left>
+inoremap <C-f> <S-Right>
 " }}}
 " command {{{
 nnoremap g! :w !sudo tee > /dev/null %<CR>
@@ -201,15 +213,6 @@ let maplocalleader="\<c-space>"
 " }}}
 " }}}
 " AUTOCMD {{{
-" tex {{{
-augroup tex
-    autocmd!
-    autocmd FileType tex setlocal spell
-    autocmd FileType tex setlocal foldmethod=marker
-    autocmd FileType tex setlocal errorformat=%f:%l:%c:%n:%m
-    autocmd FileType tex setlocal makeprg=chktex\ -q\ -v0\ %
-augroup end
-" }}}
 " python {{{
 augroup python
     autocmd!
@@ -217,6 +220,15 @@ augroup python
     autocmd FileType python setlocal errorformat=%f:%l:%c:\ %m
     autocmd FileType python setlocal makeprg=pylint\ --errors-only\ %
     autocmd FileType python setlocal shellpipe=\|\ grep\ \".py\"\ \|\ tee
+augroup end
+" }}}
+" tex {{{
+augroup tex
+    autocmd!
+    autocmd FileType tex setlocal spell
+    autocmd FileType tex setlocal foldmethod=marker
+    autocmd FileType tex setlocal errorformat=%f:%l:%c:%n:%m
+    autocmd FileType tex setlocal makeprg=chktex\ -q\ -v0\ %
 augroup end
 " }}}
 " vim {{{

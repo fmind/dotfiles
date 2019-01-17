@@ -21,7 +21,6 @@
     - {role: byobu, tags: ['byobu', 'shell']}
     - {role: common, tags: ['common', 'shell']}
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}
-    - {role: csvkit, tags: ['csvkit', 'data']}
     - {role: ctags, tags: ['ctags', 'editor']}
     - {role: curl, tags: ['curl', 'network']}
     - {role: fasd, tags: ['fasd', 'shell']}
@@ -34,7 +33,6 @@
     - {role: jq, tags: ['jq', 'data']}
     - {role: make, tags: ['make', 'project']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
-    - {role: neovim, tags: ['neovim', 'editor']}
     - {role: onset, tags: ['onset', 'pipe']}
     - {role: parallel, tags: ['parallel', 'pipe']}
     - {role: percol, tags: ['percol', 'pipe']}
@@ -46,5 +44,4 @@
     - {role: tldr, tags: ['tldr', 'help']}
     - {role: tmuxp, tags: ['tmuxp', 'shell']}
     - {role: vim, tags: ['vim', 'editor']}
-    - {role: watchdog, tags: ['watchdog', 'project']}
     - {role: zsh, tags: ['zsh', 'shell']}
