@@ -207,6 +207,7 @@ nnoremap ,,/ :s/^\/\///<CR>:nohl<CR>
 let mapleader="\<space>"
 nnoremap <leader><CR> :make 
 nnoremap <leader><Space> :make<CR>
+nnoremap <leader>s :mksession .vim<CR>
 " }}}
 " localleaders {{{
 let maplocalleader="\<c-space>"

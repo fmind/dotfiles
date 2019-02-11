@@ -1,7 +1,6 @@
 # vim: foldmethod=marker
 # DEFAULT {{{
 alias srv='service'
-alias say='espeak-ng'
 alias sys='systemctl'
 alias log='journalctl'
 alias ls='ls --color=auto -CF'
@@ -65,11 +64,12 @@ alias kd="$EDITOR ~/.display && source ~/.display"
 alias ke="$EDITOR ~/.environ && source ~/.environ"
 alias kg="$EDITOR ~/.gitconfig"
 alias ki="$EDITOR ~/.input"
+alias kk="source"
 alias kn="$EDITOR ~/.config/nvim/init.vim"
 alias ko="$EDITOR ./.gitignore"
 alias kp="$EDITOR ~/.private && source ~/.private"
 alias kq="$EDITOR ~/.config/qutebrowser/config.py"
-alias kr="source"
+alias kr="$EDITOR ~/.racketrc"
 alias ks="$EDITOR ~/.ssh/config"
 alias kt="$EDITOR ~/.ctags"
 alias kv="$EDITOR ~/.vimrc"
@@ -91,7 +91,6 @@ alias mk='make'
 # }}}
 # Note {{{
 alias ne='note'
-
 function note {
     $EDITOR "$HOME/note/$1.md"
 }
@@ -108,7 +107,6 @@ alias pvq='deactivate'
 alias pvw='source venv/bin/activate'
 alias pvv='source .venv/bin/activate'
 alias pvc='python -m venv .venv --symlinks'
-
 function pve {
   echo 'source "$(dirname $0)/.venv/bin/activate"' > .env
 }
@@ -121,6 +119,11 @@ alias ppu='python -m pip uninstall'
 alias ppe='python -m pip install -e'
 alias ppp='python -m pip install --user'
 # }}}
+# }}}
+## Racket {{{
+alias rc='raco'
+alias ra='racket'
+alias re='racket -e'
 # }}}
 # Tmuxp {{{
 alias tt='tmuxp'
@@ -140,14 +143,8 @@ alias uc='sudo apt autoremove --purge'
 # }}}
 # Vim {{{
 alias vi='vim'
-alias vo='nvim'
-alias vp='NVIM_LISTEN_ADDRESS=.vim nvim'
-# }}}
-# Watch {{{
-alias wm='watchmedo'
-alias wl='watchmedo log'
-alias wr='watchmedo auto-restart'
-alias ws='watchmedo shell-command'
+alias vs='vim -S'
+alias vp='vim -S .vim'
 # }}}
 # XServer {{{
 alias xf='xdg-open'
