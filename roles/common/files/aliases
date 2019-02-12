@@ -69,7 +69,6 @@ alias kn="$EDITOR ~/.config/nvim/init.vim"
 alias ko="$EDITOR ./.gitignore"
 alias kp="$EDITOR ~/.private && source ~/.private"
 alias kq="$EDITOR ~/.config/qutebrowser/config.py"
-alias kr="$EDITOR ~/.racketrc"
 alias ks="$EDITOR ~/.ssh/config"
 alias kt="$EDITOR ~/.ctags"
 alias kv="$EDITOR ~/.vimrc"
@@ -119,11 +118,6 @@ alias ppu='python -m pip uninstall'
 alias ppe='python -m pip install -e'
 alias ppp='python -m pip install --user'
 # }}}
-# }}}
-## Racket {{{
-alias rc='raco'
-alias ra='racket'
-alias re='racket -e'
 # }}}
 # Tmuxp {{{
 alias tt='tmuxp'
