@@ -109,6 +109,9 @@ alias pvc='python -m venv .venv --symlinks'
 function pve {
   echo 'source "$(dirname $0)/.venv/bin/activate"' > .env
 }
+function pvn {
+  echo '3.7.1' > .python-version
+}
 # }}}
 ## Pip {{{
 alias ppf='python -m pip freeze'
