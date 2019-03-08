@@ -1,0 +1,14 @@
+---
+
+- name: package
+  package: name='fish'
+  become: true
+  tags: admin
+
+- name: directory
+  file: name='~/.config/fish/' state='directory'
+  tags: user
+
+- name: config
+  file: src='{{role_path}}/files/config.fish' dest='~/.config/fish/config.fish' state=link force=yes
+  tags: user

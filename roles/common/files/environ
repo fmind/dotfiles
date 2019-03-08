@@ -1,6 +1,4 @@
-if [[ $EUID -ne 0 ]]; then
-    umask 0077
-fi
+umask 0077
 
 export EDITOR='vim'
 

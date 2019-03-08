@@ -1,11 +1,11 @@
 ---
 
-- name: install package
+- name: package
   package: name='zsh'
   become: true
   tags: admin
 
-- name: create directory
+- name: directories
   file: name='{{item}}' state='directory'
   with_items:
     - ~/.zsh.d/
@@ -13,15 +13,15 @@
     - ~/.zsh.d/plugins
   tags: user
 
-- name: deploy environ
+- name: profile
   file: src='{{role_path}}/files/zshenv' dest='~/.zshenv' state=link force=yes
   tags: user
 
-- name: deploy config
+- name: config
   file: src='{{role_path}}/files/zshrc' dest='~/.zshrc' state=link force=yes
   tags: user
 
-- name: clone theme
+- name: download theme
   git: repo='https://github.com/denysdovhan/spaceship-prompt.git' dest='~/.zsh.d/themes/spaceship-prompt' depth=1
   tags: user
 
@@ -29,22 +29,22 @@
   file: src='~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme' dest='~/.zsh.d/themes/spaceship.zsh-theme' state=link force=yes
   tags: user
 
-- name: clone oh-my-zsh
+- name: plugin
   git: repo='https://github.com/robbyrussell/oh-my-zsh.git' dest='~/.oh-my-zsh' depth=1
   tags: user
 
-- name: clone alias-tips
+- name: alias
   git: repo='https://github.com/djui/alias-tips.git' dest='~/.zsh.d/plugins/alias-tips' depth=1
   tags: user
 
-- name: clone zsh-completions
+- name: completion
   git: repo='https://github.com/zsh-users/zsh-completions' dest='~/.zsh.d/plugins/zsh-completions' depth=1
   tags: user
 
-- name: clone auto-suggestions
+- name: suggestion
   git: repo='git://github.com/zsh-users/zsh-autosuggestions.git' dest='~/.zsh.d/plugins/zsh-autosuggestions' depth=1
   tags: user
 
-- name: clone syntax-highlighting
+- name: checker
   git: repo='https://github.com/zsh-users/zsh-syntax-highlighting.git' dest='~/.zsh.d/plugins/zsh-syntax-highlighting' depth=1
   tags: user

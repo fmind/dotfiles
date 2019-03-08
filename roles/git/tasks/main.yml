@@ -1,18 +1,18 @@
 ---
 
-- name: install package
+- name: package
   package: name='git'
   become: true
   tags: admin
 
-- name: deploy config
+- name: config
   file: src='{{role_path}}/files/gitconfig' dest='~/.gitconfig' state=link force=yes
   tags: user
 
-- name: deploy ignore
+- name: ignore
   file: src='{{role_path}}/files/gitignore' dest='~/.gitignore' state=link force=yes
   tags: user
 
-- name: clone gws
+- name: checker
   get_url: url='https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws' dest='~/bin/gws' mode='0700'
   tags: user

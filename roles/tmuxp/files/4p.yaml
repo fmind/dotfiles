@@ -1,9 +1,0 @@
-session_name: 4p
-windows:
-- window_name: 4p
-  layout: tiled
-  panes:
-    - null
-    - null
-    - null
-    - null

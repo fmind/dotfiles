@@ -1,9 +1,9 @@
 ---
 
-- name: install package
+- name: package
   pip: name='tmuxp' executable='pip3' extra_args='--user'
   tags: user
 
-- name: deploy directory
+- name: directory
   file: src='{{role_path}}/files' dest='~/.tmuxp' state=link force=yes
   tags: user

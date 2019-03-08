@@ -1,6 +1,6 @@
 ---
 
-- name: install package
+- name: package
   package: name='imagemagick'
   ignore_errors: true
   become: true

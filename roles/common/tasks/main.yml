@@ -1,17 +1,17 @@
 ---
 
-- name: deploy input
+- name: input
   file: src='{{role_path}}/files/inputrc' dest='~/.inputrc' state=link force=yes
   tags: user
 
-- name: deploy aliases
+- name: alias
   file: src='{{role_path}}/files/aliases' dest='~/.aliases' state=link force=yes
   tags: user
 
-- name: deploy display
+- name: display
   file: src='{{role_path}}/files/display' dest='~/.display' state=link force=yes
   tags: user
 
-- name: deploy environ
+- name: environ
   file: src='{{role_path}}/files/environ' dest='~/.environ' state=link force=yes
   tags: user

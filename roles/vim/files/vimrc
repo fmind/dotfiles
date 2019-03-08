@@ -14,11 +14,7 @@ if executable('ag')
 endif
 " }}}
 " SHELL {{{
-if executable('zsh')
-    set shell=/usr/bin/zsh
-else
-    set shell=/bin/bash
-endif
+set shell=/bin/bash
 " }}}
 " BREAK {{{
 set linebreak

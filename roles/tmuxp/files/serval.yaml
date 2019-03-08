@@ -1,9 +1,0 @@
-session_name: serval
-windows:
-- window_name: serval
-  layout: tiled
-  panes:
-    - ssh serval01; exit
-    - ssh serval02; exit
-    - ssh serval03; exit
-    - ssh serval04; exit

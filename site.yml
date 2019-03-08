@@ -15,28 +15,17 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
-    - {role: aspell, tags: ['aspell', 'editor']}
-    - {role: autoenv, tags: ['autoenv', 'shell']}
     - {role: bash, tags: ['bash', 'shell']}
     - {role: byobu, tags: ['byobu', 'shell']}
     - {role: common, tags: ['common', 'shell']}
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}
     - {role: ctags, tags: ['ctags', 'editor']}
     - {role: curl, tags: ['curl', 'network']}
-    - {role: fasd, tags: ['fasd', 'shell']}
+    - {role: fish, tags: ['fish', 'shell']}
     - {role: git, tags: ['git', 'project']}
     - {role: htop, tags: ['htop', 'monitor']}
-    - {role: imagemagick, tags: ['imagemagick', 'data']}
-    - {role: jq, tags: ['jq', 'data']}
     - {role: make, tags: ['make', 'project']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
-    - {role: parallel, tags: ['parallel', 'pipe']}
-    - {role: percol, tags: ['percol', 'pipe']}
     - {role: pv, tags: ['pv', 'pipe']}
-    - {role: ranger, tags: ['ranger', 'shell']}
-    - {role: silversearcher, tags: ['silversearcher', 'pipe']}
     - {role: termtosvg, tags: ['termtosvg', 'shell']}
-    - {role: tldr, tags: ['tldr', 'help']}
-    - {role: tmuxp, tags: ['tmuxp', 'shell']}
     - {role: vim, tags: ['vim', 'editor']}
-    - {role: zsh, tags: ['zsh', 'shell']}

@@ -1,20 +1,20 @@
 ---
 
-- name: install package
+- name: package
   package: name='vim'
   become: true
   tags: admin
 
-- name: create directory
+- name: directories
   file: path='{{item}}' state=directory
   with_items:
     - ~/.vim/colors
   tags: user
 
-- name: deploy config
+- name: config
   file: src='{{role_path}}/files/vimrc' dest='~/.vimrc' state=link force=yes
   tags: user
 
-- name: deploy color
+- name: color
   get_url: url='https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim' dest='~/.vim/colors/molokai.vim'
   tags: user

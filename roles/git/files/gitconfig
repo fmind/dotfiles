@@ -1,7 +1,7 @@
 [user]
-    email = fmind@fmind.me
-    name = Médéric Hurier
     username = fmind
+    name = Médéric Hurier
+    email = fmind@fmind.me
 
 [core]
     editor = vim
@@ -26,12 +26,8 @@
     cl = clone
     cn = commit -nm
     df = diff
-    lg = log --graph
-    lo = log --oneline
-    lp = log --graph --decorate --pretty=oneline --abbrev-commit
     ph = push
     pl = pull
     sm = submodule
     st = status
-    tr = ls-tree -r master
-    tn = ls-tree -r master --name-only
+    tr = ls-tree -r master --name-only

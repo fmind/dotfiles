@@ -1,10 +1,10 @@
 ---
 
-- name: install package
+- name: package
   package: name='exuberant-ctags'
   become: true
   tags: admin
 
-- name: deploy config
+- name: config
   file: src='{{role_path}}/files/ctags' dest='~/.ctags' state=link force=yes
   tags: user

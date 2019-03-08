@@ -1,6 +1,6 @@
 ---
 
-- name: install package
+- name: package
   package: name='htop'
   ignore_errors: true
   become: true

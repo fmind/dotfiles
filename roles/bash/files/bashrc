@@ -5,7 +5,6 @@
 # }}}
 # don't run in emacs editor {{{
 if [ -z "$EMACS" ] && [ -z "$MYVIMRC" ]; then
-    byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
 # }}}
 # }}}

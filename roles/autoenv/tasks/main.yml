@@ -1,5 +1,5 @@
 ---
 
-- name: install package
+- name: package
   pip: name='autoenv' executable='pip3' extra_args='--user'
   tags: user

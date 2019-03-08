@@ -1,17 +1,5 @@
-# common
 .env
 .vim
 .tmux
 *.log
 *.retry
-*.layout
-*.session
-.projections.json
-
-# python
-.venv
-.tmuxp.yaml
-.hypothesis
-.mypy_cache
-.pytest_cache
-.ipynb_checkpoints

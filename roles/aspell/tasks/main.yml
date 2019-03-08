@@ -1,6 +1,6 @@
 ---
 
-- name: install languages
+- name: languages
   package: name='{{item}}'
   with_items:
       - aspell-en

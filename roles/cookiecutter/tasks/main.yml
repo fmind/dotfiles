@@ -1,9 +1,9 @@
 ---
 
-- name: install package
+- name: package
   pip: name='cookiecutter' executable='pip3' extra_args='--user'
   tags: user
 
-- name: deploy config
+- name: config
   file: src='{{role_path}}/files/cookiecutterrc' dest='~/.cookiecutterrc' state=link force=yes
   tags: user

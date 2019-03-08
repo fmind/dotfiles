@@ -1,10 +1,10 @@
 ---
 
-- name: install package
+- name: package
   package: name='ansible'
   become: true
   tags: admin
 
-- name: deploy config
+- name: config
   file: src='{{role_path}}/files/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
   tags: user
