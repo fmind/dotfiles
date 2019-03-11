@@ -1,4 +1,4 @@
-" vim: fdm=marker
+" vim: foldmethod=marker
 " INIT {{{
 set nocompatible
 set shortmess=I
@@ -7,11 +7,6 @@ set shortmess=I
 set path+=**
 set encoding=UTF-8
 set fileformats=unix,mac,dos
-" }}}
-" GREP {{{
-if executable('ag')
-    set grepprg=ag\ --column\ --nogroup\ --nocolor
-endif
 " }}}
 " SHELL {{{
 set shell=/bin/bash

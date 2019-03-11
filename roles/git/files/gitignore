@@ -1,5 +1,0 @@
-.env
-.vim
-.tmux
-*.log
-*.retry

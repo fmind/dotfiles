@@ -10,7 +10,7 @@
   file: src='{{role_path}}/files/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
   tags: user
 
-- name: plugin
+- name: manager
   git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
   tags: user
 

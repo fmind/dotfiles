@@ -1,59 +1,32 @@
-# vim: fdm=marker
-# SECURITY{{{
-# don't run interactively {{{
+# vim: foldmethod=marker
+# SECURITY {{{
+# set stricter umask
+umask 0077
+# don't run interactively
 [ -z "$PS1" ] && return
-# }}}
-# don't run in emacs editor {{{
+# don't run in external editor
 if [ -z "$EMACS" ] && [ -z "$MYVIMRC" ]; then
+    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
 # }}}
+# SETTINGS {{{
+if [ -n "$DISPLAY" ]; then
+    # change repeat key
+    xset r rate 200 50
+    # remap caps lock key
+    setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
+fi
 # }}}
 # OPTIONS {{{
+# match all files or 0 or more directories
+shopt -s globstar
+# append to the history file, no overwrite
+shopt -s histappend
 # check the window size after each command
 shopt -s checkwinsize
-# match all files and zero or more directories
-shopt -s globstar
-# append to the history file, don't overwrite it
-shopt -s histappend
 # }}}
-# ADDONS {{{
-# sudo hint {{{
-if [ ! -e "$HOME/.sudo_as_admin_successful" ] && [ ! -e "$HOME/.hushlogin" ] ; then
-    case " $(groups) " in *\ admin\ *|*\ sudo\ *)
-    if [ -x /usr/bin/sudo ]; then
-	cat <<-EOF
-	To run a command as administrator (user "root"), use "sudo <command>".
-	See "man sudo_root" for details.
-	
-	EOF
-    fi
-    esac
+# ALIASES {{{
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
 fi
-# }}}
-# bash completion {{{
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-# }}}
-# command not found {{{
-if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
-	function command_not_found_handle {
-	        # check because c-n-f could've been removed in the meantime
-                if [ -x /usr/lib/command-not-found ]; then
-		   /usr/lib/command-not-found -- "$1"
-                   return $?
-                elif [ -x /usr/share/command-not-found/command-not-found ]; then
-		   /usr/share/command-not-found/command-not-found -- "$1"
-                   return $?
-		else
-		   printf "%s: command not found\n" "$1" >&2
-		   return 127
-		fi
-	}
-fi
-# }}}
 # }}}

@@ -15,6 +15,7 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
+    - {role: aliases, tags: ['aliases', 'shell']}
     - {role: bash, tags: ['bash', 'shell']}
     - {role: byobu, tags: ['byobu', 'shell']}
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}

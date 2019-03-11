@@ -1,28 +1,13 @@
-# vim: fdm=marker
-# LOCAL {{{
-ZSH_THEME="spaceship"
-ZSH_CUSTOM=$HOME/.zsh.d
+# vim: foldmethod=marker
+# CONFIGS {{{
 HIST_STAMPS="yyyy-mm-dd"
+ZSH_CUSTOM=$HOME/.zsh.d
+ZSH_THEME="spaceship"
 # }}}
-# OPTION {{{
-bindkey -v
-# }}}
-# ENVIRON {{{
-export KEYTIMEOUT=1
-export ZSH=~/.oh-my-zsh
+# EXPORTS {{{
+export EDITOR='vim'
+export LANG='en_US.UTF-8'
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 export SPACESHIP_BATTERY_SHOW=false
-# }}}
-# EXTERNAL {{{
-if [ -f ~/.environ ]; then
-    . ~/.environ
-fi
-if [ -f ~/.display ]; then
-    . ~/.display
-fi
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-if [ -f ~/.private ]; then
-    . ~/.private
-fi
+export ZSH=~/.oh-my-zsh
 # }}}

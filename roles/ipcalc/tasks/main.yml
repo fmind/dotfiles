@@ -2,6 +2,5 @@
 
 - name: package
   package: name='ipcalc'
-  ignore_errors: true
   become: true
   tags: admin

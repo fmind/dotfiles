@@ -42,18 +42,18 @@ alias gwc='gws status --only-changes'
 alias gwi='rm -f .projects.gws && gws init'
 
 function gf {
-  git clone gitea@git.fmind.me:fmind/$1.git
+git clone gitea@git.fmind.me:fmind/$1.git
 }
 function gh {
-  git clone git@github.com:fmind/$1.git
+git clone git@github.com:fmind/$1.git
 }
 function gfo {
-    git remote add origin "gitea@git.fmind.me:fmind/$(basename $PWD).git"
-    git push -u origin master
+git remote add origin "gitea@git.fmind.me:fmind/$(basename $PWD).git"
+git push -u origin master
 }
 function gho {
-    git remote add origin "git@github.com:fmind/$(basename $PWD).git"
-    git push -u origin master
+git remote add origin "git@github.com:fmind/$(basename $PWD).git"
+git push -u origin master
 }
 # }}}
 # Konf {{{
@@ -91,7 +91,7 @@ alias mk='make'
 # Note {{{
 alias ne='note'
 function note {
-    $EDITOR "$HOME/note/$1.md"
+$EDITOR "$HOME/note/$1.md"
 }
 # }}}
 # Python {{{
@@ -107,10 +107,10 @@ alias pvw='source venv/bin/activate'
 alias pvv='source .venv/bin/activate'
 alias pvc='python -m venv .venv --symlinks'
 function pve {
-  echo 'source "$(dirname $0)/.venv/bin/activate"' > .env
+echo 'source "$(dirname $0)/.venv/bin/activate"' > .env
 }
 function pvn {
-  echo '3.7.1' > .python-version
+echo '3.7.1' > .python-version
 }
 # }}}
 ## Pip {{{

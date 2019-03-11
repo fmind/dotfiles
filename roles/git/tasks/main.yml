@@ -13,6 +13,6 @@
   file: src='{{role_path}}/files/gitignore' dest='~/.gitignore' state=link force=yes
   tags: user
 
-- name: checker
+- name: manager
   get_url: url='https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws' dest='~/bin/gws' mode='0700'
   tags: user

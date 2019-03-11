@@ -1,0 +1,5 @@
+---
+
+- name: config
+  file: src='{{role_path}}/files/aliases' dest='~/.aliases' state=link force=yes
+  tags: user

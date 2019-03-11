@@ -1,79 +1,33 @@
-# vim: fdm=marker
+# vim: foldmethod=marker
 # SECURITY{{{
-# don't run interactively {{{
+# set stricter umask
+umask 0077
+# don't run interactively
 [ -z "$PS1" ] && return
-# }}}
-# don't run in external editor {{{
+# don't run in external editor
 if [ -z "$EMACS" ] && [ -z "$MYVIMRC" ]; then
     _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 fi
 # }}}
-# }}}
-# ALIASES {{{
-alias -g A='| ag'
-alias -g D='| unpigz -c'
-alias -g G='| grep'
-alias -g H='| head'
-alias -g J='| jq -r'
-alias -g K='| xsel --clipboard'
-alias -g L='| less'
-alias -g M='--help'
-alias -g N='| notify-send'
-alias -g O='| percol'
-alias -g P='| pv -l'
-alias -g S='| sort'
-alias -g T='| tail'
-alias -g U='| uniq'
-alias -g V='| $EDITOR -'
-alias -g W='| wc -l'
-alias -g Z='| pigz'
+# SETTINGS {{{
+if [ -n "$DISPLAY" ]; then
+    # change repeat
+    xset r rate 200 50
+    # remap caps lock key
+    setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
+fi
 # }}}
 # PLUGINS {{{
-# oh-my-zsh plugins {{{
 plugins=(
-    vi-mode
-    alias-tips
     colored-man-pages
-    command-not-found
-    zsh-autosuggestions
-    zsh-syntax-highlighting
 )
-# }}}
-# don't run as root {{{
+# don't run as root user
 if [[ $EUID -ne 0 ]]; then
     source $HOME/.oh-my-zsh/oh-my-zsh.sh
 fi
 # }}}
-# }}}
-# ADDONS {{{
-# enable fasd {{{
-if [ -x "$(command -v fasd)" ]; then
-    eval "$(fasd --init auto)"
+# ALIASES {{{
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
 fi
-# }}}
-# enable pyenv {{{
-if [ -x "$(command -v pyenv)" ]; then
-    eval "$(pyenv init -)"
-fi
-# }}}
-# enable percol {{{
-function exists { which $1 &> /dev/null }
-if exists percol; then
-    function percol_select_history() {
-        local tac
-        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-        CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
-    }
-
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
-fi
-# }}}
-# enable autoenv {{{
-if [ -x "$(command -v activate.sh)" ]; then
-    source "$(which activate.sh)"
-fi
-# }}}
 # }}}

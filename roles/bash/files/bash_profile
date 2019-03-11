@@ -1,19 +1,9 @@
-# vim: fdm=marker
-# LOCAL {{{
-PS1='\[\033[02;91m\]\u \[\033[01;00m\]at\[\033[02;92m\] \h \[\033[01;00m\]in\[\033[02;94m\] \W\[\033[01;00m\] \$ '
+# vim: foldmethod=marker
+# CONFIGS {{{
+PS1='\u@\h:\w\$ '
 # }}}
-# EXTERNAL {{{
-if [ -f ~/.environ ]; then
-    . ~/.environ
-fi
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-if [ -f ~/.private ]; then
-    . ~/.private
-fi
-if [ -f ~/.display ]; then
-    . ~/.display
-fi
+# EXPORTS {{{
+export EDITOR='vim'
+export LANG='en_US.UTF-8'
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 # }}}
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true

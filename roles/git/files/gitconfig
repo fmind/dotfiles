@@ -2,32 +2,13 @@
     username = fmind
     name = Médéric Hurier
     email = fmind@fmind.me
+	signingkey = 2E9D6A82D5701F7B64DE1706EAB1B56524E550E7
 
 [core]
     editor = vim
 	hooksPath = hooks/
     excludesfile = ~/.gitignore
 
-[color]
-    ui = auto
-
-[merge]
-    tool = vimdiff
-
-[push]
-    default = simple
-
 [alias]
-    aa = add --all
-    br = branch
-    ca = commit -am
-    ci = commit -m
-    ck = checkout
-    cl = clone
-    cn = commit -nm
-    df = diff
-    ph = push
-    pl = pull
-    sm = submodule
-    st = status
-    tr = ls-tree -r master --name-only
+    addall = add --all
+    tree = ls-tree -r master --name-only
