@@ -1,14 +1,3 @@
-# vim: foldmethod=marker
-# SECURITY {{{
-# set stricter umask
-umask 0077
-# don't run interactively
-[ -z "$PS1" ] && return
-# don't run in external editor
-if [ -z "$EMACS" ] && [ -z "$MYVIMRC" ]; then
-    _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-fi
-# }}}
 # SETTINGS {{{
 if [ -n "$DISPLAY" ]; then
     # change repeat key
@@ -16,6 +5,9 @@ if [ -n "$DISPLAY" ]; then
     # remap caps lock key
     setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
 fi
+# }}}
+# SESSIONS {{{
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}
 # OPTIONS {{{
 # match all files or 0 or more directories

@@ -4,7 +4,6 @@ default_context:
     author: "Médéric Hurier"
     control: "git.fmind.me"
     license: "AGPL-3.0"
-    python: "3.7.1"
 abbreviations:
     black: https://git.fmind.me/fmind/cookiecutter-python-black.git
     coverage: https://git.fmind.me/fmind/cookiecutter-python-coverage.git

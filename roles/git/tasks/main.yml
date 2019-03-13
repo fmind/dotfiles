@@ -5,6 +5,11 @@
   become: true
   tags: admin
 
+- name: maker
+  package: name='gitsome'
+  become: true
+  tags: admin
+
 - name: config
   file: src='{{role_path}}/files/gitconfig' dest='~/.gitconfig' state=link force=yes
   tags: user

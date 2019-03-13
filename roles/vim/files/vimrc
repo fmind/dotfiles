@@ -1,28 +1,38 @@
-" vim: foldmethod=marker
 " INIT {{{
 set nocompatible
 set shortmess=I
 " }}}
 " FILE {{{
+set nofsync
 set path+=**
 set encoding=UTF-8
 set fileformats=unix,mac,dos
 " }}}
-" SHELL {{{
-set shell=/bin/bash
-" }}}
-" BREAK {{{
+" LINE {{{
 set linebreak
 " }}}
-" PASTE {{{
+" CLIP {{{
 set clipboard=unnamedplus
+" }}}
+" GREP {{{
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+" }}}
+" SHELL {{{
+set ttyfast
+set belloff=all
+set shell=/bin/bash
 " }}}
 " POPUP {{{
 set wildmenu
-set complete=.,w,b,u,t,i
+set complete=.,w,b,u,t
 set wildmode=list:longest,full
 set completeopt=menuone,preview
-set wildignore+=*.aux,*.bbl,*.blg,*.fls,*.pdf
+set wildignore+=*.pdf,*.png,*.jpg
+" }}}
+" MATCH {{{
+let g:loaded_matchparen=0
 " }}}
 " SPELL {{{
 set spelllang=en,fr
@@ -46,7 +56,7 @@ set number
 set relativenumber
 " }}}
 " FOLDER {{{
-set foldmethod=syntax
+set foldmethod=marker
 set foldlevelstart=99
 " }}}
 " INDENT {{{
@@ -66,6 +76,7 @@ set incsearch
 set ignorecase
 " }}}
 " STATUS {{{
+set showcmd
 set cmdheight=2
 set laststatus=2
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
@@ -86,15 +97,16 @@ filetype indent on
 filetype plugin on
 " }}}
 " COLORS {{{
-try
-    colorscheme molokai
-catch
-    colorscheme darkblue
-endtry
+colorscheme slate
+set termguicolors
+set background=dark
 " }}}
 " BROWSER {{{
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
+" }}}
+" HISTORY {{{
+set history=10000
 " }}}
 " KEYMAPS {{{
 " exec {{{
@@ -172,7 +184,6 @@ nnoremap g# :set spell<CR>
 nnoremap g. :edit $MYVIMRC<CR>
 nnoremap gb :b#<CR>
 nnoremap gj :join<CR>
-nnoremap gk :shell<CR>
 nnoremap gl :nohl<CR>
 nnoremap gs :sort<CR>
 " }}}
@@ -198,7 +209,6 @@ nnoremap ,,/ :s/^\/\///<CR>:nohl<CR>
 let mapleader="\<space>"
 nnoremap <leader><CR> :make 
 nnoremap <leader><Space> :make<CR>
-nnoremap <leader>s :mksession .vim<CR>
 " }}}
 " localleaders {{{
 let maplocalleader="\<c-space>"

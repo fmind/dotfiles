@@ -1,4 +1,3 @@
-# vim: foldmethod=marker
 # CONFIGS {{{
 PS1='\u@\h:\w\$ '
 # }}}

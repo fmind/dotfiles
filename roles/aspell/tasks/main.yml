@@ -1,9 +1,0 @@
----
-
-- name: languages
-  package: name='{{item}}'
-  with_items:
-      - aspell-en
-      - aspell-fr
-  become: true
-  tags: admin

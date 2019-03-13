@@ -10,6 +10,5 @@
     excludesfile = ~/.gitignore
 
 [alias]
-    st = status
     addall = add --all
     tree = ls-tree -r master --name-only

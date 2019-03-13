@@ -1,39 +1,31 @@
-# vim: filetype=python foldmethod=marker
 # IMPORTS {{{
 import os
 import re
 import csv
 import sys
 import json
+import glob
 # }}}
-# SETTINGS {{{
-$AUTO_CD = True
-$VI_MODE = False
+# EXPORTS {{{
+$EDITOR = 'vim'
+$LANG = 'en_US.UTF-8'
+$PATH = ['~/bin', '~/.local/bin', '/usr/local/bin', '/usr/local/sbin', '/usr/bin', '/usr/sbin', '/bin', '/sbin']
+# }}}
+# CONFIGS {{{
 $AUTO_PUSHD = True
 $AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
-$XONSH_SHOW_TRACEBACK = True
-
-$PATHEXT = [".py", ".sh", ".xsh"]
-
 $PROMPT = "{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}" + \
           "at {INTENSE_GREEN}{hostname} {NO_COLOR}" + \
           "in {INTENSE_BLUE}{cwd_base}{branch_color}" + \
           "{curr_branch: {}}{NO_COLOR} {prompt_end} "
 # }}}
+# ALIASES {{{
+if os.path.exists(os.path.expanduser("~/.aliases")):
+    $[source-bash --overwrite-alias ~/.aliases]
+# }}}
 # TRIGGERS {{{
 @events.on_chdir
 def listdir(olddir, newdir):
     $[ls]
-# }}}
-# CONFIGURATIONS {{{
-if os.path.exists(os.path.expanduser("~/.aliases")):
-    $[source-bash --overwrite-alias ~/.aliases]
-if os.path.exists(os.path.expanduser("~/.environ")):
-    $[source-bash --overwrite-alias ~/.environ]
-if os.path.exists(os.path.expanduser("~/.private")):
-    $[source-bash --overwrite-alias ~/.private]
-if "DISPLAY" in ${...} and \
-   os.path.exists(os.path.expanduser("~/.display")):
-    $[source-bash --overwrite-alias ~/.display]
 # }}}

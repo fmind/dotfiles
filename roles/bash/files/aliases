@@ -1,4 +1,3 @@
-# vim: foldmethod=marker
 # DEFAULT {{{
 alias srv='service'
 alias sys='systemctl'

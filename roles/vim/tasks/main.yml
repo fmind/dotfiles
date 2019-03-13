@@ -5,16 +5,6 @@
   become: true
   tags: admin
 
-- name: directories
-  file: path='{{item}}' state=directory
-  with_items:
-    - ~/.vim/colors
-  tags: user
-
 - name: config
   file: src='{{role_path}}/files/vimrc' dest='~/.vimrc' state=link force=yes
-  tags: user
-
-- name: color
-  get_url: url='https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim' dest='~/.vim/colors/molokai.vim'
   tags: user

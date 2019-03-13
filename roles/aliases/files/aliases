@@ -1,15 +1,17 @@
-# vim: foldmethod=marker
 # CONFIG {{{
 alias aliasrc='eval $EDITOR ~/.aliases'
 alias cookierc='eval $EDITOR ~/.cookiecutterrc'
 alias fishrc='eval $EDITOR ~/.config/fish/config.fish'
+alias nvimrc='eval $EDITOR ~/.config/nvim/init.vim'
 alias sshrc='eval $EDITOR ~/.ssh/config'
 alias vimrc='eval $EDITOR ~/.vimrc'
 # }}}
 # PYTHON {{{
+alias json='python -m json'
 alias pdb='python -m pdb'
 alias pip='python -m pip'
 alias pydoc='python -m pydoc'
+alias server='python -m http.server'
 alias trace='python -m trace'
 alias venv='python -m venv'
 # }}}

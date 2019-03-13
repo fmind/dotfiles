@@ -1,13 +1,11 @@
-# vim: foldmethod=marker
 # CONFIGS {{{
 HIST_STAMPS="yyyy-mm-dd"
 ZSH_CUSTOM=$HOME/.zsh.d
-ZSH_THEME="spaceship"
+ZSH_THEME="pygmalion"
 # }}}
 # EXPORTS {{{
 export EDITOR='vim'
 export LANG='en_US.UTF-8'
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
-export SPACESHIP_BATTERY_SHOW=false
 export ZSH=~/.oh-my-zsh
 # }}}

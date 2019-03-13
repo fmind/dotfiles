@@ -5,6 +5,10 @@
   become: true
   tags: admin
 
+- name: library
+  pip: name='pynvim' executable='/usr/bin/pip3' extra_args='--user'
+  tags: user
+
 - name: directories
   file: path='{{item}}' state=directory
   with_items:
@@ -12,14 +16,10 @@
       - ~/.local/share/nvim/site/autoload/
   tags: user
 
-- name: manager
-  get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.local/share/nvim/site/autoload/plug.vim'
-  tags: user
-
-- name: library
-  pip: name='pynvim' executable='/usr/bin/pip3' extra_args='--user'
-  tags: user
-
 - name: config
   file: src='{{role_path}}/files/init.vim' dest='~/.config/nvim/init.vim' state=link force=yes
+  tags: user
+
+- name: manager
+  get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.local/share/nvim/site/autoload/plug.vim'
   tags: user
