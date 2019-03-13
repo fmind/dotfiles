@@ -2,7 +2,7 @@
     username = fmind
     name = Médéric Hurier
     email = fmind@fmind.me
-	signingkey = 2E9D6A82D5701F7B64DE1706EAB1B56524E550E7
+	signingkey = 884F847B4BE957718301FED7626184F4386D61F7
 
 [core]
     editor = vim
