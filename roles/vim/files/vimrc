@@ -3,7 +3,6 @@ set nocompatible
 set shortmess=I
 " }}}
 " FILE {{{
-set nofsync
 set path+=**
 set encoding=UTF-8
 set fileformats=unix,mac,dos
@@ -40,6 +39,7 @@ set thesaurus+=/usr/share/dict/theses
 set dictionary+=/usr/share/dict/words
 " }}}
 " BACKUP {{{
+set nofsync
 set nobackup
 set noswapfile
 " }}}

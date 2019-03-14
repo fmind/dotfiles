@@ -2,34 +2,15 @@ default_context:
     user: "fmind"
     email: "fmind@fmind.me"
     author: "Médéric Hurier"
-    control: "git.fmind.me"
     license: "AGPL-3.0"
 abbreviations:
-    black: https://git.fmind.me/fmind/cookiecutter-python-black.git
-    coverage: https://git.fmind.me/fmind/cookiecutter-python-coverage.git
-    ctags: https://git.fmind.me/fmind/cookiecutter-python-ctags.git
-    docker: https://git.fmind.me/fmind/cookiecutter-python-docker.git
-    flake8: https://git.fmind.me/fmind/cookiecutter-python-flake8.git
-    flask-restapi: https://git.fmind.me/fmind/cookiecutter-python-flask-restapi.git
-    flask-website: https://git.fmind.me/fmind/cookiecutter-python-flask-website.git
-    githooks: https://git.fmind.me/fmind/cookiecutter-python-githooks.git
-    hypothesis: https://git.fmind.me/fmind/cookiecutter-python-hypothesis.git
-    ipython: https://git.fmind.me/fmind/cookiecutter-python-ipython.git
-    lab: https://git.fmind.me/fmind/cookiecutter-python-lab.git
-    mkdocs: https://git.fmind.me/fmind/cookiecutter-python-mkdocs.git
-    mypy: https://git.fmind.me/fmind/cookiecutter-python-mypy.git
-    nbgrader: https://git.fmind.me/fmind/cookiecutter-python-nbgrader.git
-    notebook: https://git.fmind.me/fmind/cookiecutter-python-notebook.git
-    pelican: https://git.fmind.me/fmind/cookiecutter-python-pelican.git
-    pylint: https://git.fmind.me/fmind/cookiecutter-python-pylint.git
-    pytest: https://git.fmind.me/fmind/cookiecutter-python-pytest.git
-    python: https://git.fmind.me/fmind/cookiecutter-python.git
-    rise: https://git.fmind.me/fmind/cookiecutter-python-rise.git
-    safety: https://git.fmind.me/fmind/cookiecutter-python-safety.git
-    scrapy: https://git.fmind.me/fmind/cookiecutter-python-scrapy.git
-    script: https://git.fmind.me/fmind/cookiecutter-python-script.git
-    scripts: https://git.fmind.me/fmind/cookiecutter-python-scripts.git
-    sphinx: https://git.fmind.me/fmind/cookiecutter-python-sphinx.git
-    wheel: https://git.fmind.me/fmind/cookiecutter-python-wheel.git
-    yapf: https://git.fmind.me/fmind/cookiecutter-python-yapf.git
-    zipapp: https://git.fmind.me/fmind/cookiecutter-python-zipapp.git
+    analysis: https://git.fmind.me/fmind/cookiecutter-analysis.git
+    notebook: https://git.fmind.me/fmind/cookiecutter-notebook.git
+    project: https://git.fmind.me/fmind/cookiecutter-project.git
+    restapi: https://git.fmind.me/fmind/cookiecutter-restapi.git
+    script: https://git.fmind.me/fmind/cookiecutter-script.git
+    slides: https://git.fmind.me/fmind/cookiecutter-slides.git
+    spider: https://git.fmind.me/fmind/cookiecutter-spider.git
+    static: https://git.fmind.me/fmind/cookiecutter-pages.git
+    test: https://git.fmind.me/fmind/cookiecutter-test.git
+    website: https://git.fmind.me/fmind/cookiecutter-website.git
