@@ -13,3 +13,5 @@
     st = status
     addall = add --all
     tree = ls-tree -r master --name-only
+[commit]
+	gpgsign = true

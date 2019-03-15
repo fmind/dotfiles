@@ -21,7 +21,7 @@ set -g fish_prompt_pwd_dir_length 0
 # EXPORTS {{{
 set -gx CODE $HOME/code
 set -gx EDITOR vim
-set -gx GIT gitea@git.fmind.me:fmind
+set -gx GIT git@github.com:fmind
 set -gx LANG en_US.UTF-8
 set -gx NOTE $HOME/note
 set -gx PATH $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
