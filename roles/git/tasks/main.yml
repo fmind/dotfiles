@@ -10,6 +10,14 @@
   become: true
   tags: admin
 
+- name: input
+  pip: name='gitsome' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: library
+  pip: name='PyGithub' executable='pip3' extra_args='--user'
+  tags: user
+
 - name: config
   file: src='{{role_path}}/files/gitconfig' dest='~/.gitconfig' state=link force=yes
   tags: user
