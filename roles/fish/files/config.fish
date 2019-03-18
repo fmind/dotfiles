@@ -1,32 +1,23 @@
-# SETTINGS {{{
-if set -q DISPLAY
-    # change repeat key
-    xset r rate 200 50
-    # remap caps lock key
-    setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
-end
+# CONFIGS {{{
+set -g fish_greeting ''
+set -g fish_prompt_pwd_dir_length 0
 # }}}
-# SESSIONS {{{
-status --is-login; and status --is-interactive; and exec byobu-launcher
+# EXPORTS {{{
+set -gx EDITOR vim
+set -gx LANG en_US.UTF-8
+set -gx PATH $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 # }}}
 # ALIASES {{{
 if test -e $HOME/.aliases
     source $HOME/.aliases
 end
 # }}}
-# CONFIGS {{{
-set -g fish_greeting ''
-set -g fish_prompt_pwd_dir_length 0
+# PRIVATE {{{
+if test -e $HOME/.private
+    source $HOME/.private
+end
 # }}}
-# EXPORTS {{{
-set -gx CODE $HOME/code
-set -gx EDITOR vim
-set -gx GIT git@github.com:fmind
-set -gx LANG en_US.UTF-8
-set -gx NOTE $HOME/note
-set -gx PATH $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
-# }}}
-# PROMPT {{{
+# PROMPTS {{{
 function fish_prompt
     set -l last_status $status
 
@@ -63,4 +54,15 @@ function fish_right_prompt
 
     set_color normal
 end
+# }}}
+# SETTINGS {{{
+if set -q DISPLAY
+    # change repeat key
+    xset r rate 200 50
+    # remap caps lock key
+    setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
+end
+# }}}
+# SESSIONS {{{
+status --is-login; and status --is-interactive; and exec byobu-launcher
 # }}}

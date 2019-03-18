@@ -5,12 +5,8 @@ default_context:
     license: "AGPL-3.0"
 abbreviations:
     analysis: https://git.fmind.me/fmind/cookiecutter-analysis.git
-    notebook: https://git.fmind.me/fmind/cookiecutter-notebook.git
     project: https://git.fmind.me/fmind/cookiecutter-project.git
-    restapi: https://git.fmind.me/fmind/cookiecutter-restapi.git
     script: https://git.fmind.me/fmind/cookiecutter-script.git
     slides: https://git.fmind.me/fmind/cookiecutter-slides.git
     spider: https://git.fmind.me/fmind/cookiecutter-spider.git
-    static: https://git.fmind.me/fmind/cookiecutter-pages.git
     test: https://git.fmind.me/fmind/cookiecutter-test.git
-    website: https://git.fmind.me/fmind/cookiecutter-website.git
