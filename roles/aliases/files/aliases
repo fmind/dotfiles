@@ -15,3 +15,8 @@ alias server='python -m http.server'
 alias trace='python -m trace'
 alias venv='python -m venv'
 # }}}
+# JUPYTER {{{
+alias lab='jupyter lab'
+alias notebook='jupyter notebook'
+alias nbconvert='jupyter nbconvert'
+# }}}
