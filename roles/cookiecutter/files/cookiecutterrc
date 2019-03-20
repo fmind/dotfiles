@@ -2,7 +2,7 @@ default_context:
     user: "fmind"
     email: "fmind@fmind.me"
     author: "Médéric Hurier"
-    license: "AGPL-3.0"
+    license: "GPL-3.0"
 abbreviations:
     analysis: https://git.fmind.me/fmind/cookiecutter-analysis.git
     project: https://git.fmind.me/fmind/cookiecutter-project.git
