@@ -15,6 +15,7 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'shell', 'python']}
+    - {role: cookiecutter, tags: ['cookiecutter', 'project', 'python']}
     - {role: ctags, tags: ['ctags', 'project', 'native']}
     - {role: fish, tags: ['fish', 'shell', 'native']}
     - {role: git, tags: ['git', 'project', 'native']}
