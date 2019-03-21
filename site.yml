@@ -14,26 +14,14 @@
     tags: ['pre', 'directory']
 
   roles:
-    - {role: ag, tags: ['ag', 'filter', 'native']}
-    - {role: aliases, tags: ['aliases', 'shell', 'config']}
     - {role: ansible, tags: ['ansible', 'shell', 'python']}
-    - {role: cookiecutter, tags: ['cookiecutter', 'project', 'python']}
-    - {role: csvkit, tags: ['cookiecutter', 'filter', 'python']}
-    - {role: ctags, tags: ['ctags', 'editor', 'native']}
     - {role: fish, tags: ['fish', 'shell', 'native']}
     - {role: git, tags: ['git', 'project', 'native']}
     - {role: glances, tags: ['glances', 'monitor', 'python']}
-    - {role: glom, tags: ['glom', 'filter', 'python']}
-    - {role: howdoi, tags: ['howdoi', 'help', 'python']}
     - {role: httpie, tags: ['httpie', 'network', 'python']}
     - {role: ncdu, tags: ['ncdu', 'monitor', 'native']}
-    - {role: neovim, tags: ['neovim', 'editor', 'native']}
-    - {role: onset, tags: ['onset', 'filter', 'python']}
     - {role: pydf, tags: ['pydf', 'monitor', 'python']}
     - {role: ranger, tags: ['ranger', 'editor', 'python']}
-    - {role: termtosvg, tags: ['termtosvg', 'shell', 'python']}
-    - {role: tldr, tags: ['tldr', 'help', 'python']}
     - {role: tmux, tags: ['tmux', 'shell', 'native']}
     - {role: tqdm, tags: ['tqdm', 'monitor', 'python']}
     - {role: vim, tags: ['vim', 'editor', 'native']}
-    - {role: watchdog, tags: ['watchdog', 'monitor', 'python']}
