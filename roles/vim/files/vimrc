@@ -4,8 +4,8 @@ set shortmess=I
 set noswapfile
 set nobackup
 " FILE
-set path+=**
 set hidden
+set path+=**
 set linebreak
 " SHELL
 set shell=/bin/bash
@@ -21,7 +21,6 @@ set autoindent
 set shiftround
 set backspace=indent,eol,start
 " SEARCH
-set hlsearch
 set incsearch
 " WINDOW
 set scrolloff=10
@@ -39,7 +38,6 @@ let g:loaded_matchparen = 0
 let g:loaded_netrwPlugin = 1
 " KEYMAPS
 nnoremap <space> :
-nnoremap gl :nohl<CR>
 nnoremap g. :edit $MYVIMRC<CR>
 " AUTOCMD
 augroup vim
