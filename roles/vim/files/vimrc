@@ -38,6 +38,7 @@ let g:loaded_matchparen = 0
 let g:loaded_netrwPlugin = 1
 " KEYMAPS
 nnoremap <space> :
+vnoremap <space> :
 nnoremap g. :edit $MYVIMRC<CR>
 " AUTOCMD
 augroup vim
