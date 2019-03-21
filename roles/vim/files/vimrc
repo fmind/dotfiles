@@ -30,7 +30,7 @@ set relativenumber
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
 " COLORS
 syntax enable
-colorscheme darkblue
+colorscheme zellner
 " PLUGINS
 filetype indent on
 filetype plugin on
