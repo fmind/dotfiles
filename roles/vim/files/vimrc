@@ -6,6 +6,7 @@ set nobackup
 " FILE
 set path+=**
 set hidden
+set linebreak
 " SHELL
 set shell=/bin/bash
 set clipboard=unnamedplus
@@ -29,7 +30,7 @@ set relativenumber
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
 " COLORS
 syntax enable
-colorscheme pablo
+colorscheme darkblue
 " PLUGINS
 filetype indent on
 filetype plugin on
