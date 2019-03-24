@@ -22,10 +22,12 @@ set shiftround
 set backspace=indent,eol,start
 " SEARCH
 set incsearch
+" NUMBER
+set number
+set relativenumber
 " WINDOW
 set scrolloff=10
 set laststatus=2
-set relativenumber
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\ 
 " COLORS
 syntax enable
