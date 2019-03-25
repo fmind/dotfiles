@@ -6,17 +6,14 @@
 
   - name: prepare npm
     package: name='npm'
-    tags: ['pre', 'package']
     become: true
 
   - name: prepare pip
     package: name='python3-pip'
-    tags: ['pre', 'package']
     become: true
 
   - name: prepare bin
     file: name='~/bin' state='directory'
-    tags: ['pre', 'directory']
 
   roles:
     - {role: ag, tags: ['ag', 'project']}
