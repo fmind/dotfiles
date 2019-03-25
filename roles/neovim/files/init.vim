@@ -20,7 +20,11 @@ set scrolloff=10
 set statusline=\ %n:\ \%f\ %y%=%r\ %l\ :\ %c\ (%p%%)\
 " COLORS
 colorscheme zellner
-" LEADER
+" PLUGINS
+let g:loaded_netrw = 1
+let g:loaded_matchparen=0
+let g:loaded_netrwPlugin = 1
+" LEADERS
 let mapleader = "\<CR>"
 " KEYMAPS
 noremap <space> :
