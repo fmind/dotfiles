@@ -26,6 +26,7 @@
     - {role: glances, tags: ['glances', 'monitor']}
     - {role: glom, tags: ['glom', 'filter']}
     - {role: httpie, tags: ['httpie', 'network']}
+    - {role: make, tags: ['make', 'automation']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
     - {role: onset, tags: ['onset', 'filter']}
