@@ -4,8 +4,6 @@ default_context:
     author: "Médéric Hurier"
     license: "GPL-3.0"
 abbreviations:
-    analysis: https://git.fmind.me/fmind/cookiecutter-analysis.git
-    project: https://git.fmind.me/fmind/cookiecutter-project.git
     script: https://git.fmind.me/fmind/cookiecutter-script.git
     slides: https://git.fmind.me/fmind/cookiecutter-slides.git
     spider: https://git.fmind.me/fmind/cookiecutter-spider.git

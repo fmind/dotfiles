@@ -10,9 +10,7 @@ fi
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}
 # PLUGINS {{{
-plugins=(
-    colored-man-pages
-)
+plugins=()
 # }}}
 # ALIASES {{{
 if [ -f ~/.aliases ]; then

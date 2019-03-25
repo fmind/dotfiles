@@ -4,26 +4,38 @@
 
   pre_tasks:
 
-  - name: install pip3
+  - name: prepare npm
+    package: name='npm'
+    tags: ['pre', 'package']
+    become: true
+
+  - name: prepare pip
     package: name='python3-pip'
     tags: ['pre', 'package']
     become: true
 
-  - name: create bin directory
+  - name: prepare bin
     file: name='~/bin' state='directory'
     tags: ['pre', 'directory']
 
   roles:
-    - {role: ansible, tags: ['ansible', 'shell', 'python']}
-    - {role: cookiecutter, tags: ['cookiecutter', 'project', 'python']}
-    - {role: ctags, tags: ['ctags', 'project', 'native']}
-    - {role: fish, tags: ['fish', 'shell', 'native']}
-    - {role: git, tags: ['git', 'project', 'native']}
-    - {role: glances, tags: ['glances', 'monitor', 'python']}
-    - {role: httpie, tags: ['httpie', 'network', 'python']}
-    - {role: ncdu, tags: ['ncdu', 'monitor', 'native']}
-    - {role: pydf, tags: ['pydf', 'monitor', 'python']}
-    - {role: ranger, tags: ['ranger', 'editor', 'python']}
-    - {role: tmux, tags: ['tmux', 'shell', 'native']}
-    - {role: tqdm, tags: ['tqdm', 'monitor', 'python']}
-    - {role: vim, tags: ['vim', 'editor', 'native']}
+    - {role: ag, tags: ['ag', 'project']}
+    - {role: ansible, tags: ['ansible', 'automation']}
+    - {role: cookiecutter, tags: ['cookiecutter', 'project']}
+    - {role: csvkit, tags: ['csvkit', 'filter']}
+    - {role: ctags, tags: ['ctags', 'project']}
+    - {role: fish, tags: ['fish', 'shell']}
+    - {role: git, tags: ['git', 'project']}
+    - {role: glances, tags: ['glances', 'monitor']}
+    - {role: glom, tags: ['glom', 'filter']}
+    - {role: httpie, tags: ['httpie', 'network']}
+    - {role: ncdu, tags: ['ncdu', 'monitor']}
+    - {role: neovim, tags: ['neovim', 'editor']}
+    - {role: onset, tags: ['onset', 'filter']}
+    - {role: pydf, tags: ['pydf', 'monitor']}
+    - {role: ranger, tags: ['ranger', 'shell']}
+    - {role: termtosvg, tags: ['termtosvg', 'record']}
+    - {role: tldr, tags: ['tldr', 'help']}
+    - {role: tmux, tags: ['tmux', 'shell']}
+    - {role: tqdm, tags: ['tqdm', 'monitor']}
+    - {role: watchdog, tags: ['watchdog', 'automation']}
