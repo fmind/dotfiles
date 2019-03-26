@@ -27,6 +27,8 @@ let g:loaded_netrwPlugin = 1
 " LEADERS
 let mapleader = "\<CR>"
 " KEYMAPS
+noremap j gj
+noremap k gk
 noremap <space> :
 nnoremap gl :nohl<CR>
 nnoremap g. :edit $MYVIMRC<CR>
