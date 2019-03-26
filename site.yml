@@ -16,7 +16,6 @@
     file: name='~/bin' state='directory'
 
   roles:
-    - {role: ag, tags: ['ag', 'project']}
     - {role: ansible, tags: ['ansible', 'automation']}
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}
     - {role: csvkit, tags: ['csvkit', 'filter']}

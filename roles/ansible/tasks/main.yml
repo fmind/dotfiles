@@ -5,10 +5,6 @@
   become: true
   tags: admin
 
-- name: checker
-  pip: name='ansible-lint' executable='pip3' extra_args='--user'
-  tags: user
-
 - name: config
   file: src='{{role_path}}/files/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
   tags: user
