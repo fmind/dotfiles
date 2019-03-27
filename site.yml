@@ -4,10 +4,6 @@
 
   pre_tasks:
 
-  - name: prepare npm
-    package: name='npm'
-    become: true
-
   - name: prepare pip
     package: name='python3-pip'
     become: true
