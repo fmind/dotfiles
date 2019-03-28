@@ -2,13 +2,13 @@
 set shortmess=I
 " FILE
 set hidden
+set confirm
 set path+=**
 set linebreak
 " SHELL
 set shell=/bin/bash
 set clipboard=unnamedplus
 " MENUS
-set confirm
 set wildmode=list:longest,full
 set completeopt=menuone,preview
 " INDENT
