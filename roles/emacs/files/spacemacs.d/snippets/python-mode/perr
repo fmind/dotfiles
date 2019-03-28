@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: perr
-# key: perr
-# --
-  print($1, file=sys.stderr)

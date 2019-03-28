@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: req-sh
-# key: req-sh
-# --
-[clojure.java.shell :refer [sh]]

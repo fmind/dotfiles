@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: req-set
-# key: req-set
-# --
-(require '[clojure.set :as set])

@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: for
-# key: f
-# --
-for $1 in $2:
-    $0

@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: spy
-# key: spy
-# --
-spy/$1 

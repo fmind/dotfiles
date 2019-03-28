@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: here
-# key: here
-# --
-here = os.path.dirname(os.path.realpath(__file__))

@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: bold
-# key: bf
-# --
-\textbf{$1}

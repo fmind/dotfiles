@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: bold
-# key: \b
-# --
-__$1__

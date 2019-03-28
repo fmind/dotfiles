@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: req-csv
-# key: req-csv
-# --
-(require '[clojure.data.csv :as csv])

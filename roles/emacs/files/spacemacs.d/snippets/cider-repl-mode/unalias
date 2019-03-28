@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: unalias
-# key: unalias
-# --
-(ns-unalias *ns* '$1)

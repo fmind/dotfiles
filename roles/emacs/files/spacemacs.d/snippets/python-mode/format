@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: format
-# key: format
-# --
-"{$1}".format($0)

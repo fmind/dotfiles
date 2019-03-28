@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: req-json
-# key: req-json
-# --
-[cheshire.core :as json]

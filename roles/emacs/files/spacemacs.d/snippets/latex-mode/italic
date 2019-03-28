@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: fmind
-# name: italic
-# key: it
-# --
-\textit{$1}
