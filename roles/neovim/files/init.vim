@@ -8,6 +8,7 @@ set linebreak
 set shell=/bin/bash
 set clipboard=unnamedplus
 " MENUS
+set confirm
 set wildmode=list:longest,full
 set completeopt=menuone,preview
 " INDENT
@@ -25,11 +26,11 @@ let g:loaded_netrw = 1
 let g:loaded_matchparen=0
 let g:loaded_netrwPlugin = 1
 " LEADERS
-let mapleader = "\<CR>"
+let mapleader = "\<SPACE>"
 " KEYMAPS
 noremap j gj
 noremap k gk
-noremap <space> :
+noremap <CR> :
 nnoremap gl :nohl<CR>
 nnoremap g. :edit $MYVIMRC<CR>
 " AUTOCMD
