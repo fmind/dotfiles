@@ -2,6 +2,7 @@ default_context:
     user: "fmind"
     email: "fmind@fmind.me"
     author: "Médéric Hurier"
+    control: "github.com"
     license: "GPL-3.0"
 abbreviations:
     script: https://git.fmind.me/fmind/cookiecutter-script.git

@@ -1,10 +1,7 @@
 " INIT
 set shortmess=I
 " FILE
-set hidden
-set confirm
 set path+=**
-set linebreak
 " SHELL
 set shell=/bin/bash
 set clipboard=unnamedplus
@@ -13,6 +10,10 @@ set wildmode=list:longest,full
 set completeopt=menuone,preview
 " INDENT
 set expandtab
+" BUFFER
+set hidden
+set confirm
+set linebreak
 " NUMBER
 set number
 set relativenumber

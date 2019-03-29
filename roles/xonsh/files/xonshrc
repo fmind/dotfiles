@@ -20,10 +20,6 @@ $PROMPT = "{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}" + \
           "in {INTENSE_BLUE}{cwd_base}{branch_color}" + \
           "{curr_branch: {}}{NO_COLOR} {prompt_end} "
 # }}}
-# ALIASES {{{
-if os.path.exists(os.path.expanduser("~/.aliases")):
-    $[source-bash --overwrite-alias ~/.aliases]
-# }}}
 # TRIGGERS {{{
 @events.on_chdir
 def listdir(olddir, newdir):

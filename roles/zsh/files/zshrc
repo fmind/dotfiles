@@ -1,19 +1,6 @@
-# SETTINGS {{{
-if [ -n "$DISPLAY" ]; then
-    # change repeat
-    xset r rate 200 50
-    # remap caps lock key
-    setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
-fi
-# }}}
-# SESSIONS {{{
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-# }}}
 # PLUGINS {{{
 plugins=()
 # }}}
-# ALIASES {{{
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
+# SESSIONS {{{
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}

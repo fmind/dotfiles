@@ -7,16 +7,6 @@ set -gx EDITOR vim
 set -gx LANG en_US.UTF-8
 set -gx PATH $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 # }}}
-# ALIASES {{{
-if test -e $HOME/.aliases
-    source $HOME/.aliases
-end
-# }}}
-# PRIVATE {{{
-if test -e $HOME/.private
-    source $HOME/.private
-end
-# }}}
 # PROMPTS {{{
 function fish_prompt
     set -l last_status $status
@@ -53,14 +43,6 @@ function fish_right_prompt
     end
 
     set_color normal
-end
-# }}}
-# SETTINGS {{{
-if set -q DISPLAY
-    # change repeat key
-    xset r rate 200 50
-    # remap caps lock key
-    setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
 end
 # }}}
 # SESSIONS {{{
