@@ -1,9 +1,10 @@
 " INIT
 set shortmess=I
-" FILE
+" PATH
 set path+=**
 " SHELL
 set shell=/bin/bash
+" XCLIP
 set clipboard=unnamedplus
 " MENUS
 set wildmode=list:longest,full

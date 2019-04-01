@@ -14,6 +14,7 @@
   roles:
     - {role: ag, tags: ['ag', 'filter']}
     - {role: ansible, tags: ['ansible', 'automation']}
+    - {role: bash, tags: ['bash', 'shell']}
     - {role: cookiecutter, tags: ['cookiecutter', 'project']}
     - {role: csvkit, tags: ['csvkit', 'filter']}
     - {role: ctags, tags: ['ctags', 'project']}
@@ -22,6 +23,7 @@
     - {role: glances, tags: ['glances', 'monitor']}
     - {role: glom, tags: ['glom', 'filter']}
     - {role: httpie, tags: ['httpie', 'network']}
+    - {role: ipcalc, tags: ['ipcalc', 'network']}
     - {role: make, tags: ['make', 'automation']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
