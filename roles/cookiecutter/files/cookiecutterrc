@@ -4,6 +4,7 @@ default_context:
     author: "Médéric Hurier"
     control: "github.com"
     license: "GPL-3.0"
+    clojure: "1.10.0"
 abbreviations:
     script: https://git.fmind.me/fmind/cookiecutter-script.git
     slides: https://git.fmind.me/fmind/cookiecutter-slides.git
