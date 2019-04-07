@@ -4,5 +4,5 @@ PS1='\u@\h:\w\$ '
 # EXPORTS {{{
 export EDITOR='vim'
 export LANG='en_US.UTF-8'
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/bin/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 # }}}

@@ -5,7 +5,7 @@ set -g fish_prompt_pwd_dir_length 0
 # EXPORTS {{{
 set -gx EDITOR vim
 set -gx LANG en_US.UTF-8
-set -gx PATH $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
+set -gx PATH $HOME/bin $HOME/.local/bin $HOME/bin/anaconda/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 # }}}
 # PROMPTS {{{
 function fish_prompt
