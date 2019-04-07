@@ -5,7 +5,7 @@ set -g fish_prompt_pwd_dir_length 0
 # EXPORTS {{{
 set -gx EDITOR vim
 set -gx LANG en_US.UTF-8
-set -gx PATH $HOME/bin $HOME/.local/bin $HOME/bin/anaconda/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
+set -gx PATH $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 # }}}
 # PROMPTS {{{
 function fish_prompt
@@ -46,7 +46,9 @@ function fish_right_prompt
 end
 # }}}
 # SCIENCE {{{
-eval (eval $HOME/bin/anaconda/bin/conda "shell.fish" "hook" $argv)
+if test -e $HOME/bin/anaconda/etc/fish/conf.d/conda.fish
+    source $HOME/bin/anaconda/etc/fish/conf.d/conda.fish
+end
 # }}}
 # SESSIONS {{{
 status --is-login; and status --is-interactive; and exec byobu-launcher
