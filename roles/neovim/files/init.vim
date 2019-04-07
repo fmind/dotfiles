@@ -27,12 +27,11 @@ colorscheme zellner
 let g:loaded_netrw = 1
 let g:loaded_matchparen=0
 let g:loaded_netrwPlugin = 1
-" LEADERS
-let mapleader = "\<SPACE>"
 " KEYMAPS
 noremap j gj
 noremap k gk
 noremap <CR> :
+noremap <SPACE> :
 nnoremap gl :nohl<CR>
 nnoremap g. :edit $MYVIMRC<CR>
 " AUTOCMD
