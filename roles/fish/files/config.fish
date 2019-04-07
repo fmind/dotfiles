@@ -45,6 +45,9 @@ function fish_right_prompt
     set_color normal
 end
 # }}}
+# SCIENCE {{{
+eval (eval $HOME/bin/anaconda/bin/conda "shell.fish" "hook" $argv)
+# }}}
 # SESSIONS {{{
 status --is-login; and status --is-interactive; and exec byobu-launcher
 # }}}
