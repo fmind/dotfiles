@@ -45,11 +45,6 @@ function fish_right_prompt
     set_color normal
 end
 # }}}
-# SCIENCE {{{
-if test -e $HOME/bin/anaconda/etc/fish/conf.d/conda.fish
-    source $HOME/bin/anaconda/etc/fish/conf.d/conda.fish
-end
-# }}}
 # SESSIONS {{{
 status --is-login; and status --is-interactive; and exec byobu-launcher
 # }}}

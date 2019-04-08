@@ -6,11 +6,6 @@ shopt -s histappend
 # check the window size after each command
 shopt -s checkwinsize
 # }}}
-# SCIENCE {{{
-if [ -f "$HOME/bin/anaconda/etc/profile.d/conda.sh" ]; then
-    . "$HOME/bin/anaconda/etc/profile.d/conda.sh"
-fi
-# }}}
 # SESSIONS {{{
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # }}}
