@@ -9,7 +9,6 @@ default_context:
 abbreviations:
     ansible: https://git.fmind.me/fmind/cookiecutter-ansible.git
     clojure: https://git.fmind.me/fmind/cookiecutter-clojure.git
-    clojurescript: https://git.fmind.me/fmind/cookiecutter-clojurescript.git
     emacs: https://git.fmind.me/fmind/cookiecutter-emacs.git
     python: https://git.fmind.me/fmind/cookiecutter-python.git
     racket: https://git.fmind.me/fmind/cookiecutter-racket.git
