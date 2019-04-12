@@ -5,7 +5,15 @@ default_context:
     control: "github.com"
     license: "GPL-3.0"
     clojure: "1.10.0"
+    clojurescript: "1.10.520"
 abbreviations:
+    ansible: https://git.fmind.me/fmind/cookiecutter-ansible.git
+    clojure: https://git.fmind.me/fmind/cookiecutter-clojure.git
+    clojurescript: https://git.fmind.me/fmind/cookiecutter-clojurescript.git
+    emacs: https://git.fmind.me/fmind/cookiecutter-emacs.git
+    python: https://git.fmind.me/fmind/cookiecutter-python.git
+    racket: https://git.fmind.me/fmind/cookiecutter-racket.git
+    science: https://git.fmind.me/fmind/cookiecutter-science.git
     script: https://git.fmind.me/fmind/cookiecutter-script.git
     slides: https://git.fmind.me/fmind/cookiecutter-slides.git
     spider: https://git.fmind.me/fmind/cookiecutter-spider.git
