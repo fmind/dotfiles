@@ -7,13 +7,13 @@ default_context:
     clojure: "1.10.0"
     clojurescript: "1.10.520"
 abbreviations:
-    ansible: https://git.fmind.me/fmind/cookiecutter-ansible.git
-    clojure: https://git.fmind.me/fmind/cookiecutter-clojure.git
-    emacs: https://git.fmind.me/fmind/cookiecutter-emacs.git
-    python: https://git.fmind.me/fmind/cookiecutter-python.git
-    racket: https://git.fmind.me/fmind/cookiecutter-racket.git
-    science: https://git.fmind.me/fmind/cookiecutter-science.git
-    script: https://git.fmind.me/fmind/cookiecutter-script.git
-    slides: https://git.fmind.me/fmind/cookiecutter-slides.git
-    spider: https://git.fmind.me/fmind/cookiecutter-spider.git
-    test: https://git.fmind.me/fmind/cookiecutter-test.git
+    ansible: https://github.com/fmind/cookiecutter-ansible.git
+    clojure: https://github.com/fmind/cookiecutter-clojure.git
+    emacs: https://github.com/fmind/cookiecutter-emacs.git
+    python: https://github.com/fmind/cookiecutter-python.git
+    racket: https://github.com/fmind/cookiecutter-racket.git
+    science: https://github.com/fmind/cookiecutter-science.git
+    script: https://github.com/fmind/cookiecutter-script.git
+    slides: https://github.com/fmind/cookiecutter-slides.git
+    spider: https://github.com/fmind/cookiecutter-spider.git
+    test: https://github.com/fmind/cookiecutter-test.git
