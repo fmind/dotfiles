@@ -18,7 +18,9 @@
     - {role: git, tags: ['git', 'project']}
     - {role: glances, tags: ['glances', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
-    - {role: make, tags: ['make', 'automation']}
+    - {role: make, tags: ['make', 'project']}
+    - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
     - {role: tmux, tags: ['tmux', 'shell']}
     - {role: tqdm, tags: ['tqdm', 'monitor']}
+    - {role: watchdog, tags: ['watchdog', 'automation']}
