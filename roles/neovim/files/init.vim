@@ -14,7 +14,6 @@ set expandtab
 " BUFFER
 set hidden
 set confirm
-set linebreak
 " NUMBER
 set number
 set relativenumber
@@ -28,12 +27,11 @@ let g:loaded_netrw = 1
 let g:loaded_matchparen=0
 let g:loaded_netrwPlugin = 1
 " KEYMAPS
-noremap j gj
-noremap k gk
 noremap <CR> :
-noremap <SPACE> :
-nnoremap gl :nohl<CR>
-nnoremap g. :edit $MYVIMRC<CR>
+" LEADERS
+let mapleader=" "
+noremap <leader>l :nohl<CR>
+noremap <leader>. :edit $MYVIMRC<CR>
 " AUTOCMD
 augroup vim
     autocmd!
