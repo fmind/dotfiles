@@ -12,15 +12,16 @@
     file: name='~/bin' state='directory'
 
   roles:
-    - {role: ansible, tags: ['ansible', 'automation']}
-    - {role: cookiecutter, tags: ['cookiecutter', 'project']}
-    - {role: fish, tags: ['fish', 'shell']}
-    - {role: git, tags: ['git', 'project']}
-    - {role: glances, tags: ['glances', 'monitor']}
-    - {role: httpie, tags: ['httpie', 'network']}
-    - {role: make, tags: ['make', 'project']}
-    - {role: ncdu, tags: ['ncdu', 'monitor']}
-    - {role: neovim, tags: ['neovim', 'editor']}
-    - {role: tmux, tags: ['tmux', 'shell']}
-    - {role: tqdm, tags: ['tqdm', 'monitor']}
-    - {role: watchdog, tags: ['watchdog', 'automation']}
+    - {role: ansible, tags: ['ansible']}
+    - {role: cookiecutter, tags: ['cookiecutter']}
+    - {role: ctags, tags: ['ctags']}
+    - {role: git, tags: ['git']}
+    - {role: glances, tags: ['glances']}
+    - {role: httpie, tags: ['httpie']}
+    - {role: make, tags: ['make']}
+    - {role: neovim, tags: ['neovim']}
+    - {role: ranger, tags: ['ranger']}
+    - {role: tmux, tags: ['tmux']}
+    - {role: tqdm, tags: ['tqdm']}
+    - {role: watchdog, tags: ['watchdog']}
+    - {role: xonsh, tags: ['xonsh']}

@@ -1,27 +1,18 @@
-# IMPORTS {{{
-import os
-import re
-import csv
-import sys
-import json
-import glob
-# }}}
-# EXPORTS {{{
+# IMPORTS
+from pathlib import Path
+# EXPORTS
 $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'
 $PATH = ['~/bin', '~/.local/bin', '/usr/local/bin', '/usr/local/sbin', '/usr/bin', '/usr/sbin', '/bin', '/sbin']
-# }}}
-# CONFIGS {{{
+# CONFIGS
+$AUTO_CD = True
 $AUTO_PUSHD = True
 $AUTO_SUGGEST = True
-$XONSH_AUTOPAIR = True
-$PROMPT = "{env_name:{} }🐍 {INTENSE_RED}{user} {NO_COLOR}" + \
-          "at {INTENSE_GREEN}{hostname} {NO_COLOR}" + \
-          "in {INTENSE_BLUE}{cwd_base}{branch_color}" + \
-          "{curr_branch: {}}{NO_COLOR} {prompt_end} "
-# }}}
-# TRIGGERS {{{
+$PROMPT = "{INTENSE_RED}{user}{NO_COLOR} " + \
+          "at {INTENSE_GREEN}{hostname}{NO_COLOR} " + \
+          "in {INTENSE_BLUE}{short_cwd}{NO_COLOR} " + \
+          "{branch_color}{curr_branch:{} }{NO_COLOR}{prompt_end} "
+# TRIGGERS
 @events.on_chdir
 def listdir(olddir, newdir):
     $[ls]
-# }}}

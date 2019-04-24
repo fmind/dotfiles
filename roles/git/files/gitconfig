@@ -1,7 +1,7 @@
 [user]
-    username = fmind
-    name = Médéric Hurier
+    name = Médéric Hurier (fmind)
     email = fmind@fmind.me
+    username = fmind
 
 [core]
     editor = vim

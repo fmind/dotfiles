@@ -4,14 +4,9 @@ default_context:
     author: "Médéric Hurier (fmind)"
     control: "github.com"
     license: "GPL-3.0"
-    clojure: "1.10.0"
-    clojurescript: "1.10.520"
 abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
-    clojure: https://github.com/fmind/cookiecutter-clojure.git
-    emacs: https://github.com/fmind/cookiecutter-emacs.git
     python: https://github.com/fmind/cookiecutter-python.git
-    racket: https://github.com/fmind/cookiecutter-racket.git
     science: https://github.com/fmind/cookiecutter-science.git
     script: https://github.com/fmind/cookiecutter-script.git
     slides: https://github.com/fmind/cookiecutter-slides.git
