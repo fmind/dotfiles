@@ -4,6 +4,7 @@ default_context:
     author: "Médéric Hurier (fmind)"
     control: "github.com"
     license: "GPL-3.0"
+    python: "3.6"
 abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
     python: https://github.com/fmind/cookiecutter-python.git
