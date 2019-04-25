@@ -21,6 +21,7 @@ function fish_prompt
     set_color brmagenta
     printf "%s" (__fish_git_prompt)
     set_color normal
+
     if test $last_status -ne 0
         printf " ! "
     else if test (id -u) -eq 0

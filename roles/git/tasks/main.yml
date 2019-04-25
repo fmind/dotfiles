@@ -1,6 +1,5 @@
 ---
 
-
 - name: package
   package: name='git'
   become: true

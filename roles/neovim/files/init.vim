@@ -109,31 +109,32 @@ noremap <leader><tab> :b#<cr>
 noremap <leader><space> :make 
 noremap <localleader>; :make %<cr>
 noremap <localleader>a :make add<cr>
-" noremap <localleader>b :make <cr>
+noremap <localleader>b :call VimuxSlime(join(getline(1, '$'), "\n"))<cr>
 noremap <localleader>c :make clean<cr>
-" noremap <localleader>d :make <cr>
-" noremap <localleader>e :make <cr>
+noremap <localleader>d :call VimuxSlime("pydoc ".input("Symbol: "))<cr>
+noremap <localleader>e "vy :call VimuxSlime(@v)<cr>
 noremap <localleader>f :make format<cr>
-" noremap <localleader>g :make <cr>
-noremap <localleader>h :make hook<cr>
-noremap <localleader>i :PlugInstall<cr>
-"noremap <localleader>j :call VimuxSlime(@v)<cr>
-noremap <localleader>k :make doc<cr>
-noremap <localleader>l :make lint<cr>
+noremap <localleader>g :make hook<cr>
+noremap <localleader>h :call VimuxSlime("%paste")<cr>
+noremap <localleader>i :VimuxInterruptRunner<cr>
+noremap <localleader>j "vY :call VimuxSlime(@v)<cr>
+noremap <localleader>k :call VimuxSlime("xdg-open 'https://google.com/search?q=".input("Search: ")."'")<cr>
+noremap <localleader>l :call VimuxSlime("pylint ".bufname("%"))<cr>
 noremap <localleader>m :make commit<cr>
-noremap <localleader>n :PlugClean<cr>
+noremap <localleader>n :VimuxInspectRunner<cr>
 noremap <localleader>o :make publish<cr>
 noremap <localleader>p :make package<cr>
-" noremap <localleader>q :make <cr>
-noremap <localleader>r :make cover<cr>
+noremap <localleader>q :VimuxCloseRunner<cr>
+noremap <localleader>r :call VimuxSlime("pytest ".bufname("%"))<cr>
 noremap <localleader>s :make sort<cr>
 noremap <localleader>t :make test<cr>
-noremap <localleader>u :PlugUpdate<cr>
+noremap <localleader>u :VimuxPromptCommand<cr>
 noremap <localleader>v :make venv<cr>
 noremap <localleader>w :make watch<cr>
-" noremap <localleader>x :make <cr>
+noremap <localleader>x :call VimuxOpenRunner()<cr>
 noremap <localleader>y :make type<cr>
-" noremap <localleader>z :make <cr>
+noremap <localleader>z :call VimuxSlime("mypy ".bufname("%"))<cr>
+noremap <localleader><space> :VimuxRunLastCommand<cr>
 " AUTOCMD
 augroup vim
     autocmd!
@@ -142,5 +143,7 @@ augroup end
 " FUNCTION
 function! VimuxSlime(text)
     call VimuxSendText(a:text)
-    call VimuxSendKeys("Enter")
+    if a:text !~ '\n$'
+        call VimuxSendKeys("Enter")
+    endif
 endfunction
