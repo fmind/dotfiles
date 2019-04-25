@@ -1,17 +1,15 @@
 " INIT
 set shortmess=I
 " PROG
-set path+=**
 set shell=/bin/bash
 set clipboard=unnamedplus
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 " MENU
-set completeopt=menuone
 set wildmode=list:longest,full
+set completeopt=menuone,longest
 " SPELL
-set spelllang=en,fr
 set thesaurus+=/usr/share/dict/theses
 set dictionary+=/usr/share/dict/words
 " BUFFER
@@ -20,8 +18,11 @@ set confirm
 set autoread
 set autowrite
 " SEARCH
+set path+=**
 set hlsearch
 set incsearch
+set smartcase
+set ignorecase
 " INDENT
 set expandtab
 set shiftround
@@ -44,6 +45,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
+Plug 'sheerun/vim-polyglot'
+Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
@@ -101,7 +104,7 @@ noremap <leader>[ :ALEPreviousWrap<cr>
 noremap <leader>] :ALENextWrap<cr>
 noremap <leader>' :Helptags<cr>
 noremap <leader>, :edit $MYVIMRC<cr>
-noremap <leader>. :set 
+noremap <leader>. :Google 
 noremap <leader>/ :History/<cr>
 noremap <leader>\ :BLines<cr>
 noremap <leader><cr> :make<cr>
@@ -118,7 +121,7 @@ noremap <localleader>g :make hook<cr>
 noremap <localleader>h :call VimuxSlime("%paste")<cr>
 noremap <localleader>i :VimuxInterruptRunner<cr>
 noremap <localleader>j "vY :call VimuxSlime(@v)<cr>
-noremap <localleader>k :call VimuxSlime("xdg-open 'https://google.com/search?q=".input("Search: ")."'")<cr>
+noremap <localleader>k :call VimuxSlime("python ".bufname("%"))<cr>
 noremap <localleader>l :call VimuxSlime("pylint ".bufname("%"))<cr>
 noremap <localleader>m :make commit<cr>
 noremap <localleader>n :VimuxInspectRunner<cr>

@@ -1,6 +1,7 @@
 --recurse=yes
 --exclude=.git
 --exclude=venv
+--exclude=.venv
 --exclude=build
 --python-kinds=-i
 --languages=python
