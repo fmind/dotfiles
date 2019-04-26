@@ -126,7 +126,7 @@ noremap <localleader>i :VimuxInterruptRunner<cr>
 noremap <localleader>j "vY :call VimuxSlime(@v)<cr>
 noremap <localleader>k :call VimuxSlime("python ".bufname("%"))<cr>
 noremap <localleader>l :call VimuxSlime("pylint ".bufname("%"))<cr>
-noremap <localleader>m :make commit<cr>
+noremap <localleader>m :make all<cr>
 noremap <localleader>n :VimuxInspectRunner<cr>
 noremap <localleader>o :make publish<cr>
 noremap <localleader>p :make package<cr>
