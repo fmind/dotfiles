@@ -1,5 +1,3 @@
-" INIT
-set shortmess=I
 " PROG
 set shell=/bin/bash
 set clipboard=unnamedplus
@@ -30,6 +28,7 @@ set shiftwidth=4
 " WINDOW
 set number
 set linebreak
+set shortmess=I
 set scrolloff=10
 set relativenumber
 " FOLDER
@@ -45,6 +44,9 @@ Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
 Plug 'sheerun/vim-polyglot'
 Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
@@ -52,6 +54,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
+let g:ycm_collect_identifiers_from_tags_files = 0
 let g:ycm_auto_trigger = 0
 Plug 'w0rp/ale'
 let g:ale_set_quickfix = 1
