@@ -36,7 +36,6 @@ set foldmethod=syntax
 set foldlevelstart=99
 " PLUGIN
 let g:loaded_netrw = 1
-let g:loaded_matchparen=0
 let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'benmills/vimux'
@@ -69,6 +68,8 @@ catch
     colorscheme zellner
 endtry
 " KEYMAP
+noremap j gj
+noremap k gk
 noremap <cr> :
 noremap gl :nohl<cr>
 " LEADER
