@@ -36,6 +36,7 @@ set foldmethod=syntax
 set foldlevelstart=99
 " PLUGIN
 let g:loaded_netrw = 1
+let g:loaded_matchparen=1
 let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'benmills/vimux'
@@ -46,7 +47,6 @@ Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
-Plug 'sheerun/vim-polyglot'
 Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
