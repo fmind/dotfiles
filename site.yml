@@ -12,10 +12,8 @@
     file: name='~/bin' state='directory'
 
   roles:
-    - {role: ag, tags: ['ag']}
     - {role: ansible, tags: ['ansible']}
     - {role: cookiecutter, tags: ['cookiecutter']}
-    - {role: csvkit, tags: ['csvkit']}
     - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
     - {role: fish, tags: ['fish']}
@@ -26,5 +24,6 @@
     - {role: ncdu, tags: ['ncdu']}
     - {role: neovim, tags: ['neovim']}
     - {role: pv, tags: ['pv']}
+    - {role: ranger, tags: ['ranger']}
     - {role: tldr, tags: ['tldr']}
     - {role: tmux, tags: ['tmux']}
