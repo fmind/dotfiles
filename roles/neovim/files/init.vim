@@ -41,6 +41,7 @@ let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'benmills/vimux'
 Plug 'itchyny/lightline.vim'
+Plug 'JuliaEditorSupport/julia-vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
@@ -137,7 +138,7 @@ noremap <localleader>s :make sort<cr>
 noremap <localleader>t :make test<cr>
 noremap <localleader>u :VimuxPromptCommand<cr>
 noremap <localleader>v :make venv<cr>
-noremap <localleader>w :make watch<cr>
+noremap <localleader>w :make work<cr>
 noremap <localleader>x :call VimuxOpenRunner()<cr>
 noremap <localleader>y :make type<cr>
 noremap <localleader>z :call VimuxSlime("mypy ".bufname("%"))<cr>
