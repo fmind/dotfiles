@@ -17,6 +17,7 @@ set autoread
 set autowrite
 " SEARCH
 set path+=**
+set gdefault
 set hlsearch
 set incsearch
 set smartcase
@@ -41,7 +42,6 @@ let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'benmills/vimux'
 Plug 'itchyny/lightline.vim'
-Plug 'JuliaEditorSupport/julia-vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'

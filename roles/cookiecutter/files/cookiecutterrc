@@ -3,15 +3,13 @@ default_context:
     email: "fmind@fmind.me"
     author: "Médéric Hurier (fmind)"
     control: "github.com"
-    license: "GPL-3.0"
+    license: "MIT"
     python: "3.6"
 abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
-    julia: https://github.com/fmind/cookiecutter-julia.git
     python: https://github.com/fmind/cookiecutter-python.git
     science: https://github.com/fmind/cookiecutter-science.git
-    script.jl: https://github.com/fmind/cookiecutter-script.jl.git
-    script.py: https://github.com/fmind/cookiecutter-script.py.git
+    script: https://github.com/fmind/cookiecutter-script.git
     slides: https://github.com/fmind/cookiecutter-slides.git
     spider: https://github.com/fmind/cookiecutter-spider.git
     test: https://github.com/fmind/cookiecutter-test.git
