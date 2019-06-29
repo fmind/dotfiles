@@ -26,6 +26,7 @@
     - {role: ncdu, tags: ['ncdu']}
     - {role: neovim, tags: ['neovim']}
     - {role: ranger, tags: ['ranger']}
+    - {role: socli, tags: ['socli']}
     - {role: tldr, tags: ['tldr']}
     - {role: tmux, tags: ['tmux']}
     - {role: tqdm, tags: ['tqdm']}
