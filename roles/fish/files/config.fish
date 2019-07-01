@@ -30,12 +30,5 @@ function fish_prompt
         printf " \$ "
     end
 end
-function fish_right_prompt
-    set_color cyan
-    if set -q VIRTUAL_ENV
-        printf "[%s]" (basename $VIRTUAL_ENV)
-    end
-    set_color normal
-end
 # SESSIONS
 status --is-login; and status --is-interactive; and exec byobu-launcher
