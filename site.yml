@@ -14,20 +14,16 @@
   roles:
     - {role: ag, tags: ['ag']}
     - {role: ansible, tags: ['ansible']}
+    - {role: bash, tags: ['bash']}
+    - {role: byobu, tags: ['byobu']}
     - {role: cookiecutter, tags: ['cookiecutter']}
-    - {role: csvkit, tags: ['csvkit']}
     - {role: ctags, tags: ['ctags']}
-    - {role: fish, tags: ['fish']}
     - {role: git, tags: ['git']}
     - {role: glances, tags: ['glances']}
     - {role: httpie, tags: ['httpie']}
-    - {role: jq, tags: ['jq']}
     - {role: make, tags: ['make']}
     - {role: ncdu, tags: ['ncdu']}
     - {role: neovim, tags: ['neovim']}
     - {role: ranger, tags: ['ranger']}
-    - {role: socli, tags: ['socli']}
-    - {role: tldr, tags: ['tldr']}
-    - {role: tmux, tags: ['tmux']}
     - {role: tqdm, tags: ['tqdm']}
-    - {role: watchdog, tags: ['watchdog']}
+    - {role: xonsh, tags: ['xonsh']}

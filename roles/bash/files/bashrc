@@ -1,11 +1,6 @@
-# OPTIONS {{{
-# match all files or 0 or more directories
+# OPTIONS
 shopt -s globstar
-# append to the history file, no overwrite
 shopt -s histappend
-# check the window size after each command
 shopt -s checkwinsize
-# }}}
-# SESSIONS {{{
+# SESSIONS
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-# }}}

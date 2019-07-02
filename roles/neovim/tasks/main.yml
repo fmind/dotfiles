@@ -1,5 +1,10 @@
 ---
 
+- name: repository
+  apt_repository: repo='ppa:neovim-ppa/stable' filename='neovim'
+  become: true
+  tags: admin
+
 - name: package
   package: name='neovim'
   become: true
