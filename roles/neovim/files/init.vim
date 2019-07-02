@@ -68,12 +68,18 @@ try
 catch
     colorscheme zellner
 endtry
-" KEYMAP
+" REMAP
 noremap j gj
 noremap k gk
-noremap <cr> :
+noremap B g^
+noremap E g$
+noremap Y y$
+noremap U <C-r>
+xnoremap < <gv
+xnoremap > >gv
 noremap gl :nohl<cr>
 " LEADER
+noremap <cr> :
 let mapleader=" "
 let maplocalleader=";"
 noremap <leader>a :Ag<cr>
@@ -83,11 +89,11 @@ noremap <leader>d :YcmCompleter GetDoc<cr>
 noremap <leader>e :YcmCompleter GoToDeclaration<cr>
 noremap <leader>f :Files<cr>
 noremap <leader>g :GFiles<cr>
-noremap <leader>h :bprevious<cr>
+noremap <leader>h :cprevious<cr>
 noremap <leader>i :Lines<cr>
-noremap <leader>j :cnext<cr>
-noremap <leader>k :cprevious<cr>
-noremap <leader>l :bnext<cr>
+noremap <leader>j :bnext<cr>
+noremap <leader>k :bprevious<cr>
+noremap <leader>l :cnext<cr>
 noremap <leader>m :Marks<cr>
 noremap <leader>n :BCommits<cr>
 noremap <leader>o :YcmCompleter GoToDefinition<cr>
