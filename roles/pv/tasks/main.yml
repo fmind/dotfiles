@@ -1,6 +1,0 @@
----
-
-- name: package
-  package: name='pv'
-  become: true
-  tags: admin

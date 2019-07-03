@@ -1,7 +1,7 @@
 ---
 
 - name: package
-  package: name='exuberant-ctags'
+  package: name='ctags-etags'
   become: true
   tags: admin
 

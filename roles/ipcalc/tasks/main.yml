@@ -1,6 +1,0 @@
----
-
-- name: package
-  package: name='ipcalc'
-  become: true
-  tags: admin

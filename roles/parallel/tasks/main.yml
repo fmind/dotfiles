@@ -1,6 +1,0 @@
----
-
-- name: package
-  package: name='parallel'
-  become: true
-  tags: admin

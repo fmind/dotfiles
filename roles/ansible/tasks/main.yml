@@ -1,9 +1,8 @@
 ---
 
 - name: package
-  package: name='ansible'
-  become: true
-  tags: admin
+  pip: name='ansible' executable='pip3' extra_args='--user'
+  tags: user
 
 - name: config
   file: src='{{role_path}}/files/ansible.cfg' dest='~/.ansible.cfg' state=link force=yes
