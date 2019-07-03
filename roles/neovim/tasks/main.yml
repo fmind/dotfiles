@@ -5,6 +5,14 @@
   become: true
   tags: admin
 
+- name: alternative
+  alternatives: name='{{item}}' path='/usr/bin/nvim'
+  with_items:
+    - vim
+    - vi
+  become: true
+  tags: admin
+
 - name: directories
   file: path='{{item}}' state=directory
   with_items:

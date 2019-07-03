@@ -1,7 +1,7 @@
 ---
 
 - name: package
-  package: name='the_silver_searcher'
+  package: name='silversearcher-ag'
   become: true
   tags: admin
 
