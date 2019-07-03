@@ -3,4 +3,4 @@ shopt -s globstar
 shopt -s histappend
 shopt -s checkwinsize
 # SESSIONS
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+#_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
