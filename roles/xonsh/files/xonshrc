@@ -12,7 +12,10 @@ $PROMPT = "{INTENSE_RED}{user}{NO_COLOR} " + \
           "at {INTENSE_GREEN}{hostname}{NO_COLOR} " + \
           "in {INTENSE_BLUE}{short_cwd}{NO_COLOR} " + \
           "{branch_color}{curr_branch:{} }{NO_COLOR}{prompt_end} "
+# XONTRIBS
+xontrib load vox
+xontrib load jedi
 # TRIGGERS
 @events.on_chdir
-def listdir(olddir, newdir):
+def listdir(new, old):
     $[ls]
