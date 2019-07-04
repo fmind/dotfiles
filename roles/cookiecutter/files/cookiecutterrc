@@ -3,8 +3,8 @@ default_context:
     email: "fmind@fmind.me"
     author: "Médéric Hurier (fmind)"
     control: "github.com"
-    license: "MIT"
-    python: "3.6"
+    license: "LGPL-3.0"
+    python: "3.7"
 abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
     cython: https://github.com/fmind/cookiecutter-cython.git
