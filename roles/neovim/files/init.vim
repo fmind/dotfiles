@@ -40,6 +40,7 @@ let g:loaded_netrw = 1
 let g:loaded_matchparen=1
 let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'aklt/plantuml-syntax'
 Plug 'benmills/vimux'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
