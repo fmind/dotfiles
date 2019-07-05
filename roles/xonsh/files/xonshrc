@@ -15,5 +15,5 @@ xontrib load vox
 xontrib load jedi
 # TRIGGERS
 @events.on_chdir
-def listdir(new, old):
+def listdir(newdir, olddir):
     $[ls]
