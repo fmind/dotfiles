@@ -1,3 +1,6 @@
+# IMPORTS
+import warnings
+warnings.filterwarnings("ignore")
 # EXPORTS
 $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'

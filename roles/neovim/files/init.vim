@@ -4,8 +4,6 @@ set clipboard=unnamedplus
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
-" DICT
-set dictionary+=/usr/share/dict/words
 " MENU
 set wildmode=list:longest,full
 set completeopt=menuone,longest
@@ -14,6 +12,7 @@ set shell=/bin/bash
 " SPELL
 set spell
 set spelllang=en
+set dictionary+=/usr/share/dict/words
 " BUFFER
 set hidden
 set confirm
@@ -70,7 +69,7 @@ try
 catch
     colorscheme zellner
 endtry
-" REMAP
+" " REMAP
 noremap j gj
 noremap k gk
 noremap B g^
