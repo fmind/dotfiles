@@ -1,15 +1,19 @@
-" PROG
-set shell=/bin/bash
+" CLIP
 set clipboard=unnamedplus
+" GREP
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
+" DICT
+set dictionary+=/usr/share/dict/words
 " MENU
 set wildmode=list:longest,full
 set completeopt=menuone,longest
+" SHELL
+set shell=/bin/bash
 " SPELL
-set thesaurus+=/usr/share/dict/theses
-set dictionary+=/usr/share/dict/words
+set spell
+set spelllang=en
 " BUFFER
 set hidden
 set confirm
@@ -27,10 +31,11 @@ set expandtab
 set shiftround
 set shiftwidth=4
 " WINDOW
-set number
 set linebreak
 set shortmess=I
 set scrolloff=10
+" NUMBER
+set number
 set relativenumber
 " FOLDER
 set foldmethod=syntax
@@ -40,7 +45,6 @@ let g:loaded_netrw = 1
 let g:loaded_matchparen=1
 let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'aklt/plantuml-syntax'
 Plug 'benmills/vimux'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
@@ -54,9 +58,6 @@ Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
-let g:ycm_collect_identifiers_from_tags_files = 0
-let g:ycm_auto_trigger = 0
 Plug 'w0rp/ale'
 let g:ale_set_quickfix = 1
 let g:ale_sign_column_always = 1
@@ -86,8 +87,8 @@ let maplocalleader=";"
 noremap <leader>a :Ag<cr>
 noremap <leader>b :Buffers<cr>
 noremap <leader>c :Colors<cr>
-noremap <leader>d :YcmCompleter GetDoc<cr>
-noremap <leader>e :YcmCompleter GoToDeclaration<cr>
+" noremap <leader>d :YcmCompleter GetDoc<cr>
+" noremap <leader>e :YcmCompleter GoToDeclaration<cr>
 noremap <leader>f :Files<cr>
 noremap <leader>g :GFiles<cr>
 noremap <leader>h :cprevious<cr>
@@ -97,17 +98,17 @@ noremap <leader>k :bprevious<cr>
 noremap <leader>l :cnext<cr>
 noremap <leader>m :Marks<cr>
 noremap <leader>n :BCommits<cr>
-noremap <leader>o :YcmCompleter GoToDefinition<cr>
+" noremap <leader>o :YcmCompleter GoToDefinition<cr>
 noremap <leader>p :Commands<cr>
 noremap <leader>q :bdelete<cr>
 noremap <leader>r :History<cr>
 noremap <leader>s :Tags<cr>
-noremap <leader>t :YcmCompleter GoTo<cr>
-noremap <leader>u :YcmCompleter GoToReferences<cr>
+" noremap <leader>t :YcmCompleter GoTo<cr>
+" noremap <leader>u :YcmCompleter GoToReferences<cr>
 noremap <leader>v :BTags<cr>
 noremap <leader>w :Windows<cr>
 noremap <leader>x :History:<cr>
-noremap <leader>y :YcmCompleter GetType<cr>
+" noremap <leader>y :YcmCompleter GetType<cr>
 noremap <leader>z :Filetypes<cr>
 noremap <leader>` :Locate 
 noremap <leader>- :Maps<cr>

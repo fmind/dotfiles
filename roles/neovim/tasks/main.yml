@@ -1,10 +1,5 @@
 ---
 
-- name: dependency
-  package: name='python2-dev'
-  become: true
-  tags: admin
-
 - name: package
   package: name='neovim'
   become: true
