@@ -69,7 +69,7 @@ try
 catch
     colorscheme zellner
 endtry
-" " REMAP
+" REMAP
 noremap j gj
 noremap k gk
 noremap B g^
