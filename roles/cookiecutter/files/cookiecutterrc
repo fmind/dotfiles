@@ -18,5 +18,5 @@ abbreviations:
     slides: https://github.com/fmind/cookiecutter-slides.git
     spider: https://github.com/fmind/cookiecutter-spider.git
     test: https://github.com/fmind/cookiecutter-test.git
-    tscript: https://github.com/fmind/cookiecutter-tscript.git
+    typescript: https://github.com/fmind/cookiecutter-typescript.git
     vscode: https://github.com/fmind/cookiecutter-vscode.git
