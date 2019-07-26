@@ -18,7 +18,6 @@
     - {role: cookiecutter, tags: ['cookiecutter']}
     - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
-    - {role: fish, tags: ['fish']}
     - {role: git, tags: ['git']}
     - {role: glances, tags: ['glances']}
     - {role: htop, tags: ['htop']}
@@ -32,7 +31,5 @@
     - {role: termtosvg, tags: ['termtosvg']}
     - {role: tldr, tags: ['tldr']}
     - {role: tqdm, tags: ['tqdm']}
-    - {role: vim, tags: ['vim']}
     - {role: watchdog, tags: ['watchdog']}
     - {role: xonsh, tags: ['xonsh']}
-    - {role: zsh, tags: ['zsh']}
