@@ -10,13 +10,9 @@ abbreviations:
     cython: https://github.com/fmind/cookiecutter-cython.git
     docs: https://github.com/fmind/cookiecutter-docs.git
     flask: https://github.com/fmind/cookiecutter-flask.git
-    groovy: https://github.com/fmind/cookiecutter-groovy.git
-    jupyter: https://github.com/fmind/cookiecutter-jupyter.git
     python: https://github.com/fmind/cookiecutter-python.git
     science: https://github.com/fmind/cookiecutter-science.git
     script: https://github.com/fmind/cookiecutter-script.git
     slides: https://github.com/fmind/cookiecutter-slides.git
     spider: https://github.com/fmind/cookiecutter-spider.git
     test: https://github.com/fmind/cookiecutter-test.git
-    typescript: https://github.com/fmind/cookiecutter-typescript.git
-    vscode: https://github.com/fmind/cookiecutter-vscode.git
