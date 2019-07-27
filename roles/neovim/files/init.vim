@@ -52,6 +52,10 @@ Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+let g:deoplete#enable_at_startup = 1
+Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'wellle/tmux-complete.vim'
 Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
@@ -86,8 +90,8 @@ let maplocalleader=";"
 noremap <leader>a :Ag<cr>
 noremap <leader>b :Buffers<cr>
 noremap <leader>c :Colors<cr>
-" noremap <leader>d :YcmCompleter GetDoc<cr>
-" noremap <leader>e :YcmCompleter GoToDeclaration<cr>
+noremap <leader>d :VimuxPromptCommand<cr>
+noremap <leader>e "vy :call VimuxSlime(@v)<cr>
 noremap <leader>f :Files<cr>
 noremap <leader>g :GFiles<cr>
 noremap <leader>h :cprevious<cr>
@@ -97,17 +101,17 @@ noremap <leader>k :bprevious<cr>
 noremap <leader>l :cnext<cr>
 noremap <leader>m :Marks<cr>
 noremap <leader>n :BCommits<cr>
-" noremap <leader>o :YcmCompleter GoToDefinition<cr>
+noremap <leader>o :Google
 noremap <leader>p :Commands<cr>
 noremap <leader>q :bdelete<cr>
 noremap <leader>r :History<cr>
 noremap <leader>s :Tags<cr>
-" noremap <leader>t :YcmCompleter GoTo<cr>
-" noremap <leader>u :YcmCompleter GoToReferences<cr>
+noremap <leader>t :call VimuxOpenRunner()<cr>
+noremap <leader>u :VimuxRunLastCommand<cr>
 noremap <leader>v :BTags<cr>
 noremap <leader>w :Windows<cr>
 noremap <leader>x :History:<cr>
-" noremap <leader>y :YcmCompleter GetType<cr>
+noremap <leader>y :VimuxInterruptRunner<cr>
 noremap <leader>z :Filetypes<cr>
 noremap <leader>` :Locate 
 noremap <leader>- :Maps<cr>
@@ -116,40 +120,12 @@ noremap <leader>[ :ALEPreviousWrap<cr>
 noremap <leader>] :ALENextWrap<cr>
 noremap <leader>' :Helptags<cr>
 noremap <leader>, :edit $MYVIMRC<cr>
-noremap <leader>. :Google 
+noremap <leader>. :call VimuxSlime(join(getline(1, '$'), "\n"))<cr>
 noremap <leader>/ :History/<cr>
 noremap <leader>\ :BLines<cr>
 noremap <leader><cr> :make<cr>
 noremap <leader><tab> :b#<cr>
 noremap <leader><space> :make 
-noremap <localleader>; :make %<cr>
-noremap <localleader>a :make add<cr>
-noremap <localleader>b :call VimuxSlime(join(getline(1, '$'), "\n"))<cr>
-noremap <localleader>c :make clean<cr>
-noremap <localleader>d :call VimuxSlime("pydoc ".input("Symbol: "))<cr>
-noremap <localleader>e "vy :call VimuxSlime(@v)<cr>
-noremap <localleader>f :make format<cr>
-noremap <localleader>g :make hook<cr>
-noremap <localleader>h :call VimuxSlime("%paste")<cr>
-noremap <localleader>i :VimuxInterruptRunner<cr>
-noremap <localleader>j "vY :call VimuxSlime(@v)<cr>
-noremap <localleader>k :call VimuxSlime("python ".bufname("%"))<cr>
-noremap <localleader>l :call VimuxSlime("pylint ".bufname("%"))<cr>
-noremap <localleader>m :make all<cr>
-noremap <localleader>n :VimuxInspectRunner<cr>
-noremap <localleader>o :make publish<cr>
-noremap <localleader>p :make package<cr>
-noremap <localleader>q :VimuxCloseRunner<cr>
-noremap <localleader>r :call VimuxSlime("pytest ".bufname("%"))<cr>
-noremap <localleader>s :make sort<cr>
-noremap <localleader>t :make test<cr>
-noremap <localleader>u :VimuxPromptCommand<cr>
-noremap <localleader>v :make venv<cr>
-noremap <localleader>w :make work<cr>
-noremap <localleader>x :call VimuxOpenRunner()<cr>
-noremap <localleader>y :make type<cr>
-noremap <localleader>z :call VimuxSlime("mypy ".bufname("%"))<cr>
-noremap <localleader><space> :VimuxRunLastCommand<cr>
 " AUTOCMD
 augroup vim
     autocmd!
