@@ -44,9 +44,12 @@ let g:loaded_netrw = 1
 let g:loaded_matchparen=1
 let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'airblade/vim-gitgutter'
+Plug 'aklt/plantuml-syntax'
 Plug 'benmills/vimux'
 Plug 'itchyny/lightline.vim'
 Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
@@ -54,14 +57,18 @@ let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
 Plug 'marshallward/vim-restructuredtext'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'plasticboy/vim-markdown'
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 let g:deoplete#enable_at_startup = 1
 Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'w0rp/ale'
 let g:ale_set_quickfix = 1
 let g:ale_sign_column_always = 1
