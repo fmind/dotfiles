@@ -23,10 +23,12 @@
     - {role: htop, tags: ['htop']}
     - {role: httpie, tags: ['httpie']}
     - {role: jq, tags: ['jq']}
+    - {role: jsonschema, tags: ['jsonschema']}
     - {role: make, tags: ['make']}
     - {role: ncdu, tags: ['ncdu']}
     - {role: neovim, tags: ['neovim']}
     - {role: ranger, tags: ['ranger']}
+    - {role: schedule, tags: ['schedule']}
     - {role: silver, tags: ['silver']}
     - {role: supervisord, tags: ['supervisord']}
     - {role: termtosvg, tags: ['termtosvg']}

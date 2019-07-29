@@ -9,6 +9,7 @@ abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
     cython: https://github.com/fmind/cookiecutter-cython.git
     flask: https://github.com/fmind/cookiecutter-flask.git
+    jsonschema: https://github.com/fmind/cookiecutter-jsonschema.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
     rise: https://github.com/fmind/cookiecutter-rise.git
