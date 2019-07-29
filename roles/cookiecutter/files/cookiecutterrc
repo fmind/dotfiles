@@ -8,11 +8,13 @@ default_context:
 abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
     cython: https://github.com/fmind/cookiecutter-cython.git
-    docs: https://github.com/fmind/cookiecutter-docs.git
     flask: https://github.com/fmind/cookiecutter-flask.git
+    pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
+    rise: https://github.com/fmind/cookiecutter-rise.git
     science: https://github.com/fmind/cookiecutter-science.git
     script: https://github.com/fmind/cookiecutter-script.git
-    slides: https://github.com/fmind/cookiecutter-slides.git
+    sphinx: https://github.com/fmind/cookiecutter-sphinx.git
     spider: https://github.com/fmind/cookiecutter-spider.git
-    test: https://github.com/fmind/cookiecutter-test.git
+    supervisor: https://github.com/fmind/cookiecutter-supervisor.git
+    watchdog: https://github.com/fmind/cookiecutter-watchdog.git

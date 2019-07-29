@@ -28,6 +28,7 @@
     - {role: neovim, tags: ['neovim']}
     - {role: ranger, tags: ['ranger']}
     - {role: silver, tags: ['silver']}
+    - {role: supervisord, tags: ['supervisord']}
     - {role: termtosvg, tags: ['termtosvg']}
     - {role: tldr, tags: ['tldr']}
     - {role: tqdm, tags: ['tqdm']}
