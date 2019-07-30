@@ -25,6 +25,7 @@
     - {role: jq, tags: ['jq']}
     - {role: jsonschema, tags: ['jsonschema']}
     - {role: make, tags: ['make']}
+    - {role: mario, tags: ['mario']}
     - {role: ncdu, tags: ['ncdu']}
     - {role: neovim, tags: ['neovim']}
     - {role: ranger, tags: ['ranger']}
