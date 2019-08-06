@@ -45,26 +45,31 @@ let g:loaded_matchparen=1
 let g:loaded_netrwPlugin = 1
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'airblade/vim-gitgutter'
-Plug 'aklt/plantuml-syntax'
 Plug 'benmills/vimux'
-Plug 'itchyny/lightline.vim'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'godlygeek/tabular'
+Plug 'honza/vim-snippets'
+Plug 'itchyny/lightline.vim'
+Plug 'janko/vim-test'
+let test#strategy = "vimux"
+let test#python#runner = 'pytest'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
-Plug 'marshallward/vim-restructuredtext'
-Plug 'plasticboy/vim-markdown'
+Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 let g:deoplete#enable_at_startup = 1
+Plug 'SirVer/ultisnips'
 Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
@@ -92,10 +97,9 @@ noremap U <C-r>
 xnoremap < <gv
 xnoremap > >gv
 noremap gl :nohl<cr>
-" LEADER
 noremap <cr> :
+" LEADER
 let mapleader=" "
-let maplocalleader=";"
 noremap <leader>a :Ag<cr>
 noremap <leader>b :Buffers<cr>
 noremap <leader>c :Colors<cr>
@@ -135,6 +139,14 @@ noremap <leader>\ :BLines<cr>
 noremap <leader><cr> :make<cr>
 noremap <leader><tab> :b#<cr>
 noremap <leader><space> :make 
+" LOCALS
+let maplocalleader=";"
+noremap <localleader>f :TestFile<cr>
+noremap <localleader>l :TestLast<cr>
+noremap <localleader>n :TestNearest<cr>
+noremap <localleader>s :TestSuite<cr>
+noremap <localleader>v :TestVisit<cr>
+noremap <localleader><tab> :A<cr>
 " AUTOCMD
 augroup vim
     autocmd!

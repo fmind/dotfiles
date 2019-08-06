@@ -16,6 +16,7 @@
     - {role: bash, tags: ['bash']}
     - {role: byobu, tags: ['byobu']}
     - {role: cookiecutter, tags: ['cookiecutter']}
+    - {role: csvkit, tags: ['csvkit']}
     - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
     - {role: git, tags: ['git']}
