@@ -2,7 +2,7 @@
 set clipboard=unnamedplus
 " GREP
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
+  set grepprg=ag\ --nogroup\ --nocolor\ --skip-vcs-ignores
 endif
 " MENU
 set wildmode=list:longest,full
@@ -146,6 +146,7 @@ noremap <localleader>l :TestLast<cr>
 noremap <localleader>n :TestNearest<cr>
 noremap <localleader>s :TestSuite<cr>
 noremap <localleader>v :TestVisit<cr>
+noremap <localleader><cr> :!venv/bin/
 noremap <localleader><tab> :A<cr>
 " AUTOCMD
 augroup vim
