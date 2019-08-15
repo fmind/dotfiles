@@ -124,7 +124,7 @@ noremap <leader>u :VimuxRunLastCommand<cr>
 noremap <leader>v :BTags<cr>
 noremap <leader>w :Windows<cr>
 noremap <leader>x :History:<cr>
-noremap <leader>y :VimuxInterruptRunner<cr>
+noremap <leader>y :VimuxInspectRunner<cr>
 noremap <leader>z :Filetypes<cr>
 noremap <leader>` :Locate 
 noremap <leader>- :Maps<cr>
