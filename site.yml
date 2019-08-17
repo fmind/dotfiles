@@ -19,6 +19,7 @@
     - {role: csvkit, tags: ['csvkit']}
     - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
+    - {role: fish, tags: ['fish']}
     - {role: git, tags: ['git']}
     - {role: glances, tags: ['glances']}
     - {role: graphviz, tags: ['graphviz']}
@@ -29,7 +30,6 @@
     - {role: jupyter, tags: ['jupyter']}
     - {role: mailmerge, tags: ['mailmerge']}
     - {role: make, tags: ['make']}
-    - {role: manim, tags: ['manim']}
     - {role: mario, tags: ['mario']}
     - {role: ncdu, tags: ['ncdu']}
     - {role: neovim, tags: ['neovim']}
@@ -45,3 +45,4 @@
     - {role: vim, tags: ['vim']}
     - {role: watchdog, tags: ['watchdog']}
     - {role: xonsh, tags: ['xonsh']}
+    - {role: zsh, tags: ['zsh']}
