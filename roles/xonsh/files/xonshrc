@@ -1,7 +1,7 @@
 # EXPORTS
 $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'
-$PATH = ['~/bin', '~/.local/bin', '/usr/local/bin', '/usr/local/sbin', '/usr/bin', '/usr/sbin', '/bin', '/sbin']
+$PATH = ['~/bin', 'venv/bin/', '~/.local/bin', '/usr/local/bin', '/usr/local/sbin', '/usr/bin', '/usr/sbin', '/bin', '/sbin']
 # CONFIGS
 $AUTO_CD = True
 $AUTO_PUSHD = True

@@ -1,0 +1,6 @@
+---
+
+- name: language
+  package: name='graphviz'
+  become: true
+  tags: admin

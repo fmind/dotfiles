@@ -1,0 +1,33 @@
+---
+
+- name: maker
+  pip: name='papermill' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: editor
+  pip: name='jupyterlab' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: manager
+  pip: name='jupytext' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: widgets
+  pip: name='ipywidgets' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: parallel
+  pip: name='ipyparallel' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: dashboard
+  pip: name='voila' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: directory
+  file: path='~/.jupyter/' state='directory'
+  tags: user
+
+- name: config
+  file: src='{{role_path}}/files/jupyter_notebook_config.py' dest='~/.jupyter/jupyter_notebook_config.py' state=link force=yes
+  tags: user

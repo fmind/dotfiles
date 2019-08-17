@@ -1,0 +1,14 @@
+---
+
+- name: language
+  pip: name='sphinx' executable='pip3' extra_args='--user'
+  tags: user
+
+- name: extensions
+  pip:
+    name:
+        - doc8
+        - sphinx-autobuild
+    executable: 'pip3'
+    extra_args: '--user'
+  tags: user

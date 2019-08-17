@@ -1,0 +1,15 @@
+---
+
+- name: dependencies
+  package: name='{{item}}'
+  with_items:
+    - sox
+    - ffmpeg
+    - libcairo2
+    - libcairo2-dev
+  become: true
+  tags: admin
+
+- name: language
+  pip: name='manimlib' executable='pip3' extra_args='--user'
+  tags: user
