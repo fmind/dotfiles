@@ -4,7 +4,6 @@
   package: name='fish'
   become: true
   tags: admin
-  when: false
 
 - name: directory
   file: name='~/.config/fish/' state='directory'

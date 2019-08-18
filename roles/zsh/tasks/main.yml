@@ -4,7 +4,6 @@
   package: name='zsh'
   become: true
   tags: admin
-  when: false
 
 - name: directories
   file: name='{{item}}' state='directory'
