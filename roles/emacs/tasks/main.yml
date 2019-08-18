@@ -1,0 +1,25 @@
+---
+
+- name: package (gtk)
+  package: name='emacs'
+  when: lookup('env','DISPLAY')
+  become: true
+  tags: admin
+
+- name: package (nox)
+  package: name='emacs-nox'
+  when: not lookup('env','DISPLAY')
+  become: true
+  tags: admin
+
+- name: manager
+  git: repo='https://github.com/syl20bnr/spacemacs' dest='~/.emacs.d' depth=1
+  tags: user
+
+- name: config
+  file: src='{{role_path}}/files/spacemacs' dest='~/.spacemacs' state='link' force='yes'
+  tags: user
+
+- name: directory
+  file: src='{{role_path}}/files/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
+  tags: user

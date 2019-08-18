@@ -19,6 +19,7 @@
     - {role: csvkit, tags: ['csvkit']}
     - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
+    - {role: emacs, tags: ['emacs']}
     - {role: fish, tags: ['fish']}
     - {role: git, tags: ['git']}
     - {role: glances, tags: ['glances']}

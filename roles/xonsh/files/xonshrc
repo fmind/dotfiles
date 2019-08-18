@@ -12,7 +12,7 @@ $PROMPT = "{INTENSE_RED}{user}{NO_COLOR} " + \
           "{branch_color}{curr_branch:{} }{NO_COLOR}{prompt_end} "
 # XONTRIBS
 xontrib load vox
-xontrib load jedi
+# xontrib load jedi
 # TRIGGERS
 @events.on_chdir
 def listdir(newdir, olddir):
