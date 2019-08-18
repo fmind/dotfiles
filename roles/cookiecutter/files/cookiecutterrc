@@ -7,13 +7,18 @@ default_context:
     python: "3.7"
 abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
+    clojure: https://github.com/fmind/cookiecutter-clojure.git
     cython: https://github.com/fmind/cookiecutter-cython.git
+    emacs: https://github.com/fmind/cookiecutter-emacs.git
     flask: https://github.com/fmind/cookiecutter-flask.git
+    groovy: https://github.com/fmind/cookiecutter-groovy.git
     jsonschema: https://github.com/fmind/cookiecutter-jsonschema.git
+    jupyter: https://github.com/fmind/cookiecutter-jupyter.git
     mailmerge: https://github.com/fmind/cookiecutter-mailmerge.git
     manim: https://github.com/fmind/cookiecutter-manim.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
+    racket: https://github.com/fmind/cookiecutter-racket.git
     rise: https://github.com/fmind/cookiecutter-rise.git
     science: https://github.com/fmind/cookiecutter-science.git
     script: https://github.com/fmind/cookiecutter-script.git

@@ -33,7 +33,6 @@
     - {role: mario, tags: ['mario']}
     - {role: ncdu, tags: ['ncdu']}
     - {role: neovim, tags: ['neovim']}
-    - {role: plantuml, tags: ['plantuml']}
     - {role: ranger, tags: ['ranger']}
     - {role: schedule, tags: ['schedule']}
     - {role: silver, tags: ['silver']}
