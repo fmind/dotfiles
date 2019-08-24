@@ -38,10 +38,14 @@
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
       bibtex
       clojure
+      csv
+      deft
       emacs-lisp
       (evil-snipe :variables
                   evil-snipe-enable-alternate-f-and-t-behaviors t)
       git
+      graphviz
+      html
       (latex :variables
               latex-enable-folding t
               latex-enable-auto-fill nil
@@ -63,25 +67,28 @@
               shell-protect-eshell-prompt t
               shell-default-position 'bottom
               shell-default-term-shell "/bin/bash")
+      shell-scripts
       (spell-checking :variables
                       spell-checking-enable-by-default t
                       spell-checking-enable-auto-dictionary t)
+      sql
       (syntax-checking :variables
                         syntax-checking-enable-tooltips t
                         syntax-checking-enable-by-default t)
       (version-control :variables
                         version-control-global-margin t
                         version-control-diff-tool 'diff-hl)
-      vinegar)
+      vinegar
+      yaml)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(atomic-chrome)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(auto-compile)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -102,7 +109,7 @@
    ;; This variable has no effect if Emacs is launched with the parameter
    ;; `--insecure' which forces the value of this variable to nil.
    ;; (default t)
-   dotspacemacs-elpa-https nil
+   dotspacemacs-elpa-https t
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    dotspacemacs-elpa-timeout 5
    ;; If non nil then spacemacs will check for updates at startup
@@ -198,7 +205,7 @@
    ;; (default nil)
    dotspacemacs-ex-substitute-global t
    ;; Name of the default layout (default "Default")
-   dotspacemacs-default-layout-name "default"
+   dotspacemacs-default-layout-name "shell"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
    dotspacemacs-display-default-layout t
@@ -304,7 +311,7 @@
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -328,6 +335,14 @@
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code."
+  (progn ;; atomic
+    (require 'atomic-chrome)
+    (atomic-chrome-start-server)
+    (setq atomic-chrome-buffer-open-style 'full)
+    (setq atomic-chrome-extension-type-list '(atomic-chrome))
+    (setq atomic-chrome-url-major-mode-alist
+          '(("github\\.com" . gfm-mode)
+            ("localhost" . python-mode))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
           cider-repl-use-pretty-printing t
@@ -338,15 +353,15 @@
     (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
       "," 'cider-load-buffer
       "n" 'cider-repl-set-ns))
+  (progn ;; deft
+    (setq deft-directory "~/Cloud/Notes")
+    (setq deft-extensions '("md" "txt")))
   (progn ;; emacs
     (setq scroll-margin 10)
     (global-company-mode t)
     (global-hl-line-mode -1)
     (global-visual-line-mode t)
     (fset 'yes-or-no-p 'y-or-n-p)
-    (spacemacs/set-leader-keys "`" 'ielm)
-    (spacemacs/set-leader-keys "\"" 'eshell)
-    (remove-hook 'emacs-lisp-mode-hook 'auto-compile-mode)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; engine
     (engine-mode t)
@@ -354,15 +369,27 @@
     (spacemacs/set-leader-keys "su" 'engine/search-github)
     (spacemacs/set-leader-keys "so" 'engine/search-google)
     (spacemacs/set-leader-keys "sd" 'engine/search-thesaurus)
+    (spacemacs/set-leader-keys "sw" 'engine/search-wikipedia)
     (spacemacs/set-leader-keys "sn" 'engine/search-stack-overflow))
   (progn ;; eshell
+    (setq eshell-banner-message ""
+          eshell-prompt-function (lambda nil
+                                  (concat
+                                   (propertize (user-login-name) 'face `(:foreground "red"))
+                                   (propertize " at " 'face `(:foreground "white"))
+                                   (propertize (system-name) 'face `(:foreground "green"))
+                                   (propertize " in " 'face `(:foreground "white"))
+                                   (propertize (if (string= (eshell/pwd) (getenv "HOME"))
+                                                   "~" (eshell/basename (eshell/pwd)))
+                                               'face `(:foreground "royal blue"))
+                                   (propertize " λ "'face `(:foreground "white")))))
     (evil-set-initial-state 'eshell-mode 'insert))
   (progn ;; evil
     (define-key evil-normal-state-map "s" 'evil-snipe-s)
     (define-key evil-normal-state-map "S" 'evil-snipe-S)
     (define-key evil-normal-state-map "gl" 'spacemacs/evil-search-clear-highlight))
   (progn ;; eww
-    (setq browse-url-browser-function 'eww-browse-url
+    (setq ;; browse-url-browser-function 'eww-browse-url
           eww-search-prefix "https://google.com/xhtml?q=")
     (spacemacs/set-leader-keys "." 'eww)
     (evil-define-key 'normal eww-mode-map
@@ -428,6 +455,10 @@
       "t" 'racket-test
       "u" 'racket-unvisit
       "v" 'racket-visit-definition))
+  (progn ;; shell
+    (spacemacs/set-leader-keys "`" 'ielm)
+    (spacemacs/set-leader-keys "\"" 'eshell)
+    (spacemacs/set-leader-keys "as" 'spacemacs/shell-pop-ansi-term))
   (progn ;; yasnippet
     (spacemacs/set-leader-keys "ir" 'yas-reload-all)
     (spacemacs/set-leader-keys "is" 'yas/visit-snippet-file)))
@@ -439,7 +470,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (yaml-mode sql-indent insert-shebang fish-mode deft csv-mode company-shell stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
