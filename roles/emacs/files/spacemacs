@@ -425,7 +425,8 @@
           TeX-view-program-selection '((output-pdf "PDF Tools")))
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
   (progn ;; magit
-    (setq magit-repository-directories '("~/code/")))
+    (setq magit-repository-directories '(("~/code/" . 1)))
+    (spacemacs/set-leader-keys "gj" 'magit-list-repositories))
   (progn ;; pdf
     (setq pdf-view-incompatible-modes '())
     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1))))
