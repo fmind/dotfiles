@@ -46,11 +46,15 @@
       git
       graphviz
       html
+      ipython-notebook
       (latex :variables
               latex-enable-folding t
               latex-enable-auto-fill nil
               latex-build-command "LatexMk")
       markdown
+      (org :variables
+           org-projectile-file "TODO.org"
+           org-enable-reveal-js-support t)
       pdf-tools
       plantuml
       (python :variables
@@ -58,6 +62,7 @@
               python-auto-set-local-pyenv-version nil
               python-auto-set-local-pyvenv-virtualenv nil)
       racket
+      restclient
       search-engine
       semantic
       (shell :variables
@@ -205,7 +210,7 @@
    ;; (default nil)
    dotspacemacs-ex-substitute-global t
    ;; Name of the default layout (default "Default")
-   dotspacemacs-default-layout-name "shell"
+   dotspacemacs-default-layout-name "main"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
    dotspacemacs-display-default-layout t
@@ -339,12 +344,12 @@
     (require 'atomic-chrome)
     (atomic-chrome-start-server)
     (setq atomic-chrome-buffer-open-style 'full)
-    (setq atomic-chrome-extension-type-list '(atomic-chrome))
     (setq atomic-chrome-url-major-mode-alist
           '(("github\\.com" . gfm-mode)
             ("localhost" . python-mode))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
+          cider-hide-special-buffers t
           cider-repl-use-pretty-printing t
           cider-repl-display-help-banner nil
           cider-repl-history-file "~/.cider.log"
@@ -354,14 +359,15 @@
       "," 'cider-load-buffer
       "n" 'cider-repl-set-ns))
   (progn ;; deft
-    (setq deft-directory "~/Cloud/Notes")
-    (setq deft-extensions '("md" "txt")))
+    (setq deft-extensions '("org" "txt")
+          deft-directory "~/Cloud/Notes"))
   (progn ;; emacs
     (setq scroll-margin 10)
     (global-company-mode t)
     (global-hl-line-mode -1)
     (global-visual-line-mode t)
     (fset 'yes-or-no-p 'y-or-n-p)
+    (setq make-pointer-invisible t)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; engine
     (engine-mode t)
@@ -389,7 +395,7 @@
     (define-key evil-normal-state-map "S" 'evil-snipe-S)
     (define-key evil-normal-state-map "gl" 'spacemacs/evil-search-clear-highlight))
   (progn ;; eww
-    (setq ;; browse-url-browser-function 'eww-browse-url
+    (setq browse-url-browser-function 'eww-browse-url
           eww-search-prefix "https://google.com/xhtml?q=")
     (spacemacs/set-leader-keys "." 'eww)
     (evil-define-key 'normal eww-mode-map
@@ -423,6 +429,9 @@
   (progn ;; pdf
     (setq pdf-view-incompatible-modes '())
     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1))))
+  (progn ;; personal
+    (setq user-full-name "Médéric Hurier (fmind)"
+          user-mail-address "fmind@fmind.me"))
   (progn ;; python
     (setq python-shell-interpreter "ipython")
     (defun my-set-project-virtualenv ()
@@ -470,7 +479,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yaml-mode sql-indent insert-shebang fish-mode deft csv-mode company-shell stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (restclient-helm ob-restclient ob-http ein skewer-mode polymode deferred js2-mode simple-httpd company-restclient restclient know-your-http-well yaml-mode sql-indent insert-shebang fish-mode deft csv-mode company-shell stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -23,3 +23,13 @@
 - name: directory
   file: src='{{role_path}}/files/spacemacs.d' dest='~/.spacemacs.d' state=link force=yes
   tags: user
+
+- name: service
+  systemd: name='emacs' scope='user' state='started' enabled=true
+  when: lookup('env','DISPLAY')
+  tags: user
+
+- name: application
+  file: src='{{role_path}}/files/emacs.desktop' dest='~/.local/share/applications/emacs.desktop' state='link' force=yes
+  when: lookup('env','DISPLAY')
+  tags: user
