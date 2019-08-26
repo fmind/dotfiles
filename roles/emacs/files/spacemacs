@@ -10,6 +10,7 @@
    ;; Lazy installation of layers (i.e. layers are installed only when a file
    ;; with a supported type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
+
    ;; not listed in variable `dotspacemacs-configuration-layers'), `all' will
    ;; lazy install any layer that support lazy installation even the layers
    ;; listed in `dotspacemacs-configuration-layers'. `nil' disable the lazy
@@ -159,7 +160,7 @@
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'emacs-lisp-mode
+   dotspacemacs-scratch-mode 'org-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -346,7 +347,8 @@
     (setq atomic-chrome-buffer-open-style 'full
           atomic-chrome-url-major-mode-alist '(("github\\.com" . gfm-mode)
                                                ("localhost" . python-mode))))
-  (progn ;; buffer
+  (progn ;; buffers
+    (setq scroll-margin 10)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
@@ -362,10 +364,9 @@
   (progn ;; company
     (global-company-mode t))
   (progn ;; confirm
-    (fset 'yes-or-no-p 'y-or-n-p)
-    )
+    (fset 'yes-or-no-p 'y-or-n-p))
   (progn ;; deft
-    (setq deft-extensions '("org" "txt")
+    (setq deft-extensions '("org")
           deft-directory "~/Cloud/Notes"))
   (progn ;; engine
     (engine-mode t)
@@ -423,7 +424,6 @@
           TeX-view-program-selection '((output-pdf "PDF Tools")))
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
   (progn ;; line
-    (setq scroll-margin 10)
     (global-hl-line-mode -1)
     (global-visual-line-mode t))
   (progn ;; magit
@@ -473,6 +473,8 @@
     (spacemacs/set-leader-keys "`" 'ielm)
     (spacemacs/set-leader-keys "\"" 'eshell)
     (spacemacs/set-leader-keys "as" 'spacemacs/shell-pop-ansi-term))
+  (progn ;; workspace
+    (spacemacs/set-leader-keys "y" 'spacemacs/workspaces-transient-state/body))
   (progn ;; yasnippet
     (spacemacs/set-leader-keys "ir" 'yas-reload-all)
     (spacemacs/set-leader-keys "is" 'yas/visit-snippet-file)))
