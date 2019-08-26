@@ -343,10 +343,11 @@
   (progn ;; atomic
     (require 'atomic-chrome)
     (atomic-chrome-start-server)
-    (setq atomic-chrome-buffer-open-style 'full)
-    (setq atomic-chrome-url-major-mode-alist
-          '(("github\\.com" . gfm-mode)
-            ("localhost" . python-mode))))
+    (setq atomic-chrome-buffer-open-style 'full
+          atomic-chrome-url-major-mode-alist '(("github\\.com" . gfm-mode)
+                                               ("localhost" . python-mode))))
+  (progn ;; buffer
+    (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
           cider-hide-special-buffers t
@@ -358,17 +359,14 @@
     (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
       "," 'cider-load-buffer
       "n" 'cider-repl-set-ns))
+  (progn ;; company
+    (global-company-mode t))
+  (progn ;; confirm
+    (fset 'yes-or-no-p 'y-or-n-p)
+    )
   (progn ;; deft
     (setq deft-extensions '("org" "txt")
           deft-directory "~/Cloud/Notes"))
-  (progn ;; emacs
-    (setq scroll-margin 10)
-    (global-company-mode t)
-    (global-hl-line-mode -1)
-    (global-visual-line-mode t)
-    (fset 'yes-or-no-p 'y-or-n-p)
-    (setq make-pointer-invisible t)
-    (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; engine
     (engine-mode t)
     (defengine thesaurus "https://thesaurus.com/browse/%s")
@@ -424,9 +422,15 @@
           TeX-error-overview-open-after-TeX-run t
           TeX-view-program-selection '((output-pdf "PDF Tools")))
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
+  (progn ;; line
+    (setq scroll-margin 10)
+    (global-hl-line-mode -1)
+    (global-visual-line-mode t))
   (progn ;; magit
     (setq magit-repository-directories '(("~/code/" . 1)))
     (spacemacs/set-leader-keys "gj" 'magit-list-repositories))
+  (progn ;; mouse
+    (setq make-pointer-invisible t))
   (progn ;; pdf
     (setq pdf-view-incompatible-modes '())
     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1))))
