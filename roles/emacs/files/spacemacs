@@ -349,6 +349,7 @@
                                                ("localhost" . python-mode))))
   (progn ;; buffers
     (setq scroll-margin 10)
+    (fset 'yes-or-no-p 'y-or-n-p)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
@@ -363,11 +364,8 @@
       "n" 'cider-repl-set-ns))
   (progn ;; company
     (global-company-mode t))
-  (progn ;; confirm
-    (fset 'yes-or-no-p 'y-or-n-p))
   (progn ;; deft
-    (setq deft-extensions '("org")
-          deft-directory "~/Cloud/Notes"))
+    (setq deft-directory "~/Cloud/Notes"))
   (progn ;; engine
     (engine-mode t)
     (defengine thesaurus "https://thesaurus.com/browse/%s")
@@ -414,7 +412,14 @@
     (global-hl-line-mode -1)
     (global-visual-line-mode t))
   (progn ;; magit
-    (setq magit-repository-directories '(("~/code/" . 1)))
+    (setq magit-repository-directories '(("~/code/" . 1))
+          magit-repolist-columns '(("Name" 20 magit-repolist-column-ident ())
+                                   ("Branch" 10 magit-repolist-column-branch ())
+                                   ("Version" 12 magit-repolist-column-version ())
+                                   ("D" 1 magit-repolist-column-dirty ())
+                                   ("L<U" 3 magit-repolist-column-unpulled-from-upstream ((:right-align t)))
+                                   ("L>U" 3 magit-repolist-column-unpushed-to-upstream ((:right-align t)))
+                                   ("Path" 99 magit-repolist-column-path ())))
     (spacemacs/set-leader-keys "gj" 'magit-list-repositories))
   (progn ;; pdf
     (setq pdf-view-incompatible-modes '())
