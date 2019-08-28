@@ -353,7 +353,6 @@
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
-          cider-hide-special-buffers t
           cider-repl-use-pretty-printing t
           cider-repl-display-help-banner nil
           cider-repl-history-file "~/.cider.log"
@@ -362,8 +361,6 @@
     (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
       "," 'cider-load-buffer
       "n" 'cider-repl-set-ns))
-  (progn ;; company
-    (global-company-mode t))
   (progn ;; deft
     (setq deft-directory "~/Cloud/Notes"))
   (progn ;; engine
@@ -399,6 +396,8 @@
       "[" 'eww-previous-url
       "Y" 'eww-copy-page-url
       "I" 'eww-browse-with-external-browser))
+  (progn ;; ipython
+    (spacemacs/set-leader-keys "ai" 'ein:notebooklist-open))
   (progn ;; latex
     (setq TeX-master t
           TeX-save-query nil
@@ -409,6 +408,7 @@
           TeX-view-program-selection '((output-pdf "PDF Tools")))
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
   (progn ;; line
+    (global-company-mode t)
     (global-hl-line-mode -1)
     (global-visual-line-mode t))
   (progn ;; magit
@@ -427,6 +427,8 @@
   (progn ;; personal
     (setq user-full-name "Médéric Hurier (fmind)"
           user-mail-address "fmind@fmind.me"))
+  (progn ;; proced
+    (proced-toggle-auto-update 1))
   (progn ;; python
     (setq python-shell-interpreter "ipython")
     (defun my-set-project-virtualenv ()
