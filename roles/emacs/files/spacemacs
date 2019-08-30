@@ -58,6 +58,7 @@
            org-enable-reveal-js-support t)
       pdf-tools
       plantuml
+      prodigy
       (python :variables
               python-test-runner 'pytest
               python-auto-set-local-pyenv-version nil
@@ -75,7 +76,7 @@
               shell-default-term-shell "/bin/bash")
       shell-scripts
       (spell-checking :variables
-                      spell-checking-enable-by-default t
+                      spell-checking-enable-by-default nil
                       spell-checking-enable-auto-dictionary t)
       sql
       (syntax-checking :variables
@@ -350,6 +351,13 @@
   (progn ;; buffers
     (setq scroll-margin 10)
     (fset 'yes-or-no-p 'y-or-n-p)
+    (defun save-and-kill-this-buffer ()
+      "Save and quit the current buffer."
+      (interactive)
+      (save-buffer)
+      (kill-this-buffer))
+    (spacemacs/set-leader-keys
+      "bq" 'save-and-kill-this-buffer)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
@@ -363,6 +371,8 @@
       "n" 'cider-repl-set-ns))
   (progn ;; deft
     (setq deft-directory "~/Cloud/Notes"))
+  (progn ;; disk-usage
+    (spacemacs/set-leader-keys "af" 'disk-usage))
   (progn ;; engine
     (engine-mode t)
     (defengine thesaurus "https://thesaurus.com/browse/%s")
@@ -397,7 +407,13 @@
       "Y" 'eww-copy-page-url
       "I" 'eww-browse-with-external-browser))
   (progn ;; ipython
-    (spacemacs/set-leader-keys "ai" 'ein:notebooklist-open))
+    (spacemacs/set-leader-keys "ay" 'ein:notebooklist-open)
+    (spacemacs/set-leader-keys "ai" 'python-start-or-switch-repl)
+    (spacemacs/set-leader-keys-for-major-mode 'ein:notebook-multilang-mode-map
+      "s" 'ein:notebook-save-notebook-command)
+    (evil-define-key 'hybrid ein:notebook-multilang-mode-map
+      (kbd "<C-return>") 'ein:worksheet-execute-cell
+      (kbd "<S-return>") 'ein:worksheet-execute-cell-and-goto-next))
   (progn ;; latex
     (setq TeX-master t
           TeX-save-query nil
@@ -421,6 +437,11 @@
                                    ("L>U" 3 magit-repolist-column-unpushed-to-upstream ((:right-align t)))
                                    ("Path" 99 magit-repolist-column-path ())))
     (spacemacs/set-leader-keys "gj" 'magit-list-repositories))
+  (progn ;; org
+    (setq org-default-notes-file "~/Cloud/Notes/notes.org")
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "r" 'org-reveal-export-to-html
+      "g" 'org-insert-structure-template))
   (progn ;; pdf
     (setq pdf-view-incompatible-modes '())
     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1))))
@@ -428,7 +449,10 @@
     (setq user-full-name "Médéric Hurier (fmind)"
           user-mail-address "fmind@fmind.me"))
   (progn ;; proced
-    (proced-toggle-auto-update 1))
+    (spacemacs/set-leader-keys "at" 'proced)
+    (add-hook 'proced-mode-hook (lambda nil (proced-toggle-auto-update 1))))
+  (progn ;; projectile
+    (setq projectile-switch-project-action 'projectile-dired))
   (progn ;; python
     (setq python-shell-interpreter "ipython")
     (defun my-set-project-virtualenv ()
@@ -485,6 +509,7 @@
     (setq spacemacs-layouts-directory "~/code/layouts/")
     (spacemacs/set-leader-keys "L" 'spacemacs/workspaces-transient-state/body))
   (progn ;; yasnippet
+    (setq yas-snippet-dirs '("~/.spacemacs.d/snippets"))
     (spacemacs/set-leader-keys "ir" 'yas-reload-all)
     (spacemacs/set-leader-keys "is" 'yas/visit-snippet-file)))
 
@@ -495,7 +520,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (disk-usage restclient-helm ob-restclient ob-http ein skewer-mode polymode deferred js2-mode simple-httpd company-restclient restclient know-your-http-well yaml-mode sql-indent insert-shebang fish-mode deft csv-mode company-shell stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (selectric-mode emoji-cheat-sheet-plus company-emoji prodigy esh-autosuggest disk-usage restclient-helm ob-restclient ob-http ein skewer-mode polymode deferred js2-mode simple-httpd company-restclient restclient know-your-http-well yaml-mode sql-indent insert-shebang fish-mode deft csv-mode company-shell stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

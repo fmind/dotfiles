@@ -16,6 +16,7 @@ abbreviations:
     jupyter: https://github.com/fmind/cookiecutter-jupyter.git
     mailmerge: https://github.com/fmind/cookiecutter-mailmerge.git
     manim: https://github.com/fmind/cookiecutter-manim.git
+    org-reveal: https://github.com/fmind/cookiecutter-org-reveal.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
     racket: https://github.com/fmind/cookiecutter-racket.git
