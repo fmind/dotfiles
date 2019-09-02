@@ -366,7 +366,7 @@
           cider-show-error-buffer 'except-in-repl
           cider-repl-pop-to-buffer-on-connect 'display-only)
     (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
-      "," 'cider-load-buffer
+      ";" 'cider-load-buffer
       "n" 'cider-repl-set-ns))
   (progn ;; deft
     (setq deft-directory "~/Cloud/Notes"))

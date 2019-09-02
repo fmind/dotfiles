@@ -1,15 +1,15 @@
 ---
 
+- name: text
+  pip: name='jupytext' executable='pip3' extra_args='--user'
+  tags: user
+
 - name: maker
   pip: name='papermill' executable='pip3' extra_args='--user'
   tags: user
 
 - name: editor
   pip: name='jupyterlab' executable='pip3' extra_args='--user'
-  tags: user
-
-- name: manager
-  pip: name='jupytext' executable='pip3' extra_args='--user'
   tags: user
 
 - name: widgets
