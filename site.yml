@@ -26,6 +26,8 @@
     - {role: graphviz, tags: ['graphviz']}
     - {role: htop, tags: ['htop']}
     - {role: httpie, tags: ['httpie']}
+    - {role: imagemagick, tags: ['imagemagick']}
+    - {role: ipcalc, tags: ['ipcalc']}
     - {role: jq, tags: ['jq']}
     - {role: jsonschema, tags: ['jsonschema']}
     - {role: jupyter, tags: ['jupyter']}
