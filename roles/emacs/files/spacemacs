@@ -91,7 +91,7 @@
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(atomic-chrome disk-usage)
+   dotspacemacs-additional-packages '(atomic-chrome disk-usage sphinx-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -350,7 +350,6 @@
                                                ("localhost" . python-mode))))
   (progn ;; buffers
     (setq scroll-margin 10)
-    (fset 'yes-or-no-p 'y-or-n-p)
     (defun save-and-kill-this-buffer ()
       "Save and quit the current buffer."
       (interactive)
@@ -410,7 +409,7 @@
     (spacemacs/set-leader-keys "ay" 'ein:notebooklist-open)
     (spacemacs/set-leader-keys "ai" 'python-start-or-switch-repl)
     (spacemacs/set-leader-keys-for-major-mode 'ein:notebook-multilang-mode-map
-      "s" 'ein:notebook-save-notebook-command)
+      "s" 'ein:notebook-save-notebook-command) ;; fix a bug in master version
     (evil-define-key 'hybrid ein:notebook-multilang-mode-map
       (kbd "<C-return>") 'ein:worksheet-execute-cell
       (kbd "<S-return>") 'ein:worksheet-execute-cell-and-goto-next))
@@ -453,6 +452,8 @@
     (add-hook 'proced-mode-hook (lambda nil (proced-toggle-auto-update 1))))
   (progn ;; projectile
     (setq projectile-switch-project-action 'projectile-dired))
+  (progn ;; prompt
+    (fset 'yes-or-no-p 'y-or-n-p))
   (progn ;; python
     (setq python-shell-interpreter "ipython")
     (defun my-set-project-virtualenv ()
@@ -485,6 +486,11 @@
       "t" 'racket-test
       "u" 'racket-unvisit
       "v" 'racket-visit-definition))
+  (progn ;; restructured
+    (add-hook 'rst-mode-hook 'sphinx-mode)
+    (spacemacs/set-leader-keys-for-major-mode 'rst-mode
+      ";" 'sphinx-compile
+      ":" 'sphinx-compile-and-view))
   (progn ;; shell
     (setq eshell-banner-message ""
           eshell-prompt-function (lambda nil
@@ -520,7 +526,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (selectric-mode emoji-cheat-sheet-plus company-emoji prodigy esh-autosuggest disk-usage restclient-helm ob-restclient ob-http ein skewer-mode polymode deferred js2-mode simple-httpd company-restclient restclient know-your-http-well yaml-mode sql-indent insert-shebang fish-mode deft csv-mode company-shell stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (sphinx-mode selectric-mode emoji-cheat-sheet-plus company-emoji prodigy esh-autosuggest disk-usage restclient-helm ob-restclient ob-http ein skewer-mode polymode deferred js2-mode simple-httpd company-restclient restclient know-your-http-well yaml-mode sql-indent insert-shebang fish-mode deft csv-mode company-shell stickyfunc-enhance srefactor yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racket-mode pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal ox-gfm orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk atomic-chrome aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
