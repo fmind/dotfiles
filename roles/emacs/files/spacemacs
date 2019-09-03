@@ -355,8 +355,7 @@
       (interactive)
       (save-buffer)
       (kill-this-buffer))
-    (spacemacs/set-leader-keys
-      "bq" 'save-and-kill-this-buffer)
+    (spacemacs/set-leader-keys "bq" 'save-and-kill-this-buffer)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
@@ -504,13 +503,28 @@
                                                 'face `(:foreground "royal blue"))
                                     (propertize " λ "'face `(:foreground "white")))))
     (evil-set-initial-state 'eshell-mode 'insert)
-    (defun eshell-new()
+    (defun eshell-new ()
       "Open a new eshell."
       (interactive)
       (eshell 'N))
+    (defun eshell-new-hsplit ()
+      "Open a new eshell in a hsplit."
+      (interactive)
+      (split-window-below-and-focus)
+      (eshell-new))
+    (defun eshell-new-vsplit ()
+      "Open a new eshell in a vsplit."
+      (interactive)
+      (split-window-right-and-focus)
+      (eshell-new))
     (spacemacs/set-leader-keys "`" 'ielm)
     (spacemacs/set-leader-keys "\"" 'eshell-new)
+    (spacemacs/set-leader-keys "w:" 'eshell-new-hsplit)
+    (spacemacs/set-leader-keys "w\"" 'eshell-new-vsplit)
     (spacemacs/set-leader-keys "as" 'spacemacs/shell-pop-ansi-term))
+  (progn ;; windows
+    (spacemacs/set-leader-keys "w;" 'split-window-below-and-focus)
+    (spacemacs/set-leader-keys "w'" 'split-window-right-and-focus))
   (progn ;; workspace
     (setq spacemacs-layouts-directory "~/code/layouts/")
     (spacemacs/set-leader-keys "L" 'spacemacs/workspaces-transient-state/body))

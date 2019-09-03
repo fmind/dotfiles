@@ -8,8 +8,10 @@ default_context:
 abbreviations:
     ansible: https://github.com/fmind/cookiecutter-ansible.git
     clojure: https://github.com/fmind/cookiecutter-clojure.git
+    clojurescript: https://github.com/fmind/cookiecutter-clojurescript.git
     cython: https://github.com/fmind/cookiecutter-cython.git
     emacs: https://github.com/fmind/cookiecutter-emacs.git
+    figwheel: https://github.com/fmind/cookiecutter-figwheel.git
     flask: https://github.com/fmind/cookiecutter-flask.git
     groovy: https://github.com/fmind/cookiecutter-groovy.git
     jsonschema: https://github.com/fmind/cookiecutter-jsonschema.git
