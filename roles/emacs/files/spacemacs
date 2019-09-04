@@ -523,6 +523,12 @@
     (spacemacs/set-leader-keys "w\"" 'eshell-new-vsplit)
     (spacemacs/set-leader-keys "as" 'spacemacs/shell-pop-ansi-term))
   (progn ;; windows
+    (defun kill-buffer-and-window ()
+      "Kill the buffer and window."
+      (interactive)
+      (kill-this-buffer)
+      (delete-window))
+    (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
     (spacemacs/set-leader-keys "w;" 'split-window-below-and-focus)
     (spacemacs/set-leader-keys "w'" 'split-window-right-and-focus))
   (progn ;; workspace
