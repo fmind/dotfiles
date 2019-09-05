@@ -28,5 +28,5 @@ abbreviations:
     script: https://github.com/fmind/cookiecutter-script.git
     sphinx: https://github.com/fmind/cookiecutter-sphinx.git
     spider: https://github.com/fmind/cookiecutter-spider.git
-    supervisor: https://github.com/fmind/cookiecutter-supervisor.git
+    supervisord: https://github.com/fmind/cookiecutter-supervisord.git
     watchdog: https://github.com/fmind/cookiecutter-watchdog.git

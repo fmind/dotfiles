@@ -66,7 +66,7 @@
       racket
       restclient
       search-engine
-      semantic
+      ;; semantic
       (shell :variables
               shell-default-height 30
               shell-default-shell 'eshell
@@ -355,6 +355,8 @@
       (interactive)
       (save-buffer)
       (kill-this-buffer))
+    (spacemacs/set-leader-keys "bk" 'next-buffer)
+    (spacemacs/set-leader-keys "bj" 'previous-buffer)
     (spacemacs/set-leader-keys "bq" 'save-and-kill-this-buffer)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
@@ -365,6 +367,7 @@
           cider-show-error-buffer 'except-in-repl
           cider-repl-pop-to-buffer-on-connect 'display-only)
     (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
+      "a" 'cider-restart
       ";" 'cider-load-buffer
       "n" 'cider-repl-set-ns))
   (progn ;; deft
@@ -486,10 +489,17 @@
       "u" 'racket-unvisit
       "v" 'racket-visit-definition))
   (progn ;; restructured
-    (add-hook 'rst-mode-hook 'sphinx-mode)
-    (spacemacs/set-leader-keys-for-major-mode 'rst-mode
-      ";" 'sphinx-compile
-      ":" 'sphinx-compile-and-view))
+    (defun sphinx-compile-to-pdf ()
+      "Compile documentation to pdf."
+      (interactive)
+      (let ((buffer-name-base (file-name-base (buffer-file-name)))
+            (project-root-dir (locate-dominating-file buffer-file-name "Makefile")))
+        (shell-command (concat "make -C " project-root-dir " latexpdf"))))
+    (defun sphinx--auto-compile-to-pdf ()
+      "Compile documentation to pdf automatically."
+      (when (bound-and-true-p sphinx-mode)
+        (sphinx-compile-to-pdf)))
+    (add-hook 'after-save-hook 'sphinx--auto-compile-to-pdf))
   (progn ;; shell
     (setq eshell-banner-message ""
           eshell-prompt-function (lambda nil
