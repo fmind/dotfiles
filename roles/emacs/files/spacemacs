@@ -40,7 +40,6 @@
       bibtex
       clojure
       csv
-      deft
       emacs-lisp
       (evil-snipe :variables
                   evil-snipe-enable-alternate-f-and-t-behaviors t)
@@ -349,7 +348,6 @@
           atomic-chrome-url-major-mode-alist '(("github\\.com" . gfm-mode)
                                                ("localhost" . python-mode))))
   (progn ;; buffers
-    (setq scroll-margin 10)
     (defun save-and-kill-this-buffer ()
       "Save and quit the current buffer."
       (interactive)
@@ -367,8 +365,6 @@
     (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
       ";" 'cider-load-buffer
       "n" 'cider-repl-set-ns))
-  (progn ;; deft
-    (setq deft-directory "~/Cloud/Notes"))
   (progn ;; disk-usage
     (spacemacs/set-leader-keys "af" 'disk-usage))
   (progn ;; engine
@@ -436,7 +432,18 @@
                                    ("Path" 99 magit-repolist-column-path ())))
     (spacemacs/set-leader-keys "gj" 'magit-list-repositories))
   (progn ;; org
+    (setq org-default-deft-dir "~/Cloud/Notes/")
     (setq org-default-notes-file "~/Cloud/Notes/notes.org")
+    (defun org-deft ()
+      "Open the default deft dir"
+      (interactive)
+      (dired org-default-deft-dir))
+    (defun org-notes ()
+      "Open the default notes file"
+      (interactive)
+      (find-file org-default-notes-file))
+    (spacemacs/set-leader-keys "an" 'org-deft)
+    (spacemacs/set-leader-keys "am" 'org-notes)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "r" 'org-reveal-export-to-html
       "g" 'org-insert-structure-template))
@@ -523,11 +530,12 @@
     (spacemacs/set-leader-keys "w\"" 'eshell-new-vsplit)
     (spacemacs/set-leader-keys "as" 'spacemacs/shell-pop-ansi-term))
   (progn ;; windows
+    (setq scroll-margin 10)
     (spacemacs/set-leader-keys "w;" 'split-window-below-and-focus)
     (spacemacs/set-leader-keys "w'" 'split-window-right-and-focus))
   (progn ;; workspace
     (setq spacemacs-layouts-directory "~/code/layouts/")
-    (spacemacs/set-leader-keys "L" 'spacemacs/workspaces-transient-state/body))
+    (spacemacs/set-leader-keys "=" 'spacemacs/workspaces-transient-state/body))
   (progn ;; yasnippet
     (setq yas-snippet-dirs '("~/.spacemacs.d/snippets"))
     (spacemacs/set-leader-keys "ir" 'yas-reload-all)

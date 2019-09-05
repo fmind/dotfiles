@@ -14,6 +14,7 @@ abbreviations:
     figwheel: https://github.com/fmind/cookiecutter-figwheel.git
     flask: https://github.com/fmind/cookiecutter-flask.git
     groovy: https://github.com/fmind/cookiecutter-groovy.git
+    hy: https://github.com/fmind/cookiecutter-hy.git
     jsonschema: https://github.com/fmind/cookiecutter-jsonschema.git
     jupyter: https://github.com/fmind/cookiecutter-jupyter.git
     mailmerge: https://github.com/fmind/cookiecutter-mailmerge.git
