@@ -437,7 +437,16 @@
                                    ("L<U" 3 magit-repolist-column-unpulled-from-upstream ((:right-align t)))
                                    ("L>U" 3 magit-repolist-column-unpushed-to-upstream ((:right-align t)))
                                    ("Path" 99 magit-repolist-column-path ())))
-    (spacemacs/set-leader-keys "gj" 'magit-list-repositories))
+    (defun my-magit-fetch-all-repositories ()
+      "Fetch all known repository with magit."
+      (interactive)
+      (dolist (r (magit-list-repos))
+        (message "Fetching %s ..." r)
+        (let ((default-directory r))
+          (magit-fetch-all (magit-fetch-arguments))))
+      (message "Fetch all done."))
+    (spacemacs/set-leader-keys "gj" 'magit-list-repositories)
+    (spacemacs/set-leader-keys "ga" 'my-magit-fetch-all-repositories))
   (progn ;; org
     (setq org-default-notes-file "~/Cloud/Notes/notes.org")
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
