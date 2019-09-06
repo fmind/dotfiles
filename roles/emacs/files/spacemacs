@@ -39,7 +39,6 @@
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets")
       bibtex
       clojure
-      csv
       emacs-lisp
       (evil-snipe :variables
                   evil-snipe-enable-alternate-f-and-t-behaviors t)
@@ -65,7 +64,6 @@
       racket
       restclient
       search-engine
-      ;; semantic
       (shell :variables
               shell-default-height 30
               shell-default-shell 'eshell
@@ -77,7 +75,6 @@
       (spell-checking :variables
                       spell-checking-enable-by-default nil
                       spell-checking-enable-auto-dictionary t)
-      sql
       (syntax-checking :variables
                         syntax-checking-enable-tooltips t
                         syntax-checking-enable-by-default t)
@@ -348,14 +345,6 @@
           atomic-chrome-url-major-mode-alist '(("github\\.com" . gfm-mode)
                                                ("localhost" . python-mode))))
   (progn ;; buffers
-    (defun save-and-kill-this-buffer ()
-      "Save and quit the current buffer."
-      (interactive)
-      (save-buffer)
-      (kill-this-buffer))
-    (spacemacs/set-leader-keys "bk" 'next-buffer)
-    (spacemacs/set-leader-keys "bj" 'previous-buffer)
-    (spacemacs/set-leader-keys "bq" 'save-and-kill-this-buffer)
     (add-hook 'focus-out-hook (lambda () (save-some-buffers t))))
   (progn ;; clojure
     (setq cider-save-file-on-load t
@@ -373,11 +362,12 @@
   (progn ;; engine
     (engine-mode t)
     (defengine thesaurus "https://thesaurus.com/browse/%s")
-    (spacemacs/set-leader-keys "su" 'engine/search-github)
-    (spacemacs/set-leader-keys "so" 'engine/search-google)
-    (spacemacs/set-leader-keys "sd" 'engine/search-thesaurus)
-    (spacemacs/set-leader-keys "sw" 'engine/search-wikipedia)
-    (spacemacs/set-leader-keys "sn" 'engine/search-stack-overflow))
+    (spacemacs/set-leader-keys
+      "su" 'engine/search-github
+      "so" 'engine/search-google
+      "sd" 'engine/search-thesaurus
+      "sw" 'engine/search-wikipedia
+      "sn" 'engine/search-stack-overflow))
   (progn ;; evil
     (define-key evil-normal-state-map "s" 'evil-snipe-s)
     (define-key evil-normal-state-map "S" 'evil-snipe-S)
@@ -404,8 +394,9 @@
       "Y" 'eww-copy-page-url
       "I" 'eww-browse-with-external-browser))
   (progn ;; ipython
-    (spacemacs/set-leader-keys "ay" 'ein:notebooklist-open)
-    (spacemacs/set-leader-keys "ai" 'python-start-or-switch-repl)
+    (spacemacs/set-leader-keys
+      "ay" 'ein:notebooklist-open
+      "ai" 'python-start-or-switch-repl)
     (spacemacs/set-leader-keys-for-major-mode 'ein:notebook-multilang-mode-map
       "s" 'ein:notebook-save-notebook-command) ;; fix a bug in master version
     (evil-define-key 'hybrid ein:notebook-multilang-mode-map
@@ -433,38 +424,37 @@
                                    ("L<U" 3 magit-repolist-column-unpulled-from-upstream ((:right-align t)))
                                    ("L>U" 3 magit-repolist-column-unpushed-to-upstream ((:right-align t)))
                                    ("Path" 99 magit-repolist-column-path ())))
-    (defun my-magit-fetch-all-repositories ()
-      "Fetch all known repository with magit."
+    (defun magit-fetch-all-repositories ()
+      "Fetch known repository with magit."
       (interactive)
-      (dolist (r (magit-list-repos))
-        (message "Fetching %s ..." r)
-        (let ((default-directory r))
+      (dolist (repo (magit-list-repos))
+        (message "Fetching %s ..." repo)
+        (let ((default-directory repo))
           (magit-fetch-all (magit-fetch-arguments))))
-      (message "Fetch all done."))
-    (spacemacs/set-leader-keys "gj" 'magit-list-repositories)
-    (spacemacs/set-leader-keys "ga" 'my-magit-fetch-all-repositories))
+      (message "Fetch all repository done."))
+    (spacemacs/set-leader-keys
+      "gj" 'magit-list-repositories
+      "ga" 'magit-fetch-all-repositories))
   (progn ;; org
-    (setq org-default-deft-dir "~/Cloud/Notes/")
-    (setq org-default-notes-file "~/Cloud/Notes/notes.org")
+    (setq org-deft-dir "~/Cloud/Notes/")
+    (setq org-notes-file "~/Cloud/Notes/notes.org")
     (defun org-deft ()
-      "Open the default deft dir"
+      "Open the deft dir"
       (interactive)
-      (dired org-default-deft-dir))
+      (dired org-deft-dir))
     (defun org-notes ()
-      "Open the default notes file"
+      "Open the notes file"
       (interactive)
-      (find-file org-default-notes-file))
-    (spacemacs/set-leader-keys "an" 'org-deft)
-    (spacemacs/set-leader-keys "am" 'org-notes)
+      (find-file org-notes-file))
+    (spacemacs/set-leader-keys
+      "an" 'org-deft
+      "am" 'org-notes)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "r" 'org-reveal-export-to-html
       "g" 'org-insert-structure-template))
   (progn ;; pdf
     (setq pdf-view-incompatible-modes '())
     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1))))
-  (progn ;; personal
-    (setq user-full-name "Médéric Hurier (fmind)"
-          user-mail-address "fmind@fmind.me"))
   (progn ;; proced
     (spacemacs/set-leader-keys "at" 'proced)
     (add-hook 'proced-mode-hook (lambda nil (proced-toggle-auto-update 1))))
@@ -483,27 +473,8 @@
   (progn ;; racket
     (evil-set-initial-state 'racket-repl-mode 'insert)
     (spacemacs/set-leader-keys-for-major-mode 'racket-mode
-      ":" 'racket-run-and-switch-to-repl
       ";" 'racket-run
-      "B" 'racket-base-requires
-      "F" 'racket-send-definition-focus
-      "R" 'racket-send-region-focus
-      "S" 'racket-send-last-sexp-focus
-      "T" 'racket-test-with-coverage
-      "a" 'racket-align
-      "c" 'racket-insert-closing
-      "d" 'racket-describe
-      "f" 'racket-send-definition
-      "g" 'racket-visit-module
-      "h" 'racket-doc
-      "i" 'racket-insert-lambda
-      "o" 'racket-open-require-path
-      "p" 'racket-profile
-      "r" 'racket-send-region
-      "s" 'racket-send-last-sexp
-      "t" 'racket-test
-      "u" 'racket-unvisit
-      "v" 'racket-visit-definition))
+      ":" 'racket-run-and-switch-to-repl))
   (progn ;; restructured
     (defun sphinx-compile-to-pdf ()
       "Compile documentation to pdf."
@@ -543,11 +514,12 @@
       (interactive)
       (split-window-right-and-focus)
       (eshell-new))
-    (spacemacs/set-leader-keys "`" 'ielm)
-    (spacemacs/set-leader-keys "\"" 'eshell-new)
-    (spacemacs/set-leader-keys "w:" 'eshell-new-hsplit)
-    (spacemacs/set-leader-keys "w\"" 'eshell-new-vsplit)
-    (spacemacs/set-leader-keys "as" 'spacemacs/shell-pop-ansi-term))
+    (spacemacs/set-leader-keys
+      "`" 'ielm
+      "\"" 'eshell-new
+      "w:" 'eshell-new-hsplit
+      "w\"" 'eshell-new-vsplit
+      "as" 'spacemacs/shell-pop-ansi-term))
   (progn ;; windows
     (setq scroll-margin 10)
     (defun kill-buffer-and-window ()
@@ -555,16 +527,18 @@
       (interactive)
       (kill-this-buffer)
       (delete-window))
-    (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
-    (spacemacs/set-leader-keys "w;" 'split-window-below-and-focus)
-    (spacemacs/set-leader-keys "w'" 'split-window-right-and-focus))
+    (spacemacs/set-leader-keys
+      "wq" 'kill-buffer-and-window
+      "w;" 'split-window-below-and-focus
+      "w'" 'split-window-right-and-focus))
   (progn ;; workspace
     (setq spacemacs-layouts-directory "~/code/layouts/")
     (spacemacs/set-leader-keys "=" 'spacemacs/workspaces-transient-state/body))
   (progn ;; yasnippet
     (setq yas-snippet-dirs '("~/.spacemacs.d/snippets"))
-    (spacemacs/set-leader-keys "ir" 'yas-reload-all)
-    (spacemacs/set-leader-keys "is" 'yas/visit-snippet-file)))
+    (spacemacs/set-leader-keys
+      "ir" 'yas-reload-all
+      "is" 'yas/visit-snippet-file)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
