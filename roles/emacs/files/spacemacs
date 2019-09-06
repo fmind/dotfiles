@@ -424,15 +424,20 @@
                                    ("L<U" 3 magit-repolist-column-unpulled-from-upstream ((:right-align t)))
                                    ("L>U" 3 magit-repolist-column-unpushed-to-upstream ((:right-align t)))
                                    ("Path" 99 magit-repolist-column-path ())))
+    (defun magit-kill-all-buffers ()
+      "Kill all alive magit buffers."
+      (interactive)
+      (kill-matching-buffers "^magit: " nil t)
+      (kill-matching-buffers "^magit-process: " nil t)
+      (kill-matching-buffers "^\\*Magit Repositories\\*$" nil t))
     (defun magit-fetch-all-repositories ()
       "Fetch known repository with magit."
       (interactive)
       (dolist (repo (magit-list-repos))
-        (message "Fetching %s ..." repo)
         (let ((default-directory repo))
-          (magit-fetch-all (magit-fetch-arguments))))
-      (message "Fetch all repository done."))
+          (magit-fetch-all (magit-fetch-arguments)))))
     (spacemacs/set-leader-keys
+      "gq" 'magit-kill-all-buffers
       "gj" 'magit-list-repositories
       "ga" 'magit-fetch-all-repositories))
   (progn ;; org
