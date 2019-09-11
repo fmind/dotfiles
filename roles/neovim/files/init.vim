@@ -93,9 +93,8 @@ let mapleader=" "
 noremap <leader>a :Ag<cr>
 noremap <leader>b :Buffers<cr>
 noremap <leader>c :Colors<cr>
-noremap <leader>d :BTags<cr>
+noremap <leader>d :Tags<cr>
 noremap <leader>e :cnext<cr>
-noremap <leader>k :Maps<cr>
 noremap <leader>f :Files<cr>
 noremap <leader>g :GFiles<cr>
 noremap <leader>h :Helptags<cr>
@@ -109,8 +108,8 @@ noremap <leader>o :call VimuxOpenRunner()<cr>
 noremap <leader>p :Commands<cr>
 noremap <leader>q :bdelete<cr>
 noremap <leader>r :Ranger<cr>
-noremap <leader>s :Google
-noremap <leader>t :Tags<cr>
+noremap <leader>s :Google 
+noremap <leader>t :BTags<cr>
 noremap <leader>u :VimuxRunLastCommand<cr>
 noremap <leader>v "vy :call VimuxSlime(@v)<cr>
 noremap <leader>w :Windows<cr>
@@ -120,12 +119,13 @@ noremap <leader>z :Filetypes<cr>
 noremap <leader>` :Locate 
 noremap <leader>] :ALENextWrap<cr>
 noremap <leader>[ :ALEPreviousWrap<cr>
-noremap <leader>; :VimuxPromptCommand<cr>
-noremap <leader>' :call VimuxSlime(join(getline(1, '$'), "\n"))<cr>
+noremap <leader>' :VimuxPromptCommand<cr>
+noremap <leader>; :call VimuxSlime(join(getline(1, '$'), "\n"))<cr>
 noremap <leader>. :edit $MYVIMRC<cr>
 noremap <leader>: :History:<cr>
 noremap <leader>/ :History/<cr>
 noremap <leader>\ :History<cr>
+noremap <leader>? :Maps<cr>
 noremap <leader><cr> :make<cr>
 noremap <leader><tab> :b#<cr>
 noremap <leader><space> :make 
