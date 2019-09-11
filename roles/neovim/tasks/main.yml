@@ -8,8 +8,8 @@
 - name: alternative
   alternatives: name='{{item}}' path='/usr/bin/nvim'
   with_items:
-    - vim
     - vi
+    - vim
   become: true
   tags: admin
 

@@ -3,6 +3,7 @@
 - name: package
   package: name='zsh'
   become: true
+  when: false
   tags: admin
 
 - name: directories

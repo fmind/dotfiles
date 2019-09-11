@@ -3,6 +3,7 @@
 - name: package
   package: name='fish'
   become: true
+  when: false
   tags: admin
 
 - name: directory

@@ -1,6 +1,6 @@
 ---
 
 - name: package
-  package: name='jq'
+  package: name='fzf'
   become: true
   tags: admin

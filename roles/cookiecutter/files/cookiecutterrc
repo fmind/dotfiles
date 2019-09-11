@@ -6,27 +6,13 @@ default_context:
     license: "LGPL-3.0"
     python: "3.7"
 abbreviations:
-    ansible: https://github.com/fmind/cookiecutter-ansible.git
-    clojure: https://github.com/fmind/cookiecutter-clojure.git
-    clojurescript: https://github.com/fmind/cookiecutter-clojurescript.git
     cython: https://github.com/fmind/cookiecutter-cython.git
-    emacs: https://github.com/fmind/cookiecutter-emacs.git
-    figwheel: https://github.com/fmind/cookiecutter-figwheel.git
     flask: https://github.com/fmind/cookiecutter-flask.git
-    groovy: https://github.com/fmind/cookiecutter-groovy.git
-    hy: https://github.com/fmind/cookiecutter-hy.git
-    jsonschema: https://github.com/fmind/cookiecutter-jsonschema.git
-    jupyter: https://github.com/fmind/cookiecutter-jupyter.git
-    mailmerge: https://github.com/fmind/cookiecutter-mailmerge.git
-    manim: https://github.com/fmind/cookiecutter-manim.git
-    org-reveal: https://github.com/fmind/cookiecutter-org-reveal.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
-    racket: https://github.com/fmind/cookiecutter-racket.git
     rise: https://github.com/fmind/cookiecutter-rise.git
     science: https://github.com/fmind/cookiecutter-science.git
     script: https://github.com/fmind/cookiecutter-script.git
     sphinx: https://github.com/fmind/cookiecutter-sphinx.git
     spider: https://github.com/fmind/cookiecutter-spider.git
-    supervisord: https://github.com/fmind/cookiecutter-supervisord.git
     watchdog: https://github.com/fmind/cookiecutter-watchdog.git
