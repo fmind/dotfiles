@@ -5,6 +5,20 @@
   become: true
   tags: admin
 
+- name: github
+  package: name='hub'
+  become: true
+  tags: admin
+
+- name: extras
+  package: name='git-extras'
+  become: true
+  tags: admin
+
+- name: inputs
+  pip: name='gitsome' executable='pip3' extra_args='--user'
+  tags: user
+
 - name: library
   pip: name='PyGithub' executable='pip3' extra_args='--user'
   tags: user

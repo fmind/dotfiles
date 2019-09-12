@@ -41,6 +41,7 @@
     - {role: bash, tags: ['bash', 'interact', 'native']}
     - {role: byobu, tags: ['byobu', 'interact', 'native']}
     - {role: fish, tags: ['fish', 'interact', 'native']}
+    - {role: litecli, tags: ['litecli', 'interact', 'python']}
     - {role: mycli, tags: ['mycli', 'interact', 'python']}
     - {role: pgcli, tags: ['pgcli', 'interact', 'python']}
     - {role: xonsh, tags: ['xonsh', 'interact', 'python']}

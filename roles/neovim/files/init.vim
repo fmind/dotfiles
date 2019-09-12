@@ -26,9 +26,10 @@ set relativenumber
 " FOLDER
 set foldmethod=syntax
 set foldlevelstart=99
-" CLIP
+" EXTERNAL
+set shell=/bin/bash
 set clipboard=unnamedplus
-" MENU
+" COMPLETE
 set wildmode=list:longest,full
 set completeopt=menuone,longest
 " PLUGIN
@@ -84,11 +85,11 @@ noremap B g^
 noremap E g$
 noremap Y y$
 noremap U <C-r>
+noremap gl :nohl<cr>
 xnoremap < <gv
 xnoremap > >gv
-noremap gl :nohl<cr>
-noremap <cr> :
 " LEADER
+noremap <cr> :
 let mapleader=" "
 noremap <leader>a :Ag<cr>
 noremap <leader>b :Buffers<cr>

@@ -3,16 +3,10 @@ $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'
 $PATH = ['venv/bin/', '~/bin', '~/.local/bin', '/usr/local/bin', '/usr/local/sbin', '/usr/bin', '/usr/sbin', '/bin', '/sbin']
 # CONFIGS
-$AUTO_CD = True
-$AUTO_PUSHD = True
-$AUTO_SUGGEST = True
 $PROMPT = "{INTENSE_RED}{user}{NO_COLOR} " + \
           "at {INTENSE_GREEN}{hostname}{NO_COLOR} " + \
           "in {INTENSE_BLUE}{short_cwd}{NO_COLOR} " + \
           "{branch_color}{curr_branch:{} }{NO_COLOR}{prompt_end} "
-# XONTRIBS
-xontrib load vox
-# xontrib load jedi
 # TRIGGERS
 @events.on_chdir
 def listdir(newdir, olddir):
