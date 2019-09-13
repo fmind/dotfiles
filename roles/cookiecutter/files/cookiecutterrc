@@ -9,6 +9,7 @@ abbreviations:
     cython: https://github.com/fmind/cookiecutter-cython.git
     dash: https://github.com/fmind/cookiecutter-dash.git
     flask: https://github.com/fmind/cookiecutter-flask.git
+    nbgrader: https://github.com/fmind/cookiecutter-nbgrader.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
     rise: https://github.com/fmind/cookiecutter-rise.git

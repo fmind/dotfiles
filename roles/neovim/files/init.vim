@@ -88,6 +88,8 @@ noremap U <C-r>
 noremap gl :nohl<cr>
 xnoremap < <gv
 xnoremap > >gv
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 " LEADER
 noremap <cr> :
 let mapleader=" "
@@ -107,7 +109,7 @@ noremap <leader>m :Marks<cr>
 noremap <leader>n :BCommits<cr>
 noremap <leader>o :call VimuxOpenRunner()<cr>
 noremap <leader>p :Commands<cr>
-noremap <leader>q :bdelete<cr>
+noremap <leader>q :bdelete<cr>:bnext<cr>
 noremap <leader>r :Ranger<cr>
 noremap <leader>s :Google 
 noremap <leader>t :BTags<cr>
@@ -123,6 +125,7 @@ noremap <leader>[ :ALEPreviousWrap<cr>
 noremap <leader>' :VimuxPromptCommand<cr>
 noremap <leader>; :call VimuxSlime(join(getline(1, '$'), "\n"))<cr>
 noremap <leader>. :edit $MYVIMRC<cr>
+noremap <leader>, :Gw<cr>
 noremap <leader>: :History:<cr>
 noremap <leader>/ :History/<cr>
 noremap <leader>\ :History<cr>
