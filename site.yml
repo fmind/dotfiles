@@ -16,7 +16,6 @@
     - {role: csvkit, tags: ['csvkit', 'analyze', 'python']}
     - {role: glom, tags: ['glom', 'analyze', 'python']}
     - {role: jsonschema, tags: ['jsonschema', 'analyze', 'python']}
-    - {role: mario, tags: ['mario', 'analyze', 'python']}
     # }}}
     # control {{{
     - {role: ansible, tags: ['ansible', 'control', 'python']}
@@ -33,12 +32,14 @@
     - {role: make, tags: ['make',  'develop','native']}
     # }}}
     # edit {{{
+    - {role: imagemagick, tags: ['imagemagick', 'edit', 'native']}
     - {role: neovim, tags: ['neovim', 'edit', 'native']}
     - {role: ranger, tags: ['ranger', 'edit', 'python']}
     - {role: vim, tags: ['vim', 'edit', 'native']}
     # }}}
     # filter {{{
     - {role: fzf, tags: ['fzf', 'filter', 'native']}
+    - {role: mario, tags: ['mario', 'filter', 'python']}
     - {role: silver, tags: ['silver', 'filter','native']}
     - {role: tqdm, tags: ['tqdm', 'filter', 'python']}
     # }}}
@@ -63,7 +64,6 @@
     - {role: scapy, tags: ['scapy', 'network', 'python']}
     - {role: scrapy, tags: ['scrapy', 'network', 'python']}
     # }}}
-    # preview {{{
-    - {role: imagemagick, tags: ['imagemagick', 'preview', 'native']}
+    # record {{{
     - {role: termtosvg, tags: ['termtosvg', 'preview', 'python']}
     # }}}
