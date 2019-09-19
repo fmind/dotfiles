@@ -1,38 +1,49 @@
-" BUFFER
+" vim: fdm=marker
+" BUFFER {{{
 set hidden
 set confirm
 set autoread
 set autowrite
-" SEARCH
+" }}}
+" SEARCH {{{
 set gdefault
 set hlsearch
 set incsearch
 set smartcase
 set ignorecase
-" INDENT
+" }}}
+" INDENT {{{
 set expandtab
 set shiftround
 set shiftwidth=4
-" WINDOW
+" }}}
+" WINDOW {{{
 set linebreak
+set lazyredraw
 set shortmess=I
 set scrolloff=10
-" SPELL
+" }}}
+" SPELL {{{
 set spell
 set spelllang=en
-" NUMBER
+" }}}
+" NUMBER {{{
 set number
 set relativenumber
-" FOLDER
+" }}}
+" FOLDER {{{
 set foldmethod=syntax
 set foldlevelstart=99
-" EXTERNAL
+" }}}
+" EXTERNAL {{{
 set shell=/bin/bash
 set clipboard=unnamedplus
-" COMPLETE
+" }}}
+" COMPLETE {{{
 set wildmode=list:longest,full
 set completeopt=menuone,longest
-" PLUGIN
+" }}}
+" PLUGIN {{{
 let g:loaded_netrw = 1
 let g:loaded_matchparen=1
 let g:loaded_netrwPlugin = 1
@@ -72,13 +83,15 @@ let b:ale_fixers = {'python': ['black', 'isort']}
 let b:ale_linters = {'python': ['mypy', 'pylint']}
 Plug 'wellle/tmux-complete.vim'
 call plug#end()
-" COLOR
+" }}}
+" COLOR {{{
 try
     colorscheme molokai
 catch
     colorscheme zellner
 endtry
-" REMAP
+" }}}
+" REMAP {{{
 noremap j gj
 noremap k gk
 noremap B g^
@@ -86,11 +99,12 @@ noremap E g$
 noremap Y y$
 noremap U <C-r>
 noremap gl :nohl<cr>
-xnoremap < <gv
-xnoremap > >gv
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-" LEADER
+xnoremap < <gv
+xnoremap > >gv
+" }}}
+" LEADER {{{
 noremap <cr> :
 let mapleader=" "
 noremap <leader>a :Ag<cr>
@@ -126,6 +140,7 @@ noremap <leader>' :VimuxPromptCommand<cr>
 noremap <leader>; :call VimuxSlime(join(getline(1, '$'), "\n"))<cr>
 noremap <leader>. :edit $MYVIMRC<cr>
 noremap <leader>, :Gw<cr>
+noremap <leader>= :Tabularize 
 noremap <leader>: :History:<cr>
 noremap <leader>/ :History/<cr>
 noremap <leader>\ :History<cr>
@@ -133,15 +148,18 @@ noremap <leader>? :Maps<cr>
 noremap <leader><cr> :make<cr>
 noremap <leader><tab> :b#<cr>
 noremap <leader><space> :make 
-" AUTOCMD
+" }}}
+" AUTOCMD {{{
 augroup vim
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup end
-" FUNCTION
+" }}}
+" FUNCTION {{{
 function! VimuxSlime(text)
     call VimuxSendText(a:text)
     if a:text !~ '\n$'
         call VimuxSendKeys("Enter")
     endif
 endfunction
+" }}}
