@@ -5,6 +5,12 @@
   become: true
   tags: admin
 
+- name: graphical
+  package: name='neovim-qt'
+  when: lookup('env','DISPLAY')
+  become: true
+  tags: admin
+
 - name: alternative
   alternatives: name='{{item}}' path='/usr/bin/nvim'
   with_items:
