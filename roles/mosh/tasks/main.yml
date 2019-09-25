@@ -1,0 +1,6 @@
+---
+
+- name: package
+  package: name='mosh'
+  become: true
+  tags: admin
