@@ -48,7 +48,6 @@
     - {role: byobu, tags: ['byobu', 'interact', 'native']}
     - {role: fish, tags: ['fish', 'interact', 'native']}
     - {role: litecli, tags: ['litecli', 'interact', 'python']}
-    - {role: mosh, tags: ['mosh', 'interact', 'native']}
     - {role: mycli, tags: ['mycli', 'interact', 'python']}
     - {role: pgcli, tags: ['pgcli', 'interact', 'python']}
     - {role: xonsh, tags: ['xonsh', 'interact', 'python']}
