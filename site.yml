@@ -32,7 +32,6 @@
     - {role: make, tags: ['make',  'develop','native']}
     # }}}
     # edit {{{
-    - {role: imagemagick, tags: ['imagemagick', 'edit', 'native']}
     - {role: neovim, tags: ['neovim', 'edit', 'native']}
     - {role: ranger, tags: ['ranger', 'edit', 'python']}
     - {role: vim, tags: ['vim', 'edit', 'native']}
@@ -63,7 +62,4 @@
     - {role: httpie, tags: ['httpie', 'network', 'python']}
     - {role: scapy, tags: ['scapy', 'network', 'python']}
     - {role: scrapy, tags: ['scrapy', 'network', 'python']}
-    # }}}
-    # record {{{
-    - {role: termtosvg, tags: ['termtosvg', 'preview', 'python']}
     # }}}

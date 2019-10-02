@@ -1,6 +1,0 @@
----
-
-- name: package
-  package: name='imagemagick'
-  become: true
-  tags: admin

@@ -29,7 +29,6 @@ ansible-playbook --ask-become site.yml
 - howdoi
 - htop
 - httpie
-- imagemagick
 - invoke
 - jsonschema
 - litecli
@@ -45,7 +44,6 @@ ansible-playbook --ask-become site.yml
 - scrapy
 - silver
 - supervisord
-- termtosvg
 - tqdm
 - vim
 - watchdog
