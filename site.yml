@@ -40,7 +40,7 @@
     # filter {{{
     - {role: fzf, tags: ['fzf', 'filter', 'native']}
     - {role: silver, tags: ['silver', 'filter','native']}
-    # # }}}
+    # }}}
     # interact {{{
     - {role: bash, tags: ['bash', 'interact', 'native']}
     - {role: byobu, tags: ['byobu', 'interact', 'native']}
