@@ -1,10 +1,15 @@
 ---
 
 - name: package
-  package: name='silversearcher-ag'
+  package:
+    name: silversearcher-ag
   become: true
   tags: admin
 
 - name: ignore
-  file: src='{{role_path}}/files/agignore' dest='~/.agignore' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.agignore
+    src: "{{ role_path }}/files/agignore"
   tags: user

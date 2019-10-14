@@ -1,27 +1,49 @@
 ---
 
 - name: package
-  package: name='zsh'
+  package:
+    name: zsh
   become: true
   when: false
   tags: admin
 
-- name: directories
-  file: name='{{item}}' state='directory'
-  with_items:
-    - ~/.zsh.d/
-    - ~/.zsh.d/themes
-    - ~/.zsh.d/plugins
+- name: directory
+  file:
+    state: directory
+    name: ~/.zsh.d/
+  tags: user
+
+- name: themes
+  file:
+    state: directory
+    name: ~/.zsh.d/themes
+  tags: user
+
+- name: plugins
+  file:
+    state: directory
+    name: ~/.zsh.d/plugins
   tags: user
 
 - name: config
-  file: src='{{role_path}}/files/zshrc' dest='~/.zshrc' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.zshrc
+    src: "{{ role_path }}/files/zshrc"
   tags: user
 
 - name: profile
-  file: src='{{role_path}}/files/zshenv' dest='~/.zshenv' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.zshenv
+    src: "{{ role_path }}/files/zshenv"
   tags: user
 
 - name: manager
-  git: repo='https://github.com/robbyrussell/oh-my-zsh.git' dest='~/.oh-my-zsh' depth=1
+  git:
+    depth: 1
+    dest: ~/.oh-my-zsh
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
   tags: user

@@ -1,6 +1,7 @@
 ---
 
 - name: package
-  package: name='ncdu'
+  package:
+    name: ncdu
   become: true
   tags: admin

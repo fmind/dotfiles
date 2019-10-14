@@ -1,6 +1,7 @@
 ---
 
 - name: package
-  package: name='curl'
+  package:
+    name: curl
   become: true
   tags: admin

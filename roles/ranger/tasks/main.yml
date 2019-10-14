@@ -1,5 +1,8 @@
 ---
 
 - name: ranger
-  pip: name='ranger-fm' executable='pip3' extra_args='--user'
+  pip:
+    name: ranger-fm
+    executable: pip3
+    extra_args: --user
   tags: user

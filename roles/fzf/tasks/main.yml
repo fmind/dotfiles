@@ -1,7 +1,8 @@
 ---
 
 - name: package
-  package: name='fzf'
+  package:
+    name: fzf
   ignore_errors: true
   become: true
   tags: admin

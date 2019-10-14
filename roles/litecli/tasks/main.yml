@@ -1,5 +1,8 @@
 ---
 
 - name: package
-  pip: name='litecli' executable='pip3' extra_args='--user'
+  pip:
+    name: litecli
+    executable: pip3
+    extra_args: --user
   tags: user

@@ -1,10 +1,15 @@
 ---
 
 - name: package
-  package: name='vim'
+  package:
+    name: vim
   become: true
   tags: admin
 
 - name: config
-  file: src='{{role_path}}/files/vimrc' dest='~/.vimrc' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.vimrc
+    src: "{{ role_path }}/files/vimrc"
   tags: user

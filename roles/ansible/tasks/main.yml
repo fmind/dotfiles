@@ -1,9 +1,15 @@
 ---
 
 - name: package
-  pip: name='ansible' executable='pip3' extra_args='--user'
+  pip:
+    name: ansible
+    executable: pip3
+    extra_args: --user
   tags: user
 
 - name: linter
-  pip: name='ansible-lint' executable='pip3' extra_args='--user'
+  pip:
+    name: ansible-lint
+    executable: pip3
+    extra_args: --user
   tags: user

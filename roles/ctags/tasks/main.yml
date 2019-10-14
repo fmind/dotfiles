@@ -1,10 +1,15 @@
 ---
 
 - name: package
-  package: name='exuberant-ctags'
+  package:
+    name: exuberant-ctags
   become: true
   tags: admin
 
 - name: config
-  file: src='{{role_path}}/files/ctags' dest='~/.ctags' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.ctags
+    src: "{{ role_path }}/files/ctags"
   tags: user

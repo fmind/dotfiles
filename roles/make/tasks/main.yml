@@ -1,6 +1,7 @@
 ---
 
 - name: package
-  package: name='make'
+  package:
+    name: make
   become: true
   tags: admin

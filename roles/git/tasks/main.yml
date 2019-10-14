@@ -1,37 +1,57 @@
 ---
 
 - name: package
-  package: name='git'
+  package:
+    name: git
   become: true
   tags: admin
 
 - name: github
-  package: name='hub'
+  package:
+    name: hub
   ignore_errors: true
   become: true
   tags: admin
 
 - name: extras
-  package: name='git-extras'
+  package:
+    name: git-extras
   become: true
   tags: admin
 
 - name: inputs
-  pip: name='gitsome' executable='pip3' extra_args='--user'
+  pip:
+    name: gitsome
+    executable: pip3
+    extra_args: --user
   tags: user
 
 - name: library
-  pip: name='PyGithub' executable='pip3' extra_args='--user'
+  pip:
+    name: PyGithub
+    executable: pip3
+    extra_args: --user
   tags: user
 
 - name: config
-  file: src='{{role_path}}/files/gitconfig' dest='~/.gitconfig' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.gitconfig
+    src: "{{ role_path }}/files/gitconfig"
   tags: user
 
 - name: ignore
-  file: src='{{role_path}}/files/gitignore' dest='~/.gitignore' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.gitignore
+    src: "{{ role_path }}/files/gitignore"
   tags: user
 
 - name: manager
-  get_url: url='https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws' dest='~/bin/gws' mode='0700'
+  get_url:
+    mode: 0700
+    dest: ~/bin/gws
+    url: https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws
   tags: user

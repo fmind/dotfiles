@@ -1,32 +1,75 @@
 ---
 
 - name: package
-  package: name='byobu'
+  package:
+    name: byobu
   become: true
   tags: admin
 
 - name: manager
-  pip: name='tmuxp' executable='pip3' extra_args='--user'
+  pip:
+    name: tmuxp
+    executable: pip3
+    extra_args: --user
   tags: user
 
 - name: library
-  pip: name='libtmux' executable='pip3' extra_args='--user'
+  pip:
+    name: libtmux
+    executable: pip3
+    extra_args: --user
   tags: user
 
 - name: directory
-  file: path='~/.byobu' state=directory
+  file:
+    state: directory
+    path: ~/.byobu
   tags: user
 
 - name: layouts
-  file: src='{{role_path}}/files' dest='~/.tmuxp' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.tmuxp
+    src: "{{ role_path }}/files"
   tags: user
 
-- name: configs
-  file: src='{{role_path}}/files/{{item}}' dest='~/.byobu/{{item}}' state=link force=yes
-  with_items:
-    - status
-    - backend
-    - statusrc
-    - .tmux.conf
-    - keybindings.tmux
+- name: tmux
+  file:
+    force: yes
+    state: link
+    dest: ~/.byobu/.tmux.conf
+    src: "{{ role_path }}/files/.tmux.conf"
+  tags: user
+
+- name: status
+  file:
+    force: yes
+    state: link
+    dest: ~/.byobu/status
+    src: "{{ role_path }}/files/status"
+  tags: user
+
+- name: backend
+  file:
+    force: yes
+    state: link
+    dest: ~/.byobu/backend
+    src: "{{ role_path }}/files/backend"
+  tags: user
+
+- name: statusrc
+  file:
+    force: yes
+    state: link
+    dest: ~/.byobu/statusrc
+    src: "{{ role_path }}/files/statusrc"
+  tags: user
+
+- name: keybindings
+  file:
+    force: yes
+    state: link
+    dest: ~/.byobu/keybindings.tmux
+    src: "{{ role_path }}/files/keybindings.tmux"
   tags: user

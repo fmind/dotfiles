@@ -1,45 +1,71 @@
 ---
 
 - name: repository
-  apt_repository: repo='ppa:neovim-ppa/stable' filename='neovim'
+  apt_repository:
+    filename: neovim
+    repo: ppa:neovim-ppa/stable
   become: true
   tags: admin
 
 - name: package
-  package: name='neovim'
+  package:
+    name: neovim
   become: true
   tags: admin
 
 - name: alternative
-  alternatives: name='{{item}}' path='/usr/bin/nvim'
+  alternatives:
+    name: "{{ item }}"
+    path: /usr/bin/nvim
   with_items:
     - vi
     - vim
   become: true
   tags: admin
 
-- name: directories
-  file: path='{{item}}' state=directory
-  with_items:
-    - ~/.config/nvim/
-    - ~/.config/nvim/spell/
-    - ~/.local/share/nvim/site/autoload/
+- name: directory
+  file:
+    state: directory
+    path: ~/.config/nvim/
+  tags: user
+
+- name: spelling
+  file:
+    state: directory
+    path: ~/.config/nvim/spell/
+  tags: user
+
+- name: autoload
+  file:
+    state: directory
+    path: ~/.local/share/nvim/site/autoload/
   tags: user
 
 - name: library
-  pip: name='pynvim' executable='pip3' extra_args='--user'
+  pip:
+    name: pynvim
+    executable: pip3
+    extra_args: --user
   tags: user
 
 - name: config
-  file: src='{{role_path}}/files/init.vim' dest='~/.config/nvim/init.vim' state=link force=yes
+  file:
+    force: yes
+    state: link
+    dest: ~/.config/nvim/init.vim
+    src: "{{ role_path }}/files/init.vim"
   tags: user
 
 - name: manager
-  get_url: url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' dest='~/.local/share/nvim/site/autoload/plug.vim'
+  get_url:
+    dest: ~/.local/share/nvim/site/autoload/plug.vim
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   tags: user
 
 - name: languages
-  get_url: url='http://ftp.vim.org/vim/runtime/spell/{{item}}' dest='~/.config/nvim/spell/{{item}}'
+  get_url:
+    dest: "~/.config/nvim/spell/{{ item }}"
+    url: "http://ftp.vim.org/vim/runtime/spell/{{ item }}"
   with_items:
    - en.utf-8.spl
    - en.utf-8.sug
