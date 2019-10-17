@@ -49,6 +49,7 @@
     - {role: litecli, tags: ['litecli', 'interact', 'python']}
     - {role: mycli, tags: ['mycli', 'interact', 'python']}
     - {role: pgcli, tags: ['pgcli', 'interact', 'python']}
+    - {role: shutit, tags: ['shutit', 'interact', 'python']}
     - {role: xonsh, tags: ['xonsh', 'interact', 'python']}
     - {role: zsh, tags: ['zsh', 'interact', 'native']}
     # }}}
