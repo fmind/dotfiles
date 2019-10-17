@@ -7,6 +7,7 @@ default_context:
     python: "3.6"
 abbreviations:
     cython: https://github.com/fmind/cookiecutter-cython.git
+    compose: https://github.com/fmind/cookiecutter-compose.git
     dash: https://github.com/fmind/cookiecutter-dash.git
     flask: https://github.com/fmind/cookiecutter-flask.git
     nbgrader: https://github.com/fmind/cookiecutter-nbgrader.git
