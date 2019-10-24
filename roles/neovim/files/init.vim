@@ -15,7 +15,9 @@ set ignorecase
 " INDENT {{{
 set expandtab
 set shiftround
+set tabstop=4
 set shiftwidth=4
+set softtabstop=4
 " }}}
 " WINDOW {{{
 set linebreak
@@ -148,12 +150,6 @@ noremap <leader><cr> :make<cr>
 noremap <leader><tab> :b#<cr>
 noremap <leader><space> :make 
 " }}}
-" AUTOCMD {{{
-augroup vim
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup end
-" }}}
 " FUNCTION {{{
 function! VimuxSlime(text)
     call VimuxSendText(a:text)
@@ -161,4 +157,13 @@ function! VimuxSlime(text)
         call VimuxSendKeys("Enter")
     endif
 endfunction
+" }}}
+" FILE-TYPES {{{
+autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+" }}}
+" AUTO-COMMANDs {{{
+augroup vim
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup end
 " }}}
