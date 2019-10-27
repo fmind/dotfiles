@@ -33,6 +33,7 @@
     - {role: make, tags: ['make',  'develop','native']}
     # }}}
     # edit {{{
+    - {role: emacs, tags: ['emacs', 'edit', 'native']}
     - {role: organize, tags: ['organize', 'edit', 'python']}
     - {role: neovim, tags: ['neovim', 'edit', 'native']}
     - {role: ranger, tags: ['ranger', 'edit', 'python']}
