@@ -43,26 +43,20 @@
       (evil-snipe :variables
                   evil-snipe-enable-alternate-f-and-t-behaviors t)
       git
-      graphviz
-      html
-      ipython-notebook
       (latex :variables
               latex-enable-folding t
               latex-enable-auto-fill nil
               latex-build-command "LatexMk")
-      markdown
       (org :variables
            org-projectile-file "TODO.org"
            org-enable-reveal-js-support t)
       pdf-tools
       plantuml
-      prodigy
       (python :variables
               python-test-runner 'pytest
               python-auto-set-local-pyenv-version nil
               python-auto-set-local-pyvenv-virtualenv nil)
       racket
-      restclient
       search-engine
       (shell :variables
               shell-default-height 30
