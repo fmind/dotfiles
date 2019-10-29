@@ -1,10 +1,10 @@
 ---
 
-# - name: package
-#   package:
-#     name: fish
-#   become: true
-#   tags: admin
+- name: package
+  package:
+    name: fish
+  become: true
+  tags: admin
 
 - name: directory
   file:

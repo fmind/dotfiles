@@ -1,6 +1,6 @@
 ---
 
-- name: ranger
+- name: package
   pip:
     name: ranger-fm
     executable: pip3

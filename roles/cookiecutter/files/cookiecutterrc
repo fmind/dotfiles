@@ -6,18 +6,25 @@ default_context:
     license: "LGPL-3.0"
     python: "3.6"
 abbreviations:
-    cython: https://github.com/fmind/cookiecutter-cython.git
+    ansible: https://github.com/fmind/cookiecutter-ansible.git
     compose: https://github.com/fmind/cookiecutter-compose.git
+    cython: https://github.com/fmind/cookiecutter-cython.git
     dash: https://github.com/fmind/cookiecutter-dash.git
     docker: https://github.com/fmind/cookiecutter-docker.git
     flask: https://github.com/fmind/cookiecutter-flask.git
+    mailmerge: https://github.com/fmind/cookiecutter-mailmerge.git
+    manim: https://github.com/fmind/cookiecutter-manim.git
     nbgrader: https://github.com/fmind/cookiecutter-nbgrader.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
     rise: https://github.com/fmind/cookiecutter-rise.git
+    schema: https://github.com/fmind/cookiecutter-schema.git
     science: https://github.com/fmind/cookiecutter-science.git
     script: https://github.com/fmind/cookiecutter-script.git
     sphinx: https://github.com/fmind/cookiecutter-sphinx.git
     spider: https://github.com/fmind/cookiecutter-spider.git
     streamlit: https://github.com/fmind/cookiecutter-streamlit.git
+    supervisord: https://github.com/fmind/cookiecutter-supervisord.git
+    typescript: https://github.com/fmind/cookiecutter-typescript.git
+    vscode: https://github.com/fmind/cookiecutter-vscode.git
     watchdog: https://github.com/fmind/cookiecutter-watchdog.git

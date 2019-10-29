@@ -26,20 +26,20 @@
     path: ~/.byobu
   tags: user
 
+- name: config
+  file:
+    force: yes
+    state: link
+    dest: ~/.byobu/.tmux.conf
+    src: "{{ role_path }}/files/.tmux.conf"
+  tags: user
+
 - name: layouts
   file:
     force: yes
     state: link
     dest: ~/.tmuxp
     src: "{{ role_path }}/files"
-  tags: user
-
-- name: tmux
-  file:
-    force: yes
-    state: link
-    dest: ~/.byobu/.tmux.conf
-    src: "{{ role_path }}/files/.tmux.conf"
   tags: user
 
 - name: status
@@ -50,20 +50,20 @@
     src: "{{ role_path }}/files/status"
   tags: user
 
-- name: backend
-  file:
-    force: yes
-    state: link
-    dest: ~/.byobu/backend
-    src: "{{ role_path }}/files/backend"
-  tags: user
-
 - name: statusrc
   file:
     force: yes
     state: link
     dest: ~/.byobu/statusrc
     src: "{{ role_path }}/files/statusrc"
+  tags: user
+
+- name: backend
+  file:
+    force: yes
+    state: link
+    dest: ~/.byobu/backend
+    src: "{{ role_path }}/files/backend"
   tags: user
 
 - name: keybindings

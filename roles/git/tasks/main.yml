@@ -6,7 +6,7 @@
   become: true
   tags: admin
 
-- name: github
+- name: manager
   package:
     name: hub
   ignore_errors: true
