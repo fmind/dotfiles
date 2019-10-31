@@ -25,6 +25,4 @@ abbreviations:
     spider: https://github.com/fmind/cookiecutter-spider.git
     streamlit: https://github.com/fmind/cookiecutter-streamlit.git
     supervisord: https://github.com/fmind/cookiecutter-supervisord.git
-    typescript: https://github.com/fmind/cookiecutter-typescript.git
-    vscode: https://github.com/fmind/cookiecutter-vscode.git
     watchdog: https://github.com/fmind/cookiecutter-watchdog.git
