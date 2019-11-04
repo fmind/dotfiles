@@ -19,6 +19,7 @@
     - {role: schema, tags: ['schema', 'analyze', 'python']}
     # }}}
     # control {{{
+    - {role: airflow, tags: ['airflow', 'control', 'python']}
     - {role: ansible, tags: ['ansible', 'control', 'python']}
     - {role: schedule, tags: ['schedule', 'control', 'python']}
     - {role: supervisord, tags: ['supervisord', 'control', 'python']}
