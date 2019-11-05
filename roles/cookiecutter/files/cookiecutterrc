@@ -7,6 +7,7 @@ default_context:
     python: "3.6"
 abbreviations:
     airflow: https://github.com/fmind/cookiecutter-airflow.git
+    alchemy: https://github.com/fmind/cookiecutter-alchemy.git
     ansible: https://github.com/fmind/cookiecutter-ansible.git
     compose: https://github.com/fmind/cookiecutter-compose.git
     cython: https://github.com/fmind/cookiecutter-cython.git
