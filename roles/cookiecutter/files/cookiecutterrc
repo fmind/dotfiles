@@ -13,8 +13,9 @@ abbreviations:
     cython: https://github.com/fmind/cookiecutter-cython.git
     dash: https://github.com/fmind/cookiecutter-dash.git
     docker: https://github.com/fmind/cookiecutter-docker.git
+    engine: https://github.com/fmind/cookiecutter-engine.git
     flask: https://github.com/fmind/cookiecutter-flask.git
-    mailmerge: https://github.com/fmind/cookiecutter-mailmerge.git
+    mailing: https://github.com/fmind/cookiecutter-mailing.git
     manim: https://github.com/fmind/cookiecutter-manim.git
     nbgrader: https://github.com/fmind/cookiecutter-nbgrader.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
