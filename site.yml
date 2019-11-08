@@ -61,6 +61,7 @@
     # network {{{
     - {role: curl, tags: ['curl', 'network', 'native']}
     - {role: httpie, tags: ['httpie', 'network', 'python']}
+    - {role: locust, tags: ['locust', 'network', 'python']}
     - {role: scapy, tags: ['scapy', 'network', 'python']}
     - {role: scrapy, tags: ['scrapy', 'network', 'python']}
     # }}}
