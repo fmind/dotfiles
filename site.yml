@@ -66,5 +66,6 @@
     - {role: scrapy, tags: ['scrapy', 'network', 'python']}
     # }}}
     # record {{{
+    - {role: stylecloud, tags: ['stylecloud', 'record', 'python']}
     - {role: termtosvg, tags: ['termtosvg', 'record', 'python']}
     # }}}
