@@ -12,18 +12,22 @@ abbreviations:
     compose: https://github.com/fmind/cookiecutter-compose.git
     cython: https://github.com/fmind/cookiecutter-cython.git
     dash: https://github.com/fmind/cookiecutter-dash.git
+    django: https://github.com/fmind/cookiecutter-django.git
     docker: https://github.com/fmind/cookiecutter-docker.git
     engine: https://github.com/fmind/cookiecutter-engine.git
     flask: https://github.com/fmind/cookiecutter-flask.git
+    invoke: https://github.com/fmind/cookiecutter-invoke.git
     mailing: https://github.com/fmind/cookiecutter-mailing.git
     manim: https://github.com/fmind/cookiecutter-manim.git
     nbgrader: https://github.com/fmind/cookiecutter-nbgrader.git
+    package: https://github.com/fmind/cookiecutter-package.git
     pytest: https://github.com/fmind/cookiecutter-pytest.git
     python: https://github.com/fmind/cookiecutter-python.git
     rise: https://github.com/fmind/cookiecutter-rise.git
     schema: https://github.com/fmind/cookiecutter-schema.git
     science: https://github.com/fmind/cookiecutter-science.git
     script: https://github.com/fmind/cookiecutter-script.git
+    setup: https://github.com/fmind/cookiecutter-setup.git
     sphinx: https://github.com/fmind/cookiecutter-sphinx.git
     spider: https://github.com/fmind/cookiecutter-spider.git
     streamlit: https://github.com/fmind/cookiecutter-streamlit.git
