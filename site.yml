@@ -32,6 +32,7 @@
     - {role: howdoi, tags: ['howdoi', 'develop', 'python']}
     - {role: invoke, tags: ['invoke', 'develop', 'python']}
     - {role: make, tags: ['make',  'develop','native']}
+    - {role: sloccount, tags: ['sloccount',  'develop','native']}
     # }}}
     # edit {{{
     - {role: ranger, tags: ['ranger', 'edit', 'python']}

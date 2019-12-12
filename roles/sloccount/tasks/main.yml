@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: sloccount
+  become: true
+  tags: admin
