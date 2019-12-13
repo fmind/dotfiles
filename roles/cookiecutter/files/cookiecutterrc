@@ -1,7 +1,7 @@
 default_context:
     user: "fmind"
     email: "fmind@fmind.me"
-    author: "Médéric Hurier (fmind)"
+    author: "Médéric Hurier"
     control: "github.com"
     license: "LGPL-3.0"
     python: "3.6"
@@ -32,6 +32,7 @@ abbreviations:
     setup: https://github.com/fmind/cookiecutter-setup.git
     sphinx: https://github.com/fmind/cookiecutter-sphinx.git
     spider: https://github.com/fmind/cookiecutter-spider.git
+    stack: https://github.com/fmind/cookiecutter-stack.git
     streamlit: https://github.com/fmind/cookiecutter-streamlit.git
     supervisord: https://github.com/fmind/cookiecutter-supervisord.git
     watchdog: https://github.com/fmind/cookiecutter-watchdog.git

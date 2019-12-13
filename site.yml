@@ -35,6 +35,7 @@
     - {role: sloccount, tags: ['sloccount',  'develop','native']}
     # }}}
     # edit {{{
+    - {role: pandoc, tags: ['pandoc', 'edit', 'haskell']}
     - {role: ranger, tags: ['ranger', 'edit', 'python']}
     - {role: vim, tags: ['vim', 'edit', 'native']}
     # }}}
