@@ -1,7 +1,0 @@
----
-
-- name: package
-  package:
-    name: pandoc
-  become: true
-  tags: admin

@@ -16,7 +16,6 @@ abbreviations:
     docker: https://github.com/fmind/cookiecutter-docker.git
     engine: https://github.com/fmind/cookiecutter-engine.git
     flask: https://github.com/fmind/cookiecutter-flask.git
-    haskell: https://github.com/fmind/cookiecutter-haskell.git
     invoke: https://github.com/fmind/cookiecutter-invoke.git
     kivy: https://github.com/fmind/cookiecutter-kivy.git
     mailing: https://github.com/fmind/cookiecutter-mailing.git
@@ -32,7 +31,6 @@ abbreviations:
     setup: https://github.com/fmind/cookiecutter-setup.git
     sphinx: https://github.com/fmind/cookiecutter-sphinx.git
     spider: https://github.com/fmind/cookiecutter-spider.git
-    stack: https://github.com/fmind/cookiecutter-stack.git
     streamlit: https://github.com/fmind/cookiecutter-streamlit.git
     supervisord: https://github.com/fmind/cookiecutter-supervisord.git
     watchdog: https://github.com/fmind/cookiecutter-watchdog.git
