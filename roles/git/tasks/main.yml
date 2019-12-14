@@ -6,13 +6,6 @@
   become: true
   tags: admin
 
-- name: manager
-  package:
-    name: hub
-  ignore_errors: true
-  become: true
-  tags: admin
-
 - name: extras
   package:
     name: git-extras
