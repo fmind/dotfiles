@@ -16,6 +16,7 @@
     - {role: csvkit, tags: ['csvkit', 'analyze', 'python']}
     - {role: glom, tags: ['glom', 'analyze', 'python']}
     - {role: mario, tags: ['mario', 'analyze', 'python']}
+    - {role: sandman, tags: ['sandman', 'analyze', 'python']}
     - {role: schema, tags: ['schema', 'analyze', 'python']}
     # }}}
     # control {{{
