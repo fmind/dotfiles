@@ -4,12 +4,16 @@
 
   pre_tasks:
 
-  - name: prepare pip
-    package: name='python3-pip'
+  - name: pip
+    package:
+      name: python3-pip
     become: true
+    tags: admin
 
-  - name: prepare bin
-    file: name='~/bin' state='directory'
+  - name: ~/bin/
+    file:
+      name: ~/bin
+      state: directory
 
   roles:
     # analyze {{{
@@ -34,6 +38,7 @@
     - {role: invoke, tags: ['invoke', 'develop', 'python']}
     - {role: make, tags: ['make',  'develop','native']}
     - {role: metrics, tags: ['metrics',  'develop','python']}
+    - {role: pipx, tags: ['pipx',  'develop','python']}
     # }}}
     # edit {{{
     - {role: ranger, tags: ['ranger', 'edit', 'python']}
