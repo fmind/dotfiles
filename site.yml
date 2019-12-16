@@ -19,9 +19,11 @@
     # analyze {{{
     - {role: csvkit, tags: ['csvkit', 'analyze', 'python']}
     - {role: glom, tags: ['glom', 'analyze', 'python']}
-    - {role: mario, tags: ['mario', 'analyze', 'python']}
+    - {role: metrics, tags: ['metrics',  'analyze','python']}
+    - {role: pint, tags: ['pint', 'analyze', 'python']}
     - {role: sandman, tags: ['sandman', 'analyze', 'python']}
     - {role: schema, tags: ['schema', 'analyze', 'python']}
+    - {role: stylecloud, tags: ['stylecloud', 'analyze', 'python']}
     # }}}
     # control {{{
     - {role: airflow, tags: ['airflow', 'control', 'python']}
@@ -34,10 +36,8 @@
     - {role: cookiecutter, tags: ['cookiecutter', 'develop', 'python']}
     - {role: ctags, tags: ['ctags', 'develop', 'native']}
     - {role: git, tags: ['git', 'develop', 'native']}
-    - {role: howdoi, tags: ['howdoi', 'develop', 'python']}
     - {role: invoke, tags: ['invoke', 'develop', 'python']}
     - {role: make, tags: ['make',  'develop','native']}
-    - {role: metrics, tags: ['metrics',  'develop','python']}
     - {role: pipx, tags: ['pipx',  'develop','python']}
     # }}}
     # edit {{{
@@ -46,16 +46,18 @@
     # }}}
     # filter {{{
     - {role: fzf, tags: ['fzf', 'filter', 'native']}
+    - {role: mario, tags: ['mario', 'filter', 'python']}
     - {role: silver, tags: ['silver', 'filter','native']}
+    - {role: tqdm, tags: ['tqdm', 'filter', 'python']}
     # }}}
     # interact {{{
     - {role: bash, tags: ['bash', 'interact', 'native']}
     - {role: byobu, tags: ['byobu', 'interact', 'native']}
     - {role: fish, tags: ['fish', 'interact', 'native']}
+    - {role: howdoi, tags: ['howdoi', 'interact', 'python']}
     - {role: litecli, tags: ['litecli', 'interact', 'python']}
     - {role: mycli, tags: ['mycli', 'interact', 'python']}
     - {role: pgcli, tags: ['pgcli', 'interact', 'python']}
-    - {role: pint, tags: ['pint', 'interact', 'python']}
     - {role: shutit, tags: ['shutit', 'interact', 'python']}
     - {role: xonsh, tags: ['xonsh', 'interact', 'python']}
     - {role: zsh, tags: ['zsh', 'interact', 'native']}
@@ -64,7 +66,6 @@
     - {role: glances, tags: ['glances', 'monitor', 'python']}
     - {role: htop, tags: ['htop', 'monitor', 'native']}
     - {role: ncdu, tags: ['ncdu', 'monitor', 'native']}
-    - {role: tqdm, tags: ['tqdm', 'monitor', 'python']}
     # }}}
     # network {{{
     - {role: curl, tags: ['curl', 'network', 'native']}
@@ -74,6 +75,5 @@
     - {role: scrapy, tags: ['scrapy', 'network', 'python']}
     # }}}
     # record {{{
-    - {role: stylecloud, tags: ['stylecloud', 'record', 'python']}
     - {role: termtosvg, tags: ['termtosvg', 'record', 'python']}
     # }}}
