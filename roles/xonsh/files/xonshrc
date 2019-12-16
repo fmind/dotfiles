@@ -9,6 +9,8 @@ $PROMPT = "{INTENSE_RED}{user}{NO_COLOR} " + \
           "{branch_color}{curr_branch:{} }{NO_COLOR}{prompt_end} "
 # ALIASES
 aliases['py'] = 'ipython'
+aliases['lab'] = 'jupyter lab'
+aliases['note'] = 'jupyter notebook'
 # TRIGGERS
 @events.on_chdir
 def listdir(newdir, olddir):

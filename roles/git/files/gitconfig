@@ -1,7 +1,8 @@
 [user]
+    username = fmind
     name = Médéric Hurier
     email = fmind@fmind.me
-    username = fmind
+	signingkey = C1867A8AE0C04ECD
 
 [core]
     editor = vim
@@ -10,3 +11,6 @@
 [alias]
     st = status
     tree = ls-tree -r master --name-only
+
+[commit]
+	gpgsign = true
