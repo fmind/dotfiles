@@ -16,6 +16,7 @@ abbreviations:
     docker: https://github.com/fmind/cookiecutter-docker.git
     engine: https://github.com/fmind/cookiecutter-engine.git
     flask: https://github.com/fmind/cookiecutter-flask.git
+    hy: https://github.com/fmind/cookiecutter-hy.git
     invoke: https://github.com/fmind/cookiecutter-invoke.git
     kivy: https://github.com/fmind/cookiecutter-kivy.git
     mailing: https://github.com/fmind/cookiecutter-mailing.git
