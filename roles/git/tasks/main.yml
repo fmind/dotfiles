@@ -6,13 +6,7 @@
   become: true
   tags: admin
 
-- name: extras
-  package:
-    name: git-extras
-  become: true
-  tags: admin
-
-- name: inputs
+- name: manager
   pip:
     name: gitsome
     executable: pip3

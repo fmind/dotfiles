@@ -11,6 +11,3 @@
 [alias]
     st = status
     tree = ls-tree -r master --name-only
-
-[commit]
-	gpgsign = true
