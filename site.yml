@@ -19,7 +19,6 @@
     # analyze {{{
     - {role: csvkit, tags: ['csvkit', 'analyze', 'python']}
     - {role: glom, tags: ['glom', 'analyze', 'python']}
-    - {role: metrics, tags: ['metrics',  'analyze','python']}
     - {role: pint, tags: ['pint', 'analyze', 'python']}
     - {role: sandman, tags: ['sandman', 'analyze', 'python']}
     - {role: schema, tags: ['schema', 'analyze', 'python']}
@@ -38,7 +37,7 @@
     - {role: git, tags: ['git', 'develop', 'native']}
     - {role: invoke, tags: ['invoke', 'develop', 'python']}
     - {role: make, tags: ['make',  'develop','native']}
-    - {role: pipx, tags: ['pipx',  'develop','python']}
+    - {role: metrics, tags: ['metrics',  'develop','python']}
     # }}}
     # edit {{{
     - {role: ranger, tags: ['ranger', 'edit', 'python']}
