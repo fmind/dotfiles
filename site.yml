@@ -21,11 +21,9 @@
     - {role: glom, tags: ['glom', 'analyze', 'python']}
     - {role: pint, tags: ['pint', 'analyze', 'python']}
     - {role: sandman, tags: ['sandman', 'analyze', 'python']}
-    - {role: schema, tags: ['schema', 'analyze', 'python']}
     - {role: stylecloud, tags: ['stylecloud', 'analyze', 'python']}
     # }}}
     # control {{{
-    - {role: airflow, tags: ['airflow', 'control', 'python']}
     - {role: ansible, tags: ['ansible', 'control', 'python']}
     - {role: schedule, tags: ['schedule', 'control', 'python']}
     - {role: supervisord, tags: ['supervisord', 'control', 'python']}
@@ -37,7 +35,7 @@
     - {role: git, tags: ['git', 'develop', 'native']}
     - {role: invoke, tags: ['invoke', 'develop', 'python']}
     - {role: make, tags: ['make',  'develop','native']}
-    - {role: metrics, tags: ['metrics',  'develop','python']}
+    - {role: metrics, tags: ['metrics', 'develop', 'python']}
     # }}}
     # edit {{{
     - {role: ranger, tags: ['ranger', 'edit', 'python']}
