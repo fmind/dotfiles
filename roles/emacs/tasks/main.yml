@@ -1,6 +1,6 @@
 ---
 
-- name: editor
+- name: package
   package:
     name: emacs-nox
   become: true

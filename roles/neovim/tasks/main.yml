@@ -7,7 +7,7 @@
   become: true
   tags: admin
 
-- name: editor
+- name: package
   package:
     name: neovim
   become: true
