@@ -2,13 +2,6 @@
 
 - hosts: localhost
 
-  pre_tasks:
-
-  - name: ~/bin/
-    file:
-      name: ~/bin
-      state: directory
-
   roles:
     - {role: bash, tags: ['bash', 'shell']}
     - {role: byobu, tags: ['byobu', 'shell']}
