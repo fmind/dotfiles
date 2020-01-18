@@ -27,6 +27,5 @@ function fish_prompt
     end
 end
 # PLUGINS
-# >>> conda initialize >>>
 eval $HOME/.anaconda/bin/conda "shell.fish" "hook" $argv | source
-# <<< conda initialize <<<
+status --is-login; and status --is-interactive; and exec byobu-launcher
