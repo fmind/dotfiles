@@ -6,14 +6,6 @@
   become: true
   tags: admin
 
-- name: config
-  file:
-    force: yes
-    state: link
-    dest: ~/.bashrc
-    src: "{{ role_path }}/files/bashrc"
-  tags: user
-
 - name: profile
   file:
     force: yes

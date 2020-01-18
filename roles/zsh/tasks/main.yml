@@ -24,14 +24,6 @@
     name: ~/.zsh.d/plugins
   tags: user
 
-- name: config
-  file:
-    force: yes
-    state: link
-    dest: ~/.zshrc
-    src: "{{ role_path }}/files/zshrc"
-  tags: user
-
 - name: profile
   file:
     force: yes

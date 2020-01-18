@@ -26,3 +26,7 @@ function fish_prompt
         printf " \$ "
     end
 end
+# PLUGINS
+# >>> conda initialize >>>
+eval $HOME/.anaconda/bin/conda "shell.fish" "hook" $argv | source
+# <<< conda initialize <<<

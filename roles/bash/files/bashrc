@@ -1,3 +1,0 @@
-shopt -s globstar
-shopt -s histappend
-shopt -s checkwinsize
