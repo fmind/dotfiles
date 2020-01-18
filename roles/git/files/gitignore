@@ -1,4 +1,6 @@
+# DIRS
 .mypy_cache/
 .pytest_cache/
 .ipynb_checkpoints/
+# FILES
 .projections.json
