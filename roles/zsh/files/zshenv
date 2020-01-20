@@ -1,3 +1,5 @@
+# EDITOR
+bindkey -v
 # CONFIGS
 PROMPT='%F{red}%n%f at %F{green}%m%f in %F{blue}%B%~%b%f %# '
 HIST_STAMPS="yyyy-mm-dd"

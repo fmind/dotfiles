@@ -1,3 +1,5 @@
+# EDITOR
+fish_vi_key_bindings
 # CONFIGS
 set -g fish_greeting ''
 # PROMPTS
