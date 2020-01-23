@@ -1,5 +1,3 @@
-# EDITOR
-set -o vi
 # CONFIGS
 PS1='\u@\h:\w\$ '
 # OPTIONS

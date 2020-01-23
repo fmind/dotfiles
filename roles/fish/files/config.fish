@@ -1,5 +1,3 @@
-# EDITOR
-fish_vi_key_bindings
 # CONFIGS
 set -g fish_greeting ''
 # PROMPTS
@@ -30,4 +28,3 @@ function fish_prompt
 end
 # PLUGINS
 eval $HOME/.anaconda/bin/conda "shell.fish" "hook" $argv | source
-status --is-login; and status --is-interactive; and exec byobu-launcher
