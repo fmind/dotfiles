@@ -13,12 +13,11 @@
     extra_args: --user
   tags: user
 
-- name: config
-  file:
-    force: yes
-    state: link
-    dest: ~/.gitconfig
-    src: "{{ role_path }}/files/gitconfig"
+- name: reviewer
+  pip:
+    name: gitsome
+    executable: pip3
+    extra_args: --user
   tags: user
 
 - name: ignore
@@ -27,4 +26,11 @@
     state: link
     dest: ~/.gitignore
     src: "{{ role_path }}/files/gitignore"
+  tags: user
+
+- name: manager
+  get_url:
+    mode: 0700
+    dest: ~/bin/gws
+    url: https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws
   tags: user

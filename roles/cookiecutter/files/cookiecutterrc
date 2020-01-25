@@ -1,0 +1,7 @@
+default_context:
+    user: "fmind"
+    email: "fmind@fmind.me"
+    author: "Médéric Hurier"
+    control: "github.com"
+    license: "LGPL-3.0"
+    editor: "vim"

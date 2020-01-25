@@ -1,6 +1,0 @@
-# CONFIGS
-PS1='\u@\h:\w\$ '
-# OPTIONS
-shopt -s globstar
-shopt -s histappend
-shopt -s checkwinsize

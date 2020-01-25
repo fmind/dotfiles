@@ -2,19 +2,36 @@
 
 - hosts: localhost
 
+  pre_tasks:
+
+  - name: ~/bin/
+    file:
+      name: ~/bin
+      state: directory
+
   roles:
-    - {role: bash, tags: ['bash', 'shell']}
+    - {role: ansible, tags: ['ansible', 'setup']}
     - {role: byobu, tags: ['byobu', 'shell']}
-    - {role: ctags, tags: ['ctags', 'develop']}
-    - {role: curl, tags: ['curl', 'network']}
-    - {role: emacs, tags: ['emacs', 'editor']}
-    - {role: fish, tags: ['fish', 'shell']}
-    - {role: fzf, tags: ['fzf', 'search']}
+    - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
+    - {role: ctags, tags: ['ctags', 'search']}
+    - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
-    - {role: htop, tags: ['htop', 'monitor']}
-    - {role: make, tags: ['make', 'develop']}
+    - {role: glances, tags: ['glances', 'monitor']}
+    - {role: glom, tags: ['glom', 'filter']}
+    - {role: howdoi, tags: ['howdoi', 'assist']}
+    - {role: httpie, tags: ['httpie', 'network']}
+    - {role: mario, tags: ['mario', 'analyze']}
+    - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
+    - {role: pint, tags: ['pint', 'analyze']}
+    - {role: ranger, tags: ['ranger', 'browser']}
+    - {role: scapy, tags: ['scapy', 'network']}
+    - {role: schedule, tags: ['schedule', 'trigger']}
+    - {role: shutit, tags: ['shutit', 'setup']}
     - {role: silver, tags: ['silver', 'search']}
-    - {role: vim, tags: ['vim', 'editor']}
-    - {role: zsh, tags: ['zsh', 'shell']}
+    - {role: supervisord, tags: ['supervisord', 'setup']}
+    - {role: termtosvg, tags: ['termtosvg', 'record']}
+    - {role: tqdm, tags: ['tqdm', 'monitor']}
+    - {role: watchdog, tags: ['watchdog', 'trigger']}
+    - {role: xonsh, tags: ['xonsh', 'shell']}

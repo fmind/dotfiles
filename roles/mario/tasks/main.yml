@@ -1,0 +1,17 @@
+---
+
+- name: package
+  pip:
+    name: mario
+    executable: pip3
+    extra_args: --user
+  when: "ansible_python_version is version('3.7', '>=')"
+  tags: user
+
+- name: addons
+  pip:
+    name: mario-addons
+    executable: pip3
+    extra_args: --user
+  when: "ansible_python_version is version('3.7', '>=')"
+  tags: user
