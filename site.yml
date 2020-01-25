@@ -33,5 +33,6 @@
     - {role: supervisor, tags: ['supervisor', 'setup']}
     - {role: termtosvg, tags: ['termtosvg', 'record']}
     - {role: tqdm, tags: ['tqdm', 'monitor']}
+    - {role: w3m, tags: ['w3m', 'browser']}
     - {role: watchdog, tags: ['watchdog', 'trigger']}
     - {role: xonsh, tags: ['xonsh', 'shell']}

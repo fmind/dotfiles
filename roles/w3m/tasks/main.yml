@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: w3m
+  become: true
+  tags: admin
