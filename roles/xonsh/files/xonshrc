@@ -1,14 +1,17 @@
-# CONFIGS
-$VI_MODE = True
 # EXPORTS
 $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'
 $PATH = ['~/bin', 'venv/bin/', '~/.local/bin', '/usr/local/bin', '/usr/local/sbin', '/usr/bin', '/usr/sbin', '/bin', '/sbin']
 # CONFIGS
-$PROMPT = "{INTENSE_RED}{user}{NO_COLOR} " + \
-          "at {INTENSE_GREEN}{hostname}{NO_COLOR} " + \
-          "in {INTENSE_BLUE}{short_cwd}{NO_COLOR} " + \
-          "{branch_color}{curr_branch:{} }{NO_COLOR}{prompt_end} "
+$DOTGLOB = True
+$VI_MODE = True
+$AUTO_PUSHD = True
+$XONSH_AUTOPAIR = True
+$PROMPT = ("{INTENSE_RED}{user}{NO_COLOR} "
+           "at {INTENSE_GREEN}{hostname}{NO_COLOR} "
+           "in {INTENSE_BLUE}{short_cwd}{NO_COLOR} "
+           "{branch_color}{curr_branch:{} }"
+           "{NO_COLOR}{prompt_end}{NO_COLOR} ")
 # ALIASES
 aliases['py'] = 'ipython'
 # TRIGGERS
