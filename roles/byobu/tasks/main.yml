@@ -6,16 +6,16 @@
   become: true
   tags: admin
 
-- name: manager
+- name: library
   pip:
-    name: tmuxp
+    name: libtmux
     executable: pip3
     extra_args: --user
   tags: user
 
-- name: library
+- name: manager
   pip:
-    name: libtmux
+    name: tmuxp
     executable: pip3
     extra_args: --user
   tags: user

@@ -30,7 +30,7 @@
     - {role: schedule, tags: ['schedule', 'trigger']}
     - {role: shutit, tags: ['shutit', 'setup']}
     - {role: silver, tags: ['silver', 'search']}
-    - {role: supervisord, tags: ['supervisord', 'setup']}
+    - {role: supervisor, tags: ['supervisor', 'setup']}
     - {role: termtosvg, tags: ['termtosvg', 'record']}
     - {role: tqdm, tags: ['tqdm', 'monitor']}
     - {role: watchdog, tags: ['watchdog', 'trigger']}
