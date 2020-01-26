@@ -75,8 +75,6 @@ Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
-Plug 'luochen1990/rainbow'
-let g:rainbow_active = 1
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'mhinz/vim-startify'
@@ -146,7 +144,7 @@ let mapleader="\<space>"
 noremap <leader>a :A<CR>
 noremap <leader>b :Buffers<CR>
 noremap <leader>c :Colors<CR>
-" noremap <leader>d :Ag<CR>
+noremap <leader>d :Ag<CR>
 noremap <leader>e :Files<CR>
 noremap <leader>f :GFiles<CR>
 noremap <leader>g :Google 

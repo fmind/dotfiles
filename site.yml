@@ -4,14 +4,29 @@
 
   pre_tasks:
 
-  - name: ~/bin/
+  - name: ensure ~/bin
     file:
       name: ~/bin
       state: directory
+    tags: user
+
+  - name: ensure pip3
+    package:
+      name: python3-pip
+    become: true
+    tags: admin
+
+  - name: ensure pipx
+    pip:
+      name: pipx
+      executable: pip3
+      extra_args: --user
+    tags: user
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
     - {role: byobu, tags: ['byobu', 'shell']}
+    - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: fzf, tags: ['fzf', 'filter']}
@@ -20,11 +35,14 @@
     - {role: glom, tags: ['glom', 'filter']}
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: httpie, tags: ['httpie', 'network']}
+    - {role: litecli, tags: ['litecli', 'shell']}
     - {role: mario, tags: ['mario', 'analyze']}
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
     - {role: pint, tags: ['pint', 'analyze']}
+    - {role: ptrepl, tags: ['ptrepl', 'shell']}
+    - {role: pydoro, tags: ['pydoro', 'analyze']}
     - {role: ranger, tags: ['ranger', 'browser']}
     - {role: scapy, tags: ['scapy', 'network']}
     - {role: schedule, tags: ['schedule', 'trigger']}
@@ -35,4 +53,5 @@
     - {role: tqdm, tags: ['tqdm', 'monitor']}
     - {role: w3m, tags: ['w3m', 'browser']}
     - {role: watchdog, tags: ['watchdog', 'trigger']}
+    - {role: wharfee, tags: ['wharfee', 'shell']}
     - {role: xonsh, tags: ['xonsh', 'shell']}

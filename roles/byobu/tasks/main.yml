@@ -16,8 +16,7 @@
 - name: manager
   pip:
     name: tmuxp
-    executable: pip3
-    extra_args: --user
+    executable: pipx
   tags: user
 
 - name: directory

@@ -3,6 +3,5 @@
 - name: package
   pip:
     name: glom
-    executable: pip3
-    extra_args: --user
+    executable: pipx
   tags: user

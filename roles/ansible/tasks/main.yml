@@ -3,13 +3,11 @@
 - name: package
   pip:
     name: ansible
-    executable: pip3
-    extra_args: --user
+    executable: pipx
   tags: user
 
 - name: linter
   pip:
     name: ansible-lint
-    executable: pip3
-    extra_args: --user
+    executable: pipx
   tags: user

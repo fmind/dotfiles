@@ -3,8 +3,7 @@
 - name: package
   pip:
     name: xonsh
-    executable: pip3
-    extra_args: --user
+    executable: pipx
   tags: user
 
 - name: config

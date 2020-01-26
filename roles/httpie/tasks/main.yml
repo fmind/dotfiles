@@ -3,6 +3,11 @@
 - name: package
   pip:
     name: httpie
-    executable: pip3
-    extra_args: --user
+    executable: pipx
+  tags: user
+
+- name: package
+  pip:
+    name: http-prompt
+    executable: pipx
   tags: user

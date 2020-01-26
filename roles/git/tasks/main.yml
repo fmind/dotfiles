@@ -20,13 +20,6 @@
     url: https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws
   tags: user
 
-- name: reviewer
-  pip:
-    name: gitsome
-    executable: pip3
-    extra_args: --user
-  tags: user
-
 - name: ignore
   file:
     force: yes

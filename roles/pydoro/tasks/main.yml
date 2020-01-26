@@ -2,6 +2,6 @@
 
 - name: package
   pip:
-    name: tqdm
+    name: pydoro
     executable: pipx
   tags: user
