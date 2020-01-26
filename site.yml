@@ -2,9 +2,6 @@
 
 - hosts: localhost
 
-  environment:
-    PATH: "~/.local/bin/:{{ ansible_env.PATH }}"
-
   pre_tasks:
 
   - name: ensure ~/bin
@@ -12,6 +9,12 @@
       name: ~/bin
       state: directory
     tags: user
+
+  - name: ensure venv
+    package:
+      name: python3-venv
+    become: true
+    tags: admin
 
   - name: ensure pip3
     package:
@@ -59,3 +62,6 @@
     - {role: watchdog, tags: ['watchdog', 'trigger']}
     - {role: wharfee, tags: ['wharfee', 'shell']}
     - {role: xonsh, tags: ['xonsh', 'shell']}
+
+  environment:
+    PATH: "$HOME/.local/bin/:{{ ansible_env.PATH }}"
