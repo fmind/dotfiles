@@ -102,7 +102,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'w0rp/ale'
 let g:ale_set_quickfix = 1
-let g:ale_sign_column_always = 1
 let b:ale_fixers = {'python': ['black', 'isort']}
 let b:ale_linters = {'python': ['mypy', 'vulture',
                               \ 'pylint', 'bandit']}
