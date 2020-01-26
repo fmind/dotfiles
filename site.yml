@@ -2,6 +2,9 @@
 
 - hosts: localhost
 
+  environment:
+    PATH: "~/.local/bin/:{{ ansible_env.PATH }}"
+
   pre_tasks:
 
   - name: ensure ~/bin
