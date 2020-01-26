@@ -30,13 +30,6 @@
     extra_args: --user
   tags: user
 
-- name: manager
-  get_url:
-    dest: ~/.local/share/nvim/site/autoload/plug.vim
-    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  register: install plugins
-  tags: user
-
 - name: directories
   file:
     state: directory
@@ -46,6 +39,13 @@
     - ~/.config/nvim/spell/
     - ~/.local/share/nvim/session
     - ~/.local/share/nvim/site/autoload/
+  tags: user
+
+- name: manager
+  get_url:
+    dest: ~/.local/share/nvim/site/autoload/plug.vim
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  register: install plugins
   tags: user
 
 - name: languages
