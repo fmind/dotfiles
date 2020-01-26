@@ -43,6 +43,7 @@ set spelllang=en
 " }}}
 " WINDOW {{{
 set linebreak
+set lazyredraw
 set shortmess=I
 set scrolloff=10
 " }}}
@@ -126,6 +127,7 @@ xnoremap < <gv
 xnoremap > >gv
 nnoremap U <C-r>
 nnoremap gl :nohl<CR>
+" }}}
 " PASTES {{{
 nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
@@ -268,6 +270,7 @@ noremap <localleader>sc :SClose<CR>
 noremap <localleader>sd :SDelete!<CR>
 noremap <localleader>sl :SLoad<CR>
 noremap <localleader>ss :SSave!<CR>
+" }}}
 " windows {{{
 noremap <localleader>wd :set background=dark<CR>
 noremap <localleader>wl :set background=light<CR>
