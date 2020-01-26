@@ -43,6 +43,7 @@
   with_items:
     - ~/.config/nvim/
     - ~/.config/nvim/spell/
+    - ~/.local/share/nvim/session
     - ~/.local/share/nvim/site/autoload/
   tags: user
 
