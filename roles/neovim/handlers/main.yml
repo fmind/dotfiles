@@ -1,0 +1,5 @@
+---
+
+- name: install plugins
+  command: nvim +'PlugInstall --sync' +qa
+  tags: user
