@@ -64,4 +64,4 @@
     - {role: xonsh, tags: ['xonsh', 'shell']}
 
   environment:
-    PATH: "$HOME/.local/bin/:{{ ansible_env.PATH }}"
+    PATH: "{{ ansible_user_dir}}/.local/bin/:{{ ansible_env.PATH }}"
