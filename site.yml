@@ -36,7 +36,6 @@
     - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: ctags, tags: ['ctags', 'search']}
-    - {role: functools, tags: ['functools', 'analyze']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
     - {role: glances, tags: ['glances', 'monitor']}
