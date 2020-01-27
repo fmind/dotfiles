@@ -1,10 +1,11 @@
 # EXPORTS
 $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'
-$PATH = ['~/bin',
-         'venv/bin/', '~/.local/bin',
+$PATH = ['venv/bin/',
+         '~/bin', '~/.local/bin',
          '/usr/local/bin', '/usr/local/sbin',
-         '/usr/bin', '/usr/sbin', '/bin', '/sbin']
+         '/usr/bin', '/usr/sbin',
+         '/bin', '/sbin']
 # CONFIGS
 $DOTGLOB = True
 $VI_MODE = True
