@@ -64,6 +64,7 @@
     - {role: watchdog, tags: ['watchdog', 'trigger']}
     - {role: wharfee, tags: ['wharfee', 'shell']}
     - {role: xonsh, tags: ['xonsh', 'shell']}
+    - {role: youget, tags: ['youget', 'internet']}
 
   environment:
     LANG: en_US.UTF-8

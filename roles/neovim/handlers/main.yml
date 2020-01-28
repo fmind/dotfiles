@@ -1,5 +1,5 @@
 ---
 
-- name: install plugins
+- name: install neovim plugins
   command: nvim +'PlugInstall --sync' +qa
   tags: user
