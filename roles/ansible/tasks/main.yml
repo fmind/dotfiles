@@ -1,10 +1,10 @@
 ---
 
 - name: package
-  pip:
+  package:
     name: ansible
-    executable: pipx
-  tags: user
+  become: true
+  tags: admin
 
 - name: linter
   pip:

@@ -68,4 +68,4 @@
 
   environment:
     LANG: en_US.UTF-8
-    PATH: "{{ ansible_user_dir }}/.local/bin/:{{ ansible_env.PATH }}"
+    PATH: "{{ ansible_env.HOME }}/.local/bin/:{{ ansible_env.PATH }}"

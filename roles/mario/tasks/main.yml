@@ -7,9 +7,7 @@
   when: "ansible_python_version is version('3.7', '>=')"
   tags: user
 
-- name: addons
-  pip:
-    name: mario-addons
-    executable: pipx
+- name: dependencies
+  command: pipx inject mario mario-addons
   when: "ansible_python_version is version('3.7', '>=')"
   tags: user
