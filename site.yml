@@ -36,6 +36,7 @@
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: csvkit, tags: ['csvkit', 'analyze']}
     - {role: ctags, tags: ['ctags', 'search']}
+    - {role: fish, tags: ['fish', 'shell']}
     - {role: functools, tags: ['functools', 'analyze']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
