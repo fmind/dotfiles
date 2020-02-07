@@ -32,6 +32,7 @@
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
     - {role: byobu, tags: ['byobu', 'shell']}
+    - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: csvkit, tags: ['csvkit', 'analyze']}
