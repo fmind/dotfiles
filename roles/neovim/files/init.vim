@@ -39,7 +39,7 @@ set ignorecase
 " }}}
 " SPELLS {{{
 set spell
-set spelllang=en
+set spelllang=en,fr
 " }}}
 " WINDOW {{{
 set linebreak
