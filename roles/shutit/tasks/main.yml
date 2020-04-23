@@ -1,7 +1,0 @@
----
-
-- name: package
-  pip:
-    name: shutit
-    executable: pipx
-  tags: user

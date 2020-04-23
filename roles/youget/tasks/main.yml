@@ -1,7 +1,0 @@
----
-
-- name: package
-  pip:
-    name: you-get
-    executable: pipx
-  tags: user

@@ -1,7 +1,0 @@
----
-
-- name: package
-  pip:
-    name: pydoro
-    executable: pipx
-  tags: user

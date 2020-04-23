@@ -9,5 +9,6 @@
 - name: linter
   pip:
     name: ansible-lint
-    executable: pipx
+    executable: pip3
+    extra_args: --user
   tags: user

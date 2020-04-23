@@ -1,7 +1,0 @@
----
-
-- name: package
-  pip:
-    name: pandashells[full]
-    executable: pipx
-  tags: user

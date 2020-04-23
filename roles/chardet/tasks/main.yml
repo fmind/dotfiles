@@ -1,7 +1,0 @@
----
-
-- name: package
-  pip:
-    name: chardet
-    executable: pipx
-  tags: user

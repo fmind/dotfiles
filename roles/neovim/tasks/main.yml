@@ -1,13 +1,5 @@
 ---
 
-- name: repository
-  apt_repository:
-    filename: neovim
-    repo: ppa:neovim-ppa/stable
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
-  become: true
-  tags: admin
-
 - name: package
   package:
     name: neovim

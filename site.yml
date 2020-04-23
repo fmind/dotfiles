@@ -22,23 +22,14 @@
     become: true
     tags: admin
 
-  - name: ensure pipx
-    pip:
-      name: pipx
-      executable: pip3
-      extra_args: --user
-    tags: user
-
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
     - {role: byobu, tags: ['byobu', 'shell']}
-    - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: csvkit, tags: ['csvkit', 'analyze']}
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: fish, tags: ['fish', 'shell']}
-    - {role: functools, tags: ['functools', 'analyze']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
     - {role: glances, tags: ['glances', 'monitor']}
@@ -46,27 +37,19 @@
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: httpie, tags: ['httpie', 'network']}
     - {role: litecli, tags: ['litecli', 'shell']}
-    - {role: mario, tags: ['mario', 'analyze']}
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
-    - {role: pandashells, tags: ['pandashells', 'analyze']}
-    - {role: pint, tags: ['pint', 'analyze']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
-    - {role: pydoro, tags: ['pydoro', 'analyze']}
     - {role: ranger, tags: ['ranger', 'browser']}
     - {role: scapy, tags: ['scapy', 'network']}
     - {role: schedule, tags: ['schedule', 'trigger']}
-    - {role: shutit, tags: ['shutit', 'setup']}
     - {role: silver, tags: ['silver', 'search']}
     - {role: supervisor, tags: ['supervisor', 'setup']}
     - {role: termtosvg, tags: ['termtosvg', 'record']}
     - {role: tqdm, tags: ['tqdm', 'monitor']}
     - {role: w3m, tags: ['w3m', 'browser']}
     - {role: watchdog, tags: ['watchdog', 'trigger']}
-    - {role: wharfee, tags: ['wharfee', 'shell']}
-    - {role: xonsh, tags: ['xonsh', 'shell']}
-    - {role: youget, tags: ['youget', 'internet']}
 
   environment:
     LANG: en_US.UTF-8

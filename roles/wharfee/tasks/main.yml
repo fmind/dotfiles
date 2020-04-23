@@ -1,7 +1,0 @@
----
-
-- name: package
-  pip:
-    name: wharfee
-    executable: pipx
-  tags: user
