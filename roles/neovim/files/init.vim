@@ -1,3 +1,4 @@
+" vim: fdm=marker
 " BUFFER {{{
 set hidden
 set confirm
@@ -77,8 +78,6 @@ let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
 Plug 'majutsushi/tagbar'
-Plug 'mattn/emmet-vim'
-Plug 'mhinz/vim-startify'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'rbgrouleff/bclose.vim' " ranger dependency
 Plug 'sheerun/vim-polyglot'
@@ -86,9 +85,6 @@ Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 let g:deoplete#enable_at_startup = 1
 Plug 'Shougo/neco-syntax'
 Plug 'SirVer/ultisnips'
-Plug 'svermeulen/vim-yoink'
-let g:yoinkSavePersistently = 0
-let g:yoinkIncludeDeleteOperations = 1
 Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
@@ -103,8 +99,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'w0rp/ale'
 let g:ale_set_quickfix = 1
 let b:ale_fixers = {'python': ['black', 'isort']}
-let b:ale_linters = {'python': ['mypy', 'vulture',
-                              \ 'pylint', 'bandit']}
+let b:ale_linters = {'python': ['mypy', 'pylint', 'vulture']}
 let g:ale_python_pylint_options = '--error-only'
 Plug 'wellle/tmux-complete.vim'
 call plug#end()
@@ -127,13 +122,7 @@ xnoremap > >gv
 nnoremap U <C-r>
 nnoremap gl :nohl<CR>
 " }}}
-" PASTES {{{
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
-nmap <C-n> <plug>(YoinkPostPasteSwapBack)
-nmap <C-p> <plug>(YoinkPostPasteSwapForward)
-" }}}
-" PYTHON {{{
+" EXTRAS {{{
 vnoremap <C-c> :call RunTmuxPythonChunk()<CR>
 nnoremap <C-c> :call RunTmuxPythonCell(1)<CR>
 nnoremap <C-b> :call RunTmuxPythonCell(0)<CR>
@@ -166,8 +155,8 @@ noremap <leader>u :UltiSnipsEdit<CR>
 noremap <leader>v "vy :call VimuxSlime(@v)<CR>
 noremap <leader>w :Windows<CR>
 noremap <leader>x :ALEFix<CR>
-noremap <leader>y :Yanks<CR>
-noremap <leader>z :Filetypes<CR>
+noremap <leader>y :Filetypes<CR>
+noremap <leader>z :VimuxZoomRunner<CR>
 noremap <leader><CR> :make<CR>
 noremap <leader><tab> :b#<CR>
 noremap <leader><space> :make
@@ -188,7 +177,6 @@ noremap <leader>- :Locate
 noremap <leader>= :Tabularize 
 noremap <leader>_ :GFiles?<CR>
 noremap <leader>+ :Commits<CR>
-noremap <leader>! :Startify<CR>
 noremap <leader>@ :RainbowToggle<CR>
 noremap <leader># :ALEToggle<CR>
 noremap <leader>$ :TagbarToggle<CR>
@@ -232,6 +220,15 @@ noremap <localleader>eT :e ~/.ctags<CR>
 noremap <localleader>eV :e ~/.config/nvim/init.vim<CR>
 noremap <localleader>eX :e ~/.xonshrc<CR>
 noremap <localleader>eY :e ~/.pypirc<CR>
+" }}}
+" plugs {{{
+noremap <localleader>xd :PlugDiff<CR>
+noremap <localleader>xc :PlugClean<CR>
+noremap <localleader>xi :PlugInstall<CR>
+noremap <localleader>xu :PlugUpdate<CR>
+noremap <localleader>xg :PlugUpgrade<CR>
+noremap <localleader>xo :PlugSnapshot<CR>
+noremap <localleader>xs :PlugStatus<CR>
 " }}}
 " tests {{{
 noremap <localleader>tf :TestFile<CR>
@@ -283,9 +280,6 @@ function! VimuxSlime(text)
         call VimuxSendKeys("Enter")
     endif
 endfunction
-" }}}
-" FILE-TYPES {{{
-autocmd FileType vim setlocal foldmethod=marker
 " }}}
 " AUTO-GROUPS {{{
 augroup vim

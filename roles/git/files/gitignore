@@ -3,5 +3,5 @@
 .pytest_cache/
 .ipynb_checkpoints/
 # FILES
-Session.vim
 .projections.json
+.session.vim

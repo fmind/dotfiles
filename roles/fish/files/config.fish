@@ -31,5 +31,4 @@ function fish_prompt
     end
 end
 # PLUGINS
-# eval $HOME/.anaconda/bin/conda "shell.fish" "hook" $argv | source
 status --is-login; and status --is-interactive; and exec byobu-launcher

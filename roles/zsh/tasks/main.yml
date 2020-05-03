@@ -1,0 +1,40 @@
+---
+
+- name: package
+  package:
+    name: zsh
+  become: true
+  tags: admin
+
+- name: manager
+  git:
+    depth: 1
+    dest: ~/.oh-my-zsh
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+  tags: user
+
+- name: directory
+  file:
+    state: directory
+    name: ~/.zsh.d/
+  tags: user
+
+- name: themes
+  file:
+    state: directory
+    name: ~/.zsh.d/themes
+  tags: user
+
+- name: plugins
+  file:
+    state: directory
+    name: ~/.zsh.d/plugins
+  tags: user
+
+- name: profile
+  file:
+    force: yes
+    state: link
+    dest: ~/.zshenv
+    src: "{{ role_path }}/files/zshenv"
+  tags: user
