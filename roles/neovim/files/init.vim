@@ -61,6 +61,8 @@ Plug 'francoiscabrol/ranger.vim'
 let g:ranger_map_keys = 0
 let g:ranger_replace_netrw = 1
 Plug 'godlygeek/tabular'
+Plug 'goerz/jupytext.vim'
+let g:jupytext_fmt = 'py:percent'
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'janko/vim-test'
