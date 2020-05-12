@@ -40,6 +40,7 @@
     - {role: pint, tags: ['pint', 'analyze']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
     - {role: pydoro, tags: ['pydoro', 'monitor']}
+    - {role: pyp, tags: ['pyp', 'filter']}
     - {role: ranger, tags: ['ranger', 'browser']}
     - {role: scapy, tags: ['scapy', 'network']}
     - {role: schedule, tags: ['schedule', 'trigger']}
