@@ -49,7 +49,7 @@
     - {role: supervisor, tags: ['supervisor', 'setup']}
     - {role: termtosvg, tags: ['termtosvg', 'record']}
     - {role: tqdm, tags: ['tqdm', 'monitor']}
-    # - {role: vim, tags: ['vim', 'editor']}
+    - {role: vim, tags: ['vim', 'editor']}
     - {role: w3m, tags: ['w3m', 'browser']}
     - {role: watchdog, tags: ['watchdog', 'trigger']}
     - {role: xonsh, tags: ['xonsh', 'shell']}

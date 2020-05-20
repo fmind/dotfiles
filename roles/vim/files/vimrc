@@ -1,0 +1,87 @@
+" vim: fdm=marker
+" INIT {{{
+set nocompatible
+" }}}
+" BUFFER {{{
+set hidden
+set confirm
+set autoread
+set autowrite
+" }}}
+" FORMAT  {{{
+set autoindent
+set formatoptions-=cro
+" }}}
+" FOLDER {{{
+set foldmethod=indent
+set foldlevelstart=99
+" }}}
+" INDENT {{{
+set tabstop=4
+set expandtab
+set shiftround
+set shiftwidth=4
+set softtabstop=4
+" }}}
+" NUMBER {{{
+set number
+set relativenumber
+" }}}
+" OTHERS {{{
+set shell=/bin/bash
+set clipboard=unnamedplus
+" }}}
+" POPUPS {{{
+set wildmode=list:longest,full
+set completeopt=menuone,longest
+" }}}
+" SEARCH {{{
+set gdefault
+set hlsearch
+set incsearch
+set smartcase
+set ignorecase
+" }}}
+" WINDOW {{{
+set linebreak
+set lazyredraw
+set shortmess=I
+set scrolloff=10
+" }}}
+" COLORS {{{
+colorscheme zellner
+" }}}
+" REMAPS {{{
+nnoremap j gj
+nnoremap k gk
+nnoremap B g^
+nnoremap E g$
+nnoremap Y y$
+xnoremap < <gv
+xnoremap > >gv
+nnoremap U <C-r>
+nnoremap gl :nohl<CR>
+" }}}
+" LEADERS {{{
+noremap <CR> :
+let mapleader="\<space>"
+noremap <leader>< :prev<CR>
+noremap <leader>> :lnext<CR>
+noremap <leader>( :cprev<CR>
+noremap <leader>) :cnext<CR>
+noremap <leader>} :tnext<CR>
+noremap <leader>{ :tprev<CR>
+noremap <leader>j :bnext<CR>
+noremap <leader><tab> :b#<CR>
+noremap <leader><CR> :make<CR>
+noremap <leader><space> :make
+noremap <leader>k :bprevious<CR>
+noremap <leader>. :edit $MYVIMRC<CR>
+noremap <leader>q :bdelete<CR>:bnext<CR>
+" }}}
+" AUGROUPS {{{
+augroup vim
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup end
+" }}}
