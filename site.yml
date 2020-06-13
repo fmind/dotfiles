@@ -39,6 +39,7 @@
     - {role: neovim, tags: ['neovim', 'editor']}
     - {role: pigz, tags: ['pigz', 'compress']}
     - {role: pint, tags: ['pint', 'analyze']}
+    - {role: pyinfra, tags: ['pyinfra', 'setup']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
     - {role: pydoro, tags: ['pydoro', 'monitor']}
     - {role: pyp, tags: ['pyp', 'filter']}
