@@ -1,8 +1,8 @@
 # EXPORTS
 $PATH = [
-    'venv/bin/',
-    '/snap/bin/',
-    '~/bin', '~/.local/bin',
+    'venv/bin',
+    '/snap/bin',
+    '~/Scripts', '~/.local/bin',
     '/usr/local/bin', '/usr/local/sbin',
     '/usr/bin', '/usr/sbin', '/bin', '/sbin',
 ]
@@ -10,9 +10,7 @@ $LANG = 'en_US.UTF-8'
 $EDITOR = 'vim'
 # CONFIGS
 $CDPATH = [
-    '~/code/',
     '~/Projects/',
-    '~/workspace/',
 ]
 $DOTGLOB = True
 $AUTO_PUSHD = True

@@ -1,8 +1,4 @@
-# DIRS
 .mypy_cache/
 .pytest_cache/
 .ipynb_checkpoints/
 .virtual_documents/
-# FILES
-.projections.json
-.session.vim

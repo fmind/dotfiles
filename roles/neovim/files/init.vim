@@ -51,59 +51,16 @@ set scrolloff=10
 " PLUGIN {{{
 let g:loaded_matchparen=1
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'benmills/vimux'
-Plug 'davidhalter/jedi-vim'
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-Plug 'deoplete-plugins/deoplete-jedi'
-Plug 'farmergreg/vim-lastplace'
-Plug 'francoiscabrol/ranger.vim'
-let g:ranger_map_keys = 0
-let g:ranger_replace_netrw = 1
-Plug 'godlygeek/tabular'
-Plug 'goerz/jupytext.vim'
-let g:jupytext_fmt = 'py:percent'
-Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
-Plug 'janko/vim-test'
-let test#strategy = "vimux"
-let test#python#runner = "pytest"
-let g:test#preserve_screen = 1
-Plug 'jiangmiao/auto-pairs'
-Plug 'julienr/vim-cellmode'
-let g:cellmode_tmux_panenumber='1'
-let g:cellmode_default_mappings='0'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
-Plug 'justinmk/vim-sneak' 
-let g:sneak#label = 1
-let g:sneak#s_next = 1
-let g:sneak#use_ic_scs = 1
-Plug 'majutsushi/tagbar'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'rbgrouleff/bclose.vim' " ranger dependency
-Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-let g:deoplete#enable_at_startup = 1
-Plug 'Shougo/neco-syntax'
-Plug 'SirVer/ultisnips'
-Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'w0rp/ale'
-let g:ale_set_quickfix = 1
-let b:ale_fixers = {'python': ['black', 'isort']}
-let b:ale_linters = {'python': ['mypy', 'pylint', 'vulture']}
-let g:ale_python_pylint_options = '--error-only'
-Plug 'wellle/tmux-complete.vim'
 call plug#end()
 " }}}
 " COLORS {{{
@@ -123,12 +80,6 @@ xnoremap < <gv
 xnoremap > >gv
 nnoremap U <C-r>
 nnoremap gl :nohl<CR>
-" }}}
-" EXTRAS {{{
-vnoremap <C-c> :call RunTmuxPythonChunk()<CR>
-nnoremap <C-c> :call RunTmuxPythonCell(1)<CR>
-nnoremap <C-b> :call RunTmuxPythonCell(0)<CR>
-nnoremap <C-g> :call RunTmuxPythonAllCellsAbove()<CR>
 " }}}
 " LEADERS {{{
 noremap <CR> :
@@ -192,12 +143,6 @@ noremap <leader>/ :History/<CR>
 " }}}
 " LLOCALS {{{
 let maplocalleader = ";"
-" jedi {{{
-let g:jedi#goto_command = "<localleader>jj"
-let g:jedi#rename_command = "<localleader>jr"
-let g:jedi#usages_command = "<localleader>ju"
-let g:jedi#documentation_command = "<localleader>jd"
-" }}}
 " files {{{
 noremap <localleader>ec :e .coveragerc<CR>
 noremap <localleader>ei :e .gitignore<CR>
@@ -232,13 +177,6 @@ noremap <localleader>xg :PlugUpgrade<CR>
 noremap <localleader>xo :PlugSnapshot<CR>
 noremap <localleader>xs :PlugStatus<CR>
 " }}}
-" tests {{{
-noremap <localleader>tf :TestFile<CR>
-noremap <localleader>tl :TestLast<CR>
-noremap <localleader>ts :TestSuite<CR>
-noremap <localleader>tt :TestNearest<CR>
-noremap <localleader>tv :TestVisit<CR>
-" }}}
 " spells {{{
 noremap <localleader>la :set spelllang=en,fr<CR>
 noremap <localleader>le :set spelllang=en<CR>
@@ -263,25 +201,11 @@ noremap <localleader>pu :!vulture %<CR>
 noremap <localleader>pv :!python3 -m venv 
 noremap <localleader>py :!ipython -i %<CR>
 " }}}
-" sessions {{{
-noremap <localleader>sc :SClose<CR>
-noremap <localleader>sd :SDelete!<CR>
-noremap <localleader>sl :SLoad<CR>
-noremap <localleader>ss :SSave!<CR>
-" }}}
 " windows {{{
 noremap <localleader>wd :set background=dark<CR>
 noremap <localleader>wl :set background=light<CR>
 noremap <localleader>ww :highlight Normal guibg=NONE ctermbg=NONE<CR>
 " }}}
-" }}}
-" FUNCTIONS {{{
-function! VimuxSlime(text)
-    call VimuxSendText(a:text)
-    if a:text !~ '\n$'
-        call VimuxSendKeys("Enter")
-    endif
-endfunction
 " }}}
 " AUTO-GROUPS {{{
 augroup vim

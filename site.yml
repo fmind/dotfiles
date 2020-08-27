@@ -4,9 +4,9 @@
 
   pre_tasks:
 
-  - name: ensure ~/bin
+  - name: ensure ~/Scripts
     file:
-      name: ~/bin
+      name: ~/Scripts
       state: directory
     tags: user
 
@@ -18,14 +18,14 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
-    - {role: byobu, tags: ['byobu', 'shell']}
+    #- {role: byobu, tags: ['byobu', 'shell']}
     - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: csvkit, tags: ['csvkit', 'analyze']}
-    - {role: ctags, tags: ['ctags', 'search']}
+    #- {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network']}
-    # - {role: fish, tags: ['fish', 'shell']}
+    #- {role: fish, tags: ['fish', 'shell']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
     - {role: glances, tags: ['glances', 'monitor']}
@@ -55,7 +55,7 @@
     - {role: watchdog, tags: ['watchdog', 'trigger']}
     - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
-    # - {role: zsh, tags: ['zsh', 'shell']}
+    #- {role: zsh, tags: ['zsh', 'shell']}
 
   environment:
     LANG: en_US.UTF-8
