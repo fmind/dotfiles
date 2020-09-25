@@ -4,13 +4,14 @@ set hidden
 set confirm
 set autoread
 set autowrite
-" }}}
-" FORMAT  {{{
-set formatoptions-=cro
+set splitright
+set splitbelow
 " }}}
 " FOLDER {{{
-set foldmethod=indent
 set foldlevelstart=99
+" }}}
+" FORMAT {{{
+set formatoptions-=cro
 " }}}
 " INDENT {{{
 set tabstop=4
@@ -26,6 +27,7 @@ set relativenumber
 " OTHERS {{{
 set shell=/bin/bash
 set clipboard=unnamedplus
+let s:windows_clip = '/mnt/c/Windows/System32/clip.exe'
 " }}}
 " POPUPS {{{
 set wildmode=list:longest,full
@@ -51,16 +53,48 @@ set scrolloff=10
 " PLUGIN {{{
 let g:loaded_matchparen=1
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'benmills/vimux'
+Plug 'davidhalter/jedi-vim'
+let g:jedi#auto_vim_configuration = 0
+Plug 'farmergreg/vim-lastplace'
+Plug 'francoiscabrol/ranger.vim'
+let g:ranger_map_keys = 0
+let g:ranger_replace_netrw = 1
+Plug 'godlygeek/tabular'
+Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
+Plug 'janko/vim-test'
+let test#python#runner = "pytest"
+let g:test#preserve_screen = 1
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
+Plug 'justinmk/vim-sneak' 
+let g:sneak#label = 1
+let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
+Plug 'liuchengxu/vim-which-key'
+Plug 'majutsushi/tagbar'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'rbgrouleff/bclose.vim' " ranger dependency
+Plug 'sheerun/vim-polyglot'
+Plug 'SirVer/ultisnips'
+Plug 'szw/vim-g'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'w0rp/ale'
+let g:ale_set_quickfix = 1
+let b:ale_fixers = {'python': ['black', 'isort']}
+let b:ale_linters = {'python': ['mypy', 'pylint']}
+let g:ale_python_pylint_options = '--error-only'
 call plug#end()
 " }}}
 " COLORS {{{
@@ -84,6 +118,8 @@ nnoremap gl :nohl<CR>
 " LEADERS {{{
 noremap <CR> :
 let mapleader="\<space>"
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :WhichKeyVisual '<Space>'<CR>
 noremap <leader>a :A<CR>
 noremap <leader>b :Buffers<CR>
 noremap <leader>c :Colors<CR>
@@ -143,6 +179,19 @@ noremap <leader>/ :History/<CR>
 " }}}
 " LLOCALS {{{
 let maplocalleader = ";"
+nnoremap <silent> <localleader> :WhichKey ';'<CR>
+vnoremap <silent> <localleader> :WhichKeyVisual ';'<CR>
+" jedi {{{
+noremap <localleader>ji :Pyimport 
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#documentation_command = "<localleader>jh"
+let g:jedi#goto_assignments_command = "<localleader>ja"
+let g:jedi#goto_command = "<localleader>jj"
+let g:jedi#goto_definitions_command = "<localleader>jd"
+let g:jedi#goto_stubs_command = "<localleader>js"
+let g:jedi#rename_command = "<localleader>jr"
+let g:jedi#usages_command = "<localleader>ju"
+" }}}
 " files {{{
 noremap <localleader>ec :e .coveragerc<CR>
 noremap <localleader>ei :e .gitignore<CR>
@@ -174,8 +223,15 @@ noremap <localleader>xc :PlugClean<CR>
 noremap <localleader>xi :PlugInstall<CR>
 noremap <localleader>xu :PlugUpdate<CR>
 noremap <localleader>xg :PlugUpgrade<CR>
-noremap <localleader>xo :PlugSnapshot<CR>
+noremap <localleader>xw :PlugSnapshot<CR>
 noremap <localleader>xs :PlugStatus<CR>
+" }}}
+" tests {{{
+noremap <localleader>tf :TestFile<CR>
+noremap <localleader>tl :TestLast<CR>
+noremap <localleader>ts :TestSuite<CR>
+noremap <localleader>tt :TestNearest<CR>
+noremap <localleader>tv :TestVisit<CR>
 " }}}
 " spells {{{
 noremap <localleader>la :set spelllang=en,fr<CR>
@@ -184,32 +240,37 @@ noremap <localleader>lf :set spelllang=fr<CR>
 noremap <localleader>ls :set nospell<CR>
 " }}}
 " python {{{
-noremap <localleader>pa :!bandit %<CR>
-noremap <localleader>pb :!black %<CR>
+noremap <localleader>pb :!bandit %<CR>
 noremap <localleader>pc :!coverage %<CR>
 noremap <localleader>pd :!pydoc3 
-noremap <localleader>pi :!python3 -m pip install 
+noremap <localleader>pe :!python3 %<CR>
+noremap <localleader>pf :!black %<CR>
+noremap <localleader>pi :!isort %<CR>
 noremap <localleader>pl :!pylint %<CR>
 noremap <localleader>pm :!mypy %<CR>
-noremap <localleader>pn :!python3 -m pip install pynvim<CR>
 noremap <localleader>po :!inv
-noremap <localleader>pp :!python3 %<CR>
-noremap <localleader>pr :!bowler 
-noremap <localleader>ps :!isort %<CR>
+noremap <localleader>pr :!rope
 noremap <localleader>pt :!pytest %<CR>
 noremap <localleader>pu :!vulture %<CR>
-noremap <localleader>pv :!python3 -m venv 
 noremap <localleader>py :!ipython -i %<CR>
-" }}}
-" windows {{{
-noremap <localleader>wd :set background=dark<CR>
-noremap <localleader>wl :set background=light<CR>
-noremap <localleader>ww :highlight Normal guibg=NONE ctermbg=NONE<CR>
+noremap <localleader>pvv :!python3 -m venv venv<CR>
+noremap <localleader>ppi :!python3 -m pip install 
+noremap <localleader>ppn :!python3 -m pip install pynvim<CR>
 " }}}
 " }}}
 " AUTO-GROUPS {{{
-augroup vim
+" AutoVim {{{
+augroup AutoVim
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup end
+augroup END
+" }}}
+" WSLYank {{{
+if executable(s:windows_clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:windows_clip, @0) | endif
+    augroup END
+endif
+" }}}
 " }}}

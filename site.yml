@@ -18,14 +18,14 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
-    #- {role: byobu, tags: ['byobu', 'shell']}
+    - {role: byobu, tags: ['byobu', 'shell']}
     - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: csvkit, tags: ['csvkit', 'analyze']}
-    #- {role: ctags, tags: ['ctags', 'search']}
+    - {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network']}
-    #- {role: fish, tags: ['fish', 'shell']}
+    - {role: fish, tags: ['fish', 'shell']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
     - {role: glances, tags: ['glances', 'monitor']}
@@ -33,13 +33,12 @@
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: htop, tags: ['htop', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
-    - {role: litecli, tags: ['litecli', 'shell']}
+    - {role: litecli, tags: ['litecli', 'database']}
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
     - {role: pigz, tags: ['pigz', 'compress']}
     - {role: pint, tags: ['pint', 'analyze']}
-    - {role: pyinfra, tags: ['pyinfra', 'setup']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
     - {role: pydoro, tags: ['pydoro', 'monitor']}
     - {role: pyp, tags: ['pyp', 'filter']}
@@ -55,7 +54,7 @@
     - {role: watchdog, tags: ['watchdog', 'trigger']}
     - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
-    #- {role: zsh, tags: ['zsh', 'shell']}
+    - {role: zsh, tags: ['zsh', 'shell']}
 
   environment:
     LANG: en_US.UTF-8
