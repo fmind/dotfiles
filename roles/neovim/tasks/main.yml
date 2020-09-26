@@ -28,8 +28,6 @@
     state: directory
     path: "{{ item }}"
   with_items:
-    - ~/.config/nvim/
-    - ~/.config/nvim/spell/
     - ~/.local/share/nvim/session
     - ~/.local/share/nvim/site/autoload/
   tags: user
@@ -40,21 +38,8 @@
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   tags: user
 
-- name: languages
-  get_url:
-    dest: "~/.config/nvim/spell/{{ item }}"
-    url: "http://ftp.vim.org/vim/runtime/spell/{{ item }}"
-  with_items:
-   - en.utf-8.spl
-   - en.utf-8.sug
-   - fr.utf-8.spl
-   - fr.utf-8.sug
-  tags: user
-
 - name: config
-  file:
-    force: yes
-    state: link
-    dest: ~/.config/nvim/init.vim
-    src: "{{ role_path }}/files/init.vim"
+  git:
+    dest: ~/.config/nvim
+    repo: https://github.com/fmind/nvim.d
   tags: user
