@@ -14,11 +14,11 @@ $CDPATH = [
 $DOTGLOB = True
 $AUTO_PUSHD = True
 $XONSH_AUTOPAIR = True
-$PROMPT = ("{INTENSE_RED}{user}{NO_COLOR} "
-           "at {INTENSE_GREEN}{hostname}{NO_COLOR} "
-           "in {INTENSE_BLUE}{short_cwd}{NO_COLOR} "
+$PROMPT = ("{INTENSE_RED}{user}{RESET} "
+           "at {INTENSE_GREEN}{hostname}{RESET} "
+           "in {INTENSE_BLUE}{short_cwd}{RESET} "
            "{branch_color}{curr_branch:{} }"
-           "{NO_COLOR}{prompt_end}{NO_COLOR} ")
+           "{RESET}{prompt_end}{RESET} ")
 # ALIASES
 aliases['py'] = 'ipython'
 # TRIGGERS

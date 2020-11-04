@@ -3,7 +3,7 @@ set -g fish_greeting ''
 # EXPORTS
 set -gx EDITOR vim
 set -gx LANG en_US.UTF-8
-set -gx PATH venv/bin $HOME/Scripts/ $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
+set -gx PATH venv/bin $HOME/Scripts/ $HOME/bin $HOME/.local/bin /snap/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 # PROMPTS
 function fish_prompt
     set -l last_status $status
@@ -30,3 +30,5 @@ function fish_prompt
         printf " \$ "
     end
 end
+# PLUGINS
+status --is-login; and status --is-interactive; and exec byobu-launcher
