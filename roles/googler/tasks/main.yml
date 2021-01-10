@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: htop
+  become: true
+  tags: admin
