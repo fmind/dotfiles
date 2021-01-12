@@ -13,6 +13,13 @@
     extra_args: --user
   tags: user
 
+- name: cleaner
+  pip:
+    name: git-sweep
+    executable: pip3
+    extra_args: --user
+  tags: user
+
 - name: manager
   get_url:
     mode: 0700
