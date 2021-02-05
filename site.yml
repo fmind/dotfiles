@@ -26,6 +26,7 @@
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network']}
     - {role: emacs, tags: ['emacs', 'editor']}
+    - {role: fasd, tags: ['fasd', 'shell']}
     - {role: fish, tags: ['fish', 'shell']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
