@@ -1,7 +1,7 @@
 # EXPORTS
 $PATH = [
     'venv/bin', '~/Scripts',
-    '/snap/bin', '~/.local/bin',
+    '~/.local/bin', '/snap/bin', 
     '/usr/local/bin', '/usr/local/sbin',
     '/usr/bin', '/usr/sbin', '/bin', '/sbin',
 ]
@@ -11,17 +11,20 @@ $EDITOR = 'vim'
 $CDPATH = [
     '~/Projects/',
 ]
-$DOTGLOB = True
+$VI_MODE = True
 $AUTO_PUSHD = True
+$AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
-$PROMPT = ("{INTENSE_RED}{user}{RESET} "
+$PROMPT = ("{vte_new_tab_cwd}"
+           "{INTENSE_RED}{user}{RESET} "
            "at {INTENSE_GREEN}{hostname}{RESET} "
            "in {INTENSE_BLUE}{short_cwd}{RESET} "
            "{branch_color}{curr_branch:{} }"
            "{RESET}{prompt_end}{RESET} ")
-# ALIASES
-aliases['py'] = 'ipython'
 # TRIGGERS
 @events.on_chdir
 def listdir(newdir, olddir):
     $[ls]
+# XONTRIBS
+xontrib load jedi
+xontrib load bashisms
