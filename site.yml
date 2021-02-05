@@ -25,6 +25,7 @@
     - {role: csvkit, tags: ['csvkit', 'analyze']}
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network']}
+    - {role: emacs, tags: ['emacs', 'editor']}
     - {role: fish, tags: ['fish', 'shell']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
@@ -38,6 +39,7 @@
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
+    - {role: percol, tags: ['percol', 'search']}
     - {role: pigz, tags: ['pigz', 'compress']}
     - {role: pint, tags: ['pint', 'analyze']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}

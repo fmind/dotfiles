@@ -35,6 +35,6 @@
   file:
     force: yes
     state: link
-    dest: ~/.zshenv
-    src: "{{ role_path }}/files/zshenv"
+    dest: ~/.zshrc
+    src: "{{ role_path }}/files/zshrc"
   tags: user

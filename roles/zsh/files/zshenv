@@ -1,9 +1,0 @@
-# PROMPTS
-PROMPT='%F{red}%n%f at %F{green}%m%f in %F{blue}%B%~%b%f %# '
-# CONFIGS
-ZSH_CUSTOM=$HOME/.zsh.d
-ZSH_THEME="pygmalion"
-# EXPORTS
-export ZSH=~/.oh-my-zsh
-# PLUGINS
-plugins=()

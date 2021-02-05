@@ -1,0 +1,14 @@
+# CONFIGS
+# common
+EDITOR="vim"
+LANG="en_US.UTF-8"
+PATH=venv/bin:$HOME/Scripts:$HOME/.local/bin:/snap/bin:/usr/local/bin:/usr/local:sbin:/usr/bin:/usr/sbin:/bin:/sbin
+# for zsh
+ZSH_CUSTOM=$HOME/.zsh.d
+ZSH_THEME="dstufft"
+# EXPORTS
+export ZSH=$HOME/.oh-my-zsh
+# PLUGINS
+plugins=()
+# ACTIVES
+source $ZSH/oh-my-zsh.sh
