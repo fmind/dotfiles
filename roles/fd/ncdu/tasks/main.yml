@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: ncdu
+  become: true
+  tags: admin

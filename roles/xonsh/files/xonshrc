@@ -16,11 +16,11 @@ $AUTO_PUSHD = True
 $AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
 $PROMPT = ("{vte_new_tab_cwd}"
-           "{INTENSE_RED}{user}{RESET} "
-           "at {INTENSE_GREEN}{hostname}{RESET} "
-           "in {INTENSE_BLUE}{short_cwd}{RESET} "
+           "{INTENSE_RED}{user}{DEFAULT} "
+           "at {INTENSE_GREEN}{hostname}{DEFAULT} "
+           "in {INTENSE_BLUE}{short_cwd}{DEFAULT} "
            "{branch_color}{curr_branch:{} }"
-           "{RESET}{prompt_end}{RESET} ")
+           "{DEFAULT}{prompt_end}{DEFAULT} ")
 # TRIGGERS
 @events.on_chdir
 def listdir(newdir, olddir):

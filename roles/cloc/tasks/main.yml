@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: cloc
+  become: true
+  tags: admin

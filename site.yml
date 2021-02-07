@@ -18,8 +18,10 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
+    - {role: bat, tags: ['bat', 'filter']}
     - {role: byobu, tags: ['byobu', 'shell']}
     - {role: chardet, tags: ['chardet', 'analyze']}
+    - {role: cloc, tags: ['cloc', 'develop']}
     - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
     - {role: csvkit, tags: ['csvkit', 'analyze']}
@@ -27,6 +29,7 @@
     - {role: curl, tags: ['curl', 'network']}
     - {role: emacs, tags: ['emacs', 'editor']}
     - {role: fasd, tags: ['fasd', 'shell']}
+    - {role: fd, tags: ['fd', 'search']}
     - {role: fish, tags: ['fish', 'shell']}
     - {role: fzf, tags: ['fzf', 'filter']}
     - {role: git, tags: ['git', 'develop']}
@@ -36,6 +39,7 @@
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: htop, tags: ['htop', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
+    - {role: jq, tags: ['jq', 'filter']}
     - {role: litecli, tags: ['litecli', 'database']}
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
@@ -43,6 +47,7 @@
     - {role: percol, tags: ['percol', 'search']}
     - {role: pigz, tags: ['pigz', 'compress']}
     - {role: pint, tags: ['pint', 'analyze']}
+    - {role: psutil, tags: ['psutil', 'monitor']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
     - {role: pydoro, tags: ['pydoro', 'monitor']}
     - {role: pyp, tags: ['pyp', 'filter']}
@@ -56,6 +61,7 @@
     - {role: vim, tags: ['vim', 'editor']}
     - {role: w3m, tags: ['w3m', 'browser']}
     - {role: watchdog, tags: ['watchdog', 'trigger']}
+    - {role: wooey, tags: ['wooey', 'trigger']}
     - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
     - {role: zsh, tags: ['zsh', 'shell']}

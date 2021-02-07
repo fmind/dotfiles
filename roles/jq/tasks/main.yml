@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: jq
+  become: true
+  tags: admin
