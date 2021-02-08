@@ -28,5 +28,3 @@ def listdir(newdir, olddir):
 # XONTRIBS
 xontrib load jedi
 xontrib load bashisms
-# ACTIVATES
-execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
