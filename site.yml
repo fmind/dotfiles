@@ -27,7 +27,6 @@
     - {role: csvkit, tags: ['csvkit', 'analyze']}
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network']}
-    - {role: fasd, tags: ['fasd', 'shell']}
     - {role: fd, tags: ['fd', 'search']}
     - {role: fish, tags: ['fish', 'shell']}
     - {role: fzf, tags: ['fzf', 'filter']}
@@ -63,6 +62,7 @@
     - {role: wooey, tags: ['wooey', 'trigger']}
     - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
+    - {role: zoxide, tags: ['zoxide', 'shell']}
     - {role: zsh, tags: ['zsh', 'shell']}
 
   environment:

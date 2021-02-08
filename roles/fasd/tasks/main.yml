@@ -1,7 +1,0 @@
----
-
-- name: package
-  package:
-    name: fasd
-  become: true
-  tags: admin
