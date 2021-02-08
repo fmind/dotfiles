@@ -27,7 +27,6 @@
     - {role: csvkit, tags: ['csvkit', 'analyze']}
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network']}
-    - {role: emacs, tags: ['emacs', 'editor']}
     - {role: fasd, tags: ['fasd', 'shell']}
     - {role: fd, tags: ['fd', 'search']}
     - {role: fish, tags: ['fish', 'shell']}

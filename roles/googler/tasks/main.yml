@@ -2,6 +2,6 @@
 
 - name: package
   package:
-    name: htop
+    name: googler
   become: true
   tags: admin
