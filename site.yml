@@ -18,7 +18,6 @@
 
   roles:
     - {role: ansible, tags: ['ansible', 'setup']}
-    - {role: bat, tags: ['bat', 'filter']}
     - {role: byobu, tags: ['byobu', 'shell']}
     - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: cloc, tags: ['cloc', 'develop']}
