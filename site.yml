@@ -46,7 +46,6 @@
     - {role: pint, tags: ['pint', 'analyze']}
     - {role: psutil, tags: ['psutil', 'monitor']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
-    - {role: pydoro, tags: ['pydoro', 'monitor']}
     - {role: pyp, tags: ['pyp', 'filter']}
     - {role: ranger, tags: ['ranger', 'browser']}
     - {role: scapy, tags: ['scapy', 'network']}
@@ -61,7 +60,6 @@
     - {role: wooey, tags: ['wooey', 'trigger']}
     - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
-    - {role: zoxide, tags: ['zoxide', 'shell']}
     - {role: zsh, tags: ['zsh', 'shell']}
 
   environment:
