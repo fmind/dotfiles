@@ -23,7 +23,7 @@
 - name: manager
   get_url:
     mode: 0700
-    dest: ~/Scripts/gws
+    dest: ~/.local/bin/gws
     url: https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws
   tags: user
 

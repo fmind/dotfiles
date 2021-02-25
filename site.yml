@@ -4,9 +4,9 @@
 
   pre_tasks:
 
-  - name: ensure ~/Scripts
+  - name: ensure ~/.local/bin/
     file:
-      name: ~/Scripts
+      name: ~/.local/bin/
       state: directory
     tags: user
 

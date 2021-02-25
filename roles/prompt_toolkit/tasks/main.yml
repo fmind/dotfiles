@@ -1,0 +1,9 @@
+---
+
+- name: package
+  pip:
+    name: prompt_toolkit
+    state: latest
+    executable: pip3
+    extra_args: --user
+  tags: user

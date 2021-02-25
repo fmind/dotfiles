@@ -1,6 +1,6 @@
 # EXPORTS
 $PATH = [
-    'venv/bin', '~/Scripts',
+    'venv/bin',
     '~/.local/bin', '/snap/bin', 
     '/usr/local/bin', '/usr/local/sbin',
     '/usr/bin', '/usr/sbin', '/bin', '/sbin',
@@ -9,8 +9,10 @@ $LANG = 'en_US.UTF-8'
 $EDITOR = 'vim'
 # CONFIGS
 $CDPATH = [
+    '~/projects/',
     '~/Projects/',
 ]
+$VI_MODE = True
 $AUTO_PUSHD = True
 $AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
