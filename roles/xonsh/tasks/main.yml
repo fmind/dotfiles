@@ -7,6 +7,14 @@
     extra_args: --user
   tags: user
 
+- name: prompter
+  pip:
+    name: prompt_toolkit
+    state: latest
+    executable: pip3
+    extra_args: --user
+  tags: user
+
 - name: config
   file:
     force: yes
