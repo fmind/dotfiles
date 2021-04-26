@@ -23,7 +23,6 @@
     - {role: cloc, tags: ['cloc', 'develop']}
     - {role: compose, tags: ['compose', 'develop']}
     - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
-    - {role: csvkit, tags: ['csvkit', 'analyze']}
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network']}
     - {role: fd, tags: ['fd', 'search']}
