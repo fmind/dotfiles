@@ -1,6 +1,6 @@
 # EXPORTS
 $PATH = [
-    'venv/bin',
+    '~/bin', 'venv/bin', 
     '~/.local/bin', '/snap/bin', 
     '/usr/local/bin', '/usr/local/sbin',
     '/usr/bin', '/usr/sbin', '/bin', '/sbin',
