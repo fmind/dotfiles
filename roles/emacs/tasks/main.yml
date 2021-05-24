@@ -19,3 +19,18 @@
     dest: ~/.spacemacs.d
     repo: https://github.com/fmind/spacemacs.d
   tags: user
+
+- name: directory
+  file:
+    mode: 0700
+    state: directory
+    path: ~/.config/systemd/user/
+  tags: user
+
+- name: service
+  file:
+    force: yes
+    state: link
+    dest: ~/.config/systemd/user/emacs.service
+    src: "{{ role_path }}/files/emacs.service"
+  tags: user
