@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: global
+  become: true
+  tags: admin
