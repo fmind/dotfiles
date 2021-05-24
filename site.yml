@@ -33,6 +33,7 @@
     - {role: glances, tags: ['glances', 'monitor']}
     - {role: glom, tags: ['glom', 'filter']}
     - {role: googler, tags: ['googler', 'search']}
+    - {role: gtags, tags: ['gtags', 'search']}
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: htop, tags: ['htop', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
