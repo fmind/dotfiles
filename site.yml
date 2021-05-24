@@ -41,6 +41,7 @@
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
     - {role: neovim, tags: ['neovim', 'editor']}
+    - {role: pandoc, tags: ['pandoc', 'convert']}
     - {role: percol, tags: ['percol', 'search']}
     - {role: pigz, tags: ['pigz', 'compress']}
     - {role: pint, tags: ['pint', 'analyze']}

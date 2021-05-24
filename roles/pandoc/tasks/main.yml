@@ -1,0 +1,13 @@
+---
+
+- name: package
+  package:
+    name: pandoc
+  become: true
+  tags: admin
+
+- name: plantuml
+  package:
+    name: pandoc-plantuml-filter
+  become: true
+  tags: admin
