@@ -10,5 +10,7 @@ ZSH_THEME="dstufft"
 export ZSH=$HOME/.oh-my-zsh
 # PLUGINS
 plugins=()
+# ALIASES
+source $HOME/.aliases
 # ACTIVES
 source $ZSH/oh-my-zsh.sh

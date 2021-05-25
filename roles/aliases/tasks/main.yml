@@ -1,0 +1,9 @@
+---
+
+- name: config
+  file:
+    force: yes
+    state: link
+    dest: ~/.aliases
+    src: "{{ role_path }}/files/aliases"
+  tags: user

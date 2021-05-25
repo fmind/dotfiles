@@ -1,0 +1,5 @@
+# Emacs
+alias edit="emacsclient"
+# Jupyter
+alias lab="jupyter lab"
+alias note="jupyter notebook"

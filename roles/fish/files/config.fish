@@ -1,3 +1,5 @@
+# ALIASES
+source $HOME/.aliases
 # CONFIGS
 set -g fish_greeting ''
 # EXPORTS

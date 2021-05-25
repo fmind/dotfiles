@@ -17,6 +17,7 @@
     tags: admin
 
   roles:
+    - {role: aliases, tags: ['aliases', 'shell']}
     - {role: ansible, tags: ['ansible', 'setup']}
     - {role: byobu, tags: ['byobu', 'shell']}
     - {role: chardet, tags: ['chardet', 'analyze']}
