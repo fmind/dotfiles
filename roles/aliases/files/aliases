@@ -1,5 +1,6 @@
-# Emacs
-alias edit="emacsclient"
+# Python
+alias py="python3"
+alias ipy="ipython"
 # Jupyter
 alias lab="jupyter lab"
 alias note="jupyter notebook"
