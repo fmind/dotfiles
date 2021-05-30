@@ -1,0 +1,8 @@
+---
+
+- name: package
+  unarchive:
+    src: https://languagetool.org/download/LanguageTool-5.3.zip
+    dest: ~/.local/share/
+    remote_src: yes
+  tags: user

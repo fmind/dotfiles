@@ -39,6 +39,7 @@
     - {role: htop, tags: ['htop', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
     - {role: jq, tags: ['jq', 'filter']}
+    # - {role: languagetool, tags: ['languagetool', 'analyze']}
     - {role: litecli, tags: ['litecli', 'database']}
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: ncdu, tags: ['ncdu', 'monitor']}
