@@ -11,3 +11,9 @@
     name: pandoc-plantuml-filter
   become: true
   tags: admin
+
+- name: citations
+  package:
+    name: pandoc-citeproc
+  become: true
+  tags: admin
