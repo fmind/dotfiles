@@ -38,6 +38,7 @@
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: htop, tags: ['htop', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
+    - {role: jello, tags: ['jello', 'filter']}
     - {role: jq, tags: ['jq', 'filter']}
     # - {role: languagetool, tags: ['languagetool', 'analyze']}
     - {role: litecli, tags: ['litecli', 'database']}
