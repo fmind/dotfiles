@@ -1,0 +1,12 @@
+[user]
+    name = Médéric Hurier
+    email = fmind@fmind.me
+    username = fmind
+
+[core]
+    editor = vim
+    excludesfile = ~/.gitignore
+
+[alias]
+    st = status
+    tr = ls-tree -r master --name-only
