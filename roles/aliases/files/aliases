@@ -1,6 +1,6 @@
 # Python
 alias py="python3"
-alias ipy="ipython"
+alias pi="ipython"
 # Jupyter
-alias lab="jupyter lab"
-alias note="jupyter notebook"
+alias lab="jupyter lab --ServerApp.token=''"
+alias note="jupyter notebook --ServerApp.token=''"

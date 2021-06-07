@@ -34,7 +34,7 @@
     - {role: glances, tags: ['glances', 'monitor']}
     - {role: glom, tags: ['glom', 'filter']}
     - {role: googler, tags: ['googler', 'search']}
-    - {role: gtags, tags: ['gtags', 'search']}
+    # - {role: gtags, tags: ['gtags', 'search']}
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: htop, tags: ['htop', 'monitor']}
     - {role: httpie, tags: ['httpie', 'network']}
@@ -63,9 +63,9 @@
     - {role: w3m, tags: ['w3m', 'browser']}
     - {role: watchdog, tags: ['watchdog', 'trigger']}
     - {role: wooey, tags: ['wooey', 'trigger']}
-    - {role: xonsh, tags: ['xonsh', 'shell']}
-    - {role: youget, tags: ['youget', 'network']}
-    - {role: zsh, tags: ['zsh', 'shell']}
+    # - {role: xonsh, tags: ['xonsh', 'shell']}
+    # - {role: youget, tags: ['youget', 'network']}
+    # - {role: zsh, tags: ['zsh', 'shell']}
 
   environment:
     LANG: en_US.UTF-8
