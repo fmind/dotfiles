@@ -57,6 +57,7 @@ alias pps='python3 -m pip search'
 alias ppu='python3 -m pip uninstall'
 # }}}
 # system {{{
+alias sa='source ~/.aliases'
 alias sc='systemctl'
 alias sl='journalctl'
 alias sv='service'
