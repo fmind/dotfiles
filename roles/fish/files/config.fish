@@ -33,4 +33,4 @@ function fish_prompt
     end
 end
 # PLUGINS
-status --is-login; and status --is-interactive; and exec byobu-launcher
+# status --is-login; and status --is-interactive; and exec byobu-launcher
