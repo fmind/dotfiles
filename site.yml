@@ -8,13 +8,13 @@
     file:
       name: ~/.local/bin/
       state: directory
-    tags: [user, lite]
+    tags: [pre, user, lite]
 
   - name: ensure pip3
     package:
       name: python3-pip
     become: true
-    tags: [admin, lite]
+    tags: [pre, user, lite]
 
   roles:
     - {role: aliases, tags: ['aliases', 'shell', 'lite']}
