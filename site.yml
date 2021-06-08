@@ -17,34 +17,34 @@
     tags: admin
 
   roles:
-    - {role: aliases, tags: ['aliases', 'shell']}
-    - {role: ansible, tags: ['ansible', 'setup']}
-    - {role: byobu, tags: ['byobu', 'shell']}
+    - {role: aliases, tags: ['aliases', 'shell', 'lite']}
+    - {role: ansible, tags: ['ansible', 'setup', 'lite']}
+    - {role: byobu, tags: ['byobu', 'shell', 'lite']}
     - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: cloc, tags: ['cloc', 'develop']}
     - {role: compose, tags: ['compose', 'develop']}
-    - {role: cookiecutter, tags: ['cookiecutter', 'develop']}
-    - {role: ctags, tags: ['ctags', 'search']}
-    - {role: curl, tags: ['curl', 'network']}
+    - {role: cookiecutter, tags: ['cookiecutter', 'develop', 'lite']}
+    - {role: ctags, tags: ['ctags', 'search', 'lite']}
+    - {role: curl, tags: ['curl', 'network', 'lite']}
     # - {role: emacs, tags: ['emacs', 'editor']}
     - {role: fd, tags: ['fd', 'search']}
-    - {role: fish, tags: ['fish', 'shell']}
-    - {role: fzf, tags: ['fzf', 'filter']}
-    - {role: git, tags: ['git', 'develop']}
+    - {role: fish, tags: ['fish', 'shell', 'lite']}
+    - {role: fzf, tags: ['fzf', 'filter', 'lite']}
+    - {role: git, tags: ['git', 'develop', 'lite']}
     - {role: glances, tags: ['glances', 'monitor']}
     - {role: glom, tags: ['glom', 'filter']}
     - {role: googler, tags: ['googler', 'search']}
     # - {role: gtags, tags: ['gtags', 'search']}
     - {role: howdoi, tags: ['howdoi', 'assist']}
-    - {role: htop, tags: ['htop', 'monitor']}
-    - {role: httpie, tags: ['httpie', 'network']}
+    - {role: htop, tags: ['htop', 'monitor', 'lite']}
+    - {role: httpie, tags: ['httpie', 'network', 'lite']}
     - {role: jello, tags: ['jello', 'filter']}
     - {role: jq, tags: ['jq', 'filter']}
     # - {role: languagetool, tags: ['languagetool', 'analyze']}
     - {role: litecli, tags: ['litecli', 'database']}
     - {role: metrics, tags: ['metrics', 'analyze']}
-    - {role: ncdu, tags: ['ncdu', 'monitor']}
-    - {role: neovim, tags: ['neovim', 'editor']}
+    - {role: ncdu, tags: ['ncdu', 'monitor', 'lite']}
+    - {role: neovim, tags: ['neovim', 'editor', 'lite']}
     - {role: pandoc, tags: ['pandoc', 'convert']}
     - {role: percol, tags: ['percol', 'search']}
     - {role: pigz, tags: ['pigz', 'compress']}
@@ -55,16 +55,16 @@
     - {role: ranger, tags: ['ranger', 'browser']}
     - {role: scapy, tags: ['scapy', 'network']}
     - {role: schedule, tags: ['schedule', 'trigger']}
-    - {role: silver, tags: ['silver', 'search']}
+    - {role: silver, tags: ['silver', 'search', 'lite']}
     - {role: supervisor, tags: ['supervisor', 'setup']}
     - {role: termtosvg, tags: ['termtosvg', 'record']}
     - {role: tqdm, tags: ['tqdm', 'monitor']}
-    - {role: vim, tags: ['vim', 'editor']}
+    # - {role: vim, tags: ['vim', 'editor']}
     - {role: w3m, tags: ['w3m', 'browser']}
-    - {role: watchdog, tags: ['watchdog', 'trigger']}
+    - {role: watchdog, tags: ['watchdog', 'trigger', 'lite']}
     - {role: wooey, tags: ['wooey', 'trigger']}
     # - {role: xonsh, tags: ['xonsh', 'shell']}
-    # - {role: youget, tags: ['youget', 'network']}
+    - {role: youget, tags: ['youget', 'network']}
     # - {role: zsh, tags: ['zsh', 'shell']}
 
   environment:

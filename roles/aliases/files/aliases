@@ -1,6 +1,73 @@
-# Python
-alias py="python3"
+# vim: fdm=marker
+# apt {{{
+alias ui='sudo apt install'
+alias uo='apt show'
+alias up='sudo apt update'
+alias ur='sudo apt purge'
+alias us='apt search'
+alias uu='sudo apt upgrade'
+# }}}
+# ansible {{{
+alias aa='ansible'
+alias ac='ansible-config'
+alias ad='ansible-doc'
+alias ai='ansible-inventory'
+alias al='ansible-pull'
+alias ao='ansible-console'
+alias ap='ansible-playbook'
+alias av='ansible-vault'
+alias ay='ansible-galaxy'
+# }}}
+# cookiecutter {{{
+alias ck="cookiecutter"
+alias ck-nop="cookiecutter --no-input"
+# }}}
+# docker {{{
+alias dk="docker"
+alias dri="docker run --rm -it"
+alias dsi="docker start -ai"
+# }}}
+# git {{{
+alias g="git"
+alias gm="git submodule"
+alias gwsrmi='rm -f .projects.gws && gws init'
+# }}}
+# jupyter {{{
+alias jconv='jupyter convert'
+alias jkern='jupyter kernel'
+alias jlab="jupyter lab --NotebookApp.token=''"
+alias jnote="jupyter notebook --NotebookApp.token=''"
+# }}}
+# make {{{
+alias mk="make"
+# }}}
+# python {{{
+alias pb='python3 -m pdb'
+alias pd='pydoc3'
 alias pi="ipython"
-# Jupyter
-alias lab="jupyter lab --ServerApp.token=''"
-alias note="jupyter notebook --ServerApp.token=''"
+alias pt='pytest'
+alias pt='pytest'
+alias pv='python3 -m venv'
+alias py="python3"
+alias ppe='python3 -m pip install -e .'
+alias ppf='python3 -m pip freeze'
+alias ppi='python3 -m pip install'
+alias ppp='python3 -m pip install --user'
+alias pps='python3 -m pip search'
+alias ppu='python3 -m pip uninstall'
+# }}}
+# system {{{
+alias sc='systemctl'
+alias sl='journalctl'
+alias sv='service'
+# }}}
+# tmux {{{
+alias tm='tmux'
+alias tp='tmuxp'
+alias tpf='tmuxp freeze .tmux'
+alias tph='tmuxp load -y .'
+alias tpl='tmuxp load -y'
+# }}}
+# xserver {{{
+alias xo='xdg-open'
+# }}}
