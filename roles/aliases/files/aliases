@@ -18,6 +18,9 @@ alias ap='ansible-playbook'
 alias av='ansible-vault'
 alias ay='ansible-galaxy'
 # }}}
+# byobu {{{
+alias by="byobu"
+# }}}
 # cookiecutter {{{
 alias ck="cookiecutter"
 alias ck-nop="cookiecutter --no-input"
