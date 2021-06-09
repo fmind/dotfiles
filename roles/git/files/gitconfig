@@ -3,6 +3,9 @@
     email = fmind@fmind.me
     username = fmind
 
+[github]
+	user = fmind
+
 [core]
     editor = vim
     excludesfile = ~/.gitignore

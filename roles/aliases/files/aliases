@@ -1,12 +1,4 @@
 # vim: fdm=marker
-# apt {{{
-alias ui='sudo apt install'
-alias uo='apt show'
-alias up='sudo apt update'
-alias ur='sudo apt purge'
-alias us='apt search'
-alias uu='sudo apt upgrade'
-# }}}
 # ansible {{{
 alias aa='ansible'
 alias ac='ansible-config'
@@ -19,6 +11,8 @@ alias av='ansible-vault'
 alias ay='ansible-galaxy'
 # }}}
 # byobu {{{
+alias bq="byobu-quiet"
+alias bs="byobu-silent"
 alias by="byobu"
 # }}}
 # cookiecutter {{{
@@ -28,12 +22,15 @@ alias ck-nop="cookiecutter --no-input"
 # docker {{{
 alias dk="docker"
 alias dri="docker run --rm -it"
-alias dsi="docker start -ai"
+# }}}
+# edit {{{
+alias ealiases="vi ~/.aliases && source ~/.aliases"
+alias envim="vi ~/.config/nvim && source ~/.config/nvim"
 # }}}
 # git {{{
 alias g="git"
 alias gm="git submodule"
-alias gwsrmi='rm -f .projects.gws && gws init'
+alias grmi='rm -f .projects.gws && gws init'
 # }}}
 # jupyter {{{
 alias jconv='jupyter convert'
@@ -60,7 +57,6 @@ alias pps='python3 -m pip search'
 alias ppu='python3 -m pip uninstall'
 # }}}
 # system {{{
-alias sa='source ~/.aliases'
 alias sc='systemctl'
 alias sl='journalctl'
 alias sv='service'
@@ -71,6 +67,14 @@ alias tp='tmuxp'
 alias tpf='tmuxp freeze .tmux'
 alias tph='tmuxp load -y .'
 alias tpl='tmuxp load -y'
+# }}}
+# ubuntu {{{
+alias ui='sudo apt install'
+alias uo='apt show'
+alias up='sudo apt update'
+alias ur='sudo apt purge'
+alias us='apt search'
+alias uu='sudo apt upgrade'
 # }}}
 # xserver {{{
 alias xo='xdg-open'
