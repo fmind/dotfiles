@@ -1,0 +1,7 @@
+---
+
+- name: package
+  npm:
+    name: nb.sh
+    global: yes
+  tags: user

@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: bat
+  become: true
+  tags: admin

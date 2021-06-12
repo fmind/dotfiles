@@ -19,6 +19,7 @@
   roles:
     - {role: aliases, tags: ['aliases', 'shell', 'lite']}
     - {role: ansible, tags: ['ansible', 'setup', 'lite']}
+    - {role: bat, tags: ['bat', 'filter', 'lite']}
     - {role: byobu, tags: ['byobu', 'shell', 'lite']}
     - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: cloc, tags: ['cloc', 'develop']}
@@ -43,6 +44,8 @@
     # - {role: languagetool, tags: ['languagetool', 'analyze']}
     - {role: litecli, tags: ['litecli', 'database']}
     - {role: metrics, tags: ['metrics', 'analyze']}
+    - {role: nb, tags: ['nb', 'notes']}
+    - {role: ncat, tags: ['ncat', 'network']}
     - {role: ncdu, tags: ['ncdu', 'monitor', 'lite']}
     - {role: neovim, tags: ['neovim', 'editor', 'lite']}
     - {role: pandoc, tags: ['pandoc', 'convert']}

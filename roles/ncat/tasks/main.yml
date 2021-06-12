@@ -1,0 +1,7 @@
+---
+
+- name: package
+  package:
+    name: ncat
+  become: true
+  tags: admin
