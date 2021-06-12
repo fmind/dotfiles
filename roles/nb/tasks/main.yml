@@ -1,7 +1,9 @@
 ---
 
 - name: package
-  npm:
-    name: nb.sh
-    global: yes
+  get_url:
+    url: https://raw.github.com/xwmx/nb/master/nb
+    dest: ~/.local/bin/nb
+    mode: '0700'
+    force: yes
   tags: user
