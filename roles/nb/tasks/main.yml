@@ -7,3 +7,11 @@
     mode: '0700'
     force: yes
   tags: user
+
+- name: config
+  file:
+    force: yes
+    state: link
+    dest: ~/.nbrc
+    src: "{{ role_path }}/files/nbrc"
+  tags: user

@@ -10,6 +10,9 @@ alias ap='ansible-playbook'
 alias av='ansible-vault'
 alias ay='ansible-galaxy'
 # }}}
+# bat {{{
+alias bat='batcat'
+# }}}
 # byobu {{{
 alias bq="byobu-quiet"
 alias bs="byobu-silent"

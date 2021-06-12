@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+export BROWSER="w3m"
+export EDITOR="vim"
+export NB_AUTO_SYNC="${NB_AUTO_SYNC:-1}"
+export NB_COLOR_PRIMARY="${NB_COLOR_PRIMARY:-69}"
+export NB_COLOR_SECONDARY="${NB_COLOR_SECONDARY:-8}"
+export NB_COLOR_THEME="${NB_COLOR_THEME:-nb}"
+export NB_DEFAULT_EXTENSION="${NB_DEFAULT_EXTENSION:-md}"
+export NB_DIR="${NB_DIR:-$HOME/notes}"
+export NB_ENCRYPTION_TOOL="${NB_ENCRYPTION_TOOL:-gpg}"
+export NB_FOOTER="${NB_FOOTER:-1}"
+export NB_HEADER="${NB_HEADER:-3}"
+export NB_LIMIT="${NB_LIMIT:-15}"
