@@ -8,6 +8,12 @@
     force: yes
   tags: user
 
+- name: directory 
+  file:
+    name: ~/notes/
+    state: directory
+  tags: user
+
 - name: config
   file:
     force: yes
