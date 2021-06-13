@@ -2,6 +2,6 @@
 
 - name: package
   package:
-    name: global
+    name: ncdu
   become: true
   tags: admin

@@ -1,0 +1,9 @@
+---
+
+- name: config
+  file:
+    force: yes
+    state: link
+    dest: ~/.inputrc
+    src: "{{ role_path }}/files/inputrc"
+  tags: user

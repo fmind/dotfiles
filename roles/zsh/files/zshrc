@@ -1,16 +1,41 @@
-# CONFIGS
-# common
-EDITOR="vim"
-LANG="en_US.UTF-8"
-PATH=$HOME/bin:venv/bin:$HOME/.local/bin:/snap/bin:/usr/local/bin:/usr/local:sbin:/usr/bin:/usr/sbin:/bin:/sbin
-# for zsh
-ZSH_CUSTOM=$HOME/.zsh.d
-ZSH_THEME="dstufft"
-# EXPORTS
-export ZSH=$HOME/.oh-my-zsh
+# BINDKEY
+bindkey -v
 # PLUGINS
-plugins=()
-# ALIASES
-source $HOME/.aliases
-# ACTIVES
+plugins=(
+    vi-mode
+    alias-tips
+    zsh-autopair
+    colored-man-pages
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+# SOURCES
 source $ZSH/oh-my-zsh.sh
+# ALIASES
+alias -g A='| ag'
+alias -g C='| unpigz -c'
+alias -g D='| head'
+alias -g F='| fzf'
+alias -g G='| grep'
+alias -g H='--help'
+alias -g J='| jq -r'
+alias -g K='| xsel --clipboard'
+alias -g L='| less'
+alias -g N='| notify-send'
+alias -g P='| tqdm'
+alias -g S='| sort'
+alias -g T='| tail'
+alias -g U='| uniq'
+alias -g V='| vim -'
+alias -g W='| wc -l'
+alias -g Z='| pigz'
+source ~/.aliases
+# EXTENDS
+# enable fasd
+if [ -x "$(command -v fasd)" ]; then
+    eval "$(fasd --init auto)"
+fi
+# enable autoenv
+if [ -x "$(command -v activate.sh)" ]; then
+    source "$(which activate.sh)"
+fi

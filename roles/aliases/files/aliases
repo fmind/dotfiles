@@ -6,7 +6,7 @@ alias ad='ansible-doc'
 alias ai='ansible-inventory'
 alias al='ansible-pull'
 alias ao='ansible-console'
-alias ap='ansible-playbook'
+alias ap='ansible-playbook -i inventori.ini'
 alias av='ansible-vault'
 alias ay='ansible-galaxy'
 # }}}
@@ -27,19 +27,41 @@ alias dk="docker"
 alias dri="docker run --rm -it"
 # }}}
 # edit {{{
-alias ealiases="vi ~/.aliases && source ~/.aliases"
-alias envim="vi ~/.config/nvim && source ~/.config/nvim"
+alias aliasrc="vi ~/.aliases && source ~/.aliases"
+alias bashrc="vi ~/.bashrc && source ~/.bashrc"
+alias ckrc="vi ~/.cookiecutterrc"
+alias gitignore="vi ./.gitignore"
+alias gitrc="vi ~/.gitconfig"
+alias nvimrc="vi ~/.config/nvim"
+alias sshrc="vi ~/.ssh/config"
+alias zshenv="vi ~/.zshenv && source ~/.zshenv"
+alias zshrc="vi ~/.zshrc && source ~/.zshrc"
+# }}}
+# fd {{{
+alias fd="fdfind"
 # }}}
 # git {{{
 alias g="git"
 alias gm="git submodule"
-alias grmi='rm -f .projects.gws && gws init'
+alias gwf='gws fetch'
+alias gwi='rm -f .projects.gws && gws init'
+alias ghs="sed -i 's?https://github.com/?git@github.com:?' .git/config"
+function ghc {
+  git clone git@github.com:fmind/$1.git
+}
+function gho {
+    git remote add origin "git@github.com:fmind/$(basename $PWD)"
+    git push -u origin HEAD
+}
+function ghu {
+    git remote set-url origin "git@github.com:fmind/$(basename $PWD)"
+}
 # }}}
-# jupyter {{{
-alias jconv='jupyter convert'
-alias jkern='jupyter kernel'
-alias jlab="jupyter lab --NotebookApp.token=''"
-alias jnote="jupyter notebook --NotebookApp.token=''"
+# Jump {{{
+alias j='fasd_cd -d'
+alias je='fasd -fe $EDITOR' 
+alias ji='fasd_cd -di'
+alias jv='fasd -fie $EDITOR' 
 # }}}
 # make {{{
 alias mk="make"
@@ -47,11 +69,12 @@ alias mk="make"
 # python {{{
 alias pb='python3 -m pdb'
 alias pd='pydoc3'
-alias pi="ipython"
+alias pi="ipython -i"
 alias pt='pytest'
 alias pt='pytest'
 alias pv='python3 -m venv'
 alias py="python3"
+alias px='python3 -m trace'
 alias ppe='python3 -m pip install -e .'
 alias ppf='python3 -m pip freeze'
 alias ppi='python3 -m pip install'
@@ -72,6 +95,7 @@ alias tph='tmuxp load -y .'
 alias tpl='tmuxp load -y'
 # }}}
 # ubuntu {{{
+alias uc='sudo apt autoremove --purge'
 alias ui='sudo apt install'
 alias uo='apt show'
 alias up='sudo apt update'
@@ -79,6 +103,18 @@ alias ur='sudo apt purge'
 alias us='apt search'
 alias uu='sudo apt upgrade'
 # }}}
+# watchmedo {{{
+alias wl='watchmedo log'
+alias wm='watchmedo'
+alias wr='watchmedo auto-restart'
+alias ws='watchmedo shell-command'
+# }}}
 # xserver {{{
 alias xo='xdg-open'
+# }}}
+# jupyter {{{
+alias yconv='jupyter convert'
+alias ykern='jupyter kernel'
+alias ylab="jupyter lab --NotebookApp.token=''"
+alias ynote="jupyter notebook --NotebookApp.token=''"
 # }}}

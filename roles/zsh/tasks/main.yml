@@ -17,24 +17,105 @@
   file:
     state: directory
     name: ~/.zsh.d/
+    mode: '0750'
   tags: user
 
 - name: themes
   file:
     state: directory
     name: ~/.zsh.d/themes
+    mode: '0750'
   tags: user
 
 - name: plugins
   file:
     state: directory
     name: ~/.zsh.d/plugins
+    mode: '0750'
   tags: user
 
-- name: profile
+- name: prompt
+  git:
+    depth: 1
+    dest: ~/.zsh.d/themes/spaceship-prompt
+    repo: https://github.com/denysdovhan/spaceship-prompt
+  tags: user
+
+- name: theme
+  file:
+    force: yes
+    state: link
+    dest: ~/.zsh.d/themes/spaceship.zsh-theme
+    src: ~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme
+  tags: user
+
+- name: auto-pair
+  git:
+    depth: 1
+    dest: ~/.zsh.d/plugins/zsh-autopair
+    repo: https://github.com/hlissner/zsh-autopair.git
+  tags: user
+
+- name: alias-tips
+  git:
+    depth: 1
+    dest: ~/.zsh.d/plugins/alias-tips
+    repo: https://github.com/djui/alias-tips
+  tags: user
+
+- name: zsh-completions
+  git:
+    depth: 1
+    dest: ~/.zsh.d/plugins/zsh-completions
+    repo: https://github.com/zsh-users/zsh-completions
+  tags: user
+
+- name: auto-suggestions
+  git:
+    depth: 1
+    dest: ~/.zsh.d/plugins/zsh-autosuggestions
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+  tags: user
+
+- name: auto-suggestions
+  git:
+    depth: 1
+    dest: ~/.zsh.d/plugins/zsh-syntax-highlighting
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+  tags: user
+
+- name: login
+  file:
+    mode: '0640'
+    state: touch
+    path: ~/.zlogin
+    access_time: preserve
+    modification_time: preserve
+  tags: user
+
+- name: config
   file:
     force: yes
     state: link
     dest: ~/.zshrc
     src: "{{ role_path }}/files/zshrc"
   tags: user
+
+- name: profile
+  file:
+    mode: '0640'
+    state: touch
+    path: ~/.zprofile
+    access_time: preserve
+    modification_time: preserve
+  tags: user
+
+- name: environment
+  file:
+    force: yes
+    state: link
+    dest: ~/.zshenv
+    src: "{{ role_path }}/files/zshenv"
+  tags: user
+
+
