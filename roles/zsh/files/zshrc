@@ -30,12 +30,3 @@ alias -g V='| vim -'
 alias -g W='| wc -l'
 alias -g Z='| pigz'
 source ~/.aliases
-# EXTENDS
-# enable fasd
-if [ -x "$(command -v fasd)" ]; then
-    eval "$(fasd --init auto)"
-fi
-# enable autoenv
-if [ -x "$(command -v activate.sh)" ]; then
-    source "$(which activate.sh)"
-fi

@@ -47,12 +47,12 @@ alias fm='fzf --multi'
 # }}}
 # git {{{
 alias g="git"
-alias ghh="my_github_clone_https"
-alias ghs="my_github_clone_ssh"
-alias ghu="sed -i 's?https://github.com/?git@github.com:?' .git/config"
 alias gm="git submodule"
 alias gwf='gws fetch'
 alias gwi='rm -f .projects.gws && gws init'
+alias ghh="my_github_clone_https"
+alias ghs="my_github_clone_ssh"
+alias ghu="sed -i 's?https://github.com/?git@github.com:?' .git/config"
 # }}}
 # make {{{
 alias mk="make"

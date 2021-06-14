@@ -18,56 +18,56 @@
 
   roles:
     - {role: aliases, tags: ['aliases', 'shell', 'lite']}
-    - {role: ansible, tags: ['ansible', 'setup', 'lite']}
-    - {role: bat, tags: ['bat', 'filter', 'lite']}
+    - {role: ansible, tags: ['ansible', 'system', 'lite']}
+    - {role: bat, tags: ['bat', 'file']}
     - {role: byobu, tags: ['byobu', 'shell', 'lite']}
-    - {role: chardet, tags: ['chardet', 'analyze']}
-    - {role: cloc, tags: ['cloc', 'develop']}
-    - {role: compose, tags: ['compose', 'develop']}
-    - {role: cookiecutter, tags: ['cookiecutter', 'develop', 'lite']}
-    - {role: ctags, tags: ['ctags', 'search']}
+    - {role: chardet, tags: ['chardet', 'file']}
+    - {role: cloc, tags: ['cloc', 'code']}
+    - {role: compose, tags: ['compose', 'system']}
+    - {role: cookiecutter, tags: ['cookiecutter', 'code', 'lite']}
+    - {role: ctags, tags: ['ctags', 'code']}
     - {role: curl, tags: ['curl', 'network', 'lite']}
-    - {role: direnv, tags: ['direnv', 'shell', 'lite']}
-    # - {role: emacs, tags: ['emacs', 'editor']}
-    - {role: exa, tags: ['exa', 'shell']}
-    - {role: fd, tags: ['fd', 'search', 'lite']}
+    - {role: direnv, tags: ['direnv', 'shell']}
+    # - {role: emacs, tags: ['emacs', 'file']}
+    - {role: exa, tags: ['exa', 'file']}
+    - {role: fd, tags: ['fd', 'file']}
     - {role: fish, tags: ['fish', 'shell', 'lite']}
     - {role: functools, tags: ['functools', 'shell']}
-    - {role: fzf, tags: ['fzf', 'filter', 'lite']}
-    - {role: git, tags: ['git', 'develop', 'lite']}
-    - {role: glances, tags: ['glances', 'monitor']}
-    - {role: googler, tags: ['googler', 'search']}
-    - {role: howdoi, tags: ['howdoi', 'assist']}
-    - {role: htop, tags: ['htop', 'monitor', 'lite']}
+    - {role: fzf, tags: ['fzf', 'shell', 'lite']}
+    - {role: git, tags: ['git', 'code', 'lite']}
+    - {role: glances, tags: ['glances', 'system']}
+    - {role: googler, tags: ['googler', 'network']}
+    - {role: howdoi, tags: ['howdoi', 'shell']}
+    - {role: htop, tags: ['htop', 'system', 'lite']}
     - {role: httpie, tags: ['httpie', 'network']}
     - {role: input, tags: ['input', 'shell', 'lite']}
-    - {role: jello, tags: ['jello', 'filter']}
-    - {role: jq, tags: ['jq', 'filter']}
-    # # - {role: languagetool, tags: ['languagetool', 'analyze']}
+    - {role: jello, tags: ['jello', 'file']}
+    - {role: jq, tags: ['jq', 'file']}
+    # - {role: languagetool, tags: ['languagetool', 'file']}
     - {role: litecli, tags: ['litecli', 'database']}
-    - {role: metrics, tags: ['metrics', 'analyze']}
-    - {role: nb, tags: ['nb', 'notes', 'lite']}
-    - {role: ncdu, tags: ['ncdu', 'monitor', 'lite']}
-    - {role: neovim, tags: ['neovim', 'editor', 'lite']}
-    - {role: pandoc, tags: ['pandoc', 'convert']}
+    - {role: metrics, tags: ['metrics', 'code']}
+    - {role: nb, tags: ['nb', 'file', 'lite']}
+    - {role: ncdu, tags: ['ncdu', 'system', 'lite']}
+    - {role: neovim, tags: ['neovim', 'file', 'lite']}
+    - {role: pandoc, tags: ['pandoc', 'file']}
     - {role: parallel, tags: ['parallel', 'shell']}
-    - {role: pigz, tags: ['pigz', 'compress']}
-    - {role: pint, tags: ['pint', 'analyze']}
-    - {role: psutil, tags: ['psutil', 'monitor']}
+    - {role: pigz, tags: ['pigz', 'file']}
+    - {role: pint, tags: ['pint', 'shell']}
+    - {role: psutil, tags: ['psutil', 'shell']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
-    - {role: pyp, tags: ['pyp', 'filter']}
-    - {role: ranger, tags: ['ranger', 'browser']}
+    - {role: pyp, tags: ['pyp', 'file']}
+    - {role: ranger, tags: ['ranger', 'file']}
     - {role: scapy, tags: ['scapy', 'network']}
-    - {role: schedule, tags: ['schedule', 'trigger']}
-    - {role: silver, tags: ['silver', 'search', 'lite']}
+    - {role: schedule, tags: ['schedule', 'system']}
+    - {role: silver, tags: ['silver', 'file', 'lite']}
     - {role: starship, tags: ['starship', 'shell', 'lite']}
-    - {role: supervisor, tags: ['supervisor', 'setup']}
-    - {role: termtosvg, tags: ['termtosvg', 'record']}
-    - {role: tqdm, tags: ['tqdm', 'monitor']}
-    # - {role: vim, tags: ['vim', 'editor']}
-    - {role: w3m, tags: ['w3m', 'browser', 'lite']}
-    - {role: watchdog, tags: ['watchdog', 'trigger', 'lite']}
-    - {role: wooey, tags: ['wooey', 'trigger']}
+    - {role: supervisor, tags: ['supervisor', 'system']}
+    - {role: termtosvg, tags: ['termtosvg', 'shell']}
+    - {role: tqdm, tags: ['tqdm', 'shell']}
+    # - {role: vim, tags: ['vim', 'file']}
+    - {role: w3m, tags: ['w3m', 'network', 'lite']}
+    - {role: watchdog, tags: ['watchdog', 'file', 'lite']}
+    - {role: wooey, tags: ['wooey', 'system']}
     # - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
     # - {role: zsh, tags: ['zsh', 'shell', 'lite']}
