@@ -1,0 +1,22 @@
+---
+
+- name: package
+  unarchive:
+    src: https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-musl.tar.gz
+    dest: ~/.local/bin
+    remote_src: yes
+  tags: user
+
+- name: directory
+  file:
+    state: directory
+    name: ~/.config/
+  tags: user
+
+- name: config
+  file:
+    force: yes
+    state: link
+    dest: ~/.config/starship.toml
+    src: "{{ role_path }}/files/starship.toml"
+  tags: user

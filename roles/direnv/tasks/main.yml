@@ -2,6 +2,6 @@
 
 - name: package
   package:
-    name: ncat
+    name: direnv
   become: true
   tags: admin

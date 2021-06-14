@@ -8,5 +8,4 @@ ZSH_THEME="spaceship"
 # EXPORTS
 export KEYTIMEOUT=1
 export ZSH=$HOME/.oh-my-zsh
-export SPACESHIP_BATTERY_SHOW=false
 export PYTHONBREAKPOINT=ipdb.set_trace

@@ -2,10 +2,10 @@
 
 - name: package
   get_url:
-    url: https://raw.github.com/xwmx/nb/master/nb
-    dest: ~/.local/bin/nb
-    mode: '0700'
     force: yes
+    mode: '0700'
+    dest: ~/.local/bin/nb
+    url: https://raw.github.com/xwmx/nb/master/nb
   tags: user
 
 - name: directory 

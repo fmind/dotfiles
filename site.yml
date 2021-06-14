@@ -19,8 +19,7 @@
   roles:
     - {role: aliases, tags: ['aliases', 'shell', 'lite']}
     - {role: ansible, tags: ['ansible', 'setup', 'lite']}
-    - {role: autoenv, tags: ['autoenv', 'shell', 'lite']}
-    - {role: bat, tags: ['bat', 'filter']}
+    - {role: bat, tags: ['bat', 'filter', 'lite']}
     - {role: byobu, tags: ['byobu', 'shell', 'lite']}
     - {role: chardet, tags: ['chardet', 'analyze']}
     - {role: cloc, tags: ['cloc', 'develop']}
@@ -28,14 +27,15 @@
     - {role: cookiecutter, tags: ['cookiecutter', 'develop', 'lite']}
     - {role: ctags, tags: ['ctags', 'search']}
     - {role: curl, tags: ['curl', 'network', 'lite']}
+    - {role: direnv, tags: ['direnv', 'shell', 'lite']}
     # - {role: emacs, tags: ['emacs', 'editor']}
-    - {role: fasd, tags: ['fasd', 'search']}
-    - {role: fd, tags: ['fd', 'search']}
-    # - {role: fish, tags: ['fish', 'shell']}
-    - {role: fzf, tags: ['fzf', 'filter']}
+    - {role: exa, tags: ['exa', 'shell']}
+    - {role: fd, tags: ['fd', 'search', 'lite']}
+    - {role: fish, tags: ['fish', 'shell', 'lite']}
+    - {role: functools, tags: ['functools', 'shell']}
+    - {role: fzf, tags: ['fzf', 'filter', 'lite']}
     - {role: git, tags: ['git', 'develop', 'lite']}
     - {role: glances, tags: ['glances', 'monitor']}
-    - {role: glom, tags: ['glom', 'filter']}
     - {role: googler, tags: ['googler', 'search']}
     - {role: howdoi, tags: ['howdoi', 'assist']}
     - {role: htop, tags: ['htop', 'monitor', 'lite']}
@@ -47,7 +47,6 @@
     - {role: litecli, tags: ['litecli', 'database']}
     - {role: metrics, tags: ['metrics', 'analyze']}
     - {role: nb, tags: ['nb', 'notes', 'lite']}
-    - {role: ncat, tags: ['ncat', 'network']}
     - {role: ncdu, tags: ['ncdu', 'monitor', 'lite']}
     - {role: neovim, tags: ['neovim', 'editor', 'lite']}
     - {role: pandoc, tags: ['pandoc', 'convert']}
@@ -61,6 +60,7 @@
     - {role: scapy, tags: ['scapy', 'network']}
     - {role: schedule, tags: ['schedule', 'trigger']}
     - {role: silver, tags: ['silver', 'search', 'lite']}
+    - {role: starship, tags: ['starship', 'shell', 'lite']}
     - {role: supervisor, tags: ['supervisor', 'setup']}
     - {role: termtosvg, tags: ['termtosvg', 'record']}
     - {role: tqdm, tags: ['tqdm', 'monitor']}
@@ -70,7 +70,7 @@
     - {role: wooey, tags: ['wooey', 'trigger']}
     # - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
-    - {role: zsh, tags: ['zsh', 'shell', 'lite']}
+    # - {role: zsh, tags: ['zsh', 'shell', 'lite']}
 
   environment:
     LANG: en_US.UTF-8

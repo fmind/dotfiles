@@ -22,8 +22,9 @@
 
 - name: directory
   file:
-    state: directory
+    mode: '0750'
     path: ~/.byobu
+    state: directory
   tags: user
 
 - name: config

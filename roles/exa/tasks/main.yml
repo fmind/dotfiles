@@ -2,6 +2,7 @@
 
 - name: package
   package:
-    name: fasd
+    name: exa
+  ignore_errors: true
   become: true
   tags: admin

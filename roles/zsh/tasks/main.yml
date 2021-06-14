@@ -84,15 +84,6 @@
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
   tags: user
 
-- name: login
-  file:
-    mode: '0640'
-    state: touch
-    path: ~/.zlogin
-    access_time: preserve
-    modification_time: preserve
-  tags: user
-
 - name: config
   file:
     force: yes
@@ -101,16 +92,7 @@
     src: "{{ role_path }}/files/zshrc"
   tags: user
 
-- name: profile
-  file:
-    mode: '0640'
-    state: touch
-    path: ~/.zprofile
-    access_time: preserve
-    modification_time: preserve
-  tags: user
-
-- name: environment
+- name: environ
   file:
     force: yes
     state: link

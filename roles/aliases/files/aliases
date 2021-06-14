@@ -6,7 +6,8 @@ alias ad='ansible-doc'
 alias ai='ansible-inventory'
 alias al='ansible-pull'
 alias ao='ansible-console'
-alias ap='ansible-playbook -i inventori.ini'
+alias ap='ansible-playbook'
+alias api='ansible-playbook -i inventory.ini'
 alias av='ansible-vault'
 alias ay='ansible-galaxy'
 # }}}
@@ -20,48 +21,38 @@ alias by="byobu"
 # }}}
 # cookiecutter {{{
 alias ck="cookiecutter"
-alias ck-nop="cookiecutter --no-input"
+alias ckn="cookiecutter --no-input"
 # }}}
 # docker {{{
 alias dk="docker"
 alias dri="docker run --rm -it"
 # }}}
-# edit {{{
+# files {{{
 alias aliasrc="vi ~/.aliases && source ~/.aliases"
-alias bashrc="vi ~/.bashrc && source ~/.bashrc"
+alias bashrc="vi ~/.bashrc"
 alias ckrc="vi ~/.cookiecutterrc"
+alias fishrc="vi ~/.config/fish/config.fish && source ~/.config/fish/config.fish"
+alias gitconfig="vi ./.gitconfig"
 alias gitignore="vi ./.gitignore"
 alias gitrc="vi ~/.gitconfig"
 alias nvimrc="vi ~/.config/nvim"
 alias sshrc="vi ~/.ssh/config"
-alias zshenv="vi ~/.zshenv && source ~/.zshenv"
-alias zshrc="vi ~/.zshrc && source ~/.zshrc"
 # }}}
 # fd {{{
 alias fd="fdfind"
 # }}}
+# fzf {{{
+alias fz='fzf'
+alias fm='fzf --multi'
+# }}}
 # git {{{
 alias g="git"
+alias ghh="my_github_clone_https"
+alias ghs="my_github_clone_ssh"
+alias ghu="sed -i 's?https://github.com/?git@github.com:?' .git/config"
 alias gm="git submodule"
 alias gwf='gws fetch'
 alias gwi='rm -f .projects.gws && gws init'
-alias ghs="sed -i 's?https://github.com/?git@github.com:?' .git/config"
-function ghc {
-  git clone git@github.com:fmind/$1.git
-}
-function gho {
-    git remote add origin "git@github.com:fmind/$(basename $PWD)"
-    git push -u origin HEAD
-}
-function ghu {
-    git remote set-url origin "git@github.com:fmind/$(basename $PWD)"
-}
-# }}}
-# Jump {{{
-alias j='fasd_cd -d'
-alias je='fasd -fe $EDITOR' 
-alias ji='fasd_cd -di'
-alias jv='fasd -fie $EDITOR' 
 # }}}
 # make {{{
 alias mk="make"
