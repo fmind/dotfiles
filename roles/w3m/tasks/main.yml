@@ -5,3 +5,9 @@
     name: w3m
   become: true
   tags: admin
+
+- name: package
+  package:
+    name: w3m-img
+  become: true
+  tags: admin
