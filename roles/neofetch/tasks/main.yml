@@ -1,0 +1,22 @@
+---
+
+- name: package
+  package:
+    name: neofetch
+  become: true
+  tags: admin
+
+- name: directory
+  file:
+    mode: '0750'
+    state: directory
+    name: ~/.config/neofetch
+  tags: user
+
+- name: config
+  file:
+    force: yes
+    state: link
+    dest: ~/.config/neofetch/config.conf
+    src: "{{ role_path }}/files/config.conf"
+  tags: user

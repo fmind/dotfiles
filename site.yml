@@ -48,6 +48,7 @@
     - {role: metrics, tags: ['metrics', 'code']}
     - {role: nb, tags: ['nb', 'file', 'lite']}
     - {role: ncdu, tags: ['ncdu', 'system', 'lite']}
+    - {role: neofetch, tags: ['neofetch', 'system', 'lite']}
     - {role: neovim, tags: ['neovim', 'file', 'lite']}
     - {role: pandoc, tags: ['pandoc', 'file']}
     - {role: parallel, tags: ['parallel', 'shell']}
