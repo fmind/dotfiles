@@ -27,7 +27,7 @@
     - {role: cookiecutter, tags: ['cookiecutter', 'code', 'lite']}
     - {role: ctags, tags: ['ctags', 'code']}
     - {role: curl, tags: ['curl', 'network', 'lite']}
-    - {role: direnv, tags: ['direnv', 'shell']}
+    - {role: direnv, tags: ['direnv', 'shell', 'lite']}
     # - {role: emacs, tags: ['emacs', 'file']}
     - {role: exa, tags: ['exa', 'file']}
     - {role: fd, tags: ['fd', 'file']}
