@@ -14,7 +14,7 @@
     package:
       name: python3-pip
     become: true
-    tags: [pre, user, lite]
+    tags: [pre, admin, lite]
 
   roles:
     - {role: aliases, tags: ['aliases', 'shell', 'lite']}
