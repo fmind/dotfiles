@@ -8,12 +8,6 @@
     url: https://raw.github.com/xwmx/nb/master/nb
   tags: user
 
-- name: directory 
-  file:
-    name: ~/notes/
-    state: directory
-  tags: user
-
 - name: config
   file:
     force: yes
