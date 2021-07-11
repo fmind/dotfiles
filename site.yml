@@ -54,6 +54,7 @@
     - {role: parallel, tags: ['parallel', 'shell']}
     - {role: pigz, tags: ['pigz', 'file']}
     - {role: pint, tags: ['pint', 'shell']}
+    - {role: pre-commit, tags: ['pre-commit', 'develop']}
     - {role: psutil, tags: ['psutil', 'shell']}
     - {role: ptrepl, tags: ['ptrepl', 'shell']}
     - {role: pyp, tags: ['pyp', 'file']}
