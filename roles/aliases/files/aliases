@@ -4,10 +4,10 @@ alias aa='ansible'
 alias ac='ansible-config'
 alias ad='ansible-doc'
 alias ai='ansible-inventory'
+alias ak='ansible-playbook -K -i inventory.ini site.yml'
 alias al='ansible-pull'
 alias ao='ansible-console'
 alias ap='ansible-playbook'
-alias api='ansible-playbook -i inventory.ini'
 alias av='ansible-vault'
 alias ay='ansible-galaxy'
 # }}}
@@ -15,9 +15,9 @@ alias ay='ansible-galaxy'
 alias bat='batcat'
 # }}}
 # byobu {{{
+alias by='byobu'
 alias bq="byobu-quiet"
 alias bs="byobu-silent"
-alias by="byobu"
 # }}}
 # cookiecutter {{{
 alias ck="cookiecutter"
@@ -40,10 +40,6 @@ alias sshrc="vi ~/.ssh/config"
 # }}}
 # fd {{{
 alias fd="fdfind"
-# }}}
-# fzf {{{
-alias fz='fzf'
-alias fm='fzf --multi'
 # }}}
 # git {{{
 alias g="git"

@@ -99,5 +99,3 @@
     dest: ~/.zshenv
     src: "{{ role_path }}/files/zshenv"
   tags: user
-
-

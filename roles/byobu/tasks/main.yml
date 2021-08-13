@@ -35,14 +35,6 @@
     src: "{{ role_path }}/files/.tmux.conf"
   tags: user
 
-- name: layouts
-  file:
-    force: yes
-    state: link
-    dest: ~/.tmuxp
-    src: "{{ role_path }}/files"
-  tags: user
-
 - name: status
   file:
     force: yes
@@ -73,4 +65,12 @@
     state: link
     dest: ~/.byobu/keybindings.tmux
     src: "{{ role_path }}/files/keybindings.tmux"
+  tags: user
+
+- name: layouts
+  file:
+    force: yes
+    state: link
+    dest: ~/.tmuxp
+    src: "{{ role_path }}/files"
   tags: user
