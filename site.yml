@@ -28,24 +28,17 @@
     - {role: ctags, tags: ['ctags', 'code']}
     - {role: curl, tags: ['curl', 'network', 'lite']}
     - {role: direnv, tags: ['direnv', 'shell', 'lite']}
-    # - {role: emacs, tags: ['emacs', 'file']}
-    - {role: exa, tags: ['exa', 'file']}
+    # # - {role: emacs, tags: ['emacs', 'file']}
     - {role: fd, tags: ['fd', 'file']}
     - {role: fish, tags: ['fish', 'shell', 'lite']}
-    - {role: functools, tags: ['functools', 'shell']}
     - {role: fzf, tags: ['fzf', 'shell', 'lite']}
     - {role: git, tags: ['git', 'code', 'lite']}
     - {role: glances, tags: ['glances', 'system']}
-    - {role: googler, tags: ['googler', 'network']}
-    - {role: howdoi, tags: ['howdoi', 'shell']}
     - {role: htop, tags: ['htop', 'system', 'lite']}
     - {role: httpie, tags: ['httpie', 'network']}
     - {role: input, tags: ['input', 'shell', 'lite']}
-    - {role: jello, tags: ['jello', 'file']}
     - {role: jq, tags: ['jq', 'file']}
-    # - {role: languagetool, tags: ['languagetool', 'file']}
     - {role: litecli, tags: ['litecli', 'database']}
-    - {role: metrics, tags: ['metrics', 'code']}
     - {role: nb, tags: ['nb', 'file']}
     - {role: ncdu, tags: ['ncdu', 'system']}
     - {role: neofetch, tags: ['neofetch', 'system']}
@@ -53,23 +46,15 @@
     - {role: pandoc, tags: ['pandoc', 'file']}
     - {role: parallel, tags: ['parallel', 'shell']}
     - {role: pigz, tags: ['pigz', 'file']}
-    - {role: pint, tags: ['pint', 'shell']}
-    - {role: pre-commit, tags: ['pre-commit', 'develop']}
-    - {role: psutil, tags: ['psutil', 'shell']}
-    - {role: ptrepl, tags: ['ptrepl', 'shell']}
-    - {role: pyp, tags: ['pyp', 'file']}
     - {role: ranger, tags: ['ranger', 'file']}
     - {role: scapy, tags: ['scapy', 'network']}
-    - {role: schedule, tags: ['schedule', 'system']}
     - {role: silver, tags: ['silver', 'file', 'lite']}
     - {role: starship, tags: ['starship', 'shell', 'lite']}
-    - {role: supervisor, tags: ['supervisor', 'system']}
     - {role: termtosvg, tags: ['termtosvg', 'shell']}
     - {role: tqdm, tags: ['tqdm', 'shell']}
     # - {role: vim, tags: ['vim', 'file']}
     - {role: w3m, tags: ['w3m', 'network']}
     - {role: watchdog, tags: ['watchdog', 'file']}
-    - {role: wooey, tags: ['wooey', 'system']}
     # - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
     # - {role: zsh, tags: ['zsh', 'shell']}

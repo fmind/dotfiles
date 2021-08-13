@@ -1,8 +1,0 @@
----
-
-- name: package
-  package:
-    name: exa
-  ignore_errors: true
-  become: true
-  tags: admin
