@@ -47,7 +47,7 @@
     - {role: litecli, tags: ['litecli', 'database']}
     - {role: metrics, tags: ['metrics', 'code']}
     - {role: nb, tags: ['nb', 'file']}
-    - {role: ncdu, tags: ['ncdu', 'system', 'lite']}
+    - {role: ncdu, tags: ['ncdu', 'system']}
     - {role: neofetch, tags: ['neofetch', 'system']}
     - {role: neovim, tags: ['neovim', 'file', 'lite']}
     - {role: pandoc, tags: ['pandoc', 'file']}
@@ -68,7 +68,7 @@
     - {role: tqdm, tags: ['tqdm', 'shell']}
     # - {role: vim, tags: ['vim', 'file']}
     - {role: w3m, tags: ['w3m', 'network']}
-    - {role: watchdog, tags: ['watchdog', 'file', 'lite']}
+    - {role: watchdog, tags: ['watchdog', 'file']}
     - {role: wooey, tags: ['wooey', 'system']}
     # - {role: xonsh, tags: ['xonsh', 'shell']}
     - {role: youget, tags: ['youget', 'network']}
