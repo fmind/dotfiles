@@ -2,7 +2,7 @@
 $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'
 $PATH = [
-    'venv/bin', 
+    '.venv/bin', 
     '~/.local/bin', '/snap/bin', 
     '/usr/local/bin', '/usr/local/sbin',
     '/usr/bin', '/usr/sbin', '/bin', '/sbin',
@@ -10,6 +10,7 @@ $PATH = [
 # CONFIGS
 $CDPATH = [
     '~/projects/',
+    '~/Projects/',
 ]
 $VI_MODE = True
 $AUTO_PUSHD = True

@@ -1,6 +1,6 @@
 default_context:
     user: "fmind"
-    email: "fmind@fmind.me"
+    email: "3929438+fmind@users.noreply.github.com"
     author: "Médéric Hurier"
     control: "github.com"
     editor: "vim"
