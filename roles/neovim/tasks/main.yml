@@ -32,11 +32,12 @@
 
 - name: directories
   file:
-    path:
-      - ~/.local/share/nvim/session
-      - ~/.local/share/nvim/site/autoload/
+    path: "{{ item }}"
     state: directory
     mode: 0750
+  with_items:
+    - ~/.local/share/nvim/session
+    - ~/.local/share/nvim/site/autoload/
   tags: user
 
 - name: manager
