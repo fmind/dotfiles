@@ -1,4 +1,5 @@
 " vim: fdm=marker
+" CONFS {{{
 " INIT {{{
 set nocompatible
 " }}}
@@ -7,6 +8,10 @@ set hidden
 set confirm
 set autoread
 set autowrite
+" }}}
+" DIVIDE {{{
+set splitbelow
+set splitright
 " }}}
 " FORMAT  {{{
 set autoindent
@@ -27,11 +32,7 @@ set softtabstop=4
 set number
 set relativenumber
 " }}}
-" OTHERS {{{
-set shell=/bin/bash
-set clipboard=unnamedplus
-" }}}
-" POPUPS {{{
+" REVIEW {{{
 set wildmode=list:longest,full
 set completeopt=menuone,longest
 " }}}
@@ -42,11 +43,16 @@ set incsearch
 set smartcase
 set ignorecase
 " }}}
+" SYSTEM {{{
+set shell=/bin/bash
+set clipboard=unnamedplus
+" }}}
 " WINDOW {{{
 set linebreak
 set lazyredraw
 set shortmess=I
 set scrolloff=10
+" }}}
 " }}}
 " COLORS {{{
 colorscheme zellner
@@ -59,8 +65,11 @@ nnoremap E g$
 nnoremap Y y$
 xnoremap < <gv
 xnoremap > >gv
+nnoremap <CR> :
 nnoremap U <C-r>
-nnoremap gl :nohl<CR>
+noremap gl :nohl<CR>
+cnoremap <C-p> <UP>
+cnoremap <C-n> <DOWN>
 " }}}
 " LEADERS {{{
 noremap <CR> :
@@ -79,9 +88,15 @@ noremap <leader><tab> :b#<CR>
 noremap <leader><space> :make
 noremap <leader>. :edit $MYVIMRC<CR>
 " }}}
-" AUGROUPS {{{
+" COMMANDS {{{
+command! Config execute ":e $MYVIMRC"
+command! Reload execute "source $MYVIMRC"
+" }}}
+" AUTOGROUPS {{{
+" AutoVim {{{
 augroup vim
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup end
+" }}}
 " }}}
