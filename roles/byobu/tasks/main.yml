@@ -22,55 +22,25 @@
 
 - name: directory
   file:
-    mode: '0750'
     path: ~/.byobu
     state: directory
+    mode: 0750
   tags: user
 
-- name: config
+- name: configs
   file:
-    force: yes
+    src: "{{ item }}"
+    dest: "~/.byobu/{{ item|basename }}"
     state: link
-    dest: ~/.byobu/.tmux.conf
-    src: "{{ role_path }}/files/.tmux.conf"
-  tags: user
-
-- name: status
-  file:
     force: yes
-    state: link
-    dest: ~/.byobu/status
-    src: "{{ role_path }}/files/status"
-  tags: user
-
-- name: backend
-  file:
-    force: yes
-    state: link
-    dest: ~/.byobu/backend
-    src: "{{ role_path }}/files/backend"
-  tags: user
-
-- name: statusrc
-  file:
-    force: yes
-    state: link
-    dest: ~/.byobu/statusrc
-    src: "{{ role_path }}/files/statusrc"
-  tags: user
-
-- name: keybindings
-  file:
-    force: yes
-    state: link
-    dest: ~/.byobu/keybindings.tmux
-    src: "{{ role_path }}/files/keybindings.tmux"
+  with_fileglob:
+    - "{{ role_path }}/files/*"
   tags: user
 
 - name: layouts
   file:
-    force: yes
-    state: link
-    dest: ~/.tmuxp
     src: "{{ role_path }}/files"
+    dest: ~/.tmuxp
+    state: link
+    force: yes
   tags: user

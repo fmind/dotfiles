@@ -8,8 +8,8 @@
 
 - name: config
   file:
-    force: yes
-    state: link
-    dest: ~/.vimrc
     src: "{{ role_path }}/files/vimrc"
+    dest: ~/.vimrc
+    state: link
+    force: yes
   tags: user

@@ -9,14 +9,15 @@
 
 - name: directory
   file:
-    state: directory
     name: ~/.config/
+    state: directory
+    mode: 0750
   tags: user
 
 - name: config
   file:
-    force: yes
-    state: link
-    dest: ~/.config/starship.toml
     src: "{{ role_path }}/files/starship.toml"
+    dest: ~/.config/starship.toml
+    state: link
+    force: yes
   tags: user

@@ -8,14 +8,14 @@
 
 - name: manager
   git:
-    depth: 1
-    dest: ~/.emacs.d
     repo: https://github.com/syl20bnr/spacemacs
+    dest: ~/.emacs.d
+    depth: 1
   tags: user
 
 - name: config
   git:
-    depth: 1
-    dest: ~/.spacemacs.d
     repo: https://github.com/fmind/spacemacs.d
+    dest: ~/.spacemacs.d
+    depth: 1
   tags: user

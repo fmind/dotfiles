@@ -8,8 +8,8 @@
 
 - name: ignore
   file:
-    force: yes
-    state: link
-    dest: ~/.agignore
     src: "{{ role_path }}/files/agignore"
+    dest: ~/.agignore
+    state: link
+    force: yes
   tags: user

@@ -54,10 +54,9 @@ alias ghu="sed -i 's?https://github.com/?git@github.com:?' .git/config"
 alias mk="make"
 # }}}
 # python {{{
-alias pb='python3 -m pdb'
+alias pb='python3 -m ipdb'
 alias pd='pydoc3'
 alias pi="ipython -i"
-alias pt='pytest'
 alias pt='pytest'
 alias pv='python3 -m venv'
 alias py="python3"
@@ -100,8 +99,6 @@ alias ws='watchmedo shell-command'
 alias xo='xdg-open'
 # }}}
 # jupyter {{{
-alias yconv='jupyter convert'
-alias ykern='jupyter kernel'
 alias ylab="jupyter lab --NotebookApp.token=''"
 alias ynote="jupyter notebook --NotebookApp.token=''"
 # }}}

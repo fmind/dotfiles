@@ -3,8 +3,8 @@ EDITOR="vim"
 LANG="en_US.UTF-8"
 PATH=.venv/bin:$HOME/.local/bin:/snap/bin:/usr/local/bin:/usr/local:sbin:/usr/bin:/usr/sbin:/bin:/sbin
 # OPTIONS
-ZSH_CUSTOM=$HOME/.zsh.d
 ZSH_THEME="spaceship"
+ZSH_CUSTOM=$HOME/.zsh.d
 # EXPORTS
 export KEYTIMEOUT=1
 export ZSH=$HOME/.oh-my-zsh

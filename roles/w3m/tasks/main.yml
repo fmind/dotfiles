@@ -6,7 +6,7 @@
   become: true
   tags: admin
 
-- name: package
+- name: images
   package:
     name: w3m-img
   become: true

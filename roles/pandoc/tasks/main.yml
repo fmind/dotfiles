@@ -6,15 +6,11 @@
   become: true
   tags: admin
 
-- name: plantuml
+- name: plugins
   package:
-    name: pandoc-plantuml-filter
-  become: true
-  tags: admin
-
-- name: citations
-  package:
-    name: pandoc-citeproc
+    name:
+      - pandoc-citeproc
+      - pandoc-plantuml-filter
   become: true
   tags: admin
 

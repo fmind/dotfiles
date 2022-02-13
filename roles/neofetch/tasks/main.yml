@@ -8,15 +8,15 @@
 
 - name: directory
   file:
-    mode: '0750'
-    state: directory
     name: ~/.config/neofetch
+    state: directory
+    mode: 0750
   tags: user
 
 - name: config
   file:
-    force: yes
-    state: link
-    dest: ~/.config/neofetch/config.conf
     src: "{{ role_path }}/files/config.conf"
+    dest: ~/.config/neofetch/config.conf
+    state: link
+    force: yes
   tags: user

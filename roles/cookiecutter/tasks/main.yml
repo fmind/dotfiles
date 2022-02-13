@@ -9,8 +9,8 @@
 
 - name: config
   file:
-    force: yes
-    state: link
-    dest: ~/.cookiecutterrc
     src: "{{ role_path }}/files/cookiecutterrc"
+    dest: ~/.cookiecutterrc
+    state: link
+    force: yes
   tags: user

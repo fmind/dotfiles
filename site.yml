@@ -8,6 +8,7 @@
     file:
       name: ~/.local/bin/
       state: directory
+      mode: 0750
     tags: [pre, user, lite]
 
   - name: ensure pip3
@@ -24,11 +25,11 @@
     - {role: chardet, tags: ['chardet', 'file']}
     - {role: cloc, tags: ['cloc', 'code']}
     - {role: compose, tags: ['compose', 'system']}
-    - {role: cookiecutter, tags: ['cookiecutter', 'code', 'lite']}
+    - {role: cookiecutter, tags: ['cookiecutter', 'code']}
     - {role: ctags, tags: ['ctags', 'code']}
     - {role: curl, tags: ['curl', 'network', 'lite']}
-    - {role: direnv, tags: ['direnv', 'shell', 'lite']}
-    # # - {role: emacs, tags: ['emacs', 'file']}
+    - {role: direnv, tags: ['direnv', 'shell']}
+    # - {role: emacs, tags: ['emacs', 'file']}
     - {role: fd, tags: ['fd', 'file']}
     - {role: fish, tags: ['fish', 'shell', 'lite']}
     - {role: fzf, tags: ['fzf', 'shell', 'lite']}
@@ -38,8 +39,7 @@
     - {role: httpie, tags: ['httpie', 'network']}
     - {role: input, tags: ['input', 'shell', 'lite']}
     - {role: jq, tags: ['jq', 'file']}
-    - {role: litecli, tags: ['litecli', 'database']}
-    - {role: nb, tags: ['nb', 'file']}
+    # - {role: litecli, tags: ['litecli', 'database']}
     - {role: ncdu, tags: ['ncdu', 'system']}
     - {role: neofetch, tags: ['neofetch', 'system']}
     - {role: neovim, tags: ['neovim', 'file', 'lite']}

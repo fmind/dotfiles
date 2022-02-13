@@ -2,8 +2,8 @@
 
 - name: repository
   apt_repository:
-    filename: neovim
     repo: ppa:neovim-ppa/stable
+    filename: neovim
   become: true
   tags: admin
 
@@ -32,22 +32,22 @@
 
 - name: directories
   file:
+    path:
+      - ~/.local/share/nvim/session
+      - ~/.local/share/nvim/site/autoload/
     state: directory
-    path: "{{ item }}"
-  with_items:
-    - ~/.local/share/nvim/session
-    - ~/.local/share/nvim/site/autoload/
+    mode: 0750
   tags: user
 
 - name: manager
   get_url:
-    dest: ~/.local/share/nvim/site/autoload/plug.vim
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: ~/.local/share/nvim/site/autoload/plug.vim
   tags: user
 
 - name: config
   git:
-    dest: ~/.config/nvim
     repo: https://github.com/fmind/nvim.d
+    dest: ~/.config/nvim
   notify: Install nvim plugins
   tags: user

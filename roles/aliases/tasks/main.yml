@@ -2,8 +2,8 @@
 
 - name: config
   file:
-    force: yes
-    state: link
-    dest: ~/.aliases
     src: "{{ role_path }}/files/aliases"
+    dest: ~/.aliases
+    state: link
+    force: yes
   tags: user

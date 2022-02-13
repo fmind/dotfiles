@@ -22,24 +22,24 @@
 
 - name: manager
   get_url:
-    mode: '0700'
-    dest: ~/.local/bin/gws
     url: https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws
+    dest: ~/.local/bin/gws
+    mode: 0700
   tags: user
 
 - name: config
   file:
-    force: no
-    state: link
-    dest: ~/.gitconfig
     src: "{{ role_path }}/files/gitconfig"
+    dest: ~/.gitconfig
+    state: link
+    force: no
   ignore_errors: true
   tags: user
 
 - name: ignore
   file:
-    force: yes
-    state: link
-    dest: ~/.gitignore
     src: "{{ role_path }}/files/gitignore"
+    dest: ~/.gitignore
+    state: link
+    force: yes
   tags: user

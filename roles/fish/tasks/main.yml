@@ -8,47 +8,29 @@
 
 - name: directory
   file:
-    mode: '0750'
     state: directory
     name: ~/.config/fish/
+    mode: 0750
   tags: user
 
-- name: config
+- name: configs
   file:
-    force: yes
+    src: "{{ item }}"
+    dest: "~/.config/fish/{{ item|basename }}"
     state: link
-    dest: ~/.config/fish/config.fish
-    src: "{{ role_path }}/files/config.fish"
+    force: yes
+  with_fileglob:
+    - "{{ role_path }}/files/*"
   tags: user
 
-- name: conf.d
+- name: extensions
   file:
-    force: yes
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "~/.config/fish/{{ item }}"
     state: link
-    dest: ~/.config/fish/conf.d
-    src: "{{ role_path }}/files/conf.d"
-  tags: user
-
-- name: plugins
-  file:
     force: yes
-    state: link
-    dest: ~/.config/fish/fish_plugins
-    src: "{{ role_path }}/files/fish_plugins"
-  tags: user
-
-- name: functions
-  file:
-    force: yes
-    state: link
-    dest: ~/.config/fish/functions
-    src: "{{ role_path }}/files/functions"
-  tags: user
-
-- name: completions
-  file:
-    force: yes
-    state: link
-    dest: ~/.config/fish/completions
-    src: "{{ role_path }}/files/completions"
+  with_items:
+    - conf.d
+    - functions
+    - completions
   tags: user

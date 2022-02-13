@@ -72,12 +72,12 @@ noremap <leader>) :cnext<CR>
 noremap <leader>} :tnext<CR>
 noremap <leader>{ :tprev<CR>
 noremap <leader>j :bnext<CR>
-noremap <leader><tab> :b#<CR>
-noremap <leader><CR> :make<CR>
-noremap <leader><space> :make
 noremap <leader>k :bprevious<CR>
-noremap <leader>. :edit $MYVIMRC<CR>
 noremap <leader>q :bdelete<CR>:bnext<CR>
+noremap <leader><CR> :make<CR>
+noremap <leader><tab> :b#<CR>
+noremap <leader><space> :make
+noremap <leader>. :edit $MYVIMRC<CR>
 " }}}
 " AUGROUPS {{{
 augroup vim

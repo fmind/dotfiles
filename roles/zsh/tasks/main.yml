@@ -6,96 +6,63 @@
   become: true
   tags: admin
 
+- name: directories
+  file:
+    state: directory
+    name:
+      - ~/.zsh.d/
+      - ~/.zsh.d/themes
+      - ~/.zsh.d/plugins
+    mode: 0750
+  tags: user
+
 - name: manager
   git:
-    depth: 1
-    dest: ~/.oh-my-zsh
     repo: https://github.com/robbyrussell/oh-my-zsh.git
-  tags: user
-
-- name: directory
-  file:
-    state: directory
-    name: ~/.zsh.d/
-    mode: '0750'
-  tags: user
-
-- name: themes
-  file:
-    state: directory
-    name: ~/.zsh.d/themes
-    mode: '0750'
-  tags: user
-
-- name: plugins
-  file:
-    state: directory
-    name: ~/.zsh.d/plugins
-    mode: '0750'
+    dest: ~/.oh-my-zsh
+    depth: 1
   tags: user
 
 - name: prompt
   git:
-    depth: 1
-    dest: ~/.zsh.d/themes/spaceship-prompt
     repo: https://github.com/denysdovhan/spaceship-prompt
+    dest: ~/.zsh.d/themes/spaceship-prompt
+    depth: 1
   tags: user
 
 - name: theme
   file:
-    force: yes
-    state: link
-    dest: ~/.zsh.d/themes/spaceship.zsh-theme
     src: ~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme
-  tags: user
-
-- name: auto-pair
-  git:
-    depth: 1
-    dest: ~/.zsh.d/plugins/zsh-autopair
-    repo: https://github.com/hlissner/zsh-autopair.git
-  tags: user
-
-- name: alias-tips
-  git:
-    depth: 1
-    dest: ~/.zsh.d/plugins/alias-tips
-    repo: https://github.com/djui/alias-tips
-  tags: user
-
-- name: zsh-completions
-  git:
-    depth: 1
-    dest: ~/.zsh.d/plugins/zsh-completions
-    repo: https://github.com/zsh-users/zsh-completions
-  tags: user
-
-- name: auto-suggestions
-  git:
-    depth: 1
-    dest: ~/.zsh.d/plugins/zsh-autosuggestions
-    repo: https://github.com/zsh-users/zsh-autosuggestions
-  tags: user
-
-- name: auto-suggestions
-  git:
-    depth: 1
-    dest: ~/.zsh.d/plugins/zsh-syntax-highlighting
-    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-  tags: user
-
-- name: config
-  file:
-    force: yes
+    dest: ~/.zsh.d/themes/spaceship.zsh-theme
     state: link
-    dest: ~/.zshrc
-    src: "{{ role_path }}/files/zshrc"
+    force: yes
+  tags: user
+
+- name: plugins
+  git:
+    repo: "https://github.com/{{ item }}.git"
+    dest: "~/.zsh.d/plugins/{{ item | basename}}"
+    depth: 1
+  with_items:
+    - djui/alias-tips
+    - hlissner/zsh-autopair
+    - zsh-users/zsh-completions
+    - zsh-users/zsh-autosuggestions
+    - zsh-users/zsh-syntax-highlighting
   tags: user
 
 - name: environ
   file:
-    force: yes
-    state: link
-    dest: ~/.zshenv
     src: "{{ role_path }}/files/zshenv"
+    dest: ~/.zshenv
+    state: link
+    force: yes
+  tags: user
+
+- name: config
+  file:
+    src: "{{ role_path }}/files/zshrc"
+    dest: ~/.zshrc
+    state: link
+    force: yes
   tags: user

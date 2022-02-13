@@ -8,8 +8,8 @@
 
 - name: config
   file:
-    force: yes
-    state: link
-    dest: ~/.ctags
     src: "{{ role_path }}/files/ctags"
+    dest: ~/.ctags
+    state: link
+    force: yes
   tags: user
