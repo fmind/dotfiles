@@ -38,6 +38,13 @@ alias gitrc="vi ~/.gitconfig"
 alias nvimrc="vi ~/.config/nvim"
 alias sshrc="vi ~/.ssh/config"
 # }}}
+# kaggle {{{
+alias kg="kaggle"
+alias kgc="kaggle competitions"
+alias kgd="kaggle datasets"
+alias kgk="kaggle kernels"
+alias kgs="kaggle config"
+# }}}
 # fd {{{
 alias fd="fdfind"
 # }}}
