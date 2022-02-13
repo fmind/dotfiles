@@ -47,6 +47,7 @@
     - {role: parallel, tags: ['parallel', 'shell']}
     - {role: pigz, tags: ['pigz', 'file']}
     - {role: ranger, tags: ['ranger', 'file']}
+    - {role: rich-cli, tags: ['rich-cli', 'file']}
     - {role: scapy, tags: ['scapy', 'network']}
     - {role: silver, tags: ['silver', 'file', 'lite']}
     - {role: starship, tags: ['starship', 'shell', 'lite']}
