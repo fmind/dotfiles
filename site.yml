@@ -56,7 +56,7 @@
     - {role: w3m, tags: ['w3m', 'network']}
     - {role: watchdog, tags: ['watchdog', 'file']}
     # - {role: xonsh, tags: ['xonsh', 'shell']}
-    - {role: youget, tags: ['youget', 'network']}
+    # - {role: youget, tags: ['youget', 'network']}
     # - {role: zsh, tags: ['zsh', 'shell']}
 
   environment:
