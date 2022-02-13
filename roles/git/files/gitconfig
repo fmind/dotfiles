@@ -6,6 +6,12 @@
 [github]
     user = fmind
 
+[init]
+	defaultBranch = main
+
+[diff]
+	ignoreSubmodules = dirty
+
 [core]
     editor = vim
     excludesfile = ~/.gitignore
