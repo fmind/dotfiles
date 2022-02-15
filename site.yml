@@ -32,14 +32,15 @@
     # - {role: emacs, tags: ['emacs', 'file']}
     - {role: fd, tags: ['fd', 'file']}
     - {role: fish, tags: ['fish', 'shell', 'lite']}
-    - {role: fzf, tags: ['fzf', 'shell', 'lite']}
+    - {role: fzf, tags: ['fzf', 'shell']}
     - {role: git, tags: ['git', 'code', 'lite']}
     - {role: glances, tags: ['glances', 'system']}
+    - {role: glom, tags: ['glom', 'file']}
     - {role: htop, tags: ['htop', 'system', 'lite']}
     - {role: httpie, tags: ['httpie', 'network']}
     - {role: input, tags: ['input', 'shell', 'lite']}
     - {role: jq, tags: ['jq', 'file']}
-    # - {role: litecli, tags: ['litecli', 'database']}
+    - {role: litecli, tags: ['litecli', 'database']}
     - {role: ncdu, tags: ['ncdu', 'system']}
     - {role: neofetch, tags: ['neofetch', 'system']}
     - {role: neovim, tags: ['neovim', 'file', 'lite']}
@@ -49,15 +50,15 @@
     - {role: ranger, tags: ['ranger', 'file']}
     - {role: rich-cli, tags: ['rich-cli', 'file']}
     - {role: scapy, tags: ['scapy', 'network']}
-    - {role: silver, tags: ['silver', 'file', 'lite']}
+    - {role: silver, tags: ['silver', 'file']}
     - {role: starship, tags: ['starship', 'shell', 'lite']}
     - {role: termtosvg, tags: ['termtosvg', 'shell']}
     - {role: tqdm, tags: ['tqdm', 'shell']}
-    # - {role: vim, tags: ['vim', 'file']}
+    - {role: vim, tags: ['vim', 'file']}
     - {role: w3m, tags: ['w3m', 'network']}
     - {role: watchdog, tags: ['watchdog', 'file']}
     # - {role: xonsh, tags: ['xonsh', 'shell']}
-    # - {role: youget, tags: ['youget', 'network']}
+    - {role: youget, tags: ['youget', 'network']}
     # - {role: zsh, tags: ['zsh', 'shell']}
 
   environment:
