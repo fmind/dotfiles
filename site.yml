@@ -36,6 +36,7 @@
     - {role: git, tags: ['git', 'code', 'lite']}
     - {role: glances, tags: ['glances', 'system']}
     - {role: glom, tags: ['glom', 'file']}
+    - {role: gpustat, tags: ['gpustat', 'system']}
     - {role: htop, tags: ['htop', 'system', 'lite']}
     - {role: httpie, tags: ['httpie', 'network']}
     - {role: input, tags: ['input', 'shell', 'lite']}
