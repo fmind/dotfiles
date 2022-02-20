@@ -1,0 +1,8 @@
+---
+
+- name: package
+  git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: ~/.pyenv
+    depth: 1
+  tags: user

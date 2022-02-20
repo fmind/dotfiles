@@ -18,4 +18,6 @@ set -gx PATH .venv/bin $HOME/.local/bin /snap/bin /usr/local/bin /usr/local/sbin
 # EXTENDS
 direnv hook fish | source
 starship init fish | source
+status is-login; and pyenv init --path | source
+status is-interactive; and pyenv init - | source
 status --is-login; and status --is-interactive; and exec byobu-launcher

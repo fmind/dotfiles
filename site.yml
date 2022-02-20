@@ -48,6 +48,7 @@
     - {role: pandoc, tags: ['pandoc', 'file']}
     - {role: parallel, tags: ['parallel', 'shell']}
     - {role: pigz, tags: ['pigz', 'file']}
+    - {role: pyenv, tags: ['pyenv', 'code']}
     - {role: ranger, tags: ['ranger', 'file']}
     - {role: rich-cli, tags: ['rich-cli', 'file']}
     - {role: scapy, tags: ['scapy', 'network']}
