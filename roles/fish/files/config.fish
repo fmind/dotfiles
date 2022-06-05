@@ -14,7 +14,7 @@ set -g fish_key_bindings fish_hybrid_key_bindings
 set -gx EDITOR vim
 set -gx LANG en_US.UTF-8
 set -gx PYTHONBREAKPOINT ipdb.set_trace
-set -gx PATH .venv/bin $HOME/.local/bin /snap/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
+set -gx PATH .venv/bin $HOME/.pyenv/bin $HOME/.local/bin /snap/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 # EXTENDS
 direnv hook fish | source
 starship init fish | source
