@@ -2,6 +2,10 @@
     name = Médéric Hurier
     email = 3929438+fmind@users.noreply.github.com
     username = fmind
+    signingkey = 1B5C225EBD8751FD
+
+[commit]
+    gpgsign = true
 
 [github]
     user = fmind
