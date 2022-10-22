@@ -1,0 +1,7 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: autojump
+  become: true
+  tags: admin

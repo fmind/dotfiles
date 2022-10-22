@@ -1,31 +1,40 @@
+# IMPORTS
+import os
+import re
 # EXPORTS
 $EDITOR = 'vim'
 $LANG = 'en_US.UTF-8'
 $PATH = [
-    '.venv/bin', 
-    '~/.local/bin', '/snap/bin', 
+    '.venv/bin', '~/.local/bin', '~/.pyenv/bin',
+    '/opt/homebrew/bin', '/opt/homebrew/sbin',
     '/usr/local/bin', '/usr/local/sbin',
-    '/usr/bin', '/usr/sbin', '/bin', '/sbin',
+    '/usr/bin', '/usr/sbin',
+    '/bin', '/sbin',
 ]
 # CONFIGS
 $CDPATH = [
-    '~/projects/',
+    '~/',
     '~/Projects/',
 ]
 $VI_MODE = True
 $AUTO_PUSHD = True
 $AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
-$PROMPT = ("{vte_new_tab_cwd}"
-           "{INTENSE_RED}{user}{DEFAULT} "
-           "at {INTENSE_GREEN}{hostname}{DEFAULT} "
-           "in {INTENSE_BLUE}{short_cwd}{DEFAULT} "
-           "{branch_color}{curr_branch:{} }"
-           "{DEFAULT}{prompt_end}{DEFAULT} ")
+# ALIASES
+source-bash ~/.aliases
 # TRIGGERS
 @events.on_chdir
 def listdir(newdir, olddir):
     $[ls]
 # XONTRIBS
-xontrib load jedi
 xontrib load bashisms
+xontrib load coreutils
+# FUNCTIONS
+def _fuck(args, stdin=None):
+    """Re-run the previous command without errors."""
+    try:
+        last_command = __xonsh__.history[-1].cmd.strip()
+    except IndexError:
+        return
+    execx('thefuck {}'.format(last_command))
+aliases['fuck'] = _fuck

@@ -1,8 +1,6 @@
 ---
 
 - name: package
-  pip:
+  community.general.pipx:
     name: watchdog
-    executable: pip3
-    extra_args: --user
   tags: user

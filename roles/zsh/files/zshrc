@@ -13,3 +13,42 @@ plugins=(
 source ~/.aliases
 # SOURCES
 source $ZSH/oh-my-zsh.sh
+# PLUGINS
+# direnv
+# autojump
+# pyenv
+# thefuck
+# enable fasd
+# if [ -x "$(command -v fasd)" ]; then
+#     eval "$(fasd --init auto)"
+# fi
+# # enable pyenv
+# if [ -x "$(command -v pyenv)" ]; then
+#     eval "$(pyenv init -)"
+# fi
+# enable byobu
+# _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+# # # enable autoenv
+# if [ -x "$(command -v activate.sh)" ]; then
+#     source "$(which activate.sh)"
+# fi
+# # enable percol
+# function exists { which $1 &> /dev/null }
+# if exists percol; then
+#     function percol_select_history() {
+#         local tac
+#         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+#         BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+#         CURSOR=$#BUFFER         # move cursor
+#         zle -R -c               # refresh
+#     }
+
+#     zle -N percol_select_history
+#     bindkey '^R' percol_select_history
+# fi
+
+# direnv hook fish | source
+# starship init fish | source
+# status is-login; and pyenv init --path | source
+# status is-interactive; and pyenv init - | source
+# status --is-login; and status --is-interactive; and exec byobu-launcher

@@ -1,14 +1,12 @@
 ---
 
 - name: package
-  pip:
+  community.general.pipx:
     name: xonsh
-    executable: pip3
-    extra_args: --user
   tags: user
 
 - name: config
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/xonshrc"
     dest: ~/.xonshrc
     state: link

@@ -1,13 +1,13 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: silversearcher-ag
   become: true
   tags: admin
 
 - name: ignore
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/agignore"
     dest: ~/.agignore
     state: link

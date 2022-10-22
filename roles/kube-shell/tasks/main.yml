@@ -1,0 +1,6 @@
+---
+
+- name: package
+  community.general.pipx:
+    name: kube-shell
+  tags: user

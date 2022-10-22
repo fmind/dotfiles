@@ -1,20 +1,20 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: fish
   become: true
   tags: admin
 
 - name: directory
-  file:
+  ansible.builtin.file:
     state: directory
     name: ~/.config/fish/
     mode: 0750
   tags: user
 
 - name: configs
-  file:
+  ansible.builtin.file:
     src: "{{ item }}"
     dest: "~/.config/fish/{{ item|basename }}"
     state: link
@@ -24,7 +24,7 @@
   tags: user
 
 - name: extensions
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/{{ item }}"
     dest: "~/.config/fish/{{ item }}"
     state: link

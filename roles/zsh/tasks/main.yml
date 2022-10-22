@@ -1,37 +1,38 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: zsh
   become: true
   tags: admin
 
 - name: directories
-  file:
+  ansible.builtin.file:
     state: directory
-    name:
-      - ~/.zsh.d/
-      - ~/.zsh.d/themes
-      - ~/.zsh.d/plugins
+    path: "{{ item }}"
     mode: 0750
+  with_items:
+    - ~/.zsh.d/
+    - ~/.zsh.d/themes
+    - ~/.zsh.d/plugins
   tags: user
 
 - name: manager
-  git:
+  ansible.builtin.git:
     repo: https://github.com/robbyrussell/oh-my-zsh.git
     dest: ~/.oh-my-zsh
     depth: 1
   tags: user
 
 - name: prompt
-  git:
+  ansible.builtin.git:
     repo: https://github.com/denysdovhan/spaceship-prompt
     dest: ~/.zsh.d/themes/spaceship-prompt
     depth: 1
   tags: user
 
 - name: theme
-  file:
+  ansible.builtin.file:
     src: ~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme
     dest: ~/.zsh.d/themes/spaceship.zsh-theme
     state: link
@@ -39,7 +40,7 @@
   tags: user
 
 - name: plugins
-  git:
+  ansible.builtin.git:
     repo: "https://github.com/{{ item }}.git"
     dest: "~/.zsh.d/plugins/{{ item | basename}}"
     depth: 1
@@ -52,7 +53,7 @@
   tags: user
 
 - name: environ
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/zshenv"
     dest: ~/.zshenv
     state: link
@@ -60,7 +61,7 @@
   tags: user
 
 - name: config
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/zshrc"
     dest: ~/.zshrc
     state: link

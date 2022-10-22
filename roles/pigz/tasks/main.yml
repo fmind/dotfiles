@@ -1,7 +1,7 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: pigz
   become: true
   tags: admin

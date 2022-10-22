@@ -1,111 +1,71 @@
-# vim: fdm=marker
-# ansible {{{
-alias aa='ansible'
-alias ac='ansible-config'
+# a:ansible
+alias a='ansible'
 alias ad='ansible-doc'
-alias ai='ansible-inventory'
-alias ak='ansible-playbook -K -i inventory.ini site.yml'
-alias al='ansible-pull'
-alias ao='ansible-console'
 alias ap='ansible-playbook'
-alias av='ansible-vault'
-alias ay='ansible-galaxy'
-# }}}
-# bat {{{
-alias bat='batcat'
-# }}}
-# byobu {{{
-alias by='byobu'
-alias bq="byobu-quiet"
-alias bs="byobu-silent"
-# }}}
-# cookiecutter {{{
-alias ck="cookiecutter"
-alias ckn="cookiecutter --no-input"
-# }}}
-# docker {{{
-alias dk="docker"
-alias dri="docker run --rm -it"
-# }}}
-# files {{{
-alias aliasrc="vi ~/.aliases && source ~/.aliases"
-alias bashrc="vi ~/.bashrc"
-alias ckrc="vi ~/.cookiecutterrc"
-alias fishrc="vi ~/.config/fish/config.fish && source ~/.config/fish/config.fish"
-alias gitconfig="vi ./.gitconfig"
-alias gitignore="vi ./.gitignore"
-alias gitrc="vi ~/.gitconfig"
-alias nvimrc="vi ~/.config/nvim"
-alias sshrc="vi ~/.ssh/config"
-# }}}
-# kaggle {{{
-alias kg="kaggle"
-alias kgc="kaggle competitions"
-alias kgd="kaggle datasets"
-alias kgk="kaggle kernels"
-alias kgs="kaggle config"
-# }}}
-# fd {{{
-alias fd="fdfind"
-# }}}
-# git {{{
+alias as='ansible-playbook -K site.yml'
+# b:batcat
+alias b='batcat'
+# c:cookiecutter
+alias c="cookiecutter"
+alias cn="cookiecutter --no-input"
+# d:docker
+alias d="docker"
+alias dr="docker run --rm -it"
+# e:ranger
+alias e="ranger"
+# f:fdfind
+alias f="fdfind"
+# g:git
 alias g="git"
-alias gm="git submodule"
-alias gwf='gws fetch'
-alias gwi='rm -f .projects.gws && gws init'
-alias ghh="my_github_clone_https"
-alias ghs="my_github_clone_ssh"
-alias ghu="sed -i 's?https://github.com/?git@github.com:?' .git/config"
-# }}}
-# make {{{
-alias mk="make"
-# }}}
-# python {{{
-alias pb='python3 -m ipdb'
-alias pd='pydoc3'
-alias pi="ipython -i"
+alias gs="git status"
+# h:http
+alias h="http"
+alias hp="http-prompt"
+# i:invoke
+alias i="inv"
+# j:autojump
+# k:kube
+alias k="kubectl"
+# l:glances
+alias l="glances"
+# m:make
+alias m="make"
+# n:nerd
+alias n="nerdctl"
+alias nr="nerdctl --rm -it"
+# o:poetry
+alias o="poetry"
+# p:python
+alias p='python'
+alias pd='pydoc'
+alias pi="ipython"
+alias pp='python -m pip'
 alias pt='pytest'
-alias pv='python3 -m venv'
-alias py="python3"
-alias px='python3 -m trace'
-alias ppe='python3 -m pip install -e .'
-alias ppf='python3 -m pip freeze'
-alias ppi='python3 -m pip install'
-alias ppp='python3 -m pip install --user'
-alias pps='python3 -m pip search'
-alias ppu='python3 -m pip uninstall'
-# }}}
-# system {{{
-alias sc='systemctl'
-alias sl='journalctl'
-alias sv='service'
-# }}}
-# tmux {{{
-alias tm='tmux'
-alias tp='tmuxp'
-alias tpf='tmuxp freeze .tmux'
-alias tph='tmuxp load -y .'
-alias tpl='tmuxp load -y'
-# }}}
-# ubuntu {{{
-alias uc='sudo apt autoremove --purge'
-alias ui='sudo apt install'
-alias uo='apt show'
-alias up='sudo apt update'
-alias ur='sudo apt purge'
-alias us='apt search'
-alias uu='sudo apt upgrade'
-# }}}
-# watchmedo {{{
+alias pv='python -m venv'
+# q:quit
+alias q="exit"
+# r:rich
+alias r="rich"
+# s:isort
+alias s="isort"
+# t:pytest
+alias t="pytest"
+# u:fuck
+alias u="fuck"
+# v:vscode
+alias v="code"
+# w:watchmedo
+alias w='watchmedo'
 alias wl='watchmedo log'
-alias wm='watchmedo'
-alias wr='watchmedo auto-restart'
 alias ws='watchmedo shell-command'
-# }}}
-# xserver {{{
-alias xo='xdg-open'
-# }}}
-# jupyter {{{
-alias ylab="jupyter lab --NotebookApp.token=''"
-alias ynote="jupyter notebook --NotebookApp.token=''"
-# }}}
+# x:xonsh
+alias x='xonsh'
+# y:you-get
+alias y="you-get"
+# z:
+alias zi='sudo apt install'
+alias zp='sudo apt purge'
+alias zr='sudo apt upgrade'
+alias zs='apt search'
+alias zu='sudo apt update'
+alias zx='sudo apt autoremove --purge'

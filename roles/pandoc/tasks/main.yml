@@ -1,22 +1,15 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: pandoc
   become: true
   tags: admin
 
 - name: plugins
-  package:
+  ansible.builtin.package:
     name:
       - pandoc-citeproc
       - pandoc-plantuml-filter
   become: true
   tags: admin
-
-- name: library
-  pip:
-    name: pypandoc
-    executable: pip3
-    extra_args: --user
-  tags: user

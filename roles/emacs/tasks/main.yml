@@ -1,20 +1,20 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: emacs-nox
   become: true
   tags: admin
 
 - name: manager
-  git:
+  ansible.builtin.git:
     repo: https://github.com/syl20bnr/spacemacs
     dest: ~/.emacs.d
     depth: 1
   tags: user
 
 - name: config
-  git:
+  ansible.builtin.git:
     repo: https://github.com/fmind/spacemacs.d
     dest: ~/.spacemacs.d
     depth: 1

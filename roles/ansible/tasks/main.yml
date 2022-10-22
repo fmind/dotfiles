@@ -1,14 +1,12 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: ansible
   become: true
   tags: admin
 
 - name: linter
-  pip:
+  community.general.pipx:
     name: ansible-lint
-    executable: pip3
-    extra_args: --user
   tags: user

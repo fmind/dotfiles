@@ -1,68 +1,82 @@
 ---
-
-- hosts: localhost
-
+- hosts: 127.0.0.1
+  connection: local
   pre_tasks:
-
   - name: ensure ~/.local/bin/
     file:
       name: ~/.local/bin/
       state: directory
       mode: 0750
-    tags: [pre, user, lite]
-
+    tags: [pre]
   - name: ensure pip3
     package:
-      name: python3-pip
+      name: pipx
     become: true
-    tags: [pre, admin, lite]
-
+    tags: [pre]
   roles:
-    - {role: aliases, tags: ['aliases', 'shell', 'lite']}
-    - {role: ansible, tags: ['ansible', 'system', 'lite']}
-    - {role: bat, tags: ['bat', 'file']}
-    - {role: byobu, tags: ['byobu', 'shell', 'lite']}
-    - {role: chardet, tags: ['chardet', 'file']}
-    - {role: cloc, tags: ['cloc', 'code']}
-    - {role: compose, tags: ['compose', 'system']}
-    - {role: cookiecutter, tags: ['cookiecutter', 'code']}
-    - {role: ctags, tags: ['ctags', 'code']}
-    - {role: curl, tags: ['curl', 'network', 'lite']}
-    - {role: direnv, tags: ['direnv', 'shell']}
-    # - {role: emacs, tags: ['emacs', 'file']}
-    - {role: fd, tags: ['fd', 'file']}
-    - {role: fish, tags: ['fish', 'shell', 'lite']}
-    - {role: fzf, tags: ['fzf', 'shell']}
-    - {role: git, tags: ['git', 'code', 'lite']}
-    - {role: glances, tags: ['glances', 'system']}
-    - {role: glom, tags: ['glom', 'file']}
-    - {role: gpustat, tags: ['gpustat', 'system']}
-    - {role: htop, tags: ['htop', 'system', 'lite']}
-    - {role: httpie, tags: ['httpie', 'network']}
-    - {role: input, tags: ['input', 'shell', 'lite']}
-    - {role: jq, tags: ['jq', 'file']}
-    - {role: litecli, tags: ['litecli', 'database']}
-    - {role: ncdu, tags: ['ncdu', 'system']}
-    - {role: neofetch, tags: ['neofetch', 'system']}
-    - {role: neovim, tags: ['neovim', 'file', 'lite']}
-    - {role: pandoc, tags: ['pandoc', 'file']}
-    - {role: parallel, tags: ['parallel', 'shell']}
-    - {role: pigz, tags: ['pigz', 'file']}
-    - {role: pyenv, tags: ['pyenv', 'code']}
-    - {role: ranger, tags: ['ranger', 'file']}
-    - {role: rich-cli, tags: ['rich-cli', 'file']}
-    - {role: scapy, tags: ['scapy', 'network']}
-    - {role: silver, tags: ['silver', 'file']}
-    - {role: starship, tags: ['starship', 'shell', 'lite']}
-    - {role: termtosvg, tags: ['termtosvg', 'shell']}
-    - {role: tqdm, tags: ['tqdm', 'shell']}
-    - {role: vim, tags: ['vim', 'file']}
-    - {role: w3m, tags: ['w3m', 'network']}
-    - {role: watchdog, tags: ['watchdog', 'file']}
-    # - {role: xonsh, tags: ['xonsh', 'shell']}
-    - {role: youget, tags: ['youget', 'network']}
-    # - {role: zsh, tags: ['zsh', 'shell']}
-
+    - {role: aliases, tags: ['aliases']}
+    - {role: ansible, tags: ['ansible']}
+    - {role: asciinema, tags: ['asciinema']}
+    - {role: autojump, tags: ['autojump']}
+    - {role: aws-shell, tags: ['aws-shell']}
+    - {role: bat, tags: ['bat']}
+    - {role: byobu, tags: ['byobu']}
+    - {role: chardet, tags: ['chardet']}
+    - {role: cloc, tags: ['cloc']}
+    - {role: compose, tags: ['compose']}
+    - {role: cookiecutter, tags: ['cookiecutter']}
+    - {role: ctags, tags: ['ctags']}
+    - {role: curl, tags: ['curl']}
+    - {role: direnv, tags: ['direnv']}
+    - {role: emacs, tags: ['emacs']}
+    - {role: fd, tags: ['fd']}
+    - {role: fish, tags: ['fish']}
+    - {role: fzf, tags: ['fzf']}
+    - {role: git, tags: ['git']}
+    - {role: glances, tags: ['glances']}
+    - {role: glom, tags: ['glom']}
+    - {role: gpustat, tags: ['gpustat']}
+    - {role: howdoi, tags: ['howdoi', 'help']}
+    - {role: htop, tags: ['htop']}
+    - {role: httpie, tags: ['httpie']}
+    - {role: httpstat, tags: ['httpstat']}
+    - {role: input, tags: ['input']}
+    - {role: iredis, tags: ['iredis']}
+    - {role: jc, tags: ['jc']}
+    - {role: jello, tags: ['jello']}
+    - {role: jq, tags: ['jq']}
+    - {role: kube-shell, tags: ['kube-shell']}
+    - {role: litecli, tags: ['litecli']}
+    - {role: mycli, tags: ['mycli']}
+    - {role: ncdu, tags: ['ncdu']}
+    - {role: neofetch, tags: ['neofetch']}
+    - {role: neovim, tags: ['neovim']}
+    - {role: pandoc, tags: ['pandoc']}
+    - {role: parallel, tags: ['parallel']}
+    - {role: percol, tags: ['percol']}
+    - {role: pgcli, tags: ['pgcli']}
+    - {role: pigz, tags: ['pigz']}
+    - {role: pyenv, tags: ['pyenv']}
+    - {role: ranger, tags: ['ranger']}
+    - {role: rich-cli, tags: ['rich-cli']}
+    - {role: saws, tags: ['saws']}
+    - {role: scapy, tags: ['scapy']}
+    - {role: scrapy, tags: ['scrapy']}
+    - {role: shell-functools, tags: ['shell-functools']}
+    - {role: silver, tags: ['silver']}
+    - {role: starship, tags: ['starship']}
+    - {role: supervisor, tags: ['supervisor']}
+    - {role: termtosvg, tags: ['termtosvg']}
+    - {role: thefuck, tags: ['thefuck']}
+    - {role: tqdm, tags: ['tqdm']}
+    - {role: vim, tags: ['vim']}
+    - {role: visidata, tags: ['visidata']}
+    - {role: w3m, tags: ['w3m']}
+    - {role: watchdog, tags: ['watchdog']}
+    - {role: wharfee, tags: ['wharfee']}
+    - {role: xonsh, tags: ['xonsh']}
+    - {role: youget, tags: ['youget']}
+    - {role: zsh, tags: ['zsh']}
   environment:
     LANG: en_US.UTF-8
     PATH: "{{ ansible_env.HOME }}/.local/bin/:{{ ansible_env.PATH }}"

@@ -1,8 +1,11 @@
 ---
 
 - name: package
-  pip:
+  community.general.pipx:
     name: httpie
-    executable: pip3
-    extra_args: --user
+  tags: user
+
+- name: prompt
+  community.general.pipx:
+    name: http-prompt
   tags: user

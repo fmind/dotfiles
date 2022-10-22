@@ -1,7 +1,7 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: htop
   become: true
   tags: admin

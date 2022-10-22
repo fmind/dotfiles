@@ -1,13 +1,13 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: w3m
   become: true
   tags: admin
 
 - name: images
-  package:
+  ansible.builtin.package:
     name: w3m-img
   become: true
   tags: admin

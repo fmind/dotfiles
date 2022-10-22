@@ -1,20 +1,20 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: neofetch
   become: true
   tags: admin
 
 - name: directory
-  file:
+  ansible.builtin.file:
     name: ~/.config/neofetch
     state: directory
     mode: 0750
   tags: user
 
 - name: config
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/config.conf"
     dest: ~/.config/neofetch/config.conf
     state: link

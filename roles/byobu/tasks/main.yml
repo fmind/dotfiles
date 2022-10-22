@@ -1,34 +1,25 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: byobu
   become: true
   tags: admin
 
-- name: library
-  pip:
-    name: libtmux
-    executable: pip3
-    extra_args: --user
-  tags: user
-
 - name: manager
-  pip:
+  community.general.pipx:
     name: tmuxp
-    executable: pip3
-    extra_args: --user
   tags: user
 
 - name: directory
-  file:
+  ansible.builtin.file:
     path: ~/.byobu
     state: directory
     mode: 0750
   tags: user
 
 - name: configs
-  file:
+  ansible.builtin.file:
     src: "{{ item }}"
     dest: "~/.byobu/{{ item|basename }}"
     state: link
@@ -38,7 +29,7 @@
   tags: user
 
 - name: layouts
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files"
     dest: ~/.tmuxp
     state: link

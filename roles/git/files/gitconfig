@@ -1,11 +1,7 @@
 [user]
     name = Médéric Hurier
-    email = 3929438+fmind@users.noreply.github.com
+    email = mederic.hurier@fmind.dev
     username = fmind
-    signingkey = 1B5C225EBD8751FD
-
-[commit]
-    gpgsign = true
 
 [github]
     user = fmind
@@ -13,29 +9,8 @@
 [init]
 	defaultBranch = main
 
-[diff]
-	ignoreSubmodules = dirty
-
 [core]
     editor = vim
-    excludesfile = ~/.gitignore
 
 [alias]
-    aa = add --all
-    br = branch
-    ca = commit -am
-    ci = commit -m
-    cn = commit -nm
-    ck = checkout
-    cl = clone
-    df = diff
-    lg = log --graph
-    lo = log --oneline
-    lp = log --graph --decorate --pretty=oneline --abbrev-commit
-    pl = pull
-    po = push --set-upstream origin main
-    ps = push
-    sm = submodule
-    ss = status -s
     st = status
-    tr = ls-tree -r master --name-only

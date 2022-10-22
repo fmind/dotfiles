@@ -1,8 +1,6 @@
 ---
 
 - name: package
-  pip:
+  community.general.pipx:
     name: glances
-    executable: pip3
-    extra_args: --user
   tags: user

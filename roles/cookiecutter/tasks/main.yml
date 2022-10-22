@@ -1,14 +1,17 @@
 ---
 
 - name: package
-  pip:
+  community.general.pipx:
     name: cookiecutter
-    executable: pip3
-    extra_args: --user
+  tags: user
+
+- name: develop
+  community.general.pipx:
+    name: cruft
   tags: user
 
 - name: config
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/cookiecutterrc"
     dest: ~/.cookiecutterrc
     state: link

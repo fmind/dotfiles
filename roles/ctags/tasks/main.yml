@@ -1,13 +1,13 @@
 ---
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: exuberant-ctags
   become: true
   tags: admin
 
 - name: config
-  file:
+  ansible.builtin.file:
     src: "{{ role_path }}/files/ctags"
     dest: ~/.ctags
     state: link

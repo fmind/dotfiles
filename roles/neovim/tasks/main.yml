@@ -1,14 +1,14 @@
 ---
 
 - name: repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: ppa:neovim-ppa/stable
     filename: neovim
   become: true
   tags: admin
 
 - name: package
-  package:
+  ansible.builtin.package:
     name: neovim
   become: true
   tags: admin
@@ -23,15 +23,8 @@
   become: true
   tags: admin
 
-- name: library
-  pip:
-    name: pynvim
-    executable: pip3
-    extra_args: --user
-  tags: user
-
 - name: directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: 0750
@@ -41,13 +34,13 @@
   tags: user
 
 - name: manager
-  get_url:
+  ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: ~/.local/share/nvim/site/autoload/plug.vim
   tags: user
 
 - name: config
-  git:
+  ansible.builtin.git:
     repo: https://github.com/fmind/nvim.d
     dest: ~/.config/nvim
   notify: Install nvim plugins
