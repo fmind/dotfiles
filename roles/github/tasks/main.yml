@@ -1,0 +1,7 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: gh
+  become: true
+  tags: admin

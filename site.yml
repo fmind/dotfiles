@@ -33,6 +33,7 @@
     - {role: fish, tags: ['fish']}
     - {role: fzf, tags: ['fzf']}
     - {role: git, tags: ['git']}
+    - {role: github, tags: ['github']}
     - {role: glances, tags: ['glances']}
     - {role: glom, tags: ['glom']}
     - {role: gpustat, tags: ['gpustat']}
