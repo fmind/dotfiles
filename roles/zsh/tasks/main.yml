@@ -67,3 +67,11 @@
     state: link
     force: yes
   tags: user
+
+- name: profile
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/zprofile"
+    dest: ~/.zprofile
+    state: link
+    force: yes
+  tags: user
