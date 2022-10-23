@@ -1,15 +1,14 @@
 ---
 
-- name: repository
-  ansible.builtin.apt_repository:
-    repo: ppa:neovim-ppa/stable
-    filename: neovim
-  become: true
-  tags: admin
-
 - name: package
   ansible.builtin.package:
     name: neovim
+  become: true
+  tags: admin
+
+- name: python
+  ansible.builtin.package:
+    name: python3-neovim
   become: true
   tags: admin
 
