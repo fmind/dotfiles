@@ -13,10 +13,12 @@ ansible-playbook site.yml --become-user=$USER
 
 **On Mac OSX**:
 - To enable the unarchive module: `brew install gnu-tar`
-- To
 
 # Configuration
 
 ```bash
+# On Linux systems
 chsh -s /usr/bin/zsh
+# On MacOS systems
+chsh -s /bin/zsh
 ```
