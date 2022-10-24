@@ -17,7 +17,6 @@
     - {role: aliases, tags: ['aliases']}
     - {role: ansible, tags: ['ansible']}
     - {role: asciinema, tags: ['asciinema']}
-    - {role: autojump, tags: ['autojump']}
     - {role: aws-shell, tags: ['aws-shell']}
     - {role: bat, tags: ['bat']}
     - {role: byobu, tags: ['byobu']}
@@ -28,7 +27,9 @@
     - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
     - {role: direnv, tags: ['direnv']}
+    - {role: duf, tags: ['duf']}
     - {role: emacs, tags: ['emacs']}
+    - {role: exa, tags: ['exa']}
     - {role: fd, tags: ['fd']}
     - {role: fish, tags: ['fish']}
     - {role: fzf, tags: ['fzf']}
@@ -77,6 +78,7 @@
     - {role: wharfee, tags: ['wharfee']}
     - {role: xonsh, tags: ['xonsh']}
     - {role: youget, tags: ['youget']}
+    - {role: zoxide, tags: ['zoxide']}
     - {role: zsh, tags: ['zsh']}
   environment:
     LANG: en_US.UTF-8

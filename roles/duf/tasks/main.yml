@@ -1,0 +1,7 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: duf
+  become: true
+  tags: admin

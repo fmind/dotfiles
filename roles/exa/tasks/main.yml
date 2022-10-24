@@ -2,6 +2,6 @@
 
 - name: package
   ansible.builtin.package:
-    name: autojump
+    name: exa
   become: true
   tags: admin

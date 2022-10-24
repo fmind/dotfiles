@@ -13,24 +13,10 @@
     mode: 0750
   tags: user
 
-- name: configs
+- name: config
   ansible.builtin.file:
-    src: "{{ item }}"
-    dest: "~/.config/fish/{{ item|basename }}"
+    src: "{{ role_path }}/files/config.fish"
+    dest: ~/.config/fish/config.fish
     state: link
     force: yes
-  with_fileglob:
-    - "{{ role_path }}/files/*"
-  tags: user
-
-- name: extensions
-  ansible.builtin.file:
-    src: "{{ role_path }}/files/{{ item }}"
-    dest: "~/.config/fish/{{ item }}"
-    state: link
-    force: yes
-  with_items:
-    - conf.d
-    - functions
-    - completions
   tags: user

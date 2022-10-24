@@ -2,6 +2,6 @@
 
 - name: package
   ansible.builtin.package:
-    name: ncdu
+    name: zoxide
   become: true
   tags: admin

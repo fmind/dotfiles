@@ -18,7 +18,9 @@ ansible-playbook site.yml --become-user=$USER
 
 ```bash
 # On Linux systems
-chsh -s /usr/bin/zsh
+chsh -s /usr/bin/fish
 # On MacOS systems
-chsh -s /bin/zsh
+echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/fish
+
 ```

@@ -24,12 +24,14 @@ alias h="http"
 alias hp="http-prompt"
 # i:invoke
 alias i="inv"
-# j:autojump
-# managed by zsh
+# j:jupyter
+alias j="jupyter"
+alias jl="jupyter lab --NotebookApp.token=''"
+alias jn="jupyter notebook --NotebookApp.token=''"
 # k:kube
 alias k="kubectl"
-# l:glances
-alias l="glances"
+# l:exa
+alias l="exa"
 # m:make
 alias m="make"
 # n:nerd
@@ -64,10 +66,4 @@ alias ws='watchmedo shell-command'
 alias x='xonsh'
 # y:you-get
 alias y="you-get"
-# z:ubuntu
-alias zi='sudo apt install'
-alias zp='sudo apt purge'
-alias zr='sudo apt upgrade'
-alias zs='apt search'
-alias zu='sudo apt update'
-alias zx='sudo apt autoremove --purge'
+# managed by shell

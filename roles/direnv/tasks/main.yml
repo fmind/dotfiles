@@ -5,3 +5,18 @@
     name: direnv
   become: true
   tags: admin
+
+- name: directory
+  ansible.builtin.file:
+    state: directory
+    name: ~/.config/direnv/
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/direnv.toml"
+    dest: ~/.config/direnv/direnv.toml
+    state: link
+    force: yes
+  tags: user
