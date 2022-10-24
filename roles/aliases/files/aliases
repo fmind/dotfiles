@@ -3,6 +3,7 @@ alias a='ansible'
 alias ad='ansible-doc'
 alias ap='ansible-playbook'
 alias as='ansible-playbook -K site.yml'
+alias au='ansible-playbook site.yml --become-user=$USER'
 # b:batcat
 alias b='batcat'
 # c:cookiecutter

@@ -2,6 +2,6 @@
 
 - name: package
   ansible.builtin.package:
-    name: fd-find
+    name: "{{ 'fd-find' if ansible_distribution != 'MacOSX' else 'fd' }}"
   become: true
   tags: admin

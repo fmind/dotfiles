@@ -11,5 +11,6 @@
     name:
       - pandoc-citeproc
       - pandoc-plantuml-filter
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin

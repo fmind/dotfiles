@@ -2,7 +2,7 @@
 
 - name: package
   ansible.builtin.package:
-    name: emacs-nox
+    name: "{{ 'emacs-nox' if ansible_distribution != 'MacOSX' else 'emacs' }}"
   become: true
   tags: admin
 

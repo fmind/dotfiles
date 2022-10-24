@@ -15,5 +15,6 @@
     src: "{{ role_path }}/files/cookiecutterrc"
     dest: ~/.cookiecutterrc
     state: link
-    force: yes
+    force: no
+  ignore_errors: true
   tags: user

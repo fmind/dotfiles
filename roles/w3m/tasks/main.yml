@@ -9,5 +9,6 @@
 - name: images
   ansible.builtin.package:
     name: w3m-img
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin

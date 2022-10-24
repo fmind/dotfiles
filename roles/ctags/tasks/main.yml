@@ -2,7 +2,7 @@
 
 - name: package
   ansible.builtin.package:
-    name: exuberant-ctags
+    name: universal-ctags
   become: true
   tags: admin
 

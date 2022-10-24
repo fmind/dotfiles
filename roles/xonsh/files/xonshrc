@@ -8,6 +8,7 @@ $PATH = [
     '.venv/bin', '~/.local/bin', '~/.pyenv/bin',
     '/opt/homebrew/bin', '/opt/homebrew/sbin',
     '/usr/local/bin', '/usr/local/sbin',
+    '/snap/bin', '/snap/sbin',
     '/usr/bin', '/usr/sbin',
     '/bin', '/sbin',
 ]

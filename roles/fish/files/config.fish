@@ -14,4 +14,4 @@ set -g fish_key_bindings fish_hybrid_key_bindings
 set -gx EDITOR vim
 set -gx LANG en_US.UTF-8
 set -gx PYTHONBREAKPOINT ipdb.set_trace
-set -gx PATH .venv/bin $HOME/.local/bin $HOME/.pyenv/bin /snap/bin /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
+set -gx PATH .venv/bin $HOME/.local/bin $HOME/.pyenv/bin /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/local/sbin /snap/bin /snap/sbin /usr/bin /usr/sbin /bin /sbin

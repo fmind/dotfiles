@@ -7,12 +7,12 @@
       name: ~/.local/bin/
       state: directory
       mode: 0750
-    tags: [pre]
-  - name: ensure pip3
+    tags: [pre, local]
+  - name: ensure pipx
     package:
       name: pipx
     become: true
-    tags: [pre]
+    tags: [pre, admin]
   roles:
     - {role: aliases, tags: ['aliases']}
     - {role: ansible, tags: ['ansible']}
@@ -64,7 +64,7 @@
     - {role: scapy, tags: ['scapy']}
     - {role: scrapy, tags: ['scrapy']}
     - {role: shell-functools, tags: ['shell-functools']}
-    - {role: silver, tags: ['silver']}
+    - {role: silversearcher, tags: ['silversearcher']}
     - {role: starship, tags: ['starship']}
     - {role: supervisor, tags: ['supervisor']}
     - {role: termtosvg, tags: ['termtosvg']}
