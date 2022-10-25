@@ -2,7 +2,7 @@
 
 - name: package
   unarchive:
-    src: https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-musl.tar.gz
+    src: https://github.com/starship/starship/releases/latest/download/starship-{{ 'x86_64-unknown-linux-musl' if ansible_distribution != 'MacOSX' else 'aarch64-apple-darwin' }}.tar.gz
     dest: ~/.local/bin
     remote_src: yes
   tags: user
