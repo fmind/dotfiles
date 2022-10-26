@@ -20,3 +20,11 @@
     state: link
     force: yes
   tags: user
+
+- name: completions
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/completions"
+    dest: ~/.config/fish/completions
+    state: link
+    force: yes
+  tags: user
