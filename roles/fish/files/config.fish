@@ -1,5 +1,11 @@
 # ALIASES
-source $HOME/.aliases
+if test -e ~/.aliases
+    source $HOME/.aliases
+end
+# PRIVATE
+if test -e ~/.private
+    source $HOME/.private
+end
 # CONFIGS
 set -g fish_greeting ''
 # KEYBIND
