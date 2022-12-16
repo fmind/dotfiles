@@ -2,5 +2,5 @@
 
 - name: package
   community.general.pipx:
-    name: docker-compose
+    name: sphinx
   tags: user

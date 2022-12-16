@@ -2,7 +2,6 @@
 
 - name: package
   ansible.builtin.package:
-    name: duf
-  when: ansible_distribution != 'Debian'
+    name: r-base-core
   become: true
   tags: admin

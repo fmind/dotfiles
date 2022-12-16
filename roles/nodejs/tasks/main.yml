@@ -1,0 +1,30 @@
+---
+
+- name: keyring
+  ansible.builtin.apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+  when: ansible_distribution != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://deb.nodesource.com/node_19.x {{ ansible_distribution_release }} main"
+    filename: nodejs
+  when: ansible_distribution != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: package
+  ansible.builtin.package:
+    name: "{{ 'nodejs' if ansible_distribution != 'MacOSX' else 'node' }}"
+  become: true
+  tags: admin
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/npmrc"
+    dest: ~/.npmrc
+    state: link
+    force: yes
+  tags: user

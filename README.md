@@ -1,6 +1,11 @@
 # dotfiles
 
-Configuration of my favorite command-line editors, shells, and tools.
+Configuration of my favorite languages, editors, shells, and tools.
+
+# Requirements
+
+- ansible
+- pipx
 
 # Installation
 
@@ -22,5 +27,4 @@ chsh -s /usr/bin/fish
 # On MacOS systems
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
-
 ```

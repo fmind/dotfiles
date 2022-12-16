@@ -1,0 +1,25 @@
+---
+
+- name: editor
+  community.general.pipx:
+    name: jupyterlab
+  notify: Build jupyter lab
+  tags: user
+
+- name: scripter
+  community.general.pipx:
+    name: papermill
+  tags: user
+
+- name: converter
+  community.general.pipx:
+    name: jupytext
+  notify: Build jupyter lab
+  tags: user
+
+- name: config
+  git:
+    repo: https://github.com/fmind/jupyter.d
+    dest: ~/.jupyter
+    depth: 1
+  tags: user

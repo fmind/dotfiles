@@ -1,0 +1,13 @@
+---
+
+- name: language
+  ansible.builtin.package:
+    name: "{{ 'build-essential' if ansible_distribution != 'MacOSX' else 'make' }}"
+  become: true
+  tags: admin
+
+- name: maker
+  ansible.builtin.package:
+    name: cmake
+  become: true
+  tags: admin

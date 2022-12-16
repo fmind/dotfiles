@@ -1,0 +1,22 @@
+---
+
+- name: language
+  ansible.builtin.package:
+    name: leiningen
+  become: true
+  tags: admin
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.lein/
+    state: directory
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/profiles.clj"
+    dest: ~/.lein/profiles.clj
+    state: link
+    force: yes
+  tags: user

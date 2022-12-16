@@ -1,0 +1,14 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: golang
+  become: true
+  tags: admin
+
+- name: directory
+  ansible.builtin.file:
+    name: ~/go
+    state: directory
+    mode: 0750
+  tags: user

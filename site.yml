@@ -8,11 +8,6 @@
       state: directory
       mode: 0750
     tags: [pre, local]
-  - name: ensure pipx
-    package:
-      name: pipx
-    become: true
-    tags: [pre, admin]
   roles:
     - {role: aliases, tags: ['aliases']}
     - {role: ansible, tags: ['ansible']}
@@ -21,51 +16,74 @@
     - {role: bat, tags: ['bat']}
     - {role: byobu, tags: ['byobu']}
     - {role: chardet, tags: ['chardet']}
+    - {role: clang, tags: ['clang']}
     - {role: cloc, tags: ['cloc']}
-    - {role: compose, tags: ['compose']}
+    # - {role: clojure, tags: ['clojure']}
     - {role: cookiecutter, tags: ['cookiecutter']}
     - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
     - {role: direnv, tags: ['direnv']}
+    - {role: docker, tags: ['docker']}
     - {role: duf, tags: ['duf']}
-    - {role: emacs, tags: ['emacs']}
+    # - {role: elixir, tags: ['elixir']}
+    # - {role: emacs, tags: ['emacs']}
     - {role: exa, tags: ['exa']}
     - {role: fd, tags: ['fd']}
     - {role: fish, tags: ['fish']}
     - {role: fzf, tags: ['fzf']}
+    - {role: gcloud, tags: ['gcloud']}
     - {role: git, tags: ['git']}
     - {role: github, tags: ['github']}
     - {role: glances, tags: ['glances']}
     - {role: glom, tags: ['glom']}
+    # - {role: golang, tags: ['golang']}
     - {role: gpustat, tags: ['gpustat']}
+    - {role: graphviz, tags: ['graphviz']}
+    # - {role: groovy, tags: ['groovy']}
+    # - {role: haskell, tags: ['haskell']}
     - {role: howdoi, tags: ['howdoi', 'help']}
     - {role: htop, tags: ['htop']}
     - {role: httpie, tags: ['httpie']}
     - {role: httpstat, tags: ['httpstat']}
+    # - {role: hylang, tags: ['hylang']}
     - {role: input, tags: ['input']}
     - {role: iredis, tags: ['iredis']}
+    # - {role: java, tags: ['java']}
     - {role: jc, tags: ['jc']}
     - {role: jello, tags: ['jello']}
     - {role: jq, tags: ['jq']}
+    # - {role: julia, tags: ['julia']}
+    - {role: jupyter, tags: ['jupyter']}
+    - {role: kaggle, tags: ['kaggle']}
     - {role: kube-shell, tags: ['kube-shell']}
+    # - {role: latex, tags: ['latex']}
     - {role: litecli, tags: ['litecli']}
     - {role: mycli, tags: ['mycli']}
     - {role: ncdu, tags: ['ncdu']}
     - {role: neofetch, tags: ['neofetch']}
     - {role: neovim, tags: ['neovim']}
+    - {role: nim, tags: ['nim']}
+    - {role: nodejs, tags: ['nodejs']}
     - {role: pandoc, tags: ['pandoc']}
     - {role: parallel, tags: ['parallel']}
     - {role: percol, tags: ['percol']}
     - {role: pgcli, tags: ['pgcli']}
     - {role: pigz, tags: ['pigz']}
+    - {role: plantuml, tags: ['plantuml']}
     - {role: pyenv, tags: ['pyenv']}
+    - {role: python, tags: ['python']}
+    # - {role: racket, tags: ['racket']}
     - {role: ranger, tags: ['ranger']}
     - {role: rich-cli, tags: ['rich-cli']}
+    # - {role: rlang, tags: ['rlang']}
     - {role: saws, tags: ['saws']}
     - {role: scapy, tags: ['scapy']}
     - {role: scrapy, tags: ['scrapy']}
+    - {role: shell, tags: ['shell']}
     - {role: shell-functools, tags: ['shell-functools']}
     - {role: silversearcher, tags: ['silversearcher']}
+    - {role: sphinx, tags: ['sphinx']}
+    - {role: sql, tags: ['sql']}
     - {role: starship, tags: ['starship']}
     - {role: supervisor, tags: ['supervisor']}
     - {role: termtosvg, tags: ['termtosvg']}

@@ -66,4 +66,4 @@ alias ws='watchmedo shell-command'
 alias x='xonsh'
 # y:you-get
 alias y="you-get"
-# managed by shell
+# z:managed by shell

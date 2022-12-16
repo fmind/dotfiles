@@ -1,0 +1,21 @@
+---
+
+- name: keyring
+  ansible.builtin.apt_key:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    keyring: "/etc/apt/trusted.gpg.d/cloud.google.gpg"
+  become: true
+  tags: admin
+
+- name: repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
+    filename: google-cloud-sdk
+  become: true
+  tags: admin
+
+- name: package
+  ansible.builtin.package:
+    name: google-cloud-sdk
+  become: true
+  tags: admin

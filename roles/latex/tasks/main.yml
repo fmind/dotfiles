@@ -1,0 +1,32 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: texlive
+  become: true
+  tags: admin
+
+- name: libraries
+  ansible.builtin.package:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - texlive-science
+      - texlive-pictures
+      - texlive-extra-utils
+      - texlive-latex-extra
+      - texlive-bibtex-extra
+  become: true
+  tags: admin
+
+- name: linter
+  ansible.builtin.package:
+    name: chktex
+  become: true
+  tags: admin
+
+- name: maker
+  ansible.builtin.package:
+    name: latexmk
+  become: true
+  tags: admin

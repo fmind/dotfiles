@@ -1,0 +1,15 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: elixir
+  become: true
+  tags: admin
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/iex.exs"
+    dest: ~/.iex.exs
+    state: link
+    force: yes
+  tags: user
