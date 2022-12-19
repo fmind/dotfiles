@@ -8,6 +8,18 @@
       state: directory
       mode: 0750
     tags: [pre, local]
+  - name: ensure ansible
+    ansible.builtin.package:
+      name: ansible
+    ignore_errors: true
+    become: true
+    tags: admin
+  - name: ensure pipx
+    ansible.builtin.package:
+      name: ansible
+    ignore_errors: true
+    become: true
+    tags: admin
   roles:
     - {role: aliases, tags: ['aliases']}
     - {role: ansible, tags: ['ansible']}
@@ -26,7 +38,7 @@
     - {role: docker, tags: ['docker']}
     - {role: duf, tags: ['duf']}
     # - {role: elixir, tags: ['elixir']}
-    # - {role: emacs, tags: ['emacs']}
+    - {role: emacs, tags: ['emacs']}
     - {role: exa, tags: ['exa']}
     - {role: fd, tags: ['fd']}
     - {role: fish, tags: ['fish']}
@@ -62,7 +74,7 @@
     - {role: ncdu, tags: ['ncdu']}
     - {role: neofetch, tags: ['neofetch']}
     - {role: neovim, tags: ['neovim']}
-    - {role: nim, tags: ['nim']}
+    # - {role: nim, tags: ['nim']}
     - {role: nodejs, tags: ['nodejs']}
     - {role: pandoc, tags: ['pandoc']}
     - {role: parallel, tags: ['parallel']}

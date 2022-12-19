@@ -4,6 +4,7 @@
   ansible.builtin.apt_key:
     url: "https://download.docker.com/linux/ubuntu/gpg "
     keyring: "/etc/apt/trusted.gpg.d/docker.gpg"
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
 
@@ -11,30 +12,33 @@
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable"
     filename: docker
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
 
 - name: package
   ansible.builtin.package:
-    name: docker-ce
+    name:  "{{ 'docker-ce' if ansible_distribution != 'MacOSX' else 'docker' }}"
   become: true
   tags: admin
 
 - name: interface
   ansible.builtin.package:
     name: docker-ce-cli
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
 
 - name: container
   ansible.builtin.package:
     name: containerd.io
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
 
 - name: compose
   ansible.builtin.package:
-    name: docker-compose-plugin
+    name: "{{ 'docker-compose-plugin' if ansible_distribution != 'MacOSX' else 'docker-compose' }}"
   become: true
   tags: admin
 
@@ -43,5 +47,6 @@
     name: "{{ lookup('env', 'USER') }}"
     groups: docker
     append: yes
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
