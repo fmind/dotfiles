@@ -35,3 +35,12 @@
     state: link
     force: yes
   tags: user
+
+- name: tmux
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/.tmux.conf"
+    dest: ~/.byobu/.tmux.conf
+    state: link
+    force: yes
+  tags: user
+
