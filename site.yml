@@ -16,7 +16,7 @@
     tags: admin
   - name: ensure pipx
     ansible.builtin.package:
-      name: ansible
+      name: pipx
     ignore_errors: true
     become: true
     tags: admin
