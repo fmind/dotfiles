@@ -4,6 +4,7 @@
   ansible.builtin.apt_repository:
     repo: ppa:plt/racket
     filename: racket
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
 
