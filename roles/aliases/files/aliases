@@ -4,8 +4,8 @@ alias ad='ansible-doc'
 alias ap='ansible-playbook'
 alias as='ansible-playbook -K site.yml'
 alias au='ansible-playbook site.yml --become-user=$USER'
-# b:batcat
-alias b='batcat'
+# b:black
+alias b='black'
 # c:cookiecutter
 alias c="cookiecutter"
 alias cn="cookiecutter --no-input"
@@ -62,8 +62,8 @@ alias v="code"
 alias w='watchmedo'
 alias wl='watchmedo log'
 alias ws='watchmedo shell-command'
-# x:xonsh
-alias x='xonsh'
+# x:fzf
+alias x='fzf'
 # y:you-get
 alias y="you-get"
 # z:managed by shell
