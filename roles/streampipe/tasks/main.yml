@@ -2,6 +2,7 @@
 
 - name: package
   ansible.builtin.package:
-    name: ncdu
+    name: streampipe
+  ignore_errors: true
   become: true
   tags: admin

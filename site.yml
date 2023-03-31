@@ -96,6 +96,7 @@
     # - {role: sphinx, tags: ['sphinx']}
     # - {role: sql, tags: ['sql']}
     - {role: starship, tags: ['starship']}
+    # - {role: streampipe, tags: ['streampipe']}
     # - {role: supervisor, tags: ['supervisor']}
     # - {role: termtosvg, tags: ['termtosvg']}
     - {role: thefuck, tags: ['thefuck']}
