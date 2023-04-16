@@ -1,0 +1,21 @@
+---
+
+- name: keyring
+  ansible.builtin.apt_key:
+    url: "https://packages.microsoft.com/keys/microsoft.asc"
+    keyring: "/etc/apt/keyrings/microsoft.gpg"
+  become: true
+  tags: admin
+
+- name: repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main"
+    filename: azure-cli
+  become: true
+  tags: admin
+
+- name: package
+  ansible.builtin.package:
+    name: azure-cli
+  become: true
+  tags: admin
