@@ -25,18 +25,18 @@
     # - {role: asciinema, tags: ['asciinema']}
     # - {role: azure, tags: ['azure']}
     # - {role: aws-shell, tags: ['aws-shell']}
-    # - {role: bat, tags: ['bat']}
+    - {role: bat, tags: ['bat']}
     # - {role: byobu, tags: ['byobu']}
     # - {role: chardet, tags: ['chardet']}
     - {role: clang, tags: ['clang']}
-    # - {role: cloc, tags: ['cloc']}
+    - {role: cloc, tags: ['cloc']}
     # - {role: clojure, tags: ['clojure']}
     - {role: cookiecutter, tags: ['cookiecutter']}
     # - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
     - {role: direnv, tags: ['direnv']}
     # - {role: docker, tags: ['docker']}
-    # - {role: duf, tags: ['duf']}
+    - {role: duf, tags: ['duf']}
     # - {role: elixir, tags: ['elixir']}
     # - {role: emacs, tags: ['emacs']}
     - {role: exa, tags: ['exa']}
@@ -56,7 +56,7 @@
     - {role: howdoi, tags: ['howdoi', 'help']}
     - {role: htop, tags: ['htop']}
     - {role: httpie, tags: ['httpie']}
-    # - {role: httpstat, tags: ['httpstat']}
+    - {role: httpstat, tags: ['httpstat']}
     # - {role: hylang, tags: ['hylang']}
     - {role: input, tags: ['input']}
     # - {role: iredis, tags: ['iredis']}
@@ -91,7 +91,7 @@
     - {role: saws, tags: ['saws']}
     # - {role: scapy, tags: ['scapy']}
     # - {role: scrapy, tags: ['scrapy']}
-    # - {role: shell, tags: ['shell']}
+    - {role: shell, tags: ['shell']}
     # - {role: shell-functools, tags: ['shell-functools']}
     - {role: silversearcher, tags: ['silversearcher']}
     # - {role: sphinx, tags: ['sphinx']}
