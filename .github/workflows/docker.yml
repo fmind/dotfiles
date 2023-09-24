@@ -1,0 +1,23 @@
+name: Docker
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-push:
+    name: Build and push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push the Docker image to GHRC
+        uses: docker/build-push-action@v5
+        with:
+          tags: "fmind/shell:latest"
+          push: true

@@ -16,7 +16,7 @@ def run(ctx: Context) -> None:
 @task
 def build(ctx: Context) -> None:
     """Build the docker image."""
-    ctx.run(f"docker build  -t {ctx.docker.image} .")
+    ctx.run(f"docker build -t {ctx.docker.image} .")
 
 
 @task
