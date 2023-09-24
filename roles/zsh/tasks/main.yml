@@ -36,7 +36,7 @@
     src: ~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme
     dest: ~/.zsh.d/themes/spaceship.zsh-theme
     state: link
-    force: yes
+    force: true
   tags: user
 
 - name: plugins
@@ -57,7 +57,7 @@
     src: "{{ role_path }}/files/zshenv"
     dest: ~/.zshenv
     state: link
-    force: yes
+    force: true
   tags: user
 
 - name: config
@@ -65,7 +65,7 @@
     src: "{{ role_path }}/files/zshrc"
     dest: ~/.zshrc
     state: link
-    force: yes
+    force: true
   tags: user
 
 - name: profile
@@ -73,5 +73,5 @@
     src: "{{ role_path }}/files/zprofile"
     dest: ~/.zprofile
     state: link
-    force: yes
+    force: true
   tags: user

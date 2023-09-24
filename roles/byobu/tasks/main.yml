@@ -23,7 +23,7 @@
     src: "{{ item }}"
     dest: "~/.byobu/{{ item|basename }}"
     state: link
-    force: yes
+    force: true
   with_fileglob:
     - "{{ role_path }}/files/*"
   tags: user
@@ -33,7 +33,7 @@
     src: "{{ role_path }}/files"
     dest: ~/.tmuxp
     state: link
-    force: yes
+    force: true
   tags: user
 
 - name: tmux
@@ -41,6 +41,6 @@
     src: "{{ role_path }}/files/.tmux.conf"
     dest: ~/.byobu/.tmux.conf
     state: link
-    force: yes
+    force: true
   tags: user
 

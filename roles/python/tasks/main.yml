@@ -20,32 +20,10 @@
   become: true
   tags: admin
 
-- name: project
-  community.general.pipx:
-    name: poetry
-  tags: user
-
-- name: maker
-  community.general.pipx:
-    name: invoke
-  tags: user
-
-- name: interpreter
-  community.general.pipx:
-    name: ipython
-  tags: user
-
 - name: hosting
   ansible.builtin.file:
     src: "{{ role_path }}/files/pypirc"
     dest: ~/.pypirc
     state: link
-    force: yes
-  tags: user
-
-- name: config
-  git:
-    repo: https://github.com/fmind/ipython.d
-    dest: ~/.ipython
-    depth: 1
+    force: true
   tags: user

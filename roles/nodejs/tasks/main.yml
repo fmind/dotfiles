@@ -26,5 +26,5 @@
     src: "{{ role_path }}/files/npmrc"
     dest: ~/.npmrc
     state: link
-    force: yes
+    force: true
   tags: user

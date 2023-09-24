@@ -1,8 +1,10 @@
-# IMPORTS
+# %% IMPORTS
 import os
 import re
-# EXPORTS
-$EDITOR = 'vim'
+import sys
+import json
+# %% EXPORTS
+$EDITOR = 'code'
 $LANG = 'en_US.UTF-8'
 $PATH = [
     '.venv/bin', '~/.local/bin', '~/.pyenv/bin',
@@ -12,30 +14,30 @@ $PATH = [
     '/usr/bin', '/usr/sbin',
     '/bin', '/sbin',
 ]
-# CONFIGS
-$CDPATH = [
-    '~/',
-    '~/Projects/',
-]
+# %% CONFIGS
+$CDPATH = ['~/', '~/Projects/']
 $VI_MODE = True
 $AUTO_PUSHD = True
 $AUTO_SUGGEST = True
 $XONSH_AUTOPAIR = True
-# ALIASES
-source-bash ~/.aliases
-# TRIGGERS
+$XONSH_SHOW_TRACEBACK = False
+$FOREIGN_ALIASES_SUPPRESS_SKIP_MESSAGE = True
+# %% SOURCES
+if p'~/.aliases'.exists():
+    source-bash ~/.aliases
+if p'~/.private'.exists():
+    source-bash ~/.private
+# %% TRIGGERS
 @events.on_chdir
-def listdir(newdir, olddir):
+def run_ls(newdir, olddir):
     $[ls]
-# XONTRIBS
-xontrib load bashisms
-xontrib load coreutils
-# FUNCTIONS
-def _fuck(args, stdin=None):
-    """Re-run the previous command without errors."""
-    try:
-        last_command = __xonsh__.history[-1].cmd.strip()
-    except IndexError:
-        return
+# %% EXTERNALS
+# - thefuck
+def _myfuck(args, stdin=None):
+    """Re-run the previous user command without errors."""
+    last_command = __xonsh__.history[-1].cmd.strip()
     execx('thefuck {}'.format(last_command))
-aliases['fuck'] = _fuck
+aliases['fuck'] = _myfuck
+# - starship
+execx($(starship init xonsh))
+

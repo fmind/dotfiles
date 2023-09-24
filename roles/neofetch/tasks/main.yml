@@ -18,5 +18,5 @@
     src: "{{ role_path }}/files/config.conf"
     dest: ~/.config/neofetch/config.conf
     state: link
-    force: yes
+    force: true
   tags: user

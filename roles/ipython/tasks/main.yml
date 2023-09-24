@@ -1,0 +1,13 @@
+---
+
+- name: interpreter
+  community.general.pipx:
+    name: ipython
+  tags: user
+
+- name: config
+  git:
+    repo: https://github.com/fmind/ipython.d
+    dest: ~/.ipython
+    depth: 1
+  tags: user

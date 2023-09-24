@@ -1,0 +1,22 @@
+---
+
+- name: package
+  community.general.pipx:
+    name: ptrepl
+  tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/ptrepl/
+    state: directory
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/config.json"
+    dest: ~/.config/ptrepl/config.json
+    state: link
+    force: true
+  tags: user
+

@@ -5,5 +5,5 @@
     src: "{{ role_path }}/files/inputrc"
     dest: ~/.inputrc
     state: link
-    force: yes
+    force: true
   tags: user

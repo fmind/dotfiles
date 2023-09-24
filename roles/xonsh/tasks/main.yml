@@ -2,7 +2,7 @@
 
 - name: package
   community.general.pipx:
-    name: xonsh
+    name: xonsh[full]
   tags: user
 
 - name: config
@@ -10,5 +10,5 @@
     src: "{{ role_path }}/files/xonshrc"
     dest: ~/.xonshrc
     state: link
-    force: yes
+    force: true
   tags: user

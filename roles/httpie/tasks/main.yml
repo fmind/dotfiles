@@ -7,5 +7,23 @@
 
 - name: prompt
   community.general.pipx:
-    name: http-prompt
+    name: httpie
+    inject_packages:
+      - http-prompt
+    state: inject
+  tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/httpie
+    state: directory
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/config.json"
+    dest: ~/.config/httpie/config.json
+    state: link
+    force: true
   tags: user

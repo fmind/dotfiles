@@ -1,6 +1,6 @@
 [user]
     name = Médéric Hurier (Fmind)
-    email = mederic.hurier@fmind.dev
+    email = github@fmind.dev
     username = fmind
 
 [github]
@@ -9,11 +9,12 @@
 [init]
 	defaultBranch = main
 
+[pull]
+	rebase = false
+
 [core]
-    editor = vim
+    editor = code
 
 [alias]
     st = status
 
-[pull]
-	rebase = false

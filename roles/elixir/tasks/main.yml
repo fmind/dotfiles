@@ -11,5 +11,5 @@
     src: "{{ role_path }}/files/iex.exs"
     dest: ~/.iex.exs
     state: link
-    force: yes
+    force: true
   tags: user

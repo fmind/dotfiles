@@ -1,0 +1,14 @@
+---
+
+- name: package
+  community.general.pipx:
+    name: invoke
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/invoke.yaml"
+    dest: ~/.invoke.yaml
+    state: link
+    force: true
+  tags: user

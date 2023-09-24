@@ -18,5 +18,5 @@
     src: "{{ role_path }}/files/profiles.clj"
     dest: ~/.lein/profiles.clj
     state: link
-    force: yes
+    force: true
   tags: user

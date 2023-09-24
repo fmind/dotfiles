@@ -17,20 +17,3 @@
     dest: ~/.local/bin/gws
     mode: 0700
   tags: user
-
-- name: config
-  ansible.builtin.file:
-    src: "{{ role_path }}/files/gitconfig"
-    dest: ~/.gitconfig
-    state: link
-    force: no
-  ignore_errors: true
-  tags: user
-
-- name: ignore
-  ansible.builtin.file:
-    src: "{{ role_path }}/files/gitignore"
-    dest: ~/.gitignore
-    state: link
-    force: yes
-  tags: user

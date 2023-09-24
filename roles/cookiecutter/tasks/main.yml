@@ -5,16 +5,14 @@
     name: cookiecutter
   tags: user
 
-- name: develop
+- name: upgrade
   community.general.pipx:
     name: cruft
   tags: user
 
 - name: config
-  ansible.builtin.file:
+  ansible.builtin.copy:
     src: "{{ role_path }}/files/cookiecutterrc"
     dest: ~/.cookiecutterrc
-    state: link
-    force: no
-  ignore_errors: true
+    force: false
   tags: user

@@ -1,0 +1,21 @@
+---
+
+- name: project
+  community.general.pipx:
+    name: poetry
+  tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/pypoetry
+    state: directory
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/config.toml"
+    dest: ~/.config/pypoetry/config.toml
+    state: link
+    force: true
+  tags: user

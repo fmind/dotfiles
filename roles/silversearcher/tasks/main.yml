@@ -11,5 +11,5 @@
     src: "{{ role_path }}/files/agignore"
     dest: ~/.agignore
     state: link
-    force: yes
+    force: true
   tags: user

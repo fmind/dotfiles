@@ -18,5 +18,5 @@
     src: "{{ role_path }}/files/direnv.toml"
     dest: ~/.config/direnv/direnv.toml
     state: link
-    force: yes
+    force: true
   tags: user

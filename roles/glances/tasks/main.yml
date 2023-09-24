@@ -4,3 +4,18 @@
   community.general.pipx:
     name: glances
   tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/glances
+    state: directory
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/glances.conf"
+    dest: ~/.config/glances/glances.conf
+    state: link
+    force: true
+  tags: user

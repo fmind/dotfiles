@@ -1,0 +1,8 @@
+# https://docs.pyinvoke.org/en/latest/index.html
+
+# invoke
+run:
+  echo: true
+# docker
+docker:
+  image: fmind/shell:latest

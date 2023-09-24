@@ -19,5 +19,5 @@
     src: "{{ role_path }}/files/racketrc"
     dest: ~/.racketrc
     state: link
-    force: yes
+    force: true
   tags: user

@@ -19,5 +19,5 @@
     src: "{{ role_path }}/files/starship.toml"
     dest: ~/.config/starship.toml
     state: link
-    force: yes
+    force: true
   tags: user

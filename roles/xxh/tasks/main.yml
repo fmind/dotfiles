@@ -1,0 +1,21 @@
+---
+
+- name: package
+  community.general.pipx:
+    name: xxh-xxh
+  tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/xxh
+    state: directory
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/config.xxhc"
+    dest: ~/.config/xxh/config.xxhc
+    state: link
+    force: true
+  tags: user

@@ -4,3 +4,18 @@
   community.general.pipx:
     name: ranger-fm
   tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/ranger
+    state: directory
+    mode: 0750
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/rc.conf"
+    dest: ~/.config/ranger/rc.conf
+    state: link
+    force: true
+  tags: user

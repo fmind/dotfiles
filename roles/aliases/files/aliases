@@ -1,24 +1,19 @@
 # a:ansible
-alias a='ansible'
-alias ad='ansible-doc'
-alias ap='ansible-playbook'
-alias as='ansible-playbook -K site.yml'
-alias au='ansible-playbook site.yml --become-user=$USER'
-# b:black
-alias b='black'
+alias a="ansible"
+alias ap="ansible-playbook"
+# b:
 # c:cookiecutter
 alias c="cookiecutter"
 alias cn="cookiecutter --no-input"
 # d:docker
 alias d="docker"
 alias dr="docker run --rm -it"
-# e:ranger
-alias e="ranger"
-# f:fdfind
-alias f="fdfind"
+# e:grep
+alias e="grep"
+# f:find
+alias f="find"
 # g:git
 alias g="git"
-alias gs="git status"
 # h:http
 alias h="http"
 alias hp="http-prompt"
@@ -26,44 +21,49 @@ alias hp="http-prompt"
 alias i="inv"
 # j:jupyter
 alias j="jupyter"
-alias jl="jupyter lab --NotebookApp.token=''"
-alias jn="jupyter notebook --NotebookApp.token=''"
+alias jl="jupyter lab --NotebookApp.token="""
+alias jn="jupyter notebook --NotebookApp.token="""
 # k:kube
 alias k="kubectl"
-# l:exa
-alias l="exa"
+# l:ls
+alias l="ls"
 # m:make
 alias m="make"
-# n:nerd
-alias n="nerdctl"
-alias nr="nerdctl --rm -it"
-# o:poetry
-alias o="poetry"
+# n:glances
+alias n="glances"
+# o:popd
+alias o="popd"
 # p:python
-alias p='python'
-alias pd='pydoc'
+alias p="python"
+alias pb="black"
+alias pd="pydoc"
+alias pe="pyenv"
 alias pi="ipython"
-alias pp='python -m pip'
-alias pt='pytest'
-alias pv='python -m venv'
+alias po="poetry"
+alias pp="python -m pip"
+alias pt="pytest"
+alias pv="python -m venv"
 # q:quit
 alias q="exit"
 # r:rich
 alias r="rich"
-# s:isort
-alias s="isort"
-# t:pytest
-alias t="pytest"
+alias rp="rich --pager"
+# s:xxh
+alias s="xxh"
+# t:ptrepl
+alias t="ptrepl"
 # u:fuck
 alias u="fuck"
 # v:vscode
 alias v="code"
 # w:watchmedo
-alias w='watchmedo'
-alias wl='watchmedo log'
-alias ws='watchmedo shell-command'
-# x:fzf
-alias x='fzf'
-# y:you-get
-alias y="you-get"
-# z:managed by shell
+alias w="watchmedo"
+alias wl="watchmedo log"
+alias ws="watchmedo shell-command"
+# x:xonsh
+alias x="xonsh"
+# y:ptpython
+alias y="ptipython"
+alias yp="ptpython"
+# z:ranger
+alias z="ranger"
