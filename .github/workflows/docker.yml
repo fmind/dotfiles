@@ -19,5 +19,7 @@ jobs:
       - name: Build and push the Docker image to the registry
         uses: docker/build-push-action@v5
         with:
-          tags: "fmind/shell:latest"
+          context: .
           push: true
+          file: ./Dockerfile
+          tags: "ghcr.io/${{ github.repository}}:latest"
