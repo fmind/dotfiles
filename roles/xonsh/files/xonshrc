@@ -35,8 +35,9 @@ def run_ls(newdir, olddir):
 xontrib load clp
 xontrib load makefile_complete
 xontrib load pipeliner
-xontrib load prompt_starship
 xontrib load pyenv
 xontrib load sh
 xontrib load thefuck
 xontrib load xlsd
+# %% EXTERNALS
+execx($(starship init xonsh))

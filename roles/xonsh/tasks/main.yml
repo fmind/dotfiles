@@ -13,7 +13,6 @@
       - xontrib-langenv
       - xontrib-makefile-complete
       - xontrib-pipeliner
-      - xontrib-prompt-starship
       - xontrib-sh
       - xontrib-thefuck
       - xontrib-xlsd
