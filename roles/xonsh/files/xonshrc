@@ -7,7 +7,8 @@ import json
 $EDITOR = 'code'
 $LANG = 'en_US.UTF-8'
 $PATH = [
-    '.venv/bin', '~/.local/bin', '~/.pyenv/bin',
+    '.venv/bin', '~/.local/bin',
+    '~/.pyenv/bin', '~/.pyenv/shims',
     '/opt/homebrew/bin', '/opt/homebrew/sbin',
     '/usr/local/bin', '/usr/local/sbin',
     '/snap/bin', '/snap/sbin',
@@ -40,4 +41,7 @@ xontrib load sh
 xontrib load thefuck
 xontrib load xlsd
 # %% EXTERNALS
+# - pyenv
+$PATH.pop(0) # remove shims
+# - spaceship
 execx($(starship init xonsh))
