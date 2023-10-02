@@ -5,6 +5,21 @@
     name: xonsh[full]
   tags: user
 
+- name: extensions
+  community.general.pipx:
+    name: xonsh
+    inject_packages:
+      - xontrib-clp
+      - xontrib-langenv
+      - xontrib-makefile-complete
+      - xontrib-pipeliner
+      - xontrib-prompt-starship
+      - xontrib-sh
+      - xontrib-thefuck
+      - xontrib-xlsd
+    state: inject
+  tags: user
+
 - name: config
   ansible.builtin.file:
     src: "{{ role_path }}/files/xonshrc"

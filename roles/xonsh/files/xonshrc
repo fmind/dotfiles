@@ -7,7 +7,7 @@ import json
 $EDITOR = 'code'
 $LANG = 'en_US.UTF-8'
 $PATH = [
-    '.venv/bin', '~/.local/bin', '~/.pyenv/bin', '~/.pyenv/shims',
+    '.venv/bin', '~/.local/bin', '~/.pyenv/bin',
     '/opt/homebrew/bin', '/opt/homebrew/sbin',
     '/usr/local/bin', '/usr/local/sbin',
     '/snap/bin', '/snap/sbin',
@@ -31,13 +31,12 @@ if p'~/.private'.exists():
 @events.on_chdir
 def run_ls(newdir, olddir):
     $[ls]
-# %% EXTERNALS
-# - thefuck
-def _myfuck(args, stdin=None):
-    """Re-run the previous user command without errors."""
-    last_command = __xonsh__.history[-1].cmd.strip()
-    execx('thefuck {}'.format(last_command))
-aliases['fuck'] = _myfuck
-# - starship
-execx($(starship init xonsh))
-
+# %% XONTRIBS
+xontrib load clp
+xontrib load makefile_complete
+xontrib load pipeliner
+xontrib load prompt_starship
+xontrib load pyenv
+xontrib load sh
+xontrib load thefuck
+xontrib load xlsd
