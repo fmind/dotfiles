@@ -63,7 +63,7 @@ alias ws="watchmedo shell-command"
 # x:xonsh
 alias x="xonsh"
 # y:ptpython
-alias y="ptipython"
-alias yp="ptpython"
+alias y="ptipython --config-file ~/.config/ptpython/config.py"
+alias yp="ptpython --config-file ~/.config/ptpython/config.py"
 # z:ranger
 alias z="ranger"

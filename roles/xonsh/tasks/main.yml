@@ -15,7 +15,6 @@
       - xontrib-pipeliner
       - xontrib-sh
       - xontrib-thefuck
-      - xontrib-xlsd
     state: inject
   tags: user
 

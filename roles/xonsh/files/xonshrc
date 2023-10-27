@@ -39,7 +39,6 @@ xontrib load pipeliner
 xontrib load pyenv
 xontrib load sh
 xontrib load thefuck
-xontrib load xlsd
 # %% EXTERNALS
 # - pyenv
 $PATH.pop(0) # remove shims
