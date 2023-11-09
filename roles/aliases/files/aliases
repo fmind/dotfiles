@@ -1,13 +1,11 @@
 # a:ansible
 alias a="ansible"
-alias ap="ansible-playbook"
-# b:
+# b:ansible-playbook
+alias b="ansible-playbook"
 # c:cookiecutter
 alias c="cookiecutter"
-alias cn="cookiecutter --no-input"
 # d:docker
 alias d="docker"
-alias dr="docker run --rm -it"
 # e:grep
 alias e="grep"
 # f:find
@@ -16,13 +14,10 @@ alias f="find"
 alias g="git"
 # h:http
 alias h="http"
-alias hp="http-prompt"
 # i:invoke
 alias i="inv"
 # j:jupyter
-alias j="jupyter"
-alias jl="jupyter lab --NotebookApp.token="""
-alias jn="jupyter notebook --NotebookApp.token="""
+alias j="jupyter lab"
 # k:kube
 alias k="kubectl"
 # l:ls
@@ -31,23 +26,14 @@ alias l="ls"
 alias m="make"
 # n:glances
 alias n="glances"
-# o:popd
-alias o="popd"
+# o:poetry
+alias o="poetry"
 # p:python
 alias p="python"
-alias pb="black"
-alias pd="pydoc"
-alias pe="pyenv"
-alias pi="ipython"
-alias po="poetry"
-alias pp="python -m pip"
-alias pt="pytest"
-alias pv="python -m venv"
 # q:quit
 alias q="exit"
 # r:rich
 alias r="rich"
-alias rp="rich --pager"
 # s:xxh
 alias s="xxh"
 # t:ptrepl
@@ -58,12 +44,9 @@ alias u="fuck"
 alias v="code"
 # w:watchmedo
 alias w="watchmedo"
-alias wl="watchmedo log"
-alias ws="watchmedo shell-command"
 # x:xonsh
 alias x="xonsh"
 # y:ptpython
 alias y="ptipython --config-file ~/.config/ptpython/config.py"
-alias yp="ptpython --config-file ~/.config/ptpython/config.py"
 # z:ranger
 alias z="ranger"

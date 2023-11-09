@@ -42,29 +42,29 @@
     - {role: gitconfig, tags: ['gitconfig']}
     # - {role: github, tags: ['github']}
     - {role: glances, tags: ['glances']}
-    - {role: glom, tags: ['glom']}
+    # - {role: glom, tags: ['glom']}
     # - {role: golang, tags: ['golang']}
-    - {role: gpustat, tags: ['gpustat']}
+    # - {role: gpustat, tags: ['gpustat']}
     # - {role: graphviz, tags: ['graphviz']}
     # - {role: groovy, tags: ['groovy']}
     # - {role: haskell, tags: ['haskell']}
-    - {role: howdoi, tags: ['howdoi', 'help']}
+    # - {role: howdoi, tags: ['howdoi']}
     # - {role: htop, tags: ['htop']}
     - {role: httpie, tags: ['httpie']}
-    - {role: httpstat, tags: ['httpstat']}
+    # - {role: httpstat, tags: ['httpstat']}
     # - {role: hylang, tags: ['hylang']}
     # - {role: ipython, tags: ['ipython']}
     - {role: input, tags: ['input']}
     - {role: invoke, tags: ['invoke']}
     # - {role: iredis, tags: ['iredis']}
     # - {role: java, tags: ['java']}
-    - {role: jc, tags: ['jc']}
-    - {role: jello, tags: ['jello']}
+    # - {role: jc, tags: ['jc']}
+    # - {role: jello, tags: ['jello']}
     # - {role: jq, tags: ['jq']}
     # - {role: julia, tags: ['julia']}
     # - {role: jupyter, tags: ['jupyter']}
     # - {role: kaggle, tags: ['kaggle']}
-    - {role: kube-shell, tags: ['kube-shell']}
+    # - {role: kube-shell, tags: ['kube-shell']}
     # - {role: latex, tags: ['latex']}
     # - {role: litecli, tags: ['litecli']}
     # - {role: mycli, tags: ['mycli']}
@@ -75,7 +75,7 @@
     # - {role: nodejs, tags: ['nodejs']}
     # - {role: pandoc, tags: ['pandoc']}
     # - {role: parallel, tags: ['parallel']}
-    - {role: percol, tags: ['percol']}
+    # - {role: percol, tags: ['percol']}
     # - {role: pgcli, tags: ['pgcli']}
     # - {role: pigz, tags: ['pigz']}
     # - {role: plantuml, tags: ['plantuml']}
@@ -101,15 +101,15 @@
     # - {role: supervisor, tags: ['supervisor']}
     # - {role: termtosvg, tags: ['termtosvg']}
     - {role: thefuck, tags: ['thefuck']}
-    - {role: tqdm, tags: ['tqdm']}
+    # - {role: tqdm, tags: ['tqdm']}
     # - {role: vim, tags: ['vim']}
-    - {role: visidata, tags: ['visidata']}
+    # - {role: visidata, tags: ['visidata']}
     # - {role: w3m, tags: ['w3m']}
     - {role: watchdog, tags: ['watchdog']}
     # - {role: wharfee, tags: ['wharfee']}
     - {role: xonsh, tags: ['xonsh']}
     - {role: xxh, tags: ['xxh']}
-    - {role: youget, tags: ['youget']}
+    # - {role: youget, tags: ['youget']}
     # - {role: zoxide, tags: ['zoxide']}
     # - {role: zsh, tags: ['zsh']}
   environment:
