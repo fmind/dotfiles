@@ -6,14 +6,17 @@
 [github]
     user = fmind
 
-[init]
-	defaultBranch = main
+[core]
+    editor = code
 
 [pull]
 	rebase = false
 
-[core]
-    editor = code
+[init]
+	defaultBranch = main
+
+[push]
+    autoSetupRemote = True
 
 [alias]
     st = status
