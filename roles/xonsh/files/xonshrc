@@ -15,6 +15,7 @@ $PATH = [
     '/usr/bin', '/usr/sbin',
     '/bin', '/sbin',
 ]
+AWS_CLI_AUTO_PROMPT="on-partial"
 # %% CONFIGS
 $CDPATH = ['~/', '~/Projects/']
 $VI_MODE = True
@@ -28,6 +29,10 @@ if p'~/.aliases'.exists():
     source-bash ~/.aliases
 if p'~/.private'.exists():
     source-bash ~/.private
+if p'~/.nvm'.exists():
+    $NVM_DIR = p'~/.nvm'
+    #$NVM_SCRIPT = "{}/nvm.sh".format($NVM_DIR)
+    source-bash @($NVM_DIR / 'nvm.sh')
 # %% TRIGGERS
 @events.on_chdir
 def run_ls(newdir, olddir):
@@ -40,7 +45,5 @@ xontrib load pyenv
 xontrib load sh
 xontrib load thefuck
 # %% EXTERNALS
-# - pyenv
-$PATH.pop(0) # remove shims
 # - spaceship
 execx($(starship init xonsh))
