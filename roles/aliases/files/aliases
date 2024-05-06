@@ -12,12 +12,14 @@ alias e="grep"
 alias f="find"
 # g:git
 alias g="git"
+alias gs="gh copilot suggest"
 # h:http
 alias h="http"
 # i:invoke
 alias i="inv"
-# j:jupyter
-alias j="jupyter lab"
+# j:gcloud
+alias j="gcloud"
+alias ji="gcloud beta interactive"
 # k:kube
 alias k="kubectl"
 # l:ls

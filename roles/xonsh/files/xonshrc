@@ -15,7 +15,6 @@ $PATH = [
     '/usr/bin', '/usr/sbin',
     '/bin', '/sbin',
 ]
-$AWS_CLI_AUTO_PROMPT="on-partial"
 # %% CONFIGS
 $CDPATH = ['~/', '~/Projects/']
 $VI_MODE = True
