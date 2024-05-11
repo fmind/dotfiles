@@ -12,14 +12,12 @@ alias e="grep"
 alias f="find"
 # g:git
 alias g="git"
-alias gs="gh copilot suggest"
 # h:http
 alias h="http"
 # i:invoke
 alias i="inv"
 # j:gcloud
 alias j="gcloud"
-alias ji="gcloud beta interactive"
 # k:kube
 alias k="kubectl"
 # l:ls
@@ -36,8 +34,8 @@ alias p="python"
 alias q="exit"
 # r:rich
 alias r="rich"
-# s:xxh
-alias s="xxh"
+# s:copilot
+alias s="gh copilot suggest --target shell"
 # t:ptrepl
 alias t="ptrepl"
 # u:fuck
