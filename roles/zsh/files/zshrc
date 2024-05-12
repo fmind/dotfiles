@@ -17,6 +17,7 @@ plugins=(
     invoke
     poetry
     pyenv
+    starship
     thefuck
     vi-mode
     zoxide
