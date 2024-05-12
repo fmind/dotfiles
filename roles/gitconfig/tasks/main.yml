@@ -1,8 +1,0 @@
----
-
-- name: config
-  ansible.builtin.copy:
-    src: "{{ role_path }}/files/gitconfig"
-    dest: ~/.gitconfig
-    force: false
-  tags: user

@@ -1,9 +1,15 @@
 # https://docs.docker.com/engine/reference/builder/
 
 FROM python:3.11
+
 ARG USER=fmind
 
-RUN useradd -m ${USER}
+RUN apt update \
+    && apt upgrade -y \
+    && apt install -y sudo
+
+RUN useradd -m ${USER} \
+    && echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER}
 
 USER ${USER}
 WORKDIR /home/${USER}/dotfiles
@@ -17,4 +23,4 @@ COPY --chown=${USER}:${USER} . .
 
 RUN ansible-playbook site.yml
 
-CMD ["xonsh"]
+CMD ["zsh"]

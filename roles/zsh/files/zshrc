@@ -2,25 +2,35 @@
 bindkey -v
 # PLUGINS
 plugins=(
+    ag
     alias-tips
-    autojump
+    aws
     colored-man-pages
     command-not-found
-    dotenv
+    docker
+    docker-compose
     fd
-    gcloud
+    fzf
+    gh
+    gitfast
+    httpie
     invoke
-    percol
     poetry
+    pyenv
     thefuck
     vi-mode
+    zoxide
     zsh-autopair
     zsh-autosuggestions
     zsh-syntax-highlighting
 )
 # ALIASES
-source ~/.aliases
+if [ -f ~/.aliases ]; then
+    source ~/.aliases
+fi
+# PRIVATE
+if [ -f ~/.private ]; then
+    source ~/.private
+fi
 # SOURCES
 source $ZSH/oh-my-zsh.sh
-# PLUGINS
-eval "$(pyenv init --path)"

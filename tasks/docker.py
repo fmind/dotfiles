@@ -10,7 +10,7 @@ from invoke.context import Context
 @task
 def run(ctx: Context) -> None:
     """Run the docker image."""
-    ctx.run(f"docker run --rm {ctx.docker.image} pipx list --include-injected")
+    ctx.run(f"docker run --rm -it {ctx.docker.image}", pty=True)
 
 
 @task
@@ -25,6 +25,6 @@ def push(ctx: Context) -> None:
     ctx.run(f"docker push {ctx.docker.image}")
 
 
-@task(pre=[build, run, push], default=True)
+@task(pre=[build, push], default=True)
 def default(_: Context) -> None:
     """Run all docker tasks."""

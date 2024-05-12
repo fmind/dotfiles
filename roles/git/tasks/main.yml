@@ -6,14 +6,9 @@
   become: true
   tags: admin
 
-- name: cleaner
-  community.general.pipx:
-    name: git-sweep
-  tags: user
-
-- name: manager
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/StreakyCobra/gws/master/src/gws
-    dest: ~/.local/bin/gws
-    mode: 0700
+- name: config
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/gitconfig"
+    dest: ~/.gitconfig
+    force: false
   tags: user

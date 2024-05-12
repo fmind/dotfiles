@@ -1,52 +1,52 @@
-# a:ansible
-alias a="ansible"
+# a:openai
+alias a="openai api chat.completions.create -m gpt-3.5-turbo --stream -g user"
 # b:ansible-playbook
 alias b="ansible-playbook"
-# c:cookiecutter
-alias c="cookiecutter"
+# c:cruft (cookiecutter)
+alias c="cruft"
 # d:docker
 alias d="docker"
-# e:grep
-alias e="grep"
-# f:find
-alias f="find"
+# e:silver (grep)
+alias e="ag"
+# f:fd (find)
+alias f="fd"
 # g:git
 alias g="git"
-# h:http
+# h:http (curl)
 alias h="http"
-# i:invoke
+# i:invoke (make)
 alias i="inv"
-# j:gcloud
-alias j="gcloud"
+# j:jq
+alias j="jq"
 # k:kube
 alias k="kubectl"
-# l:ls
-alias l="ls"
+# l:exa (ls)
+alias l="exa"
 # m:make
 alias m="make"
-# n:glances
-alias n="glances"
+# n:ncdu
+alias n="ncdu"
 # o:poetry
 alias o="poetry"
 # p:python
 alias p="python"
 # q:quit
 alias q="exit"
-# r:rich
-alias r="rich"
+# r:bat (cat)
+alias r="bat"
 # s:copilot
 alias s="gh copilot suggest --target shell"
-# t:ptrepl
-alias t="ptrepl"
+# t:htop
+alias t="htop"
 # u:fuck
 alias u="fuck"
-# v:vscode
+# v:vscode (vim)
 alias v="code"
 # w:watchmedo
 alias w="watchmedo"
-# x:xonsh
-alias x="xonsh"
-# y:ptpython
-alias y="ptipython --config-file ~/.config/ptpython/config.py"
-# z:ranger
-alias z="ranger"
+# x:zsh (bash)
+alias x="zsh"
+# y:ipython
+alias y="ipython"
+# z:zoxide (auto)
+# alias z=""

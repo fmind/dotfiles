@@ -1,4 +1,5 @@
 """Task collection."""
+# mypy: ignore-errors
 
 # %% IMPORTS
 
