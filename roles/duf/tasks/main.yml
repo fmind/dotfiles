@@ -3,6 +3,5 @@
 - name: package
   ansible.builtin.package:
     name: duf
-  when: ansible_distribution != 'Debian'
   become: true
   tags: admin
