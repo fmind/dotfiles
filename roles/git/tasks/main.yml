@@ -6,6 +6,12 @@
   become: true
   tags: admin
 
+- name: storage
+  ansible.builtin.package:
+    name: git-lfs
+  become: true
+  tags: admin
+
 - name: config
   ansible.builtin.copy:
     src: "{{ role_path }}/files/gitconfig"
