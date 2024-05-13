@@ -1,5 +1,5 @@
 {
     "EDITING_MODE": "vi",
-    "EXIT_COMMAND": "exit",
+    "EXIT_COMMAND": "q",
     "SHOW_MODE_IN_PROMPT": true
 }

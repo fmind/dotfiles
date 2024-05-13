@@ -3,13 +3,23 @@ alias a="openai api chat.completions.create -m gpt-3.5-turbo --stream -g user"
 # b:ansible-playbook
 alias b="ansible-playbook"
 # c:bat (cat)
-alias c="batcat"
+for cmd in bat batcat; do
+    if command -v $cmd >/dev/null 2>&1; then
+        alias b=$cmd
+        break
+    fi
+done
 # d:docker
 alias d="docker"
 # e:silver (grep)
 alias e="ag"
 # f:fd (find)
-alias f="fdfind"
+for cmd in fd fdfind; do
+    if command -v $cmd >/dev/null 2>&1; then
+        alias f=$cmd
+        break
+    fi
+done
 # g:git
 alias g="git"
 # h:http (curl)
@@ -20,8 +30,8 @@ alias i="inv"
 alias j="jq"
 # k:kube
 alias k="kubectl"
-# l:exa (ls)
-alias l="exa"
+# l:ls
+alias l="ls"
 # m:make
 alias m="make"
 # n:ncdu
@@ -32,8 +42,8 @@ alias o="poetry"
 alias p="python"
 # q:quit
 alias q="exit"
-# r:cruft (cookiecutter)
-alias r="cruft"
+# r:ptrepl
+alias r="ptrepl"
 # s:copilot
 alias s="gh copilot suggest --target shell"
 # t:htop

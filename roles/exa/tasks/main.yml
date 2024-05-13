@@ -1,7 +1,0 @@
----
-
-- name: package
-  ansible.builtin.package:
-    name: exa
-  become: true
-  tags: admin
