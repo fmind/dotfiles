@@ -21,8 +21,3 @@
     name: gh
   become: true
   tags: admin
-
-- name: extension
-  shell: gh extension install github/gh-copilot
-  tags: user
-
