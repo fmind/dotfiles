@@ -11,6 +11,7 @@ plugins=(
     docker-compose
     fd
     fzf
+    gcloud
     gh
     gitfast
     httpie

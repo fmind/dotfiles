@@ -12,11 +12,12 @@ Configuration of my favorite languages, editors, shells, and tools.
 ```bash
 # with pyinvoke
 inv install
-# on Linux system (no sudo required)
+# without pyinvoke
+# - Linux system (no sudo required)
 ansible-playbook site.yml
-# on Linux system (sudo required)
+# - Linux system (sudo required)
 ansible-playbook -K site.yml
-# on MacOS system
+# - MacOS system
 ansible-playbook site.yml --become-user=$USER
 ```
 
@@ -27,7 +28,7 @@ ansible-playbook site.yml --become-user=$USER
 
 ```bash
 # on Linux system
-chsh -s /usr/bin/fish
+chsh -s /usr/bin/zsh
 # on MacOS system
 chsh -s /bin/zsh
 ```
