@@ -70,7 +70,7 @@
     - {role: neofetch, tags: ['neofetch']}
     # - {role: neovim, tags: ['neovim']}
     # - {role: nim, tags: ['nim']}
-    # - {role: nodejs, tags: ['nodejs']}
+    - {role: nodejs, tags: ['nodejs']}
     # - {role: openai, tags: ['openai']}
     # - {role: pandoc, tags: ['pandoc']}
     # - {role: parallel, tags: ['parallel']}

@@ -35,7 +35,7 @@ alias l="ls"
 # m:make
 alias m="make"
 # n:ncdu
-alias n="ncdu"
+alias n="node"
 # o:poetry
 alias o="poetry"
 # p:python
