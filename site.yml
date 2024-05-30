@@ -71,6 +71,7 @@
     # - {role: neovim, tags: ['neovim']}
     # - {role: nim, tags: ['nim']}
     - {role: nodejs, tags: ['nodejs']}
+    - {role: ollama, tags: ['ollama']}
     # - {role: openai, tags: ['openai']}
     # - {role: pandoc, tags: ['pandoc']}
     # - {role: parallel, tags: ['parallel']}

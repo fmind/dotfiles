@@ -36,8 +36,8 @@ alias l="ls"
 alias m="make"
 # n:ncdu
 alias n="node"
-# o:poetry
-alias o="poetry"
+# o:ollama
+alias o="ollama run gemma:7b"
 # p:python
 alias p="python"
 # q:quit
