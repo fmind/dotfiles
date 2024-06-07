@@ -34,8 +34,8 @@ alias k="kubectl"
 alias l="ls"
 # m:make
 alias m="make"
-# n:ncdu
-alias n="node"
+# n:npm
+alias n="npm"
 # o:ollama
 alias o="ollama run gemma:7b"
 # p:python
