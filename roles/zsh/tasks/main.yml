@@ -75,3 +75,11 @@
     state: link
     force: true
   tags: user
+
+- name: profile
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/dracula-pro.zsh-theme"
+    dest: ~/.oh-my-zsh/themes/dracula-pro.zsh-theme
+    state: link
+    force: true
+  tags: user
