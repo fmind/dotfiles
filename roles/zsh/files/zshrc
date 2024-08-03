@@ -2,14 +2,12 @@
 bindkey -v
 # PLUGINS
 plugins=(
-    ag
     alias-tips
     aws
     colored-man-pages
     command-not-found
     docker
     docker-compose
-    fd
     fnm
     fzf
     gcloud
