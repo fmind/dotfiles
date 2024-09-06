@@ -23,7 +23,7 @@
     # - {role: byobu, tags: ['byobu']}
     # - {role: chardet, tags: ['chardet']}
     - {role: clang, tags: ['clang']}
-    # - {role: cloc, tags: ['cloc']}
+    - {role: cloc, tags: ['cloc']}
     # - {role: clojure, tags: ['clojure']}
     - {role: cookiecutter, tags: ['cookiecutter']}
     # - {role: ctags, tags: ['ctags']}
@@ -71,7 +71,7 @@
     # - {role: neovim, tags: ['neovim']}
     # - {role: nim, tags: ['nim']}
     - {role: nodejs, tags: ['nodejs']}
-    - {role: ollama, tags: ['ollama']}
+    # - {role: ollama, tags: ['ollama']}
     # - {role: openai, tags: ['openai']}
     # - {role: pandoc, tags: ['pandoc']}
     # - {role: parallel, tags: ['parallel']}
@@ -102,6 +102,7 @@
     # - {role: termtosvg, tags: ['termtosvg']}
     - {role: thefuck, tags: ['thefuck']}
     - {role: tqdm, tags: ['tqdm']}
+    - {role: uv, tags: ['uv']}
     - {role: vim, tags: ['vim']}
     # - {role: visidata, tags: ['visidata']}
     # - {role: w3m, tags: ['w3m']}

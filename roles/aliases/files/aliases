@@ -36,8 +36,8 @@ alias l="ls"
 alias m="make"
 # n:npm
 alias n="npm"
-# o:ollama
-alias o="ollama run gemma:7b"
+# o:poetry
+alias o="poetry"
 # p:python
 alias p="python"
 # q:quit
@@ -49,7 +49,7 @@ alias s="zsh"
 # t:htop
 alias t="htop"
 # u:fuck
-alias u="fuck"
+alias u="uv"
 # v:vscode (vim)
 alias v="code"
 # w:watchmedo
