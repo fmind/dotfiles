@@ -23,7 +23,7 @@
     # - {role: byobu, tags: ['byobu']}
     # - {role: chardet, tags: ['chardet']}
     - {role: clang, tags: ['clang']}
-    - {role: cloc, tags: ['cloc']}
+    # - {role: cloc, tags: ['cloc']}
     # - {role: clojure, tags: ['clojure']}
     - {role: cookiecutter, tags: ['cookiecutter']}
     # - {role: ctags, tags: ['ctags']}

@@ -12,6 +12,7 @@ plugins=(
     fzf
     gcloud
     gh
+    git
     gitfast
     httpie
     invoke

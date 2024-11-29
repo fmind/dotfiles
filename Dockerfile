@@ -1,6 +1,6 @@
 # https://docs.docker.com/engine/reference/builder/
 
-FROM python:3.12
+FROM python:3.13
 ARG USER=fmind
 RUN apt update \
     && apt upgrade -y \

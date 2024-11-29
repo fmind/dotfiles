@@ -48,7 +48,7 @@ alias r="ptrepl"
 alias s="zsh"
 # t:htop
 alias t="htop"
-# u:fuck
+# u:uv
 alias u="uv"
 # v:vscode (vim)
 alias v="code"
