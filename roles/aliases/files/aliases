@@ -26,8 +26,8 @@ alias g="git"
 alias h="http"
 # i:invoke (make)
 alias i="inv"
-# j:jq
-alias j="jq"
+# j:just
+alias j="just"
 # k:kube
 alias k="kubectl"
 # l:ls
@@ -40,8 +40,8 @@ alias n="npm"
 alias o="poetry"
 # p:python
 alias p="python"
-# q:quit
-alias q="exit"
+# q:jq
+alias q="jq"
 # r:ptrepl
 alias r="ptrepl"
 # s:zsh

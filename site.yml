@@ -61,6 +61,7 @@
     - {role: jq, tags: ['jq']}
     # - {role: julia, tags: ['julia']}
     # - {role: jupyter, tags: ['jupyter']}
+    - {role: just, tags: ['just']}
     # - {role: kaggle, tags: ['kaggle']}
     # - {role: kube-shell, tags: ['kube-shell']}
     # - {role: latex, tags: ['latex']}
