@@ -36,8 +36,8 @@ alias l="ls"
 alias m="make"
 # n:npm
 alias n="npm"
-# o:poetry
-alias o="poetry"
+# o:htop
+alias o="htop"
 # p:python
 alias p="python"
 # q:jq
@@ -46,8 +46,8 @@ alias q="jq"
 alias r="ptrepl"
 # s:zsh
 alias s="zsh"
-# t:htop
-alias t="htop"
+# t:terraform
+alias t="terraform"
 # u:uv
 alias u="uv"
 # v:vscode (vim)
