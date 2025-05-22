@@ -40,8 +40,8 @@ alias n="npm"
 alias o="htop"
 # p:python
 alias p="python"
-# q:jq
-alias q="jq"
+# q:copilot
+alias q="gh copilot suggest"
 # r:ptrepl
 alias r="ptrepl"
 # s:zsh
