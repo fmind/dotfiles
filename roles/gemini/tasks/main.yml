@@ -1,0 +1,22 @@
+---
+
+- name: package
+  community.general.npm:
+    name: '@google/gemini-cli'
+    global: true
+  tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/gemini
+    state: directory
+    mode: '0755'
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/settings.json"
+    dest: ~/.config/gemini/settings.json
+    state: link
+    force: true
+  tags: user

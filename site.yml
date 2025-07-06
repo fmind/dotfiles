@@ -19,7 +19,7 @@
     # - {role: asciinema, tags: ['asciinema']}
     # - {role: azure, tags: ['azure']}
     # - {role: aws-shell, tags: ['aws-shell']}
-    - {role: bat, tags: ['bat']}
+    # - {role: bat, tags: ['bat']}
     # - {role: byobu, tags: ['byobu']}
     # - {role: chardet, tags: ['chardet']}
     - {role: clang, tags: ['clang']}
@@ -30,13 +30,14 @@
     - {role: curl, tags: ['curl']}
     # - {role: direnv, tags: ['direnv']}
     # - {role: docker, tags: ['docker']}
-    - {role: duf, tags: ['duf']}
+    # - {role: duf, tags: ['duf']}
     # - {role: elixir, tags: ['elixir']}
     # - {role: emacs, tags: ['emacs']}
-    - {role: fd, tags: ['fd']}
+    # - {role: fd, tags: ['fd']}
     # - {role: fish, tags: ['fish']}
-    - {role: fzf, tags: ['fzf']}
+    # - {role: fzf, tags: ['fzf']}
     # - {role: gcloud, tags: ['gcloud']}
+    - {role: gemini, tags: ['gemini']}
     - {role: git, tags: ['git']}
     - {role: github, tags: ['github']}
     # - {role: glances, tags: ['glances']}
@@ -48,12 +49,12 @@
     # - {role: haskell, tags: ['haskell']}
     # - {role: howdoi, tags: ['howdoi']}
     - {role: htop, tags: ['htop']}
-    - {role: httpie, tags: ['httpie']}
-    - {role: httpstat, tags: ['httpstat']}
+    # - {role: httpie, tags: ['httpie']}
+    # - {role: httpstat, tags: ['httpstat']}
     # - {role: hylang, tags: ['hylang']}
     # - {role: ipython, tags: ['ipython']}
     - {role: input, tags: ['input']}
-    - {role: invoke, tags: ['invoke']}
+    # - {role: invoke, tags: ['invoke']}
     # - {role: iredis, tags: ['iredis']}
     # - {role: java, tags: ['java']}
     # - {role: jc, tags: ['jc']}
@@ -68,7 +69,7 @@
     # - {role: litecli, tags: ['litecli']}
     # - {role: mycli, tags: ['mycli']}
     - {role: ncdu, tags: ['ncdu']}
-    - {role: neofetch, tags: ['neofetch']}
+    # - {role: neofetch, tags: ['neofetch']}
     # - {role: neovim, tags: ['neovim']}
     # - {role: nim, tags: ['nim']}
     - {role: nodejs, tags: ['nodejs']}
@@ -80,10 +81,10 @@
     # - {role: pgcli, tags: ['pgcli']}
     # - {role: pigz, tags: ['pigz']}
     # - {role: plantuml, tags: ['plantuml']}
-    - {role: poetry, tags: ['poetry']}
+    # - {role: poetry, tags: ['poetry']}
     - {role: ptpython, tags: ['ptpython']}
-    - {role: ptrepl, tags: ['ptrepl']}
-    - {role: pyenv, tags: ['pyenv']}
+    # - {role: ptrepl, tags: ['ptrepl']}
+    # - {role: pyenv, tags: ['pyenv']}
     - {role: python, tags: ['python']}
     # - {role: racket, tags: ['racket']}
     # - {role: ranger, tags: ['ranger']}
@@ -94,7 +95,7 @@
     # - {role: scrapy, tags: ['scrapy']}
     # - {role: shell, tags: ['shell']}
     # - {role: shell-functools, tags: ['shell-functools']}
-    - {role: silversearcher, tags: ['silversearcher']}
+    # - {role: silversearcher, tags: ['silversearcher']}
     # - {role: sphinx, tags: ['sphinx']}
     # - {role: sql, tags: ['sql']}
     - {role: starship, tags: ['starship']}
@@ -103,12 +104,12 @@
     - {role: terraform, tags: ['terraform']}
     # - {role: termtosvg, tags: ['termtosvg']}
     - {role: thefuck, tags: ['thefuck']}
-    - {role: tqdm, tags: ['tqdm']}
+    # - {role: tqdm, tags: ['tqdm']}
     - {role: uv, tags: ['uv']}
     - {role: vim, tags: ['vim']}
     # - {role: visidata, tags: ['visidata']}
     # - {role: w3m, tags: ['w3m']}
-    - {role: watchdog, tags: ['watchdog']}
+    # - {role: watchdog, tags: ['watchdog']}
     # - {role: wharfee, tags: ['wharfee']}
     # - {role: xonsh, tags: ['xonsh']}
     # - {role: xxh, tags: ['xxh']}

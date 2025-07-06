@@ -24,8 +24,8 @@ done
 alias g="git"
 # h:http (curl)
 alias h="http"
-# i:invoke (make)
-alias i="inv"
+# i:gemini
+alias i="gemini"
 # j:just
 alias j="just"
 # k:kube
