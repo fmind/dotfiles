@@ -37,7 +37,6 @@
     # - {role: fish, tags: ['fish']}
     # - {role: fzf, tags: ['fzf']}
     # - {role: gcloud, tags: ['gcloud']}
-    - {role: gemini, tags: ['gemini']}
     - {role: git, tags: ['git']}
     - {role: github, tags: ['github']}
     # - {role: glances, tags: ['glances']}
@@ -73,6 +72,7 @@
     # - {role: neovim, tags: ['neovim']}
     # - {role: nim, tags: ['nim']}
     - {role: nodejs, tags: ['nodejs']}
+    - {role: gemini, tags: ['gemini']} # requires nodejs
     # - {role: ollama, tags: ['ollama']}
     # - {role: openai, tags: ['openai']}
     # - {role: pandoc, tags: ['pandoc']}
