@@ -1,9 +1,24 @@
 ---
 
+- name: keyring
+  ansible.builtin.apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
+    keyring: "/etc/apt/trusted.gpg.d/nodesource.gpg"
+  become: true
+  tags: admin
+
+- name: repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main"
+    filename: nodesource
+  become: true
+  tags: admin
+
 - name: package
-  ansible.builtin.shell: >
-    curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-  tags: user
+  ansible.builtin.apt:
+    name: nodejs
+  become: true
+  tags: system
 
 - name: config
   ansible.builtin.file:

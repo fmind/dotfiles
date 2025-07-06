@@ -8,7 +8,6 @@ plugins=(
     command-not-found
     docker
     docker-compose
-    fnm
     fzf
     gcloud
     gh
