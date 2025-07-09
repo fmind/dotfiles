@@ -4,6 +4,7 @@
   ansible.builtin.apt_key:
     url: "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
     keyring: "/etc/apt/trusted.gpg.d/nodesource.gpg"
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
 
@@ -11,11 +12,12 @@
   ansible.builtin.apt_repository:
     repo: "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main"
     filename: nodesource
+  when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
 
 - name: package
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: nodejs
   become: true
   tags: system
