@@ -1,3 +1,28 @@
 {
-    "autoAccept": "true"
+  "autoAccept": "true",
+  "contextFileName": "GEMINI.md",
+  "hideBanner": true,
+  "hideTips": true,
+  "preferredEditor": "vscode",
+  "selectedAuthType": "oauth-personal",
+  "theme": "Google Code",
+  "vimMode": true,
+  "mcpServers": {
+    "github": {
+      "httpUrl": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "${GITHUB_PAT_GEMINI}"
+      },
+      "timeout": 5000
+    },
+    "terraform": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "hashicorp/terraform-mcp-server"
+      ]
+    }
+  }
 }

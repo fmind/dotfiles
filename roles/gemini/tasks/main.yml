@@ -8,7 +8,7 @@
 
 - name: directory
   ansible.builtin.file:
-    path: ~/.config/gemini
+    path: ~/./gemini
     state: directory
     mode: '0755'
   tags: user
@@ -16,7 +16,14 @@
 - name: config
   ansible.builtin.file:
     src: "{{ role_path }}/files/settings.json"
-    dest: ~/.config/gemini/settings.json
+    dest: ~/.gemini/settings.json
     state: link
     force: true
+  tags: user
+
+- name: commands
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/commands/"
+    dest: ~/.gemini/commands
+    mode: '0755'
   tags: user

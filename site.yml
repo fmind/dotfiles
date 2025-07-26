@@ -82,7 +82,7 @@
     # - {role: pigz, tags: ['pigz']}
     # - {role: plantuml, tags: ['plantuml']}
     # - {role: poetry, tags: ['poetry']}
-    - {role: ptpython, tags: ['ptpython']}
+    # - {role: ptpython, tags: ['ptpython']}
     # - {role: ptrepl, tags: ['ptrepl']}
     # - {role: pyenv, tags: ['pyenv']}
     - {role: python, tags: ['python']}
@@ -103,7 +103,7 @@
     # - {role: supervisor, tags: ['supervisor']}
     - {role: terraform, tags: ['terraform']}
     # - {role: termtosvg, tags: ['termtosvg']}
-    - {role: thefuck, tags: ['thefuck']}
+    # - {role: thefuck, tags: ['thefuck']}
     # - {role: tqdm, tags: ['tqdm']}
     - {role: uv, tags: ['uv']}
     - {role: vim, tags: ['vim']}

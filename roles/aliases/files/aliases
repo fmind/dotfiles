@@ -1,29 +1,19 @@
 # a:ansible-playbook
 alias a="ansible-playbook"
-# b:bat (cat)
-for cmd in bat batcat; do
-    if command -v $cmd >/dev/null 2>&1; then
-        alias b=$cmd
-        break
-    fi
-done
+# b:cat
+alias b="cat"
 # c:gcloud
 alias c="gcloud"
 # d:docker
 alias d="docker"
-# e:silver (grep)
-alias e="ag"
-# f:fd (find)
-for cmd in fd fdfind; do
-    if command -v $cmd >/dev/null 2>&1; then
-        alias f=$cmd
-        break
-    fi
-done
+# e:grep
+alias e="grep"
+# f:find
+alias f="find"
 # g:git
 alias g="git"
-# h:http (curl)
-alias h="http"
+# h:gh
+alias h="gh"
 # i:gemini
 alias i="gemini"
 # j:just
@@ -40,10 +30,10 @@ alias n="npm"
 alias o="htop"
 # p:python
 alias p="python"
-# q:copilot
-alias q="gh copilot suggest"
-# r:ptrepl
-alias r="ptrepl"
+# q:gemini (prompt)
+alias q="gemini --prompt"
+#r:cookiecutter
+alias r="cookiecutter"
 # s:zsh
 alias s="zsh"
 # t:terraform
@@ -52,11 +42,11 @@ alias t="terraform"
 alias u="uv"
 # v:vscode (vim)
 alias v="code"
-# w:watchmedo
-alias w="watchmedo"
-# x:fzf
-alias x="fzf"
+# w:curl (web)
+alias w="curl"
+# x:uvx
+alias x="uvx"
 # y:ptpython
 alias y="ptpython"
-# # z:zoxide (auto)
-# # alias z=""
+# z:zoxide (auto)
+# alias z=""
