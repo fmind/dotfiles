@@ -13,6 +13,6 @@ ENV PATH="/home/${USER}/.local/bin:$PATH"
 RUN python3 -m pip install pipx \
     && pipx install ansible --include-deps \
     && pipx inject ansible pipx
-COPY --chown=${USER}:${USER} . .
+COPY --chown=${USER}:${USER} . /home/${USER}/dotfiles
 RUN ansible-playbook site.yml
 CMD ["zsh"]
