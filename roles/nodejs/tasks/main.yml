@@ -10,7 +10,7 @@
 
 - name: repository
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_24.x nodistro main"
     filename: nodesource
   when: ansible_distribution != 'MacOSX'
   become: true

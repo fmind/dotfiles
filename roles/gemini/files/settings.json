@@ -7,6 +7,9 @@
   "selectedAuthType": "oauth-personal",
   "theme": "Google Code",
   "vimMode": true,
+  "checkpointing": {
+    "enabled": true
+  },
   "mcpServers": {
     "github": {
       "httpUrl": "https://api.githubcopilot.com/mcp/",
