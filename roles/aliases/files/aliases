@@ -15,7 +15,7 @@ alias g="git"
 # h:gh
 alias h="gh"
 # i:gemini
-alias i="gemini"
+alias i="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini"
 # j:just
 alias j="just"
 # k:kube
@@ -31,7 +31,7 @@ alias o="htop"
 # p:python
 alias p="python"
 # q:gemini (prompt)
-alias q="gemini --prompt"
+alias q="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini --prompt"
 #r:cookiecutter
 alias r="cookiecutter"
 # s:zsh
