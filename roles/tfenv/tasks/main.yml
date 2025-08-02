@@ -1,0 +1,16 @@
+---
+
+- name: package
+  ansible.builtin.git:
+    repo: https://github.com/tfutils/tfenv.git
+    dest: ~/.tfenv
+    depth: 1
+  when: ansible_distribution != 'MacOSX'
+  tags: user
+
+- name: package
+  ansible.builtin.package:
+    name: tfenv
+  when: ansible_distribution == 'MacOSX'
+  become: true
+  tags: admin

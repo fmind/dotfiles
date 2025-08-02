@@ -101,8 +101,9 @@
     - {role: starship, tags: ['starship']}
     # - {role: streampipe, tags: ['streampipe']}
     # - {role: supervisor, tags: ['supervisor']}
-    - {role: terraform, tags: ['terraform']}
+    # - {role: terraform, tags: ['terraform']}
     # - {role: termtosvg, tags: ['termtosvg']}
+    - {role: tfenv, tags: ['tfenv']}
     # - {role: thefuck, tags: ['thefuck']}
     # - {role: tqdm, tags: ['tqdm']}
     - {role: uv, tags: ['uv']}

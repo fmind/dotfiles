@@ -1,7 +1,7 @@
 # CONFIGS
 EDITOR="code"
 LANG="en_US.UTF-8"
-PATH=".venv/bin:$HOME/.local/bin:$HOME/.pyenv/bin:$HOME/.local/share/fnm:/opt/flutter/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/snap/bin:/snap/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+PATH=".venv/bin:$HOME/.local/bin:$HOME/.pyenv/bin:$HOME/.tfenv/bin/:$HOME/.local/share/fnm:/opt/flutter/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/snap/bin:/snap/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 # OPTIONS
 ZSH_THEME="spaceship"
 ZSH_CUSTOM=$HOME/.zsh.d
