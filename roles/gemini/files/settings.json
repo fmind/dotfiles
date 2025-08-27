@@ -6,7 +6,6 @@
   "preferredEditor": "vscode",
   "selectedAuthType": "oauth-personal",
   "theme": "Google Code",
-  "vimMode": true,
   "checkpointing": {
     "enabled": true
   },
@@ -34,5 +33,7 @@
         "hashicorp/terraform-mcp-server"
       ]
     }
-  }
+  },
+  "ideMode": true,
+  "hasSeenIdeIntegrationNudge": true
 }
