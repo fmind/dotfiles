@@ -1,9 +1,10 @@
 ---
 
 - name: keyring
-  ansible.builtin.apt_key:
-    url: "https://download.docker.com/linux/ubuntu/gpg "
-    keyring: "/etc/apt/trusted.gpg.d/docker.gpg"
+  ansible.builtin.get_url:
+    url: "https.download.docker.com/linux/ubuntu/gpg"
+    dest: "/etc/apt/trusted.gpg.d/docker.gpg"
+    mode: '0644'
   when: ansible_distribution != 'MacOSX'
   become: true
   tags: admin
