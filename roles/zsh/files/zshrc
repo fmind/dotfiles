@@ -14,9 +14,6 @@ plugins=(
     git
     gitfast
     httpie
-    invoke
-    poetry
-    pyenv
     starship
     thefuck
     vi-mode
