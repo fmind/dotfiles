@@ -1,13 +1,17 @@
 {
-  "autoAccept": "true",
-  "contextFileName": "AGENTS.md",
-  "hideBanner": true,
-  "hideTips": true,
-  "preferredEditor": "vscode",
-  "selectedAuthType": "oauth-personal",
-  "theme": "Google Code",
-  "checkpointing": {
-    "enabled": true
+  "context": {
+    "fileName": ["AGENTS.md", "GEMINI.md"]
+  },
+  "general": {
+    "checkpointing": {
+      "enabled": true
+    },
+    "preferredEditor": "code",
+    "vimMode": false
+  },
+  "ide": {
+    "enabled": true,
+    "hasSeenNudge": true
   },
   "mcpServers": {
     "github": {
@@ -34,6 +38,17 @@
       ]
     }
   },
-  "ideMode": true,
-  "hasSeenIdeIntegrationNudge": true
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "ui": {
+    "hideBanner": true,
+    "hideTips": true,
+    "showCitations": false,
+    "showLineNumbers": true,
+    "showMemoryUsage": true,
+    "theme": "Google Code"
+  }
 }

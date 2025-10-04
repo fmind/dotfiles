@@ -34,8 +34,8 @@ alias p="python"
 alias q="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini --prompt"
 #r:cookiecutter
 alias r="cookiecutter"
-# s:zsh
-alias s="zsh"
+# s:jules
+alias s="jules"
 # t:terraform
 alias t="terraform"
 # u:uv

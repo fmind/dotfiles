@@ -1,0 +1,7 @@
+---
+
+- name: package
+  community.general.npm:
+    name: '@google/jules'
+    global: true
+  tags: user

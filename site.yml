@@ -59,6 +59,7 @@
     # - {role: jc, tags: ['jc']}
     # - {role: jello, tags: ['jello']}
     - {role: jq, tags: ['jq']}
+    - {role: jules, tags: ['jules']}
     # - {role: julia, tags: ['julia']}
     # - {role: jupyter, tags: ['jupyter']}
     - {role: just, tags: ['just']}

@@ -2,4 +2,6 @@ description = "Asks the model to commit files with a Conventional Commit message
 
 prompt = """
 Write a commit message using "Conventional Commits" for the staged files.
+
+Then, commit the staged files with this message using git in the shell tool.
 """
