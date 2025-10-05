@@ -1,0 +1,7 @@
+---
+
+- name: package
+  community.general.npm:
+    name: '@angular/cli'
+    global: true
+  tags: user

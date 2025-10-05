@@ -72,8 +72,9 @@
     # - {role: neovim, tags: ['neovim']}
     # - {role: nim, tags: ['nim']}
     - {role: nodejs, tags: ['nodejs']}
-    - {role: jules, tags: ['jules']} # requires nodejs
+    - {role: angular, tags: ['angular']} # requires nodejs
     - {role: gemini, tags: ['gemini']} # requires nodejs
+    - {role: jules, tags: ['jules']} # requires nodejs
     # - {role: ollama, tags: ['ollama']}
     # - {role: openai, tags: ['openai']}
     # - {role: pandoc, tags: ['pandoc']}
