@@ -1,6 +1,9 @@
 {
   "context": {
-    "fileName": ["AGENTS.md", "GEMINI.md"]
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md"
+    ]
   },
   "general": {
     "checkpointing": {
@@ -14,14 +17,6 @@
     "hasSeenNudge": true
   },
   "mcpServers": {
-    "angular-cli": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@angular/cli",
-        "mcp"
-      ]
-    },
     "github": {
       "command": "docker",
       "args": [
@@ -35,20 +30,6 @@
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PAT_GEMINI}"
       }
-    },
-    "terraform": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "hashicorp/terraform-mcp-server"
-      ]
-    }
-  },
-  "security": {
-    "auth": {
-      "selectedType": "oauth-personal"
     }
   },
   "ui": {
@@ -58,5 +39,10 @@
     "showLineNumbers": true,
     "showMemoryUsage": true,
     "theme": "Google Code"
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
   }
 }

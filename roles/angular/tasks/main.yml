@@ -3,5 +3,6 @@
 - name: package
   community.general.npm:
     name: '@angular/cli'
+    state: latest
     global: true
   tags: user
