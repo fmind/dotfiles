@@ -1,0 +1,6 @@
+---
+
+- name: package
+  community.general.pipx:
+    name: git+https://github.com/github/spec-kit.git
+  tags: user

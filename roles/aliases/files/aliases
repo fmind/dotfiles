@@ -34,8 +34,8 @@ alias p="python"
 alias q="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini --prompt"
 #r:cookiecutter
 alias r="cookiecutter"
-# s:jules
-alias s="jules"
+# s:specify
+alias s="specify --script sh --ai gemini"
 # t:terraform
 alias t="terraform"
 # u:uv
@@ -44,8 +44,8 @@ alias u="uv"
 alias v="code"
 # w:curl (web)
 alias w="curl"
-# x:uvx
-alias x="uvx"
+# x:jules
+alias x="jules"
 # y:ptpython
 alias y="ptpython"
 # z:zoxide (auto)

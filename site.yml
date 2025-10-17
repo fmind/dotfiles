@@ -98,6 +98,7 @@
     # - {role: shell, tags: ['shell']}
     # - {role: shell-functools, tags: ['shell-functools']}
     # - {role: silversearcher, tags: ['silversearcher']}
+    - {role: specify, tags: ['specify']}
     # - {role: sphinx, tags: ['sphinx']}
     # - {role: sql, tags: ['sql']}
     - {role: starship, tags: ['starship']}
