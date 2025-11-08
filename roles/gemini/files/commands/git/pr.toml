@@ -1,0 +1,29 @@
+# Invoked via: /git:pr
+
+description="Drafts a detailed pull request description based on changes against the main branch."
+
+prompt = """
+You are an expert technical writer tasked with creating a clear and comprehensive pull request description.
+Based on the code changes provided below, generate a structured PR description in markdown.
+
+**Code Changes (Diff against origin/main):**
+```diff
+!{git diff origin/main}
+```
+
+The description should include the following sections:
+Summary
+Provide a concise, one-paragraph summary of the changes and their purpose.
+Motivation
+Explain why these changes are necessary. What problem is being solved? What feature is being added?
+Key Changes
+Use a bulleted list to detail the most significant modifications.
+Mention new files, key functions or classes added, and major refactors.
+Reviewer Checklist
+[ ] Code has been self-reviewed.
+[ ] Documentation has been updated.
+[ ] Tests have been added or updated.
+[ ] Follows project coding standards.
+
+Your output should be ONLY the markdown for the PR description.
+"""

@@ -1,0 +1,20 @@
+# Invoked via: /python:test <file_path> <function_name>
+
+description="Generates a pytest unit test file for a specific function in a Python file."
+
+prompt = """
+You are an expert Python developer specializing in Test-Driven Development (TDD) with pytest.
+Your task is to generate a comprehensive pytest test suite for the function `{{args[1]}}` located in the file `{{args[0]}}`.
+
+Here is the full content of the source file for context:
+```python
+@{ {{args[0]}} }
+```
+Please generate a new Python script containing the test suite. The tests should cover:
+- Happy Path: Test the function with typical, valid inputs.
+- Edge Cases: Test boundary conditions (e.g., empty lists, zero values, max values).
+- Error Handling: Use `pytest.raises` to test that the function correctly raises exceptions for invalid inputs.
+- Mocking: If the function has external dependencies (e.g., API calls, database access), use `unittest.mock.patch` to mock them appropriately.
+
+The output should be a single, complete Python code block for the test file, including all necessary imports. Do not include any other text or explanation.
+"""

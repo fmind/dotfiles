@@ -32,18 +32,21 @@
 
 - name: extensions
   ansible.builtin.shell: |
-    gemini extensions install {{ item }}
+    gemini extensions install --consent --auto-update {{ item }}
   loop:
     - https://github.com/ChromeDevTools/chrome-devtools-mcp
     - https://github.com/GoogleCloudPlatform/cloud-run-mcp
     - https://github.com/GoogleCloudPlatform/gemini-cloud-assist-mcp
     - https://github.com/gemini-cli-extensions/code-review
-    - https://github.com/gemini-cli-extensions/firebase
+    # - https://github.com/gemini-cli-extensions/firebase
+    # - https://github.com/gemini-cli-extensions/flutter
     - https://github.com/gemini-cli-extensions/gcloud
-    - https://github.com/gemini-cli-extensions/genkit
+    # - https://github.com/gemini-cli-extensions/genkit
+    - https://github.com/gemini-cli-extensions/jules
     - https://github.com/gemini-cli-extensions/nanobanana
     - https://github.com/gemini-cli-extensions/observability
     - https://github.com/gemini-cli-extensions/security
+    - https://github.com/github/github-mcp-server
     - https://github.com/hashicorp/terraform-mcp-server
     - https://github.com/markmcd/gemini-docs-ext
   register: install_result

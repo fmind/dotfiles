@@ -2,7 +2,8 @@
   "context": {
     "fileName": [
       "AGENTS.md",
-      "GEMINI.md"
+      "GEMINI.md",
+      "README.md"
     ]
   },
   "general": {
@@ -15,22 +16,6 @@
   "ide": {
     "enabled": true,
     "hasSeenNudge": true
-  },
-  "mcpServers": {
-    "github": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "ghcr.io/github/github-mcp-server"
-      ],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PAT_GEMINI}"
-      }
-    }
   },
   "ui": {
     "hideBanner": true,

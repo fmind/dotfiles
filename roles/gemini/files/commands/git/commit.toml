@@ -1,0 +1,22 @@
+# Invoked via: /git:commit
+
+description = "Generates a Conventional Commit message based on staged changes."
+
+prompt = """
+You are an expert at writing Conventional Commit messages.
+Based on the following git diff of staged changes, generate a concise and accurate commit message.
+
+The message must adhere to the Conventional Commits specification.
+The format should be: <type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+
+Here is the diff:
+```diff
+!{git diff --staged}
+```
+
+Your output should be ONLY the commit message text, without any additional explanation or markdown formatting.
+"""
