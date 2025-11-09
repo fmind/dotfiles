@@ -16,7 +16,6 @@ plugins=(
     httpie
     ng
     starship
-    thefuck
     vi-mode
     zoxide
     zsh-autopair
