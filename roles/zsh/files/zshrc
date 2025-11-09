@@ -15,7 +15,6 @@ plugins=(
     gitfast
     httpie
     ng
-    pyenv
     starship
     thefuck
     vi-mode
