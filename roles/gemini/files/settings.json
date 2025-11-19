@@ -10,24 +10,37 @@
     "checkpointing": {
       "enabled": true
     },
+    "vimMode": true,
+    "previewFeatures": true,
     "preferredEditor": "code",
-    "vimMode": false
+    "enablePromptCompletion": true
   },
   "ide": {
     "enabled": true,
     "hasSeenNudge": true
   },
   "ui": {
-    "hideBanner": true,
     "hideTips": true,
+    "hideBanner": true,
     "showCitations": false,
-    "showLineNumbers": true,
     "showMemoryUsage": true,
-    "theme": "Google Code"
+    "showLineNumbers": false,
+    "theme": "Google Code",
+    "accessibility": {
+      "disableLoadingPhrases": true
+    },
+    "footer": {
+      "hideContextPercentage": false
+    }
   },
   "security": {
     "auth": {
       "selectedType": "oauth-personal"
+    }
+  },
+  "tools": {
+    "shell": {
+      "showColor": true
     }
   }
 }
