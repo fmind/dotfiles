@@ -38,6 +38,7 @@
     - https://github.com/GoogleCloudPlatform/cloud-run-mcp
     - https://github.com/GoogleCloudPlatform/gemini-cloud-assist-mcp
     - https://github.com/gemini-cli-extensions/code-review
+    - https://github.com/gemini-cli-extensions/datacommons
     # - https://github.com/gemini-cli-extensions/firebase
     # - https://github.com/gemini-cli-extensions/flutter
     - https://github.com/gemini-cli-extensions/gcloud
