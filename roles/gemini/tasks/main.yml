@@ -38,6 +38,7 @@
     - https://github.com/GoogleCloudPlatform/cloud-run-mcp
     - https://github.com/GoogleCloudPlatform/gemini-cloud-assist-mcp
     - https://github.com/gemini-cli-extensions/code-review
+    - https://github.com/gemini-cli-extensions/datacommons
     # - https://github.com/gemini-cli-extensions/firebase
     # - https://github.com/gemini-cli-extensions/flutter
     - https://github.com/gemini-cli-extensions/gcloud
@@ -46,6 +47,7 @@
     - https://github.com/gemini-cli-extensions/nanobanana
     - https://github.com/gemini-cli-extensions/observability
     - https://github.com/gemini-cli-extensions/security
+    - https://github.com/gemini-cli-extensions/workspace
     - https://github.com/github/github-mcp-server
     - https://github.com/hashicorp/terraform-mcp-server
     - https://github.com/markmcd/gemini-docs-ext

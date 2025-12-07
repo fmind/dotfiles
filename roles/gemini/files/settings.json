@@ -4,7 +4,10 @@
       "AGENTS.md",
       "GEMINI.md",
       "README.md"
-    ]
+    ],
+    "fileFiltering": {
+      "respectGitIgnore": false
+    }
   },
   "general": {
     "checkpointing": {
@@ -31,7 +34,9 @@
     },
     "footer": {
       "hideContextPercentage": false
-    }
+    },
+    "showStatusInTitle": true,
+    "showModelInfoInChat": true
   },
   "security": {
     "auth": {
