@@ -28,6 +28,7 @@
     - {role: cookiecutter, tags: ['cookiecutter']}
     # - {role: ctags, tags: ['ctags']}
     - {role: curl, tags: ['curl']}
+    - {role: d2lang, tags: ['d2lang']}
     # - {role: direnv, tags: ['direnv']}
     # - {role: docker, tags: ['docker']}
     # - {role: duf, tags: ['duf']}
