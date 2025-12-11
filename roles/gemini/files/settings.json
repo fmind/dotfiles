@@ -1,4 +1,7 @@
 {
+  "advanced": {
+    "autoConfigureMemory": true
+  },
   "context": {
     "fileName": [
       "AGENTS.md",
@@ -9,34 +12,26 @@
       "respectGitIgnore": false
     }
   },
+  "experimental": {
+    "enableAgents": true
+  },
   "general": {
     "checkpointing": {
       "enabled": true
     },
     "vimMode": true,
     "previewFeatures": true,
-    "preferredEditor": "code",
-    "enablePromptCompletion": true
+    "preferredEditor": "antigravity",
+    "enablePromptCompletion": true,
+    "sessionRetention": {
+      "enabled": true,
+      "maxAge": "30d",
+      "maxCount": 50
+    }
   },
   "ide": {
     "enabled": true,
     "hasSeenNudge": true
-  },
-  "ui": {
-    "hideTips": true,
-    "hideBanner": true,
-    "showCitations": false,
-    "showMemoryUsage": true,
-    "showLineNumbers": false,
-    "theme": "Google Code",
-    "accessibility": {
-      "disableLoadingPhrases": true
-    },
-    "footer": {
-      "hideContextPercentage": false
-    },
-    "showStatusInTitle": true,
-    "showModelInfoInChat": true
   },
   "security": {
     "auth": {
@@ -46,6 +41,24 @@
   "tools": {
     "shell": {
       "showColor": true
-    }
+    },
+    "enableMessageBusIntegration": true
+  },
+  "ui": {
+    "hideTips": true,
+    "hideBanner": true,
+    "showCitations": false,
+    "showMemoryUsage": true,
+    "showLineNumbers": true,
+    "theme": "Google Code",
+    "accessibility": {
+      "disableLoadingPhrases": true
+    },
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "showStatusInTitle": true,
+    "useAlternateBuffer": true,
+    "showModelInfoInChat": true
   }
 }

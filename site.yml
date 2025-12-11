@@ -52,7 +52,7 @@
     # - {role: httpie, tags: ['httpie']}
     # - {role: httpstat, tags: ['httpstat']}
     # - {role: hylang, tags: ['hylang']}
-    # - {role: ipython, tags: ['ipython']}
+    - {role: ipython, tags: ['ipython']}
     - {role: input, tags: ['input']}
     # - {role: invoke, tags: ['invoke']}
     # - {role: iredis, tags: ['iredis']}
@@ -93,6 +93,7 @@
     # - {role: ranger, tags: ['ranger']}
     # - {role: rich-cli, tags: ['rich-cli']}
     # - {role: rlang, tags: ['rlang']}
+    - {role: ripgrep, tags: ['ripgrep']}
     # - {role: saws, tags: ['saws']}
     # - {role: scapy, tags: ['scapy']}
     # - {role: scrapy, tags: ['scrapy']}

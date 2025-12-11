@@ -1,0 +1,7 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: ripgrep
+  become: true
+  tags: admin
