@@ -42,7 +42,7 @@
     - {role: github, tags: ['github']}
     # - {role: glances, tags: ['glances']}
     # - {role: glom, tags: ['glom']}
-    - {role: golang, tags: ['golang']}
+    # - {role: golang, tags: ['golang']}
     # - {role: gpustat, tags: ['gpustat']}
     # - {role: graphviz, tags: ['graphviz']}
     # - {role: groovy, tags: ['groovy']}
