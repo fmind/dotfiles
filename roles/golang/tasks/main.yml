@@ -1,6 +1,6 @@
 ---
 
-- name: package
+- name: installer
   ansible.builtin.package:
     name: golang
   become: true
@@ -11,4 +11,37 @@
     name: ~/go
     state: directory
     mode: 0750
+  tags: user
+
+- name: latest
+  ansible.builtin.uri:
+    url: https://go.dev/dl/?mode=json
+    return_content: true
+  register: go_api
+  tags: user
+
+- name: set latest
+  ansible.builtin.set_fact:
+    latest_go: "{{ go_api.json[0].version }}"
+  tags: user
+
+- name: install
+  ansible.builtin.command:
+    cmd: "go install golang.org/dl/{{ latest_go }}@latest"
+  environment:
+    GOPATH: "{{ ansible_env.HOME }}/go"
+  changed_when:
+  tags: user
+
+- name: download
+  ansible.builtin.command:
+    cmd: "~/go/bin/{{ latest_go }} download"
+    creates: "~/sdk/{{ latest_go }}"
+  tags: user
+ 
+- name: alias
+  ansible.builtin.file:
+    src: "{{ ansible_env.HOME }}/go/bin/{{ latest_go }}"
+    dest: "{{ ansible_env.HOME }}/go/bin/go"
+    state: link
   tags: user
