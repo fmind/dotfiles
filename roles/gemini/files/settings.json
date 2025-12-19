@@ -19,7 +19,7 @@
     "checkpointing": {
       "enabled": true
     },
-    "vimMode": true,
+    "vimMode": false,
     "previewFeatures": true,
     "preferredEditor": "antigravity",
     "enablePromptCompletion": true,
