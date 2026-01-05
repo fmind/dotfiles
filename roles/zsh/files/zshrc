@@ -1,5 +1,5 @@
 # BINDKEY
-# bindkey -v
+bindkey -v
 # PLUGINS
 plugins=(
     alias-tips

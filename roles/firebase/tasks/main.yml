@@ -1,0 +1,7 @@
+---
+- name: package
+  community.general.npm:
+    name: firebase-tools
+    state: latest
+    global: true
+  tags: user
