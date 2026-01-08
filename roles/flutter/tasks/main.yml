@@ -10,6 +10,7 @@
       - zip
       - libglu1-mesa
     state: present
+  when: ansible_system == 'Linux'
   become: true
   tags: admin
 
