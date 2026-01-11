@@ -1,5 +1,4 @@
 ---
-
 - name: project
   community.general.pipx:
     name: poetry

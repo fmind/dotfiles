@@ -1,5 +1,4 @@
 ---
-
 - name: package
   community.general.pipx:
     name: ptrepl
@@ -19,4 +18,3 @@
     state: link
     force: true
   tags: user
-

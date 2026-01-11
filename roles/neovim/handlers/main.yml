@@ -1,5 +1,4 @@
 ---
-
 - name: Install nvim plugins
   shell: nvim --headless +PlugInstall +quitall
   tags: user

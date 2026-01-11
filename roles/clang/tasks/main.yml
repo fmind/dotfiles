@@ -1,5 +1,4 @@
 ---
-
 - name: language
   ansible.builtin.package:
     name: "{{ 'build-essential' if ansible_distribution != 'MacOSX' else 'make' }}"

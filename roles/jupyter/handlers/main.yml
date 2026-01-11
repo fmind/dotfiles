@@ -1,5 +1,4 @@
 ---
-
 - name: Build jupyter lab
   ansible.builtin.shell: jupyter-lab build
   tags: user

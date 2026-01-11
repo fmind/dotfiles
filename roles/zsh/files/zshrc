@@ -7,14 +7,9 @@ plugins=(
     colored-man-pages
     command-not-found
     docker
-    docker-compose
-    fzf
     gcloud
     gh
     git
-    gitfast
-    httpie
-    ng
     starship
     vi-mode
     zoxide

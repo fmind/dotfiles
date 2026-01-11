@@ -4,5 +4,16 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.formatOnSave": true,
+		"[yaml]": {
+			"editor.defaultFormatter": "redhat.vscode-yaml",
+		},
+	},
+	"extensions": {
+		"recommendations": [
+			"redhat.vscode-yaml",
+			"nefrob.vscode-just-syntax",
+		]
+	}
 }

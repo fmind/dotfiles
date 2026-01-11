@@ -3,11 +3,7 @@
     "autoConfigureMemory": true
   },
   "context": {
-    "fileName": [
-      "AGENTS.md",
-      "GEMINI.md",
-      "README.md"
-    ],
+    "fileName": ["AGENTS.md", "GEMINI.md", "README.md"],
     "fileFiltering": {
       "respectGitIgnore": false
     }
@@ -19,7 +15,7 @@
     "checkpointing": {
       "enabled": true
     },
-    "vimMode": false,
+    "vimMode": true,
     "previewFeatures": true,
     "preferredEditor": "antigravity",
     "enablePromptCompletion": true,

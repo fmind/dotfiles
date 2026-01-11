@@ -1,10 +1,9 @@
 ---
-
 - name: keyring
   ansible.builtin.get_url:
     url: "https://packages.microsoft.com/keys/microsoft.asc"
     dest: "/etc/apt/keyrings/microsoft.gpg"
-    mode: '0644'
+    mode: "0644"
   become: true
   tags: admin
 

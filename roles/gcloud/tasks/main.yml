@@ -1,25 +1,32 @@
 ---
-
 - name: keyring
   ansible.builtin.get_url:
     url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
-    dest: "/etc/apt/trusted.gpg.d/cloud.google.gpg"
-    mode: '0644'
-  when: ansible_distribution != 'MacOSX'
+    dest: "/tmp/google-cloud.gpg.key"
+    mode: "0644"
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: dearmor
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/cloud.google.gpg --yes /tmp/google-cloud.gpg.key
+    creates: /etc/apt/keyrings/cloud.google.gpg
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: repository
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
+    repo: "deb [signed-by=/etc/apt/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
     filename: google-cloud-sdk
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: package
   ansible.builtin.package:
     name: google-cloud-sdk
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin

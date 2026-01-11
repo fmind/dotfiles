@@ -1,19 +1,18 @@
 ---
-
 - name: keyring
   ansible.builtin.get_url:
     url: "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
-    dest: "/etc/apt/trusted.gpg.d/nodesource.gpg"
-    mode: '0644'
-  when: ansible_distribution != 'MacOSX'
+    dest: "/etc/apt/trusted.gpg.d/nodesource.asc"
+    mode: "0644"
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: repository
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_24.x nodistro main"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] https://deb.nodesource.com/node_24.x nodistro main"
     filename: nodesource
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 

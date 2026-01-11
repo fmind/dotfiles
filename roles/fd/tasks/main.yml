@@ -1,5 +1,4 @@
 ---
-
 - name: package
   ansible.builtin.package:
     name: "{{ 'fd-find' if ansible_distribution != 'MacOSX' else 'fd' }}"

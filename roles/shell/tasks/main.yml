@@ -1,5 +1,4 @@
 ---
-
 - name: checker
   ansible.builtin.package:
     name: shellcheck

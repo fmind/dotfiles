@@ -1,5 +1,4 @@
 ---
-
 - name: install
   ansible.builtin.shell:
     cmd: "curl -fsSL https://ollama.com/install.sh | sh"

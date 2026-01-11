@@ -1,5 +1,4 @@
 ---
-
 - name: repository
   ansible.builtin.apt_repository:
     repo: ppa:plt/racket

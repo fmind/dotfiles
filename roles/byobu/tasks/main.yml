@@ -1,5 +1,4 @@
 ---
-
 - name: package
   ansible.builtin.package:
     name: byobu
@@ -43,4 +42,3 @@
     state: link
     force: true
   tags: user
-

@@ -1,5 +1,4 @@
 ---
-
 - name: installer
   ansible.builtin.package:
     name: golang
@@ -38,7 +37,7 @@
     cmd: "~/go/bin/{{ latest_go }} download"
     creates: "~/sdk/{{ latest_go }}"
   tags: user
- 
+
 - name: alias
   ansible.builtin.file:
     src: "{{ ansible_env.HOME }}/go/bin/{{ latest_go }}"

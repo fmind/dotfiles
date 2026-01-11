@@ -33,10 +33,10 @@ alias o="htop"
 alias p="python"
 # q:gemini (prompt)
 alias q="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini --prompt"
-# r:flutter
-alias r="flutter"
-# s:firebase
-alias s="firebase"
+# r:ripgrep
+alias r="ripgrep"
+# s:ssh
+alias s="ssh"
 # t:terraform
 alias t="terraform"
 # u:uv
@@ -47,7 +47,7 @@ alias v="code"
 alias w="curl"
 # x:jules
 alias x="jules"
-# y:ipython
-alias y="ipython"
+# y:yq
+alias y="yq"
 # z:zoxide (auto)
 # alias z=""

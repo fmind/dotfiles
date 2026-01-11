@@ -1,5 +1,4 @@
 ---
-
 - name: package
   ansible.builtin.package:
     name: "{{ 'emacs-nox' if ansible_distribution != 'MacOSX' else 'emacs' }}"

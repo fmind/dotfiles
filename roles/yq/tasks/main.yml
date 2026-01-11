@@ -1,7 +1,6 @@
 ---
-
 - name: package
   ansible.builtin.package:
-    name: ncdu
+    name: yq
   become: true
   tags: admin

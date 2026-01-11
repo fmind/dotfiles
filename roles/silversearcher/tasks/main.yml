@@ -1,5 +1,4 @@
 ---
-
 - name: package
   ansible.builtin.package:
     name: "{{ 'silversearcher-ag' if ansible_distribution != 'MacOSX' else 'the_silver_searcher' }}"

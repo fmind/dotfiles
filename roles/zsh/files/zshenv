@@ -1,9 +1,9 @@
 # CONFIGS
-EDITOR="code"
+EDITOR="vim"
 LANG="en_US.UTF-8"
-PATH=".venv/bin:$HOME/go/bin:$HOME/flutter/bin:$HOME/.local/bin:$HOME/.tfenv/bin/:$HOME/.antigravity/antigravity/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+PATH=".venv/bin:$HOME/.local/bin:$HOME/.tfenv/bin/:$HOME/.antigravity/antigravity/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 # OPTIONS
-ZSH_THEME="spaceship"
+ZSH_THEME="starship"
 ZSH_CUSTOM=$HOME/.zsh.d
 # EXPORTS
 export KEYTIMEOUT=1

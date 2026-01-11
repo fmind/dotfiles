@@ -1,8 +1,7 @@
 ---
-
 - name: package
   community.general.npm:
-    name: '@google/gemini-cli'
+    name: "@google/gemini-cli"
     state: latest
     global: true
   tags: user
@@ -11,7 +10,7 @@
   ansible.builtin.file:
     path: ~/.gemini
     state: directory
-    mode: '0755'
+    mode: "0755"
   tags: user
 
 - name: config
@@ -29,7 +28,6 @@
     state: link
     force: true
   tags: user
-
 - name: extensions
   ansible.builtin.shell: |
     gemini extensions install --consent --auto-update {{ item }}
@@ -37,21 +35,26 @@
     - https://github.com/ChromeDevTools/chrome-devtools-mcp
     - https://github.com/GoogleCloudPlatform/cloud-run-mcp
     - https://github.com/GoogleCloudPlatform/gemini-cloud-assist-mcp
+    # - https://github.com/gemini-cli-extensions/angular
     - https://github.com/gemini-cli-extensions/code-review
+    - https://github.com/gemini-cli-extensions/conductor
     - https://github.com/gemini-cli-extensions/datacommons
     # - https://github.com/gemini-cli-extensions/firebase
-    - https://github.com/gemini-cli-extensions/flutter
+    # - https://github.com/gemini-cli-extensions/flutter
     - https://github.com/gemini-cli-extensions/gcloud
     # - https://github.com/gemini-cli-extensions/genkit
     - https://github.com/gemini-cli-extensions/jules
     - https://github.com/gemini-cli-extensions/nanobanana
     - https://github.com/gemini-cli-extensions/observability
     - https://github.com/gemini-cli-extensions/security
+    - https://github.com/gemini-cli-extensions/vertex
     - https://github.com/gemini-cli-extensions/workspace
     - https://github.com/github/github-mcp-server
     - https://github.com/hashicorp/terraform-mcp-server
     - https://github.com/markmcd/gemini-docs-ext
   register: install_result
-  changed_when: "'is already installed' not in install_result.stderr"
-  failed_when: "install_result.rc != 0 and 'is already installed' not in install_result.stderr"
+  changed_when: "'Successfully installed' in install_result.stdout"
+  failed_when:
+    - install_result.rc != 0
+    - "'is already installed' not in install_result.stderr"
   tags: user

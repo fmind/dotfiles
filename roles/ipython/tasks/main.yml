@@ -1,5 +1,4 @@
 ---
-
 - name: interpreter
   community.general.pipx:
     name: ipython

@@ -1,5 +1,4 @@
 ---
-
 - name: linter
   community.general.pipx:
     name: sqlfluff

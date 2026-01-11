@@ -1,8 +1,7 @@
 ---
-
 - name: package
   community.general.npm:
-    name: '@google/jules'
+    name: "@google/jules"
     state: latest
     global: true
   tags: user

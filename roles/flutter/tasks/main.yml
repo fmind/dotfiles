@@ -1,5 +1,4 @@
 ---
-
 - name: package
   ansible.builtin.package:
     name:
@@ -18,7 +17,7 @@
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/flutter"
     state: directory
-    mode: '0755'
+    mode: "0755"
   tags: user
 
 - name: install

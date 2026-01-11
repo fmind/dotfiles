@@ -1,34 +1,32 @@
 # dotfiles
 
-Configuration of my favorite languages, editors, shells, and tools.
+Automated configuration for my personal development environment.
 
-# Requirements
+## Requirements
 
-- python
-- pipx
+- [Just](https://just.systems)
+- [Python](https://www.python.org)
 
-# Installation
+## Usage
 
 ```bash
-# with pyinvoke
-inv install
-# without pyinvoke
-# - Linux system (no sudo required)
-ansible-playbook site.yml
-# - Linux system (sudo required)
-ansible-playbook -K site.yml
-# - MacOS system
-ansible-playbook site.yml --become-user=$USER
+# Install project
+just install
+
+# Apply configuration
+just apply
+
+# Apply configuration with sudo
+just apply sudo=true
+
+# Configure the default shell
+just shell
 ```
 
-**For Mac OSX**:
-- To enable the unarchive module: `brew install gnu-tar`
+## Docker
 
-# Configuration
+Run the configuration in an isolated container:
 
 ```bash
-# on Linux system
-chsh -s /usr/bin/zsh
-# on MacOS system
-chsh -s /bin/zsh
+just docker
 ```

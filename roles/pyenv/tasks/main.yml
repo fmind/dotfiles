@@ -1,5 +1,4 @@
 ---
-
 - name: package
   ansible.builtin.git:
     repo: https://github.com/pyenv/pyenv.git

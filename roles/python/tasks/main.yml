@@ -1,22 +1,21 @@
 ---
-
 - name: package
   ansible.builtin.package:
-    name: "{{ 'python3-dev' if ansible_distribution != 'MacOSX' else 'python' }}"
+    name: "{{ 'python3-dev' if ansible_facts['distribution'] != 'MacOSX' else 'python' }}"
   become: true
   tags: admin
 
 - name: manager
   ansible.builtin.package:
     name: python3-pip
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: environ
   ansible.builtin.package:
     name: python3-venv
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 

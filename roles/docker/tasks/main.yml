@@ -1,53 +1,80 @@
 ---
+- name: dependencies
+  ansible.builtin.package:
+    name:
+      - curl
+      - gnupg
+      - ca-certificates
+    state: present
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
 
 - name: keyring
   ansible.builtin.get_url:
-    url: "https.download.docker.com/linux/ubuntu/gpg"
-    dest: "/etc/apt/trusted.gpg.d/docker.gpg"
-    mode: '0644'
-  when: ansible_distribution != 'MacOSX'
+    url: "https://download.docker.com/linux/{{ ansible_facts['distribution']|lower }}/gpg"
+    dest: /tmp/docker.key
+    mode: "0644"
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: dearmor
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes /tmp/docker.key
+    creates: /etc/apt/keyrings/docker.gpg
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable"
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/{{ ansible_facts['distribution']|lower }} {{ ansible_facts['distribution_release'] }} stable"
     filename: docker
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: package
   ansible.builtin.package:
-    name:  "{{ 'docker-ce' if ansible_distribution != 'MacOSX' else 'docker' }}"
+    name: "{{ 'docker-ce' if ansible_facts['distribution'] != 'MacOSX' else 'docker' }}"
   become: true
   tags: admin
 
 - name: interface
   ansible.builtin.package:
     name: docker-ce-cli
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: container
   ansible.builtin.package:
     name: containerd.io
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: compose
   ansible.builtin.package:
-    name: "{{ 'docker-compose-plugin' if ansible_distribution != 'MacOSX' else 'docker-compose' }}"
+    name: "{{ 'docker-compose-plugin' if ansible_facts['distribution'] != 'MacOSX' else 'docker-compose' }}"
   become: true
   tags: admin
 
 - name: account
   ansible.builtin.user:
-    name: "{{ lookup('env', 'USER') }}"
+    name: "{{ ansible_user_id }}"
     groups: docker
     append: yes
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin

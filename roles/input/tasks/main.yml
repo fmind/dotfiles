@@ -1,5 +1,4 @@
 ---
-
 - name: config
   ansible.builtin.file:
     src: "{{ role_path }}/files/inputrc"
