@@ -4,16 +4,24 @@ bindkey -v
 plugins=(
     alias-tips
     aws
+    ansible
     colored-man-pages
     command-not-found
     docker
     gcloud
     gh
     git
+    npm
+    pip
+    python
+    sudo
+    terraform
     starship
     vi-mode
+    vscode
     zoxide
     zsh-autopair
+    zsh-completions
     zsh-autosuggestions
     zsh-syntax-highlighting
 )

@@ -3,7 +3,11 @@
     "autoConfigureMemory": true
   },
   "context": {
-    "fileName": ["AGENTS.md", "GEMINI.md", "README.md"],
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md",
+      "README.md"
+    ],
     "fileFiltering": {
       "respectGitIgnore": false
     }
@@ -19,6 +23,7 @@
     "previewFeatures": true,
     "preferredEditor": "antigravity",
     "enablePromptCompletion": true,
+    "retryFetchErrors": true,
     "sessionRetention": {
       "enabled": true,
       "maxAge": "30d",
@@ -30,8 +35,12 @@
     "hasSeenNudge": true
   },
   "security": {
+    "enablePermanentToolApproval": true,
     "auth": {
       "selectedType": "oauth-personal"
+    },
+    "folderTrust": {
+      "enabled": true
     }
   },
   "tools": {

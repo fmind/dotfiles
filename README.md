@@ -13,6 +13,9 @@ Automated configuration for my personal development environment.
 # Install project
 just install
 
+# Check configuration
+just check
+
 # Apply configuration
 just apply
 

@@ -1,10 +1,5 @@
 ---
-- name: ensure curl
-  ansible.builtin.package:
-    name: curl
-  become: true
-
-- name: install d2lang
+- name: install
   ansible.builtin.shell: curl -fsSL https://d2lang.com/install.sh | sh -s --
   args:
     creates: /usr/local/bin/d2

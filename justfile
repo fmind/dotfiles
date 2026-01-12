@@ -3,7 +3,6 @@
 image := "fmind/shell:latest"
 sudo := "false"
 
-# Based on platform and arguments
 shell_path := if os() == "macos" { "/bin/zsh" } else { "/usr/bin/zsh" }
 apply_become := if os() == "macos" {
     "--become-user " + env_var("USER")
@@ -19,7 +18,6 @@ default: apply
 # Apply configuration
 apply:
     ansible-playbook {{apply_become}} -i inventory.ini site.yml
-
 
 # Check configuration syntax
 check:

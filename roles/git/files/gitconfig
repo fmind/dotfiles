@@ -19,4 +19,6 @@
     autoSetupRemote = True
 
 [alias]
-    st = status
+    a = add
+    c = commit
+    s = status
