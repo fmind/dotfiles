@@ -19,7 +19,7 @@ default: apply
 apply:
     ansible-playbook {{apply_become}} -i inventory.ini site.yml
 
-# Check configuration syntax
+# Check configuration
 check:
     ansible-playbook -i inventory.ini site.yml --syntax-check
 
