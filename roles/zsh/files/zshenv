@@ -1,7 +1,7 @@
 # CONFIGS
 EDITOR="vim"
 LANG="en_US.UTF-8"
-PATH=".venv/bin:$HOME/.local/bin:$HOME/.tfenv/bin/:$HOME/.antigravity/antigravity/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+PATH="$PWD/.venv/bin:$HOME/.local/bin:$HOME/.tfenv/bin/:$HOME/.antigravity/antigravity/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 # OPTIONS
 ZSH_THEME="starship"
 ZSH_CUSTOM=$HOME/.zsh.d
