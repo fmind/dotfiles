@@ -8,4 +8,5 @@
 
 - name: cache
   command: fc-cache -fv
+  ignore_errors: true
   tags: user
