@@ -5,7 +5,7 @@ ARG USER=fmind
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/home/${USER}/.local/bin:$PATH"
 
-RUN apt update && apt install -y sudo git curl zsh make
+RUN apt update && apt install -y sudo git curl zsh make unzip
 
 RUN useradd -m -s /usr/bin/zsh ${USER} \
     && echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER} \
