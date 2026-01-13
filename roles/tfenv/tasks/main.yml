@@ -6,3 +6,10 @@
     depth: 1
   when: ansible_facts['distribution'] != 'MacOSX'
   tags: user
+
+- name: latest
+  ansible.builtin.command: ~/.tfenv/bin/tfenv install latest
+  register: tfenv_install
+  changed_when: "'already installed' not in tfenv_install.stdout"
+  when: ansible_facts['distribution'] != 'MacOSX'
+  tags: user

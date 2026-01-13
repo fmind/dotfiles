@@ -21,13 +21,6 @@
     force: true
   tags: user
 
-- name: commands
-  ansible.builtin.file:
-    src: "{{ role_path }}/files/commands/"
-    dest: ~/.gemini/commands
-    state: link
-    force: true
-  tags: user
 - name: extensions
   ansible.builtin.shell: |
     gemini extensions install --consent --auto-update {{ item }}

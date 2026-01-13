@@ -1,0 +1,29 @@
+---
+- name: keyring
+  ansible.builtin.get_url:
+    url: https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg
+    dest: /tmp/antigravity-repo-key.gpg
+    mode: "0644"
+  become: true
+  tags: admin
+
+- name: dearmor
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/antigravity-repo-key.gpg --yes /tmp/antigravity-repo-key.gpg
+    creates: /etc/apt/keyrings/antigravity-repo-key.gpg
+  become: true
+  tags: admin
+
+- name: repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main"
+    filename: antigravity
+    state: present
+  become: true
+  tags: admin
+
+- name: package
+  ansible.builtin.package:
+    name: antigravity
+  become: true
+  tags: admin

@@ -1,0 +1,45 @@
+---
+- name: dependencies
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+  become: true
+  when: ansible_facts['distribution'] == 'Debian'
+  tags: admin
+
+- name: directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  become: true
+  when: ansible_facts['distribution'] == 'Debian'
+  tags: admin
+
+- name: keyring
+  ansible.builtin.get_url:
+    url: https://dl.google.com/linux/linux_signing_key.pub
+    dest: /etc/apt/keyrings/google-chrome.asc
+    mode: "0644"
+  become: true
+  when: ansible_facts['distribution'] == 'Debian'
+  tags: admin
+
+- name: repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.asc] http://dl.google.com/linux/chrome/deb/ stable main"
+    filename: google-chrome
+  become: true
+  when: ansible_facts['distribution'] == 'Debian'
+  tags: admin
+
+- name: install
+  ansible.builtin.apt:
+    name: google-chrome-stable
+    update_cache: true
+  become: true
+  when: ansible_facts['distribution'] == 'Debian'
+  tags: admin

@@ -1,0 +1,11 @@
+---
+- name: package
+  ansible.builtin.package:
+    name: "fonts-firacode"
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: cache
+  command: fc-cache -fv
+  tags: user
