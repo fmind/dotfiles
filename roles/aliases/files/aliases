@@ -15,8 +15,7 @@ alias g="git"
 # h:gh
 alias h="gh"
 # i:gemini
-alias gemini="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini"
-alias i="gemini"
+alias i="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini"
 # j:just
 alias j="just"
 # k:kube
