@@ -1,0 +1,8 @@
+{
+    "telemetry": {
+        "enabled": true,
+        "target": "local",
+        "otlpEndpoint": "",
+        "outfile": ".gemini/telemetry.log"
+    }
+}

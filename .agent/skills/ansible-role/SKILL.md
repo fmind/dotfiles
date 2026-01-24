@@ -163,6 +163,7 @@ For tools requiring setup steps (example from `gemini` role):
 Use tags to categorize tasks by privilege requirements:
 
 ### `admin` Tag
+
 - For tasks requiring root/sudo privileges
 - Typically system package installations
 - Always used with `become: true`
@@ -176,6 +177,7 @@ Use tags to categorize tasks by privilege requirements:
 ```
 
 ### `user` Tag
+
 - For user-level installations and configurations
 - No root privileges required
 - Most configuration file operations
@@ -268,16 +270,19 @@ pre_tasks:
 ## Common Modules
 
 ### Package Management
+
 - `ansible.builtin.package` - Generic package manager (auto-detects apt/yum/brew)
 - `community.general.npm` - Node.js packages
 - `community.general.pipx` - Python isolated environments
 
 ### File Operations
+
 - `ansible.builtin.file` - Create directories, symlinks
 - `ansible.builtin.copy` - Copy files
 - `ansible.builtin.template` - Template files (with variables)
 
 ### Execution
+
 - `ansible.builtin.shell` - Run shell commands
 - `ansible.builtin.command` - Run commands (safer, no shell expansion)
 
@@ -312,12 +317,14 @@ just apply
 Creating a role for a new CLI tool called `newtool`:
 
 **1. Create directory structure:**
+
 ```bash
 mkdir -p roles/newtool/tasks
 mkdir -p roles/newtool/files
 ```
 
 **2. Create `roles/newtool/tasks/main.yml`:**
+
 ```yaml
 ---
 - name: package
@@ -337,12 +344,14 @@ mkdir -p roles/newtool/files
 ```
 
 **3. Add config file `roles/newtool/files/newtool.conf`:**
+
 ```
 # Newtool configuration
 setting = value
 ```
 
 **4. Add to `site.yml`:**
+
 ```yaml
 roles:
   # ... other roles in alphabetical order ...
@@ -351,6 +360,7 @@ roles:
 ```
 
 **5. Test:**
+
 ```bash
 just check
 ansible-playbook -i inventory.ini site.yml --tags newtool
@@ -365,15 +375,3 @@ ansible-playbook -i inventory.ini site.yml --tags newtool
 5. **Register and check results** - For shell commands, register output and handle failures
 6. **Keep it simple** - One role = one tool/package
 7. **Follow existing patterns** - Look at similar roles for guidance
-
-## Quick Reference
-
-| Task                   | Module                    | Common Options                     | Requires `become` |
-| ---------------------- | ------------------------- | ---------------------------------- | ----------------- |
-| Install system package | `ansible.builtin.package` | `name`, `state`                    | Yes               |
-| Install npm package    | `community.general.npm`   | `name`, `global`, `state`          | No                |
-| Install pipx package   | `community.general.pipx`  | `name`                             | No                |
-| Copy file              | `ansible.builtin.copy`    | `src`, `dest`, `force`             | Usually no        |
-| Create symlink         | `ansible.builtin.file`    | `src`, `dest`, `state: link`       | Usually no        |
-| Create directory       | `ansible.builtin.file`    | `path`, `state: directory`, `mode` | Usually no        |
-| Run command            | `ansible.builtin.shell`   | Command string, `register`         | Depends           |
