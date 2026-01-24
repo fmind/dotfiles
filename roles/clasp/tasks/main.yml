@@ -1,0 +1,7 @@
+---
+- name: package
+  community.general.npm:
+    name: "@google/clasp"
+    state: latest
+    global: true
+  tags: user

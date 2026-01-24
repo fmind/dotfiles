@@ -34,6 +34,12 @@ install:
     pipx install ansible --include-deps
     pipx inject ansible pipx
 
+# Link agent skills to AI tools
+skills:
+    mkdir -p .gemini/ .github/
+    ln -sf ../.agent/skills/ .gemini/skills
+    ln -sf ../.agent/skills/ .github/skills
+
 # Change the default shell after apply
 shell:
     chsh -s {{shell_path}}

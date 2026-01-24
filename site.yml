@@ -33,6 +33,7 @@
     # - { role: clang, tags: ["clang"] }
     # - { role: cloc, tags: ["cloc"] }
     # - { role: clojure, tags: ["clojure"] }
+    - { role: clasp, tags: ["clasp"] }
     # - { role: cookiecutter, tags: ["cookiecutter"] }
     # - { role: ctags, tags: ["ctags"] }
     - { role: curl, tags: ["curl"] }
