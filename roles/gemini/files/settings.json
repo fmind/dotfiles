@@ -13,7 +13,8 @@
     }
   },
   "experimental": {
-    "enableAgents": true
+    "enableAgents": true,
+    "skills": true
   },
   "general": {
     "checkpointing": {
