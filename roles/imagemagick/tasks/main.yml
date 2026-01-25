@@ -1,0 +1,7 @@
+---
+
+- name: package
+  ansible.builtin.package:
+    name: imagemagick
+  become: true
+  tags: admin

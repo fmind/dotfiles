@@ -66,6 +66,7 @@
     # - { role: httpstat, tags: ["httpstat"] }
     # - { role: hylang, tags: ["hylang"] }
     # - { role: ipython, tags: ["ipython"] }
+    - { role: imagemagick, tags: ["imagemagick"] }
     - { role: input, tags: ["input"] }
     # - { role: invoke, tags: ["invoke"] }
     # - { role: iredis, tags: ["iredis"] }
