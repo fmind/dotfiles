@@ -16,6 +16,10 @@ Ansible-based dotfiles repo that automates installation and configuration of dev
 - **Config files**: Symlinked from `roles/<name>/files/` to `~/` via `state: link, force: true`.
 - **Naming**: Role name = tool name (lowercase, hyphenated). Tasks named by purpose: `package`, `config`, `directory`.
 
+## Other Conventions
+
+- **Conventional Commit**: Use Conventional Commits for commit messages.
+
 ## Running
 
 ```bash

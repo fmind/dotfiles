@@ -1,0 +1,6 @@
+---
+- name: package
+  ansible.builtin.package:
+    name: gimp
+  become: true
+  tags: admin

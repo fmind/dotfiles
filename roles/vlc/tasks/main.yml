@@ -1,0 +1,6 @@
+---
+- name: package
+  ansible.builtin.package:
+    name: vlc
+  become: true
+  tags: admin

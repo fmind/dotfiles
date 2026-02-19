@@ -22,14 +22,14 @@
     - { role: aliases, tags: ["aliases"] }
     # - { role: angular, tags: ["angular"] }
     # - { role: ansible, tags: ["ansible"] }
-    # - { role: antigravity, tags: ["antigravity"] }
+    - { role: antigravity, tags: ["antigravity", "desktop", "never"] }
     # - { role: asciinema, tags: ["asciinema"] }
     # - { role: azure, tags: ["azure"] }
     # - { role: aws-shell, tags: ["aws-shell"] }
     # - { role: bat, tags: ["bat"] }
     # - { role: byobu, tags: ["byobu"] }
     # - { role: chardet, tags: ["chardet"] }
-    # - { role: chrome, tags: ["chrome"] }
+    - { role: chrome, tags: ["chrome", "desktop", "never"] }
     # - { role: clang, tags: ["clang"] }
     # - { role: cloc, tags: ["cloc"] }
     # - { role: clojure, tags: ["clojure"] }
@@ -51,6 +51,7 @@
     # - { role: fzf, tags: ["fzf"] }
     - { role: gcloud, tags: ["gcloud"] }
     - { role: gemini, tags: ["gemini"] }
+    - { role: gimp, tags: ["gimp", "desktop", "never"] }
     - { role: git, tags: ["git"] }
     - { role: github, tags: ["github"] }
     # - { role: glances, tags: ["glances"] }
@@ -127,6 +128,7 @@
     - { role: uv, tags: ["uv"] }
     - { role: vim, tags: ["vim"] }
     # - { role: visidata, tags: ["visidata"] }
+    - { role: vlc, tags: ["vlc", "desktop", "never"] }
     # - { role: w3m, tags: ["w3m"] }
     # - { role: watchdog, tags: ["watchdog"] }
     # - { role: wharfee, tags: ["wharfee"] }
@@ -138,4 +140,4 @@
     - { role: zsh, tags: ["zsh"] }
   environment:
     LANG: en_US.UTF-8
-    PATH: "{{ ansible_facts['env']['HOME'] }}/.local/bin/:{{ ansible_facts['env']['HOME'] }}/.tfenv/bin/:{{ ansible_facts['env']['PATH'] }}"
+    PATH: "{{ lookup('env', 'HOME') }}/.local/bin/:{{ lookup('env', 'HOME') }}/.tfenv/bin/:{{ lookup('env', 'PATH') }}"
