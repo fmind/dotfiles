@@ -23,21 +23,6 @@
     depth: 1
   tags: user
 
-# - name: prompt
-#   ansible.builtin.git:
-#     repo: https://github.com/denysdovhan/spaceship-prompt
-#     dest: ~/.zsh.d/themes/spaceship-prompt
-#     depth: 1
-#   tags: user
-
-# - name: theme
-#   ansible.builtin.file:
-#     src: ~/.zsh.d/themes/spaceship-prompt/spaceship.zsh-theme
-#     dest: ~/.zsh.d/themes/spaceship.zsh-theme
-#     state: link
-#     force: true
-#   tags: user
-
 - name: plugins
   ansible.builtin.git:
     repo: "https://github.com/{{ item }}.git"

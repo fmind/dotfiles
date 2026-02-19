@@ -1,7 +1,4 @@
 {
-  "advanced": {
-    "autoConfigureMemory": true
-  },
   "context": {
     "fileName": [
       "AGENTS.md",
@@ -14,17 +11,21 @@
   },
   "experimental": {
     "enableAgents": true,
-    "skills": true
+    "extensionReloading": true,
+    "jitContext": true,
+    "plan": true
   },
   "general": {
     "checkpointing": {
       "enabled": true
     },
-    "vimMode": false,
-    "previewFeatures": true,
-    "preferredEditor": "antigravity",
+    "defaultApprovalMode": "auto_edit",
+    "enableNotifications": true,
     "enablePromptCompletion": true,
+    "preferredEditor": "antigravity",
+    "previewFeatures": true,
     "retryFetchErrors": true,
+    "vimMode": false,
     "sessionRetention": {
       "enabled": true,
       "maxAge": "30d",
@@ -35,7 +36,11 @@
     "enabled": true,
     "hasSeenNudge": true
   },
+  "privacy": {
+    "usageStatisticsEnabled": false
+  },
   "security": {
+    "disableYoloMode": true,
     "enablePermanentToolApproval": true,
     "auth": {
       "selectedType": "oauth-personal"
@@ -45,6 +50,7 @@
     }
   },
   "tools": {
+    "sandbox": "docker",
     "shell": {
       "showColor": true
     },
@@ -58,7 +64,6 @@
     "showLineNumbers": true,
     "theme": "Google Code",
     "accessibility": {
-      "disableLoadingPhrases": true,
       "enableLoadingPhrases": false
     },
     "footer": {

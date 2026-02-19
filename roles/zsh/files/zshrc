@@ -13,7 +13,6 @@ plugins=(
     npm
     pip
     python
-    ripgrep
     sudo
     vi-mode
     vscode
@@ -33,6 +32,8 @@ source $ZSH/oh-my-zsh.sh
 if [ -f ~/.aliases ]; then
     source ~/.aliases
 fi
+# STARSHIP
+command -v starship &>/dev/null && eval "$(starship init zsh)"
 # COMPLETIONS
 command -v just &>/dev/null && eval "$(just --completions zsh)"
 command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"

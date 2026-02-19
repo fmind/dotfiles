@@ -10,7 +10,7 @@
     editor = vim
 
 [pull]
-    rebase = false
+    rebase = true
 
 [init]
     defaultBranch = main
