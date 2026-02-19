@@ -24,14 +24,14 @@
   become: true
   tags: admin
 
-- name: package
+- name: package (linux)
   ansible.builtin.package:
     name: google-cloud-sdk
   when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
-- name: package
+- name: package (macos)
   ansible.builtin.homebrew_cask:
     name: gcloud-cli
   when: ansible_facts['distribution'] == 'MacOSX'

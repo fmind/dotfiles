@@ -4,3 +4,4 @@
   args:
     creates: /usr/local/bin/d2
   become: true
+  tags: admin

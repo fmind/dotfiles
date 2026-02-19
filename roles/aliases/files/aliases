@@ -15,7 +15,7 @@ alias g="git"
 # h:gh
 alias h="gh"
 # i:gemini
-alias i="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini"
+alias i="gemini"
 # j:just
 alias j="just"
 # k:kube
@@ -31,9 +31,9 @@ alias o="htop"
 # p:python
 alias p="python"
 # q:gemini (prompt)
-alias q="GOOGLE_CLOUD_PROJECT=fmind-dev-402611 gemini --prompt"
+alias q="gemini --prompt"
 # r:ripgrep
-alias r="ripgrep"
+alias r="rg"
 # s:ssh
 alias s="ssh"
 # t:terraform

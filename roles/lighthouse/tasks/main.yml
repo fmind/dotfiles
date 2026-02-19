@@ -1,0 +1,7 @@
+---
+- name: package
+  community.general.npm:
+    name: lighthouse
+    state: latest
+    global: true
+  tags: user

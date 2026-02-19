@@ -1,13 +1,13 @@
 ---
 - name: package
   ansible.builtin.package:
-    name: "{{ 'fonts-firacode' if ansible_distribution != 'MacOSX' else 'font-fira-code' }}"
+    name: "{{ 'fonts-firacode' if ansible_facts['distribution'] != 'MacOSX' else 'font-fira-code' }}"
   when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: cache
-  command: fc-cache -fv
+  ansible.builtin.command: fc-cache -fv
   when: ansible_facts['distribution'] != 'MacOSX'
   ignore_errors: true
   tags: user

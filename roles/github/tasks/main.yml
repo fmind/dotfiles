@@ -11,7 +11,7 @@
 - name: repository
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/github-cli.gpg] https://cli.github.com/packages stable main"
-    filename: docker
+    filename: github-cli
   when: ansible_facts['os_family'] == 'Debian'
   become: true
   tags: admin

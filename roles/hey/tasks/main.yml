@@ -1,0 +1,6 @@
+---
+- name: package
+  ansible.builtin.package:
+    name: hey
+  become: true
+  tags: admin

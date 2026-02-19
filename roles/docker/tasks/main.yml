@@ -38,7 +38,7 @@
 
 - name: repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/{{ ansible_facts['distribution']|lower }} {{ ansible_facts['distribution_release'] }} stable"
+    repo: "deb [arch={{ 'amd64' if ansible_facts['architecture'] == 'x86_64' else 'arm64' }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/{{ ansible_facts['distribution']|lower }} {{ ansible_facts['distribution_release'] }} stable"
     filename: docker
   when: ansible_facts['distribution'] != 'MacOSX'
   become: true
@@ -72,7 +72,7 @@
 
 - name: account
   ansible.builtin.user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ ansible_facts['user_id'] }}"
     groups: docker
     append: yes
   when: ansible_facts['distribution'] != 'MacOSX'

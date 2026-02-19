@@ -1,5 +1,5 @@
 ---
-- name: package
+- name: clone
   ansible.builtin.git:
     repo: https://github.com/tfutils/tfenv.git
     dest: ~/.tfenv
@@ -7,13 +7,13 @@
   when: ansible_facts['distribution'] != 'MacOSX'
   tags: user
 
-- name: package
+- name: package (macos)
   ansible.builtin.homebrew:
     name: tfenv
   when: ansible_facts['distribution'] == 'MacOSX'
   tags: admin
 
-- name: package
+- name: install latest
   ansible.builtin.command: tfenv install latest
   register: tfenv_install
   changed_when: "'already installed' not in tfenv_install.stdout"

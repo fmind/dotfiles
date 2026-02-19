@@ -3,7 +3,6 @@ bindkey -v
 # PLUGINS
 plugins=(
     alias-tips
-    aws
     ansible
     colored-man-pages
     command-not-found
@@ -14,9 +13,8 @@ plugins=(
     npm
     pip
     python
+    ripgrep
     sudo
-    terraform
-    starship
     vi-mode
     vscode
     zoxide
@@ -25,13 +23,16 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
 )
-# ALIASES
-if [ -f ~/.aliases ]; then
-    source ~/.aliases
-fi
 # PRIVATE
 if [ -f ~/.private ]; then
     source ~/.private
 fi
 # SOURCES
 source $ZSH/oh-my-zsh.sh
+# ALIASES
+if [ -f ~/.aliases ]; then
+    source ~/.aliases
+fi
+# COMPLETIONS
+command -v just &>/dev/null && eval "$(just --completions zsh)"
+command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"

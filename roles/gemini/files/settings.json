@@ -58,7 +58,8 @@
     "showLineNumbers": true,
     "theme": "Google Code",
     "accessibility": {
-      "disableLoadingPhrases": true
+      "disableLoadingPhrases": true,
+      "enableLoadingPhrases": false
     },
     "footer": {
       "hideContextPercentage": false

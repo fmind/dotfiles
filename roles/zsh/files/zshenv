@@ -1,11 +1,8 @@
-# CONFIGS
-EDITOR="vim"
-LANG="en_US.UTF-8"
-PATH="$PWD/.venv/bin:$HOME/.local/bin:$HOME/.tfenv/bin/:$HOME/.antigravity/antigravity/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
-# OPTIONS
-ZSH_THEME="starship"
-ZSH_CUSTOM=$HOME/.zsh.d
-# EXPORTS
+export EDITOR="vim"
 export KEYTIMEOUT=1
-export ZSH=$HOME/.oh-my-zsh
+export LANG="en_US.UTF-8"
+export PATH="$PWD/.venv/bin:$HOME/.local/bin:$HOME/.tfenv/bin/:$HOME/.antigravity/antigravity/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export ZSH=$HOME/.oh-my-zsh
+export ZSH_CUSTOM=$HOME/.zsh.d
+export ZSH_THEME="starship"

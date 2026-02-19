@@ -20,7 +20,7 @@
   ansible.builtin.package:
     name: nodejs
   become: true
-  tags: system
+  tags: admin
 
 - name: config
   ansible.builtin.file:

@@ -7,13 +7,13 @@
     user = fmind
 
 [core]
-    editor = code
+    editor = vim
 
 [pull]
-	rebase = false
+    rebase = false
 
 [init]
-	defaultBranch = main
+    defaultBranch = main
 
 [push]
     autoSetupRemote = True

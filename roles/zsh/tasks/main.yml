@@ -10,7 +10,7 @@
     state: directory
     path: "{{ item }}"
     mode: 0750
-  with_items:
+  loop:
     - ~/.zsh.d/
     - ~/.zsh.d/themes
     - ~/.zsh.d/plugins
@@ -63,14 +63,6 @@
   ansible.builtin.file:
     src: "{{ role_path }}/files/zshrc"
     dest: ~/.zshrc
-    state: link
-    force: true
-  tags: user
-
-- name: profile
-  ansible.builtin.file:
-    src: "{{ role_path }}/files/zprofile"
-    dest: ~/.zprofile
     state: link
     force: true
   tags: user

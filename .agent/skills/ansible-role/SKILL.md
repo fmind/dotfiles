@@ -7,15 +7,6 @@ description: Guide for creating Ansible roles in the dotfiles repository
 
 This skill documents how to create Ansible roles for the dotfiles repository, following established patterns and conventions.
 
-## Repository Overview
-
-The dotfiles repository uses Ansible to automate the installation and configuration of developer tools and environments. It contains:
-- **`site.yml`** - Main playbook that orchestrates all roles
-- **`roles/`** - Individual role directories for each tool/package
-- **`inventory.ini`** - Local host inventory
-- **`ansible.cfg`** - Ansible configuration
-- **`justfile`** - Task runner for common operations
-
 ## Role Directory Structure
 
 Every role follows this standard structure:
@@ -29,6 +20,7 @@ roles/<role-name>/
 ```
 
 **Key Points:**
+
 - Role name should match the tool/package name (lowercase, hyphenated if needed)
 - `tasks/main.yml` is the entry point and is required
 - `files/` directory is optional, used for configuration files
@@ -195,11 +187,13 @@ Use tags to categorize tasks by privilege requirements:
 Use `become: true` for operations requiring elevated privileges:
 
 **When to use:**
+
 - Installing system packages via `apt`, `yum`, `package`, etc.
 - Modifying system directories
 - Installing packages to system-wide locations
 
 **When NOT to use:**
+
 - User-level package installations (npm, pip with `--user`, pipx, etc.)
 - Creating files in user's home directory
 - Linking configuration files to `~/`
@@ -247,13 +241,13 @@ roles:
   # ... other roles ...
 ```
 
-3. **Comment out initially** (optional) for testing:
+1. **Comment out initially** (optional) for testing:
 
 ```yaml
 # - { role: your-role-name, tags: ["your-role-name"] }
 ```
 
-4. **Uncomment to enable** when ready to use
+1. **Uncomment to enable** when ready to use
 
 ### Pre-tasks Example
 

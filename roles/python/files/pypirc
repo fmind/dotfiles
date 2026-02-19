@@ -1,6 +1,2 @@
-[distutils]
-index-servers =
-    pypi
-
 [pypi]
 username = fmind

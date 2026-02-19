@@ -5,8 +5,9 @@
   tags: user
 
 - name: config
-  git:
+  ansible.builtin.git:
     repo: https://github.com/fmind/ipython.d
     dest: ~/.ipython
     depth: 1
+    update: false
   tags: user
