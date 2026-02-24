@@ -33,7 +33,7 @@
     # - https://github.com/gemini-cli-extensions/angular
     - https://github.com/gemini-cli-extensions/code-review
     - https://github.com/gemini-cli-extensions/conductor
-    - https://github.com/gemini-cli-extensions/datacommons
+    # - https://github.com/gemini-cli-extensions/datacommons
     - https://github.com/gemini-cli-extensions/devops
     # - https://github.com/gemini-cli-extensions/firebase
     # - https://github.com/gemini-cli-extensions/flutter
