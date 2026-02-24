@@ -1,13 +1,13 @@
 {
   "context": {
+    "fileFiltering": {
+      "respectGitIgnore": false
+    },
     "fileName": [
       "AGENTS.md",
       "GEMINI.md",
       "README.md"
-    ],
-    "fileFiltering": {
-      "respectGitIgnore": false
-    }
+    ]
   },
   "experimental": {
     "enableAgents": true,
@@ -19,15 +19,13 @@
     "checkpointing": {
       "enabled": true
     },
-    "defaultApprovalMode": "auto_edit",
     "enableNotifications": true,
     "enablePromptCompletion": true,
     "preferredEditor": "antigravity",
     "previewFeatures": true,
     "retryFetchErrors": true,
-    "vimMode": false,
     "sessionRetention": {
-      "enabled": true,
+      "enabled": false,
       "maxAge": "30d",
       "maxCount": 50
     }
@@ -37,40 +35,33 @@
     "hasSeenNudge": true
   },
   "privacy": {
-    "usageStatisticsEnabled": false
+    "usageStatisticsEnabled": true
   },
   "security": {
-    "disableYoloMode": true,
-    "enablePermanentToolApproval": true,
     "auth": {
       "selectedType": "oauth-personal"
     },
-    "folderTrust": {
-      "enabled": true
-    }
+    "enablePermanentToolApproval": true
   },
   "tools": {
-    "sandbox": "docker",
+    "enableMessageBusIntegration": true,
     "shell": {
       "showColor": true
-    },
-    "enableMessageBusIntegration": true
+    }
   },
   "ui": {
-    "hideTips": true,
-    "hideBanner": true,
-    "showCitations": false,
-    "showMemoryUsage": true,
-    "showLineNumbers": true,
-    "theme": "Google Code",
     "accessibility": {
       "enableLoadingPhrases": false
     },
     "footer": {
-      "hideContextPercentage": false
+      "hideContextPercentage": false,
+      "hideSandboxStatus": true
     },
-    "showStatusInTitle": true,
-    "useAlternateBuffer": true,
-    "showModelInfoInChat": true
+    "hideBanner": true,
+    "hideTips": true,
+    "showHomeDirectoryWarning": false,
+    "showModelInfoInChat": true,
+    "theme": "Google Code",
+    "useAlternateBuffer": true
   }
 }
