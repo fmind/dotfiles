@@ -1,6 +1,14 @@
 ---
+- name: script
+  ansible.builtin.get_url:
+    url: https://d2lang.com/install.sh
+    dest: /tmp/d2lang-install.sh
+    mode: "0755"
+  tags: admin
+
 - name: install
-  ansible.builtin.shell: curl -fsSL https://d2lang.com/install.sh | sh -s --
+  ansible.builtin.command:
+    cmd: /tmp/d2lang-install.sh
   args:
     creates: /usr/local/bin/d2
   become: true

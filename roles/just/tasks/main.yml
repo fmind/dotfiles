@@ -3,3 +3,17 @@
   community.general.pipx:
     name: rust-just
   tags: user
+
+- name: lsp-download
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/terror/just-lsp/releases/latest
+    return_content: yes
+  register: just_lsp_release
+  tags: user
+
+- name: lsp-install
+  ansible.builtin.unarchive:
+    src: "https://github.com/terror/just-lsp/releases/download/{{ just_lsp_release.json.tag_name }}/just-lsp-{{ just_lsp_release.json.tag_name }}-{{ (ansible_facts['architecture'] + '-unknown-linux-musl') if ansible_facts['distribution'] != 'MacOSX' else 'aarch64-apple-darwin' }}.tar.gz"
+    dest: ~/.local/bin
+    remote_src: yes
+  tags: user

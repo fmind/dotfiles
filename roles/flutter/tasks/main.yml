@@ -2,20 +2,26 @@
 - name: package
   ansible.builtin.package:
     name:
+      - clang
+      - cmake
       - curl
       - git
+      - libglu1-mesa
+      - libgtk-3-dev
+      - mesa-utils
+      - ninja-build
+      - pkg-config
       - unzip
       - xz-utils
       - zip
-      - libglu1-mesa
     state: present
-  when: ansible_system == 'Linux'
+  when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: directory
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/flutter"
+    path: "{{ lookup('env', 'HOME') }}/flutter"
     state: directory
     mode: "0755"
   tags: user
@@ -23,7 +29,13 @@
 - name: install
   ansible.builtin.git:
     repo: https://github.com/flutter/flutter.git
-    dest: "{{ ansible_env.HOME }}/flutter"
+    dest: "{{ lookup('env', 'HOME') }}/flutter"
     version: stable
     depth: 1
+  tags: user
+
+- name: precache
+  ansible.builtin.command:
+    cmd: "{{ lookup('env', 'HOME') }}/flutter/bin/flutter precache"
+  changed_when: false
   tags: user

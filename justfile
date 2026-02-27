@@ -1,7 +1,7 @@
 # https://just.systems/man/en/
 
-image := "fmind/shell:latest"
 sudo := "false"
+image := "fmind/shell:latest"
 shell_path := if os() == "macos" { "/bin/zsh" } else { "/usr/bin/zsh" }
 apply_become := if os() == "macos" { "--become-user " + env_var("USER") } else if sudo == "true" { "--ask-become" } else { "" }
 

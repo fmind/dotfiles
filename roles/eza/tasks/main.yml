@@ -1,0 +1,6 @@
+---
+- name: package
+  ansible.builtin.package:
+    name: eza
+  become: true
+  tags: admin

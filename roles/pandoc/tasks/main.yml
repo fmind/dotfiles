@@ -10,6 +10,6 @@
     name:
       - pandoc-citeproc
       - pandoc-plantuml-filter
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_distribution | default('Unknown') != 'MacOSX'
   become: true
   tags: admin

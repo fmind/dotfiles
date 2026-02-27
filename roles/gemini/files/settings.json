@@ -25,9 +25,10 @@
     "previewFeatures": true,
     "retryFetchErrors": true,
     "sessionRetention": {
-      "enabled": false,
+      "enabled": true,
       "maxAge": "30d",
-      "maxCount": 50
+      "maxCount": 50,
+      "warningAcknowledged": true
     }
   },
   "ide": {

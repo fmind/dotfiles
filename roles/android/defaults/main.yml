@@ -1,0 +1,7 @@
+---
+android_home: "{{ lookup('env', 'HOME') }}/android"
+android_cmdline_tools: "{{ android_home }}/cmdline-tools"
+android_cmdline_latest: "{{ android_cmdline_tools }}/latest"
+android_os: "{{ 'mac' if ansible_facts['distribution'] == 'MacOSX' else 'linux' }}"
+android_cmdline_version: "14742923"
+android_cmdline_url: "https://dl.google.com/android/repository/commandlinetools-{{ android_os }}-{{ android_cmdline_version }}_latest.zip"

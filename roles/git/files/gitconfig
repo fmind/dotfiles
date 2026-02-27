@@ -8,6 +8,7 @@
 
 [core]
     editor = vim
+    excludesFile = ~/.gitignore
 
 [pull]
     rebase = true

@@ -1,0 +1,5 @@
+---
+- name: package
+  community.general.pipx:
+    name: pre-commit
+  tags: user

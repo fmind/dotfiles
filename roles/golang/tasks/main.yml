@@ -28,8 +28,8 @@
   ansible.builtin.command:
     cmd: "go install golang.org/dl/{{ latest_go }}@latest"
   environment:
-    GOPATH: "{{ ansible_env.HOME }}/go"
-  changed_when:
+    GOPATH: "{{ lookup('env', 'HOME') }}/go"
+  changed_when: false
   tags: user
 
 - name: download
@@ -40,7 +40,7 @@
 
 - name: alias
   ansible.builtin.file:
-    src: "{{ ansible_env.HOME }}/go/bin/{{ latest_go }}"
-    dest: "{{ ansible_env.HOME }}/go/bin/go"
+    src: "{{ lookup('env', 'HOME') }}/go/bin/{{ latest_go }}"
+    dest: "{{ lookup('env', 'HOME') }}/go/bin/go"
     state: link
   tags: user

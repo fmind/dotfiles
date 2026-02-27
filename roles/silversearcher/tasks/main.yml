@@ -1,7 +1,7 @@
 ---
 - name: package
   ansible.builtin.package:
-    name: "{{ 'silversearcher-ag' if ansible_distribution != 'MacOSX' else 'the_silver_searcher' }}"
+    name: "{{ 'silversearcher-ag' if ansible_distribution | default('Unknown') != 'MacOSX' else 'the_silver_searcher' }}"
   become: true
   tags: admin
 

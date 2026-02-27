@@ -15,7 +15,7 @@ alias g="git"
 # h:gh
 alias h="gh"
 # i:gemini
-alias i="BUILD_SANDBOX=1 gemini"
+alias i="gemini"
 # j:just
 alias j="just"
 # k:kube
@@ -29,11 +29,11 @@ alias n="npm"
 # o:htop
 alias o="htop"
 # p:python
-alias p="python"
+alias p="ptpython"
 # q:gemini (prompt)
 alias q="gemini --prompt"
-# r:ripgrep
-alias r="rg"
+# r:flutter
+alias r="flutter"
 # s:ssh
 alias s="ssh"
 # t:terraform
@@ -44,8 +44,8 @@ alias u="uv"
 alias v="code"
 # w:curl (web)
 alias w="curl"
-# x:jules
-alias x="jules"
+# x:firebase
+alias x="firebase"
 # y:yq
 alias y="yq"
 # z:zoxide (auto)

@@ -7,13 +7,14 @@
 	"settings": {
 		"editor.formatOnSave": true,
 		"[yaml]": {
-			"editor.defaultFormatter": "redhat.vscode-yaml",
-		},
+			"editor.defaultFormatter": "redhat.vscode-yaml"
+		}
 	},
 	"extensions": {
 		"recommendations": [
+			"wholroyd.jinja",
 			"redhat.vscode-yaml",
-			"nefrob.vscode-just-syntax",
+			"nefrob.vscode-just-syntax"
 		]
 	}
 }

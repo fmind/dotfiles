@@ -17,3 +17,10 @@
     dest: ~/.gitconfig
     force: false
   tags: user
+
+- name: ignore
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/.gitignore"
+    dest: ~/.gitignore
+    force: false
+  tags: user

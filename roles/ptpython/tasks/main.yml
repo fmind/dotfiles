@@ -4,14 +4,6 @@
     name: ptpython
   tags: user
 
-- name: prompt
-  community.general.pipx:
-    name: ptpython
-    inject_packages:
-      - ipython
-    state: inject
-  tags: user
-
 - name: directory
   ansible.builtin.file:
     path: ~/.config/ptpython

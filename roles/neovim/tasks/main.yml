@@ -8,7 +8,7 @@
 - name: python
   ansible.builtin.package:
     name: python3-neovim
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_distribution | default('Unknown') != 'MacOSX'
   become: true
   tags: admin
 
@@ -16,7 +16,7 @@
   alternatives:
     name: "{{ item }}"
     path: /usr/bin/nvim
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_distribution | default('Unknown') != 'MacOSX'
   with_items:
     - vi
     - vim

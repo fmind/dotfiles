@@ -1,0 +1,46 @@
+---
+- name: java
+  ansible.builtin.package:
+    name:
+      - openjdk-17-jdk
+    state: present
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ android_home }}"
+    - "{{ android_cmdline_tools }}"
+  tags: user
+
+- name: download
+  ansible.builtin.unarchive:
+    src: "{{ android_cmdline_url }}"
+    dest: "{{ android_cmdline_tools }}"
+    remote_src: true
+    creates: "{{ android_cmdline_tools }}/cmdline-tools"
+  tags: user
+
+- name: cmdline
+  ansible.builtin.command:
+    cmd: mv {{ android_cmdline_tools }}/cmdline-tools {{ android_cmdline_latest }}
+    creates: "{{ android_cmdline_latest }}"
+  tags: user
+
+- name: licenses
+  ansible.builtin.shell:
+    cmd: yes | {{ android_cmdline_latest }}/bin/sdkmanager --licenses
+  args:
+    creates: "{{ android_home }}/licenses"
+  tags: user
+
+- name: platform
+  ansible.builtin.command:
+    cmd: "{{ android_cmdline_latest }}/bin/sdkmanager 'platform-tools' 'platforms;android-36' 'build-tools;36.1.0'"
+  changed_when: false
+  tags: user

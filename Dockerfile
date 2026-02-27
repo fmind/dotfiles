@@ -2,10 +2,12 @@ FROM python:3.13-slim-bookworm
 
 ARG USER=fmind
 
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 ENV PATH="/home/${USER}/.local/bin:$PATH"
 
-RUN apt update && apt install -y sudo git curl zsh make unzip
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    sudo git curl zsh make unzip \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -s /usr/bin/zsh ${USER} \
     && echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER} \

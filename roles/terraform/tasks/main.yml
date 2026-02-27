@@ -4,7 +4,7 @@
     url: "https://apt.releases.hashicorp.com/gpg"
     dest: "/usr/share/keyrings/hashicorp-archive-keyring.gpg"
     mode: "0644"
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_distribution | default('Unknown') != 'MacOSX'
   become: true
   tags: admin
 
@@ -12,18 +12,18 @@
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com bookworm main"
     filename: hashicorp
-  when: ansible_distribution != 'MacOSX'
+  when: ansible_distribution | default('Unknown') != 'MacOSX'
   become: true
   tags: admin
 
 - name: tap
   community.general.homebrew_tap:
     name: hashicorp/tap
-  when: ansible_distribution == 'MacOSX'
+  when: ansible_distribution | default('Unknown') == 'MacOSX'
 
 - name: package
   ansible.builtin.package:
-    name: "{{ 'terraform' if ansible_distribution != 'MacOSX' else 'hashicorp/tap/terraform' }}"
-  when: ansible_distribution != 'MacOSX'
+    name: "{{ 'terraform' if ansible_distribution | default('Unknown') != 'MacOSX' else 'hashicorp/tap/terraform' }}"
+  when: ansible_distribution | default('Unknown') != 'MacOSX'
   become: true
   tags: admin
