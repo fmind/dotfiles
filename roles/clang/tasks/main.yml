@@ -1,7 +1,7 @@
 ---
 - name: language
   ansible.builtin.package:
-    name: "{{ 'build-essential' if ansible_distribution | default('Unknown') != 'MacOSX' else 'make' }}"
+    name: "{{ 'build-essential' if ansible_facts['distribution'] != 'MacOSX' else 'make' }}"
   become: true
   tags: admin
 

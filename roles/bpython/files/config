@@ -1,0 +1,4 @@
+[general]
+editor = vim
+flush_output = True
+syntax = True

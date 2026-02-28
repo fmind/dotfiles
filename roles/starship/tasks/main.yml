@@ -3,12 +3,6 @@
   ansible.builtin.unarchive:
     src: https://github.com/starship/starship/releases/latest/download/starship-{{ (ansible_facts['architecture'] + '-unknown-linux-musl') if ansible_facts['distribution'] != 'MacOSX' else 'aarch64-apple-darwin' }}.tar.gz
     dest: ~/.local/bin
-    remote_src: yes
-  tags: user
-
-- name: directory
-  ansible.builtin.file:
-    name: ~/.config/
-    state: directory
-    mode: "0750"
+    remote_src: true
+    creates: ~/.local/bin/starship
   tags: user

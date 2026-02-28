@@ -9,5 +9,5 @@
 - name: cache
   ansible.builtin.command: fc-cache -fv
   when: ansible_facts['distribution'] != 'MacOSX'
-  ignore_errors: true
+  changed_when: false
   tags: user

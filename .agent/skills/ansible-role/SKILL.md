@@ -11,7 +11,7 @@ This skill documents how to create Ansible roles for the dotfiles repository, fo
 
 Every role follows this standard structure:
 
-```
+```text
 roles/<role-name>/
   ├── tasks/
   │   └── main.yml       # Main task definitions (required)
@@ -83,7 +83,9 @@ For system packages requiring config files (example from `git` role):
 
 #### Pattern 3: Cross-Platform Package Installation
 
-For packages that differ between Linux and macOS (example from `python` role):
+For packages that differ between Linux and macOS (example from `python` role).
+
+> **Convention**: Use `ansible_facts['distribution'] != 'MacOSX'` (not `ansible_system == 'Linux'`) as the cross-platform guard. This is intentional — `ansible_system` returns `'Darwin'` on macOS but the roles in this repo are tested against the `distribution` fact, which is more granular and consistent with how Homebrew is identified.
 
 ```yaml
 ---
@@ -141,7 +143,12 @@ For tools requiring setup steps (example from `gemini` role):
   ansible.builtin.shell: |
     gemini extensions install --consent --auto-update {{ item }}
   loop:
-    - https://github.com/example/extension
+    - https://github.com/ChromeDevTools/chrome-devtools-mcp
+    - https://github.com/google/clasp
+    - https://github.com/GoogleCloudPlatform/cloud-run-mcp
+    - https://github.com/gemini-cli-extensions/gcloud
+    - https://github.com/gemini-cli-extensions/vertex
+    - https://github.com/github/github-mcp-server
   register: install_result
   changed_when: "'Successfully installed' in install_result.stdout"
   failed_when:
@@ -269,7 +276,7 @@ pre_tasks:
 - `community.general.npm` - Node.js packages
 - `community.general.pipx` - Python isolated environments
 
-### File Operations
+### File Modules
 
 - `ansible.builtin.file` - Create directories, symlinks
 - `ansible.builtin.copy` - Copy files
@@ -339,7 +346,7 @@ mkdir -p roles/newtool/files
 
 **3. Add config file `roles/newtool/files/newtool.conf`:**
 
-```
+```ini
 # Newtool configuration
 setting = value
 ```

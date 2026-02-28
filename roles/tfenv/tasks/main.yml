@@ -11,7 +11,7 @@
   ansible.builtin.homebrew:
     name: tfenv
   when: ansible_facts['distribution'] == 'MacOSX'
-  tags: admin
+  tags: user
 
 - name: install latest
   ansible.builtin.command: tfenv install latest

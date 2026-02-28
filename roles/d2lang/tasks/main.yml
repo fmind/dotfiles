@@ -4,7 +4,8 @@
     url: https://d2lang.com/install.sh
     dest: /tmp/d2lang-install.sh
     mode: "0755"
-  tags: admin
+    force: false
+  tags: user
 
 - name: install
   ansible.builtin.command:

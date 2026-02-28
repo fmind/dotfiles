@@ -11,7 +11,7 @@
 
 - name: repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/github-cli.gpg] https://cli.github.com/packages stable main"
+    repo: "deb [arch={{ 'amd64' if ansible_facts['architecture'] == 'x86_64' else 'arm64' }} signed-by=/etc/apt/keyrings/github-cli.gpg] https://cli.github.com/packages stable main"
     filename: github-cli
   when: ansible_facts['os_family'] == 'Debian'
   become: true

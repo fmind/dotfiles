@@ -1,0 +1,20 @@
+---
+- name: package
+  community.general.pipx:
+    name: bpython
+  tags: user
+
+- name: directory
+  ansible.builtin.file:
+    path: ~/.config/bpython
+    state: directory
+    mode: "0750"
+  tags: user
+
+- name: config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/config"
+    dest: ~/.config/bpython/config
+    state: link
+    force: true
+  tags: user

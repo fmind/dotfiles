@@ -28,4 +28,4 @@
   ansible.builtin.homebrew_cask:
     name: gcloud-cli
   when: ansible_facts['distribution'] == 'MacOSX'
-  tags: admin
+  tags: user

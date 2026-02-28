@@ -1,15 +1,15 @@
 # a:ansible-playbook
 alias a="ansible-playbook"
-# b:bat
-alias b="batcat"
+# b:bpython
+alias b="bpython"
 # c:gcloud
 alias c="gcloud"
 # d:docker
 alias d="docker"
 # e:echo
 alias e="echo"
-# f:fdfind
-alias f="fdfind"
+# f:find
+alias f="find"
 # g:git
 alias g="git"
 # h:gh
@@ -29,11 +29,11 @@ alias n="npm"
 # o:htop
 alias o="htop"
 # p:python
-alias p="ptpython"
+alias p="python"
 # q:gemini (prompt)
 alias q="gemini --prompt"
-# r:ripgrep
-alias r="rg"
+# r:grep
+alias r="grep"
 # s:ssh
 alias s="ssh"
 # t:terraform

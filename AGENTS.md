@@ -1,10 +1,11 @@
 # Agent Guidelines
 
-## Repository Overview
+## Repository
 
 Ansible-based dotfiles repo that automates installation and configuration of developer tools on Linux/macOS.
 
-- **`site.yml`** — Main playbook. Roles are listed alphabetically; commented-out roles are inactive. `nodejs` and `pipx` are loaded in `pre_tasks` as a dependency for other roles.
+- **`site.yml`** — Main playbook. Roles are listed alphabetically; commented-out roles are inactive
+  - `nodejs` and `pipx` are loaded in `pre_tasks` as a dependency for other roles.
 - **`roles/`** — One directory per tool. Each has `tasks/main.yml` and an optional `files/` dir for configs.
 - **`justfile`** — Task runner: `just apply`, `just check`, `just install`, `just shell`, `just docker`.
 - **`inventory.ini`** / **`ansible.cfg`** — Local-only inventory and config (auto python interpreter, no deprecation warnings).
@@ -32,5 +33,5 @@ ansible-playbook -i inventory.ini site.yml --tags <role>  # Run a single role
 ## Adding a Role
 
 1. Create `roles/<name>/tasks/main.yml` (and optional `files/`)
-2. Add `- { role: <name>, tags: ["<name>"] }` to `site.yml` in alphabetical order
-3. See `.agent/skills/ansible-role/SKILL.md` for detailed patterns and examples
+2. See `.agent/skills/ansible-role/SKILL.md` for detailed patterns and examples
+3. Add `- { role: <name>, tags: ["<name>"] }` to `site.yml` in alphabetical order

@@ -1,22 +1,27 @@
 # https://just.systems/man/en/
 
+# %% CONFIGS
+
 sudo := "false"
 image := "fmind/shell:latest"
 shell_path := if os() == "macos" { "/bin/zsh" } else { "/usr/bin/zsh" }
 apply_become := if os() == "macos" { "--become-user " + env("USER") } else if sudo == "true" { "--ask-become" } else { "" }
 
-# Run default task
-default: apply
+# %% TASKS
 
-# Apply configuration
+# List tasks
+default:
+    @just --list
+
+# Apply all roles
 apply:
     ansible-playbook {{ apply_become }} -i inventory.ini site.yml
 
-# Check configuration
+# Check all roles
 check:
     ansible-playbook -i inventory.ini site.yml --syntax-check
 
-# Build and run docker image
+# Build and run docker
 docker:
     docker build -t {{ image }} .
     docker run --rm -it {{ image }}

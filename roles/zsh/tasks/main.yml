@@ -18,7 +18,7 @@
 
 - name: manager
   ansible.builtin.git:
-    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: ~/.oh-my-zsh
     depth: 1
   tags: user
