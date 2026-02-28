@@ -1,15 +1,15 @@
 # a:ansible-playbook
 alias a="ansible-playbook"
-# b:cat
-alias b="cat"
+# b:bat
+alias b="batcat"
 # c:gcloud
 alias c="gcloud"
 # d:docker
 alias d="docker"
-# e:grep
-alias e="grep"
-# f:find
-alias f="find"
+# e:echo
+alias e="echo"
+# f:fdfind
+alias f="fdfind"
 # g:git
 alias g="git"
 # h:gh
@@ -32,8 +32,8 @@ alias o="htop"
 alias p="ptpython"
 # q:gemini (prompt)
 alias q="gemini --prompt"
-# r:flutter
-alias r="flutter"
+# r:ripgrep
+alias r="rg"
 # s:ssh
 alias s="ssh"
 # t:terraform
@@ -44,8 +44,8 @@ alias u="uv"
 alias v="code"
 # w:curl (web)
 alias w="curl"
-# x:firebase
-alias x="firebase"
+# x:xdg-open
+alias x="xdg-open"
 # y:yq
 alias y="yq"
 # z:zoxide (auto)

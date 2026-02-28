@@ -9,7 +9,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ item }}"
-    mode: 0750
+    mode: "0750"
   loop:
     - ~/.zsh.d/
     - ~/.zsh.d/themes
@@ -28,7 +28,7 @@
     repo: "https://github.com/{{ item }}.git"
     dest: "~/.zsh.d/plugins/{{ item | basename}}"
     depth: 1
-  with_items:
+  loop:
     - djui/alias-tips
     - hlissner/zsh-autopair
     - zsh-users/zsh-completions

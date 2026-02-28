@@ -60,6 +60,7 @@
     },
     "hideBanner": true,
     "hideTips": true,
+    "loadingPhrases": "off",
     "showHomeDirectoryWarning": false,
     "showModelInfoInChat": true,
     "theme": "Google Code",

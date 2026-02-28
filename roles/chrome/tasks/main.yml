@@ -1,6 +1,6 @@
 ---
 - name: dependencies
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name:
       - apt-transport-https
       - ca-certificates
@@ -37,9 +37,8 @@
   tags: admin
 
 - name: install
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: google-chrome-stable
-    update_cache: true
   become: true
   when: ansible_facts['distribution'] == 'Debian'
   tags: admin

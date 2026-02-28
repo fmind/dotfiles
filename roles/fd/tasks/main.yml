@@ -1,6 +1,6 @@
 ---
 - name: package
   ansible.builtin.package:
-    name: "{{ 'fd-find' if ansible_distribution | default('Unknown') != 'MacOSX' else 'fd' }}"
+    name: "{{ 'fd-find' if ansible_facts['distribution'] != 'MacOSX' else 'fd' }}"
   become: true
   tags: admin

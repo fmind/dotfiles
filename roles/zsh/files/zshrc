@@ -6,14 +6,22 @@ plugins=(
     ansible
     colored-man-pages
     command-not-found
+    copyfile
+    copypath
     docker
+    docker-compose
+    extract
+    fzf
     gcloud
     gh
     git
+    gitignore
+    history-substring-search
     npm
     pip
     python
     sudo
+    uv
     vi-mode
     vscode
     zoxide

@@ -22,23 +22,16 @@
 - name: keyring
   ansible.builtin.get_url:
     url: "https://download.docker.com/linux/{{ ansible_facts['distribution']|lower }}/gpg"
-    dest: /tmp/docker.key
+    dest: /etc/apt/keyrings/docker.asc
     mode: "0644"
-  when: ansible_facts['distribution'] != 'MacOSX'
-  become: true
-  tags: admin
-
-- name: dearmor
-  ansible.builtin.command:
-    cmd: gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes /tmp/docker.key
-    creates: /etc/apt/keyrings/docker.gpg
+    force: true
   when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin
 
 - name: repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch={{ 'amd64' if ansible_facts['architecture'] == 'x86_64' else 'arm64' }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/{{ ansible_facts['distribution']|lower }} {{ ansible_facts['distribution_release'] }} stable"
+    repo: "deb [arch={{ 'amd64' if ansible_facts['architecture'] == 'x86_64' else 'arm64' }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_facts['distribution']|lower }} {{ ansible_facts['distribution_release'] }} stable"
     filename: docker
   when: ansible_facts['distribution'] != 'MacOSX'
   become: true
@@ -74,7 +67,7 @@
   ansible.builtin.user:
     name: "{{ ansible_facts['user_id'] }}"
     groups: docker
-    append: yes
+    append: true
   when: ansible_facts['distribution'] != 'MacOSX'
   become: true
   tags: admin

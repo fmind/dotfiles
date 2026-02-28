@@ -12,7 +12,6 @@
 	},
 	"extensions": {
 		"recommendations": [
-			"wholroyd.jinja",
 			"redhat.vscode-yaml",
 			"nefrob.vscode-just-syntax"
 		]

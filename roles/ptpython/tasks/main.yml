@@ -8,7 +8,7 @@
   ansible.builtin.file:
     path: ~/.config/ptpython
     state: directory
-    mode: 0750
+    mode: "0750"
   tags: user
 
 - name: config

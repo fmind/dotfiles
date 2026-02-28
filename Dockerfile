@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV PATH="/home/${USER}/.local/bin:$PATH"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo git curl zsh make unzip \
+    sudo git curl zsh unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -s /usr/bin/zsh ${USER} \
