@@ -60,6 +60,7 @@
     - { role: fzf, tags: ["fzf"] }
     - { role: gcloud, tags: ["gcloud"] }
     - { role: gemini, tags: ["gemini"] }
+    - { role: gettext, tags: ["gettext"] }
     - { role: gimp, tags: ["gimp", "desktop", "never"] }
     - { role: git, tags: ["git"] }
     - { role: github, tags: ["github"] }
