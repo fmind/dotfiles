@@ -67,6 +67,7 @@
     # - { role: glances, tags: ["glances"] }
     # - { role: glom, tags: ["glom"] }
     # - { role: golang, tags: ["golang"] }
+    - { role: gws, tags: ["gws"] }
     # - { role: gpustat, tags: ["gpustat"] }
     # - { role: graphviz, tags: ["graphviz"] }
     # - { role: groovy, tags: ["groovy"] }

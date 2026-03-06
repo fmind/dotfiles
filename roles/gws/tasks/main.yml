@@ -1,0 +1,7 @@
+---
+- name: package
+  community.general.npm:
+    name: "@googleworkspace/cli"
+    state: latest
+    global: true
+  tags: user

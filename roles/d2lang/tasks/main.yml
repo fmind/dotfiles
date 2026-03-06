@@ -3,8 +3,9 @@
   ansible.builtin.get_url:
     url: https://d2lang.com/install.sh
     dest: /tmp/d2lang-install.sh
-    mode: "0755"
+    validate_certs: false
     force: false
+    mode: "0755"
   tags: user
 
 - name: install
