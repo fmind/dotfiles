@@ -106,11 +106,12 @@
     # - { role: pandoc, tags: ["pandoc"] }
     - { role: parallel, tags: ["parallel"] }
     # - { role: percol, tags: ["percol"] }
-    - { role: pgcli, tags: ["pgcli"] }
+    # - { role: pgcli, tags: ["pgcli"] }
     # - { role: pigz, tags: ["pigz"] }
     # - { role: plantuml, tags: ["plantuml"] }
     # - { role: poetry, tags: ["poetry"] }
     - { role: pre-commit, tags: ["pre-commit"] }
+    - { role: psql, tags: ["psql"] }
     # - { role: ptpython, tags: ["ptpython"] }
     # - { role: ptrepl, tags: ["ptrepl"] }
     # - { role: pyenv, tags: ["pyenv"] }

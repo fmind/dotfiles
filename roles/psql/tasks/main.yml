@@ -1,0 +1,6 @@
+---
+- name: package
+  ansible.builtin.package:
+    name: "{{ 'postgresql-client' if ansible_facts['distribution'] != 'MacOSX' else 'postgresql' }}"
+  become: true
+  tags: admin
