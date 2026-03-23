@@ -1,0 +1,26 @@
+---
+- name: keyring
+  ansible.builtin.get_url:
+    url: "https://packages.microsoft.com/keys/microsoft.asc"
+    dest: /etc/apt/keyrings/microsoft.asc
+    mode: "0644"
+    force: true
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
+    filename: vscode
+    state: present
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
+
+- name: package
+  ansible.builtin.package:
+    name: code
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin

@@ -142,6 +142,7 @@
     - { role: vim, tags: ["vim"] }
     # - { role: visidata, tags: ["visidata"] }
     - { role: vlc, tags: ["vlc", "desktop", "never"] }
+    - { role: vscode, tags: ["vscode", "desktop", "never"] }
     # - { role: w3m, tags: ["w3m"] }
     # - { role: watchdog, tags: ["watchdog"] }
     # - { role: wharfee, tags: ["wharfee"] }
