@@ -11,56 +11,46 @@
   },
   "experimental": {
     "enableAgents": true,
-    "extensionReloading": true,
-    "jitContext": true,
-    "plan": true
+    "memoryManager": true,
+    "modelSteering": true,
+    "taskTracker": true,
+    "topicUpdateNarration": true,
+    "worktrees": true
   },
   "general": {
     "checkpointing": {
       "enabled": true
     },
-    "enableNotifications": true,
-    "enablePromptCompletion": true,
-    "preferredEditor": "antigravity",
-    "previewFeatures": true,
-    "retryFetchErrors": true,
-    "sessionRetention": {
-      "enabled": true,
-      "maxAge": "30d",
-      "maxCount": 50,
-      "warningAcknowledged": true
-    }
+    "defaultApprovalMode": "auto_edit",
+    "preferredEditor": "antigravity"
   },
   "ide": {
-    "enabled": true,
-    "hasSeenNudge": true
+    "enabled": true
   },
-  "privacy": {
-    "usageStatisticsEnabled": true
+  "model": {
+    "name": "auto-gemini-3"
   },
   "security": {
     "auth": {
       "selectedType": "oauth-personal"
     },
-    "enablePermanentToolApproval": true
-  },
-  "tools": {
-    "enableMessageBusIntegration": true,
-    "shell": {
-      "showColor": true
+    "autoAddToPolicyByDefault": true,
+    "enablePermanentToolApproval": true,
+    "environmentVariableRedaction": {
+      "enabled": true
     }
   },
   "ui": {
-    "accessibility": {
-      "enableLoadingPhrases": false
-    },
+    "escapePastedAtSymbols": true,
     "footer": {
       "hideContextPercentage": false,
       "hideSandboxStatus": true
     },
     "hideBanner": true,
     "hideTips": true,
+    "hideWindowTitle": true,
     "loadingPhrases": "off",
+    "showCitations": true,
     "showHomeDirectoryWarning": false,
     "showModelInfoInChat": true,
     "theme": "Google Code",
