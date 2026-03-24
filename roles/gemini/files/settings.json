@@ -22,7 +22,8 @@
       "enabled": true
     },
     "defaultApprovalMode": "auto_edit",
-    "preferredEditor": "antigravity"
+    "preferredEditor": "antigravity",
+    "enableNotifications": true
   },
   "ide": {
     "enabled": true
@@ -50,10 +51,15 @@
     "hideTips": true,
     "hideWindowTitle": true,
     "loadingPhrases": "off",
-    "showCitations": true,
+    "showCitations": false,
     "showHomeDirectoryWarning": false,
     "showModelInfoInChat": true,
     "theme": "Google Code",
     "useAlternateBuffer": true
+  },
+  "tools": {
+    "shell": {
+      "showColor": true
+    }
   }
 }
