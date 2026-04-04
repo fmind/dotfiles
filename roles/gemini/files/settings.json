@@ -1,59 +1,63 @@
 {
-  "context": {
-    "fileFiltering": {
-      "respectGitIgnore": false
+  "agents": {
+    "overrides": {
+      "browser_agent": {
+        "enabled": true
+      }
     },
-    "fileName": [
-      "AGENTS.md",
-      "GEMINI.md",
-      "README.md"
-    ]
+    "browser": {
+      "sessionMode": "persistent",
+      "visualModel": "gemini-2.5-computer-use-preview-10-2025"
+    }
+  },
+  "general": {
+    "respectGitIgnore": true,
+    "defaultApprovalMode": "auto_edit",
+    "enableNotifications": true,
+    "preferredEditor": "antigravity",
+    "vimMode": true,
+    "checkpointing": {
+      "enabled": true
+    },
+    "plan": {
+      "enabled": true,
+      "modelRouting": true
+    }
   },
   "experimental": {
     "enableAgents": true,
     "memoryManager": true,
     "modelSteering": true,
     "taskTracker": true,
-    "topicUpdateNarration": true,
     "worktrees": true
   },
-  "general": {
-    "checkpointing": {
-      "enabled": true
-    },
-    "defaultApprovalMode": "auto_edit",
-    "preferredEditor": "antigravity"
-  },
-  "ide": {
-    "enabled": true
-  },
-  "model": {
-    "name": "auto-gemini-3"
+  "modelConfigs": {
+    "defaultModel": "auto-gemini-3"
   },
   "security": {
-    "auth": {
-      "selectedType": "oauth-personal"
-    },
+    "authType": "oauth-personal",
     "autoAddToPolicyByDefault": true,
     "enablePermanentToolApproval": true,
-    "environmentVariableRedaction": {
-      "enabled": true
+    "environmentVariableRedaction": {},
+    "auth": {
+      "selectedType": "oauth-personal"
     }
   },
   "ui": {
+    "theme": "Google Code",
     "escapePastedAtSymbols": true,
-    "footer": {
-      "hideContextPercentage": false,
-      "hideSandboxStatus": true
-    },
+    "hideContextPercentage": false,
+    "hideSandboxStatus": true,
     "hideBanner": true,
     "hideTips": true,
     "hideWindowTitle": true,
     "loadingPhrases": "off",
     "showCitations": true,
-    "showHomeDirectoryWarning": false,
     "showModelInfoInChat": true,
-    "theme": "Google Code",
-    "useAlternateBuffer": true
+    "useAlternateBuffer": false
+  },
+  "ide": {
+    "hasSeenNudge": true,
+    "enabled": true
   }
 }

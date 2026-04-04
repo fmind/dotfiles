@@ -29,3 +29,10 @@
     name: gcloud-cli
   when: ansible_facts['distribution'] == 'MacOSX'
   tags: user
+
+- name: proxy
+  ansible.builtin.package:
+    name: google-cloud-cli-cloud-run-proxy
+  when: ansible_facts['distribution'] != 'MacOSX'
+  become: true
+  tags: admin
