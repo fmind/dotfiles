@@ -3,7 +3,7 @@ name: terraform
 description: Infrastructure-as-Code agent using Terraform
 kind: local
 tools:
-  - mcp_terraform_*
+  - "*"
 mcp_servers:
   terraform:
     command: npx

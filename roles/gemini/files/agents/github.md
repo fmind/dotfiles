@@ -3,13 +3,12 @@ name: github
 description: Version control agent for GitHub repository management
 kind: local
 tools:
-  - mcp_github_*
+  - "*"
 mcp_servers:
   github:
-    command: npx
-    args:
-      - "-y"
-      - "github:github/github-mcp-server"
+    httpUrl: "https://api.githubcopilot.com/mcp/"
+    headers:
+      Authorization: "Bearer $GITHUB_PERSONAL_ACCESS_TOKEN"
 ---
 # Github Agent
 

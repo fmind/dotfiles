@@ -1,63 +1,60 @@
 {
   "agents": {
+    "browser": {
+      "visualModel": "gemini-2.5-computer-use-preview-10-2025"
+    },
     "overrides": {
       "browser_agent": {
         "enabled": true
       }
-    },
-    "browser": {
-      "sessionMode": "persistent",
-      "visualModel": "gemini-2.5-computer-use-preview-10-2025"
     }
   },
   "general": {
-    "respectGitIgnore": true,
-    "defaultApprovalMode": "auto_edit",
-    "enableNotifications": true,
-    "preferredEditor": "antigravity",
-    "vimMode": true,
     "checkpointing": {
       "enabled": true
     },
+    "defaultApprovalMode": "auto_edit",
+    "enableNotifications": true,
     "plan": {
-      "enabled": true,
+      "directory": ".agent/plans",
       "modelRouting": true
-    }
+    },
+    "preferredEditor": "antigravity",
+    "sessionRetention": {
+      "enabled": true,
+      "maxAge": "90d",
+      "minRetention": "7d"
+    },
+    "vimMode": true
   },
-  "experimental": {
-    "enableAgents": true,
-    "memoryManager": true,
-    "modelSteering": true,
-    "taskTracker": true,
-    "worktrees": true
+  "ide": {
+    "enabled": true,
+    "hasSeenNudge": true
   },
   "modelConfigs": {
     "defaultModel": "auto-gemini-3"
   },
   "security": {
-    "authType": "oauth-personal",
     "autoAddToPolicyByDefault": true,
     "enablePermanentToolApproval": true,
-    "environmentVariableRedaction": {},
     "auth": {
       "selectedType": "oauth-personal"
     }
   },
+  "tools": {
+    "shell": {
+      "showColor": true
+    }
+  },
   "ui": {
-    "theme": "Google Code",
+    "errorVerbosity": "full",
     "escapePastedAtSymbols": true,
-    "hideContextPercentage": false,
-    "hideSandboxStatus": true,
     "hideBanner": true,
     "hideTips": true,
-    "hideWindowTitle": true,
+    "inlineThinkingMode": "full",
     "loadingPhrases": "off",
-    "showCitations": true,
     "showModelInfoInChat": true,
-    "useAlternateBuffer": false
-  },
-  "ide": {
-    "hasSeenNudge": true,
-    "enabled": true
+    "theme": "Google Code",
+    "useAlternateBuffer": true
   }
 }

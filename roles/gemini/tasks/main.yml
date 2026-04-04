@@ -40,3 +40,16 @@
     - commands
     - skills
   tags: user
+
+- name: extensions
+  ansible.builtin.shell: |
+    gemini extensions install --consent --auto-update {{ item }}
+  loop:
+    - https://github.com/googleworkspace/cli
+    - https://github.com/gemini-cli-extensions/conductor
+  register: install_result
+  changed_when: "'Successfully installed' in install_result.stdout"
+  failed_when:
+    - install_result.rc != 0
+    - "'is already installed' not in install_result.stderr"
+  tags: user
