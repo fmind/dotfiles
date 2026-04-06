@@ -1,0 +1,8 @@
+description = "Write a conventional commit message for staged files in git repository."
+
+prompt = """
+Write a conventional commit message for the following staged changes:
+!{git diff --cached}
+
+Return only the message, no quotes, no markdown blocks.
+"""

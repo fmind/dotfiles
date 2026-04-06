@@ -1,0 +1,77 @@
+{
+  "advanced": {
+    "excludedEnvVars": [
+      "GOOGLE_CLOUD_PROJECT"
+    ]
+  },
+  "agents": {
+    "browser": {
+      "visualModel": "gemini-2.5-computer-use-preview-10-2025"
+    },
+    "overrides": {
+      "browser_agent": {
+        "enabled": true
+      }
+    }
+  },
+  "context": {
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md"
+    ]
+  },
+  "experimental": {
+    "contextManagement": true,
+    "memoryManager": true,
+    "modelSteering": true,
+    "taskTracker": true,
+    "worktrees": true
+  },
+  "general": {
+    "checkpointing": {
+      "enabled": true
+    },
+    "defaultApprovalMode": "auto_edit",
+    "enableNotifications": true,
+    "plan": {
+      "directory": ".gemini/plans",
+      "modelRouting": true
+    },
+    "preferredEditor": "vim",
+    "sessionRetention": {
+      "enabled": true,
+      "maxAge": "90d",
+      "minRetention": "7d"
+    },
+    "vimMode": true
+  },
+  "ide": {
+    "enabled": true,
+    "hasSeenNudge": true
+  },
+  "modelConfigs": {
+    "defaultModel": "auto-gemini-3"
+  },
+  "security": {
+    "autoAddToPolicyByDefault": true,
+    "enablePermanentToolApproval": true,
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "tools": {
+    "shell": {
+      "showColor": true
+    }
+  },
+  "ui": {
+    "errorVerbosity": "full",
+    "escapePastedAtSymbols": true,
+    "hideBanner": true,
+    "hideTips": true,
+    "loadingPhrases": "off",
+    "showModelInfoInChat": true,
+    "theme": "Google Code",
+    "useAlternateBuffer": true
+  }
+}

@@ -1,0 +1,43 @@
+{{- $interactive := stdinIsATTY -}}
+
+{{- $git_name := "Médéric Hurier (Fmind)" -}}
+{{- if hasKey . "git_name" -}}
+{{-   $git_name = .git_name -}}
+{{- else if $interactive -}}
+{{-   $git_name = promptString "What is your Git name" $git_name -}}
+{{- end -}}
+
+{{- $git_email := "github@fmind.dev" -}}
+{{- if hasKey . "git_email" -}}
+{{-   $git_email = .git_email -}}
+{{- else if $interactive -}}
+{{-   $git_email = promptString "What is your Git email address" $git_email -}}
+{{- end -}}
+
+{{- $github_user := "fmind" -}}
+{{- if hasKey . "github_user" -}}
+{{-   $github_user = .github_user -}}
+{{- else if $interactive -}}
+{{-   $github_user = promptString "What is your GitHub username" $github_user -}}
+{{- end -}}
+
+[cd]
+    command = "fish"
+
+[data]
+    git_name = {{ $git_name | quote }}
+    git_email = {{ $git_email | quote }}
+    github_user = {{ $github_user | quote }}
+    linux_packages = ["build-essential", "curl", "fish", "git", "imagemagick"]
+    mac_packages = ["curl", "docker", "fish", "git", "imagemagick"]
+
+[edit]
+    command = "nvim"
+    apply = true
+
+[diff]
+    pager = "delta"
+
+[git]
+    autoCommit = true
+    autoPush = true

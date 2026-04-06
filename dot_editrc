@@ -1,0 +1,11 @@
+# Vi mode
+bind -v
+
+# Up/Down arrows
+bind "\e[A" ed-search-prev-history
+bind "\e[B" ed-search-next-history
+
+# Common shortcuts
+bind "^L" ed-clear-screen
+bind "^R" em-inc-search-prev
+bind "^W" ed-delete-prev-word

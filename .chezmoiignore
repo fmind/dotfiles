@@ -1,0 +1,4 @@
+*.md
+Dockerfile
+install.sh
+mise.toml

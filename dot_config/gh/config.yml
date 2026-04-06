@@ -1,0 +1,7 @@
+version: 1
+editor: nvim
+prompt: enabled
+git_protocol: https
+aliases:
+    pv: pr view --web
+    rv: repo view --web

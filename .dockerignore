@@ -1,0 +1,7 @@
+.git/
+.github/
+.gitignore
+.pre-commit-config.yaml
+AGENTS.md
+Dockerfile
+README.md

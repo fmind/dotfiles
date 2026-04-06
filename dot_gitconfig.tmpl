@@ -1,0 +1,80 @@
+[alias]
+    a = add
+    b = branch
+    c = commit
+    d = diff
+    f = fetch
+    l = log --oneline --graph --all
+    m = merge
+    p = push
+    r = rebase
+    s = status
+    w = switch
+
+[branch]
+    sort = -committerdate
+
+[column]
+    ui = auto
+
+[commit]
+    verbose = true
+
+[core]
+    editor = nvim
+    excludesfile = ~/.gitignore
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = true
+    syntax-theme = Catppuccin Latte
+
+[diff]
+    algorithm = histogram
+    colorMoved = default
+    colorMovedWS = allow-indentation-change
+
+[fetch]
+    all = true
+    prune = true
+    pruneTags = true
+
+[github]
+    user = {{ .github_user }}
+
+[help]
+    autocorrect = prompt
+
+[init]
+    defaultBranch = main
+
+[merge]
+    conflictstyle = zdiff3
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+
+[rebase]
+    autoSquash = true
+    autoStash = true
+    missingCommitsCheck = warn
+    updateRefs = true
+
+[rerere]
+    autoupdate = true
+    enabled = true
+
+[tag]
+    sort = version:refname
+
+[user]
+    name = {{ .git_name }}
+    email = {{ .git_email }}

@@ -1,0 +1,40 @@
+[tools]
+chezmoi = "latest"
+
+[tasks.apply]
+description = "Apply dotfiles using Chezmoi"
+run = "chezmoi apply --source {{config_root}}"
+
+[tasks.check]
+description = "Verify Chezmoi state without applying"
+run = "chezmoi apply --source {{config_root}} --dry-run"
+
+[tasks.default]
+description = "Initialize and apply (runs init + apply)"
+run = """
+mise run init
+mise run apply
+"""
+
+[tasks.docker]
+description = "Build and run the development docker shell"
+run = """
+docker build -t fmind/dotfiles:latest .
+docker run --rm -it fmind/dotfiles:latest
+"""
+
+[tasks.hooks]
+description = "Install pre-commit hooks of the repository"
+run = "pre-commit install"
+
+[tasks.init]
+description = "Initialize Chezmoi config file from template"
+run = "chezmoi init --source {{config_root}}"
+
+[tasks.install]
+description = "Bootstrap Chezmoi and Mise dependencies manually"
+run = "curl https://mise.run | sh"
+
+[tasks.update]
+description = "Update dotfiles from remote repository and apply changes"
+run = "chezmoi update --source {{config_root}}"
