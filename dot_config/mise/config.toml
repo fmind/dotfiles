@@ -3,6 +3,7 @@ always_keep_download = false
 legacy_version_file = true
 
 [tools]
+"aqua:fish-shell/fish-shell" = "latest"     # Fish shell (C)
 "npm:@google/gemini-cli" = "latest"         # Gemini CLI (TypeScript)
 "npm:@googleworkspace/cli" = "latest"       # Workspace CLI (TypeScript)
 "npm:@johnnymorganz/stylua-bin" = "latest"  # Lua formatter (JavaScript package)
@@ -24,12 +25,12 @@ fd = "latest"                               # Fast find alternative (Rust)
 fzf = "latest"                              # Command-line fuzzy finder (Go)
 gcloud = "latest"                           # Google Cloud platform CLI (Python)
 gh = "latest"                               # Official GitHub CLI (Go)
-go = "latest"                               # Go language runtime (Go)
-hugo = "latest"                             # Static site generator (Go)
+imagemagick = "latest"                      # Image processing tool (C)
 jq = "latest"                               # Command-line JSON processor (C)
 k9s = "latest"                              # Terminal UI for Kubernetes (Go)
 lazydocker = "latest"                       # Terminal UI for Docker (Go)
 lazygit = "latest"                          # Terminal UI for Git (Go)
+make = "latest"                             # Build automation tool (C)
 neovim = "latest"                           # Modern Vim-based editor (C)
 node = "latest"                             # JavaScript runtime (C++)
 pre-commit = "latest"                       # Git hooks manager (Python)

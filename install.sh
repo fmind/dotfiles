@@ -47,7 +47,7 @@ fi
 # Cloud Shell specific config
 if [ "$CLOUD_SHELL" = true ]; then
     echo '#!/bin/bash' > "$HOME/.customize_environment"
-    echo 'sudo apt-get update -qq && sudo apt-get install -yq curl git ca-certificates locales build-essential fish gettext' >> "$HOME/.customize_environment"
+    echo 'sudo apt-get update -qq && sudo apt-get install -yq fish' >> "$HOME/.customize_environment"
     chmod +x "$HOME/.customize_environment"
 fi
 

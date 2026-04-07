@@ -5,8 +5,8 @@ fish_add_path .venv/bin ~/.local/bin ~/.local/share/mise/shims ~/.tfenv/bin ~/.p
 set -g fish_greeting ''
 
 # PRIVATE ENV
-if test -e ~/.private
-    source ~/.private
+if test -e ~/.private.fish
+    source ~/.private.fish
 end
 
 # KEYBINDINGS (Hybrid vi mode)
