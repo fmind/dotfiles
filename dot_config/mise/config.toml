@@ -1,8 +1,16 @@
+[settings]
+always_keep_download = false
+legacy_version_file = true
+
 [tools]
 "npm:@google/gemini-cli" = "latest"         # Gemini CLI (TypeScript)
 "npm:@googleworkspace/cli" = "latest"       # Workspace CLI (TypeScript)
+"npm:@johnnymorganz/stylua-bin" = "latest"  # Lua formatter (JavaScript package)
 "npm:lighthouse" = "latest"                 # Web performance auditor (JavaScript)
+"npm:prettier" = "latest"                   # Markdown/YAML formatter (JavaScript)
 "pipx:ptpython" = "latest"                  # Advanced Python REPL (Python)
+"pipx:ruff" = "latest"                      # Fast Python linter/formatter (Python package)
+"pipx:yamllint" = "latest"                  # YAML linter (Python)
 bat = "latest"                              # Syntax-highlighting cat alternative (Rust)
 btop = "latest"                             # Visual system resource monitor (C++)
 chezmoi = "latest"                          # Dotfiles manager (Go)
@@ -22,6 +30,7 @@ jq = "latest"                               # Command-line JSON processor (C)
 k9s = "latest"                              # Terminal UI for Kubernetes (Go)
 lazydocker = "latest"                       # Terminal UI for Docker (Go)
 lazygit = "latest"                          # Terminal UI for Git (Go)
+neovim = "latest"                           # Modern Vim-based editor (C)
 node = "latest"                             # JavaScript runtime (C++)
 pre-commit = "latest"                       # Git hooks manager (Python)
 python = "latest"                           # Python programming language (C)

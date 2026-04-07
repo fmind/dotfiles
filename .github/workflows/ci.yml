@@ -17,4 +17,5 @@ jobs:
         with:
           file: ./Dockerfile
           push: false
+          load: true
           context: .

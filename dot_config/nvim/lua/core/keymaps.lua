@@ -43,7 +43,7 @@ map("n", "<leader>q", ":bdelete<CR>:bnext<CR>", { noremap = true, desc = "Delete
 
 -- Terminal splits
 map("n", "<leader>'", ":vsplit<CR>:terminal<CR>", { noremap = true, desc = "Terminal (vsplit)" })
-map("n", '<leader>"', ":vsplit<CR>:terminal ipython<CR>", { noremap = true, desc = "IPython (vsplit)" })
+map("n", '<leader>"', ":vsplit<CR>:terminal ptpython<CR>", { noremap = true, desc = "Python REPL (vsplit)" })
 
 -- Window management
 map("n", "<A-o>", ":on<CR>", { noremap = true, desc = "Only Window" })

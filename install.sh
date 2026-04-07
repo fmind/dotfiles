@@ -34,6 +34,11 @@ else
     chezmoi init --apply --promptDefaults fmind
 fi
 
+# Trust the repository
+if command -v mise >/dev/null 2>&1 && [ -f "$HOME/dotfiles/mise.toml" ]; then
+    mise trust --yes "$HOME/dotfiles/mise.toml"
+fi
+
 # Install tools with mise
 if command -v mise >/dev/null 2>&1; then
     mise install -y
