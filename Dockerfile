@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.7
 FROM debian:bookworm-slim
 ENV HOME=/home/fmind \
     LANG=C.UTF-8 \

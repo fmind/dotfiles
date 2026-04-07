@@ -1,6 +1,6 @@
 {
   "banner": "never",
-  "editor": "vim",
+  "editor": "nvim",
   "experimental": true,
   "theme": "auto"
 }

@@ -2,15 +2,13 @@
 
 ## Core Principles
 
-- **AI-Driven**: Add tools and configurations that are optimized for AI agents.
+- **AI-Driven**: Add tools and configurations that maximize safe agent autonomy.
 - **High Performance**: Favor modern, high-performance solutions over legacy ones.
 - **Lean Toolchain**: Avoid overlapping tools and unnecessary feature bloat.
 - **Maintained**: Use only actively supported tools with clear documentation.
 - **Portability**: Support Linux, macOS (Apple Silicon), and Cloud Shell in all configs.
-- **No Nerd Icons**: Do not rely on Nerd Font icons to ensure terminal compatibility.
 - **Sane Defaults**: Configure tools to work out-of-the-box with minimal config.
-- **Catppuccin Latte**: Use "Catppuccin Latte" as the default theme everywhere.
-- **Security First**: Enforce strict security best practices across the toolchain.
+- **Catppuccin Mocha**: Use "catppuccin-mocha" as the default theme everywhere.
 - **Vim-Centric**: Prefer tools with native and intuitive Vim-style keybindings.
 
 ## AI Collaboration

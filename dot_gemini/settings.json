@@ -37,7 +37,7 @@
       "directory": ".gemini/plans",
       "modelRouting": true
     },
-    "preferredEditor": "vim",
+    "preferredEditor": "nvim",
     "sessionRetention": {
       "enabled": true,
       "maxAge": "90d",

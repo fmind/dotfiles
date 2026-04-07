@@ -8,7 +8,7 @@ alias c="gcloud"
 alias d="docker"
 alias ld="lazydocker"
 # e:chezmoi
-alias e="chezmoi edit --apply"
+alias e="chezmoi --source '~/.dotfiles'"
 # f:fd
 alias f="fd"
 # g:git
@@ -49,8 +49,12 @@ alias u="uv"
 alias v="nvim"
 # w:xh (web)
 alias w="xh"
-# x:xdg-open
-alias x="xdg-open"
+# x:open
+if command -v xdg-open >/dev/null
+	alias x="xdg-open"
+else if command -v open >/dev/null
+	alias x="open"
+end
 # y:fzf
 alias y="fzf"
 # z:zoxide

@@ -1,13 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu
 
 {{ if eq .chezmoi.os "linux" -}}
-if [ -f /etc/debian_version ] && sudo -n true 2>/dev/null; then
-    echo "[Chezmoi] Installing Debian packages..."
-    sudo apt-get update -qq
-    sudo apt-get install -yq {{ range .linux_packages }} {{ . }}{{ end }}
-    if ! command -v docker >/dev/null 2>&1; then
-        echo "[Chezmoi] Installing official Docker-CE..."
-        curl -fsSL https://get.docker.com | sudo sh
+if [ -f /etc/debian_version ]; then
+    if [ "$(id -u)" -eq 0 ]; then
+        echo "[Chezmoi] Installing Debian packages..."
+        apt-get update -qq
+        apt-get install -yq {{ range .linux_packages }} {{ . }}{{ end }}
+    elif command -v sudo >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
+        echo "[Chezmoi] Installing Debian packages..."
+        sudo apt-get update -qq
+        sudo apt-get install -yq {{ range .linux_packages }} {{ . }}{{ end }}
+    else
+        echo "[Chezmoi] Skipping Debian packages: non-interactive sudo unavailable."
     fi
 fi
 {{ else if eq .chezmoi.os "darwin" -}}
@@ -16,10 +21,3 @@ if command -v brew >/dev/null 2>&1; then
     brew install -q {{ range .mac_packages }} {{ . }}{{ end }}
 fi
 {{ end -}}
-
-FISH_PATH=$(command -v fish || true)
-if [ -n "$FISH_PATH" ] && [ "$SHELL" != "$FISH_PATH" ]; then
-    echo "[Chezmoi] Changing default shell to fish..."
-    sudo -n chsh -s "$FISH_PATH" "$USER" 2>/dev/null || \
-        echo "Please run manually: chsh -s $FISH_PATH"
-fi

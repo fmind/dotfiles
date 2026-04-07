@@ -1,54 +1,76 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
 echo "Starting dotfiles installation..."
 
-# Configure PATH
 mkdir -p "$HOME/.local/bin"
 export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"
 
-# Install dependencies (macOS)
-if [ "$(uname -s)" = "Darwin" ]; then
+install_linux_deps() {
+    local sudo_cmd=""
+
+    if ! command -v apt-get >/dev/null 2>&1; then
+        return
+    fi
+
+    if [ "$(id -u)" -ne 0 ]; then
+        if ! command -v sudo >/dev/null 2>&1; then
+            echo "Skipping apt packages: sudo is not available."
+            return
+        fi
+        sudo_cmd="sudo"
+    fi
+
+    $sudo_cmd apt-get update -qq
+    $sudo_cmd apt-get install -yq git curl ca-certificates libatomic1
+}
+
+install_macos_deps() {
+    if [ "$(uname -s)" != "Darwin" ]; then
+        return
+    fi
+
     if ! command -v brew >/dev/null 2>&1; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
         [ -x /usr/local/bin/brew ] && eval "$(/usr/local/bin/brew shellenv)"
     fi
+
     brew install git curl
-fi
+}
 
-# Install dependencies (Debian/Ubuntu)
-if command -v apt-get >/dev/null 2>&1; then
-    SUDO=$([ "$(id -u)" -ne 0 ] && echo "sudo" || echo "")
-    $SUDO apt-get update -qq && $SUDO apt-get install -yq git curl ca-certificates
-fi
+bootstrap_core_tools() {
+    command -v chezmoi >/dev/null 2>&1 || curl -sS https://get.chezmoi.io | bash -s -- -b "$HOME/.local/bin"
+    command -v mise >/dev/null 2>&1 || curl -sS https://mise.run | bash
+}
 
-# Bootstrap core
-command -v chezmoi >/dev/null 2>&1 || curl -sS https://get.chezmoi.io | bash -s -- -b "$HOME/.local/bin"
-command -v mise >/dev/null 2>&1 || curl -sS https://mise.run | bash
+apply_dotfiles() {
+    if [ -d "$HOME/dotfiles" ]; then
+        chezmoi init --apply --promptDefaults --source "$HOME/dotfiles"
+    else
+        chezmoi init --apply --promptDefaults fmind
+    fi
+}
 
-# Initialize dotfiles
-if [ -d "$HOME/dotfiles" ]; then
-    chezmoi init --apply --promptDefaults --source "$HOME/dotfiles"
-else
-    chezmoi init --apply --promptDefaults fmind
-fi
+install_mise_tools() {
+    local source_dir
 
-# Trust the repository
-if command -v mise >/dev/null 2>&1 && [ -f "$HOME/dotfiles/mise.toml" ]; then
-    mise trust --yes "$HOME/dotfiles/mise.toml"
-fi
+    if ! command -v mise >/dev/null 2>&1; then
+        return
+    fi
 
-# Install tools with mise
-if command -v mise >/dev/null 2>&1; then
+    source_dir="$(chezmoi source-path)"
+    if [ -f "$source_dir/mise.toml" ]; then
+        mise trust --yes "$source_dir/mise.toml"
+    fi
+
     mise install -y
-fi
+}
 
-# Cloud Shell specific config
-if [ "$CLOUD_SHELL" = true ]; then
-    echo '#!/bin/bash' > "$HOME/.customize_environment"
-    echo 'sudo apt-get update -qq && sudo apt-get install -yq fish' >> "$HOME/.customize_environment"
-    chmod +x "$HOME/.customize_environment"
-fi
+install_linux_deps
+install_macos_deps
+bootstrap_core_tools
+apply_dotfiles
+install_mise_tools
 
-echo "Installation complete! Please restart your shell."
+echo "Installation complete. Start fish when you want the managed shell."

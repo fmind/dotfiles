@@ -19,6 +19,14 @@ end
 set -g fish_key_bindings fish_hybrid_key_bindings
 
 if status is-interactive
+    if command -v zellij >/dev/null; and not set -q ZELLIJ; and not set -q TMUX
+        if test "$TERM_PROGRAM" != "vscode"
+            zellij attach --create main
+            if test $status -eq 0
+                exit
+            end
+        end
+    end
     if command -v mise >/dev/null
         mise activate fish | source
     end
