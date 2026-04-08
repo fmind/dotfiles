@@ -1,3 +1,7 @@
+[settings]
+python_compile = 0
+python_github_attestations = false
+
 [tools]
 chezmoi = "latest"
 
@@ -19,8 +23,8 @@ mise run apply
 [tasks.docker]
 description = "Build and run the development docker shell"
 run = """
-docker build -t fmind/dotfiles:latest .
-docker run --rm -it fmind/dotfiles:latest
+docker build ${GITHUB_TOKEN:+--build-arg GITHUB_TOKEN=$GITHUB_TOKEN} -t fmind/dotfiles:latest .
+docker run -e GITHUB_TOKEN --rm -it fmind/dotfiles:latest
 """
 
 [tasks.hooks]

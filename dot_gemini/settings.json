@@ -71,7 +71,44 @@
     "hideTips": true,
     "loadingPhrases": "off",
     "showModelInfoInChat": true,
-    "theme": "Google Code",
+    "theme": "Catppuccin Mocha",
+    "customThemes": {
+      "Catppuccin Mocha": {
+        "name": "Catppuccin Mocha",
+        "type": "custom",
+        "background": {
+          "primary": "#1e1e2e",
+          "diff": {
+            "added": "#3b4b46",
+            "removed": "#5e3f53"
+          }
+        },
+        "text": {
+          "primary": "#cdd6f4",
+          "secondary": "#a6adc8",
+          "link": "#89b4fa",
+          "accent": "#cba6f7"
+        },
+        "border": {
+          "default": "#313244",
+          "focused": "#89b4fa"
+        },
+        "status": {
+          "success": "#a6e3a1",
+          "warning": "#f9e2af",
+          "error": "#f38ba8"
+        },
+        "ui": {
+          "comment": "#6c7086",
+          "symbol": "#94e2d5",
+          "gradient": [
+            "#cba6f7",
+            "#f38ba8",
+            "#fab387"
+          ]
+        }
+      }
+    },
     "useAlternateBuffer": true
   }
 }

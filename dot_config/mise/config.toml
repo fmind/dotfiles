@@ -1,6 +1,8 @@
 [settings]
 always_keep_download = false
 legacy_version_file = true
+python_compile = 0
+python_github_attestations = false
 
 [tools]
 "aqua:fish-shell/fish-shell" = "latest" # Fish shell (C)
@@ -10,8 +12,11 @@ legacy_version_file = true
 "npm:lighthouse" = "latest"             # Web performance auditor (JavaScript)
 "npm:neovim" = "latest"                 # Neovim Node.js provider (JavaScript)
 "pipx:ptpython" = "latest"              # Advanced Python REPL (Python)
+age = "latest"                          # Modern file encryption (Go)
 ast-grep = "latest"                     # Abstract-tree code search (Rust)
+atuin = "latest"                        # Sync, search and backup shell history (Rust)
 bat = "latest"                          # Syntax-highlighting cat alternative (Rust)
+bottom = "latest"                       # Graphical process monitor (Rust)
 btop = "latest"                         # Visual system resource monitor (C++)
 chezmoi = "latest"                      # Dotfiles manager (Go)
 delta = "latest"                        # Syntax-highlighting pagination (Rust)
@@ -25,6 +30,7 @@ fzf = "latest"                          # Command-line fuzzy finder (Go)
 gcloud = "latest"                       # Google Cloud platform CLI (Python)
 gh = "latest"                           # Official GitHub CLI (Go)
 jq = "latest"                           # Command-line JSON processor (C)
+just = "latest"                         # Modern task runner (Rust)
 k9s = "latest"                          # Terminal UI for Kubernetes (Go)
 lazydocker = "latest"                   # Terminal UI for Docker (Go)
 lazygit = "latest"                      # Terminal UI for Git (Go)
@@ -32,6 +38,7 @@ neovim = "latest"                       # Modern Vim-based editor (C)
 node = "latest"                         # JavaScript runtime (C++)
 pre-commit = "latest"                   # Git hooks manager (Python)
 python = "latest"                       # Python programming language (C)
+rclone = "latest"                       # Cloud storage sync tool (Go)
 ripgrep = "latest"                      # Fast recursive grep alternative (Rust)
 starship = "latest"                     # Customizable cross-shell prompt (Rust)
 terraform = "latest"                    # Infrastructure-as-code tool (Go)

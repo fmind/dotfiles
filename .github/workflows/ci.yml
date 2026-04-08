@@ -19,3 +19,5 @@ jobs:
           push: false
           load: true
           context: .
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
