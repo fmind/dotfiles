@@ -1,3 +1,10 @@
+# Objectives
+
+- **Modern 2026 CLI**: Modern development on CLI as of 2026.
+- **Robust & Simple**: Fast, efficient, and robust deployment with minimal complexity.
+- **No-Sudo First**: Avoid sudo whenever possible, staying in user-space.
+- **Out-of-the-Box**: Everything should work immediately after bootstrapping.
+
 # Agent Context
 
 ## Core Principles

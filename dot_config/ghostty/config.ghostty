@@ -1,0 +1,11 @@
+theme = Catppuccin Mocha
+
+font-family = "Fira Code"
+font-size = 13
+font-feature = -calt
+font-feature = -liga
+
+cursor-style = block
+macos-option-as-alt = left
+confirm-close-surface = false
+shell-integration-features = true

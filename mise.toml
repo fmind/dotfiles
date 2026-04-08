@@ -1,29 +1,33 @@
 [settings]
-python_compile = 0
-python_github_attestations = false
+github_attestations = false
+slsa = false
 
 [tools]
-chezmoi = "latest"
+# Keep this bootstrap manifest minimal. The full toolchain is managed by
+# chezmoi via ~/.config/mise/config.toml.
+"aqua:fish-shell/fish-shell" = "4.6.0"
+chezmoi = "2.70.0"
 
 [tasks.apply]
 description = "Apply dotfiles using Chezmoi"
 run = "chezmoi apply --source {{config_root}}"
+
+[tasks.bootstrap]
+description = "Bootstrap dependencies and apply dotfiles from this checkout"
+run = "CHEZMOI_SOURCE_DIR=\"{{config_root}}\" ./install.sh"
 
 [tasks.check]
 description = "Verify Chezmoi state without applying"
 run = "chezmoi apply --source {{config_root}} --dry-run"
 
 [tasks.default]
-description = "Initialize and apply (runs init + apply)"
-run = """
-mise run init
-mise run apply
-"""
+description = "Initialize chezmoi from this checkout and apply dotfiles"
+run = "chezmoi init --apply --source {{config_root}}"
 
 [tasks.docker]
-description = "Build and run the development docker shell"
+description = "Build and run the bootstrap development container"
 run = """
-docker build ${GITHUB_TOKEN:+--build-arg GITHUB_TOKEN=$GITHUB_TOKEN} -t fmind/dotfiles:latest .
+DOCKER_BUILDKIT=1 docker build ${SSL_CERT_FILE:+--secret id=hostca,src="$SSL_CERT_FILE"} -t fmind/dotfiles:latest .
 docker run -e GITHUB_TOKEN --rm -it fmind/dotfiles:latest
 """
 
@@ -32,13 +36,27 @@ description = "Install pre-commit hooks of the repository"
 run = "pre-commit install"
 
 [tasks.init]
-description = "Initialize Chezmoi config file from template"
+description = "Initialize chezmoi to use this checkout"
 run = "chezmoi init --source {{config_root}}"
 
-[tasks.install]
-description = "Bootstrap Chezmoi and Mise dependencies manually"
-run = "curl https://mise.run | sh"
+[tasks.toolchain]
+description = "Install tools from ~/.config/mise/config.toml"
+run = """
+[ -f "$HOME/.config/mise/config.toml" ] || {
+	echo "Missing $HOME/.config/mise/config.toml. Run ./install.sh or chezmoi apply first." >&2
+	exit 1
+}
+mise trust "$HOME/.config/mise/config.toml"
+if command -v gh >/dev/null 2>&1; then
+	export GITHUB_TOKEN="${GITHUB_TOKEN:-$(gh auth token 2>/dev/null || true)}"
+fi
+mise -C "$HOME" install node python
+mise -C "$HOME" install
+"""
 
 [tasks.update]
-description = "Update dotfiles from remote repository and apply changes"
-run = "chezmoi update --source {{config_root}}"
+description = "Pull the latest changes in this checkout and re-apply dotfiles"
+run = """
+git pull --ff-only
+mise run apply
+"""

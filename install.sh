@@ -1,16 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Starting dotfiles installation..."
+echo "Starting dotfiles bootstrap..."
 
 export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"
 mkdir -p "$HOME/.local/bin"
 
+BOOTSTRAP_SOURCE_DIR=""
+
 install_linux_deps() {
-    if command -v curl >/dev/null 2>&1 && command -v git >/dev/null 2>&1; then
+    if [ "$(uname -s)" != "Linux" ]; then
         return
     fi
     if ! command -v apt-get >/dev/null 2>&1; then
+        return
+    fi
+    local packages=()
+    command -v update-ca-certificates >/dev/null 2>&1 || packages+=(ca-certificates)
+    command -v git >/dev/null 2>&1 || packages+=(git)
+    command -v curl >/dev/null 2>&1 || packages+=(curl)
+    if [ ${#packages[@]} -eq 0 ]; then
         return
     fi
     local sudo_cmd=""
@@ -21,17 +30,18 @@ install_linux_deps() {
         fi
         sudo_cmd="sudo"
     fi
-    echo "Installing linux dependencies (git, curl)..."
+    echo "Installing Linux bootstrap dependencies (${packages[*]})..."
     $sudo_cmd apt-get update -qq
-    $sudo_cmd apt-get install -yq git curl ca-certificates
+    $sudo_cmd apt-get install -yq "${packages[@]}"
 }
 
 install_macos_deps() {
     if [ "$(uname -s)" != "Darwin" ]; then
         return
     fi
-    if command -v curl >/dev/null 2>&1 && command -v git >/dev/null 2>&1; then
-        return
+    if ! command -v brew >/dev/null 2>&1; then
+        [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+        [ -x /usr/local/bin/brew ] && eval "$(/usr/local/bin/brew shellenv)"
     fi
     if ! command -v brew >/dev/null 2>&1; then
         echo "Installing Homebrew..."
@@ -39,8 +49,14 @@ install_macos_deps() {
         [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
         [ -x /usr/local/bin/brew ] && eval "$(/usr/local/bin/brew shellenv)"
     fi
-    echo "Installing macOS dependencies (git, curl)..."
-    brew install git curl
+    local packages=()
+    command -v git >/dev/null 2>&1 || packages+=(git)
+    command -v curl >/dev/null 2>&1 || packages+=(curl)
+    if [ ${#packages[@]} -eq 0 ]; then
+        return
+    fi
+    echo "Installing macOS bootstrap dependencies (${packages[*]})..."
+    brew install "${packages[@]}"
 }
 
 install_core_tools() {
@@ -56,62 +72,98 @@ install_core_tools() {
 
 apply_dotfiles() {
     echo "Applying dotfiles configuration..."
-    if [ -d "$HOME/dotfiles" ]; then
-        chezmoi init --apply --source "$HOME/dotfiles"
-    else
-        chezmoi init --apply fmind
+    local source_dir=""
+    if source_dir="$(resolve_source_dir)"; then
+        echo "Using local dotfiles source: $source_dir"
+        BOOTSTRAP_SOURCE_DIR="$source_dir"
+        chezmoi init --apply --source "$source_dir"
+        return
+    fi
+
+    echo "Using remote dotfiles source: fmind"
+    chezmoi init --apply fmind
+    BOOTSTRAP_SOURCE_DIR="$(chezmoi source-path 2>/dev/null || true)"
+}
+
+trust_mise_config() {
+    local config_file="$HOME/.config/mise/config.toml"
+
+    if ! command -v mise >/dev/null 2>&1 || [ ! -f "$config_file" ]; then
+        return
+    fi
+
+    echo "Trusting applied mise config..."
+    if ! mise trust "$config_file" >/dev/null 2>&1; then
+        echo "Warning: could not trust $config_file automatically. Run 'mise trust \"$config_file\"' manually."
     fi
 }
 
-install_mise_tools() {
-    echo "Installing mise tools..."
-    local source_dir
+trust_mise_source_manifest() {
+    local source_dir="${BOOTSTRAP_SOURCE_DIR:-}"
+    local config_file=""
+
     if ! command -v mise >/dev/null 2>&1; then
         return
     fi
-    source_dir="$(chezmoi source-path)"
-    if [ -f "$source_dir/mise.toml" ]; then
-        mise trust --yes "$source_dir/mise.toml"
+
+    if [ -z "$source_dir" ] && command -v chezmoi >/dev/null 2>&1; then
+        source_dir="$(chezmoi source-path 2>/dev/null || true)"
     fi
 
-    if [ -z "${GITHUB_TOKEN:-}" ]; then
-        echo "WARNING: GITHUB_TOKEN is not set. You might encounter GitHub API rate limits (403 Forbidden) during 'mise install'."
-        if [ -t 0 ]; then
-            if ! (command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1); then
-                read -r -p "Would you like to login securely with the GitHub CLI (gh) now? [Y/n] " prompt
-                if [[ $prompt == "y" || $prompt == "Y" || $prompt == "" ]]; then
-                    if ! command -v gh >/dev/null 2>&1; then
-                        echo "Installing GitHub CLI via OS package manager to avoid rate limits..."
-                        if [ "$(uname -s)" = "Darwin" ]; then
-                            brew install gh
-                        elif command -v apt-get >/dev/null 2>&1; then
-                            local sudo_cmd=""
-                            [ "$(id -u)" -ne 0 ] && sudo_cmd="sudo"
-                            $sudo_cmd apt-get update -qq && $sudo_cmd apt-get install -yq gh || echo "Could not install gh via apt-get. Proceeding with mise..."
-                            if ! command -v gh >/dev/null 2>&1; then
-                                mise use -g gh@latest
-                            fi
-                        else
-                            mise use -g gh@latest
-                        fi
-                    fi
-                    echo "Starting GitHub CLI authentication..."
-                    gh auth login
-                else
-                    echo "Skipping interactive login."
-                fi
-            fi
+    if [ -z "$source_dir" ]; then
+        return
+    fi
+
+    config_file="$source_dir/mise.toml"
+    if [ ! -f "$config_file" ]; then
+        return
+    fi
+
+    echo "Trusting bootstrap mise manifest..."
+    if ! mise trust "$config_file" >/dev/null 2>&1; then
+        echo "Warning: could not trust $config_file automatically. Run 'mise trust \"$config_file\"' manually."
+    fi
+}
+
+resolve_source_dir() {
+    if [ -n "${CHEZMOI_SOURCE_DIR:-}" ] && [ -f "$CHEZMOI_SOURCE_DIR/.chezmoi.toml.tmpl" ]; then
+        printf '%s\n' "$CHEZMOI_SOURCE_DIR"
+        return 0
+    fi
+
+    local script_path="${BASH_SOURCE[0]:-}"
+    if [ -n "$script_path" ] && [ -f "$script_path" ]; then
+        local candidate
+        candidate="$(cd "$(dirname "$script_path")" && pwd)"
+        if [ -f "$candidate/.chezmoi.toml.tmpl" ]; then
+            printf '%s\n' "$candidate"
+            return 0
         fi
     fi
 
-    # Suppress verbose output but keep warnings if necessary
-    mise install -y
+    if [ -f "$HOME/dotfiles/.chezmoi.toml.tmpl" ]; then
+        printf '%s\n' "$HOME/dotfiles"
+        return 0
+    fi
+
+    return 1
+}
+
+print_next_steps() {
+    echo
+    echo "Bootstrap complete. Open a new shell, then install the managed toolchain:"
+    echo '  mise -C "$HOME" install node python && mise -C "$HOME" install'
+    echo "If you already have GitHub CLI, run 'gh auth login' first to reduce GitHub API rate limits."
+    echo "If you use a token instead, export GITHUB_TOKEN before running the install."
+    echo "Start fish after the install if you want the managed shell."
 }
 
 install_linux_deps
 install_macos_deps
 install_core_tools
 apply_dotfiles
-install_mise_tools
+trust_mise_source_manifest
+trust_mise_config
+print_next_steps
 
-echo "Installation complete. Start fish when you want the managed shell."
+echo "Dotfiles bootstrap complete."

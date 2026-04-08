@@ -25,8 +25,6 @@
     git_name = {{ $git_name | quote }}
     git_email = {{ $git_email | quote }}
     github_user = {{ $github_user | quote }}
-    linux_packages = ["git", "curl", "ca-certificates", "libatomic1"]
-    mac_packages = ["git", "curl"]
 
 [edit]
     command = "nvim"
@@ -34,7 +32,3 @@
 
 [diff]
     pager = "delta"
-
-[git]
-    autoCommit = true
-    autoPush = true

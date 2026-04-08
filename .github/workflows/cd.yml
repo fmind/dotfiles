@@ -4,8 +4,8 @@ on:
     branches:
       - main
 jobs:
-  deliver:
-    name: Deliver
+  deploy:
+    name: deploy
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,9 +24,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
         with:
+          context: .
           tags: "ghcr.io/${{ github.repository_owner }}/dotfiles:latest"
           file: ./Dockerfile
           push: true
-          context: .
-          build-args: |
-            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
