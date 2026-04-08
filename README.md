@@ -62,14 +62,14 @@ mise trust ~/.config/mise/config.toml
 mise -C "$HOME" install node python && mise -C "$HOME" install
 ```
 
-The bootstrap step installs only the base dependencies needed to apply the dotfiles. The full managed toolchain is installed explicitly from the applied home config in the final step, so you do not need a second `chezmoi apply` first.
+The bootstrap step natively installs the base dependencies and invokes `chezmoi init`. The full managed toolchain is then explicitly installed from the applied config.
 
 ## Setup Tasks
 
 Manage your environment using built-in `mise` tasks:
 
 ```bash
-mise run bootstrap  # Bootstrap Chezmoi, Mise, and apply dotfiles from a local clone
+mise run bootstrap  # Bootstrap Chezmoi, Mise, and apply dotfiles natively
 mise run toolchain  # Install tools from ~/.config/mise/config.toml
 mise run apply      # Apply latest configurations
 mise run update     # Update from remote and apply
@@ -77,9 +77,7 @@ mise run check      # Dry-run changes
 mise run docker     # Build and run the bootstrap development container
 ```
 
-The `bootstrap` task now uses the current checkout as the Chezmoi source instead of cloning the remote repository again, and `mise run toolchain` trusts the applied global config before installing tools.
-
-From a fresh local clone, trust the repo manifest once with `mise trust ./mise.toml` before using repo-local `mise run ...` tasks.
+From a fresh system, you only need to run the install script. If iterating locally, run `chezmoi cd` to edit the template files directly.
 
 ## Docker
 

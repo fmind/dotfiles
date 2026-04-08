@@ -1,62 +1,53 @@
 [settings]
 github_attestations = false
 slsa = false
+lockfile = true
 
 [tools]
-# Keep this bootstrap manifest minimal. The full toolchain is managed by
-# chezmoi via ~/.config/mise/config.toml.
-"aqua:fish-shell/fish-shell" = "4.6.0"
-chezmoi = "2.70.0"
+"aqua:fish-shell/fish-shell" = "latest"
 
 [tasks.apply]
 description = "Apply dotfiles using Chezmoi"
-run = "chezmoi apply --source {{config_root}}"
+run = "chezmoi apply"
 
 [tasks.bootstrap]
-description = "Bootstrap dependencies and apply dotfiles from this checkout"
-run = "CHEZMOI_SOURCE_DIR=\"{{config_root}}\" ./install.sh"
+description = "Bootstrap dependencies and apply dotfiles"
+run = "./install.sh"
 
 [tasks.check]
 description = "Verify Chezmoi state without applying"
-run = "chezmoi apply --source {{config_root}} --dry-run"
+run = "chezmoi apply --dry-run"
 
 [tasks.default]
-description = "Initialize chezmoi from this checkout and apply dotfiles"
-run = "chezmoi init --apply --source {{config_root}}"
+description = "Initialize chezmoi and apply dotfiles"
+run = "chezmoi init --apply"
 
 [tasks.docker]
 description = "Build and run the bootstrap development container"
-run = """
-DOCKER_BUILDKIT=1 docker build ${SSL_CERT_FILE:+--secret id=hostca,src="$SSL_CERT_FILE"} -t fmind/dotfiles:latest .
-docker run -e GITHUB_TOKEN --rm -it fmind/dotfiles:latest
-"""
+run = "docker build -t fmind/dotfiles:latest . && docker run --rm -it fmind/dotfiles:latest"
 
 [tasks.hooks]
-description = "Install pre-commit hooks of the repository"
+description = "Install repository pre-commit hooks"
 run = "pre-commit install"
 
 [tasks.init]
 description = "Initialize chezmoi to use this checkout"
-run = "chezmoi init --source {{config_root}}"
+run = "chezmoi init"
 
-[tasks.toolchain]
-description = "Install tools from ~/.config/mise/config.toml"
-run = """
-[ -f "$HOME/.config/mise/config.toml" ] || {
-	echo "Missing $HOME/.config/mise/config.toml. Run ./install.sh or chezmoi apply first." >&2
-	exit 1
-}
-mise trust "$HOME/.config/mise/config.toml"
-if command -v gh >/dev/null 2>&1; then
-	export GITHUB_TOKEN="${GITHUB_TOKEN:-$(gh auth token 2>/dev/null || true)}"
-fi
-mise -C "$HOME" install node python
-mise -C "$HOME" install
-"""
+[tasks.lock]
+description = "Update mise lockfiles across the repository"
+run = "mise lock && mise -C dot_config/mise lock"
 
 [tasks.update]
-description = "Pull the latest changes in this checkout and re-apply dotfiles"
+description = "Pull latest changes and apply dotfiles"
+run = "git pull --ff-only && mise run apply"
+
+[tasks.toolchain]
+description = "Install core tools and node/python dependencies"
 run = """
-git pull --ff-only
-mise run apply
+#!/usr/bin/env bash
+set -euo pipefail
+mise trust -y ~/.config/mise/config.toml || true
+mise -C ~ install -y --locked node python
+mise -C ~ install -y --locked
 """

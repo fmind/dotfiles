@@ -3,11 +3,14 @@ on:
   pull_request:
     branches:
       - main
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
-  check:
-    name: check
+  integrate:
+    name: integrate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,3 +26,5 @@ jobs:
           file: ./Dockerfile
           push: false
           load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
