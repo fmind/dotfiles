@@ -1,10 +1,10 @@
 # Dotfiles
 
-Modern, high-performance dotfiles optimized for AI-driven development and a `fish`-first shell experience.
+Modern, high-performance dotfiles optimized for AI-driven development.
 
 Managed via [Chezmoi](https://www.chezmoi.io/) and [Mise](https://mise.jdx.dev/).
 
-## Core Principles
+## Principles
 
 - **High Performance**: Modern, lightweight, and fast CLI tools.
 - **Vim-Centric**: Native Vim-style keybindings across the entire toolchain.
@@ -17,7 +17,7 @@ Managed via [Chezmoi](https://www.chezmoi.io/) and [Mise](https://mise.jdx.dev/)
 - **Editor**: `neovim` (modular and performant).
 - **Multiplexer**: `zellij` (modern terminal workspace).
 - **File Manager**: `yazi` (terminal file manager with previews).
-- **Git**: `lazygit` and `gh` CLI.
+- **Git and Docker**: `lazygit` and `gh`, `lazydocker` for containers.
 - **Utilities**: `bat` (cat), `btop` (monitor), `ripgrep` (search).
 - **Runtime**: `mise` for tool versioning and task management.
 
@@ -41,34 +41,6 @@ Then install the managed tools:
 ~/.local/bin/mise -C "$HOME/.local/share/chezmoi" run tools
 ```
 
-The `tools` task reliably installs all tools via a single `mise install` command.
-Mise natively handles dependency graphs (such as installing `node` before any `npm:`
-packages) because all tool dependencies are explicitly declared in the
-`~/.config/mise/config.toml` file.
-
-### Manual Installation
-
-If you prefer a manual setup:
-
-```bash
-# 1. Install Chezmoi and Mise
-curl -fsSL https://get.chezmoi.io | bash -s -- -b ~/.local/bin
-curl -fsSL https://mise.run | bash
-
-# 2. Initialize and apply dotfiles
-~/.local/bin/chezmoi init --apply fmind
-
-# 3. Trust the mise configurations
-~/.local/bin/mise trust -y ~/.local/share/chezmoi/mise.toml
-~/.local/bin/mise trust -y ~/.config/mise/config.toml
-
-# 4. Install the managed toolchain
-~/.local/bin/mise -C ~/.local/share/chezmoi run tools
-```
-
-The bootstrap step installs base dependencies, `chezmoi`, and `mise`, then
-applies the dotfiles. The full managed toolchain remains a separate step.
-
 ## Setup Tasks
 
 Manage your environment using built-in `mise` tasks:
@@ -88,9 +60,6 @@ mise run upgrade    # Upgrade mise tools to latest versions and lock packages
 `apply` and `check` do not install tools. Tool installation stays isolated in
 `mise run tools`.
 
-From a fresh system, you only need `install.sh` and then `mise run tools`. If
-iterating locally, run `chezmoi cd` to edit the template files directly.
-
 ## Docker
 
 The Docker image bootstraps `chezmoi`, `mise`, and `fish`, but it does not
@@ -101,11 +70,3 @@ After starting the container, finalize it with:
 ```bash
 mise -C "$HOME/.local/share/chezmoi" run tools
 ```
-
-The image keeps `ca-certificates` for HTTPS bootstrap downloads and `libatomic1`
-for Node-based tools from the home `mise` config.
-
-## AI Support
-
-This repository includes an `AGENTS.md` file that provides foundational
-mandates and technical context for AI agents to follow inside this repo.
