@@ -10,43 +10,55 @@ run_auto_install = false
 "aqua:fish-shell/fish-shell" = "latest"
 
 [tasks.apply]
-description = "Apply dotfiles with chezmoi"
+alias = "a"
+depends = ["init"]
+description = "Apply with chezmoi"
 run = "chezmoi apply"
 
 [tasks.check]
+alias = "c"
+depends = ["init"]
 description = "Preview chezmoi changes"
 run = "chezmoi apply --dry-run"
 
 [tasks.docker]
+alias = "d"
 description = "Build and run the container"
-run = """
-docker build -t fmind/dotfiles:latest .
-docker run --rm -it fmind/dotfiles:latest
-"""
+run = [
+    "docker build -t fmind/dotfiles:latest .",
+    "docker run --rm -it fmind/dotfiles:latest",
+]
 
 [tasks.hooks]
+alias = "h"
 description = "Install repository pre-commit hooks"
 run = "pre-commit install"
 
+[tasks.init]
+alias = "i"
+description = "Initialize chezmoi config from template"
+run = "chezmoi init"
+
 [tasks.lock]
+alias = "l"
 description = "Refresh repository and home mise lockfiles"
-run = """
-mise lock
-mise -C dot_config/mise lock
-"""
+run = ["mise lock", "mise -C dot_config/mise lock"]
 
 [tasks.tools]
+alias = "t"
 description = "Install tools from ~/.config/mise/config.toml"
-run = """
-mise trust -y "$HOME/.config/mise/config.toml"
-mise -C "$HOME" install -y node python pipx
-mise -C "$HOME" install -y
-"""
+run = ["mise -C \"$HOME\" install -y"]
+
+[tasks.trust]
+description = "Trust this repository and home mise configurations"
+run = [
+    "mise trust -y mise.toml",
+    "mise trust -y dot_config/mise/config.toml",
+    "mise trust -y ~/.config/mise/config.toml",
+]
 
 [tasks.upgrade]
-description = "Upgrade mise tools to latest versions"
-run = """
-mise trust -y dot_config/mise/config.toml
-mise -C dot_config/mise upgrade --bump
-mise upgrade --bump
-"""
+alias = "u"
+depends_post = ["lock"]
+description = "Upgrade mise tools to latest versions and lock packages"
+run = ["mise -C dot_config/mise upgrade --bump", "mise upgrade --bump"]

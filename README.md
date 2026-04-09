@@ -41,9 +41,10 @@ Then install the managed tools:
 ~/.local/bin/mise -C "$HOME/.local/share/chezmoi" run tools
 ```
 
-The `tools` task installs `node`, `python`, and `pipx` first, then installs the
-rest of `~/.config/mise/config.toml`. That staged install is intentional because
-the repo uses both `npm:` and `pipx:` managed tools.
+The `tools` task reliably installs all tools via a single `mise install` command.
+Mise natively handles dependency graphs (such as installing `node` before any `npm:`
+packages) because all tool dependencies are explicitly declared in the
+`~/.config/mise/config.toml` file.
 
 ### Manual Installation
 
@@ -51,13 +52,17 @@ If you prefer a manual setup:
 
 ```bash
 # 1. Install Chezmoi and Mise
-curl -fsSL https://get.chezmoi.io | sh -s -- -b ~/.local/bin
-curl -fsSL https://mise.run | sh
+curl -fsSL https://get.chezmoi.io | bash -s -- -b ~/.local/bin
+curl -fsSL https://mise.run | bash
 
 # 2. Initialize and apply dotfiles
 ~/.local/bin/chezmoi init --apply fmind
 
-# 3. Install the managed toolchain
+# 3. Trust the mise configurations
+~/.local/bin/mise trust -y ~/.local/share/chezmoi/mise.toml
+~/.local/bin/mise trust -y ~/.config/mise/config.toml
+
+# 4. Install the managed toolchain
 ~/.local/bin/mise -C ~/.local/share/chezmoi run tools
 ```
 
@@ -69,13 +74,15 @@ applies the dotfiles. The full managed toolchain remains a separate step.
 Manage your environment using built-in `mise` tasks:
 
 ```bash
-mise run            # Same as `mise run apply`
-mise run apply      # Apply latest configurations
+mise run apply      # Apply with chezmoi
 mise run check      # Preview chezmoi changes
-mise run tools      # Install tools from ~/.config/mise/config.toml
+mise run docker     # Build and run the container
+mise run hooks      # Install repository pre-commit hooks
+mise run init       # Initialize chezmoi config from template
 mise run lock       # Refresh repository and home mise lockfiles
-mise run hooks      # Install pre-commit hooks
-mise run docker     # Build and run the bootstrap container
+mise run tools      # Install tools from ~/.config/mise/config.toml
+mise run trust      # Trust this repository and home mise configurations
+mise run upgrade    # Upgrade mise tools to latest versions and lock packages
 ```
 
 `apply` and `check` do not install tools. Tool installation stays isolated in

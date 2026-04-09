@@ -1040,7 +1040,7 @@ checksum = "sha256:c84d61ae07e3b255f8bac6a28147bd373c3c1862d1d5598a9543a5b103fcb
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-x64"]
-checksum = "blake3:4698ab72f05c7ac302e9f6983f29cb6b93acd57a548bf9da816f15ffa47719bf"
+checksum = "sha256:c838ac128a6e9c944b30301880472349eca8cd1abc79fb0d359ac2a358569389"
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-x64-musl"]

@@ -15,6 +15,7 @@
 - **Maintained**: Use only actively supported tools with clear documentation.
 - **Portability**: Support Linux, macOS (Apple Silicon), and Cloud Shell in all configs.
 - **Sane Defaults**: Configure tools to work out-of-the-box with minimal config.
+- **Idempotency**: Ensure installations are non-interactive and use mise lockfiles.
 - **Catppuccin Mocha**: Use "catppuccin-mocha" as the default theme everywhere.
 - **Vim-Centric**: Prefer tools with native and intuitive Vim-style keybindings.
 
@@ -33,6 +34,7 @@
 - **Mise Managed**: Use `mise` for all tool versioning and project task management.
 - **Split Bootstrap**: Keep `install.sh` minimal; use `mise run tools` for tools.
 - **Explicit Tool Deps**: Keep helpers like `pipx` in `dot_config/mise/config.toml`.
+- **Docker Ready**: Maintain a lean, automated Dockerfile for repeatable builds.
 - **Modern CLI**: Prioritize tools like `eza`, `bat`, `yazi`, `zellij`, and `btop`.
 - **Neovim**: Maintain a modular and performant `nvim` setup for coding.
 - **Starship**: Use `starship` for a consistent and informative shell prompt.
