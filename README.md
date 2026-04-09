@@ -23,27 +23,27 @@ Managed via [Chezmoi](https://www.chezmoi.io/) and [Mise](https://mise.jdx.dev/)
 
 ## Installation
 
-Bootstrap first, then install the managed toolchain from the applied home config. This keeps the initial install deterministic while still making the full tool install a single follow-up command.
+Bootstrap first, then install the managed toolchain from the applied home
+config. This keeps the initial bootstrap small while keeping the full tool
+install explicit.
 
 ### Quick Install
 
 Bootstrap your environment with a single command:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/fmind/dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/fmind/dotfiles/main/install.sh | bash
 ```
 
-Open a new shell, then finish the toolchain installation:
+Then install the managed tools:
 
 ```bash
-mise -C "$HOME" install node python && mise -C "$HOME" install
+~/.local/bin/mise -C "$HOME/.local/share/chezmoi" run tools
 ```
 
-If you already have `gh`, run `gh auth login` first to reduce GitHub API rate limits. If you use a token instead, export `GITHUB_TOKEN` before running the install.
-
-The staged `node python` install is intentional: the repo uses `npm:` and `pipx:` managed tools, and those runtimes need to exist before the full toolchain install can resolve them cleanly on a fresh machine.
-
-The bootstrap script now also trusts the applied `~/.config/mise/config.toml`, so you do not need a separate `mise trust` step after `install.sh`.
+The `tools` task installs `node`, `python`, and `pipx` first, then installs the
+rest of `~/.config/mise/config.toml`. That staged install is intentional because
+the repo uses both `npm:` and `pipx:` managed tools.
 
 ### Manual Installation
 
@@ -51,48 +51,54 @@ If you prefer a manual setup:
 
 ```bash
 # 1. Install Chezmoi and Mise
-curl -sS https://get.chezmoi.io | sh -s -- -b ~/.local/bin
-curl https://mise.run | sh
+curl -fsSL https://get.chezmoi.io | sh -s -- -b ~/.local/bin
+curl -fsSL https://mise.run | sh
 
 # 2. Initialize and apply dotfiles
 ~/.local/bin/chezmoi init --apply fmind
 
-# 3. Trust the applied global mise config and install the managed toolchain
-mise trust ~/.config/mise/config.toml
-mise -C "$HOME" install node python && mise -C "$HOME" install
+# 3. Install the managed toolchain
+~/.local/bin/mise -C ~/.local/share/chezmoi run tools
 ```
 
-The bootstrap step natively installs the base dependencies and invokes `chezmoi init`. The full managed toolchain is then explicitly installed from the applied config.
+The bootstrap step installs base dependencies, `chezmoi`, and `mise`, then
+applies the dotfiles. The full managed toolchain remains a separate step.
 
 ## Setup Tasks
 
 Manage your environment using built-in `mise` tasks:
 
 ```bash
-mise run bootstrap  # Bootstrap Chezmoi, Mise, and apply dotfiles natively
-mise run toolchain  # Install tools from ~/.config/mise/config.toml
+mise run            # Same as `mise run apply`
 mise run apply      # Apply latest configurations
-mise run update     # Update from remote and apply
-mise run check      # Dry-run changes
-mise run docker     # Build and run the bootstrap development container
+mise run check      # Preview chezmoi changes
+mise run tools      # Install tools from ~/.config/mise/config.toml
+mise run lock       # Refresh repository and home mise lockfiles
+mise run hooks      # Install pre-commit hooks
+mise run docker     # Build and run the bootstrap container
 ```
 
-From a fresh system, you only need to run the install script. If iterating locally, run `chezmoi cd` to edit the template files directly.
+`apply` and `check` do not install tools. Tool installation stays isolated in
+`mise run tools`.
+
+From a fresh system, you only need `install.sh` and then `mise run tools`. If
+iterating locally, run `chezmoi cd` to edit the template files directly.
 
 ## Docker
 
-The Docker image installs `fish` during the image build so the container can start in the managed shell directly. The optional host CA secret wiring stays in place because local validation still needed it for TLS trust during the bootstrap download step.
+The Docker image bootstraps `chezmoi`, `mise`, and `fish`, but it does not
+install the full home toolchain during the image build.
 
 After starting the container, finalize it with:
 
 ```bash
-mise -C "$HOME" install node python && mise -C "$HOME" install
+mise -C "$HOME/.local/share/chezmoi" run tools
 ```
 
-If you already have `gh`, run `gh auth login` in the container first to reduce GitHub API rate limits. If you already have `GITHUB_TOKEN` in the host environment, `mise run docker` passes it through to the container automatically.
-
-If your machine exports `SSL_CERT_FILE`, `mise run docker` also forwards it as an optional BuildKit secret so the container can trust the same CA bundle during the build.
+The image keeps `ca-certificates` for HTTPS bootstrap downloads and `libatomic1`
+for Node-based tools from the home `mise` config.
 
 ## AI Support
 
-This repository includes an `AGENTS.md` file that provides foundational mandates and technical context for AI agents (like Gemini or Copilot) to help them better understand and assist within this environment.
+This repository includes an `AGENTS.md` file that provides foundational
+mandates and technical context for AI agents to follow inside this repo.

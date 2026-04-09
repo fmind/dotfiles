@@ -1,8 +1,7 @@
+*.md
+.dockerignore
 .git/
 .github/
 .gitignore
-.dockerignore
 .pre-commit-config.yaml
-AGENTS.md
 Dockerfile
-README.md

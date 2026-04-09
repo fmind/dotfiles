@@ -1,11 +1,11 @@
-# Objectives
+# Agent Context
+
+## Objectives
 
 - **Modern 2026 CLI**: Modern development on CLI as of 2026.
 - **Robust & Simple**: Fast, efficient, and robust deployment with minimal complexity.
 - **No-Sudo First**: Avoid sudo whenever possible, staying in user-space.
 - **Out-of-the-Box**: Everything should work immediately after bootstrapping.
-
-# Agent Context
 
 ## Core Principles
 
@@ -31,6 +31,8 @@
 - **Fish Shell**: Focus on a `fish`-first shell experience for all CLI interactions.
 - **Chezmoi**: Manage all dotfiles through `chezmoi` templates and state.
 - **Mise Managed**: Use `mise` for all tool versioning and project task management.
+- **Split Bootstrap**: Keep `install.sh` minimal; use `mise run tools` for tools.
+- **Explicit Tool Deps**: Keep helpers like `pipx` in `dot_config/mise/config.toml`.
 - **Modern CLI**: Prioritize tools like `eza`, `bat`, `yazi`, `zellij`, and `btop`.
 - **Neovim**: Maintain a modular and performant `nvim` setup for coding.
 - **Starship**: Use `starship` for a consistent and informative shell prompt.

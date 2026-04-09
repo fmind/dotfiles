@@ -1,5 +1,7 @@
 [settings]
+github_attestations = false
 lockfile = true
+slsa = false
 
 [tools]
 "aqua:abiosoft/colima" = "latest"
@@ -41,6 +43,7 @@ lazydocker = "latest"
 lazygit = "latest"
 neovim = "latest"
 node = "latest"
+pipx = "latest"
 pre-commit = "latest"
 python = "latest"
 rclone = "latest"

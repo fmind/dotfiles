@@ -1,53 +1,51 @@
 [settings]
 github_attestations = false
-slsa = false
 lockfile = true
+slsa = false
+
+[settings.task]
+run_auto_install = false
 
 [tools]
 "aqua:fish-shell/fish-shell" = "latest"
 
 [tasks.apply]
-description = "Apply dotfiles using Chezmoi"
+description = "Apply dotfiles with chezmoi"
 run = "chezmoi apply"
 
-[tasks.bootstrap]
-description = "Bootstrap dependencies and apply dotfiles"
-run = "./install.sh"
-
 [tasks.check]
-description = "Verify Chezmoi state without applying"
+description = "Preview chezmoi changes"
 run = "chezmoi apply --dry-run"
 
 [tasks.default]
-description = "Initialize chezmoi and apply dotfiles"
-run = "chezmoi init --apply"
+description = "Apply dotfiles"
+run = "mise run apply"
 
 [tasks.docker]
-description = "Build and run the bootstrap development container"
-run = "docker build -t fmind/dotfiles:latest . && docker run --rm -it fmind/dotfiles:latest"
+description = "Build and run the container"
+run = """
+set -e
+docker build -t fmind/dotfiles:latest .
+docker run --rm -it fmind/dotfiles:latest
+"""
 
 [tasks.hooks]
 description = "Install repository pre-commit hooks"
 run = "pre-commit install"
 
-[tasks.init]
-description = "Initialize chezmoi to use this checkout"
-run = "chezmoi init"
-
 [tasks.lock]
-description = "Update mise lockfiles across the repository"
-run = "mise lock && mise -C dot_config/mise lock"
-
-[tasks.update]
-description = "Pull latest changes and apply dotfiles"
-run = "git pull --ff-only && mise run apply"
-
-[tasks.toolchain]
-description = "Install core tools and node/python dependencies"
+description = "Refresh repository and home mise lockfiles"
 run = """
-#!/usr/bin/env bash
-set -euo pipefail
-mise trust -y ~/.config/mise/config.toml || true
-mise -C ~ install -y --locked node python
-mise -C ~ install -y --locked
+set -e
+mise lock
+mise -C dot_config/mise lock
+"""
+
+[tasks.tools]
+description = "Install tools from ~/.config/mise/config.toml"
+run = """
+set -e
+mise trust -y "$HOME/.config/mise/config.toml"
+mise -C "$HOME" install -y node python pipx
+mise -C "$HOME" install -y
 """

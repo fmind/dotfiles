@@ -1,45 +1,47 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "=> Starting dotfiles bootstrap..."
+# Bootstrap dotfiles with chezmoi and mise.
+# Prerequisites: git, curl (and ca-certificates on Linux).
+# Targets: Linux (Debian/Ubuntu), macOS (Apple Silicon), Docker.
 
 export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"
-export MISE_YES=1
+SOURCE_DIR="$HOME/.local/share/chezmoi"
 
-mkdir -p "$HOME/.local/bin"
-
-if ! command -v git >/dev/null || ! command -v curl >/dev/null; then
-    echo "=> Installing base dependencies..."
-    if [ "$(uname -s)" = "Linux" ]; then
-        SUDO=$([ "$(id -u)" -ne 0 ] && command -v sudo >/dev/null && echo "sudo" || echo "")
-        $SUDO apt-get update -qq
-        $SUDO apt-get install -yq --no-install-recommends git curl ca-certificates
-    elif [ "$(uname -s)" = "Darwin" ]; then
-        if ! command -v brew >/dev/null; then
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        fi
-        eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null || true)"
-    fi
+# Load Homebrew on macOS
+if [ "$(uname -s)" = "Darwin" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || true)"
 fi
 
-if ! command -v chezmoi >/dev/null; then
+# Check prerequisites
+for cmd in git curl; do
+    command -v "$cmd" >/dev/null || { echo "Error: $cmd is required."; exit 1; }
+done
+
+# Install chezmoi
+command -v chezmoi >/dev/null || {
     echo "=> Installing chezmoi..."
-    curl -sS https://get.chezmoi.io | bash -s -- -b "$HOME/.local/bin"
-fi
+    mkdir -p "$HOME/.local/bin"
+    curl -fsSL https://get.chezmoi.io | bash -s -- -b "$HOME/.local/bin"
+}
 
-if ! command -v mise >/dev/null; then
+# Install mise
+command -v mise >/dev/null || {
     echo "=> Installing mise..."
-    curl -sS https://mise.run | bash
-fi
+    curl -fsSL https://mise.run | bash
+}
 
+# Apply dotfiles
 echo "=> Applying dotfiles..."
-if [ -d "$HOME/.local/share/chezmoi" ]; then
-    chezmoi init --apply --force --source "$HOME/.local/share/chezmoi"
+if [ -d "$SOURCE_DIR" ]; then
+    chezmoi init --apply --source "$SOURCE_DIR"
 else
-    chezmoi init --apply --force fmind
+    chezmoi init --apply fmind
 fi
 
-echo "=> Trusting mise configurations..."
-mise trust -y "$HOME/.local/share/chezmoi" "$HOME/.config/mise/config.toml" >/dev/null 2>&1 || true
+# Trust mise configs
+for config in "$SOURCE_DIR/mise.toml" "$HOME/.config/mise/config.toml"; do
+    [ -f "$config" ] && mise trust -y "$config"
+done
 
-echo "=> Bootstrap complete! Run 'mise run toolchain' to setup the full environment."
+echo "=> Done! Run 'mise run tools' to install the full toolchain."

@@ -1,4 +1,5 @@
 *.md
 Dockerfile
 install.sh
+mise.lock
 mise.toml
