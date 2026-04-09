@@ -9,4 +9,4 @@ def configure(repl):
     repl.show_status_bar = True
     repl.show_line_numbers = True
     repl.highlight_matching_parenthesis = True
-    repl.use_code_colorscheme("tango")
+    repl.use_code_colorscheme("monokai")

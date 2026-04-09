@@ -54,36 +54,36 @@ url = "https://download.docker.com/mac/static/stable/x86_64/docker-29.4.0.tgz"
 url = "https://download.docker.com/win/static/stable/x86_64/docker-29.4.0.zip"
 
 [[tools."aqua:docker/compose"]]
-version = "5.1.1"
+version = "5.1.2"
 backend = "aqua:docker/compose"
 
 [tools."aqua:docker/compose"."platforms.linux-arm64"]
-checksum = "sha256:4b5c42952b7dd81f508d01a771df2a9e5dbffe9b8c5c7d983e738504ad38f056"
-url = "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-linux-aarch64"
+checksum = "sha256:d5ce4020039cdbe81679b770e64f89d2cc601398d3b1aacd84a02a9176cd9d20"
+url = "https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-linux-aarch64"
 
 [tools."aqua:docker/compose"."platforms.linux-arm64-musl"]
-checksum = "sha256:4b5c42952b7dd81f508d01a771df2a9e5dbffe9b8c5c7d983e738504ad38f056"
-url = "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-linux-aarch64"
+checksum = "sha256:d5ce4020039cdbe81679b770e64f89d2cc601398d3b1aacd84a02a9176cd9d20"
+url = "https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-linux-aarch64"
 
 [tools."aqua:docker/compose"."platforms.linux-x64"]
-checksum = "sha256:2ac954c9d506b912a12477d72f01601dc72ec918c429c7bae48fd707bdf0f3e5"
-url = "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-linux-x86_64"
+checksum = "sha256:c372e512a36e67716b0b3a1264ccdc461dec7a7beff601b81f7c5fb008e3511e"
+url = "https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-linux-x86_64"
 
 [tools."aqua:docker/compose"."platforms.linux-x64-musl"]
-checksum = "sha256:2ac954c9d506b912a12477d72f01601dc72ec918c429c7bae48fd707bdf0f3e5"
-url = "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-linux-x86_64"
+checksum = "sha256:c372e512a36e67716b0b3a1264ccdc461dec7a7beff601b81f7c5fb008e3511e"
+url = "https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-linux-x86_64"
 
 [tools."aqua:docker/compose"."platforms.macos-arm64"]
-checksum = "sha256:7b10566e09366d1c22222eb0726805b8c488b4109e63689fd6c543d0006504e2"
-url = "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-darwin-aarch64"
+checksum = "sha256:95007edf638ad188dbb84a8ad2bae8861702a0a4324646c31d0c5152563bfc9b"
+url = "https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-darwin-aarch64"
 
 [tools."aqua:docker/compose"."platforms.macos-x64"]
-checksum = "sha256:2d1845ad583a08095b469547dc1bee2a985d1db3b62bc478f88361b85c8ff0e9"
-url = "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-darwin-x86_64"
+checksum = "sha256:ed6ea4d6a41cbf1f5d10fdd18b5e8be9e2b692441084e6655a7073c308ef2dc4"
+url = "https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-darwin-x86_64"
 
 [tools."aqua:docker/compose"."platforms.windows-x64"]
-checksum = "sha256:f7ad2f6965c88153e4902019ec86e95414f0025cba0b6440f328f935a1f8b12b"
-url = "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-windows-x86_64.exe"
+checksum = "sha256:00e839301ca18ee5109b3ef086788f3a281c317c0b77ba42a06fc6f806401255"
+url = "https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-windows-x86_64.exe"
 
 [[tools."aqua:fish-shell/fish-shell"]]
 version = "4.6.0"
@@ -394,36 +394,36 @@ checksum = "sha256:567879fd7210f8a692cd2657b41eda43c7713bef74dd025b240247accdda1
 url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-pc-windows-msvc.zip"
 
 [[tools.chezmoi]]
-version = "2.70.0"
+version = "2.70.1"
 backend = "aqua:twpayne/chezmoi"
 
 [tools.chezmoi."platforms.linux-arm64"]
-checksum = "sha256:c65fb55bee4fb2bc14362998e2ce0cf1b1688bce0abfd7dd48cbac6448d6fc75"
-url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_linux_arm64.tar.gz"
+checksum = "sha256:7f8307cef8aade159cdee372a10871a606a50c6239284c0860fb463a174faba0"
+url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_linux_arm64.tar.gz"
 
 [tools.chezmoi."platforms.linux-arm64-musl"]
-checksum = "sha256:c65fb55bee4fb2bc14362998e2ce0cf1b1688bce0abfd7dd48cbac6448d6fc75"
-url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_linux_arm64.tar.gz"
+checksum = "sha256:7f8307cef8aade159cdee372a10871a606a50c6239284c0860fb463a174faba0"
+url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_linux_arm64.tar.gz"
 
 [tools.chezmoi."platforms.linux-x64"]
-checksum = "sha256:32dbc87a4db7163d0f8c3156b631e3ee1cc6fed400f43ff467eca4211f2905e7"
-url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_linux_amd64.tar.gz"
+checksum = "sha256:3bd054238e2a95548eee62a6c5b4d9d1352f2c6c69c6d32f3d1964878398f91a"
+url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_linux_amd64.tar.gz"
 
 [tools.chezmoi."platforms.linux-x64-musl"]
-checksum = "sha256:32dbc87a4db7163d0f8c3156b631e3ee1cc6fed400f43ff467eca4211f2905e7"
-url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_linux_amd64.tar.gz"
+checksum = "sha256:3bd054238e2a95548eee62a6c5b4d9d1352f2c6c69c6d32f3d1964878398f91a"
+url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_linux_amd64.tar.gz"
 
 [tools.chezmoi."platforms.macos-arm64"]
-checksum = "sha256:87142ac0465e9b1cd04a71c06c5164867fded7778c3c098f8efbea3ee9df1ade"
-url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_darwin_arm64.tar.gz"
+checksum = "sha256:814fd391b755046d9dbe17c1a7e93d7dd725b2842bf9663c08645771f4a92cf1"
+url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_darwin_arm64.tar.gz"
 
 [tools.chezmoi."platforms.macos-x64"]
-checksum = "sha256:8d8abb5da0805ce6fa4d387cf3d9615281ad5b26007bf4d469af603ab3c237af"
-url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_darwin_amd64.tar.gz"
+checksum = "sha256:36b9b41dd88485afd30c7940398edef3b4757c19e36689f9324012391ea7dbff"
+url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_darwin_amd64.tar.gz"
 
 [tools.chezmoi."platforms.windows-x64"]
-checksum = "sha256:bd75e4892ed22d5ab767c06242fc72c23c5848ad5b1aea27fd95aec03c10c777"
-url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_windows_amd64.zip"
+checksum = "sha256:dfd54ea02f4290dd7d072c2c932efcbdbe3af01035f22315986654711c6d97bd"
+url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_windows_amd64.zip"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -666,29 +666,29 @@ checksum = "sha256:15bf30fa658c596d740f0ce9a9a97b6b5d90566124903657d09fd109dd097
 url = "https://github.com/junegunn/fzf/releases/download/v0.71.0/fzf-0.71.0-windows_amd64.zip"
 
 [[tools.gcloud]]
-version = "563.0.0"
+version = "564.0.0"
 backend = "vfox:mise-plugins/vfox-gcloud"
 
 [tools.gcloud."platforms.linux-arm64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-563.0.0-linux-arm.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-arm64-musl"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-563.0.0-linux-arm.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-x64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-563.0.0-linux-x86_64.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-musl"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-563.0.0-linux-x86_64.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.macos-arm64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-563.0.0-darwin-arm.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-darwin-arm.tar.gz"
 
 [tools.gcloud."platforms.macos-x64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-563.0.0-darwin-x86_64.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-darwin-x86_64.tar.gz"
 
 [tools.gcloud."platforms.windows-x64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-563.0.0-windows-x86_64.zip"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-windows-x86_64.zip"
 
 [[tools.gh]]
 version = "2.89.0"
@@ -940,7 +940,7 @@ checksum = "sha256:929552b8305effac843ba7b4270c437aefb702fc3fbd73fcd1bffd35d4ac2
 url = "https://nodejs.org/dist/v25.9.0/node-v25.9.0-win-x64.zip"
 
 [[tools."npm:@google/gemini-cli"]]
-version = "0.36.0"
+version = "0.37.0"
 backend = "npm:@google/gemini-cli"
 
 [[tools."npm:@google/jules"]]
@@ -962,6 +962,34 @@ backend = "npm:lighthouse"
 [[tools."npm:neovim"]]
 version = "5.4.0"
 backend = "npm:neovim"
+
+[[tools.pipx]]
+version = "1.11.1"
+backend = "aqua:pypa/pipx"
+
+[tools.pipx."platforms.linux-arm64"]
+checksum = "sha256:60c947d2449af642c17079a2119ef87e426ad83967b8bb223bb27c802fc29ccd"
+url = "https://github.com/pypa/pipx/releases/download/1.11.1/pipx.pyz"
+
+[tools.pipx."platforms.linux-arm64-musl"]
+checksum = "sha256:60c947d2449af642c17079a2119ef87e426ad83967b8bb223bb27c802fc29ccd"
+url = "https://github.com/pypa/pipx/releases/download/1.11.1/pipx.pyz"
+
+[tools.pipx."platforms.linux-x64"]
+checksum = "sha256:60c947d2449af642c17079a2119ef87e426ad83967b8bb223bb27c802fc29ccd"
+url = "https://github.com/pypa/pipx/releases/download/1.11.1/pipx.pyz"
+
+[tools.pipx."platforms.linux-x64-musl"]
+checksum = "sha256:60c947d2449af642c17079a2119ef87e426ad83967b8bb223bb27c802fc29ccd"
+url = "https://github.com/pypa/pipx/releases/download/1.11.1/pipx.pyz"
+
+[tools.pipx."platforms.macos-arm64"]
+checksum = "sha256:60c947d2449af642c17079a2119ef87e426ad83967b8bb223bb27c802fc29ccd"
+url = "https://github.com/pypa/pipx/releases/download/1.11.1/pipx.pyz"
+
+[tools.pipx."platforms.macos-x64"]
+checksum = "sha256:60c947d2449af642c17079a2119ef87e426ad83967b8bb223bb27c802fc29ccd"
+url = "https://github.com/pypa/pipx/releases/download/1.11.1/pipx.pyz"
 
 [[tools."pipx:ptpython"]]
 version = "3.0.32"
@@ -1000,68 +1028,68 @@ checksum = "sha256:19d00ba35cbf9c04dc3736cd8bb641e8633f3eddd4cedde71809574ae68a2
 url = "https://github.com/pre-commit/pre-commit/releases/download/v4.5.1/pre-commit-4.5.1.pyz"
 
 [[tools.python]]
-version = "3.14.3"
+version = "3.14.4"
 backend = "core:python"
 
 [tools.python."platforms.linux-arm64"]
-checksum = "sha256:53700338695e402a1a1fe22be4a41fbdacc70e22bb308a48eca8ed67cb7992be"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:c84d61ae07e3b255f8bac6a28147bd373c3c1862d1d5598a9543a5b103fcb595"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-arm64-musl"]
-checksum = "sha256:53700338695e402a1a1fe22be4a41fbdacc70e22bb308a48eca8ed67cb7992be"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:c84d61ae07e3b255f8bac6a28147bd373c3c1862d1d5598a9543a5b103fcb595"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:d7a9f970914bb4c88756fe3bdcc186d4feb90e9500e54f1db47dae4dc9687e39"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "blake3:4698ab72f05c7ac302e9f6983f29cb6b93acd57a548bf9da816f15ffa47719bf"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-x64-musl"]
-checksum = "sha256:d7a9f970914bb4c88756fe3bdcc186d4feb90e9500e54f1db47dae4dc9687e39"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:c838ac128a6e9c944b30301880472349eca8cd1abc79fb0d359ac2a358569389"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:c43aecde4a663aebff99b9b83da0efec506479f1c3f98331442f33d2c43501f9"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:f1ce5d79bceecbed25a37b611d6dae147b27857dda8181e3a5e29e73dd1c57c3"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-aarch64-apple-darwin-install_only_stripped.tar.gz"
 
 [tools.python."platforms.macos-x64"]
-checksum = "sha256:9ab41dbc2f100a2a45d1833b9c11165f51051c558b5213eda9a9731d5948a0c0"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:1c9615f872058332b74b2be1b248078c636b6f4b116eed3e17f50eb7efe1a989"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-x86_64-apple-darwin-install_only_stripped.tar.gz"
 
 [tools.python."platforms.windows-x64"]
-checksum = "sha256:bbe19034b35b0267176a7442575ae7dc6343480fd4d35598cb7700173d431e09"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
+checksum = "sha256:472f4f0d91429661db1b28a72e36adc593b6bd5d19db222d7faca635b3005313"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260408/cpython-3.14.4+20260408-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
 
 [[tools.rclone]]
-version = "1.73.3"
+version = "1.73.4"
 backend = "aqua:rclone/rclone"
 
 [tools.rclone."platforms.linux-arm64"]
-checksum = "sha256:ed2a638b4cb15abe4f01d6d9c015f3a1cb41aa7a17c96db2725542c61f353b8e"
-url = "https://github.com/rclone/rclone/releases/download/v1.73.3/rclone-v1.73.3-linux-arm64.zip"
+checksum = "sha256:00c9e230f0004ab5e3b45c00edf7238ba5bff5fc7ea80f5a86a7da5568de6d1c"
+url = "https://github.com/rclone/rclone/releases/download/v1.73.4/rclone-v1.73.4-linux-arm64.zip"
 
 [tools.rclone."platforms.linux-arm64-musl"]
-checksum = "sha256:ed2a638b4cb15abe4f01d6d9c015f3a1cb41aa7a17c96db2725542c61f353b8e"
-url = "https://github.com/rclone/rclone/releases/download/v1.73.3/rclone-v1.73.3-linux-arm64.zip"
+checksum = "sha256:00c9e230f0004ab5e3b45c00edf7238ba5bff5fc7ea80f5a86a7da5568de6d1c"
+url = "https://github.com/rclone/rclone/releases/download/v1.73.4/rclone-v1.73.4-linux-arm64.zip"
 
 [tools.rclone."platforms.linux-x64"]
-checksum = "sha256:70278c22b98c7d02aed01828b70053904dbce4c8a1a15d7781d836c6fdb036ea"
-url = "https://github.com/rclone/rclone/releases/download/v1.73.3/rclone-v1.73.3-linux-amd64.zip"
+checksum = "sha256:abc0e6e0f275a469d94645f7ef92c7c7673eed20b6558acec5ff48b74641213c"
+url = "https://github.com/rclone/rclone/releases/download/v1.73.4/rclone-v1.73.4-linux-amd64.zip"
 
 [tools.rclone."platforms.linux-x64-musl"]
-checksum = "sha256:70278c22b98c7d02aed01828b70053904dbce4c8a1a15d7781d836c6fdb036ea"
-url = "https://github.com/rclone/rclone/releases/download/v1.73.3/rclone-v1.73.3-linux-amd64.zip"
+checksum = "sha256:abc0e6e0f275a469d94645f7ef92c7c7673eed20b6558acec5ff48b74641213c"
+url = "https://github.com/rclone/rclone/releases/download/v1.73.4/rclone-v1.73.4-linux-amd64.zip"
 
 [tools.rclone."platforms.macos-arm64"]
-checksum = "sha256:ef046e9facd10d1fb39d0ef865d7fab9b5c6ca1597ac7c9167f3aa0c7747393f"
-url = "https://github.com/rclone/rclone/releases/download/v1.73.3/rclone-v1.73.3-osx-arm64.zip"
+checksum = "sha256:8cfffacc3ce732b1960645a2f7d2ce97c2ac9ba4f2221c13af6378c199a078f9"
+url = "https://github.com/rclone/rclone/releases/download/v1.73.4/rclone-v1.73.4-osx-arm64.zip"
 
 [tools.rclone."platforms.macos-x64"]
-checksum = "sha256:aaf209187baf40a4f6b732104121f81eedc0264aaa91186952ec3e78b82025b1"
-url = "https://github.com/rclone/rclone/releases/download/v1.73.3/rclone-v1.73.3-osx-amd64.zip"
+checksum = "sha256:4ef15279d857372f3ff84b967ad68fc1c3b113d631effb9c09a18e40f8a78fa7"
+url = "https://github.com/rclone/rclone/releases/download/v1.73.4/rclone-v1.73.4-osx-amd64.zip"
 
 [tools.rclone."platforms.windows-x64"]
-checksum = "sha256:1c51142576194d124ffa9654f45bab972530da22a3a339509bf9bed399f9dea3"
-url = "https://github.com/rclone/rclone/releases/download/v1.73.3/rclone-v1.73.3-windows-amd64.zip"
+checksum = "sha256:4ad32977eec7f77aef98c035865c333f2005be2478dd6b04c9456d1df7b326bf"
+url = "https://github.com/rclone/rclone/releases/download/v1.73.4/rclone-v1.73.4-windows-amd64.zip"
 
 [[tools.ripgrep]]
 version = "15.1.0"
@@ -1192,7 +1220,7 @@ checksum = "sha256:28301a969412066bf4818c30c71d9c313091a9b9dc24b53a14ddda3a8e2cc
 url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.8/tree-sitter-windows-x64.gz"
 
 [[tools.uv]]
-version = "0.11.3"
+version = "0.11.6"
 backend = "asdf:uv"
 
 [[tools.xh]]
@@ -1292,36 +1320,36 @@ checksum = "sha256:47594981f3848a4b4447494adeca9555f908f7cf0a89c4da3fd0243a4631d
 url = "https://github.com/mikefarah/yq/releases/download/v4.52.5/yq_windows_amd64.exe"
 
 [[tools.zellij]]
-version = "0.44.0"
+version = "0.44.1"
 backend = "aqua:zellij-org/zellij"
 
 [tools.zellij."platforms.linux-arm64"]
-checksum = "sha256:dd60edef434b413529060ba46135c7ed2e4d41c92d640ce51558df031875bb2c"
-url = "https://github.com/zellij-org/zellij/releases/download/v0.44.0/zellij-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:6f028bb569d29be968c961249c5f80d5336ad4ad4b3cd79af8e32afab57b0948"
+url = "https://github.com/zellij-org/zellij/releases/download/v0.44.1/zellij-aarch64-unknown-linux-musl.tar.gz"
 
 [tools.zellij."platforms.linux-arm64-musl"]
-checksum = "sha256:dd60edef434b413529060ba46135c7ed2e4d41c92d640ce51558df031875bb2c"
-url = "https://github.com/zellij-org/zellij/releases/download/v0.44.0/zellij-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:6f028bb569d29be968c961249c5f80d5336ad4ad4b3cd79af8e32afab57b0948"
+url = "https://github.com/zellij-org/zellij/releases/download/v0.44.1/zellij-aarch64-unknown-linux-musl.tar.gz"
 
 [tools.zellij."platforms.linux-x64"]
-checksum = "sha256:7e981d50c98ec13ad6cc882e8ca4da32544dd6b69fd0d1b2b753eb597847adb3"
-url = "https://github.com/zellij-org/zellij/releases/download/v0.44.0/zellij-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:669825021d529fca5d939888263c9d2a90762145191fa07581a15250e8af2b49"
+url = "https://github.com/zellij-org/zellij/releases/download/v0.44.1/zellij-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.zellij."platforms.linux-x64-musl"]
-checksum = "sha256:7e981d50c98ec13ad6cc882e8ca4da32544dd6b69fd0d1b2b753eb597847adb3"
-url = "https://github.com/zellij-org/zellij/releases/download/v0.44.0/zellij-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:669825021d529fca5d939888263c9d2a90762145191fa07581a15250e8af2b49"
+url = "https://github.com/zellij-org/zellij/releases/download/v0.44.1/zellij-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.zellij."platforms.macos-arm64"]
-checksum = "sha256:b0b9f2b95e647e62684b33a469dcbb3e99bb10c84bd66bf907884ade7c1dbf29"
-url = "https://github.com/zellij-org/zellij/releases/download/v0.44.0/zellij-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:544c19a9353f0ecc52877ef1e80b1c1dcbf8f258b4817077f9520099c12cc30c"
+url = "https://github.com/zellij-org/zellij/releases/download/v0.44.1/zellij-aarch64-apple-darwin.tar.gz"
 
 [tools.zellij."platforms.macos-x64"]
-checksum = "sha256:2c2b0fde5862b3d82814a2dbcf620548b502bd8e843031401a2d7d7b67d9d0ca"
-url = "https://github.com/zellij-org/zellij/releases/download/v0.44.0/zellij-x86_64-apple-darwin.tar.gz"
+checksum = "sha256:590071e02f7733d25201ec9a97c5bd661ac7da3cbdf2ae52a11685b36654b7dc"
+url = "https://github.com/zellij-org/zellij/releases/download/v0.44.1/zellij-x86_64-apple-darwin.tar.gz"
 
 [tools.zellij."platforms.windows-x64"]
-checksum = "sha256:aeeb3e9befeac526a60cd0ff6cbec80d4a8335a3ff7ca00a69446e7181cbd424"
-url = "https://github.com/zellij-org/zellij/releases/download/v0.44.0/zellij-x86_64-pc-windows-msvc.zip"
+checksum = "sha256:69d7a913de40388bdb64a440b82e6ed2ac4c7232e88d0899b085c88550ec8b8f"
+url = "https://github.com/zellij-org/zellij/releases/download/v0.44.1/zellij-x86_64-pc-windows-msvc.zip"
 
 [[tools.zoxide]]
 version = "0.9.9"

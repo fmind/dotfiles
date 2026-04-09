@@ -1,0 +1,18 @@
+# Atuin shell history configuration
+
+# Vim-style keybindings for search UI
+keymap_mode = "auto"
+keymap_cursor = { vim_insert = "blink-bar", vim_normal = "steady-block" }
+
+# Search behavior
+search_mode = "fuzzy"
+filter_mode = "global"
+style = "compact"
+inline_height = 40
+show_preview = true
+enter_accept = true
+
+# Privacy: don't sync, keep local
+auto_sync = false
+update_check = false
+secrets_filter = true

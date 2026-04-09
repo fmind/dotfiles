@@ -17,14 +17,9 @@ run = "chezmoi apply"
 description = "Preview chezmoi changes"
 run = "chezmoi apply --dry-run"
 
-[tasks.default]
-description = "Apply dotfiles"
-run = "mise run apply"
-
 [tasks.docker]
 description = "Build and run the container"
 run = """
-set -e
 docker build -t fmind/dotfiles:latest .
 docker run --rm -it fmind/dotfiles:latest
 """
@@ -36,7 +31,6 @@ run = "pre-commit install"
 [tasks.lock]
 description = "Refresh repository and home mise lockfiles"
 run = """
-set -e
 mise lock
 mise -C dot_config/mise lock
 """
@@ -44,8 +38,15 @@ mise -C dot_config/mise lock
 [tasks.tools]
 description = "Install tools from ~/.config/mise/config.toml"
 run = """
-set -e
 mise trust -y "$HOME/.config/mise/config.toml"
 mise -C "$HOME" install -y node python pipx
 mise -C "$HOME" install -y
+"""
+
+[tasks.upgrade]
+description = "Upgrade mise tools to latest versions"
+run = """
+mise trust -y dot_config/mise/config.toml
+mise -C dot_config/mise upgrade --bump
+mise upgrade --bump
 """

@@ -26,9 +26,16 @@
     git_email = {{ $git_email | quote }}
     github_user = {{ $github_user | quote }}
 
+[cd]
+    command = "fish"
+
 [edit]
     command = "nvim"
     apply = true
 
 [diff]
     pager = "delta"
+
+[merge]
+    command = "nvim"
+    args = ["-d", "{{ `{{ .Destination }}` }}", "{{ `{{ .Source }}` }}", "{{ `{{ .Target }}` }}"]
