@@ -30,8 +30,8 @@ alias l="eza -la"
 alias m="mise"
 # n:npm
 alias n="npm"
-# o:btop
-alias o="btop"
+# o:btm (bottom)
+alias o="btm"
 # p:python3
 alias p="python3"
 alias pt="ptpython"
