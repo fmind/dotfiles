@@ -4,7 +4,7 @@ ENV HOME=/home/fmind
 ENV PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/bin:${HOME}/.local/share/mise/shims:${PATH}"
 RUN apt-get update -qq \
     && apt-get install -yq --no-install-recommends \
-        git sudo curl libatomic1 ca-certificates \
+    git sudo curl libatomic1 build-essential ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -G sudo -s /bin/bash fmind \
     && echo "fmind ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/fmind \

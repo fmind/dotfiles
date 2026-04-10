@@ -21,6 +21,14 @@ Managed via [Chezmoi](https://www.chezmoi.io/) and [Mise](https://mise.jdx.dev/)
 - **Utilities**: `bat` (cat), `btop` (monitor), `ripgrep` (search).
 - **Runtime**: `mise` for tool versioning and task management.
 
+## Prerequisites
+
+Ensure the following system packages are installed on your host system before bootstrapping:
+
+````bash
+sudo apt install git curl libatomic1 build-essential
+```
+
 ## Installation
 
 Bootstrap first, then install the managed toolchain from the applied home

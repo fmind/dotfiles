@@ -14,8 +14,8 @@ if [ "$(uname -s)" = "Darwin" ]; then
 fi
 
 # Check prerequisites
-for cmd in git curl; do
-    command -v "$cmd" >/dev/null || { echo "Error: $cmd is required."; exit 1; }
+for cmd in git curl make cc; do
+    command -v "$cmd" >/dev/null || { echo "Error: $cmd is required. (Hint: install build-essential or equivalent)"; exit 1; }
 done
 
 # Install chezmoi
@@ -43,5 +43,9 @@ fi
 for config in "$SOURCE_DIR/mise.toml" "$HOME/.config/mise/config.toml"; do
     [ -f "$config" ] && mise trust -y "$config"
 done
+
+# Pre-install runtimes
+echo "=> Pre-installing language runtimes..."
+mise -C "$HOME" install -y node python pipx
 
 echo "=> Done! Run 'mise run tools' to install the full toolchain."
