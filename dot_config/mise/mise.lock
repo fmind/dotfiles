@@ -940,7 +940,7 @@ checksum = "sha256:929552b8305effac843ba7b4270c437aefb702fc3fbd73fcd1bffd35d4ac2
 url = "https://nodejs.org/dist/v25.9.0/node-v25.9.0-win-x64.zip"
 
 [[tools."npm:@google/gemini-cli"]]
-version = "0.37.0"
+version = "0.37.1"
 backend = "npm:@google/gemini-cli"
 
 [[tools."npm:@google/jules"]]
@@ -1222,6 +1222,10 @@ url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.8/tree
 [[tools.uv]]
 version = "0.11.6"
 backend = "asdf:uv"
+
+[tools.uv."platforms.macos-arm64"]
+checksum = "sha256:4b69a4e366ec38cd5f305707de95e12951181c448679a00dce2a78868dfc9f5b"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.6/uv-aarch64-apple-darwin.tar.gz"
 
 [[tools.xh]]
 version = "0.25.3"
