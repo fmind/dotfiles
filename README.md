@@ -18,7 +18,7 @@ Managed via [Chezmoi](https://www.chezmoi.io/) and [Mise](https://mise.jdx.dev/)
 - **Multiplexer**: `zellij` (modern terminal workspace).
 - **File Manager**: `yazi` (terminal file manager with previews).
 - **Git and Docker**: `lazygit` and `gh`, `lazydocker` for containers.
-- **Utilities**: `bat` (cat), `btop` (monitor), `ripgrep` (search).
+- **Utilities**: `bat` (cat), `bottom` (monitor), `ripgrep` (search).
 - **Runtime**: `mise` for tool versioning and task management.
 
 ## Prerequisites
