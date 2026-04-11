@@ -50,6 +50,7 @@ description = "Install tools from ~/.config/mise/config.toml"
 run = ["mise -C \"$HOME\" install -y"]
 
 [tasks.trust]
+alias = "r"
 description = "Trust this repository and home mise configurations"
 run = [
     "mise trust -y mise.toml",
@@ -62,3 +63,8 @@ alias = "u"
 depends_post = ["lock", "apply", "tools"]
 description = "Upgrade mise tools to latest versions and lock packages"
 run = ["mise -C dot_config/mise upgrade --bump", "mise upgrade --bump"]
+
+[tasks.vim]
+alias = "v"
+description = "Install Neovim plugins headlessly with LazyVim"
+run = "nvim --headless \"+Lazy! sync\" +qa"

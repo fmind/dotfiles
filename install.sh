@@ -19,10 +19,9 @@ command -v chezmoi >/dev/null || {
 # Install dotfiles
 echo "=> Installing dotfiles..."
 if [ ! -d "$SOURCE_DIR" ]; then
-  chezmoi init https://github.com/fmind/dotfiles.git --source "$SOURCE_DIR"
+  chezmoi init fmind --source "$SOURCE_DIR"
 elif [ ! -d "$SOURCE_DIR/.git" ]; then
-  git -C "$SOURCE_DIR" init
-  git -C "$SOURCE_DIR" branch -m main
+  git -C "$SOURCE_DIR" init -b main
   git -C "$SOURCE_DIR" remote add origin https://github.com/fmind/dotfiles.git
 fi
 chezmoi init --apply --source "$SOURCE_DIR"
@@ -31,9 +30,5 @@ chezmoi init --apply --source "$SOURCE_DIR"
 echo "=> Trusting mise config ..."
 mise trust -y "$SOURCE_DIR/mise.toml"
 mise -C "$SOURCE_DIR" run trust
-
-# Install full toolchain
-echo "=> Installing full toolchain..."
-mise -C "$SOURCE_DIR" run tools
 
 echo "=> Install complete! You are ready to go."
