@@ -1,8 +1,6 @@
 {
   "advanced": {
-    "excludedEnvVars": [
-      "GOOGLE_CLOUD_PROJECT"
-    ]
+    "excludedEnvVars": ["GOOGLE_CLOUD_PROJECT"]
   },
   "agents": {
     "browser": {
@@ -15,10 +13,7 @@
     }
   },
   "context": {
-    "fileName": [
-      "AGENTS.md",
-      "GEMINI.md"
-    ]
+    "fileName": ["AGENTS.md", "GEMINI.md"]
   },
   "experimental": {
     "contextManagement": true,
@@ -101,11 +96,7 @@
         "ui": {
           "comment": "#6c7086",
           "symbol": "#94e2d5",
-          "gradient": [
-            "#cba6f7",
-            "#f38ba8",
-            "#fab387"
-          ]
+          "gradient": ["#cba6f7", "#f38ba8", "#fab387"]
         }
       }
     },

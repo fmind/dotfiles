@@ -59,6 +59,6 @@ run = [
 
 [tasks.upgrade]
 alias = "u"
-depends_post = ["lock", "apply"]
+depends_post = ["lock", "apply", "tools"]
 description = "Upgrade mise tools to latest versions and lock packages"
 run = ["mise -C dot_config/mise upgrade --bump", "mise upgrade --bump"]
