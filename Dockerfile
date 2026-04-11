@@ -13,6 +13,5 @@ USER fmind
 WORKDIR /home/fmind
 RUN mkdir -p .local/share/chezmoi
 COPY --chown=fmind:fmind . .local/share/chezmoi/
-RUN .local/share/chezmoi/install.sh \
-    && mise install -y aqua:fish-shell/fish-shell
+RUN .local/share/chezmoi/install.sh
 CMD ["fish"]

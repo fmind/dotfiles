@@ -14,7 +14,7 @@ Skills are defined as directories containing a main `SKILL.md` file and any rela
 - **Local (Workspace):** `.gemini/skills/` (Project-specific skills). **If the user does not specify where to create the skill, assume it should be local.**
 - **Global (User):** `~/.gemini/skills/` (Personal skills available across all workspaces).
 
-*(Note: `.agent/skills/` and `~/.agent/skills/` are also supported as aliases).*
+_(Note: `.agent/skills/` and `~/.agent/skills/` are also supported as aliases)._
 
 A skill directory typically looks like this:
 
@@ -42,6 +42,7 @@ description: <Short description of the skill>
 This skill documents how to...
 
 ## Instructions
+
 ...
 ```
 

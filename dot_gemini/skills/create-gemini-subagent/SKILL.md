@@ -36,6 +36,7 @@ mcp_servers:
   <agent-name>:
     # MCP Server configuration goes here
 ---
+
 # <Agent Name Title>
 
 You are the specialized <agent-name> agent. Your primary goal is to [describe primary capability]. Utilize your available tools precisely and autonomously to complete the user's request.

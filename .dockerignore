@@ -1,5 +1,6 @@
 *.md
 .dockerignore
+.gemini/
 .git/
 .github/
 .gitignore

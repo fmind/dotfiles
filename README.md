@@ -78,3 +78,4 @@ After starting the container, finalize it with:
 ```bash
 mise -C "$HOME/.local/share/chezmoi" run tools
 ```
+````
