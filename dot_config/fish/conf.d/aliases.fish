@@ -2,34 +2,32 @@
 alias a="delta"
 # b:bat
 alias b="bat"
-alias cat="bat -P"
 # c:gcloud
 alias c="gcloud"
 # d:docker
 alias d="docker"
 alias ld="lazydocker"
-# e:chezmoi
-alias e="chezmoi --source '~/.dotfiles'"
+# e:lazydocker
+alias e="lazydocker"
 # f:fd
 alias f="fd"
 # g:git
 alias g="git"
-alias lg="lazygit"
-alias gcop="copilot"
-# h:gh
-alias h="gh"
+# h:lazygit
+alias h="lazygit"
 # i:gemini
 alias i="gemini"
-# j:zellij
-alias j="zellij"
+# j:just
+alias j="just"
 # k:kubectl
 alias k="kubectl"
-alias k9="k9s"
 # l:eza (ls)
-alias ls="eza --icons=always --git"
-alias la="eza --icons=always --git --all"
-alias ll="eza --icons=always --git --long"
-alias lt="eza --icons=always --git --tree"
+alias eza="eza --icons=auto --git --group-directories-first"
+alias l="eza"
+alias ls="eza"
+alias la="eza --all"
+alias ll="eza --long"
+alias lt="eza --tree"
 # m:mise
 alias m="mise"
 # n:npm
@@ -51,13 +49,12 @@ alias t="terraform"
 alias u="uv"
 # v:nvim (vim)
 alias v="nvim"
-# w:xh (web)
-alias w="xh"
-# x:open
-if command -v xdg-open >/dev/null
-	alias x="xdg-open"
-else if command -v open >/dev/null
-	alias x="open"
-end
+alias vi="nvim"
+# w:zellij
+alias w="zellij"
+# x:xh
+alias x="xh"
+# y:yazi
+alias y="yazi"
 # z:zoxide
 # (z is automatically aliased by zoxide init)

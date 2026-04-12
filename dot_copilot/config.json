@@ -1,0 +1,9 @@
+{
+  "editor": "nvim",
+  "banner": "never",
+  "experimental": true,
+  "allowed_urls": [
+    "*"
+  ],
+  "compactPaste": false
+}

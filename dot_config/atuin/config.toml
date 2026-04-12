@@ -6,7 +6,3 @@ style = "compact"
 # Privacy: no sync
 auto_sync = false
 update_check = false
-
-# Daemon performance
-[daemon]
-enabled = true
