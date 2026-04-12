@@ -8,6 +8,10 @@ run_auto_install = false
 
 [tools]
 "aqua:fish-shell/fish-shell" = "latest"
+"aqua:gitleaks/gitleaks" = "latest"
+chezmoi = "latest"
+neovim = "latest"
+pre-commit = "latest"
 
 [tasks.apply]
 alias = "a"
@@ -43,6 +47,14 @@ run = "chezmoi init"
 alias = "l"
 description = "Refresh repository and home mise lockfiles"
 run = ["mise lock", "mise -C dot_config/mise lock"]
+
+[tasks.prune]
+alias = "p"
+description = "Remove unused packages and clear cache"
+run = [
+    "mise prune -y",
+    "mise cache clear",
+]
 
 [tasks.tools]
 alias = "t"

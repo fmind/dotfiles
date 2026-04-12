@@ -2,6 +2,7 @@
 alias a="delta"
 # b:bat
 alias b="bat"
+alias cat="bat -P"
 # c:gcloud
 alias c="gcloud"
 # d:docker
@@ -25,7 +26,10 @@ alias j="zellij"
 alias k="kubectl"
 alias k9="k9s"
 # l:eza (ls)
-alias l="eza -la"
+alias ls="eza --icons=always --git"
+alias la="eza --icons=always --git --all"
+alias ll="eza --icons=always --git --long"
+alias lt="eza --icons=always --git --tree"
 # m:mise
 alias m="mise"
 # n:npm
@@ -55,7 +59,5 @@ if command -v xdg-open >/dev/null
 else if command -v open >/dev/null
 	alias x="open"
 end
-# y:fzf
-alias y="fzf"
 # z:zoxide
-# alias z=""
+# (z is automatically aliased by zoxide init)

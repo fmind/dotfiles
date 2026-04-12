@@ -25,14 +25,11 @@
     excludesfile = ~/.gitignore
     pager = delta
 
-[interactive]
-    diffFilter = delta --color-only
-
 [delta]
-    navigate = true
     line-numbers = true
+    navigate = true
     side-by-side = true
-    syntax-theme = Catppuccin Mocha
+    syntax-theme = catppuccin-mocha
 
 [diff]
     algorithm = histogram
@@ -44,6 +41,12 @@
     prune = true
     pruneTags = true
 
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    process = git-lfs filter-process
+    required = true
+    smudge = git-lfs smudge -- %f
+
 [github]
     user = {{ .github_user }}
 
@@ -52,6 +55,9 @@
 
 [init]
     defaultBranch = main
+
+[interactive]
+    diffFilter = delta --color-only
 
 [merge]
     conflictstyle = zdiff3

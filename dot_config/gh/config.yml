@@ -1,6 +1,7 @@
 version: 1
 editor: nvim
 prompt: enabled
+pager: delta
 git_protocol: https
 aliases:
     pv: pr view --web
