@@ -1,16 +1,16 @@
 pane_frames false
 default_shell "fish"
-default_layout "default"
+default_layout "main"
 theme "catppuccin-mocha"
 
 keybinds {
     shared_except "locked" {
-        unbind "Ctrl h"
+        unbind "Ctrl h" // Conflicts with nvim window navigation
     }
     shared_except "move" "locked" {
-        bind "Ctrl m" { SwitchToMode "Move"; }
+        bind "Alt m" { SwitchToMode "Move"; }
     }
     move {
-        bind "Ctrl m" { SwitchToMode "Normal"; }
+        bind "Alt m" { SwitchToMode "Normal"; }
     }
 }
