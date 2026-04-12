@@ -8,7 +8,7 @@
 ## Principles
 
 - **AI-Driven**: Add tools and configs that maximize safe agent autonomy.
-- **Consistent**: Default to "catppuccin-mocha" theme and native Vim keybindings.
+- **Consistent**: Default to "catppuccin-mocha" theme (if built-in) and Vim.
 - **Idempotent**: Ensure non-interactive and reproducible setups via lockfiles.
 - **Portable**: Support Linux, macOS (Apple Silicon), and Cloud Shell configs.
 
