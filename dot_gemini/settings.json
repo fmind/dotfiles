@@ -1,6 +1,8 @@
 {
   "advanced": {
-    "excludedEnvVars": ["GOOGLE_CLOUD_PROJECT"]
+    "excludedEnvVars": [
+      "GOOGLE_CLOUD_PROJECT"
+    ]
   },
   "agents": {
     "browser": {
@@ -13,13 +15,20 @@
     }
   },
   "context": {
-    "fileName": ["AGENTS.md", "GEMINI.md"]
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md"
+    ]
   },
   "experimental": {
     "contextManagement": true,
+    "dynamicModelConfiguration": true,
+    "extensionReloading": true,
+    "jitContext": true,
     "memoryManager": true,
     "modelSteering": true,
     "taskTracker": true,
+    "topicUpdateNarration": true,
     "worktrees": true
   },
   "general": {
@@ -29,14 +38,12 @@
     "defaultApprovalMode": "auto_edit",
     "enableNotifications": true,
     "plan": {
-      "directory": ".gemini/plans",
-      "modelRouting": true
+      "directory": ".gemini/plans"
     },
     "preferredEditor": "nvim",
     "sessionRetention": {
-      "enabled": true,
-      "maxAge": "90d",
-      "minRetention": "7d"
+      "maxAge": "7d",
+      "minRetention": "1d"
     },
     "vimMode": true
   },
@@ -54,52 +61,11 @@
       "selectedType": "oauth-personal"
     }
   },
-  "tools": {
-    "shell": {
-      "showColor": true
-    }
-  },
   "ui": {
-    "errorVerbosity": "full",
     "escapePastedAtSymbols": true,
     "hideBanner": true,
     "hideTips": true,
-    "loadingPhrases": "off",
     "showModelInfoInChat": true,
-    "theme": "Catppuccin Mocha",
-    "customThemes": {
-      "Catppuccin Mocha": {
-        "name": "Catppuccin Mocha",
-        "type": "custom",
-        "background": {
-          "primary": "#1e1e2e",
-          "diff": {
-            "added": "#3b4b46",
-            "removed": "#5e3f53"
-          }
-        },
-        "text": {
-          "primary": "#cdd6f4",
-          "secondary": "#a6adc8",
-          "link": "#89b4fa",
-          "accent": "#cba6f7"
-        },
-        "border": {
-          "default": "#313244",
-          "focused": "#89b4fa"
-        },
-        "status": {
-          "success": "#a6e3a1",
-          "warning": "#f9e2af",
-          "error": "#f38ba8"
-        },
-        "ui": {
-          "comment": "#6c7086",
-          "symbol": "#94e2d5",
-          "gradient": ["#cba6f7", "#f38ba8", "#fab387"]
-        }
-      }
-    },
     "useAlternateBuffer": true
   }
 }
