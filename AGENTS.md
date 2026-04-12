@@ -2,8 +2,8 @@
 
 ## Objectives
 
+- **No-Sudo**: Avoid sudo whenever possible, stay in user-space.
 - **Modern CLI**: Prioritize powerful, fast, and modern CLI tools.
-- **No-Sudo**: Avoid sudo whenever possible, staying in user-space.
 
 ## Principles
 
@@ -19,3 +19,9 @@
 - **Concise Rules**: Keep all `AGENTS.md` rules under 88 characters for readability.
 - **Context First**: Review existing configs before adding new tools or settings.
 - **Verify Syntax**: Validate tool usage against the latest online documentation.
+
+## Mise Toolchain
+
+- **Mise Config**: Declare globally installed tools in `dot_config/mise/config.toml`.
+- **Mise Lock**: Run `mise lock` to record package versions after adding a tool.
+- **Mise Tasks**: Add routine commands as aliases or tasks in `mise.toml`.

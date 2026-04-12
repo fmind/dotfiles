@@ -9,7 +9,7 @@ if test -e ~/.private.fish
     source ~/.private.fish
 end
 
-# KEYBINDINGS
+# BINDINGS
 function fish_hybrid_key_bindings
     for mode in default insert visual
         fish_default_key_bindings -M $mode
@@ -18,6 +18,7 @@ function fish_hybrid_key_bindings
 end
 set -g fish_key_bindings fish_hybrid_key_bindings
 
+# PLUGINS
 if status is-interactive
     if command -v atuin >/dev/null
         atuin init fish | source
@@ -35,7 +36,7 @@ if status is-interactive
     if command -v starship >/dev/null
         starship init fish | source
     end
-    if command -v zellij >/dev/null; and not set -q ZELLIJ; and not set -q TMUX
+    if command -v zellij >/dev/null; and not set -q ZELLIJ; and not set -q TMUX; and test "$TERM_PROGRAM" != "vscode"
         zellij attach --create main
         if test $status -eq 0
             exit
