@@ -1,8 +1,8 @@
-version: 1
-editor: nvim
-prompt: enabled
-pager: delta
-git_protocol: https
 aliases:
     pv: pr view --web
     rv: repo view --web
+editor: nvim
+git_protocol: https
+pager: delta
+prompt: enabled
+version: 1
