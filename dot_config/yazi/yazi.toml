@@ -1,4 +1,6 @@
 [manager]
+linemode = "size"
 show_hidden = true
-sort_by     = "natural"
-relative_line_num = true
+show_symlink = true
+sort_by = "natural"
+sort_dir_first = true

@@ -1,10 +1,12 @@
-# Vim keys
-keymap_mode = "auto"
-keymap_cursor = { vim_insert = "blink-bar", vim_normal = "steady-block" }
-
 # Search behavior
 enter_accept = true
+inline_height = 0
+style = "compact"
 
-# Privacy: don't sync, keep local
+# Privacy: no sync
 auto_sync = false
 update_check = false
+
+# Daemon performance
+[daemon]
+enabled = true
