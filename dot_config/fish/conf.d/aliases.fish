@@ -6,13 +6,13 @@ alias b="bat"
 alias c="gcloud"
 # d:docker
 alias d="docker"
-alias lde="lazydocker"
 # e:lazydocker
 alias e="lazydocker"
 # f:fd
 alias f="fd"
 # g:git
 alias g="git"
+alias gcop="gh copilot"
 # h:lazygit
 alias h="lazygit"
 # i:gemini
