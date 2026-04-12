@@ -27,3 +27,19 @@ url = "https://github.com/fish-shell/fish-shell/releases/download/4.6.0/fish-4.6
 [tools."aqua:fish-shell/fish-shell"."platforms.macos-x64"]
 checksum = "sha256:db157369ba3006334c1035aaf2ac80e8e5b55e3f4133ff70c75afb5588c11a6d"
 url = "https://github.com/fish-shell/fish-shell/releases/download/4.6.0/fish-4.6.0.pkg"
+
+[[tools."aqua:gitleaks/gitleaks"]]
+version = "8.30.1"
+backend = "aqua:gitleaks/gitleaks"
+
+[[tools.chezmoi]]
+version = "2.70.1"
+backend = "aqua:twpayne/chezmoi"
+
+[[tools.neovim]]
+version = "0.12.1"
+backend = "vfox:mise-plugins/vfox-neovim"
+
+[[tools.pre-commit]]
+version = "4.5.1"
+backend = "aqua:pre-commit/pre-commit"
