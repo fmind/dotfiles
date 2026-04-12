@@ -1,11 +1,29 @@
-theme = Catppuccin Mocha
+# Appearance
+macos-titlebar-style = hidden
+theme = catppuccin-mocha
 
-font-family = "Fira Code"
-font-size = 13
+# Font Configuration
+font-family = "FiraCode Nerd Font Mono"
 font-feature = -calt
 font-feature = -liga
+font-size = 13
 
+# Cursor
 cursor-style = block
+cursor-style-blink = false
+
+# macOS Specific
 macos-option-as-alt = left
+
+# Quality of Life
+clipboard-paste-protection = false
+copy-on-select = clipboard
+mouse-hide-while-typing = true
+
+# Zellij & Shell Integration
+command = fish
 confirm-close-surface = false
 shell-integration-features = true
+
+# Disable bells to avoid annoyance
+bell-features = false
