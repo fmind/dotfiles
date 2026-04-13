@@ -2,7 +2,7 @@
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx LANG en_US.UTF-8
-set -gx PAGER "less -FRX"
+set -gx PAGER "bat --plain"
 set -gx MANPAGER "nvim +Man!"
 
 # Ripgrep config
