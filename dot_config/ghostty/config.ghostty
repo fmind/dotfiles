@@ -1,6 +1,6 @@
 # Appearance
 macos-titlebar-style = hidden
-theme = catppuccin-mocha
+theme = "Catppuccin Mocha"
 
 # Font Configuration
 font-family = "FiraCode Nerd Font Mono"

@@ -62,10 +62,45 @@
     }
   },
   "ui": {
+    "autoThemeSwitching": false,
+    "customThemes": {
+      "catppuccin-mocha": {
+        "background": {
+          "primary": "#1e1e2e"
+        },
+        "border": {
+          "default": "#313244",
+          "focused": "#cba6f7"
+        },
+        "name": "catppuccin-mocha",
+        "status": {
+          "error": "#f38ba8",
+          "success": "#a6e3a1",
+          "warning": "#f9e2af"
+        },
+        "text": {
+          "accent": "#cba6f7",
+          "link": "#89b4fa",
+          "primary": "#cdd6f4",
+          "secondary": "#a6adc8"
+        },
+        "type": "custom",
+        "ui": {
+          "comment": "#6c7086",
+          "gradient": [
+            "#f5c2e7",
+            "#cba6f7",
+            "#89b4fa"
+          ],
+          "symbol": "#94e2d5"
+        }
+      }
+    },
     "escapePastedAtSymbols": true,
     "hideBanner": true,
     "hideTips": true,
     "showModelInfoInChat": true,
+    "theme": "catppuccin-mocha",
     "useAlternateBuffer": true
   }
 }

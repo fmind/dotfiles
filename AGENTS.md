@@ -24,4 +24,4 @@
 
 - **Mise Config**: Declare globally installed tools in `dot_config/mise/config.toml`.
 - **Mise Lock**: Run `mise lock` to record package versions after adding a tool.
-- **Mise Tasks**: Add routine commands as aliases or tasks in `mise.toml`.
+- **Mise Tasks**: Use `mise` tasks (e.g. `mise run <task>`) for all routine operations.

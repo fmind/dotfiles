@@ -10,3 +10,6 @@ set -gx RIPGREP_CONFIG_PATH ~/.ripgreprc
 
 # GitHub Copilot setup
 set -gx COPILOT_ALLOW_ALL true
+
+# Hint to tools that terminal background is dark
+set -gx COLORFGBG "15;0"
