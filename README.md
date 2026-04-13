@@ -42,7 +42,6 @@ Manage your environment with `mise run <task>`:
 ```bash
 apply      # Apply configurations with chezmoi
 check      # Preview changes before applying
-docker     # Build and run the container
 hooks      # Install repository pre-commit hooks
 init       # Initialize chezmoi config from template
 lock       # Refresh repository and home mise lockfiles
@@ -50,15 +49,4 @@ tools      # Install tools from ~/.config/mise/config.toml
 trust      # Trust this repository and home mise configurations
 upgrade    # Upgrade mise tools to latest versions and lock packages
 vim        # Install Neovim plugins headlessly with LazyVim
-```
-
-## Docker
-
-The Docker image bootstraps the core setup but omits the full home toolchain.
-
-Finalize the installation inside the container with:
-
-```bash
-mise -C ~/.local/share/chezmoi run tools
-mise -C ~/.local/share/chezmoi run vim
 ```
