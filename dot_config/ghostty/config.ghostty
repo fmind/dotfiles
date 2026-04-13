@@ -21,7 +21,6 @@ copy-on-select = clipboard
 mouse-hide-while-typing = true
 
 # Zellij & Shell Integration
-command = fish
 confirm-close-surface = false
 shell-integration-features = true
 
