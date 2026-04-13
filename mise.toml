@@ -9,6 +9,7 @@ run_auto_install = false
 [tools]
 "aqua:fish-shell/fish-shell" = "latest"
 "aqua:gitleaks/gitleaks" = "latest"
+age = "latest"
 chezmoi = "latest"
 neovim = "latest"
 pre-commit = "latest"

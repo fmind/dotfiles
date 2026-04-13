@@ -9,6 +9,7 @@ slsa = false
 "aqua:gitleaks/gitleaks" = "latest"
 "aqua:hadolint/hadolint" = "latest"
 "aqua:terrastruct/d2" = "latest"
+age = "latest"
 "aqua:turbot/steampipe" = "latest"
 "npm:@angular/cli" = "latest"
 "npm:@google/clasp" = "latest"
