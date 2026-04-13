@@ -56,10 +56,10 @@ alias w="zellij"
 alias wa="zellij attach --create"
 alias wka="zellij kill-all-sessions --yes"
 alias wl="zellij list-sessions"
-alias wm="zellij action new-tab -l main.kdl"
+alias wm="zellij action new-tab -l $HOME/.config/zellij/layouts/main.kdl"
 alias wn="zellij action new-pane"
 alias wr="zellij action rename-tab"
-alias wt="zellij action new-tab -l vert.kdl"
+alias wt="zellij action new-tab -l $HOME/.config/zellij/layouts/vert.kdl"
 # x:xh
 alias x="xh"
 # y:yazi
