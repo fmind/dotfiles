@@ -21,10 +21,16 @@
 {{-   $github_user = promptString "What is your GitHub username" $github_user -}}
 {{- end -}}
 
+encryption = "age"
+
 [data]
     git_name = {{ $git_name | quote }}
     git_email = {{ $git_email | quote }}
     github_user = {{ $github_user | quote }}
+
+[age]
+    identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1uvmlyuvm070d22xtmsadg9a0ucw49fyn4fx0fkd805lp3kd6zy0q745paz"
 
 [cd]
     command = "fish"
