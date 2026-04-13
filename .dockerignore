@@ -1,8 +1,0 @@
-*.md
-.dockerignore
-.gemini/
-.git/
-.github/
-.gitignore
-.pre-commit-config.yaml
-Dockerfile

@@ -5,10 +5,15 @@ kind: local
 tools:
   - "*"
 mcp_servers:
-  github:
+  github_http:
     httpUrl: "https://api.githubcopilot.com/mcp/"
     headers:
       Authorization: "Bearer $GITHUB_PERSONAL_ACCESS_TOKEN"
+  github_local:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_PERSONAL_ACCESS_TOKEN: "$GITHUB_PERSONAL_ACCESS_TOKEN"
 ---
 
 # Github Agent

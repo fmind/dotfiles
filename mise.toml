@@ -26,14 +26,6 @@ depends = ["init"]
 description = "Preview chezmoi changes"
 run = "chezmoi apply --dry-run"
 
-[tasks.docker]
-alias = "d"
-description = "Build and run the container"
-run = [
-    "docker build -t fmind/dotfiles:latest .",
-    "docker run --rm -it fmind/dotfiles:latest",
-]
-
 [tasks.hooks]
 alias = "h"
 description = "Install repository pre-commit hooks"
