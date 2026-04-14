@@ -8,12 +8,18 @@ mcp_servers:
   github_http:
     httpUrl: "https://api.githubcopilot.com/mcp/"
     headers:
-      Authorization: "Bearer $GITHUB_PERSONAL_ACCESS_TOKEN"
+      Authorization: "Bearer $GITHUB_MCP_PAT"
   github_local:
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-github"]
+    command: docker
+    args:
+      - run
+      - "-i"
+      - "--rm"
+      - "-e"
+      - GITHUB_PERSONAL_ACCESS_TOKEN
+      - "ghcr.io/github/github-mcp-server"
     env:
-      GITHUB_PERSONAL_ACCESS_TOKEN: "$GITHUB_PERSONAL_ACCESS_TOKEN"
+      GITHUB_PERSONAL_ACCESS_TOKEN: "$GITHUB_MCP_PAT"
 ---
 
 # Github Agent

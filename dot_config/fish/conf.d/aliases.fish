@@ -1,5 +1,5 @@
-# a:angular
-alias a="ng"
+# a:delta
+alias a="delta"
 # b:bat
 alias b="bat"
 # c:gcloud
@@ -12,7 +12,7 @@ alias e="lazydocker"
 alias f="fd"
 # g:git
 alias g="git"
-alias gcop="gh copilot"
+# alias gcop="gh copilot"
 # h:lazygit
 alias h="lazygit"
 # i:gemini

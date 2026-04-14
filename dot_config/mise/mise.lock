@@ -245,32 +245,32 @@ checksum = "sha256:fe34f631bb24c08ad146f92ca2a92971a53d179461b509fd8d32dc863bff9
 url = "https://github.com/ast-grep/ast-grep/releases/download/0.42.1/app-x86_64-pc-windows-msvc.zip"
 
 [[tools.atuin]]
-version = "18.13.6"
+version = "18.14.1"
 backend = "aqua:atuinsh/atuin"
 
 [tools.atuin."platforms.linux-arm64"]
-checksum = "sha256:77196100a8564a88867701307940b6159e3d2db32a8d7acbfb4db1caeee21201"
-url = "https://github.com/atuinsh/atuin/releases/download/v18.13.6/atuin-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cf67d0978def478e7d149cdb94a1e572eb008c8151d95f6a53ee5560720f1141"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.14.1/atuin-aarch64-unknown-linux-musl.tar.gz"
 
 [tools.atuin."platforms.linux-arm64-musl"]
-checksum = "sha256:77196100a8564a88867701307940b6159e3d2db32a8d7acbfb4db1caeee21201"
-url = "https://github.com/atuinsh/atuin/releases/download/v18.13.6/atuin-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cf67d0978def478e7d149cdb94a1e572eb008c8151d95f6a53ee5560720f1141"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.14.1/atuin-aarch64-unknown-linux-musl.tar.gz"
 
 [tools.atuin."platforms.linux-x64"]
-checksum = "sha256:19712eadad816d328086553133f0933a9a4429d52dcf660e8feb8af9f7552f3e"
-url = "https://github.com/atuinsh/atuin/releases/download/v18.13.6/atuin-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:f648ecb4248eb2cd77e17b42370d6229defe306d35443b0601c2c8a5a5fd0a16"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.14.1/atuin-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.atuin."platforms.linux-x64-musl"]
-checksum = "sha256:19712eadad816d328086553133f0933a9a4429d52dcf660e8feb8af9f7552f3e"
-url = "https://github.com/atuinsh/atuin/releases/download/v18.13.6/atuin-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:f648ecb4248eb2cd77e17b42370d6229defe306d35443b0601c2c8a5a5fd0a16"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.14.1/atuin-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.atuin."platforms.macos-arm64"]
-checksum = "sha256:5c321fe8544310cf4def1a423398795f8728180f8e18524bd66b6d72f3dfe86b"
-url = "https://github.com/atuinsh/atuin/releases/download/v18.13.6/atuin-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:67ca2694583eac0d02c442d1ffd1cb2d0c505d9f60357e7550aaef2b966597f5"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.14.1/atuin-aarch64-apple-darwin.tar.gz"
 
 [tools.atuin."platforms.windows-x64"]
-checksum = "sha256:c0fde67c1e83ca8e65fd62ba8b30518830a3eb0d3949739e5bc7282b56f97470"
-url = "https://github.com/atuinsh/atuin/releases/download/v18.13.6/atuin-x86_64-pc-windows-msvc.zip"
+checksum = "sha256:5b7e3630cafad6e8a9846246a192955f8988a4879c88ad167cdb7d7e6bdb0915"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.14.1/atuin-x86_64-pc-windows-msvc.zip"
 
 [[tools.bat]]
 version = "0.26.1"
@@ -399,10 +399,6 @@ url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70
 [tools.chezmoi."platforms.windows-x64"]
 checksum = "sha256:dfd54ea02f4290dd7d072c2c932efcbdbe3af01035f22315986654711c6d97bd"
 url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_windows_amd64.zip"
-
-[[tools.dart]]
-version = "3.11.4"
-backend = "http:dart"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -612,30 +608,6 @@ url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-aarch6
 checksum = "sha256:b2816e506390a89941c63c9187d58a3cc10e9a55f2ef0685f9ea0eccaf7c98c8"
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-pc-windows-msvc.zip"
 
-[[tools.firebase]]
-version = "15.14.0"
-backend = "aqua:firebase/firebase-tools"
-
-[tools.firebase."platforms.linux-x64"]
-checksum = "sha256:29fff582faa5a669168ff7720cf3408c80ce264aee0b62d0f097cdcd79fcc45f"
-url = "https://github.com/firebase/firebase-tools/releases/download/v15.14.0/firebase-tools-linux"
-
-[tools.firebase."platforms.linux-x64-musl"]
-checksum = "sha256:29fff582faa5a669168ff7720cf3408c80ce264aee0b62d0f097cdcd79fcc45f"
-url = "https://github.com/firebase/firebase-tools/releases/download/v15.14.0/firebase-tools-linux"
-
-[tools.firebase."platforms.macos-arm64"]
-checksum = "sha256:863049ad0a10cd0eeda5d0abd4cf43bd19dbcf4832fd8fb5809086ecebfca875"
-url = "https://github.com/firebase/firebase-tools/releases/download/v15.14.0/firebase-tools-macos"
-
-[tools.firebase."platforms.macos-x64"]
-checksum = "sha256:863049ad0a10cd0eeda5d0abd4cf43bd19dbcf4832fd8fb5809086ecebfca875"
-url = "https://github.com/firebase/firebase-tools/releases/download/v15.14.0/firebase-tools-macos"
-
-[tools.firebase."platforms.windows-x64"]
-checksum = "sha256:f175cf0c0be7e2a86d3e3390311f87dee6ee833d3880751bb332c5d5fbaa8b85"
-url = "https://github.com/firebase/firebase-tools/releases/download/v15.14.0/firebase-tools-win.exe"
-
 [[tools.fzf]]
 version = "0.71.0"
 backend = "aqua:junegunn/fzf"
@@ -669,29 +641,29 @@ checksum = "sha256:15bf30fa658c596d740f0ce9a9a97b6b5d90566124903657d09fd109dd097
 url = "https://github.com/junegunn/fzf/releases/download/v0.71.0/fzf-0.71.0-windows_amd64.zip"
 
 [[tools.gcloud]]
-version = "564.0.0"
+version = "565.0.0"
 backend = "vfox:mise-plugins/vfox-gcloud"
 
 [tools.gcloud."platforms.linux-arm64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-arm.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-arm64-musl"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-arm.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-x64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-x86_64.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-musl"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-linux-x86_64.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.macos-arm64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-darwin-arm.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-darwin-arm.tar.gz"
 
 [tools.gcloud."platforms.macos-x64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-darwin-x86_64.tar.gz"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-darwin-x86_64.tar.gz"
 
 [tools.gcloud."platforms.windows-x64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-564.0.0-windows-x86_64.zip"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-windows-x86_64.zip"
 
 [[tools.gh]]
 version = "2.89.0"
@@ -854,36 +826,36 @@ checksum = "sha256:2af0b2516cd006b1849f2cdae4cd82abbf5d1c2d49b88563daffaa1fb4ac4
 url = "https://github.com/jesseduffield/lazydocker/releases/download/v0.25.0/lazydocker_0.25.0_Windows_x86_64.zip"
 
 [[tools.lazygit]]
-version = "0.61.0"
+version = "0.61.1"
 backend = "aqua:jesseduffield/lazygit"
 
 [tools.lazygit."platforms.linux-arm64"]
-checksum = "sha256:7c3b1594fbb5ca29c17f875c0240849dd924f29bdeaf819ef26ae2107ccad84c"
-url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.0/lazygit_0.61.0_linux_arm64.tar.gz"
+checksum = "sha256:20b1abb2bee5dfd46173b9047353eb678bc51a23839e821958d0b1863ab1655e"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.1/lazygit_0.61.1_linux_arm64.tar.gz"
 
 [tools.lazygit."platforms.linux-arm64-musl"]
-checksum = "sha256:7c3b1594fbb5ca29c17f875c0240849dd924f29bdeaf819ef26ae2107ccad84c"
-url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.0/lazygit_0.61.0_linux_arm64.tar.gz"
+checksum = "sha256:20b1abb2bee5dfd46173b9047353eb678bc51a23839e821958d0b1863ab1655e"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.1/lazygit_0.61.1_linux_arm64.tar.gz"
 
 [tools.lazygit."platforms.linux-x64"]
-checksum = "sha256:4a9702b346283a23a6919c9424617e14788ac00e9cd3c9be266bac48cc6de8eb"
-url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.0/lazygit_0.61.0_linux_x86_64.tar.gz"
+checksum = "sha256:1b91e660700f2332696726b635202576b543e2bc49b639830dccd26bc5160d5d"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.1/lazygit_0.61.1_linux_x86_64.tar.gz"
 
 [tools.lazygit."platforms.linux-x64-musl"]
-checksum = "sha256:4a9702b346283a23a6919c9424617e14788ac00e9cd3c9be266bac48cc6de8eb"
-url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.0/lazygit_0.61.0_linux_x86_64.tar.gz"
+checksum = "sha256:1b91e660700f2332696726b635202576b543e2bc49b639830dccd26bc5160d5d"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.1/lazygit_0.61.1_linux_x86_64.tar.gz"
 
 [tools.lazygit."platforms.macos-arm64"]
-checksum = "sha256:7dc684c3c40812de72f7852222d415fecb1c4dae2058b23e5a3c4a5341dc6e9f"
-url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.0/lazygit_0.61.0_darwin_arm64.tar.gz"
+checksum = "sha256:cb665faec92d1574d398296869c084d2b9686464a42806558b967bb87cd07bc9"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.1/lazygit_0.61.1_darwin_arm64.tar.gz"
 
 [tools.lazygit."platforms.macos-x64"]
-checksum = "sha256:196232de7647094bb51681afb3fc3076d5b4eb70ae99b9cec145462b13aab54f"
-url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.0/lazygit_0.61.0_darwin_x86_64.tar.gz"
+checksum = "sha256:6efdb97b8ec24b5729156555d6bc05b340776f00084ddd78ab8bdc7f3dd9b727"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.1/lazygit_0.61.1_darwin_x86_64.tar.gz"
 
 [tools.lazygit."platforms.windows-x64"]
-checksum = "sha256:26bb374ee7f3c6e52627262c7f8cc96ab23f96dfd3ef95b3d485d2ef9b842764"
-url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.0/lazygit_0.61.0_windows_x86_64.zip"
+checksum = "sha256:6024f3094904caaf9b9672b801cba31a65ad36729a0d2c5a03c432f739c0678b"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.61.1/lazygit_0.61.1_windows_x86_64.zip"
 
 [[tools.neovim]]
 version = "0.12.1"
@@ -942,16 +914,12 @@ url = "https://nodejs.org/dist/v24.14.1/node-v24.14.1-darwin-x64.tar.gz"
 checksum = "sha256:6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
 url = "https://nodejs.org/dist/v24.14.1/node-v24.14.1-win-x64.zip"
 
-[[tools."npm:@angular/cli"]]
-version = "21.2.7"
-backend = "npm:@angular/cli"
-
 [[tools."npm:@google/clasp"]]
 version = "3.3.0"
 backend = "npm:@google/clasp"
 
 [[tools."npm:@google/gemini-cli"]]
-version = "0.37.1"
+version = "0.37.2"
 backend = "npm:@google/gemini-cli"
 
 [[tools."npm:@google/jules"]]
@@ -1233,31 +1201,6 @@ url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.8/tree
 [[tools.uv]]
 version = "0.11.6"
 backend = "asdf:uv"
-
-[[tools."vfox:flutter"]]
-version = "3.41.6"
-backend = "vfox:flutter"
-
-[tools."vfox:flutter"."platforms.linux-arm64"]
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.41.6-stable.tar.xz"
-
-[tools."vfox:flutter"."platforms.linux-arm64-musl"]
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.41.6-stable.tar.xz"
-
-[tools."vfox:flutter"."platforms.linux-x64"]
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.41.6-stable.tar.xz"
-
-[tools."vfox:flutter"."platforms.linux-x64-musl"]
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.41.6-stable.tar.xz"
-
-[tools."vfox:flutter"."platforms.macos-arm64"]
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.41.6-stable.zip"
-
-[tools."vfox:flutter"."platforms.macos-x64"]
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.41.6-stable.zip"
-
-[tools."vfox:flutter"."platforms.windows-x64"]
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.41.6-stable.zip"
 
 [[tools.xh]]
 version = "0.25.3"
