@@ -20,6 +20,10 @@ clipboard-paste-protection = false
 copy-on-select = clipboard
 mouse-hide-while-typing = true
 
+# Launch fish through the mise shim because GUI apps on macOS do not inherit
+# the shell PATH that normally exposes `fish`.
+command = {{ joinPath .chezmoi.homeDir ".local/share/mise/shims/fish" | quote }}
+
 # Zellij & Shell Integration
 confirm-close-surface = false
 shell-integration-features = true
