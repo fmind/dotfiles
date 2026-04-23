@@ -304,6 +304,38 @@ url = "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-x86_
 checksum = "sha256:0f729b4b6f5f28d395c641eacc2e9ff68d0096b85aa0eec344aa62425144b69b"
 url = "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-x86_64-pc-windows-msvc.zip"
 
+[[tools.biome]]
+version = "2.4.13"
+backend = "aqua:biomejs/biome"
+
+[tools.biome."platforms.linux-arm64"]
+checksum = "sha256:8aff839821c82ba5ba8455a52d8beacb02229697e781ebaa095f8442fdb6ae51"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.4.13/biome-linux-arm64"
+
+[tools.biome."platforms.linux-arm64-musl"]
+checksum = "sha256:8aff839821c82ba5ba8455a52d8beacb02229697e781ebaa095f8442fdb6ae51"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.4.13/biome-linux-arm64"
+
+[tools.biome."platforms.linux-x64"]
+checksum = "sha256:f5a3cf9cbe40ba7dd8ecd469567cac00635462589a3acfe97e5d8cab8b866c1c"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.4.13/biome-linux-x64"
+
+[tools.biome."platforms.linux-x64-musl"]
+checksum = "sha256:f5a3cf9cbe40ba7dd8ecd469567cac00635462589a3acfe97e5d8cab8b866c1c"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.4.13/biome-linux-x64"
+
+[tools.biome."platforms.macos-arm64"]
+checksum = "sha256:22eb03789d405ea84e7b01192a9b5a4885802468dd0f369613837f5b5935178b"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.4.13/biome-darwin-arm64"
+
+[tools.biome."platforms.macos-x64"]
+checksum = "sha256:2180d3467d67773daccea90855d8d65e1026ffa429ceba3edcb4553c8664627b"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.4.13/biome-darwin-x64"
+
+[tools.biome."platforms.windows-x64"]
+checksum = "sha256:bc7d1f26be936aec1423f70ed94fd8c5aa80c3ba199d991dcaf13476daa5f786"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.4.13/biome-win32-x64.exe"
+
 [[tools.bottom]]
 version = "0.12.3"
 backend = "aqua:ClementTsang/bottom"
@@ -581,36 +613,36 @@ checksum = "sha256:4d4f87f6bc8e6ee176789c28bee698234ce0275da013709eb16b0f14819c1
 url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza.exe_x86_64-pc-windows-gnu.tar.gz"
 
 [[tools.fastfetch]]
-version = "2.62.0"
+version = "2.62.1"
 backend = "aqua:fastfetch-cli/fastfetch"
 
 [tools.fastfetch."platforms.linux-arm64"]
-checksum = "sha256:bce469209a44ee095a0e34286982c68eac5693fefa50bee639db47a13d53a43e"
-url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.0/fastfetch-linux-aarch64.tar.gz"
+checksum = "sha256:92086b8b470ec8962d148363c350c7e0f291b9159b832add2c46f4c08ff4792d"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.1/fastfetch-linux-aarch64.tar.gz"
 
 [tools.fastfetch."platforms.linux-arm64-musl"]
-checksum = "sha256:bce469209a44ee095a0e34286982c68eac5693fefa50bee639db47a13d53a43e"
-url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.0/fastfetch-linux-aarch64.tar.gz"
+checksum = "sha256:92086b8b470ec8962d148363c350c7e0f291b9159b832add2c46f4c08ff4792d"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.1/fastfetch-linux-aarch64.tar.gz"
 
 [tools.fastfetch."platforms.linux-x64"]
-checksum = "sha256:f8c803edfc2e591cdf084d4a17250df6240c9c836a6d103e6f9f65bcff305d46"
-url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.0/fastfetch-linux-amd64.tar.gz"
+checksum = "sha256:52619f3d39f03266ec74f9ae9c86893290ec2aa3ea055137f63750a1ce7ea00d"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.1/fastfetch-linux-amd64.tar.gz"
 
 [tools.fastfetch."platforms.linux-x64-musl"]
-checksum = "sha256:f8c803edfc2e591cdf084d4a17250df6240c9c836a6d103e6f9f65bcff305d46"
-url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.0/fastfetch-linux-amd64.tar.gz"
+checksum = "sha256:52619f3d39f03266ec74f9ae9c86893290ec2aa3ea055137f63750a1ce7ea00d"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.1/fastfetch-linux-amd64.tar.gz"
 
 [tools.fastfetch."platforms.macos-arm64"]
-checksum = "sha256:aff15124017178c7984c80a67b91ea9e8c991767507aaa845ac135e676c95d7b"
-url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.0/fastfetch-macos-aarch64.tar.gz"
+checksum = "sha256:751f61d5c60b21c4a2f88ac5bf295ed3ff42ba7d3333bc7f08d26d2d5d3455c0"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.1/fastfetch-macos-aarch64.tar.gz"
 
 [tools.fastfetch."platforms.macos-x64"]
-checksum = "sha256:9e2255e72b0f172e4359f7b4cf17c4d546b4a88a0b7f518a287f42466d62c6cf"
-url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.0/fastfetch-macos-amd64.tar.gz"
+checksum = "sha256:742a6daddcbee5682904824eed438b96676190139d58cb6bdabdcca9a07ae0d0"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.1/fastfetch-macos-amd64.tar.gz"
 
 [tools.fastfetch."platforms.windows-x64"]
-checksum = "sha256:521e188883aa0dbdf7325ab3227edb87e0db20002dfa70f14976ea75d920d49d"
-url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.0/fastfetch-windows-amd64.zip"
+checksum = "sha256:93196caef8aac6630847422fb1e9b27eb6574d3c7f562fb88bd7dbf754115bc4"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.62.1/fastfetch-windows-amd64.zip"
 
 [[tools.fd]]
 version = "10.4.2"
@@ -722,7 +754,7 @@ url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-565.0.0-windows-x86_64.zip"
 
 [[tools.gemini-cli]]
-version = "0.38.2"
+version = "0.39.0"
 backend = "npm:@google/gemini-cli"
 
 [[tools.gh]]
@@ -820,6 +852,38 @@ url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8
 [tools.gitleaks."platforms.windows-x64"]
 checksum = "sha256:d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e"
 url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_windows_x64.zip"
+
+[[tools.go]]
+version = "1.26.2"
+backend = "core:go"
+
+[tools.go."platforms.linux-arm64"]
+checksum = "sha256:c958a1fe1b361391db163a485e21f5f228142d6f8b584f6bef89b26f66dc5b23"
+url = "https://dl.google.com/go/go1.26.2.linux-arm64.tar.gz"
+
+[tools.go."platforms.linux-arm64-musl"]
+checksum = "sha256:c958a1fe1b361391db163a485e21f5f228142d6f8b584f6bef89b26f66dc5b23"
+url = "https://dl.google.com/go/go1.26.2.linux-arm64.tar.gz"
+
+[tools.go."platforms.linux-x64"]
+checksum = "sha256:990e6b4bbba816dc3ee129eaeaf4b42f17c2800b88a2166c265ac1a200262282"
+url = "https://dl.google.com/go/go1.26.2.linux-amd64.tar.gz"
+
+[tools.go."platforms.linux-x64-musl"]
+checksum = "sha256:990e6b4bbba816dc3ee129eaeaf4b42f17c2800b88a2166c265ac1a200262282"
+url = "https://dl.google.com/go/go1.26.2.linux-amd64.tar.gz"
+
+[tools.go."platforms.macos-arm64"]
+checksum = "sha256:32af1522bf3e3ff3975864780a429cc0b41d190ec7bf90faa661d6d64566e7af"
+url = "https://dl.google.com/go/go1.26.2.darwin-arm64.tar.gz"
+
+[tools.go."platforms.macos-x64"]
+checksum = "sha256:bc3f1500d9968c36d705442d90ba91addf9271665033748b82532682e90a7966"
+url = "https://dl.google.com/go/go1.26.2.darwin-amd64.tar.gz"
+
+[tools.go."platforms.windows-x64"]
+checksum = "sha256:98eb3570bade15cb826b0909338df6cc6d2cf590bc39c471142002db3832b708"
+url = "https://dl.google.com/go/go1.26.2.windows-amd64.zip"
 
 [[tools.hadolint]]
 version = "2.14.0"
@@ -1085,10 +1149,6 @@ backend = "npm:@google/clasp"
 [[tools."npm:@google/gemini-cli"]]
 version = "0.38.2"
 backend = "npm:@google/gemini-cli"
-
-[[tools."npm:@google/jules"]]
-version = "0.1.42"
-backend = "npm:@google/jules"
 
 [[tools."npm:@googleworkspace/cli"]]
 version = "0.22.5"

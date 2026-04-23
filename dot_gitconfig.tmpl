@@ -22,8 +22,9 @@
 
 [core]
     editor = nvim
-    excludesfile = ~/.gitignore
+    fsmonitor = true
     pager = delta
+    untrackedCache = true
 
 [delta]
     line-numbers = true
@@ -35,11 +36,13 @@
     algorithm = histogram
     colorMoved = default
     colorMovedWS = allow-indentation-change
+    mnemonicPrefix = true
 
 [fetch]
     all = true
     prune = true
     pruneTags = true
+    writeCommitGraph = true
 
 [filter "lfs"]
     clean = git-lfs clean -- %f

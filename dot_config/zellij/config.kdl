@@ -1,6 +1,7 @@
 pane_frames false
 default_shell "fish"
 default_layout "main"
+simplified_ui true
 theme "catppuccin-mocha"
 
 keybinds {

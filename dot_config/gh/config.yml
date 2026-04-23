@@ -1,8 +1,15 @@
 aliases:
+    co: pr checkout
+    il: issue list
+    iv: issue view --web
+    pc: pr create --web
+    ps: pr status
     pv: pr view --web
     rv: repo view --web
+color_labels: enabled
 editor: nvim
 git_protocol: ssh
 pager: delta
+prefer_editor_prompt: enabled
 prompt: enabled
-version: 1
+telemetry: disabled

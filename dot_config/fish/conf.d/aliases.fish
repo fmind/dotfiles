@@ -1,5 +1,5 @@
-# a:delta
-alias a="delta"
+# a:jules
+alias a="jules"
 # b:bat
 alias b="bat"
 # c:gcloud
@@ -22,7 +22,7 @@ alias j="just"
 # k:kubectl
 alias k="kubectl"
 # l:eza (ls)
-alias eza="eza --icons=auto --git --group-directories-first"
+alias eza="eza --icons=never --git --group-directories-first"
 alias l="eza"
 alias ls="eza"
 alias la="eza --all"
