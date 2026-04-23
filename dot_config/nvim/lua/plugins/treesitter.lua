@@ -1,3 +1,4 @@
+-- Configure treesitter to add custom parsers and remove gitcommit
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",

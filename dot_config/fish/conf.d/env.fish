@@ -1,3 +1,4 @@
+set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
 set -gx COLORFGBG "15;0"
 set -gx COPILOT_ALLOW_ALL true
 set -gx EDITOR nvim

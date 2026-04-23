@@ -2,19 +2,6 @@
 bind -v
 
 # Common shortcuts
-bind "^A" ed-move-to-beg
-bind "^E" ed-move-to-end
-bind "^H" ed-delete-prev-char
 bind "^L" ed-clear-screen
-bind "^R" em-inc-search-prev
-bind "^U" vi-kill-line-prev
-bind "^W" ed-delete-prev-word
 bind "\e[A" ed-search-prev-history
 bind "\e[B" ed-search-next-history
-bind "\e[F" ed-move-to-end
-bind "\e[H" ed-move-to-beg
-bind -a "\e[A" ed-search-prev-history
-bind -a "\e[B" ed-search-next-history
-bind -a "\e[F" ed-move-to-end
-bind -a "\e[H" ed-move-to-beg
-bind -a "^L" ed-clear-screen
