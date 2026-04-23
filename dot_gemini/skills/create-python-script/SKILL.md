@@ -1,5 +1,6 @@
-name: create-python-script description: Generate clean, standalone Python CLI scripts with uv, Typer, and Loguru
-
+---
+name: create-python-script
+description: Generate clean, standalone Python CLI scripts with uv, Typer, and Loguru
 ---
 
 # Create Python Script
@@ -59,17 +60,17 @@ if __name__ == "__main__":
 
 ## Core Principles
 
-1.  **Minimalist & Functional**: Rely on **Typer** for all CLI arguments,
+1. **Minimalist & Functional**: Rely on **Typer** for all CLI arguments,
 options, and validation.
-2.  **Reproducibility**: Always use `[tool.uv]` with `exclude-newer` to lock
+2. **Reproducibility**: Always use `[tool.uv]` with `exclude-newer` to lock
 dependencies in time.
-3.  **Modern Python 3.14+**: Leverage modern idioms like `t-strings` and
+3. **Modern Python 3.14+**: Leverage modern idioms like `t-strings` and
 `Annotated` for clean, self-documenting code.
-4.  **CLI UX**: Use **Rich** for user-facing feedback and **Loguru** for
+4. **CLI UX**: Use **Rich** for user-facing feedback and **Loguru** for
 technical logs.
-5.  **Robustness**: Use **httpx** for I/O and **tenacity** for retries. Handle
+5. **Robustness**: Use **httpx** for I/O and **tenacity** for retries. Handle
 all fatal errors with `logger.exception` to capture stack traces.
-6.  **Self-Contained**: The `uv` shebang and PEP 723 metadata block are
+6. **Self-Contained**: The `uv` shebang and PEP 723 metadata block are
 MANDATORY.
 
 ## AI Agent Instructions

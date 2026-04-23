@@ -51,19 +51,23 @@ This skill documents how to...
 ### Key Components
 
 1. **Frontmatter:**
-- `name`: A concise, hyphen-separated name for the skill (e.g., `create-gemini-agent-skill`). - `description`: A brief summary of what the skill helps the agent achieve.
+   - `name`: A concise, hyphen-separated name for the skill (e.g., `create-gemini-agent-skill`).
+   - `description`: A brief summary of what the skill helps the agent achieve.
 
-2. **Body Content:**
-- Define the exact steps the agent should follow when using this skill. - Document any project-specific conventions, code snippets, or directory structures. - Specify conditions, limitations, or constraints for executing the skill. - The richer the explanation and formatting, the better the Gemini agent can autonomously execute the procedures outlined within it.
+1. **Body Content:**
+   - Define the exact steps the agent should follow when using this skill.
+   - Document any project-specific conventions, code snippets, or directory structures.
+   - Specify conditions, limitations, or constraints for executing the skill.
+   - The richer the explanation and formatting, the better the Gemini agent can autonomously execute the procedures outlined within it.
 
 ## Step-by-Step Creation
 
 1. **Create the folder:** Make the directory `.gemini/skills/<skill-name>` (or
 `~/.gemini/skills/<skill-name>` if it must be global).
-2. **Include optional folders:** If the skill requires them, create `scripts/`,
+1. **Include optional folders:** If the skill requires them, create `scripts/`,
 `references/`, or `assets/` subdirectories.
-3. **Create the file:** Inside the skill folder, create `SKILL.md`.
-4. **Fill the frontmatter:** Ensure you include the `name` and `description`
+1. **Create the file:** Inside the skill folder, create `SKILL.md`.
+1. **Fill the frontmatter:** Ensure you include the `name` and `description`
 lines between the `---` delimiters.
-5. **Draft the instructions:** Outline the procedural process explicitly,
+1. **Draft the instructions:** Outline the procedural process explicitly,
 following the markdown patterns of existing skills. Provide concrete examples and specific tool usage commands where relevant to anchor the logic firmly.

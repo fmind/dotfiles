@@ -1,13 +1,16 @@
-# follow symlinks
---follow
-
-# Search hidden files
+# Search hidden files (but keep .git ignored)
 --hidden
 --glob=!.git/
 
-# Case-insensitive search
+# Follow symlinks
+--follow
+
+# Case-insensitive search (unless uppercase)
 --smart-case
 
 # Truncate very long lines
---max-columns=200
+--max-columns=150
 --max-columns-preview
+
+# Modern features
+--hyperlink

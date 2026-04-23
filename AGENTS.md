@@ -11,6 +11,7 @@
 - **Consistent**: Default to "catppuccin-mocha" theme (if built-in) and Vim.
 - **Idempotent**: Ensure non-interactive and reproducible setups via lockfiles.
 - **Portable**: Support Linux, macOS (Apple Silicon), and Cloud Shell configs.
+- **No-Icons**: Avoid Nerd Font icons whenever possible to enhance compatibility.
 
 ## Collaboration
 
@@ -23,5 +24,4 @@
 ## Mise Toolchain
 
 - **Mise Config**: Declare globally installed tools in `dot_config/mise/config.toml`.
-- **Mise Lock**: Run `mise lock` to record package versions after adding a tool.
 - **Mise Tasks**: Use `mise` tasks (e.g. `mise run <task>`) for all routine operations.
