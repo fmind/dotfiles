@@ -1,10 +1,9 @@
 # PLUGINS
 if status is-interactive
     if type -q atuin
-        atuin init fish | source
+        atuin init fish --disable-up-arrow | source
     end
     if type -q carapace
-        set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
         carapace _carapace | source
     end
     if type -q fzf

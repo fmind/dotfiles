@@ -47,6 +47,7 @@ description = "Remove unused packages and clear cache"
 run = [
     "mise prune -y",
     "mise cache clear",
+    "chezmoi purge",
 ]
 
 [tasks.tools]
@@ -72,4 +73,4 @@ run = ["mise -C dot_config/mise upgrade --bump", "mise upgrade --bump"]
 [tasks.vim]
 alias = "v"
 description = "Install Neovim plugins headlessly with LazyVim"
-run = "nvim --headless \"+Lazy! sync\" +qa"
+run = "nvim --headless \"+Lazy! restore\" +qa"
