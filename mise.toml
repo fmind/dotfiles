@@ -16,15 +16,33 @@ pre-commit = "latest"
 
 [tasks.apply]
 alias = "a"
-depends = ["init"]
 description = "Apply with chezmoi"
-run = "chezmoi apply"
+run = "chezmoi apply --init"
+
+[tasks.bootstrap]
+alias = "b"
+depends = ["trust", "tools", "apply", "vim", "hooks"]
+description = "Full first-time setup"
+run = "echo '✓ Bootstrap complete.'"
 
 [tasks.check]
 alias = "c"
-depends = ["init"]
 description = "Preview chezmoi changes"
-run = "chezmoi apply --dry-run"
+run = "chezmoi apply --dry-run --init"
+
+[tasks.diff]
+alias = "d"
+description = "Show pending chezmoi diff"
+run = "chezmoi diff --init"
+
+[tasks.doctor]
+alias = "D"
+description = "Run chezmoi/mise/nvim health checks"
+run = [
+    "chezmoi doctor",
+    "mise doctor",
+    "nvim --headless '+checkhealth' '+qa' 2>&1 | tail -40",
+]
 
 [tasks.hooks]
 alias = "h"
@@ -33,8 +51,13 @@ run = "pre-commit install"
 
 [tasks.init]
 alias = "i"
-description = "Initialize chezmoi config from template"
-run = "chezmoi init"
+description = "Initialize/regenerate chezmoi config from template"
+run = "chezmoi init --source \"$PWD\""
+
+[tasks.lint]
+alias = "L"
+description = "Run pre-commit on all files"
+run = "pre-commit run --all-files"
 
 [tasks.lock]
 alias = "l"
@@ -43,15 +66,17 @@ run = ["mise lock", "mise -C dot_config/mise lock"]
 
 [tasks.prune]
 alias = "p"
-description = "Remove unused packages and clear cache"
-run = [
-    "mise prune -y",
-    "mise cache clear",
-]
+description = "Remove unused mise packages and clear cache"
+run = ["mise prune -y", "mise cache clear"]
+
+[tasks.scan]
+alias = "s"
+description = "Scan repository for leaked secrets with gitleaks"
+run = "gitleaks detect --no-banner --redact --source ."
 
 [tasks.tools]
 alias = "t"
-description = "Install tools from ~/.config/mise/config.toml"
+description = "Install global tools from ~/.config/mise/config.toml"
 run = ["mise -C \"$HOME\" install -y"]
 
 [tasks.trust]
@@ -66,10 +91,10 @@ run = [
 [tasks.upgrade]
 alias = "u"
 depends_post = ["lock", "apply", "tools"]
-description = "Upgrade mise tools to latest versions and lock packages"
+description = "Upgrade mise tools to latest versions"
 run = ["mise -C dot_config/mise upgrade --bump", "mise upgrade --bump"]
 
 [tasks.vim]
 alias = "v"
-description = "Install Neovim plugins headlessly with LazyVim"
-run = "nvim --headless \"+Lazy! restore\" +qa"
+description = "Install/sync Neovim plugins headlessly with LazyVim"
+run = "nvim --headless '+Lazy! restore' +qa"

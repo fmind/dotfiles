@@ -12,7 +12,6 @@ alias e="lazydocker"
 alias f="fd"
 # g:git
 alias g="git"
-# alias gcop="gh copilot"
 # h:lazygit
 alias h="lazygit"
 # i:gemini
@@ -21,7 +20,7 @@ alias i="gemini"
 alias j="just"
 # k:kubectl
 alias k="kubectl"
-# l:eza (ls)
+# l:eza
 alias eza="eza --icons=never --git --group-directories-first"
 alias l="eza --icons=never --git --group-directories-first"
 alias ls="eza --icons=never --git --group-directories-first"
@@ -33,14 +32,14 @@ alias m="mise"
 alias mr="mise run"
 # n:npm
 alias n="npm"
-# o:btm (bottom)
+# o:btm
 alias o="btm"
-# p:python3
+# p:python3 / pt:ptpython
 alias p="python3"
 alias pt="ptpython"
-# q:gemini (prompt)
+# q:gemini prompt
 alias q="gemini --prompt"
-# r:ripgrep (grep)
+# r:ripgrep
 alias r="rg"
 # s:ssh
 alias s="ssh"
@@ -48,7 +47,7 @@ alias s="ssh"
 alias t="terraform"
 # u:uv
 alias u="uv"
-# v:nvim (vim)
+# v:nvim
 alias v="nvim"
 alias vi="nvim"
 # w:zellij
@@ -65,4 +64,3 @@ alias x="xh"
 # y:yazi
 alias y="yazi"
 # z:zoxide
-# (z is aliased by zoxide init)

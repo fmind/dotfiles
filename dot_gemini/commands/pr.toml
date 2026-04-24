@@ -1,0 +1,30 @@
+description = "Summarize the current branch as a pull request title + body (Markdown)."
+
+prompt = """
+Summarize the current branch as a pull request.
+
+Branch:
+!{git branch --show-current}
+
+Commits since main:
+!{git log --oneline origin/main..HEAD}
+
+Diff stats:
+!{git diff --stat origin/main..HEAD}
+
+Return Markdown only:
+
+# <imperative title, ≤72 chars>
+
+## What
+- bullet, present tense
+
+## Why
+- bullet, business or technical motivation
+
+## How
+- bullet, the approach taken
+
+## Test plan
+- bullet, what was verified
+"""
