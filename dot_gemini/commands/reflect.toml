@@ -1,0 +1,12 @@
+description = "Reflect on recent session history (last 24h by default) to distill durable artifacts."
+
+prompt = """
+Analyze my recent chat history from the last {{args | default("24 hours")}} to identify recurring patterns, friction points, or useful discoveries.
+
+Use the `reflect-on-history` skill to:
+1. Scan `~/.gemini/tmp/` for recent session files.
+2. Aggregate insights across these sessions.
+3. Propose updates to agents, skills, commands, or settings.
+
+If no duration is specified in `{{args}}`, default to the last 24 hours.
+"""

@@ -13,13 +13,16 @@ Gemini subagents are defined as Markdown files containing YAML frontmatter and s
 
 - **Local (Workspace):** `.gemini/agents/` (Project-specific subagents). **If
 the user does not specify where to create the subagent, assume it should be local.**
-- **Global (User):** `~/.gemini/agents/` (Personal subagents available across
-all workspaces).
+- **Global (chezmoi source of truth):**
+  `~/.local/share/chezmoi/dot_gemini/agents/` (Personal subagents available
+  across all workspaces after deployment).
+
+Ask the user to run `mise run apply` to deploy global skills to `~/.gemini/skills/`.
 
 Example location:
 
 ```text
-.gemini/agents/
+<agents-root>/
   └── <agent-name>.md
 ```
 
@@ -64,7 +67,7 @@ complete the user's request.
 ## Step-by-Step Creation
 
 1. **Create the file:** Create `.gemini/agents/<name>.md` (or
-`~/.gemini/agents/<name>.md` if global).
+  `~/.local/share/chezmoi/dot_gemini/agents/<name>.md` if global).
 1. **Fill the frontmatter:** Ensure the `name` matches the file name, and use
 one of the `mcp_servers` patterns above.
 1. **Draft the persona:** Keep the markdown instruction focused, clearly

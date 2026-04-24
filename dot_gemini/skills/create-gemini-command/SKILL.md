@@ -5,14 +5,15 @@ description: Guide for creating reusable Gemini CLI slash commands (TOML).
 
 # Create Gemini Command
 
-Gemini CLI slash commands are short, reusable prompts stored as TOML files. They surface in the CLI as `/<filename>`.
+Gemini CLI slash commands are short, reusable prompts stored as TOML files. They surface in the CLI as `/<filename>`. For more details, refer to the [official Gemini CLI custom ommands documentation](https://geminicli.com/docs/cli/custom-commands/).
 
 ## Location
 
-- **Local (workspace):** `.gemini/commands/<name>.toml`
-- **Global (user):** `~/.gemini/commands/<name>.toml`
+- **Local (workspace):** `.gemini/commands/<name>.toml`. **If the user does not specify where to create the command, assume it should be local.**
+- **Global (chezmoi source of truth):**
+   `~/.local/share/chezmoi/dot_gemini/commands/<name>.toml`
 
-If the user does not specify, default to **global**.
+Ask the user to run `mise run apply` to deploy global skills to `~/.gemini/commands/`.
 
 ## File Structure
 
@@ -45,11 +46,12 @@ Return only the message, no quotes, no markdown blocks.
 ## Step-by-Step Creation
 
 1. **Pick a verb-first name.** `commit`, `review`, `explain`, `pr-summary`.
-1. **Create the file** at the correct scope.
+1. **Create the file** at the correct scope. For global commands in this
+   dotfiles repo, write the source file under
+   `~/.local/share/chezmoi/dot_gemini/commands/`.
 1. **Write a tight `description`** — this is what the user sees in autocomplete.
 1. **Write the `prompt`** — be explicit about the output format. Inline shell
    output with `!{...}` instead of asking the user to paste.
-1. **Test** with `gemini /<name>` and iterate.
 
 ## Guidelines
 
