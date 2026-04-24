@@ -1,3 +1,10 @@
-vim.opt.wrap = true
-vim.opt.linebreak = true
-vim.opt.scrolloff = 10
+local opt = vim.opt
+
+opt.wrap = true
+opt.scrolloff = 10
+
+opt.gdefault = true
+opt.timeoutlen = 400
+
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0

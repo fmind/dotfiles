@@ -1,0 +1,17 @@
+description = "Explain the file under the cursor / passed as argument."
+
+prompt = """
+Explain the following file in plain English. Audience: a competent engineer
+who has never seen this codebase.
+
+File:
+!{cat {{path}}}
+
+Cover:
+1. **Purpose** — one sentence.
+2. **Public API** — what other code calls into this file?
+3. **Key logic** — the 2-3 non-obvious decisions or algorithms.
+4. **Caveats** — gotchas, TODOs, or fragile spots.
+
+Be terse. Skip boilerplate explanations (imports, getters/setters).
+"""

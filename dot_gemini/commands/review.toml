@@ -1,0 +1,16 @@
+description = "Code review the staged changes — security, idiomatic style, and risk callouts."
+
+prompt = """
+You are reviewing staged changes for a senior engineer who values brevity.
+
+Diff:
+!{git diff --cached}
+
+Respond with up to three sections:
+
+1. **Risks** — security, correctness, or data-loss issues (skip if none).
+2. **Suggestions** — concrete, surgical improvements (skip if none).
+3. **Verdict** — one of: ship, ship-with-nits, block. One sentence rationale.
+
+Be concise. No preamble, no markdown headers beyond the three above.
+"""

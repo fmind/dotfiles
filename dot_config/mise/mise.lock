@@ -492,6 +492,38 @@ url = "https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2
 checksum = "sha256:ac8ebb4a9f1cbee8b9ea897ba119808a244181adae6f3bed1f3b6b923c50b557"
 url = "https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2-x86_64-pc-windows-msvc.zip"
 
+[[tools.dive]]
+version = "0.13.1"
+backend = "aqua:wagoodman/dive"
+
+[tools.dive."platforms.linux-arm64"]
+checksum = "sha256:2fcd2cf20f634ccdb41efac44048b204bfc867c115641f37a7420693ed480a18"
+url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_arm64.tar.gz"
+
+[tools.dive."platforms.linux-arm64-musl"]
+checksum = "sha256:2fcd2cf20f634ccdb41efac44048b204bfc867c115641f37a7420693ed480a18"
+url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_arm64.tar.gz"
+
+[tools.dive."platforms.linux-x64"]
+checksum = "sha256:0970549eb4a306f8825a84145a2534153badb4d7dcf3febd1967c706367c3d0e"
+url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_amd64.tar.gz"
+
+[tools.dive."platforms.linux-x64-musl"]
+checksum = "sha256:0970549eb4a306f8825a84145a2534153badb4d7dcf3febd1967c706367c3d0e"
+url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_amd64.tar.gz"
+
+[tools.dive."platforms.macos-arm64"]
+checksum = "sha256:38b7fa95a13e7f4d0b3060c875fe7427c2a0613ecff674bb45156eb34bca0b09"
+url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_darwin_arm64.tar.gz"
+
+[tools.dive."platforms.macos-x64"]
+checksum = "sha256:04e4c1bac21be3aef99799cf0e470149a072ea4786be50718aa846cd13746523"
+url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_darwin_amd64.tar.gz"
+
+[tools.dive."platforms.windows-x64"]
+checksum = "sha256:3e764ff28c7b89f4da679deac80483249fbbae3a1d512c103d54609eec09086a"
+url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_windows_amd64.zip"
+
 [[tools.doggo]]
 version = "1.1.5"
 backend = "aqua:mr-karan/doggo"
@@ -985,38 +1017,6 @@ url = "https://github.com/casey/just/releases/download/1.50.0/just-1.50.0-x86_64
 checksum = "sha256:5dc713f049e174e22de41fd06292a26c9b90f2d37c1be9390d2082fe6928b376"
 url = "https://github.com/casey/just/releases/download/1.50.0/just-1.50.0-x86_64-pc-windows-msvc.zip"
 
-[[tools.k9s]]
-version = "0.50.18"
-backend = "aqua:derailed/k9s"
-
-[tools.k9s."platforms.linux-arm64"]
-checksum = "sha256:d3dcc051d6be26ee911c00f583412802ebe203a189e51bc079332cb410c83b38"
-url = "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Linux_arm64.tar.gz"
-
-[tools.k9s."platforms.linux-arm64-musl"]
-checksum = "sha256:d3dcc051d6be26ee911c00f583412802ebe203a189e51bc079332cb410c83b38"
-url = "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Linux_arm64.tar.gz"
-
-[tools.k9s."platforms.linux-x64"]
-checksum = "sha256:0b697ed4aa80997f7de4deeed6f1fba73df191b28bf691b1f28d2f45fa2a9e9b"
-url = "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Linux_amd64.tar.gz"
-
-[tools.k9s."platforms.linux-x64-musl"]
-checksum = "sha256:0b697ed4aa80997f7de4deeed6f1fba73df191b28bf691b1f28d2f45fa2a9e9b"
-url = "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Linux_amd64.tar.gz"
-
-[tools.k9s."platforms.macos-arm64"]
-checksum = "sha256:68ff1541c60620466989019e86101805c1b6c70a746b1561261a403801f7fd48"
-url = "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Darwin_arm64.tar.gz"
-
-[tools.k9s."platforms.macos-x64"]
-checksum = "sha256:80f3e30767ad3603bec9664db019e85f94493aa741d7755553ee6e47876df30e"
-url = "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Darwin_amd64.tar.gz"
-
-[tools.k9s."platforms.windows-x64"]
-checksum = "sha256:9d4e8672c4e55c04cb137475062bc88da7fc0878e04d53df181196449600da16"
-url = "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Windows_amd64.zip"
-
 [[tools.lazydocker]]
 version = "0.25.2"
 backend = "aqua:jesseduffield/lazydocker"
@@ -1147,8 +1147,12 @@ version = "3.3.0"
 backend = "npm:@google/clasp"
 
 [[tools."npm:@google/gemini-cli"]]
-version = "0.38.2"
+version = "0.39.1"
 backend = "npm:@google/gemini-cli"
+
+[[tools."npm:@google/jules"]]
+version = "0.1.42"
+backend = "npm:@google/jules"
 
 [[tools."npm:@googleworkspace/cli"]]
 version = "0.22.5"
@@ -1165,6 +1169,14 @@ backend = "npm:lighthouse"
 [[tools."npm:neovim"]]
 version = "5.4.0"
 backend = "npm:neovim"
+
+[[tools."npm:pnpm"]]
+version = "10.33.2"
+backend = "npm:pnpm"
+
+[[tools."npm:typescript"]]
+version = "6.0.3"
+backend = "npm:typescript"
 
 [[tools.pipx]]
 version = "1.11.1"
