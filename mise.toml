@@ -47,7 +47,6 @@ description = "Remove unused packages and clear cache"
 run = [
     "mise prune -y",
     "mise cache clear",
-    "chezmoi purge",
 ]
 
 [tasks.tools]
