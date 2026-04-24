@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to generate JWT issuance
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Google Pay API](https://developers.google.com/pay/api)
+- [Official MCP reference](https://developers.google.com/pay/api/mcp-reference)

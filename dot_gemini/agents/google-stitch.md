@@ -20,8 +20,9 @@ Describe the screen or component you want — app type, purpose, key elements, c
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Google Stitch](https://developers.google.com/stitch)
+- [Official MCP reference](https://developers.google.com/stitch/mcp-reference)

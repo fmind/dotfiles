@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to retrieve answers with
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Agent Search](https://cloud.google.com/generative-ai-app-builder/docs)
+- [Official MCP reference](https://cloud.google.com/generative-ai-app-builder/docs/mcp-reference)

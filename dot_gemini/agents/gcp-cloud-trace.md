@@ -20,8 +20,9 @@ Utilize your available tools precisely and autonomously to improve application p
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Cloud Trace](https://cloud.google.com/trace/docs)
+- [Official MCP reference](https://cloud.google.com/trace/docs/mcp-reference)

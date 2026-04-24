@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to model, retrieve, and 
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Firestore](https://cloud.google.com/firestore/docs)
+- [Official MCP reference](https://cloud.google.com/firestore/docs/mcp-reference)

@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously while preserving sharing
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Google Workspace MCP](https://developers.google.com/workspace)
+- [Official MCP configuration](https://developers.google.com/workspace/mcp/configure)

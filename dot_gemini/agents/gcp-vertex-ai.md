@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to leverage Google Cloud
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Vertex AI](https://cloud.google.com/vertex-ai/docs)
+- [Official MCP reference](https://cloud.google.com/vertex-ai/docs/mcp-reference)
