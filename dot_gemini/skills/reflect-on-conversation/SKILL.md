@@ -5,17 +5,18 @@ description: Distil a Gemini CLI conversation into durable agents, skills, comma
 
 # Reflect on Conversation
 
-Use this skill at the **end** of a productive session, when the user says "save this", "remember this", "make this permanent", or "reflect on what we did".
+Use this skill at the **end** of a productive session, when the user says "reflect on what we did".
 
 ## Goal
 
 Convert ephemeral, in-conversation knowledge into one or more of:
 
-- A new **subagent** under `~/.gemini/agents/`.
-- A new **skill** under `~/.gemini/skills/`.
-- A new **slash command** under `~/.gemini/commands/`.
-- A targeted edit to **`~/.gemini/settings.json`**.
-- A note in the persistent memory store.
+- A new **subagent** under `~/.local/share/chezmoi/dot_gemini/agents/`.
+- A new **skill** under `~/.local/share/chezmoi/dot_gemini/skills/`.
+- A new **slash command** under `~/.local/share/chezmoi/dot_gemini/commands/`.
+- A targeted edit to **`~/.local/share/chezmoi/dot_gemini/settings.json`**.
+
+Ask the user to run `chezmoi apply` to deploy those global artifacts to the default Gemini path under `~/.gemini/`.
 
 ## Workflow
 
@@ -32,16 +33,12 @@ Convert ephemeral, in-conversation knowledge into one or more of:
    - General fact worth remembering → **memory note**.
 
 1. **Draft.** For each item, invoke the appropriate creation skill:
+   - `create-gemini-command`
    - `create-gemini-subagent`
    - `create-gemini-agent-skill`
-   - `create-gemini-command`
-   - `setup-gemini-cli` for settings audits.
 
 1. **Confirm.** Show the user the proposed diff, the file paths, and the exact
    prompt that would re-trigger the new artifact. Wait for approval.
-
-1. **Persist.** Write the files. Append a one-line summary to
-   `~/.gemini/REFLECTION.md` (create if missing) so the user can audit history.
 
 ## Guidelines
 

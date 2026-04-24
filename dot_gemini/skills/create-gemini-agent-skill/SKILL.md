@@ -11,17 +11,18 @@ This skill documents how to create functional skills (specialized files containi
 
 Skills are defined as directories containing a main `SKILL.md` file and any related resources. Skills can be defined at two levels:
 
-- **Local (Workspace):** `.gemini/skills/` (Project-specific skills). **If the
+- **Local (Workspace):** `.agents/skills/` (Project-specific skills). **If the
 user does not specify where to create the skill, assume it should be local.**
-- **Global (User):** `~/.gemini/skills/` (Personal skills available across all
-workspaces).
+- **Global (chezmoi source of truth):**
+   `~/.local/share/chezmoi/dot_gemini/skills/` (Personal skills available
+   across all workspaces after deployment).
 
-_(Note: `.agent/skills/` and `~/.agent/skills/` are also supported as aliases)._
+Ask the user to run `mise run apply` to deploy global skills to `~/.gemini/skills/`.
 
-A skill directory typically looks like this:
+A skill directory typically looks like this under either root:
 
 ```text
-.gemini/skills/
+<skills-root>/
   └── <skill-name>/
       ├── SKILL.md       # (Required) Metadata and instructions
       ├── scripts/       # (Optional) Executable scripts
@@ -62,8 +63,9 @@ This skill documents how to...
 
 ## Step-by-Step Creation
 
-1. **Create the folder:** Make the directory `.gemini/skills/<skill-name>` (or
-`~/.gemini/skills/<skill-name>` if it must be global).
+1. **Create the folder:** Make the directory `.agents/skills/<skill-name>` (or
+   `~/.local/share/chezmoi/dot_gemini/skills/<skill-name>` if it must be
+   global).
 1. **Include optional folders:** If the skill requires them, create `scripts/`,
 `references/`, or `assets/` subdirectories.
 1. **Create the file:** Inside the skill folder, create `SKILL.md`.

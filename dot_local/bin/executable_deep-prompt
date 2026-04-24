@@ -1,0 +1,143 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "google-genai>=1.14.0",
+#     "rich>=14.3.3",
+#     "typer>=0.24.1",
+# ]
+# ///
+"""Gemini Deep Prompt CLI."""
+
+import os
+import sys
+from typing import Annotated, Optional
+
+import typer
+from google import genai
+from google.genai import types
+from rich.console import Console
+from rich.prompt import Prompt
+
+DEFAULT_OPTIMIZER_MODEL = "gemini-3.1-pro-preview"
+
+QUESTION_SYSTEM = """\
+You help refine rough deep research requests.
+
+Ask clarification questions that would materially improve the
+final deep research prompt. Prefer questions about scope, timeframe, region,
+constraints, or comparison criteria.
+
+Return 3-5 numbered clarification questions.
+"""
+
+OPTIMIZE_SYSTEM = """\
+You are a research prompt optimizer. Transform a rough research idea into a
+structured prompt for an autonomous deep research agent.
+
+Preserve any explicit user constraints such as timeframe, geography,
+budget, audience, exclusions, and comparison criteria.
+
+Structure the prompt as follows:
+- Role: A specific expert persona for the research agent.
+- Objective: A clear statement of what needs to be discovered.
+- Scope: What is in-scope vs. out-of-scope.
+- Key Questions: 3-5 specific, open-ended questions to guide the research.
+- Output Requirements:
+  - Executive Summary placed at the very top.
+  - Limitations & Challenges section explaining constraints.
+  - Definitive Recommendation with actionable conclusions.
+    - If data is missing, uncertain, or unavailable, state that explicitly rather than guessing.
+
+Return ONLY the final prompt. No explanations or preamble.\
+"""
+
+app = typer.Typer(add_completion=False, rich_markup_mode="rich")
+err = Console(stderr=True)
+
+
+def read_prompt(prompt: str | None) -> str:
+    """Read prompt from an argument or stdin."""
+    if prompt:
+        return prompt
+    if not sys.stdin.isatty():
+        text = sys.stdin.read().strip()
+        if text:
+            return text
+    err.print("[red]No prompt provided.[/red] Pass one as an argument or pipe it via stdin.")
+    raise typer.Exit(code=1)
+
+
+def generate_text(
+    client: genai.Client,
+    *,
+    model: str,
+    system_instruction: str,
+    prompt: str,
+) -> str:
+    """Generate a text response from Gemini."""
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt,
+        config=types.GenerateContentConfig(system_instruction=system_instruction),
+    )
+    text = (response.text or "").strip()
+    if text:
+        return text
+    err.print("[red]Gemini returned an empty response.[/red]")
+    raise typer.Exit(code=1)
+
+
+@app.command()
+def main(
+    prompt: Annotated[
+        Optional[str], typer.Argument(help="Research idea (or pipe via stdin)")
+    ] = None,
+    model: Annotated[
+        Optional[str],
+        typer.Option("--model", help="Override the Gemini model used for prompt generation"),
+    ] = None,
+    colab: Annotated[
+        bool,
+        typer.Option("--colab", help="Ask clarification questions before finalizing"),
+    ] = False,
+):
+    """Turn a rough idea into a deep research prompt."""
+    try:
+        if colab and not sys.stdin.isatty():
+            err.print("[red]--colab requires an interactive terminal for follow-up questions.[/red]")
+            raise typer.Exit(code=1)
+        idea = read_prompt(prompt)
+        clarifications: list[str] = []
+        selected_model = model or os.getenv("DEEP_PROMPT_MODEL") or DEFAULT_OPTIMIZER_MODEL
+        with genai.Client() as client:
+            if colab:
+                questions_text = generate_text(
+                    client,
+                    model=selected_model,
+                    system_instruction=QUESTION_SYSTEM,
+                    prompt=idea,
+                )
+                err.print(questions_text)
+                clarifications = [Prompt.ask("Your answers", console=err)]
+            optimizer_input = (
+                f"Research idea:\n{idea}\n\nClarifications:\n{clarifications[0]}"
+                if clarifications
+                else idea
+            )
+            final_prompt = generate_text(
+                client,
+                model=selected_model,
+                system_instruction=OPTIMIZE_SYSTEM,
+                prompt=optimizer_input,
+            )
+            print(final_prompt)
+    except typer.Exit:
+        raise
+    except Exception as exc:
+        err.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
+
+
+if __name__ == "__main__":
+    app()

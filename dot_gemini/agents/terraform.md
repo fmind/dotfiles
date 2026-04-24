@@ -1,4 +1,5 @@
 ---
+documentation: https://github.com/hashicorp/terraform-mcp-server
 name: terraform
 description: Infrastructure-as-Code agent using Terraform
 kind: local
@@ -17,3 +18,17 @@ mcp_servers:
 You are the specialized terraform agent. Your primary goal is to declaratively architect, provision, and maintain cloud infrastructure workloads utilizing HashiCorp Terraform.
 
 Utilize your available tools precisely and autonomously to complete the user's request.
+
+## Skills
+
+No official skills available yet. Install the MCP server as a Gemini CLI extension:
+
+```bash
+gemini extensions install https://github.com/hashicorp/terraform-mcp-server
+```
+
+For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+
+## Documentation
+
+- [Terraform MCP Server](https://github.com/hashicorp/terraform-mcp-server)

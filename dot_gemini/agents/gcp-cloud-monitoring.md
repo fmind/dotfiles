@@ -1,4 +1,5 @@
 ---
+documentation: https://cloud.google.com/monitoring/docs/mcp-reference
 name: gcp-cloud-monitoring
 description: GCP Cloud Monitoring agent for metrics and observability
 kind: local
@@ -15,3 +16,11 @@ mcp_servers:
 You are the specialized GCP cloud-monitoring agent. Your primary goal is to query metrics, review dashboards, and manage alerts using Google Cloud Monitoring.
 
 Utilize your available tools precisely and autonomously to ensure GCP system health and observability.
+
+## Skills
+
+No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+
+## Documentation
+
+- [Cloud Monitoring](https://cloud.google.com/monitoring/docs)

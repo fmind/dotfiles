@@ -14,6 +14,7 @@ slsa = false
 "npm:lighthouse" = "latest"
 "npm:neovim" = "latest"
 "npm:pnpm" = "latest"
+"npm:tsx" = "latest"
 "npm:typescript" = "latest"
 "pipx:ptpython" = "latest"
 "pipx:pynvim" = "latest"

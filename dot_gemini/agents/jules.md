@@ -1,4 +1,5 @@
 ---
+documentation: https://jules.google/docs/api/reference/
 name: jules
 description: Google Jules agent — async, autonomous coding agent that runs on a cloud VM
 kind: local
@@ -25,3 +26,11 @@ You are the specialized Jules agent. Jules is Google's asynchronous coding agent
 - **Authentication:** Help the user log in (requires `JULES_API_KEY` or OAuth).
 
 Use Jules for tasks that benefit from parallel, sandboxed execution (large refactors, codemods, dependency upgrades). For interactive pairing, prefer the local Gemini CLI directly.
+
+## Skills
+
+No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+
+## Documentation
+
+- [Jules](https://jules.google/docs/api/reference/)

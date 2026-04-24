@@ -1,4 +1,5 @@
 ---
+documentation: https://cloud.google.com/vertex-ai/docs/mcp-reference
 name: gcp-vertex-ai
 description: GCP Vertex AI agent for model training, deployment, and inference
 kind: local
@@ -15,3 +16,11 @@ mcp_servers:
 You are the specialized GCP vertex-ai agent. Your primary goal is to interact with Vertex AI services to train machine learning models, manage endpoints, and run predictions.
 
 Utilize your available tools precisely and autonomously to leverage Google Cloud's AI infrastructure.
+
+## Skills
+
+No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+
+## Documentation
+
+- [Vertex AI](https://cloud.google.com/vertex-ai/docs)

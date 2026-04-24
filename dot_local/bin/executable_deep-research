@@ -1,0 +1,117 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "google-genai>=1.14.0",
+#     "rich>=14.3.3",
+#     "typer>=0.24.1",
+# ]
+# ///
+"""Gemini Deep Research CLI.
+
+https://ai.google.dev/gemini-api/docs/deep-research
+"""
+
+from contextlib import contextmanager
+import sys
+import time
+import warnings
+from typing import Annotated, Optional
+
+import typer
+from google import genai
+from rich.console import Console
+
+STANDARD_AGENT = "deep-research-preview-04-2026"
+MAX_AGENT = "deep-research-max-preview-04-2026"
+INTERACTIONS_WARNING = (
+    "Interactions usage is experimental and may change in future versions\\."
+)
+
+app = typer.Typer(rich_markup_mode="rich")
+err = Console(stderr=True)
+
+
+def read_prompt(prompt: str | None) -> str:
+    """Read prompt from an argument or stdin."""
+    if prompt:
+        return prompt
+    if not sys.stdin.isatty():
+        text = sys.stdin.read().strip()
+        if text:
+            return text
+    err.print("[red]No prompt provided.[/red] Pass one as an argument or pipe it via stdin.")
+    raise typer.Exit(code=1)
+
+
+@contextmanager
+def suppress_interaction_warning():
+    """Ignore the experimental interactions warning from the SDK."""
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=INTERACTIONS_WARNING,
+            category=UserWarning,
+        )
+        yield
+
+
+def wait_for_completion(client: genai.Client, interaction_id: str):
+    """Poll an interaction until it completes."""
+    with err.status("Running deep research..."):
+        while True:
+            with suppress_interaction_warning():
+                result = client.interactions.get(id=interaction_id)
+            if result.status == "completed":
+                return result
+            if result.status == "failed":
+                message = getattr(result, "error", None) or "Deep research failed."
+                err.print(f"[red]{message}[/red]")
+                raise typer.Exit(code=1)
+            time.sleep(5)
+
+
+def get_output_text(result) -> str:
+    """Extract the final text payload from a completed interaction."""
+    outputs = getattr(result, "outputs", None) or []
+    if not outputs:
+        err.print("[red]Deep research completed without any output.[/red]")
+        raise typer.Exit(code=1)
+    text = getattr(outputs[-1], "text", None)
+    if not text:
+        err.print("[red]Deep research completed without text output.[/red]")
+        raise typer.Exit(code=1)
+    return text
+
+
+@app.command()
+def main(
+    prompt: Annotated[
+        Optional[str], typer.Argument(help="Research prompt (or pipe via stdin)")
+    ] = None,
+    max_model: Annotated[
+        bool, typer.Option("--max", help="Use deep-research-max")
+    ] = False,
+):
+    """Run Gemini Deep Research and print the final report."""
+    try:
+        with genai.Client() as client:
+            agent = MAX_AGENT if max_model else STANDARD_AGENT
+            with suppress_interaction_warning():
+                interaction = client.interactions.create(
+                    agent=agent,
+                    input=read_prompt(prompt),
+                    background=True,
+                    agent_config={"type": "deep-research", "visualization": "off"},
+                )
+            result = wait_for_completion(client, interaction.id)
+            print(get_output_text(result))
+    except typer.Exit:
+        raise
+    except Exception as exc:
+        err.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
+
+
+if __name__ == "__main__":
+    app()

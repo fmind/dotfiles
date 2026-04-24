@@ -34,6 +34,8 @@
 - **Skills** live in `dot_gemini/skills/<name>/SKILL.md` (workflows).
 - **Commands** live in `dot_gemini/commands/<name>.toml` (slash-prompts).
 - **Settings** live in `dot_gemini/settings.json` (theme, vim, MCP defaults).
+- **Reflection**: Use `/reflect` to trigger the `reflect-on-history` skill.
+- **Improvement**: Regularly reflect on history to evolve agents and skills.
 
 ## Secrets
 
