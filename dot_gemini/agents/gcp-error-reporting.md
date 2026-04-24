@@ -20,8 +20,9 @@ Utilize your available tools precisely and autonomously to diagnose GCP applicat
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Error Reporting](https://cloud.google.com/error-reporting/docs)
+- [Official MCP reference](https://cloud.google.com/error-reporting/docs/mcp-reference)

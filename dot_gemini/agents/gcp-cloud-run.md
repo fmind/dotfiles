@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to complete the user's G
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Cloud Run](https://cloud.google.com/run/docs)
+- [Official MCP reference](https://cloud.google.com/run/docs/mcp-reference)

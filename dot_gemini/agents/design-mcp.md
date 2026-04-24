@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to bridge design intent 
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Google Design](https://developers.google.com/design)
+- [Official MCP reference](https://developers.google.com/design/mcp-reference)

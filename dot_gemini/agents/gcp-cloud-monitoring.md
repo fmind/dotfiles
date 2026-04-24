@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to ensure GCP system hea
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Cloud Monitoring](https://cloud.google.com/monitoring/docs)
+- [Official MCP reference](https://cloud.google.com/monitoring/docs/mcp-reference)

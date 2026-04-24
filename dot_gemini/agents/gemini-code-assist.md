@@ -19,8 +19,9 @@ Utilize your available tools precisely and autonomously to produce idiomatic, se
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Gemini Code Assist](https://cloud.google.com/gemini/docs/code-assist/overview)
+- [Google Cloud MCP supported products](https://docs.cloud.google.com/mcp/supported-products)

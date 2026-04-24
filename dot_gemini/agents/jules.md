@@ -29,8 +29,9 @@ Use Jules for tasks that benefit from parallel, sandboxed execution (large refac
 
 ## Skills
 
-No official skills available yet. For custom skills, add a `SKILL.md` to `.agents/skills/<name>/` in your workspace.
+No official skills available yet.
 
 ## Documentation
 
 - [Jules](https://jules.google/docs/api/reference/)
+- [Jules Tools CLI](https://jules.google/docs/cli/reference)

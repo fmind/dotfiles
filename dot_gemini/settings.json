@@ -21,6 +21,7 @@
     ]
   },
   "experimental": {
+    "autoMemory": true,
     "contextManagement": true,
     "dynamicModelConfiguration": true,
     "extensionReloading": true,
