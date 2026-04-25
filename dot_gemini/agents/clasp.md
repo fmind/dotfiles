@@ -1,5 +1,4 @@
 ---
-documentation: https://github.com/google/clasp
 name: clasp
 description: Command Line Apps Script Projects agent for Google Apps Script development
 kind: local

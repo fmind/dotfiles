@@ -1,12 +1,11 @@
 ---
-documentation: https://cloud.google.com/run/docs/mcp-reference
-name: gcp-cloud-run
+name: cloud-run
 description: GCP Cloud Run agent for serverless container management
 kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-cloud-run:
+  cloud-run:
     httpUrl: "https://run.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

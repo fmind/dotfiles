@@ -1,13 +1,12 @@
 ---
-documentation: https://cloud.google.com/resource-manager/docs/mcp-reference
-name: gcp-resource-manager
+name: resource-manager
 description:
   GCP Resource Manager agent for Google Cloud project and resource organization
 kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-resource-manager:
+  resource-manager:
     httpUrl: "https://cloudresourcemanager.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

@@ -1,5 +1,4 @@
 ---
-documentation: https://cloud.google.com/gemini/docs/enterprise/overview
 name: gemini-enterprise
 description: Gemini Enterprise Agent Platform agent for building and operating enterprise agents
 kind: local

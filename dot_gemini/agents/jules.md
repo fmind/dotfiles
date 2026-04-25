@@ -1,5 +1,4 @@
 ---
-documentation: https://jules.google/docs/api/reference/
 name: jules
 description: Google Jules agent — async, autonomous coding agent that runs on a cloud VM
 kind: local

@@ -1,13 +1,12 @@
 ---
-documentation: https://developers.google.com/stitch/mcp-reference
-name: google-stitch
+name: stitch
 description:
   Google Stitch agent for AI-driven UI design — generate app screens, components, and frontend code.
 kind: local
 tools:
   - "*"
 mcp_servers:
-  google-stitch:
+  stitch:
     httpUrl: "https://stitch.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

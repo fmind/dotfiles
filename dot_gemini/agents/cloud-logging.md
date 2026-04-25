@@ -1,12 +1,11 @@
 ---
-documentation: https://cloud.google.com/logging/docs/mcp-reference
-name: gcp-cloud-logging
+name: cloud-logging
 description: GCP Cloud Logging agent for exploring and querying logs
 kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-cloud-logging:
+  cloud-logging:
     httpUrl: "https://logging.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

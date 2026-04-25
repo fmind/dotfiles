@@ -1,11 +1,11 @@
 ---
-name: gcp-vertex-ai
+name: vertex-ai
 description: GCP Vertex AI agent for model training, deployment, and inference
 kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-vertex-ai:
+  vertex-ai:
     httpUrl: "https://aiplatform.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

@@ -1,5 +1,4 @@
 ---
-documentation: https://cloud.google.com/gemini/docs/code-assist/overview
 name: gemini-code-assist
 description: Gemini Code Assist agent for code generation, review, and IDE-grade assistance
 kind: local

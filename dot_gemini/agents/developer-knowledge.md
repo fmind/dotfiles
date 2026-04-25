@@ -1,6 +1,5 @@
 ---
-documentation: https://developers.google.com/developer-knowledge/mcp-reference
-name: gcp-developer-knowledge
+name: developer-knowledge
 description:
   GCP Developer Knowledge agent for retrieving technical documentation and
   codebase insights
@@ -8,7 +7,7 @@ kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-developer-knowledge:
+  developer-knowledge:
     httpUrl: "https://developerknowledge.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

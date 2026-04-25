@@ -1,12 +1,11 @@
 ---
-documentation: https://cloud.google.com/monitoring/docs/mcp-reference
-name: gcp-cloud-monitoring
+name: cloud-monitoring
 description: GCP Cloud Monitoring agent for metrics and observability
 kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-cloud-monitoring:
+  cloud-monitoring:
     httpUrl: "https://monitoring.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

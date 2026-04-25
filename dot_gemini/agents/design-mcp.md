@@ -1,5 +1,4 @@
 ---
-documentation: https://developers.google.com/design/mcp-reference
 name: design-mcp
 description: Google Design MCP agent for design system tokens, components, and assets
 kind: local
