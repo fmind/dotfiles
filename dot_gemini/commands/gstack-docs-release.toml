@@ -1,0 +1,9 @@
+description = "Update project documentation to reflect recently shipped code."
+skill = "gstack-docs-release"
+
+prompt = """
+Update the documentation based on the following recent changes:
+{{args}}
+
+Please run the Docs Release skill. Check for drift between the shipped code and the existing documentation, and propose the exact markdown updates needed.
+"""

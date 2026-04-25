@@ -1,0 +1,9 @@
+description = "Interrogate a product idea using the 6 YC forcing questions."
+skill = "gstack-product-ideation"
+
+prompt = """
+I have a new product idea:
+{{args}}
+
+Please run the product ideation skill on this idea.
+"""

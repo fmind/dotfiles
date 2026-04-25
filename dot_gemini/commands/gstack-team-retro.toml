@@ -1,0 +1,9 @@
+description = "Analyze recent commits to run a weekly team retrospective."
+skill = "gstack-team-retro"
+
+prompt = """
+Run a retrospective on the following recent work or branch context:
+{{args}}
+
+Please run the Team Retro skill. Use the git log context provided to assess velocity, wins, and friction points.
+"""

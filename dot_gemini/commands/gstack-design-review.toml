@@ -1,0 +1,9 @@
+description = "Act as a Senior Designer to rate UX choices and fix AI slop."
+skill = "gstack-design-review"
+
+prompt = """
+Review the following UI/UX plan or idea:
+{{args}}
+
+Please run the Design Review skill on this plan. Score the design on the 5 dimensions, identify any AI slop, and propose premium alternatives.
+"""
