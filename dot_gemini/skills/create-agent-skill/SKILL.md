@@ -1,5 +1,5 @@
 ---
-name: create-gemini-agent-skill
+name: create-agent-skill
 description: Guide for creating new skills for the Gemini CLI
 ---
 
@@ -11,11 +11,8 @@ This skill documents how to create functional skills (specialized files containi
 
 Skills are defined as directories containing a main `SKILL.md` file and any related resources. Skills can be defined at two levels:
 
-- **Local (Workspace):** `.agents/skills/` (Project-specific skills). **If the
-user does not specify where to create the skill, assume it should be local.**
-- **Global (chezmoi source of truth):**
-   `~/.local/share/chezmoi/dot_gemini/skills/` (Personal skills available
-   across all workspaces after deployment).
+- **Local (Workspace):** `.agents/skills/` (Project-specific skills). **If the user does not specify where to create the skill, assume it should be local.**
+- **Global (chezmoi source of truth):** `~/.local/share/chezmoi/dot_gemini/skills/` (Personal skills available across all workspaces after deployment).
 
 Ask the user to run `mise run apply` to deploy global skills to `~/.gemini/skills/`.
 
@@ -52,7 +49,7 @@ This skill documents how to...
 ### Key Components
 
 1. **Frontmatter:**
-   - `name`: A concise, hyphen-separated name for the skill (e.g., `create-gemini-agent-skill`).
+   - `name`: A concise, hyphen-separated name for the skill (e.g., `create-agent-skill`).
    - `description`: A brief summary of what the skill helps the agent achieve.
 
 1. **Body Content:**
@@ -63,13 +60,8 @@ This skill documents how to...
 
 ## Step-by-Step Creation
 
-1. **Create the folder:** Make the directory `.agents/skills/<skill-name>` (or
-   `~/.local/share/chezmoi/dot_gemini/skills/<skill-name>` if it must be
-   global).
-1. **Include optional folders:** If the skill requires them, create `scripts/`,
-`references/`, or `assets/` subdirectories.
-1. **Create the file:** Inside the skill folder, create `SKILL.md`.
-1. **Fill the frontmatter:** Ensure you include the `name` and `description`
-lines between the `---` delimiters.
-1. **Draft the instructions:** Outline the procedural process explicitly,
-following the markdown patterns of existing skills. Provide concrete examples and specific tool usage commands where relevant to anchor the logic firmly.
+1. **Create the folder:** Make the directory `.agents/skills/<skill-name>` (or `~/.local/share/chezmoi/dot_gemini/skills/<skill-name>` if it must be global).
+2. **Include optional folders:** If the skill requires them, create `scripts/`, `references/`, or `assets/` subdirectories.
+3. **Create the file:** Inside the skill folder, create `SKILL.md`.
+4. **Fill the frontmatter:** Ensure you include the `name` and `description` lines between the `---` delimiters.
+5. **Draft the instructions:** Outline the procedural process explicitly, following the markdown patterns of existing skills. Provide concrete examples and specific tool usage commands where relevant to anchor the logic firmly.

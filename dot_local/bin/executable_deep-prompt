@@ -2,9 +2,9 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#     "google-genai>=1.14.0",
-#     "rich>=14.3.3",
-#     "typer>=0.24.1",
+#     "google-genai>=1.73.1",
+#     "rich>=15.0.0",
+#     "typer>=0.24.2",
 # ]
 # ///
 """Gemini Deep Prompt CLI."""
@@ -134,9 +134,9 @@ def main(
             print(final_prompt)
     except typer.Exit:
         raise
-    except Exception as exc:
-        err.print(f"[red]{exc}[/red]")
-        raise typer.Exit(code=1) from exc
+    except Exception:
+        err.print_exception(show_locals=True)
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":

@@ -5,8 +5,7 @@ description: "Run Gemini Deep Research with deep-research."
 
 # Run Deep Research
 
-Use `deep-research` (`~/.local/bin/deep-research`) to execute a prepared deep
-research prompt and print the final report.
+Use `deep-research` (`~/.local/bin/deep-research`) to execute a prepared deep research prompt and print the final report.
 
 ## Usage
 
@@ -27,8 +26,8 @@ deep-prompt "Analyze EV battery competition" | deep-research --max > report.md
 ## Workflow
 
 1. If requested by the user, run `deep-research` with the final prompt from an argument or stdin.
-1. Watch stderr for thought summaries and progress while the report is being prepared.
-1. Use stdout or redirect it to a file if the user wants to save the report.
+2. Watch stderr for progress and errors while the report is being prepared.
+3. Use stdout or redirect it to a file if the user wants to save the report.
 
 ## Notes
 
