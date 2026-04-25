@@ -1,0 +1,9 @@
+description = "Act as a QA Lead to generate testing matrices and find edge-case bugs."
+skill = "gstack-qa-test"
+
+prompt = """
+Perform QA testing on the following feature or URL:
+{{args}}
+
+Please run the QA Test skill. Generate a comprehensive testing matrix focusing on unhappy paths and edge cases.
+"""
