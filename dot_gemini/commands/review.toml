@@ -14,6 +14,9 @@ Patch:
 !{git diff --cached}
 ```
 
+Additional context:
+{{args}}
+
 Requirements:
 1. If nothing is staged, say that and stop.
 2. Review for correctness, regressions, simplification opportunities, unnecessary complexity, naming, dead code, and missing tests.
