@@ -24,7 +24,7 @@ elif [ ! -d "$SOURCE_DIR/.git" ]; then
   git -C "$SOURCE_DIR" init -b main
   git -C "$SOURCE_DIR" remote add origin https://github.com/fmind/dotfiles.git
 fi
-chezmoi init --apply --source "$SOURCE_DIR"
+  chezmoi init --apply --source "$SOURCE_DIR"
 
 # Trust mise configs
 echo "=> Trusting mise config ..."

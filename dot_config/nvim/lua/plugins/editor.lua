@@ -1,5 +1,4 @@
 return {
-    -- which-key in classic layout (no icons)
     {
         "folke/which-key.nvim",
         opts = {

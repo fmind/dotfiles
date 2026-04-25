@@ -8,3 +8,4 @@ opt.timeoutlen = 400
 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
+vim.g.node_host_prog = vim.fn.exepath("neovim-node-host")

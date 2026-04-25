@@ -41,7 +41,6 @@ mr a   apply       Apply configurations with chezmoi
 mr c   check       Preview chezmoi changes (dry-run)
 mr d   diff        Show pending chezmoi diff
 mr D   doctor      Run chezmoi/mise/nvim health checks
-mr f   fish        Fish syntax check on every config fragment
 mr h   hooks       Install repository pre-commit hooks
 mr i   init        Initialize chezmoi config from template
 mr L   lint        Run pre-commit on all files
@@ -70,12 +69,19 @@ mr b   bootstrap   Full first-time setup
 ├── dot_gemini/                        # Gemini CLI configuration (settings, agents, skills, commands)
 ├── dot_copilot/config.json            # GitHub Copilot CLI configuration
 ├── dot_gitconfig.tmpl                 # templated by chezmoi
-└── vscode-settings.json               # snapshot of legacy VS Code settings (reference only)
+└── AGENTS.md                          # Project agent rules and context
 ```
 
 ## Required API keys & credentials
 
 These are referenced by agents in `dot_gemini/agents/`.
+
+If you use age encryption with chezmoi to manage secrets (like `secrets.fish.age`), you must provision your private key before applying:
+
+```bash
+mkdir -p ~/.config/chezmoi
+# Place your age private key in ~/.config/chezmoi/key.txt BEFORE running chezmoi apply
+```
 
 ```fish
 # ~/.private.fish — never committed

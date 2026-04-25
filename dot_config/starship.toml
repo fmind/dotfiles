@@ -1,16 +1,30 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+palette = "catppuccin_mocha"
+
 add_newline = false
+format = '$directory$git_branch$git_status$cmd_duration$character'
 
 [character]
 success_symbol = '[❯](bold green)'
 error_symbol = '[❯](bold red)'
 vimcmd_symbol = '[❮](bold green)'
+vimcmd_replace_one_symbol = '[❮](bold mauve)'
+vimcmd_replace_symbol = '[❮](bold mauve)'
+vimcmd_visual_symbol = '[❮](bold yellow)'
 
-[package]
-disabled = true
+[directory]
+read_only = ' \[ro\]'
 
-palette = "catppuccin_mocha"
+[git_branch]
+symbol = '\[git\] '
+
+[git_status]
+ahead = '>'
+behind = '<'
+diverged = '<>'
+renamed = 'r'
+deleted = 'x'
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
@@ -25,17 +39,17 @@ green = "#a6e3a1"
 teal = "#94e2d5"
 sky = "#89dceb"
 sapphire = "#74c7ec"
-blue = "#8caaee"
+blue = "#89b4fa"
 lavender = "#b4befe"
-text = "#c6d0f5"
-subtext1 = "#b5bfe2"
-subtext0 = "#a5adce"
-overlay2 = "#949cbb"
-overlay1 = "#838ba7"
-overlay0 = "#737994"
-surface2 = "#626880"
-surface1 = "#51576d"
-surface0 = "#414559"
-base = "#303446"
-mantle = "#292c3c"
-crust = "#232634"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"

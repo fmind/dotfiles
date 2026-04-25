@@ -10,8 +10,8 @@ layout {
     }
     tab name="main" focus=true {
         pane split_direction="vertical" {
-            pane size="60%"
-            pane
+            pane size="66%"
+            pane size="34%"
         }
     }
 }
