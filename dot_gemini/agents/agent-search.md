@@ -1,5 +1,4 @@
 ---
-documentation: https://cloud.google.com/generative-ai-app-builder/docs/mcp-reference
 name: agent-search
 description: GCP Agent Search agent for grounded, multi-source enterprise search
 kind: local

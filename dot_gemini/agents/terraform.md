@@ -1,5 +1,4 @@
 ---
-documentation: https://github.com/hashicorp/terraform-mcp-server
 name: terraform
 description: Infrastructure-as-Code agent using Terraform
 kind: local

@@ -1,5 +1,4 @@
 ---
-documentation: https://angular.dev/ai/mcp
 name: angular
 description: Angular agent for development and maintenance of web applications using Angular CLI and best practices.
 kind: local

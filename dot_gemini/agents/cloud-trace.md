@@ -1,13 +1,12 @@
 ---
-documentation: https://cloud.google.com/trace/docs/mcp-reference
-name: gcp-cloud-trace
+name: cloud-trace
 description:
   GCP Cloud Trace agent for distributed tracing and performance profiling
 kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-cloud-trace:
+  cloud-trace:
     httpUrl: "https://cloudtrace.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

@@ -1,5 +1,4 @@
 ---
-documentation: https://cloud.google.com/firestore/docs/mcp-reference
 name: firestore
 description: GCP Firestore agent for document database operations
 kind: local

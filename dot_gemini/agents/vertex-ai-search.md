@@ -1,12 +1,11 @@
 ---
-documentation: https://cloud.google.com/generative-ai-app-builder/docs/mcp-reference
-name: gcp-vertex-ai-search
+name: vertex-ai-search
 description: GCP Vertex AI Search agent for enterprise search and discovery
 kind: local
 tools:
   - "*"
 mcp_servers:
-  gcp-vertex-ai-search:
+  vertex-ai-search:
     httpUrl: "https://discoveryengine.googleapis.com/mcp"
     authProviderType: "google_credentials"
 ---

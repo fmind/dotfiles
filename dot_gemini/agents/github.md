@@ -1,5 +1,4 @@
 ---
-documentation: https://github.com/github/github-mcp-server
 name: github
 description: Version control agent for GitHub repository management
 kind: local

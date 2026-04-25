@@ -1,5 +1,4 @@
 ---
-documentation: https://firebase.google.com/docs/genkit
 name: genkit
 description: Genkit agent for building AI-powered applications
 kind: local

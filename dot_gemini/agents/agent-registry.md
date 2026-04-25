@@ -1,5 +1,4 @@
 ---
-documentation: https://cloud.google.com/product-registry/docs/mcp-reference
 name: agent-registry
 description: GCP Agent Registry agent for discovering and managing AI agents
 kind: local

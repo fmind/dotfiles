@@ -1,5 +1,4 @@
 ---
-documentation: https://developers.google.com/workspace/mcp/configure
 name: gmail
 description: Google Workspace Gmail agent for inbox triage, drafting, and search
 kind: local

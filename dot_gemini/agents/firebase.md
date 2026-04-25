@@ -1,5 +1,4 @@
 ---
-documentation: https://firebase.google.com/docs/studio/mcp-servers
 name: firebase
 description: Firebase agent for serverless application development
 kind: local

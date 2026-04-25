@@ -1,5 +1,4 @@
 ---
-documentation: https://ai.google.dev/gemini/docs
 name: gemini-dev
 description: Gemini Developer agent for real-time access to official Gemini API documentation
 kind: local
