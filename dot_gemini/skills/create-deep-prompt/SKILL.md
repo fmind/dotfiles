@@ -1,12 +1,11 @@
 ---
-name: optimize-deep-research
+name: create-deep-prompt
 description: "Turn a rough research idea into a structured deep research prompt with `deep-prompt`."
 ---
 
-# Optimize Deep Research
+# Create Deep Prompt
 
-Use `deep-prompt` (`~/.local/bin/deep-prompt`) when the user has a rough idea,
-not a finished deep research prompt.
+Use `deep-prompt` (`~/.local/bin/deep-prompt`) when the user has a rough idea, not a finished deep research prompt.
 
 ## Usage
 
@@ -22,8 +21,7 @@ deep-prompt --colab "Compare cloud GPU providers" | deep-research --max
 
 1. Start with the user's rough research idea.
 2. Run `deep-prompt` directly for a one-shot structured prompt.
-3. Use `--colab` when the request is underspecified; it asks three targeted
-   questions, then prints the final prompt to stdout.
+3. Use `--colab` when the request is underspecified; it asks targeted questions, then prints the final prompt to stdout.
 4. Pipe the result stdout or redirect it to a file.
 
 ## Notes

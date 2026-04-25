@@ -11,13 +11,10 @@ This skill documents how to create a new Gemini CLI subagent. For more details, 
 
 Gemini subagents are defined as Markdown files containing YAML frontmatter and system instructions. Subagents can be defined at two levels:
 
-- **Local (Workspace):** `.gemini/agents/` (Project-specific subagents). **If
-the user does not specify where to create the subagent, assume it should be local.**
-- **Global (chezmoi source of truth):**
-  `~/.local/share/chezmoi/dot_gemini/agents/` (Personal subagents available
-  across all workspaces after deployment).
+- **Local (Workspace):** `.gemini/agents/` (Project-specific subagents). **If the user does not specify where to create the subagent, assume it should be local.**
+- **Global (chezmoi source of truth):** `~/.local/share/chezmoi/dot_gemini/agents/` (Personal subagents available across all workspaces after deployment).
 
-Ask the user to run `mise run apply` to deploy global skills to `~/.gemini/skills/`.
+Ask the user to run `mise run apply` to deploy global subagents to `~/.gemini/agents/`.
 
 Example location:
 
@@ -44,9 +41,7 @@ mcp_servers:
 
 # <Agent Name Title>
 
-You are the specialized <agent-name> agent. Your primary goal is to [describe
-primary capability]. Utilize your available tools precisely and autonomously to
-complete the user's request.
+You are the specialized <agent-name> agent. Your primary goal is to [describe primary capability]. Utilize your available tools precisely and autonomously to complete the user's request.
 ```
 
 ### Key Components
@@ -66,9 +61,6 @@ complete the user's request.
 
 ## Step-by-Step Creation
 
-1. **Create the file:** Create `.gemini/agents/<name>.md` (or
-  `~/.local/share/chezmoi/dot_gemini/agents/<name>.md` if global).
-1. **Fill the frontmatter:** Ensure the `name` matches the file name, and use
-one of the `mcp_servers` patterns above.
-1. **Draft the persona:** Keep the markdown instruction focused, clearly
-specifying the agent's responsibilities inline with the established standard format.
+1. **Create the file:** Create `.gemini/agents/<name>.md` (or `~/.local/share/chezmoi/dot_gemini/agents/<name>.md` if global).
+2. **Fill the frontmatter:** Ensure the `name` matches the file name, and use one of the `mcp_servers` patterns above.
+3. **Draft the persona:** Keep the markdown instruction focused, clearly specifying the agent's responsibilities inline with the established standard format.
