@@ -1,2 +1,6 @@
+[flavor]
+dark = "catppuccin-mocha"
+light = "catppuccin-mocha"
+
 [icon]
 rules = []

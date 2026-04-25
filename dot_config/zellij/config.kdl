@@ -6,7 +6,11 @@ theme "catppuccin-mocha"
 
 keybinds {
     shared_except "locked" {
-        unbind "Ctrl h" // Conflicts with nvim window navigation
+        unbind "Ctrl h" // Conflicts with nvim
+        bind "Alt q" { Run "gemini" { direction "Right"; }; }
+        bind "Alt y" { Run "yazi" { floating true; x "10%"; y "10%"; width "80%"; height "80%"; }; }
+        bind "Alt g" { Run "lazygit" { floating true; x "10%"; y "10%"; width "80%"; height "80%"; }; }
+        bind "Alt /" { LaunchOrFocusPlugin "session-manager" { floating true; move_to_focused_tab true; }; }
     }
     shared_except "move" "locked" {
         bind "Alt m" { SwitchToMode "Move"; }

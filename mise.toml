@@ -21,7 +21,7 @@ run = "chezmoi apply --init"
 
 [tasks.bootstrap]
 alias = "b"
-depends = ["trust", "tools", "apply", "vim", "hooks"]
+depends = ["trust", "apply", "hooks", "tools", "vim"]
 description = "Full first-time setup"
 run = "echo '✓ Bootstrap complete.'"
 
@@ -35,15 +35,6 @@ alias = "d"
 description = "Show pending chezmoi diff"
 run = "chezmoi diff --init"
 
-[tasks.doctor]
-alias = "D"
-description = "Run chezmoi/mise/nvim health checks"
-run = [
-    "chezmoi doctor",
-    "mise doctor",
-    "nvim --headless '+checkhealth' '+qa' 2>&1 | tail -40",
-]
-
 [tasks.hooks]
 alias = "h"
 description = "Install repository pre-commit hooks"
@@ -51,18 +42,23 @@ run = "pre-commit install"
 
 [tasks.init]
 alias = "i"
-description = "Initialize/regenerate chezmoi config from template"
+description = "Initialize/regenerate chezmoi config"
 run = "chezmoi init --source \"$PWD\""
-
-[tasks.lint]
-alias = "L"
-description = "Run pre-commit on all files"
-run = "pre-commit run --all-files"
 
 [tasks.lock]
 alias = "l"
 description = "Refresh repository and home mise lockfiles"
 run = ["mise lock", "mise -C dot_config/mise lock"]
+
+[tasks.lint]
+alias = "n"
+description = "Run pre-commit on all files"
+run = "pre-commit run --all-files"
+
+[tasks.doctor]
+alias = "o"
+description = "Run chezmoi/mise/nvim health checks"
+run = ["chezmoi doctor", "mise doctor"]
 
 [tasks.prune]
 alias = "p"
