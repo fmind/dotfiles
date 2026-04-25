@@ -1,9 +1,0 @@
-description = "Systematically debug an issue by tracing data flow and forming hypotheses."
-skill = "gstack-investigate-bug"
-
-prompt = """
-Investigate the following bug or error:
-{{args}}
-
-Please run the Investigate skill. Follow the strict debugging methodology. Do NOT propose a code fix yet. Form hypotheses and an action plan to verify them first.
-"""

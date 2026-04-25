@@ -1,9 +1,0 @@
-description = "Act as an Engineering Manager to lock in architecture, data flow, and edge cases."
-skill = "gstack-eng-review"
-
-prompt = """
-Review the following implementation plan or specification:
-{{args}}
-
-Please run the Engineering Review skill on this plan. Focus on architecture, failure modes, and test coverage.
-"""

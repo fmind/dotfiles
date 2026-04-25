@@ -1,9 +1,0 @@
-description = "Act as a CEO/Founder to challenge the scope and rethink the problem."
-skill = "gstack-ceo-review"
-
-prompt = """
-Review the following plan or specification:
-{{args}}
-
-Please run the CEO Review skill on this plan. Focus on challenging the premises and reducing scope to the absolute essentials.
-"""

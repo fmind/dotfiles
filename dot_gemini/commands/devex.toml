@@ -1,9 +1,0 @@
-description = "Audit Developer Experience, APIs, CLIs, and Time-To-Hello-World."
-skill = "gstack-devex-review"
-
-prompt = """
-Review the following developer tool, API, or integration plan:
-{{args}}
-
-Please run the Developer Experience Review skill on this plan. Focus on friction points, error messages, and optimizing the Time-To-Hello-World.
-"""
