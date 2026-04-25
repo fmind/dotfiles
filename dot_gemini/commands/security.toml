@@ -1,9 +1,0 @@
-description = "Perform a CSO-level security audit using STRIDE and OWASP Top 10."
-skill = "gstack-security-audit"
-
-prompt = """
-Perform a security audit on the following feature or code:
-{{args}}
-
-Please run the Security Audit skill. Focus on concrete exploit scenarios and high-confidence vulnerabilities.
-"""
