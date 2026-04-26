@@ -1,0 +1,16 @@
+---
+description: Write or update documentation for the given code, feature, or change.
+argument-hint: [path|feature]
+---
+
+Write or update documentation for `$ARGUMENTS`.
+
+Requirements:
+1. Treat `$ARGUMENTS` as a path, feature, command, workflow, or short documentation request.
+2. Inspect the relevant code and existing docs before editing.
+3. Update the narrowest useful documentation surface: README, command docs, comments, or nearby usage notes.
+4. Prefer concise, task-oriented documentation over broad rewrites.
+5. Keep the wording precise and technical. Avoid marketing language.
+6. If examples would help, include small realistic examples.
+7. Run lightweight validation for the files you touched when possible.
+8. Summarize what docs changed and what you validated.

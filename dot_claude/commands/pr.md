@@ -1,0 +1,46 @@
+---
+description: Create or update a GitHub PR for the current branch against main.
+argument-hint: [extra context]
+allowed-tools: Bash(git:*), Bash(gh:*)
+---
+
+Create or update a proper GitHub pull request for the current branch against `main`.
+
+Origin:
+!`git config --get remote.origin.url`
+
+Current branch:
+!`git branch --show-current`
+
+Working tree:
+!`git status --short`
+
+Commits since `main`:
+!`git log --reverse --oneline origin/main..HEAD`
+
+Diff stats:
+!`git diff --stat --find-renames origin/main...HEAD`
+
+Changed files:
+!`git diff --name-only --find-renames origin/main...HEAD`
+
+Additional user context:
+$ARGUMENTS
+
+Requirements:
+1. If the current branch is `main`, stop and say a PR must come from a feature branch.
+2. Inspect changed files as needed so the PR matches the actual work, not just the commit subjects.
+3. Write a clear PR title in imperative mood, under 72 characters.
+4. Write a Markdown body with these sections:
+## What
+## Why
+## How
+## Test plan
+5. Push the current branch to `origin` with upstream if needed.
+6. If a PR already exists for this branch, update it with `gh pr edit --base main --title ... --body-file ...`.
+7. Otherwise create it with `gh pr create --base main --title ... --body-file ...`.
+8. Use a temporary file for the PR body instead of inline shell quoting.
+9. After success, print the PR URL, the final title, and the final body.
+10. If `origin/main` or GitHub auth is unavailable, explain the blocker briefly and stop.
+
+Keep the final response compact.

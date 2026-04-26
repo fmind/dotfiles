@@ -1,0 +1,61 @@
+# bottom — catppuccin-mocha + ASCII only
+# Reference: https://clementtsang.github.io/bottom/nightly/configuration/config-file/
+
+[flags]
+default_widget_type = "proc"
+temperature_type = "celsius"
+tree = true
+mem_as_value = true
+group_processes = false
+hide_table_gap = true
+disable_advanced_kill = true
+
+[styles]
+theme = "default"
+
+[styles.cpu]
+all_entry_color = "#cdd6f4"
+avg_entry_color = "#f9e2af"
+cpu_core_colors = [
+  "#f38ba8",
+  "#fab387",
+  "#a6e3a1",
+  "#94e2d5",
+  "#89b4fa",
+  "#cba6f7",
+  "#f5c2e7",
+  "#eba0ac",
+]
+
+[styles.memory]
+ram_color = "#a6e3a1"
+swap_color = "#f9e2af"
+arc_color = "#89b4fa"
+gpu_colors = ["#cba6f7", "#f5c2e7"]
+cache_color = "#94e2d5"
+
+[styles.network]
+rx_color = "#a6e3a1"
+tx_color = "#f38ba8"
+rx_total_color = "#94e2d5"
+tx_total_color = "#fab387"
+
+[styles.battery]
+high_battery_color = "#a6e3a1"
+medium_battery_color = "#f9e2af"
+low_battery_color = "#f38ba8"
+
+[styles.tables]
+headers = { color = "#cba6f7", bold = true }
+
+[styles.graphs]
+graph_color = "#bac2de"
+legend_text = { color = "#cdd6f4" }
+
+[styles.widgets]
+border_color = "#313244"
+selected_border_color = "#cba6f7"
+widget_title = { color = "#cdd6f4", bold = true }
+text = { color = "#cdd6f4" }
+selected_text = { color = "#1e1e2e", bg_color = "#cba6f7" }
+disabled_text = { color = "#6c7086" }

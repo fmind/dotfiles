@@ -9,7 +9,7 @@ Managed by [chezmoi](https://www.chezmoi.io/) and [mise](https://mise.jdx.dev/).
 - **Shell:** `fish` + `starship` + `atuin` + `carapace` + `zoxide` + `fzf`.
 - **Terminal:** `ghostty`, with `zellij` as multiplexer.
 - **Editor:** `neovim` (LazyVim) with `catppuccin-mocha`, vim mode everywhere.
-- **AI:** `gemini-cli` + `jules` (async) + GitHub Copilot, with curated subagents, skills, and slash-commands under [`dot_gemini/`](dot_gemini/).
+- **AI:** `claude-code` + `gemini-cli` + `jules` (async) + GitHub Copilot
 - **Languages out of the box:** Python (`uv`), TypeScript / Angular (`pnpm`, `biome`), Go, Terraform, Docker, Kubernetes.
 - **Theme:** `catppuccin-mocha` everywhere consistent (nvim, fzf, ghostty, starship, lazygit, gemini, ptpython).
 - **Icons:** none — ASCII-only by default for portability over SSH and Cloud Shell.

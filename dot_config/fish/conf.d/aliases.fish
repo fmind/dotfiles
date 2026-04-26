@@ -1,5 +1,5 @@
-# a:jules
-alias a="jules"
+# a:claude
+alias a="claude"
 # b:bat
 alias b="bat"
 # c:gcloud

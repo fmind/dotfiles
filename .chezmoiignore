@@ -1,4 +1,4 @@
-*.md
+README.md
 Dockerfile
 install.sh
 mise.lock

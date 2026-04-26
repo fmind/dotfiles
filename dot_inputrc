@@ -29,7 +29,6 @@ set visible-stats on
 
 # History
 set history-size 10000
-set history-file-size 20000
 set history-preserve-point on
 
 # Shortcuts

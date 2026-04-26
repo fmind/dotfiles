@@ -1,0 +1,17 @@
+---
+description: Create a proper spec from the provided input or previous conversation.
+argument-hint: [input]
+---
+
+Create a proper, comprehensive specification based on our previous conversation or the input provided below.
+
+Input (if any):
+$ARGUMENTS
+
+The spec should include:
+- A clear, high-level summary.
+- Detailed requirements and constraints.
+- Proposed technical architecture or approach (if applicable).
+- A breakdown of the major steps or milestones for implementation.
+
+Ensure the spec is well-structured and uses Markdown.

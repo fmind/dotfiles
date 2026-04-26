@@ -1,5 +1,5 @@
 ---
-name: use-google-jules
+name: use-google-jules-cli
 description: Guide for using Jules Tools (the Jules CLI) to interact with Google's autonomous AI coding agent.
 ---
 
@@ -65,11 +65,11 @@ Pipe the title of the first GitHub issue assigned to you directly into a new Jul
 gh issue list --assignee @me --limit 1 --json title | jq -r '.[0].title' | jules remote new --repo .
 ```
 
-**3. Analyze and assign tasks using the Gemini CLI:**
-Use the Gemini CLI to analyze your assigned GitHub issues, identify the most tedious one, and pipe its title to Jules:
+**3. Analyze and assign tasks using Claude Code:**
+Use Claude Code in headless mode to analyze your assigned GitHub issues, identify the most tedious one, and pipe its title to Jules:
 
 ```bash
-gemini -p "find the most tedious issue, print it verbatim\n$(gh issue list --assignee @me)" | jules remote new --repo .
+claude -p "find the most tedious issue, print it verbatim\n$(gh issue list --assignee @me)" | jules remote new --repo .
 ```
 
 ## Global Flags

@@ -1,0 +1,18 @@
+---
+description: Run the project's linters and tests, fix issues, and rerun focused checks.
+argument-hint: [scope|path]
+---
+
+Fix warnings and errors in this project using the existing linters and tests.
+
+User scope:
+$ARGUMENTS
+
+Requirements:
+1. Use `$ARGUMENTS` as an optional scope, path, failing command, or bug hint. If it is empty, work repo-wide.
+2. Inspect project files to discover the correct lint and test commands. Prefer documented tasks or scripts over guessing.
+3. Run the narrowest linter and or test command that exercises the requested scope.
+4. Fix warnings and errors in code rather than suppressing them unless suppression is clearly the right fix.
+5. Re-run the same focused validation until it passes or you hit a real blocker.
+6. Keep changes minimal and avoid reformatting unrelated files.
+7. Summarize the commands you ran, the fixes you made, and any remaining blockers.

@@ -1,0 +1,27 @@
+---
+description: Assess risks for the given target or for the current staged changes.
+argument-hint: [path|symbol]
+allowed-tools: Bash(git diff:*)
+---
+
+Assess engineering risks for `$ARGUMENTS`.
+
+Staged files:
+!`git diff --cached --name-only`
+
+Diff stat:
+!`git diff --cached --stat`
+
+Patch:
+```diff
+!`git diff --cached`
+```
+
+Requirements:
+1. If `$ARGUMENTS` is empty, review the current staged changes.
+2. If `$ARGUMENTS` is provided, treat it as a path, subsystem, symbol, or change description and inspect the relevant code.
+3. Focus on correctness, regressions, data loss, security, operability, maintainability, and missing validation.
+4. Do not edit files.
+5. Respond with up to three sections, skipping empty ones: HIGH, MEDIUM, LOW
+6. Each item must explain the concrete risk, why it matters, and the cheapest check or mitigation. Enumerate items across all sections.
+7. Be concise.

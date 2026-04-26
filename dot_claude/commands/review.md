@@ -1,0 +1,31 @@
+---
+description: Review staged changes and suggest improvements by severity.
+argument-hint: [extra context]
+allowed-tools: Bash(git diff:*)
+---
+
+Review everything currently staged in this repository before it is committed.
+
+Staged files:
+!`git diff --cached --name-only`
+
+Diff stat:
+!`git diff --cached --stat`
+
+Patch:
+```diff
+!`git diff --cached`
+```
+
+Additional context:
+$ARGUMENTS
+
+Requirements:
+1. If nothing is staged, say that and stop.
+2. Review for correctness, regressions, simplification opportunities, unnecessary complexity, naming, dead code, and missing tests.
+3. Read staged files or nearby code when the patch alone is not enough.
+4. Do not edit files.
+5. Respond with actionable suggestions only, grouped into up to three sections: HIGH, MEDIUM, LOW
+6. Skip empty sections.
+7. Each suggestion must explain the issue and how to fix it. Enumerate items across all sections.
+8. Be concise.
