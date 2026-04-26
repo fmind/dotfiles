@@ -9,7 +9,6 @@ slsa = false
 "npm:@google/clasp" = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@google/jules" = "latest"
-"npm:@googleworkspace/cli" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:lighthouse" = "latest"
 "npm:neovim" = "latest"
@@ -39,6 +38,17 @@ firebase = "latest"
 fzf = "latest"
 gcloud = "latest"
 gh = "latest"
+{{- if eq .chezmoi.os "linux" }}
+{{-   if eq .chezmoi.arch "amd64" }}
+"github:googleworkspace/cli" = { version = "latest", asset_pattern = "*x86_64-unknown-linux-musl*" }
+{{-   else if eq .chezmoi.arch "arm64" }}
+"github:googleworkspace/cli" = { version = "latest", asset_pattern = "*aarch64-unknown-linux-musl*" }
+{{-   else }}
+"github:googleworkspace/cli" = { version = "latest", asset_pattern = "*linux-musl*" }
+{{-   end }}
+{{- else }}
+"github:googleworkspace/cli" = "latest"
+{{- end }}
 git-lfs = "latest"
 gitleaks = "latest"
 go = "latest"

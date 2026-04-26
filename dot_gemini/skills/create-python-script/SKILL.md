@@ -14,9 +14,7 @@ This skill guides you in creating elegant, standalone, production-grade Python C
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#     "httpx>=0.28.1",
 #     "rich>=15.0.0",
-#     "tenacity>=9.1.4",
 #     "typer>=0.24.2",
 # ]
 # ///
@@ -52,7 +50,6 @@ if __name__ == "__main__":
 - **Minimalist & Functional**: Rely on **Typer** for all CLI arguments, options, and validation.
 - **Modern Python 3.14+**: Leverage modern idioms like `t-strings` and `Annotated` for clean, self-documenting code.
 - **CLI UX**: Use **Rich** (`err = Console(stderr=True)`) for outputs, feedback, and error reporting.
-- **Robustness**: Use **httpx** for I/O and **tenacity** for retries.
 - **Self-Contained**: The `uv` shebang and PEP 723 metadata block are MANDATORY.
 
 ## AI Agent Instructions
