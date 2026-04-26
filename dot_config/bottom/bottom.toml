@@ -11,7 +11,6 @@ hide_table_gap = true
 disable_advanced_kill = true
 
 [styles]
-theme = "default"
 
 [styles.cpu]
 all_entry_color = "#cdd6f4"

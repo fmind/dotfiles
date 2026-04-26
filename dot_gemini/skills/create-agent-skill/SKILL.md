@@ -1,43 +1,43 @@
 ---
 name: create-agent-skill
-description: Guide for creating new skills for the Gemini CLI
+description: Guide for creating new agent skills for Gemini CLI (cross-tool compatible)
 ---
 
-# Create Gemini Agent Skill
+# Create Agent Skill
 
-This skill documents how to create functional skills (specialized files containing instructions) for the Gemini CLI. For more background on the conceptual model of skills, refer to the [official Gemini CLI Skills documentation](https://geminicli.com/docs/cli/skills/).
+Agent Skills are an open standard (originally by Anthropic, adopted by Gemini CLI, Claude Code, Cursor, OpenCode, and more — see [agentskills.io](https://agentskills.io)). Gemini CLI loads them via [progressive disclosure](https://geminicli.com/docs/cli/skills/): only the `name` and `description` are read at startup; the body is loaded only when a task matches.
 
-## Skill Directory Structure
+## Discovery Locations
 
-Skills are defined as directories containing a main `SKILL.md` file and any related resources. Skills can be defined at two levels:
+Gemini CLI searches three tiers (workspace > user > extension), and within each tier the `.agents/` alias takes precedence over `.gemini/`:
 
-- **Local (Workspace):** `.agents/skills/` (Project-specific skills). **If the user does not specify where to create the skill, assume it should be local.**
-- **Global (chezmoi source of truth):** `~/.local/share/chezmoi/dot_gemini/skills/` (Personal skills available across all workspaces after deployment).
+| Scope | Path | When to use |
+|-------|------|-------------|
+| Workspace | `.agents/skills/<skill-name>/` | Project-specific, version-controlled. |
+| User | `~/.agents/skills/<skill-name>/` | Cross-workspace personal skills. |
+| Chezmoi source | `~/.local/share/chezmoi/dot_gemini/skills/<skill-name>/` | Ask the user to run `mise run apply` to deploy to `~/.gemini/skills/`. |
 
-Ask the user to run `mise run apply` to deploy global skills to `~/.gemini/skills/`.
+**If the user does not specify a scope, default to creating the skill in `.agents/skills/<skill-name>/`** so it is committed alongside the project and works in other skills-aware tools.
 
-A skill directory typically looks like this under either root:
+## Skill Directory Layout
 
 ```text
-<skills-root>/
-  └── <skill-name>/
-      ├── SKILL.md       # (Required) Metadata and instructions
-      ├── scripts/       # (Optional) Executable scripts
-      ├── references/    # (Optional) Static documentation
-      └── assets/        # (Optional) Templates and other resources
+<skill-name>/
+├── SKILL.md       # (Required) frontmatter + instructions
+├── scripts/       # (Optional) executable code
+├── references/    # (Optional) static documentation the agent can grep
+└── assets/        # (Optional) templates, prompts, fixtures
 ```
 
-## Skill File Structure (`SKILL.md`)
-
-Each `SKILL.md` must start with YAML frontmatter specifying its identity, followed by detailed markdown instructions setting out the behavior, constraints, and operational steps for the agent to follow.
+## `SKILL.md` Format
 
 ```markdown
 ---
 name: <skill-name>
-description: <Short description of the skill>
+description: <One-line trigger that helps the agent decide when to load this skill>
 ---
 
-# <Skill Name Title>
+# <Skill Title>
 
 This skill documents how to...
 
@@ -46,22 +46,33 @@ This skill documents how to...
 ...
 ```
 
-### Key Components
+Frontmatter — only two fields are required:
 
-1. **Frontmatter:**
-   - `name`: A concise, hyphen-separated name for the skill (e.g., `create-agent-skill`).
-   - `description`: A brief summary of what the skill helps the agent achieve.
+- `name` (required): slug — lowercase letters, digits, hyphens. Must match the folder name.
+- `description` (required): Single sentence that lets the parent agent decide when this skill is relevant. The body is **not** loaded until the description matches.
 
-1. **Body Content:**
-   - Define the exact steps the agent should follow when using this skill.
-   - Document any project-specific conventions, code snippets, or directory structures.
-   - Specify conditions, limitations, or constraints for executing the skill.
-   - The richer the explanation and formatting, the better the Gemini agent can autonomously execute the procedures outlined within it.
+The body is plain markdown: procedure, conventions, constraints, examples. Be concrete and tool-specific so the agent can act without re-prompting.
+
+## Installing Skills From External Repos
+
+```bash
+# From a Git repo, into the current workspace (.gemini/skills/)
+gemini skills install https://github.com/owner/repo.git --scope workspace
+
+# Specific subdirectory of a monorepo
+gemini skills install https://github.com/owner/repo.git --path skills/<skill-name>
+
+# From a local path or a packaged .skill file
+gemini skills install /path/to/skill
+gemini skills install /path/to/my-skill.skill
+```
+
+The `.agents/skills/` alias is preferred for cross-tool compatibility.
 
 ## Step-by-Step Creation
 
-1. **Create the folder:** Make the directory `.agents/skills/<skill-name>` (or `~/.local/share/chezmoi/dot_gemini/skills/<skill-name>` if it must be global).
-2. **Include optional folders:** If the skill requires them, create `scripts/`, `references/`, or `assets/` subdirectories.
-3. **Create the file:** Inside the skill folder, create `SKILL.md`.
-4. **Fill the frontmatter:** Ensure you include the `name` and `description` lines between the `---` delimiters.
-5. **Draft the instructions:** Outline the procedural process explicitly, following the markdown patterns of existing skills. Provide concrete examples and specific tool usage commands where relevant to anchor the logic firmly.
+1. **Pick a slug.** Lowercase, hyphenated, descriptive (e.g. `create-claude-hook`, `run-deep-research`).
+2. **Create the folder.** `.agents/skills/<slug>/` for project-local (default), or `~/.local/share/chezmoi/dot_gemini/skills/<slug>/` for personal/global.
+3. **Add optional subfolders** (`scripts/`, `references/`, `assets/`) only if the skill bundles resources.
+4. **Write `SKILL.md`** with frontmatter (`name`, `description`) and a tight, procedural body. Keep the description action-oriented so progressive disclosure picks it up.
+5. **Iterate** by trial-running the skill in the CLI; refine wording so Gemini reliably triggers and executes it.

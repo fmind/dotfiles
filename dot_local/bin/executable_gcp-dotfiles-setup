@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+# Configure a GCP project for use with Gemini CLI subagents.
+#
+# Per https://docs.cloud.google.com/mcp/manage-mcp-servers, "MCP endpoints are
+# available once you enable the API" — no separate MCP server activation step.
+# This script handles the prerequisites:
+#
+#   1. Active gcloud auth + (optionally) Application Default Credentials.
+#   2. Project exists, is ACTIVE, and has billing enabled.
+#   3. Every Google API used by the MCP-backed subagents is enabled.
+#   4. (Optional) IAM role roles/mcp.toolUser granted to a principal — only
+#      needed when the principal is not already Owner/Editor of the project.
+#
+# Idempotent: re-running only changes what is missing.
+#
+# Usage:
+#   gcp-dotfiles-setup                       # uses the active gcloud project
+#   gcp-dotfiles-setup PROJECT_ID            # explicit project id
+#   gcp-dotfiles-setup --check               # dry-run: report only
+#   gcp-dotfiles-setup --grant-mcp PRINCIPAL # also grant roles/mcp.toolUser
+#                                            # (e.g. user:alice@example.com,
+#                                            #  serviceAccount:sa@p.iam.gserviceaccount.com)
+
+set -euo pipefail
+
+# APIs required by the MCP-backed subagents shipped in dot_gemini/agents/.
+# Keep this list in sync when new agents are added.
+REQUIRED_APIS=(
+    # GCP MCP servers
+    agentregistry.googleapis.com           # agent-registry
+    aiplatform.googleapis.com              # vertex-ai
+    cloudaicompanion.googleapis.com        # gemini-code-assist (companion)
+    clouderrorreporting.googleapis.com     # error-reporting
+    cloudresourcemanager.googleapis.com    # resource-manager
+    cloudtrace.googleapis.com              # cloud-trace
+    designcenter.googleapis.com            # design-mcp
+    developerknowledge.googleapis.com      # developer-knowledge
+    discoveryengine.googleapis.com         # agent-search, vertex-ai-search, gemini-enterprise
+    firestore.googleapis.com               # firestore
+    geminicloudassist.googleapis.com       # gemini-code-assist
+    generativelanguage.googleapis.com      # gemini-dev
+    iamcredentials.googleapis.com          # OAuth/google_credentials transport
+    logging.googleapis.com                 # cloud-logging
+    monitoring.googleapis.com              # cloud-monitoring
+    paydeveloper.googleapis.com            # pay-wallet
+    run.googleapis.com                     # cloud-run
+    serviceusage.googleapis.com            # this script (enabling APIs)
+    stitch.googleapis.com                  # stitch
+    # Workspace APIs (for the workspace MCP subagents)
+    calendar-json.googleapis.com           # calendar
+    chat.googleapis.com                    # chat
+    docs.googleapis.com                    # drive (docs interop)
+    drive.googleapis.com                   # drive
+    gmail.googleapis.com                   # gmail
+    people.googleapis.com                  # people
+    script.googleapis.com                  # clasp
+    sheets.googleapis.com                  # drive (sheets interop)
+    slides.googleapis.com                  # drive (slides interop)
+)
+
+CHECK_ONLY=0
+PROJECT=""
+GRANT_PRINCIPAL=""
+
+while (("$#")); do
+    case "$1" in
+        --check) CHECK_ONLY=1; shift ;;
+        --grant-mcp) GRANT_PRINCIPAL="$2"; shift 2 ;;
+        -h|--help)
+            sed -n '2,23p' "$0" | sed 's/^# \?//'
+            exit 0
+            ;;
+        -*) echo "unknown flag: $1" >&2; exit 2 ;;
+        *) PROJECT="$1"; shift ;;
+    esac
+done
+
+# --- 1. gcloud auth ---------------------------------------------------------
+if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" \
+        2>/dev/null | grep -q .; then
+    echo "no active gcloud account; run 'gcloud auth login' first" >&2
+    exit 1
+fi
+ACCOUNT="$(gcloud auth list --filter=status:ACTIVE --format='value(account)')"
+echo "Account: $ACCOUNT"
+
+if ! gcloud auth application-default print-access-token >/dev/null 2>&1; then
+    echo "ADC: missing — recommended for SDK-based tools."
+    echo "  fix:  gcloud auth application-default login"
+else
+    echo "ADC: ok"
+fi
+
+# --- 2. project resolution --------------------------------------------------
+if [[ -z "$PROJECT" ]]; then
+    PROJECT="$(gcloud config get-value project 2>/dev/null || true)"
+fi
+if [[ -z "$PROJECT" ]]; then
+    echo "no active gcloud project; pass PROJECT_ID or run 'gcloud config set project ...'" >&2
+    exit 1
+fi
+echo "Project: $PROJECT"
+
+LIFECYCLE="$(gcloud projects describe "$PROJECT" --format='value(lifecycleState)' 2>/dev/null || true)"
+if [[ "$LIFECYCLE" != "ACTIVE" ]]; then
+    echo "project '$PROJECT' is not ACTIVE (state: ${LIFECYCLE:-unknown})" >&2
+    exit 1
+fi
+
+# --- 3. billing -------------------------------------------------------------
+BILLING_OK="$(gcloud billing projects describe "$PROJECT" \
+    --format='value(billingEnabled)' 2>/dev/null || echo "")"
+case "$BILLING_OK" in
+    True|true) echo "Billing: enabled" ;;
+    *)
+        echo "Billing: NOT enabled — most APIs will refuse calls."
+        echo "  fix:  gcloud billing projects link $PROJECT --billing-account=BILLING_ACCOUNT_ID"
+        ;;
+esac
+
+# --- 4. APIs ----------------------------------------------------------------
+mapfile -t ENABLED < <(gcloud services list --enabled \
+    --project="$PROJECT" --format="value(config.name)")
+
+declare -A HAVE
+for api in "${ENABLED[@]}"; do HAVE["$api"]=1; done
+
+MISSING=()
+for api in "${REQUIRED_APIS[@]}"; do
+    [[ -n "${HAVE[$api]:-}" ]] || MISSING+=("$api")
+done
+
+if ((${#MISSING[@]} == 0)); then
+    echo "APIs: all ${#REQUIRED_APIS[@]} required APIs already enabled."
+else
+    echo "APIs: missing ${#MISSING[@]}:"
+    printf '  - %s\n' "${MISSING[@]}"
+    if ((! CHECK_ONLY)); then
+        echo "Enabling..."
+        gcloud services enable "${MISSING[@]}" --project="$PROJECT"
+    fi
+fi
+
+# --- 5. (optional) grant roles/mcp.toolUser ---------------------------------
+# Owners and Editors implicitly have mcp.tools.call. This step is only useful
+# for additional principals (other users, service accounts).
+if [[ -n "$GRANT_PRINCIPAL" ]]; then
+    if ((CHECK_ONLY)); then
+        echo "MCP role: would grant roles/mcp.toolUser to $GRANT_PRINCIPAL"
+    else
+        echo "Granting roles/mcp.toolUser to $GRANT_PRINCIPAL..."
+        gcloud projects add-iam-policy-binding "$PROJECT" \
+            --member="$GRANT_PRINCIPAL" \
+            --role="roles/mcp.toolUser" >/dev/null
+        echo "Done."
+    fi
+fi
+
+echo "Setup check complete."

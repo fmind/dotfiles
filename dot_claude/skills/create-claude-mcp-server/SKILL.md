@@ -25,7 +25,7 @@ Project servers are the default in this dotfiles repo. Servers from `.mcp.json` 
 
 ```jsonc
 {
-  "mcpServers": {
+  "mcp_servers": {
     "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],

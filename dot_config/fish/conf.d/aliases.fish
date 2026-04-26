@@ -21,11 +21,12 @@ alias j="just"
 # k:kubectl
 alias k="kubectl"
 # l:eza
-alias eza="eza --icons=never --git --group-directories-first"
-alias l="eza"
+alias eza="eza --icons=never --git --group-directories-first --time-style=relative --no-quotes"
 alias ls="eza"
+alias l="eza"
 alias la="eza --all"
 alias ll="eza --long"
+alias lg="eza --long --git --git-ignore"
 alias lt="eza --tree"
 # m:mise
 alias m="mise"
@@ -56,4 +57,4 @@ alias w="zellij"
 alias x="xh"
 # y:yazi
 alias y="yazi"
-# z:zoxide
+# z:zoxide (provided by `zoxide init fish`)

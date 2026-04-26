@@ -1,5 +1,5 @@
 auto-install-peers=true
-prefer-frozen-lockfile=true
+prefer-frozen-lockfile=false
 strict-peer-dependencies=false
 store-dir=~/.local/share/pnpm/store
 state-dir=~/.local/state/pnpm

@@ -36,7 +36,7 @@ tools:
   - "*"
 mcp_servers:
   <agent-name>:
-    # MCP Server configuration goes here
+    # MCP Server configuration goes here (httpUrl, command/args, env, headers, etc.)
 ---
 
 # <Agent Name Title>
@@ -46,12 +46,12 @@ You are the specialized <agent-name> agent. Your primary goal is to [describe pr
 
 ### Key Components
 
-1. **Frontmatter:**
-   - `name`: Must match the filename (without `.md`).
-   - `description`: A brief summary of what the agent does.
-   - `kind`: `local` (default) or remote.
-   - `tools`: A list of tools the agent can access. Can be explicit tool names, or wildcards like `*` (all tools), `mcp_*` (all MCP tools), or `mcp_<server-name>_*` (tools from a specific MCP server).
-   - `mcp_servers`: Configuration for inline Model Context Protocol servers unique to the agent.
+1. **Frontmatter (must use these exact field names):**
+   - `name` (required): Must match the filename (without `.md`); slug only — lowercase letters, digits, hyphens, underscores.
+   - `description` (required): Short summary used by the parent agent to decide when to delegate.
+   - `kind` (optional): `local` (default) or `remote`.
+   - `tools` (optional): Whitelist of tool names. Supports wildcards: `*` (all parent tools), `mcp_*` (all MCP tools), `mcp_<server-name>_*` (tools from a specific MCP server). If omitted, the agent inherits every parent tool.
+   - `mcp_servers` (optional, **camelCase**): Inline MCP server definitions isolated to this agent. Each entry takes the standard MCP transport keys (`httpUrl`, `command`/`args`, `env`, `headers`, `authProviderType`, …).
 
 1. **System Instruction:**
    - Everything after the second `---` is the prompt context provided to the subagent.
@@ -62,5 +62,5 @@ You are the specialized <agent-name> agent. Your primary goal is to [describe pr
 ## Step-by-Step Creation
 
 1. **Create the file:** Create `.gemini/agents/<name>.md` (or `~/.local/share/chezmoi/dot_gemini/agents/<name>.md` if global).
-2. **Fill the frontmatter:** Ensure the `name` matches the file name, and use one of the `mcp_servers` patterns above.
+2. **Fill the frontmatter:** Ensure the `name` matches the file name. Use `mcp_servers` (camelCase!) for any inline MCP server config — `mcp_servers` is silently ignored.
 3. **Draft the persona:** Keep the markdown instruction focused, clearly specifying the agent's responsibilities inline with the established standard format.

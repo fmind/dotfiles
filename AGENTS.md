@@ -1,23 +1,49 @@
-# Project Agent Context
+# Project Agent Rules
 
-## Objectives
+This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, and Cloud Shell.
 
-- **No-Sudo**: Avoid sudo whenever possible, stay in user-space.
-- **Modern CLI**: Prioritize powerful, fast, and modern CLI tools.
-- **AI-First**: Every tool must be runnable from the CLI by an agent.
+See `README.md` for what it ships; this file is for agents editing the repo.
 
-## Principles
+## Source layout
 
-- **AI-Driven**: Add tools and configs that maximize safe agent autonomy.
-- **Consistent**: Default to `catppuccin-mocha`, vim mode, ASCII icons.
-- **Idempotent**: Ensure non-interactive and reproducible setups via lockfiles.
-- **Portable**: Support Linux, macOS (Apple Silicon), and Cloud Shell configs.
-- **No-Icons**: Avoid Nerd Font icons whenever possible to enhance compatibility.
+- `mise.toml` — repo-scoped tools and `mr <task>` workflows.
+- `install.sh` — one-shot bootstrap (mise → chezmoi → apply).
+- `dot_AGENTS.md` — global agent rules (deployed as `~/.AGENTS.md`).
+- `dot_config/` — everything that lands in `~/.config/`.
+- `dot_config/mise/config.toml.tmpl` — global toolchain (every CLI installed).
+- `dot_claude/`, `dot_gemini/`, `dot_copilot/` — AI agent configs.
+- `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
+- `AGENTS.md` (this file) — repo rules.
 
-## Collaboration
+## Chezmoi conventions
 
-- **Active Dialogue**: Challenge the user if requests are ambiguous or underspecified.
-- **Commit Strategy**: Do not commit changes unless specifically requested by the user.
-- **Concise Rules**: Keep all `AGENTS.md` rules under 88 characters for readability.
-- **Context First**: Review existing configs before adding new tools or settings.
-- **Verify Syntax**: Validate tool usage against the latest online documentation.
+- `dot_foo` → `~/.foo`. Never write a literal leading dot in source paths.
+- `<name>.tmpl` → Go-template; branch on `.chezmoi.os` / `.chezmoi.arch`.
+- `symlink_<name>.tmpl` → symlink; e.g. `dot_claude/symlink_CLAUDE.md.tmpl` and `dot_gemini/symlink_GEMINI.md.tmpl` both point at `~/.AGENTS.md`.
+- `private_*` → mode 0600. `executable_*` → mode 0755. `*.age` → encrypted.
+- `.chezmoiignore` blocks repo-only files (`README.md`, `mise.toml`, ...) from `apply`.
+
+## Editing workflow
+
+1. Edit the source file under `dot_*` (NOT the deployed copy in `~`).
+2. `mr c` to preview the diff (`chezmoi diff` works too).
+3. `mr a` to apply. For tool changes, follow with `mr t` then `mr l`.
+4. `mr n` runs pre-commit on all files; fix issues before suggesting a commit.
+5. `mr s` runs gitleaks; never commit secrets, even as redacted examples.
+
+## House rules
+
+- **No-Sudo**: stay user-space; install via `mise`, `aqua`, or `pipx`. The `apt install` line in the README prereqs is the only allowed exception.
+- **No-Icons**: ASCII only — these configs run over SSH and in Cloud Shell.
+- **Catppuccin Mocha**: default theme everywhere it's supported.
+- **Vim mode**: enable in every TUI that supports it.
+- **Lockfiles**: bump via `mr u`; never hand-edit `mise.lock`.
+- **Verify upstream**: check the tool's current docs before adding flags or keys.
+- **Don't commit**: only when I explicitly ask. Run `mr n && mr s` first.
+
+## Adding a new tool
+
+1. Add the binary to `dot_config/mise/config.toml.tmpl` (alphabetical order).
+2. Drop its config under `dot_config/<tool>/`, templated where needed.
+3. If the tool exposes an agent surface, mirror it under `dot_claude/` and `dot_gemini/` (skill, command, or subagent) to keep both ecosystems in parity.
+4. `mr t` to install, `mr a` to deploy, `mr l` to lock, `mr d` to verify.

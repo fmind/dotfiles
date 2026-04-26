@@ -18,17 +18,26 @@ Ask the user to run `mise run apply` to deploy global commands to `~/.gemini/com
 ## File Structure
 
 ```toml
-description = "One-line summary that appears in autocomplete."
+description = "One-line summary that appears in autocomplete and /help."
 
 prompt = """
-The full prompt body. Supports:
+The full prompt body sent to the model. Supports three forms of injection:
 
-- `!{shell command}` to inline the command's stdout.
-- `{{arg}}` placeholders bound to CLI flags.
+- `!{shell command}` runs the command (with user confirmation) and inlines its stdout.
+- `@{path}` embeds the contents of a file or directory (respects .gitignore / .geminiignore; supports images, PDFs, audio, video).
+- `{{args}}` is replaced with whatever the user typed after the command name. Inside `!{...}` the substitution is shell-escaped automatically; outside, it is injected raw.
+
+If `{{args}}` is omitted entirely, any user input is appended to the prompt with a blank-line separator.
 
 Return only the requested output, no quotes, no markdown blocks.
 """
 ```
+
+Only two TOML keys are recognised: `prompt` (required) and `description` (optional but strongly recommended).
+
+### Subdirectories become namespaces
+
+`commands/git/commit.toml` → `/git:commit`. Use this for grouping related commands under a prefix.
 
 ### Example: conventional commit message
 
@@ -45,13 +54,14 @@ Return only the message, no quotes, no markdown blocks.
 
 ## Step-by-Step Creation
 
-1. **Pick a verb-first name.** `commit`, `review`, `explain`, `pr-summary`.
-2. **Create the file** at the correct scope. For global commands in this dotfiles repo, write the source file under `~/.local/share/chezmoi/dot_gemini/commands/`.
-3. **Write a tight `description`** — this is what the user sees in autocomplete.
-4. **Write the `prompt`** — be explicit about the output format. Inline shell output with `!{...}` instead of asking the user to paste.
+1. **Pick a verb-first name.** `commit`, `review`, `explain`, `pr-summary`. Use a `<group>/<name>.toml` layout if you want a `:`-namespaced command.
+2. **Create the file** at the correct scope. For global commands in this dotfiles repo, write the source under `~/.local/share/chezmoi/dot_gemini/commands/`.
+3. **Write a tight `description`** — this is what the user sees in autocomplete and `/help`.
+4. **Write the `prompt`** — be explicit about the output format. Inline shell output with `!{...}` and file content with `@{...}` instead of asking the user to paste. Use `{{args}}` for free-form parameters.
 
 ## Guidelines
 
 - One responsibility per command. Compose, don't bloat.
 - Always specify the desired output format ("only the message", "JSON only", "single sentence"). Saves the user a round-trip.
-- Quote shell snippets carefully when they may contain backticks.
+- Quote shell snippets carefully when they may contain backticks; prefer single-line `!{...}` blocks when possible.
+- Keep `{{args}}` substitution outside of `!{...}` shell blocks unless you want raw injection — inside, arguments are auto-escaped, which can break expected quoting.

@@ -26,6 +26,39 @@ diverged = '<>'
 renamed = 'r'
 deleted = 'x'
 
+[python]
+symbol = '\[py\] '
+format = '[$symbol($virtualenv )]($style)'
+style = 'yellow'
+
+[nodejs]
+symbol = '\[node\] '
+format = '[$symbol($version )]($style)'
+detect_files = ['package.json', '.nvmrc']
+style = 'green'
+
+[golang]
+symbol = '\[go\] '
+format = '[$symbol($version )]($style)'
+style = 'cyan'
+
+[terraform]
+symbol = '\[tf\] '
+format = '[$symbol$workspace ]($style)'
+style = 'mauve'
+
+[gcloud]
+symbol = '\[gcp\] '
+format = '[$symbol$project]($style) '
+style = 'blue'
+disabled = false
+
+[kubernetes]
+symbol = '\[k8s\] '
+format = '[$symbol$context( \($namespace\))]($style) '
+style = 'sapphire'
+disabled = false
+
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
 flamingo = "#f2cdcd"

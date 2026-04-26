@@ -10,6 +10,9 @@ update_check = false
 # Workspace-aware history
 workspaces = true
 
+# Built-in secrets filter
+secrets_filter = true
+
 # Filter sensitive commands
 history_filter = [
     "^export .*(TOKEN|SECRET|PASSWORD|KEY|CREDENTIAL)",

@@ -1,10 +1,14 @@
+disableStartupPopups: true
 git:
+  autoFetch: false
+  parseEmoji: false
   paging:
     colorArg: always
     pager: delta --dark --paging=never
 gui:
   showIcons: false
   showFileTree: true
+  nerdFontsVersion: ""
   theme:
     activeBorderColor:
       - '#cba6f7'
