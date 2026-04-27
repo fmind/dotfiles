@@ -30,24 +30,29 @@ set -euo pipefail
 REQUIRED_APIS=(
   # GCP MCP servers
   agentregistry.googleapis.com        # agent-registry
-  aiplatform.googleapis.com           # vertex-ai
-  cloudaicompanion.googleapis.com     # gemini-code-assist (companion)
+  aiplatform.googleapis.com           # vertex-ai, gemini-enterprise
+  bigquery.googleapis.com             # bigquery
+  ces.googleapis.com                  # cx-agent-studio
+  cloudaicompanion.googleapis.com     # Gemini Code Assist (IDE companion)
   clouderrorreporting.googleapis.com  # error-reporting
   cloudresourcemanager.googleapis.com # resource-manager
   cloudtrace.googleapis.com           # cloud-trace
-  designcenter.googleapis.com         # design-mcp
+  compute.googleapis.com              # compute-engine
+  designcenter.googleapis.com         # design (host: design.googleapis.com)
   developerknowledge.googleapis.com   # developer-knowledge
-  discoveryengine.googleapis.com      # agent-search, vertex-ai-search, gemini-enterprise
+  discoveryengine.googleapis.com      # agent-search, vertex-ai-search
   firestore.googleapis.com            # firestore
-  geminicloudassist.googleapis.com    # gemini-code-assist
-  generativelanguage.googleapis.com   # gemini-dev
+  geminicloudassist.googleapis.com    # gemini-cloud-assist
+  generativelanguage.googleapis.com   # gemini-dev (Gemini API)
   iamcredentials.googleapis.com       # OAuth/google_credentials transport
   logging.googleapis.com              # cloud-logging
   monitoring.googleapis.com           # cloud-monitoring
   paydeveloper.googleapis.com         # pay-wallet
+  pubsub.googleapis.com               # pubsub
   run.googleapis.com                  # cloud-run
   serviceusage.googleapis.com         # this script (enabling APIs)
   stitch.googleapis.com               # stitch
+  storage.googleapis.com              # cloud-storage
   # Workspace APIs (for the workspace MCP subagents)
   calendar-json.googleapis.com # calendar
   chat.googleapis.com          # chat

@@ -27,6 +27,16 @@ Utilize your available tools precisely and autonomously to complete the user's r
 - **Logs:** Tail Cloud Logging for the Apps Script project.
 - **APIs:** Enable and disable Google APIs for the script's GCP project.
 
+## Common Workflows
+
+- `clasp pull` before editing — Apps Script editor changes are silent.
+- Create a new version before each deployment for rollback safety.
+- Tail logs (`clasp logs`) right after a deploy to catch runtime errors.
+
+## See also
+
+- `drive` (Apps Script files live in Drive) · `calendar`/`gmail` (common Apps Script targets).
+
 ## Documentation
 
 - [Clasp on GitHub](https://github.com/google/clasp)

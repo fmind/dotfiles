@@ -24,6 +24,28 @@ Utilize your available tools precisely and autonomously to design conversational
 - **Run** eval sets and test cases for regression safety.
 - **Import/export** agent ZIPs and flow JSON.
 
+## Prerequisites
+
+Enable the API and the MCP interface, then authenticate (one-time per project):
+
+```bash
+gcloud services enable ces.googleapis.com
+gcloud beta services mcp enable ces.googleapis.com
+gcloud auth application-default login
+```
+
+Principal needs `roles/mcp.toolUser` plus the service-specific role. See [Enable MCP servers](https://docs.cloud.google.com/mcp/enable-disable-mcp-servers).
+
+## Common Workflows
+
+- Run eval sets before promoting flows to a prod environment.
+- Export agent ZIPs for diff-able config review under git.
+- Scope intents narrowly to avoid route collisions.
+
+## See also
+
+- `vertex-ai` for grounding models · `gemini-enterprise` for governed agents · `agent-registry` for versioning.
+
 ## Documentation
 
 - [CX Agent Studio MCP server](https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/mcp-server)

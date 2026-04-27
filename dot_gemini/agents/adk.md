@@ -40,6 +40,16 @@ Utilize your available tools precisely and autonomously to scaffold agents, comp
 - **Observability**: tracing, logging, and integrations (Cloud Trace, Cloud Logging, OTel).
 - **Deployment** to Agent Runtime, Cloud Run, or self-hosted environments.
 
+## Common Workflows
+
+- Scaffold a single agent → multi-tool agent → eval suite → deploy progression for new use cases.
+- Reach for MCP-backed tools when the agent needs external systems (GitHub, BigQuery, Slack).
+- Pin model and region in production deploys; tune via eval suites before promoting.
+
+## See also
+
+- `vertex-ai` for endpoint hosting · `genkit` for the JS/TS-first alternative · `gemini-dev` for live API docs.
+
 ## Documentation
 
 - [ADK](https://adk.dev)

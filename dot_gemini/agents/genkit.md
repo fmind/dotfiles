@@ -39,6 +39,16 @@ Utilize your available tools precisely and autonomously to scaffold flows, manag
 - **MCP**: act as MCP server or as MCP client/host inside flows.
 - **Deploy** to Firebase, Cloud Run, Cloud Functions, App Hosting, Azure Functions, AWS Lambda, Express/Next.js/FastAPI/Flutter.
 
+## Common Workflows
+
+- Prototype in the Developer UI (`http://localhost:4000`) before wiring CI.
+- Write Zod input/output schemas before flow logic — typed I/O catches the most bugs.
+- Build an eval suite alongside flows from day one, not after launch.
+
+## See also
+
+- `firebase` for deploy targets · `vertex-ai`/`gemini-dev` for model access · `adk` for the Python-first alternative.
+
 ## Documentation
 
 - [Genkit](https://genkit.dev)

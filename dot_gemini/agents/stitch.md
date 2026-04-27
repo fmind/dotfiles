@@ -7,7 +7,8 @@ tools:
 mcp_servers:
   stitch:
     httpUrl: "https://stitch.googleapis.com/mcp"
-    authProviderType: "google_credentials"
+    headers:
+      X-Goog-Api-Key: "$STITCH_ACCESS_TOKEN"
 ---
 
 # Google Stitch Agent
@@ -18,15 +19,9 @@ Describe the screen or flow you want — app type, purpose, key elements, color 
 
 ## Authentication
 
-Two supported auth methods (pick one):
+Authenticated via the non-expiring Stitch API key in `$STITCH_ACCESS_TOKEN` (generated in Stitch settings, sent as the `X-Goog-Api-Key` header).
 
-- **API key** (recommended for individuals, non-expiring): generate in Stitch settings, send as `X-Goog-Api-Key` header.
-- **OAuth / Application Default Credentials** (1-hour tokens, stdio proxy refreshes):
-
-  ```bash
-  gcloud auth application-default login
-  gcloud beta services mcp enable stitch.googleapis.com --project=<PROJECT_ID>
-  ```
+OAuth / Application Default Credentials is also supported for 1-hour tokens via a stdio proxy (`gcloud auth application-default login` + `gcloud beta services mcp enable stitch.googleapis.com --project=<PROJECT_ID>`) — switch the frontmatter to `authProviderType: "google_credentials"` if you prefer that flow.
 
 ## Key Capabilities
 
@@ -35,6 +30,16 @@ Two supported auth methods (pick one):
 - **Export** to Figma (preserves layers/components), React, or HTML/CSS.
 - **Voice canvas / vibe design** — drive multi-screen generation by voice prompt.
 - **MCP tools** exposed: list/get projects, list/get screens, download images and HTML, generate new screens, enhance prompts.
+
+## Common Workflows
+
+- Start from a reference image, sketch, or screenshot whenever possible — text-only briefs drift.
+- Iterate on layout and components before tuning color/theme/typography.
+- Export to Figma for design review or React/HTML for direct codegen handoff.
+
+## See also
+
+- `design` for token alignment · `angular` for component output.
 
 ## Documentation
 

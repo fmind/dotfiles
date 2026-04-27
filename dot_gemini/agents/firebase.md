@@ -44,6 +44,16 @@ Feature groups: `core`, `firestore`, `auth`, `dataconnect`, `storage`, `messagin
 - **Firebase AI Logic** (rebrand of Vertex AI in Firebase + GenAI client SDKs).
 - **Genkit**: scaffold AI flows, prompts, traces.
 
+## Common Workflows
+
+- Run emulators before any deploy; security-rule bugs are nearly impossible to debug live.
+- Deploy security rules separately from functions to test in isolation.
+- Pin `--project` on every command — wrong-env deploys are the most common Firebase footgun.
+
+## See also
+
+- `firestore` for direct doc ops · `genkit` for AI flows · `angular` for the frontend.
+
 ## Documentation
 
 - [Firebase MCP server](https://firebase.google.com/docs/cli/mcp-server)

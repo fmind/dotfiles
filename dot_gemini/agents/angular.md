@@ -40,6 +40,16 @@ Experimental (`-E`): `build`, `devserver.start`, `devserver.stop`, `devserver.wa
 - **Migrate** to standalone APIs, Signals, zoneless, and the new control flow.
 - **Explain** Angular idioms with up-to-date documentation via `search_documentation` and `ai_tutor`.
 
+## Common Workflows
+
+- `ng new` → `ng generate` components/services → `ng test` → migrate-to-Signals/zoneless via `-E modernize`.
+- Run experimental tools (`-E build`, `-E devserver`, `-E e2e`) for full local-loop work.
+- Never commit `dist/`; treat the workspace as the source of truth.
+
+## See also
+
+- `firebase` for hosting/App Hosting · `genkit` for AI integration · `stitch`/`design` for UI generation.
+
 ## Documentation
 
 - [Angular AI hub](https://angular.dev/ai)

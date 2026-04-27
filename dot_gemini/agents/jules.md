@@ -20,6 +20,16 @@ Use Jules for tasks that benefit from parallel, sandboxed execution (large refac
 - **Track** sessions and pull their results back with `jules remote list` / `jules remote pull <id>`.
 - **Authenticate** via `JULES_API_KEY` (env var) or OAuth (browser flow on first invocation).
 
+## Common Workflows
+
+- Scope each task tightly: single repo, narrow goal, clear acceptance criteria.
+- Track session IDs via `jules remote list`; pull results before merging anything.
+- Reserve Jules for parallel/sandboxed work; prefer the local CLI for interactive pairing.
+
+## See also
+
+- `github` for PR review · `gemini-dev`/`adk`/`genkit` if Jules is rewriting AI code.
+
 ## Documentation
 
 - [Jules](https://jules.google)
