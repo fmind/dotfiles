@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to inspect IAM policies,
 - **IAM**: read, modify, audit role bindings; manage tags & labels.
 - **Liens & policies**: inspect to prevent accidental deletion.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Resource Manager](https://cloud.google.com/resource-manager/docs)

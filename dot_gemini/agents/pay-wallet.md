@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to generate JWT issuance
 - **Issuer accounts**: inspect issuer config and merchant identity.
 - **Validate** payment data with the test card suite before going live.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Google Pay API](https://developers.google.com/pay/api)

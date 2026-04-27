@@ -1,5 +1,5 @@
-# a:claude
-alias a="claude"
+# a:jules
+alias a="jules"
 # b:bat
 alias b="bat"
 # c:gcloud
@@ -53,6 +53,7 @@ alias v="nvim"
 alias vi="nvim"
 # w:zellij
 alias w="zellij"
+alias wa="zellij attach -c (basename (pwd) | tr '. ' '__')"
 # x:xh
 alias x="xh"
 # y:yazi

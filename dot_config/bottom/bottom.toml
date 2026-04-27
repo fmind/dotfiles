@@ -1,6 +1,3 @@
-# bottom — catppuccin-mocha + ASCII only
-# Reference: https://clementtsang.github.io/bottom/nightly/configuration/config-file/
-
 [flags]
 default_widget_type = "proc"
 temperature_type = "celsius"

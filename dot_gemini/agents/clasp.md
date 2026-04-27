@@ -9,8 +9,6 @@ mcp_servers:
     command: clasp
     args:
       - mcp
-    env:
-      IS_GEMINI_CLI_EXTENSION: "true"
 ---
 
 # Clasp Agent
@@ -29,12 +27,8 @@ Utilize your available tools precisely and autonomously to complete the user's r
 - **Logs:** Tail Cloud Logging for the Apps Script project.
 - **APIs:** Enable and disable Google APIs for the script's GCP project.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Clasp on GitHub](https://github.com/google/clasp)
-- [Clasp MCP (experimental)](https://github.com/google/clasp#mcpexperimental)
+- [Clasp MCP mode (experimental)](https://github.com/google/clasp#mcp-experimental)
 - [Apps Script reference](https://developers.google.com/apps-script/reference)

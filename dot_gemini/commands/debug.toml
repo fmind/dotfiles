@@ -1,0 +1,14 @@
+description = "Guided root-cause investigation for an active bug."
+
+prompt = """
+Investigate the bug described by `{{args}}` one step at a time.
+
+Requirements:
+1. Treat `{{args}}` as a symptom, error message, or reproduction. If empty, ask for the symptom and reproduction and stop.
+2. Inspect the relevant code, recent commits, and any logs or stack traces before hypothesizing.
+3. Build a hypothesis tree: list the 3 to 5 most likely causes, ranked by prior probability given the evidence.
+4. Pick the single most promising branch and propose the next diagnostic step: a log to add, a value to print, a command to run, or a check to perform. One step only.
+5. Do not apply a fix yet. Do not refactor. Do not edit files unless adding a temporary diagnostic.
+6. State what result would confirm or refute the hypothesis so the next iteration can narrow further.
+7. Be concise.
+"""

@@ -1,0 +1,15 @@
+description = "Plan a migration between languages, frameworks, or library versions."
+
+prompt = """
+Plan a migration described by `{{args}}` (e.g. `python 3.11 -> 3.13`, `flask -> fastapi`, `mongo -> postgres`).
+
+Requirements:
+1. Parse `{{args}}` as `from -> to`. If unclear, infer from the repository state and note your assumption.
+2. Inventory current usage of the source: imports, configs, idioms, and call sites that will change.
+3. List breaking changes between source and target that affect this repository specifically. Skip generic notes that do not apply here.
+4. Identify codemods or automated rewrites that can do part of the work.
+5. Propose a phased plan: preparation, incremental migration, cutover, cleanup. Each phase must be independently shippable.
+6. Include a rollback plan and validation strategy per phase.
+7. Do not edit files.
+8. Respond in well-structured Markdown. Be concise.
+"""

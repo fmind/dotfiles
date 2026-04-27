@@ -7,8 +7,6 @@ slsa = false
 run_auto_install = false
 
 [tools]
-"aqua:fish-shell/fish-shell" = "latest"
-"aqua:gitleaks/gitleaks" = "latest"
 age = "latest"
 chezmoi = "latest"
 neovim = "latest"
@@ -19,12 +17,6 @@ alias = "a"
 description = "Apply with chezmoi"
 run = "chezmoi apply --init"
 
-[tasks.bootstrap]
-alias = "b"
-depends = ["trust", "apply", "hooks", "tools", "vim"]
-description = "Full first-time setup"
-run = "echo '✓ Bootstrap complete.'"
-
 [tasks.check]
 alias = "c"
 description = "Preview chezmoi changes"
@@ -34,6 +26,12 @@ run = "chezmoi apply --dry-run --init"
 alias = "d"
 description = "Show pending chezmoi diff"
 run = "chezmoi diff --init"
+
+[tasks.full]
+alias = "f"
+depends = ["trust", "apply", "hooks", "tools", "vim"]
+description = "Full first-time setup"
+run = "echo '✓ Full setup complete.'"
 
 [tasks.hooks]
 alias = "h"
@@ -57,7 +55,7 @@ run = "pre-commit run --all-files"
 
 [tasks.doctor]
 alias = "o"
-description = "Run chezmoi/mise/nvim health checks"
+description = "Run chezmoi/mise health checks"
 run = ["chezmoi doctor", "mise doctor"]
 
 [tasks.prune]
@@ -65,13 +63,9 @@ alias = "p"
 description = "Remove unused mise packages and clear cache"
 run = ["mise prune -y", "mise cache clear"]
 
-[tasks.scan]
-alias = "s"
-description = "Scan repository for leaked secrets with gitleaks"
-run = "gitleaks detect --no-banner --redact --source ."
-
 [tasks.tools]
 alias = "t"
+depends = ["apply"]
 description = "Install global tools from ~/.config/mise/config.toml"
 run = ["mise -C \"$HOME\" install -y"]
 
@@ -79,9 +73,9 @@ run = ["mise -C \"$HOME\" install -y"]
 alias = "r"
 description = "Trust this repository and home mise configurations"
 run = [
-    "mise trust -y mise.toml",
-    "mise trust -y dot_config/mise/config.toml",
-    "mise trust -y ~/.config/mise/config.toml",
+  "mise trust -y mise.toml",
+  "mise trust -y dot_config/mise/config.toml",
+  "mise trust -y ~/.config/mise/config.toml",
 ]
 
 [tasks.upgrade]

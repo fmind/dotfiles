@@ -1,0 +1,13 @@
+description = "Teach a concept using real examples from this repository."
+
+prompt = """
+Teach `{{args}}` using this repository as the textbook.
+
+Requirements:
+1. Treat `{{args}}` as a concept, pattern, symbol, or subsystem.
+2. Find real examples of it in the codebase. Reference each as `file:line`.
+3. Explain in three layers: a one-paragraph overview, the mechanics, and how this repository specifically uses it.
+4. End with one short "trace this yourself" exercise pointing to a specific file the user can read.
+5. Avoid generic textbook content unless directly grounded in this codebase.
+6. Be concise and technical. No marketing language.
+"""

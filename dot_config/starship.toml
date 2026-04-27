@@ -1,8 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-palette = "catppuccin_mocha"
-
 add_newline = false
+palette = "catppuccin_mocha"
 format = '$directory$git_branch$git_status$cmd_duration$character'
 
 [character]

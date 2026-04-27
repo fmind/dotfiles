@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to publish, retrieve, an
 - **Govern** access through IAM, labels, and lifecycle states.
 - **Promote** agents between environments (dev → staging → prod).
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Agent Registry overview](https://cloud.google.com/agent-registry/docs)

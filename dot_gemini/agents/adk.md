@@ -40,25 +40,6 @@ Utilize your available tools precisely and autonomously to scaffold agents, comp
 - **Observability**: tracing, logging, and integrations (Cloud Trace, Cloud Logging, OTel).
 - **Deployment** to Agent Runtime, Cloud Run, or self-hosted environments.
 
-## Skills
-
-Skills are bundled with the `google-agents-cli` package (no standalone skills repo). Run the setup once to install both the CLI and all 6 development skills:
-
-```bash
-uvx google-agents-cli setup
-```
-
-Skills installed:
-
-- **google-agents-cli-adk-code** — Python API quick reference and docs index.
-- **google-agents-cli-adk-deploy** — Agent Runtime and Cloud Run deployment.
-- **google-agents-cli-adk-dev** — Development lifecycle and coding guidelines.
-- **google-agents-cli-adk-eval** — Evaluation methodology and scoring.
-- **google-agents-cli-adk-observe** — Tracing, logging, and integrations.
-- **google-agents-cli-adk-scaffold** — Project scaffolding.
-
-The CLI auto-detects active agents (Claude Code, Gemini CLI, Cursor) and writes to `.agents/skills/` for cross-tool portability. For custom skills, drop a `SKILL.md` into `.agents/skills/<skill-name>/`.
-
 ## Claude Code MCP setup
 
 ```bash

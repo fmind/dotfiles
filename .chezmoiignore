@@ -1,5 +1,6 @@
+AGENTS.md
 README.md
-Dockerfile
+SECRETS.TODO.txt
 install.sh
 mise.lock
 mise.toml

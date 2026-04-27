@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to ground responses in c
 - **Ground** answers with citations and links to authoritative pages.
 - **Bridge** stale model knowledge to up-to-date GCP guidance.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Google Cloud documentation](https://cloud.google.com/docs)

@@ -24,10 +24,6 @@ Utilize your available tools precisely and autonomously. **Never send a message 
 - **Label & organize** with stars, labels, archive, mute.
 - **Manage filters** for inbound triage rules.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Google Workspace developer portal](https://developers.google.com/workspace)

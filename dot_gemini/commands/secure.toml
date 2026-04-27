@@ -1,0 +1,14 @@
+description = "Audit the entire repository for security risks and rank them."
+
+prompt = """
+Audit this repository for security risks.
+
+Requirements:
+1. Scan for: hardcoded secrets, weak or default credentials, dangerous patterns (eval, dynamic exec, shell injection, SSRF, path traversal, unsafe deserialization), weak crypto, missing input validation, broken auth or authorization, exposed configs, permissive file permissions, vulnerable or outdated dependencies.
+2. Inspect configuration files, scripts, source code, and dependency manifests. Read suspicious files in full before flagging.
+3. Use focused local tools (grep, dependency listings). Do not make network calls.
+4. Do not edit files.
+5. Respond with up to three sections, skipping empty ones: HIGH, MEDIUM, LOW.
+6. Each item must include `file:line` evidence, why it is a risk, and the cheapest concrete fix. Enumerate items across all sections.
+7. Be concise.
+"""

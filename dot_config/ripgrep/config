@@ -1,4 +1,4 @@
-# Search hidden files (but keep .git ignored)
+# Search hidden
 --hidden
 --glob=!.git/
 

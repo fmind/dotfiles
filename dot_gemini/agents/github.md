@@ -41,10 +41,6 @@ Utilize your available tools precisely and autonomously. Use the hosted `github_
 
 Both transports require the `GITHUB_MCP_PAT` environment variable to be set to a fine-grained Personal Access Token with the scopes the user requires (typically `repo`, `workflow`, `read:org`).
 
-## Skills
-
-No official GitHub-published skill bundle yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [GitHub MCP server](https://github.com/github/github-mcp-server)

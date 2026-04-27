@@ -9,7 +9,7 @@ Managed by [chezmoi](https://www.chezmoi.io/) and [mise](https://mise.jdx.dev/).
 - **Shell**: `fish` + `starship` + `atuin` + `carapace` + `zoxide` + `fzf`.
 - **Terminal**: `ghostty`, with `zellij` as multiplexer and `yazi` as file manager.
 - **Editor**: `neovim` (LazyVim) with `catppuccin-mocha`, vim mode everywhere.
-- **AI agents**: `claude-code` + `gemini-cli` + `jules` (async) + GitHub Copilot, all sharing one persona via `~/.AGENTS.md`.
+- **AI agents**: `gemini-cli` + `jules` (async) + GitHub Copilot.
 - **Languages out of the box**: Python (`uv`), TypeScript / Angular (`pnpm`, `biome`), Go, Terraform, Docker, Kubernetes.
 - **Theme**: `catppuccin-mocha` everywhere consistent (nvim, fzf, ghostty, starship, lazygit, gemini, claude, ptpython).
 - **Icons**: none — ASCII-only by default for portability over SSH and Cloud Shell.
@@ -24,7 +24,9 @@ sudo apt install -y git curl libatomic1 build-essential
 
 ## Installation
 
-The repo is private, so bootstrap from a local clone (requires an SSH key registered with GitHub):
+The repo is private and SSH-only. Register an SSH key with GitHub before installing.
+
+On a fresh machine run `ssh-keygen` and add the public key at <https://github.com/settings/keys>. Then:
 
 ```bash
 # 1. Clone into the chezmoi source directory
@@ -36,8 +38,6 @@ bash ~/.local/share/chezmoi/install.sh
 # 3. Full first-time setup (trust → apply → hooks → tools → vim plugins)
 ~/.local/bin/mise -C ~/.local/share/chezmoi run bootstrap
 ```
-
-On a fresh machine (e.g. Cloud Shell) without an SSH key, run `gh auth login` first, then `gh repo clone fmind/dotfiles ~/.local/share/chezmoi` before step 2.
 
 ## Tasks
 
@@ -55,7 +55,6 @@ mr n   lint        Run pre-commit on all files
 mr o   doctor      Run chezmoi/mise health checks
 mr p   prune       Remove unused mise packages and clear cache
 mr r   trust       Trust this repository and home mise configurations
-mr s   scan        Scan for leaked secrets with gitleaks
 mr t   tools       Install global tools from ~/.config/mise/config.toml
 mr u   upgrade     Upgrade mise tools to latest versions and bump locks
 mr v   vim         Install/sync Neovim plugins headlessly with LazyVim
@@ -68,9 +67,8 @@ mr v   vim         Install/sync Neovim plugins headlessly with LazyVim
 ├── install.sh                        # one-shot installer (mise → chezmoi → apply)
 ├── mise.toml                         # repo-scoped tools + tasks
 ├── AGENTS.md                         # rules for agents editing THIS repo
-├── dot_AGENTS.md                     # global AI persona (~/.AGENTS.md)
-├── dot_claude/                       # Claude Code (settings, agents, commands, skills)
-├── dot_gemini/                       # Gemini CLI (settings, agents, commands, skills)
+├── dot_gemini/                       # Gemini CLI — primary AI surface (persona, settings, agents, commands, skills)
+├── dot_claude/settings.json          # Claude Code (secondary)
 ├── dot_copilot/config.json           # GitHub Copilot CLI configuration
 ├── dot_config/
 │   ├── mise/config.toml.tmpl         # global toolchain (every CLI you use)
@@ -80,15 +78,13 @@ mr v   vim         Install/sync Neovim plugins headlessly with LazyVim
 │   ├── ghostty/ zellij/ yazi/        # terminal, multiplexer, file manager
 │   ├── atuin/ bat/ bottom/ ripgrep/  # CLI tooling
 │   ├── lazygit/ lazydocker/ gh/      # git, docker, github
-│   └── ptpython/ pnpm/ uv/ fastfetch/ # language + system tooling
+│   └── ptpython/ pnpm/ fastfetch/    # language + system tooling
 ├── dot_gitconfig.tmpl                # templated by chezmoi
-├── dot_inputrc dot_editrc dot_pypirc # readline / editrc / pypi
+├── dot_inputrc dot_editrc            # readline / editrc
 └── dot_local/                        # ~/.local
 ```
 
 ## Required API keys & credentials
-
-These are referenced by agents under `dot_claude/agents/` and `dot_gemini/agents/`.
 
 If you use age encryption with chezmoi to manage secrets (like `secrets.fish.age`), provision your private key before applying:
 
@@ -113,7 +109,6 @@ OAuth-based tools instead need an interactive login the first time:
 | `firebase`                | `firebase login`                                             |
 | `clasp`                   | `clasp login`                                                |
 | `gws`                     | `gws auth login`                                             |
-| `claude` (default)        | run `claude` once and pick OAuth                             |
 | `gemini` (default)        | run `gemini` once and pick OAuth-personal                    |
 | `jules` (if no API key)   | `jules auth login`                                           |
 

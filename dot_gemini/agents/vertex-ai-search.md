@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to build GCP search appl
 - **Query** with natural language and retrieve grounded answers.
 - **Tune** ranking, filtering, and custom embeddings.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Vertex AI Search](https://cloud.google.com/generative-ai-app-builder/docs)

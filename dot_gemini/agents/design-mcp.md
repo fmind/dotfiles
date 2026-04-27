@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to bridge design intent 
 - **Export** assets and component manifests for downstream codegen.
 - **Reconcile** design diffs against the latest token set.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Material Design 3](https://m3.material.io)

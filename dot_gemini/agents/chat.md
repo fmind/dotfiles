@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to keep teams informed w
 - **Send & reply** with threaded responses, mentions, and rich cards.
 - **Manage memberships** of spaces (with explicit user confirmation).
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Google Workspace developer portal](https://developers.google.com/workspace)

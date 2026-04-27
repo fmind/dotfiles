@@ -1,0 +1,13 @@
+description = "Find dead code, unused dependencies, and orphaned files in the repository."
+
+prompt = """
+Find cleanup candidates across the repository.
+
+Requirements:
+1. Look for: unreferenced symbols, unused imports, orphaned files, dead branches in conditionals, obsolete TODOs and FIXMEs, unused dependencies in manifests, stale config entries, commented-out blocks.
+2. Cross-check usages with grep before listing anything. Do not flag a symbol as unused without verifying it is not referenced dynamically.
+3. List candidates grouped by category, each with `file:line`, a short justification, and a confidence level (HIGH, MEDIUM, LOW).
+4. Do not delete anything. Wait for explicit confirmation before any edit.
+5. Flag anything that looks intentionally retained: public API, plugin entry points, dynamic imports, framework conventions.
+6. Be concise.
+"""

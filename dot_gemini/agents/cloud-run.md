@@ -24,10 +24,6 @@ Utilize your available tools precisely and autonomously to deploy services, jobs
 - **Bind** Cloud SQL, Cloud Storage, Secret Manager, and VPC connectors.
 - **Inspect** logs and metrics with `cloud-logging` / `cloud-monitoring`.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Cloud Run](https://cloud.google.com/run/docs)

@@ -89,14 +89,27 @@ def main(
     prompt: Annotated[
         Optional[str], typer.Argument(help="Research prompt (or pipe via stdin)")
     ] = None,
+    agent: Annotated[
+        str,
+        typer.Option(
+            "--agent",
+            envvar="DEEP_RESEARCH_AGENT",
+            help="Override the deep-research agent id.",
+        ),
+    ] = STANDARD_AGENT,
     max_model: Annotated[
-        bool, typer.Option("--max", help="Use deep-research-max")
+        bool,
+        typer.Option(
+            "--max",
+            help=f"Shortcut for --agent {MAX_AGENT}. Ignored if --agent is set.",
+        ),
     ] = False,
 ):
     """Run Gemini Deep Research and print the final report."""
     try:
         with genai.Client() as client:
-            agent = MAX_AGENT if max_model else STANDARD_AGENT
+            if max_model and agent == STANDARD_AGENT:
+                agent = MAX_AGENT
             with suppress_interaction_warning():
                 interaction = client.interactions.create(
                     agent=agent,

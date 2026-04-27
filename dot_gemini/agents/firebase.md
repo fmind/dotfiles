@@ -30,7 +30,7 @@ Example:
 npx -y firebase-tools@latest mcp --dir /abs/path --only auth,firestore,storage
 ```
 
-Feature groups: `core`, `firestore`, `auth`, `dataconnect`, `storage`, `messaging`, `functions`, `remoteconfig`, `crashlytics`, `apphosting`, `database`.
+Feature groups: `core`, `firestore`, `auth`, `dataconnect`, `storage`, `messaging`, `functions`, `remoteconfig`, `crashlytics`, `apphosting`, `realtimedatabase`.
 
 ## Key Capabilities
 
@@ -42,38 +42,7 @@ Feature groups: `core`, `firestore`, `auth`, `dataconnect`, `storage`, `messagin
 - **Cloud Messaging (FCM)** and **Realtime Database** via MCP.
 - **Crashlytics** and **Remote Config** introspection.
 - **Firebase AI Logic** (rebrand of Vertex AI in Firebase + GenAI client SDKs).
-- **Genkit**: scaffold AI flows, prompts, traces (via dedicated Genkit skills).
-
-## Skills
-
-Official skills live at [firebase/agent-skills](https://github.com/firebase/agent-skills) — `firebase/skills` redirects here. Currently ships **13 skills**:
-
-- **firebase-basics** — core CLI and project workflow.
-- **firebase-ai-logic-basics** — Firebase AI Logic (Gen AI client SDKs).
-- **firebase-app-hosting-basics** — App Hosting (SSR, frameworks).
-- **firebase-auth-basics** — Authentication.
-- **firebase-data-connect-basics** — Data Connect (Postgres + GraphQL).
-- **firebase-firestore-standard** — Firestore standard mode.
-- **firebase-firestore-enterprise-native-mode** — Firestore Enterprise / Native mode.
-- **firebase-hosting-basics** — static Hosting.
-- **firebase-security-rules-auditor** — security rules audit.
-- **developing-genkit-js / -go / -python / -dart** — Genkit flows by language.
-
-Install into `.agents/skills/` (cross-tool: Claude Code, Gemini CLI, Cursor):
-
-```bash
-# install full skill pack
-npx skills add firebase/skills --project
-
-# alternative: Gemini CLI extension (bundles MCP + skills)
-gemini extensions install https://github.com/firebase/skills
-
-# alternative: Claude Code plugin marketplace
-claude plugin marketplace add firebase/skills
-claude plugin install firebase@firebase
-```
-
-For custom skills, drop a `SKILL.md` into `.agents/skills/<skill-name>/`.
+- **Genkit**: scaffold AI flows, prompts, traces.
 
 ## Documentation
 
@@ -81,5 +50,3 @@ For custom skills, drop a `SKILL.md` into `.agents/skills/<skill-name>/`.
 - [MCP servers in Firebase Studio](https://firebase.google.com/docs/studio/mcp-servers)
 - [Firebase docs](https://firebase.google.com/docs)
 - [Firebase AI Logic](https://firebase.google.com/docs/ai-logic)
-- [Skills repo](https://github.com/firebase/agent-skills)
-- [Agent Skills format spec](https://agentskills.io/home)

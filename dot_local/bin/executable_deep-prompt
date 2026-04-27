@@ -9,7 +9,6 @@
 # ///
 """Gemini Deep Prompt CLI."""
 
-import os
 import sys
 from typing import Annotated, Optional
 
@@ -19,7 +18,7 @@ from google.genai import types
 from rich.console import Console
 from rich.prompt import Prompt
 
-DEFAULT_OPTIMIZER_MODEL = "gemini-3.1-pro-preview"
+DEFAULT_MODEL = "gemini-3.1-pro-preview"
 
 QUESTION_SYSTEM = """\
 You help refine rough deep research requests.
@@ -94,9 +93,13 @@ def main(
         Optional[str], typer.Argument(help="Research idea (or pipe via stdin)")
     ] = None,
     model: Annotated[
-        Optional[str],
-        typer.Option("--model", help="Override the Gemini model used for prompt generation"),
-    ] = None,
+        str,
+        typer.Option(
+            "--model",
+            envvar="DEEP_PROMPT_MODEL",
+            help="Gemini model used for prompt optimization.",
+        ),
+    ] = DEFAULT_MODEL,
     colab: Annotated[
         bool,
         typer.Option("--colab", help="Ask clarification questions before finalizing"),
@@ -109,12 +112,11 @@ def main(
             raise typer.Exit(code=1)
         idea = read_prompt(prompt)
         clarifications: list[str] = []
-        selected_model = model or os.getenv("DEEP_PROMPT_MODEL") or DEFAULT_OPTIMIZER_MODEL
         with genai.Client() as client:
             if colab:
                 questions_text = generate_text(
                     client,
-                    model=selected_model,
+                    model=model,
                     system_instruction=QUESTION_SYSTEM,
                     prompt=idea,
                 )
@@ -127,7 +129,7 @@ def main(
             )
             final_prompt = generate_text(
                 client,
-                model=selected_model,
+                model=model,
                 system_instruction=OPTIMIZE_SYSTEM,
                 prompt=optimizer_input,
             )

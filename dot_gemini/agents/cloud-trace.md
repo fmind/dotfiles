@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to surface slow spans, r
 - **Compare** latency distributions across deployments or revisions.
 - **Cross-reference** with `cloud-logging` and `error-reporting` for full context.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Cloud Trace](https://cloud.google.com/trace/docs)

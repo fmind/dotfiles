@@ -1,0 +1,14 @@
+description = "Identify performance hot spots in the given target."
+
+prompt = """
+Identify performance hot spots in `{{args}}`.
+
+Requirements:
+1. Treat `{{args}}` as a path, symbol, subsystem, or workflow. If empty, audit the most performance-sensitive parts of the repository.
+2. Inspect the relevant code before reporting. Read enough surrounding context to judge real impact, not just patterns.
+3. Look for: nested loops with non-trivial work, unbounded queries or fetches, synchronous I/O on hot paths, missing indexes or caching, redundant computation, allocation in tight loops, N+1 patterns, blocking calls in async code.
+4. Do not edit files.
+5. Respond with up to three sections, skipping empty ones: HIGH, MEDIUM, LOW.
+6. Each item must explain the suspected cost, the cheapest measurement to confirm it, and a candidate optimization. Always recommend measuring before optimizing.
+7. Be concise.
+"""

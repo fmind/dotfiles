@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to look up colleagues, r
 - **Manage contacts**: create, update, delete, merge.
 - **Inspect** contact groups and membership.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Google Workspace developer portal](https://developers.google.com/workspace)

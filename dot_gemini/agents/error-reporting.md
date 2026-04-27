@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to diagnose GCP applicat
 - **Triage**: mute, resolve, or assign error groups.
 - **Cross-reference** with `cloud-logging` and `cloud-trace`.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Error Reporting](https://cloud.google.com/error-reporting/docs)

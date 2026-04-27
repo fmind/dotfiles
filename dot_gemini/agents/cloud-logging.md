@@ -24,10 +24,6 @@ Utilize your available tools precisely and autonomously to troubleshoot issues a
 - **Manage log buckets** and retention.
 - **Build log-based metrics** and alerting policies (in tandem with `cloud-monitoring`).
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Cloud Logging](https://cloud.google.com/logging/docs)

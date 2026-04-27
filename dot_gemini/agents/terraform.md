@@ -6,10 +6,12 @@ tools:
   - "*"
 mcp_servers:
   terraform:
-    command: npx
+    command: docker
     args:
-      - "-y"
-      - "github:hashicorp/terraform-mcp-server"
+      - run
+      - "-i"
+      - "--rm"
+      - "hashicorp/terraform-mcp-server"
 ---
 
 # Terraform Agent
@@ -25,16 +27,6 @@ Utilize your available tools precisely and autonomously to plan, apply, and insp
 - **Generate** module skeletons and variable files.
 - **Inspect** state, outputs, and dependencies.
 - **Lint & validate** with `tflint` and `terraform validate`.
-
-## Skills
-
-No official skills available yet. The MCP server itself can be installed as a Gemini CLI extension (this auto-registers the `mcp_servers` entry):
-
-```bash
-gemini extensions install https://github.com/hashicorp/terraform-mcp-server
-```
-
-For custom skills, drop a `SKILL.md` into `.agents/skills/<skill-name>/` in your workspace.
 
 ## Documentation
 

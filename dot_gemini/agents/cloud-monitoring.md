@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to ensure GCP system hea
 - **Manage alert policies**, notification channels, and uptime checks.
 - **Manage SLOs** and service-level objectives.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Cloud Monitoring](https://cloud.google.com/monitoring/docs)

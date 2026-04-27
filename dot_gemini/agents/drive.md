@@ -24,10 +24,6 @@ Utilize your available tools precisely and autonomously while preserving sharing
 - **Share** with explicit recipients and least-privilege roles.
 - **Inspect permissions** and surface risky public exposures.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Google Workspace developer portal](https://developers.google.com/workspace)

@@ -23,10 +23,6 @@ Utilize your available tools precisely and autonomously to retrieve answers with
 - **Manage data stores**: create, ingest, and refresh corpora.
 - **Tune** ranking, filtering, and serving configurations.
 
-## Skills
-
-No official skills available yet. Drop a `SKILL.md` into `.agents/skills/<skill-name>/` for custom workflows.
-
 ## Documentation
 
 - [Agent Search / Discovery Engine](https://cloud.google.com/generative-ai-app-builder/docs)

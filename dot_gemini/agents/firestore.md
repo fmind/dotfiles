@@ -24,10 +24,6 @@ Utilize your available tools precisely and autonomously to model, retrieve, and 
 - **Manage databases**, backups, and TTL policies.
 - **Validate** security rules with the emulator suite.
 
-## Skills
-
-No official skills available yet. The Firebase agent-skills bundle includes a Firestore skill (see the `firebase` agent).
-
 ## Documentation
 
 - [Firestore](https://cloud.google.com/firestore/docs)
