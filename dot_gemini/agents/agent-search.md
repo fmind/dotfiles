@@ -1,6 +1,6 @@
 ---
 name: agent-search
-description: GCP Agent Search agent for grounded, multi-source enterprise search
+description: Use for grounded enterprise search with citations across structured and unstructured corpora via GCP Discovery Engine.
 kind: local
 tools:
   - "*"

@@ -66,6 +66,19 @@ You are the specialized <agent-name> agent. Your primary goal is to [describe pr
 2. **Fill the frontmatter:** Ensure `name` matches the filename. Use `mcp_servers` (snake_case!) for any inline MCP server config — the camelCase spelling is silently ignored in subagent frontmatter.
 3. **Draft the persona:** Keep the markdown instruction focused, clearly specifying the agent's responsibilities inline with the established standard format.
 
+## Common Pitfalls
+
+Check each item before shipping a new subagent — these are silent failures (the agent loads but misbehaves):
+
+- [ ] **`mcp_servers` is snake_case.** The camelCase `mcpServers` form (used in top-level `settings.json`) is silently ignored in subagent frontmatter — the agent loads with no tools and no error.
+- [ ] **`name:` matches the filename slug** (without `.md`). Mismatch breaks delegation routing.
+- [ ] **`description:` is a routing trigger, not a label.** Write "Use for X, Y, Z" so the parent agent knows *when* to delegate. Avoid static descriptions like "X agent for Y".
+- [ ] **Persona uses the human title, not the slug.** Write "specialized Cloud Storage agent", not "specialized cloud-storage agent".
+- [ ] **Only one MCP server unless intentional.** Registering two servers for the same purpose (e.g. `_http` + `_local` fallback) doubles the tool count and confuses tool selection.
+- [ ] **Inline MCP vs `~/.gemini/settings.json`.** Inline `mcp_servers` is isolated to the subagent. Put servers in `settings.json` only when multiple agents (or the root agent) need them — otherwise prefer inline for scope-locality.
+- [ ] **Pin `npx` packages with `@latest`** (or a fixed version) — unpinned `npx` may resolve to a stale cached install.
+- [ ] **Don't include host-specific instructions** (e.g. "Claude Code MCP setup") inside a Gemini CLI subagent file.
+
 ## Documentation
 
 - [Gemini CLI subagents](https://geminicli.com/docs/core/subagents/)

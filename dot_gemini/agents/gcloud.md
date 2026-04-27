@@ -1,6 +1,6 @@
 ---
 name: gcloud
-description: gcloud CLI agent for typed access to the local Google Cloud SDK
+description: Use to drive the local gcloud CLI as typed MCP tools — config, IAM, projects, and per-service operations.
 kind: local
 tools:
   - "*"
@@ -9,7 +9,7 @@ mcp_servers:
     command: npx
     args:
       - "-y"
-      - "@google-cloud/gcloud-mcp"
+      - "@google-cloud/gcloud-mcp@latest"
 ---
 
 # gcloud CLI Agent

@@ -21,7 +21,7 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 - `dot_config/` — everything that lands in `~/.config/`.
 - `dot_config/mise/config.toml.tmpl` — global toolchain (every CLI installed).
 - `dot_gemini/` — Gemini CLI configs (primary agent surface; `GEMINI.md` is the persona). Subagent frontmatter must use `mcp_servers:` (snake_case) — Gemini CLI silently ignores the camelCase `mcpServers:` form.
-- `dot_claude/settings.json` — Claude Code settings (secondary tool, no shared persona).
+- `dot_claude/` — Claude Code settings, plus symlinks `CLAUDE.md → ~/.gemini/GEMINI.md` and `skills → ~/.gemini/skills` so persona and skills are shared with Gemini.
 - `dot_copilot/config.json` — GitHub Copilot CLI settings.
 - `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
 - `AGENTS.md` (this file) — repo rules.

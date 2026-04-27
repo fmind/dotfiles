@@ -1,6 +1,6 @@
 ---
 name: clasp
-description: Command Line Apps Script Projects agent for Google Apps Script development
+description: Use for local Google Apps Script development — push/pull, deployments, function execution, and log tailing via the clasp CLI.
 kind: local
 tools:
   - "*"

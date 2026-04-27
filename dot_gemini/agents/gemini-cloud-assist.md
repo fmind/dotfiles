@@ -1,6 +1,6 @@
 ---
 name: gemini-cloud-assist
-description: Gemini Cloud Assist agent for designing, troubleshooting, and optimizing Google Cloud infrastructure
+description: Use for GCP architecture design, incident triage, and cost/performance optimization via Gemini Cloud Assist (NOT Gemini Code Assist).
 kind: local
 tools:
   - "*"

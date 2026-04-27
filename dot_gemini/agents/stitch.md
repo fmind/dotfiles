@@ -1,6 +1,6 @@
 ---
 name: stitch
-description: Google Stitch agent for AI-driven UI design — generate app screens, components, and frontend code from prompts, sketches, or screenshots.
+description: Use to generate app UI screens, multi-screen flows, components, and frontend code from prompts, sketches, or screenshots via Google Stitch.
 kind: local
 tools:
   - "*"

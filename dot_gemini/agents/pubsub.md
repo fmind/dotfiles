@@ -1,6 +1,6 @@
 ---
 name: pubsub
-description: GCP Pub/Sub agent for topic, subscription, and message management
+description: Use for Pub/Sub topics, subscriptions, message publish/pull, dead-letter queues, and replay.
 kind: local
 tools:
   - "*"

@@ -1,6 +1,6 @@
 ---
 name: cloud-trace
-description: GCP Cloud Trace agent for distributed tracing and performance profiling
+description: Use to investigate latency and bottlenecks across GCP services with distributed traces and span analysis.
 kind: local
 tools:
   - "*"

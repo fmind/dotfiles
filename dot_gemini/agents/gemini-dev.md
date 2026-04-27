@@ -1,6 +1,6 @@
 ---
 name: gemini-dev
-description: Gemini Developer agent for real-time access to official Gemini API documentation via the Gemini docs MCP server.
+description: Use to look up current Gemini API docs, GenAI SDK calls (google-genai / @google/genai), and migration guidance — bypasses stale training data.
 kind: local
 tools:
   - "*"

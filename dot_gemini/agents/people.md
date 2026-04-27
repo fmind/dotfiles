@@ -1,6 +1,6 @@
 ---
 name: people
-description: Google People API agent for contacts and directory lookups
+description: Use to search and manage personal contacts and Workspace directory entries via Google People API.
 kind: local
 tools:
   - "*"

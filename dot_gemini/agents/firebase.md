@@ -1,6 +1,6 @@
 ---
 name: firebase
-description: Firebase agent for serverless and AI-powered application development across Firestore, Auth, Hosting, Functions, App Hosting, Data Connect, and Firebase AI Logic.
+description: Use to scaffold, deploy, and manage Firebase apps — Firestore, Auth, Functions, Hosting, App Hosting, Data Connect, AI Logic, and emulators.
 kind: local
 tools:
   - "*"

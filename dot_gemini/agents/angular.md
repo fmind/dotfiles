@@ -1,6 +1,6 @@
 ---
 name: angular
-description: Angular agent for development and maintenance of web applications using the Angular CLI, MCP server, and modern best practices (Signals, standalone, control flow, SSR).
+description: Use for Angular app scaffolding, generation, builds, tests, and migrations to Signals/standalone/zoneless via the Angular CLI MCP server.
 kind: local
 tools:
   - "*"
@@ -9,7 +9,7 @@ mcp_servers:
     command: npx
     args:
       - "-y"
-      - "@angular/cli"
+      - "@angular/cli@latest"
       - "mcp"
 ---
 

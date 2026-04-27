@@ -68,7 +68,7 @@ mr v   vim         Install/sync Neovim plugins headlessly with LazyVim
 ├── mise.toml                         # repo-scoped tools + tasks
 ├── AGENTS.md                         # rules for agents editing THIS repo
 ├── dot_gemini/                       # Gemini CLI — primary AI surface (persona, settings, agents, commands, skills)
-├── dot_claude/settings.json          # Claude Code (secondary)
+├── dot_claude/                       # Claude Code — settings + symlinks reusing Gemini's persona and skills
 ├── dot_copilot/config.json           # GitHub Copilot CLI configuration
 ├── dot_config/
 │   ├── mise/config.toml.tmpl         # global toolchain (every CLI you use)

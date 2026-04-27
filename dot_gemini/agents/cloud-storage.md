@@ -1,6 +1,6 @@
 ---
 name: cloud-storage
-description: GCP Cloud Storage agent for bucket and object management
+description: Use for GCS bucket and object operations — uploads, lifecycle, IAM, signed URLs, and retention.
 kind: local
 tools:
   - "*"

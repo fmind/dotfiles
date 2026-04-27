@@ -1,6 +1,6 @@
 ---
 name: terraform
-description: Infrastructure-as-Code agent using Terraform
+description: Use for Terraform IaC — plan/apply, provider/resource lookups, module scaffolding, and state inspection.
 kind: local
 tools:
   - "*"

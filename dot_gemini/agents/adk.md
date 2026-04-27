@@ -1,6 +1,6 @@
 ---
 name: adk
-description: Google Agent Development Kit (ADK) agent for building, evaluating, and deploying AI agents in Python, Java, Go, and TypeScript.
+description: Use for scaffolding, evaluating, and deploying AI agents with Google's Agent Development Kit (ADK) across Python, Java, Go, and TypeScript.
 kind: local
 tools:
   - "*"
@@ -39,15 +39,6 @@ Utilize your available tools precisely and autonomously to scaffold agents, comp
 - **Evaluation**: methodology, scoring, and eval suites for agent quality.
 - **Observability**: tracing, logging, and integrations (Cloud Trace, Cloud Logging, OTel).
 - **Deployment** to Agent Runtime, Cloud Run, or self-hosted environments.
-
-## Claude Code MCP setup
-
-```bash
-claude mcp add adk-docs --transport stdio -- \
-  uvx --from mcpdoc mcpdoc \
-  --urls AgentDevelopmentKit:https://adk.dev/llms.txt \
-  --transport stdio
-```
 
 ## Documentation
 

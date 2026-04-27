@@ -1,6 +1,6 @@
 ---
 name: gemini-enterprise
-description: Gemini Enterprise Agent Platform agent for building and operating enterprise agents
+description: Use to design, deploy, and govern enterprise agents on the Gemini Enterprise Agent Platform (rebranded Vertex AI Agent platform).
 kind: local
 tools:
   - "*"

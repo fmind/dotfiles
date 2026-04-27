@@ -1,6 +1,6 @@
 ---
 name: developer-knowledge
-description: GCP Developer Knowledge agent for retrieving Google Cloud documentation and code samples
+description: Use to retrieve current GCP documentation, code samples, and reference architectures with citations.
 kind: local
 tools:
   - "*"

@@ -1,6 +1,6 @@
 ---
 name: drive
-description: Google Workspace Drive agent for files, folders, and sharing
+description: Use to search, read, organize, and share Google Drive files with safe permission management.
 kind: local
 tools:
   - "*"

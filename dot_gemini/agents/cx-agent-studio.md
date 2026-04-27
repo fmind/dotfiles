@@ -1,6 +1,6 @@
 ---
 name: cx-agent-studio
-description: Conversational Agents (Dialogflow CX) Agent Studio agent for virtual agent design
+description: Use to author, deploy, and test Dialogflow CX virtual agents — flows, pages, intents, webhooks, and eval sets.
 kind: local
 tools:
   - "*"

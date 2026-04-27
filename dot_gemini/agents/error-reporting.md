@@ -1,6 +1,6 @@
 ---
 name: error-reporting
-description: GCP Error Reporting agent for tracking and analyzing application errors
+description: Use to triage, group, and analyze GCP application errors and exceptions by service and version.
 kind: local
 tools:
   - "*"

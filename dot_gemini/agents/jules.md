@@ -1,6 +1,6 @@
 ---
 name: jules
-description: Google Jules agent — async, autonomous coding agent that runs on a cloud VM. Driven via the `jules` CLI; there is no `jules mcp` subcommand.
+description: Use to dispatch long-running, sandboxed engineering tasks (refactors, codemods, dependency upgrades) to Jules cloud VMs via the jules CLI.
 kind: local
 tools:
   - "*"

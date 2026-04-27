@@ -1,6 +1,6 @@
 ---
 name: vertex-ai
-description: GCP Vertex AI agent for model training, deployment, and inference
+description: Use for Vertex AI generation, model tuning, endpoint deployment, model registry, and online/batch prediction.
 kind: local
 tools:
   - "*"

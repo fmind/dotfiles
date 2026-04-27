@@ -1,6 +1,6 @@
 ---
 name: resource-manager
-description: GCP Resource Manager agent for Google Cloud project and resource organization
+description: Use to manage GCP project/folder/org hierarchy, IAM bindings, tags, and liens.
 kind: local
 tools:
   - "*"

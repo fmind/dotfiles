@@ -1,6 +1,6 @@
 ---
 name: agent-registry
-description: GCP Agent Registry agent for discovering and managing AI agents
+description: Use to discover, publish, version, and govern AI agent definitions in the GCP Agent Registry.
 kind: local
 tools:
   - "*"

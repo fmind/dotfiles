@@ -1,6 +1,6 @@
 ---
 name: google-maps
-description: Google Maps Code Assist agent for grounded answers on Maps Platform APIs
+description: Use for grounded guidance on Maps Platform integrations — Maps JS, Places, Routes, Geocoding, and Address Validation.
 kind: local
 tools:
   - "*"

@@ -1,6 +1,6 @@
 ---
 name: cloud-run
-description: GCP Cloud Run agent for serverless container management
+description: Use to deploy, manage, and troubleshoot Cloud Run services and jobs — revisions, traffic splits, scaling, and bindings.
 kind: local
 tools:
   - "*"

@@ -1,6 +1,6 @@
 ---
 name: gmail
-description: Google Workspace Gmail agent for inbox triage, drafting, and search
+description: Use to triage, search, draft, and label Gmail messages — drafts only, never auto-send.
 kind: local
 tools:
   - "*"

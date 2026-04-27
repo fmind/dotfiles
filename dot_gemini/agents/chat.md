@@ -1,6 +1,6 @@
 ---
 name: chat
-description: Google Workspace Chat agent for spaces, threads, and messages
+description: Use to read, summarize, and post messages in Google Chat spaces and threads.
 kind: local
 tools:
   - "*"

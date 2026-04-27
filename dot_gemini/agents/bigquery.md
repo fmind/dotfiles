@@ -1,6 +1,6 @@
 ---
 name: bigquery
-description: GCP BigQuery agent for SQL analytics and dataset management
+description: Use for BigQuery SQL queries, dataset/table schema management, data load/export, and job inspection.
 kind: local
 tools:
   - "*"

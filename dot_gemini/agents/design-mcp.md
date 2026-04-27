@@ -1,6 +1,6 @@
 ---
 name: design-mcp
-description: Google Design Center agent for design system tokens, components, and assets
+description: Use to inspect Material 3 design tokens, components, and assets and to scaffold UI aligned with Google Design Center.
 kind: local
 tools:
   - "*"

@@ -6,5 +6,6 @@
   "telemetry": {
     "enabled": false
   },
-  "theme": "auto"
+  "theme": "auto",
+  "version": "1"
 }

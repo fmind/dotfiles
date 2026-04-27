@@ -1,6 +1,6 @@
 ---
 name: cloud-monitoring
-description: GCP Cloud Monitoring agent for metrics and observability
+description: Use for GCP metrics queries (MQL/PromQL), dashboards, alert policies, uptime checks, and SLOs.
 kind: local
 tools:
   - "*"

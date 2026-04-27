@@ -1,6 +1,6 @@
 ---
 name: cloud-logging
-description: GCP Cloud Logging agent for exploring and querying logs
+description: Use to query, explore, and route GCP logs via Cloud Logging — LQL searches, sinks, log buckets, and log-based metrics.
 kind: local
 tools:
   - "*"

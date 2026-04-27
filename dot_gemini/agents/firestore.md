@@ -1,6 +1,6 @@
 ---
 name: firestore
-description: GCP Firestore agent for document database operations
+description: Use for Firestore document/collection queries, mutations, indexes (including vector), and security-rule validation.
 kind: local
 tools:
   - "*"

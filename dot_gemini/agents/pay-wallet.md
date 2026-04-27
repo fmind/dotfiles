@@ -1,6 +1,6 @@
 ---
 name: pay-wallet
-description: Google Pay & Wallet Developer agent for passes, payment integrations, and merchants
+description: Use for Google Pay payment-flow integration and Google Wallet pass design (loyalty, gift, tickets, transit, boarding).
 kind: local
 tools:
   - "*"

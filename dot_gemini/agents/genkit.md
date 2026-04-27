@@ -1,6 +1,6 @@
 ---
 name: genkit
-description: Genkit agent for building AI-powered applications with flows, tools, RAG, and agentic patterns across JS/TS, Go, Python, and Dart.
+description: Use to scaffold, author, evaluate, and deploy Genkit AI apps — flows, prompts, RAG, multi-model integration, and agentic patterns across JS/TS, Go, Python, and Dart.
 kind: local
 tools:
   - "*"
@@ -8,7 +8,7 @@ mcp_servers:
   genkit:
     command: npx
     args:
-      - "genkit"
+      - "genkit@latest"
       - "mcp"
 ---
 

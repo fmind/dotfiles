@@ -1,6 +1,6 @@
 ---
 name: calendar
-description: Google Workspace Calendar agent for scheduling, events, and availability
+description: Use for Google Calendar scheduling, event CRUD, attendee management, and free/busy availability lookups.
 kind: local
 tools:
   - "*"

@@ -1,6 +1,6 @@
 ---
 name: compute-engine
-description: GCP Compute Engine agent for VM, disk, and network management
+description: Use for Compute Engine VM lifecycle, MIGs, disks, snapshots, and VPC/firewall configuration.
 kind: local
 tools:
   - "*"

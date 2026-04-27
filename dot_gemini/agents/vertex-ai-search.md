@@ -1,6 +1,6 @@
 ---
 name: vertex-ai-search
-description: GCP Vertex AI Search agent for enterprise search and discovery
+description: Use to configure data stores, ingest corpora, and query Vertex AI Search (Discovery Engine) with grounded answers.
 kind: local
 tools:
   - "*"
