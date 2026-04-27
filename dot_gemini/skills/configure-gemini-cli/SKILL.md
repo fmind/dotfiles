@@ -156,7 +156,7 @@ There is no `gemini config show|validate` subcommand — verify settings by read
 
 ## Important Notes
 
-1. **`mcpServers` is camelCase**; `mcp_servers` is silently ignored. Same constraint exists in subagent frontmatter.
+1. **Top-level `mcpServers` is camelCase** in `settings.json`. **Subagent frontmatter is the opposite — `mcp_servers` (snake_case);** the camelCase form is silently ignored there. See `create-gemini-subagent`.
 2. **`includeTools: []`** means "include none initially" — pin specific tools to prevent context bloat.
 3. **Trust is per-folder, per-machine**; on a new machine after `chezmoi apply`, you'll trust each repo once.
 4. **Secrets belong in env vars or a secret manager**, never in `settings.json`. Use `"$VAR"` substitution.

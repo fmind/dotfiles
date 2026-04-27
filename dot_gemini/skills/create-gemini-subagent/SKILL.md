@@ -34,7 +34,7 @@ description: <Short description of the agent>
 kind: local
 tools:
   - "*"
-mcpServers:
+mcp_servers:
   <server-name>:
     # MCP Server configuration goes here (httpUrl, command/args, env, headers, etc.)
 ---
@@ -51,7 +51,7 @@ You are the specialized <agent-name> agent. Your primary goal is to [describe pr
    - `description` (required): Short summary used by the parent agent to decide when to delegate.
    - `kind` (optional): `local` (default) or `remote`.
    - `tools` (optional): Allowlist of tool names. Use `"*"` to inherit every parent tool; otherwise list each tool explicitly. Omitted means inherit-all.
-   - `mcpServers` (optional, **camelCase** — `mcp_servers` is silently ignored): Inline MCP server definitions isolated to this agent. Each entry takes the standard MCP transport keys (`httpUrl`, `command`/`args`, `env`, `headers`, `authProviderType`, …).
+   - `mcp_servers` (optional, **snake_case** — `mcpServers` is silently ignored in subagent frontmatter, even though the top-level `settings.json` uses camelCase): Inline MCP server definitions isolated to this agent. Each entry takes the standard MCP transport keys (`httpUrl`, `command`/`args`, `env`, `headers`, `authProviderType`, …).
    - `model`, `temperature`, `max_turns`, `timeout_mins` (optional): Tune the underlying LLM call.
 
 2. **System Instruction:**
@@ -63,7 +63,7 @@ You are the specialized <agent-name> agent. Your primary goal is to [describe pr
 ## Step-by-Step Creation
 
 1. **Create the file:** Create `.gemini/agents/<name>.md` (or `~/.local/share/chezmoi/dot_gemini/agents/<name>.md` if global).
-2. **Fill the frontmatter:** Ensure `name` matches the filename. Use `mcpServers` (camelCase!) for any inline MCP server config — the snake_case spelling is silently ignored.
+2. **Fill the frontmatter:** Ensure `name` matches the filename. Use `mcp_servers` (snake_case!) for any inline MCP server config — the camelCase spelling is silently ignored in subagent frontmatter.
 3. **Draft the persona:** Keep the markdown instruction focused, clearly specifying the agent's responsibilities inline with the established standard format.
 
 ## Documentation

@@ -1,0 +1,27 @@
+description = "Create and switch to a new feature branch with a conventional name."
+
+prompt = """
+Create and switch to a new feature branch for the work described by `{{args}}`.
+
+Current branch:
+!{git branch --show-current}
+
+Working tree:
+!{git status --short}
+
+Requirements:
+1. Treat `{{args}}` as a short description of the work, an issue reference, or a desired branch name. If empty, ask for the intent and stop.
+2. Derive a branch name in the form `<type>/<slug>` where:
+   - `<type>` is one of `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `ci`.
+   - `<slug>` is kebab-case, lowercase, ASCII, under 50 characters, with no trailing punctuation.
+3. If `{{args}}` already looks like a valid branch name, reuse it as-is.
+4. If the current branch is not `main`, warn briefly and ask before branching off it.
+5. If the working tree has uncommitted changes, surface them and ask before continuing (the new branch will carry them).
+6. Run `git switch -c <branch>` to create and check out the branch. Do not push.
+7. After success, print only these two lines:
+Branch: <branch>
+From: <parent-branch>
+8. If the branch already exists, stop and report it.
+
+Keep the final response plain text and compact.
+"""
