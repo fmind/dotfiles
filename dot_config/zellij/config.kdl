@@ -11,7 +11,6 @@ keybinds {
         bind "Alt y" { Run "yazi" { floating true; x "10%"; y "10%"; width "80%"; height "80%"; }; }
         bind "Alt g" { Run "lazygit" { floating true; x "10%"; y "10%"; width "80%"; height "80%"; }; }
         bind "Alt /" { LaunchOrFocusPlugin "session-manager" { floating true; move_to_focused_tab true; }; }
-        bind "Alt x" { Run "fish" "-c" "zellij list-sessions -s | fzf --multi --prompt='kill session> ' | xargs -r -I{} zellij delete-session -f {}" { floating true; x "25%"; y "30%"; width "50%"; height "40%"; close_on_exit true; }; }
     }
     shared_except "move" "locked" {
         bind "Alt m" { SwitchToMode "Move"; }

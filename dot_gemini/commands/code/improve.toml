@@ -1,0 +1,16 @@
+description = "Improve a target with freedom to change behavior, structure, or design."
+
+prompt = """
+Improve the code or design described by `{{args}}`.
+
+Requirements:
+1. Treat `{{args}}` as the target to improve. Inspect it and nearby usages before editing.
+2. You have latitude: refactor, redesign, change behavior, replace abstractions, swap dependencies, update tests, or rewrite parts when it produces clearly better code.
+3. Be deliberate. Justify each non-trivial change in the summary.
+4. Update affected tests and call sites so the project still works.
+5. Run the narrowest validation you can after the change.
+6. Do not delete the target wholesale unless the request implies it.
+7. Summarize what you changed, why, and what you validated.
+
+Note: if behavior must be preserved exactly, use `/code:refactor` instead.
+"""

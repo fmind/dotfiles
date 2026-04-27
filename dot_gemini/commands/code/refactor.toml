@@ -1,0 +1,16 @@
+description = "Restructure a target for clarity without changing behavior."
+
+prompt = """
+Refactor the code pointed to by `{{args}}` while preserving its observable behavior.
+
+Requirements:
+1. Treat `{{args}}` as one or more paths, a symbol, a subsystem, or a short instruction.
+2. Inspect the target, callers, and tests before editing.
+3. Preserve behavior. No new features, no bug fixes, no removed functionality.
+4. Prefer smaller extractions, better naming, deduplication, simpler control flow, and clearer types over broad rewrites.
+5. Update call sites and tests when the structural change requires it.
+6. Run focused validation to confirm no behavioral drift.
+7. Summarize the structural changes and the validation result.
+
+Note: if you also want to change behavior or design, use `/code:improve` instead.
+"""

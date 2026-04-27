@@ -3,6 +3,9 @@ description = "Update the AGENTS.md file based on the repository content."
 prompt = """
 Update the `AGENTS.md` file based on the current content of the repository.
 
+Current AGENTS.md:
+@{AGENTS.md}
+
 Requirements:
 1. Review the current repository structure, code, and configurations.
 2. Update the `AGENTS.md` file to accurately reflect the tools, guidelines, and context for AI agents working in this repository.

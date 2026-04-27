@@ -1,0 +1,16 @@
+description = "Adversarial senior-reviewer pass on the given target."
+
+prompt = """
+Critique `{{args}}` as a senior reviewer with no incentive to be polite.
+
+Requirements:
+1. Treat `{{args}}` as a path, symbol, diff, design, or short description. If empty, ask what to critique and stop.
+2. Inspect the target and nearby context before critiquing.
+3. Look for: hidden assumptions, edge cases that will break, unjustified complexity, premature abstraction, undertested risk, leaky abstractions, names that lie, scope creep, inconsistent style, copy-paste duplication, dead-on-arrival comments.
+4. Be specific. Cite `file:line` for each criticism.
+5. Do not soften feedback. Skip praise. The point is to surface what is wrong or weak.
+6. Respond with up to three sections, skipping empty ones: HIGH, MEDIUM, LOW.
+7. Each item must explain the issue, why it matters, and the cheapest improvement. Enumerate items across all sections.
+8. Do not edit files.
+9. Be concise.
+"""

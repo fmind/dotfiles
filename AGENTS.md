@@ -2,7 +2,7 @@
 
 This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, and Cloud Shell.
 
-**Gemini CLI is the priority AI coding system in this repo.** When agent surfaces (skills, commands, subagents, configs) need a home, target Gemini first; other agents are secondary.
+**Gemini CLI is the priority AI coding system in this repo.** When agent surfaces need a home, target Gemini first.
 
 ## House rules
 
@@ -22,6 +22,7 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 - `dot_config/mise/config.toml.tmpl` — global toolchain (every CLI installed).
 - `dot_gemini/` — Gemini CLI configs (primary agent surface; `GEMINI.md` is the persona). Subagent frontmatter must use `mcp_servers:` (snake_case) — Gemini CLI silently ignores the camelCase `mcpServers:` form.
 - `dot_claude/settings.json` — Claude Code settings (secondary tool, no shared persona).
+- `dot_copilot/config.json` — GitHub Copilot CLI settings.
 - `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
 - `AGENTS.md` (this file) — repo rules.
 
@@ -49,13 +50,15 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 
 ## Agent Skills
 
-Gemini CLI is the primary skill consumer; skills load from `~/.gemini/skills/`. A skill is a directory whose `SKILL.md` has YAML frontmatter (`name` matching the dir, `description` for when to activate) — spec at <https://geminicli.com/docs/cli/skills/>.
+Gemini CLI is the primary skill consumer; skills load from `~/.gemini/skills/`.
 
-Tooling: the `skills` CLI from [`vercel-labs/skills`](https://github.com/vercel-labs/skills) is installed via mise — call it directly (`skills add ...`, `skills find ...`); fall back to `npx skills` only on a fresh checkout. `skills find <query>` browses the public registry at <https://skills.sh>. Prefer official bundles (`anthropics`, `openai`, `vercel-labs`, `google`, `firebase`, `microsoft`, `cloudflare`, `mongodb`, ...).
+A skill is a directory whose `SKILL.md` has YAML frontmatter (`name` matching the dir, `description` for when to activate) — spec at <https://geminicli.com/docs/cli/skills/>.
+
+Tooling: the `skills` CLI from [`vercel-labs/skills`](https://github.com/vercel-labs/skills) is installed via mise — call it directly (`skills add ...`, `skills find ...`); fall back to `npx skills` only on a fresh checkout.
 
 Two install scopes — pick per skill, ask if unsure:
 
 - **Project** → `.agents/skills/<slug>/`. Run `skills add <slug>` from the repo root. Commits with the codebase, pinned per-project.
-- **Global** → `~/.gemini/skills/<slug>/`. Run `skills add --global <slug>`, then track it in this repo with `chezmoi add ~/.gemini/skills/<slug>` (imports into `dot_gemini/skills/<slug>/`). Future machines pick it up via `mise run apply` (= `mr a`).
+- **Global** → `~/.gemini/skills/<slug>/`. Run `skills add --global <slug>`, then track it in this repo with `chezmoi add ~/.gemini/skills/<slug>` (imports into `dot_gemini/skills/<slug>/`).
 
 For wrappers around official bundles, hand-author a `dot_gemini/skills/install-*-skills/SKILL.md` documenting the exact `skills add ...` line — see existing examples.

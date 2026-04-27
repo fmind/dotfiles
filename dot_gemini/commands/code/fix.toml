@@ -3,9 +3,6 @@ description = "Run the project's linters and tests, fix issues, and rerun focuse
 prompt = """
 Fix warnings and errors in this project using the existing linters and tests.
 
-User scope:
-{{args}}
-
 Requirements:
 1. Use `{{args}}` as an optional scope, path, failing command, or bug hint. If it is empty, work repo-wide.
 2. Inspect project files to discover the correct lint and test commands. Prefer documented tasks or scripts over guessing.

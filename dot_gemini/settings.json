@@ -52,6 +52,10 @@
     "enabled": true,
     "hasSeenNudge": true
   },
+  "model": {
+    "maxSessionTurns": -1,
+    "compressionThreshold": 0.33
+  },
   "modelConfigs": {
     "defaultModel": "auto-gemini-3"
   },
@@ -60,6 +64,12 @@
     "enablePermanentToolApproval": true,
     "auth": {
       "selectedType": "oauth-personal"
+    }
+  },
+  "tools": {
+    "shell": {
+      "enableInteractiveShell": true,
+      "showColor": true
     }
   },
   "ui": {

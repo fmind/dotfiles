@@ -9,8 +9,6 @@ run_auto_install = false
 [tools]
 age = "latest"
 chezmoi = "latest"
-neovim = "latest"
-pre-commit = "latest"
 
 [tasks.apply]
 alias = "a"
@@ -82,7 +80,11 @@ run = [
 alias = "u"
 depends_post = ["lock", "apply", "tools"]
 description = "Upgrade mise tools to latest versions"
-run = ["mise -C dot_config/mise upgrade --bump", "mise upgrade --bump"]
+# fish-shell excluded: aqua resolves "latest" to a non-release tag (OpenBeta_r2) that has no assets.
+run = [
+  "mise -C dot_config/mise upgrade --bump --exclude aqua:fish-shell/fish-shell",
+  "mise upgrade --bump --exclude aqua:fish-shell/fish-shell",
+]
 
 [tasks.vim]
 alias = "v"

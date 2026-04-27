@@ -9,7 +9,7 @@ Managed by [chezmoi](https://www.chezmoi.io/) and [mise](https://mise.jdx.dev/).
 - **Shell**: `fish` + `starship` + `atuin` + `carapace` + `zoxide` + `fzf`.
 - **Terminal**: `ghostty`, with `zellij` as multiplexer and `yazi` as file manager.
 - **Editor**: `neovim` (LazyVim) with `catppuccin-mocha`, vim mode everywhere.
-- **AI agents**: `gemini-cli` + `jules` (async) + GitHub Copilot.
+- **AI agents**: `gemini-cli` + `jules` (async) + GitHub Copilot + Claude Code.
 - **Languages out of the box**: Python (`uv`), TypeScript / Angular (`pnpm`, `biome`), Go, Terraform, Docker, Kubernetes.
 - **Theme**: `catppuccin-mocha` everywhere consistent (nvim, fzf, ghostty, starship, lazygit, gemini, claude, ptpython).
 - **Icons**: none — ASCII-only by default for portability over SSH and Cloud Shell.
@@ -36,7 +36,7 @@ git clone git@github.com:fmind/dotfiles.git ~/.local/share/chezmoi
 bash ~/.local/share/chezmoi/install.sh
 
 # 3. Full first-time setup (trust → apply → hooks → tools → vim plugins)
-~/.local/bin/mise -C ~/.local/share/chezmoi run bootstrap
+~/.local/bin/mise -C ~/.local/share/chezmoi run full
 ```
 
 ## Tasks
@@ -45,9 +45,9 @@ Manage your environment with `mr <task>` (alias for `mise run`):
 
 ```text
 mr a   apply       Apply configurations with chezmoi
-mr b   bootstrap   Full first-time setup
 mr c   check       Preview chezmoi changes (dry-run)
 mr d   diff        Show pending chezmoi diff
+mr f   full        Full first-time setup
 mr h   hooks       Install repository pre-commit hooks
 mr i   init        Initialize/regenerate chezmoi config
 mr l   lock        Refresh repository and home mise lockfiles
@@ -56,7 +56,7 @@ mr o   doctor      Run chezmoi/mise health checks
 mr p   prune       Remove unused mise packages and clear cache
 mr r   trust       Trust this repository and home mise configurations
 mr t   tools       Install global tools from ~/.config/mise/config.toml
-mr u   upgrade     Upgrade mise tools to latest versions and bump locks
+mr u   upgrade     Upgrade mise tools to latest versions
 mr v   vim         Install/sync Neovim plugins headlessly with LazyVim
 ```
 
@@ -110,7 +110,7 @@ OAuth-based tools instead need an interactive login the first time:
 | `clasp`                   | `clasp login`                                                |
 | `gws`                     | `gws auth login`                                             |
 | `gemini` (default)        | run `gemini` once and pick OAuth-personal                    |
-| `jules` (if no API key)   | `jules auth login`                                           |
+| `jules`                   | `jules auth login`                                           |
 
 `gcloud auth application-default login` is required by every Google Cloud / Workspace MCP that uses `authProviderType: google_credentials`.
 

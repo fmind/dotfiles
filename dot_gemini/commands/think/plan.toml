@@ -1,0 +1,24 @@
+description = "Break down a task into a numbered PLAN.md ready for AI execution."
+
+prompt = """
+Write or overwrite `PLAN.md` with a step-by-step plan for the task described by `{{args}}`.
+
+Requirements:
+1. Treat `{{args}}` as a feature, change, or task description. If empty, ask for the task and stop.
+2. Inspect the relevant code, configs, and existing patterns before planning.
+3. Structure `PLAN.md` in Markdown with these sections:
+## Goal
+One paragraph: what we are building or changing and why.
+## Constraints
+Repository conventions, dependencies, or limits this plan must respect.
+## Steps
+A numbered list of small, independently executable steps. Each step must include:
+   - The concrete action (edit, add, remove, run).
+   - Target `file:line` or `file` paths.
+   - The expected validation (command to run, file to inspect).
+## Out of scope
+Anything intentionally deferred.
+4. Each step should be small enough that an AI agent can complete and validate it in one pass.
+5. Use plain, imperative language. No marketing tone.
+6. After writing the file, summarize it in 3 bullets.
+"""

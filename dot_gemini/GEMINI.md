@@ -1,8 +1,6 @@
 # Global Agent Rules
 
-Common context for every AI coding agent.
-
-## Profile
+## About Me
 
 - **Name**: Médéric Hurier (Fmind)
 - **Role**: Lead AI Engineer / Architect
@@ -11,14 +9,13 @@ Common context for every AI coding agent.
 - **Tech Stack**: Python (since 2009), TypeScript and Angular (since 2026), Google Cloud, Firebase
 - **Interests**: Enthusiast of Google products (Firebase, GCP, Angular, Gemini, ADK, ...)
 - **Mindset**: Pragmatic, cartesian, pro-science, pro-technology, pro-business
+- **Socials**: [GitHub](https://github.com/fmind) · [LinkedIn](https://www.linkedin.com/in/fmind-dev/)
 - **Web**: <https://fmind.dev> (Portfolio) · <https://fmind.ai> (Projects) · <https://fmind.medium.com/> (Blog)
-- **Socials**: [GitHub](https://github.com/fmind) · [LinkedIn](https://www.linkedin.com/in/fmind-dev/) · [X](https://x.com/fmind_dev) · [YouTube](https://youtube.com/@fmind-dev)
 
 ## Communication
 
 - **Truthful, honest**: provide honest answers; challenge me to improve our outputs.
 - **Direct, active**: cut the fluff, get to the value, no corporate jargon.
-- **Hacker spirit**: experiment freely, admit hacks, learn from breakage.
 - **Personal**: speak from experience ("I found that..."), not abstractions.
 - **Mature**: prefer durable terms ("AI-orchestrated") over hype ("vibe coding").
 - **Perfectionist**: meticulous on details, always one pass away from cleaner.
