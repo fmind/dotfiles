@@ -13,17 +13,29 @@ Drops the Gemini Enterprise Agent Platform MCP server into `.gemini/settings.jso
 
 - The project designs, deploys, or governs agents on the Gemini Enterprise Agent Platform.
 - The user wants Enterprise toolset access in the main session without invoking the subagent.
-- Verify first: `grep -q '"gemini-enterprise"' .gemini/settings.json 2>/dev/null` — skip if already present.
+- Verify first: `grep -q '"gemini-enterprise-retrieval"' .gemini/settings.json 2>/dev/null` — skip if already present.
 
 ## Install
+
+The `aiplatform.googleapis.com` MCP gateway has **no bare `/mcp` endpoint** — each toolset is a separate MCP server. Register one entry per Agent Platform toolset; the Vertex AI generation/training toolsets (`models`, `predict`, `generate`, `notebook`, `endpoints`, `tuning`) belong to `install-vertex-ai-mcp` instead.
 
 Merge into `.gemini/settings.json` at the project root (create the file if missing):
 
 ```json
 {
   "mcpServers": {
-    "gemini-enterprise": {
+    "gemini-enterprise-retrieval": {
       "httpUrl": "https://aiplatform.googleapis.com/mcp/retrieval",
+      "authProviderType": "google_credentials",
+      "includeTools": []
+    },
+    "gemini-enterprise-evaluation": {
+      "httpUrl": "https://aiplatform.googleapis.com/mcp/evaluation",
+      "authProviderType": "google_credentials",
+      "includeTools": []
+    },
+    "gemini-enterprise-prompts": {
+      "httpUrl": "https://aiplatform.googleapis.com/mcp/prompts",
       "authProviderType": "google_credentials",
       "includeTools": []
     }
@@ -31,14 +43,14 @@ Merge into `.gemini/settings.json` at the project root (create the file if missi
 }
 ```
 
-The `aiplatform.googleapis.com` MCP gateway exposes one endpoint per toolset — `/mcp/retrieval`, `/mcp/evaluation`, `/mcp/prompts`, `/mcp/models`, `/mcp/predict`, `/mcp/generate`, `/mcp/notebook`, `/mcp/endpoints`, `/mcp/tuning`. Pick the suffix matching the workflow. For data-residency, swap to a regional host such as `https://europe-west4-aiplatform.googleapis.com/mcp/retrieval`. See [supported products](https://docs.cloud.google.com/mcp/supported-products) for the full toolset matrix.
+Drop the entries you don't need. For data-residency, swap to a regional host such as `https://europe-west4-aiplatform.googleapis.com/mcp/retrieval`. See [supported products](https://docs.cloud.google.com/mcp/supported-products) for the full toolset matrix.
 
 ## Tool Filtering for Context Efficiency
 
 MCP tool descriptions are loaded eagerly at session start. Pin `includeTools` to the handful of tools you actually use; excluded tools cost zero context tokens.
 
 ```text
-/mcp desc gemini-enterprise
+/mcp desc gemini-enterprise-retrieval
 ```
 
 ## Authentication

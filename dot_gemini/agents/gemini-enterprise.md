@@ -5,8 +5,14 @@ kind: local
 tools:
   - "*"
 mcp_servers:
-  gemini-enterprise:
-    httpUrl: "https://aiplatform.googleapis.com/mcp/generate"
+  gemini-enterprise-retrieval:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/retrieval"
+    authProviderType: "google_credentials"
+  gemini-enterprise-evaluation:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/evaluation"
+    authProviderType: "google_credentials"
+  gemini-enterprise-prompts:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/prompts"
     authProviderType: "google_credentials"
 ---
 
@@ -47,8 +53,9 @@ Principal needs `roles/mcp.toolUser` plus the service-specific role. See [Enable
 
 ## Notes
 
-- Gemini Enterprise Agent Platform shares the `aiplatform.googleapis.com` host with Vertex AI but uses the `/mcp/generate` path (Vertex AI uses plain `/mcp`); pin `includeTools` to scope further.
-- For data residency, switch to a regional endpoint (e.g. `https://europe-west4-aiplatform.googleapis.com/mcp/generate`).
+- Gemini Enterprise Agent Platform shares the `aiplatform.googleapis.com` host with Vertex AI but exposes Agent Platform-specific toolsets — `/mcp/retrieval` (grounded search), `/mcp/evaluation` (quality/grounding eval), `/mcp/prompts` (managed prompts). The Vertex AI generation/training toolsets (`models`, `predict`, `generate`, `notebook`, `endpoints`, `tuning`) live in the `vertex-ai` agent.
+- For data residency, switch to regional endpoints (e.g. `https://europe-west4-aiplatform.googleapis.com/mcp/retrieval`).
+- Pin `includeTools` per toolset to scope further when context budget is tight.
 
 ## Documentation
 

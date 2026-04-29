@@ -24,6 +24,7 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 - `dot_claude/` — Claude Code settings, plus symlinks `CLAUDE.md → ~/.gemini/GEMINI.md` and `skills → ~/.gemini/skills` so persona and skills are shared with Gemini.
 - `dot_copilot/config.json` — GitHub Copilot CLI settings.
 - `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
+- `run_onchange_after_install-gemini-extensions.sh` — chezmoi auto-run script; installs/updates Gemini CLI extensions (`fgate`, `googleworkspace/cli`, `chrome-devtools-mcp`) on every `mr a` when its content changes.
 - `AGENTS.md` (this file) — repo rules.
 
 ## Chezmoi conventions
@@ -32,6 +33,7 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 - `<name>.tmpl` → Go-template; branch on `.chezmoi.os` / `.chezmoi.arch`.
 - `symlink_<name>.tmpl` → symlink target written verbatim into the link.
 - `private_*` → mode 0600. `executable_*` → mode 0755. `*.age` → encrypted.
+- `run_onchange_after_*.sh` → executed by `chezmoi apply` after files are written, only when the script's content changes (used here to bootstrap Gemini CLI extensions).
 - `.chezmoiignore` blocks repo-only files (`README.md`, `mise.toml`, ...) from `apply`.
 
 ## Editing workflow

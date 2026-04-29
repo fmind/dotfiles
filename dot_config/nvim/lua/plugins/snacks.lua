@@ -4,6 +4,7 @@ return {
 		opts = {
 			image = { enabled = false },
 			picker = {
+				hidden = true,
 				sources = {
 					explorer = {
 						actions = {

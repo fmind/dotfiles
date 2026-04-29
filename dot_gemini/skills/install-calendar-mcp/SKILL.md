@@ -22,7 +22,16 @@ Merge into `.gemini/settings.json` at the project root (create the file if missi
   "mcpServers": {
     "calendar": {
       "httpUrl": "https://calendarmcp.googleapis.com/mcp/v1",
-      "authProviderType": "google_credentials",
+      "oauth": {
+        "enabled": true,
+        "clientId": "$GOOGLE_OAUTH_CLIENT_ID",
+        "clientSecret": "$GOOGLE_OAUTH_CLIENT_SECRET",
+        "scopes": [
+          "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+          "https://www.googleapis.com/auth/calendar.events.freebusy",
+          "https://www.googleapis.com/auth/calendar.events.readonly"
+        ]
+      },
       "includeTools": []
     }
   }
@@ -39,7 +48,13 @@ MCP tool descriptions are loaded eagerly at session start. Pin `includeTools` to
 
 ## Authentication
 
-Uses your default Google credentials. Run `gcloud auth application-default login` if not already authenticated.
+Workspace MCPs require a per-user OAuth 2.0 flow — **not** Application Default Credentials. One-time setup:
+
+1. In GCP Console, create an OAuth 2.0 client of type **Desktop app** and enable the Calendar API on the project.
+2. Export `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` in your shell (a single OAuth client can be reused across all Workspace MCPs).
+3. Run `/mcp auth calendar` in Gemini CLI to trigger the browser consent flow. Tokens are cached in `~/.gemini/mcp-oauth-tokens.json`.
+
+Default scopes are read-only (calendar list, events, free/busy). To create, update, or cancel events, swap `calendar.events.readonly` for the wider `calendar.events` scope.
 
 ## Companion Agent
 

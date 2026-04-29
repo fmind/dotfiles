@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-command -v gemini >/dev/null || { echo "gemini CLI not found, skipping extension install"; exit 0; }
+command -v gemini >/dev/null || {
+  echo "gemini CLI not found, skipping extension install"
+  exit 0
+}
 
 extensions=(
+  "https://github.com/fmind/fgate"
   "https://github.com/googleworkspace/cli"
+  "https://github.com/ChromeDevTools/chrome-devtools-mcp"
 )
 
 installed=$(gemini extensions list 2>/dev/null || true)

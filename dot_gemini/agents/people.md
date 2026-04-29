@@ -7,7 +7,14 @@ tools:
 mcp_servers:
   people:
     httpUrl: "https://people.googleapis.com/mcp/v1"
-    authProviderType: "google_credentials"
+    oauth:
+      enabled: true
+      clientId: "$GOOGLE_OAUTH_CLIENT_ID"
+      clientSecret: "$GOOGLE_OAUTH_CLIENT_SECRET"
+      scopes:
+        - "https://www.googleapis.com/auth/directory.readonly"
+        - "https://www.googleapis.com/auth/userinfo.profile"
+        - "https://www.googleapis.com/auth/contacts.readonly"
 ---
 
 # Google People Agent
@@ -28,6 +35,10 @@ Utilize your available tools precisely and autonomously to look up colleagues, r
 - Search before bulk operations — duplicate detection should run first.
 - Merge dupes carefully; merges are not reversible without a backup.
 - Respect Workspace directory permissions; org-level entries are not editable from a personal context.
+
+## Auth
+
+Workspace MCPs require a per-user OAuth 2.0 flow (not ADC). Set `$GOOGLE_OAUTH_CLIENT_ID` / `$GOOGLE_OAUTH_CLIENT_SECRET` (Desktop OAuth client created in GCP Console) and run `/mcp auth people` once to grant scopes. Default scopes are read-only (directory, profile, contacts) — creating, updating, deleting, or merging contacts requires the wider `contacts` (read+write) scope.
 
 ## See also
 

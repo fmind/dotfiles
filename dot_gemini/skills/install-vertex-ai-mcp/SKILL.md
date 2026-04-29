@@ -11,17 +11,44 @@ Drops the GCP Vertex AI MCP server into `.gemini/settings.json` for the current 
 
 - The project trains or tunes models on Vertex pipelines, manages endpoints, or runs predictions with foundation models.
 - The user wants Vertex AI tools available in the main session without invoking the subagent.
-- Verify first: `grep -q '"vertex-ai"' .gemini/settings.json 2>/dev/null` — skip if already present.
+- Verify first: `grep -q '"vertex-ai-models"' .gemini/settings.json 2>/dev/null` — skip if already present.
 
 ## Install
 
 Merge into `.gemini/settings.json` at the project root (create the file if missing):
 
+The `aiplatform.googleapis.com` MCP gateway has **no bare `/mcp` endpoint** — each toolset is a separate MCP server. Register one entry per toolset you need; agent-platform toolsets (`/mcp/retrieval`, `/mcp/evaluation`, `/mcp/prompts`) belong to `install-gemini-enterprise-mcp` instead.
+
 ```json
 {
   "mcpServers": {
-    "vertex-ai": {
+    "vertex-ai-models": {
       "httpUrl": "https://aiplatform.googleapis.com/mcp/models",
+      "authProviderType": "google_credentials",
+      "includeTools": []
+    },
+    "vertex-ai-predict": {
+      "httpUrl": "https://aiplatform.googleapis.com/mcp/predict",
+      "authProviderType": "google_credentials",
+      "includeTools": []
+    },
+    "vertex-ai-generate": {
+      "httpUrl": "https://aiplatform.googleapis.com/mcp/generate",
+      "authProviderType": "google_credentials",
+      "includeTools": []
+    },
+    "vertex-ai-notebook": {
+      "httpUrl": "https://aiplatform.googleapis.com/mcp/notebook",
+      "authProviderType": "google_credentials",
+      "includeTools": []
+    },
+    "vertex-ai-endpoints": {
+      "httpUrl": "https://aiplatform.googleapis.com/mcp/endpoints",
+      "authProviderType": "google_credentials",
+      "includeTools": []
+    },
+    "vertex-ai-tuning": {
+      "httpUrl": "https://aiplatform.googleapis.com/mcp/tuning",
       "authProviderType": "google_credentials",
       "includeTools": []
     }
@@ -29,14 +56,14 @@ Merge into `.gemini/settings.json` at the project root (create the file if missi
 }
 ```
 
-The `aiplatform.googleapis.com` MCP gateway exposes a separate endpoint per toolset — `/mcp/models`, `/mcp/predict`, `/mcp/generate`, `/mcp/notebook`, `/mcp/endpoints`, `/mcp/tuning`, `/mcp/retrieval`, `/mcp/evaluation`, `/mcp/prompts`. Pick the suffix matching the workflow (e.g. `/mcp/tuning` for fine-tuning, `/mcp/predict` for online inference). For data-residency, swap to a regional host such as `https://europe-west4-aiplatform.googleapis.com/mcp/models`. See [supported products](https://docs.cloud.google.com/mcp/supported-products) for the full toolset matrix.
+Pick the toolset matching the workflow — `models` (registry), `predict` (online inference), `generate` (Gemini/foundation models), `notebook` (managed notebooks), `endpoints` (deploy/undeploy), `tuning` (custom-model training). Drop the entries you don't need. For data-residency, swap to a regional host such as `https://europe-west4-aiplatform.googleapis.com/mcp/models`. See [supported products](https://docs.cloud.google.com/mcp/supported-products) for the full toolset matrix.
 
 ## Tool Filtering for Context Efficiency
 
 MCP tool descriptions are loaded eagerly at session start. Pin `includeTools` to the handful of tools you actually use; excluded tools cost zero context tokens.
 
 ```text
-/mcp desc vertex-ai
+/mcp desc vertex-ai-models
 ```
 
 ## Authentication

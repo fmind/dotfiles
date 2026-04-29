@@ -7,7 +7,14 @@ tools:
 mcp_servers:
   calendar:
     httpUrl: "https://calendarmcp.googleapis.com/mcp/v1"
-    authProviderType: "google_credentials"
+    oauth:
+      enabled: true
+      clientId: "$GOOGLE_OAUTH_CLIENT_ID"
+      clientSecret: "$GOOGLE_OAUTH_CLIENT_SECRET"
+      scopes:
+        - "https://www.googleapis.com/auth/calendar.calendarlist.readonly"
+        - "https://www.googleapis.com/auth/calendar.events.freebusy"
+        - "https://www.googleapis.com/auth/calendar.events.readonly"
 ---
 
 # Google Calendar Agent
@@ -28,6 +35,10 @@ Utilize your available tools precisely and autonomously while respecting the use
 - Free/busy lookup before proposing meeting slots.
 - Preview event payloads (attendees, conferencing, recurrence) before create/update.
 - Respect attendee time zones; never assume the user's local zone.
+
+## Auth
+
+Workspace MCPs require a per-user OAuth 2.0 flow (not ADC). Set `$GOOGLE_OAUTH_CLIENT_ID` / `$GOOGLE_OAUTH_CLIENT_SECRET` (Desktop OAuth client created in GCP Console) and run `/mcp auth calendar` once to grant scopes. Default scopes are read-only (calendar list, events, free/busy) — creating, updating, or cancelling events needs the wider `calendar.events` (read+write) scope.
 
 ## See also
 

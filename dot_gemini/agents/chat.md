@@ -7,7 +7,15 @@ tools:
 mcp_servers:
   chat:
     httpUrl: "https://chatmcp.googleapis.com/mcp/v1"
-    authProviderType: "google_credentials"
+    oauth:
+      enabled: true
+      clientId: "$GOOGLE_OAUTH_CLIENT_ID"
+      clientSecret: "$GOOGLE_OAUTH_CLIENT_SECRET"
+      scopes:
+        - "https://www.googleapis.com/auth/chat.spaces.readonly"
+        - "https://www.googleapis.com/auth/chat.memberships.readonly"
+        - "https://www.googleapis.com/auth/chat.messages.readonly"
+        - "https://www.googleapis.com/auth/chat.users.readstate.readonly"
 ---
 
 # Google Chat Agent
@@ -28,6 +36,10 @@ Utilize your available tools precisely and autonomously to keep teams informed w
 - Search the space first to avoid posting duplicate threads.
 - Preview rich-card payloads in a draft before sending.
 - @-mention sparingly; prefer thread replies over new top-level messages.
+
+## Auth
+
+Workspace MCPs require a per-user OAuth 2.0 flow (not ADC). Set `$GOOGLE_OAUTH_CLIENT_ID` / `$GOOGLE_OAUTH_CLIENT_SECRET` (Desktop OAuth client created in GCP Console) and run `/mcp auth chat` once to grant scopes. **Default scopes are entirely read-only** — sending messages, replying, or managing memberships requires adding write scopes (`chat.messages`, `chat.memberships`).
 
 ## See also
 

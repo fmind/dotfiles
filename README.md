@@ -9,7 +9,7 @@ Managed by [chezmoi](https://www.chezmoi.io/) and [mise](https://mise.jdx.dev/).
 - **Shell**: `fish` + `starship` + `atuin` + `carapace` + `zoxide` + `fzf`.
 - **Terminal**: `ghostty`, with `zellij` as multiplexer and `yazi` as file manager.
 - **Editor**: `neovim` (LazyVim) with `catppuccin-mocha`, vim mode everywhere.
-- **AI agents**: `gemini-cli` + `jules` (async) + GitHub Copilot + Claude Code.
+- **AI agents**: `gemini-cli` (with auto-installed extensions: `fgate`, `googleworkspace/cli`, `chrome-devtools-mcp`) + `jules` (async) + GitHub Copilot + Claude Code.
 - **Languages out of the box**: Python (`uv`), TypeScript / Angular (`pnpm`, `biome`), Go, Terraform, Docker, Kubernetes.
 - **Theme**: `catppuccin-mocha` everywhere consistent (nvim, fzf, ghostty, starship, lazygit, gemini, claude, ptpython).
 - **Icons**: none — ASCII-only by default for portability over SSH and Cloud Shell.
@@ -67,6 +67,7 @@ mr v   vim         Install/sync Neovim plugins headlessly with LazyVim
 ├── install.sh                        # one-shot installer (mise → chezmoi → apply)
 ├── mise.toml                         # repo-scoped tools + tasks
 ├── AGENTS.md                         # rules for agents editing THIS repo
+├── run_onchange_after_install-gemini-extensions.sh  # auto-installs Gemini CLI extensions on apply
 ├── dot_gemini/                       # Gemini CLI — primary AI surface (persona, settings, agents, commands, skills)
 ├── dot_claude/                       # Claude Code — settings + symlinks reusing Gemini's persona and skills
 ├── dot_copilot/config.json           # GitHub Copilot CLI configuration

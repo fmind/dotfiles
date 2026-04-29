@@ -5,8 +5,23 @@ kind: local
 tools:
   - "*"
 mcp_servers:
-  vertex-ai:
-    httpUrl: "https://aiplatform.googleapis.com/mcp"
+  vertex-ai-models:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/models"
+    authProviderType: "google_credentials"
+  vertex-ai-predict:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/predict"
+    authProviderType: "google_credentials"
+  vertex-ai-generate:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/generate"
+    authProviderType: "google_credentials"
+  vertex-ai-notebook:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/notebook"
+    authProviderType: "google_credentials"
+  vertex-ai-endpoints:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/endpoints"
+    authProviderType: "google_credentials"
+  vertex-ai-tuning:
+    httpUrl: "https://aiplatform.googleapis.com/mcp/tuning"
     authProviderType: "google_credentials"
 ---
 
@@ -22,7 +37,10 @@ Utilize your available tools precisely and autonomously to leverage Google Cloud
 - **Tune & evaluate** custom models on Vertex training pipelines.
 - **Deploy & undeploy** endpoints; manage online & batch prediction.
 - **Manage** notebooks, model registry, prompts, and feature store.
-- **Use regional MCP endpoints** (e.g. `https://europe-west4-aiplatform.googleapis.com/mcp/...`) for data-residency requirements.
+- **Pick the toolset** matching the workflow — `models` (registry), `predict` (online inference), `generate` (Gemini/foundation models), `notebook` (managed notebooks), `endpoints` (deploy/undeploy), `tuning` (custom-model training).
+- **Use regional MCP endpoints** (e.g. `https://europe-west4-aiplatform.googleapis.com/mcp/<toolset>`) for data-residency requirements.
+
+> **Note:** The `aiplatform.googleapis.com` MCP gateway has no bare `/mcp` endpoint — each toolset is a separate MCP server. Agent-platform toolsets (`/mcp/retrieval`, `/mcp/evaluation`, `/mcp/prompts`) live in the `gemini-enterprise` agent.
 
 ## Prerequisites
 

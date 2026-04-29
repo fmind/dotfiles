@@ -12,8 +12,6 @@ gui:
   nerdFontsVersion: ""
   scrollHeight: 5
   scrollPastBottom: false
-  showBottomLine: false
-  showCommandLog: false
   showFileTree: true
   showIcons: false
   theme:

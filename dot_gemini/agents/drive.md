@@ -7,7 +7,13 @@ tools:
 mcp_servers:
   drive:
     httpUrl: "https://drivemcp.googleapis.com/mcp/v1"
-    authProviderType: "google_credentials"
+    oauth:
+      enabled: true
+      clientId: "$GOOGLE_OAUTH_CLIENT_ID"
+      clientSecret: "$GOOGLE_OAUTH_CLIENT_SECRET"
+      scopes:
+        - "https://www.googleapis.com/auth/drive.readonly"
+        - "https://www.googleapis.com/auth/drive.file"
 ---
 
 # Google Drive Agent
@@ -29,6 +35,10 @@ Utilize your available tools precisely and autonomously while preserving sharing
 - Inspect permissions before sharing widely; surface risky public exposure.
 - Grant least-privilege roles (Reader/Commenter > Editor > Owner).
 - Trash before permanent delete; recovery from Trash is easy, after is not.
+
+## Auth
+
+Workspace MCPs require a per-user OAuth 2.0 flow (not ADC). Set `$GOOGLE_OAUTH_CLIENT_ID` / `$GOOGLE_OAUTH_CLIENT_SECRET` (Desktop OAuth client created in GCP Console) and run `/mcp auth drive` once to grant scopes. Default scopes (`drive.readonly`, `drive.file`) cover reads and app-created/picked files — broader sharing/management of arbitrary files needs the wider `drive` scope (verification-gated).
 
 ## See also
 

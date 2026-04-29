@@ -22,7 +22,17 @@ Merge into `.gemini/settings.json` at the project root (create the file if missi
   "mcpServers": {
     "chat": {
       "httpUrl": "https://chatmcp.googleapis.com/mcp/v1",
-      "authProviderType": "google_credentials",
+      "oauth": {
+        "enabled": true,
+        "clientId": "$GOOGLE_OAUTH_CLIENT_ID",
+        "clientSecret": "$GOOGLE_OAUTH_CLIENT_SECRET",
+        "scopes": [
+          "https://www.googleapis.com/auth/chat.spaces.readonly",
+          "https://www.googleapis.com/auth/chat.memberships.readonly",
+          "https://www.googleapis.com/auth/chat.messages.readonly",
+          "https://www.googleapis.com/auth/chat.users.readstate.readonly"
+        ]
+      },
       "includeTools": []
     }
   }
@@ -39,7 +49,13 @@ MCP tool descriptions are loaded eagerly at session start. Pin `includeTools` to
 
 ## Authentication
 
-Uses your default Google credentials. Run `gcloud auth application-default login` if not already authenticated.
+Workspace MCPs require a per-user OAuth 2.0 flow — **not** Application Default Credentials. One-time setup:
+
+1. In GCP Console, create an OAuth 2.0 client of type **Desktop app** and enable the Chat API on the project.
+2. Export `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` in your shell (a single OAuth client can be reused across all Workspace MCPs).
+3. Run `/mcp auth chat` in Gemini CLI to trigger the browser consent flow. Tokens are cached in `~/.gemini/mcp-oauth-tokens.json`.
+
+**Default scopes are entirely read-only.** To send messages, reply, or manage memberships, add write scopes such as `chat.messages` and `chat.memberships`.
 
 ## Companion Agent
 

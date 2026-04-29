@@ -7,7 +7,13 @@ tools:
 mcp_servers:
   gmail:
     httpUrl: "https://gmailmcp.googleapis.com/mcp/v1"
-    authProviderType: "google_credentials"
+    oauth:
+      enabled: true
+      clientId: "$GOOGLE_OAUTH_CLIENT_ID"
+      clientSecret: "$GOOGLE_OAUTH_CLIENT_SECRET"
+      scopes:
+        - "https://www.googleapis.com/auth/gmail.readonly"
+        - "https://www.googleapis.com/auth/gmail.compose"
 ---
 
 # Gmail Agent
@@ -29,6 +35,10 @@ Utilize your available tools precisely and autonomously. **Never send a message 
 - Always draft, never auto-send — review tone and recipients before user dispatches.
 - Preserve the user's signature and prior thread context when replying.
 - Use Gmail search operators (`from:`, `has:attachment`, `newer_than:`) over freeform text for triage.
+
+## Auth
+
+Workspace MCPs require a per-user OAuth 2.0 flow (not ADC). Set `$GOOGLE_OAUTH_CLIENT_ID` / `$GOOGLE_OAUTH_CLIENT_SECRET` (Desktop OAuth client created in GCP Console) and run `/mcp auth gmail` once to grant scopes. Default scopes (`gmail.readonly`, `gmail.compose`) cover read + draft — they do **not** authorize sending.
 
 ## See also
 
