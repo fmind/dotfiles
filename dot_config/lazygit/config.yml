@@ -2,38 +2,45 @@ disableStartupPopups: true
 git:
   autoFetch: false
   parseEmoji: false
+  diffContextSize: 7
   paging:
     colorArg: always
-    pager: delta --dark --paging=never
+    pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="vscode://file/{path}:{line}"
 gui:
-  showIcons: false
-  showFileTree: true
+  expandFocusedSidePanel: true
+  expandedSidePanelWeight: 2
   nerdFontsVersion: ""
+  scrollHeight: 5
+  scrollPastBottom: false
+  showBottomLine: false
+  showCommandLog: false
+  showFileTree: true
+  showIcons: false
   theme:
     activeBorderColor:
-      - '#cba6f7'
+      - "#cba6f7"
       - bold
     inactiveBorderColor:
-      - '#a6adc8'
+      - "#a6adc8"
     optionsTextColor:
-      - '#89b4fa'
+      - "#89b4fa"
     selectedLineBgColor:
-      - '#313244'
+      - "#313244"
     cherryPickedCommitBgColor:
-      - '#94e2d5'
+      - "#94e2d5"
     cherryPickedCommitFgColor:
-      - '#cba6f7'
+      - "#cba6f7"
     unstagedChangesColor:
-      - '#f38ba8'
+      - "#f38ba8"
     defaultFgColor:
-      - '#cdd6f4'
+      - "#cdd6f4"
 os:
   editPreset: nvim
 customCommands:
-  - key: 'G'
-    context: 'files'
-    description: 'Generate Conventional Commit message with Gemini'
-    loadingText: 'Asking Gemini...'
+  - key: "G"
+    context: "files"
+    description: "Generate Conventional Commit message with Gemini"
+    loadingText: "Asking Gemini..."
     subprocess: true
     command: |
       diff=$(git diff --cached);
