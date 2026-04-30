@@ -98,6 +98,7 @@
         "type": "custom",
         "ui": {
           "comment": "#6c7086",
+          "inlineThinkingMode": "full",
           "gradient": [
             "#f5c2e7",
             "#cba6f7",
