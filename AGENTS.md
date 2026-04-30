@@ -14,19 +14,6 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 - **Verify upstream**: check the tool's current docs before adding flags or keys.
 - **Don't commit**: only when I explicitly ask. Run `mr n` first.
 
-## Source layout
-
-- `mise.toml` — repo-scoped tools and `mr <task>` workflows.
-- `install.sh` — one-shot bootstrap (mise → chezmoi → apply).
-- `dot_config/` — everything that lands in `~/.config/`.
-- `dot_config/mise/config.toml.tmpl` — global toolchain (every CLI installed).
-- `dot_gemini/` — Gemini CLI configs (primary agent surface; `GEMINI.md` is the persona). Subagent frontmatter must use `mcp_servers:` (snake_case) — Gemini CLI silently ignores the camelCase `mcpServers:` form.
-- `dot_claude/` — Claude Code settings, plus symlinks `CLAUDE.md → ~/.gemini/GEMINI.md` and `skills → ~/.gemini/skills` so persona and skills are shared with Gemini.
-- `dot_copilot/config.json` — GitHub Copilot CLI settings.
-- `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
-- `run_onchange_after_install-gemini-extensions.sh` — chezmoi auto-run script; installs/updates Gemini CLI extensions (`fgate`, `googleworkspace/cli`, `chrome-devtools-mcp`) on every `mr a` when its content changes.
-- `AGENTS.md` (this file) — repo rules.
-
 ## Chezmoi conventions
 
 - `dot_foo` → `~/.foo`. Never write a literal leading dot in source paths.
@@ -35,13 +22,6 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 - `private_*` → mode 0600. `executable_*` → mode 0755. `*.age` → encrypted.
 - `run_onchange_after_*.sh` → executed by `chezmoi apply` after files are written, only when the script's content changes (used here to bootstrap Gemini CLI extensions).
 - `.chezmoiignore` blocks repo-only files (`README.md`, `mise.toml`, ...) from `apply`.
-
-## Editing workflow
-
-1. Edit the source file under `dot_*` (NOT the deployed copy in `~`).
-2. `mr c` to preview the diff (`chezmoi diff` works too).
-3. `mr a` to apply. For tool changes, follow with `mr t` then `mr l`.
-4. `mr n` runs pre-commit on all files (gitleaks included); fix issues before suggesting a commit.
 
 ## Adding a new tool
 
@@ -56,7 +36,7 @@ Gemini CLI is the primary skill consumer; skills load from `~/.gemini/skills/`.
 
 A skill is a directory whose `SKILL.md` has YAML frontmatter (`name` matching the dir, `description` for when to activate) — spec at <https://geminicli.com/docs/cli/skills/>.
 
-Tooling: the `skills` CLI from [`vercel-labs/skills`](https://github.com/vercel-labs/skills) is installed via mise — call it directly (`skills add ...`, `skills find ...`); fall back to `npx skills` only on a fresh checkout.
+Tooling: the `skills` CLI from [`vercel-labs/skills`](https://github.com/vercel-labs/skills) is installed via mise — call it directly (`skills add ...`, `skills find ...`).
 
 Two install scopes — pick per skill, ask if unsure:
 
@@ -64,3 +44,19 @@ Two install scopes — pick per skill, ask if unsure:
 - **Global** → `~/.gemini/skills/<slug>/`. Run `skills add --global <slug>`, then track it in this repo with `chezmoi add ~/.gemini/skills/<slug>` (imports into `dot_gemini/skills/<slug>/`).
 
 For wrappers around official bundles, hand-author a `dot_gemini/skills/install-*-skills/SKILL.md` documenting the exact `skills add ...` line — see existing examples.
+
+## Source layout
+
+- `mise.toml` — repo-scoped tools and `mr <task>` workflows.
+- `install.sh` — one-shot bootstrap (mise → chezmoi → apply).
+- `dot_config/` — everything that lands in `~/.config/`.
+- `dot_config/mise/config.toml.tmpl` — global toolchain (every CLI installed).
+- `dot_gemini/` — Gemini CLI configs (primary agent surface; `GEMINI.md` is the persona). Subagent frontmatter must use `mcp_servers:` (snake_case) — Gemini CLI silently ignores the camelCase `mcpServers:` form.
+- `dot_claude/` — Claude Code settings, plus symlinks `CLAUDE.md → ~/.gemini/GEMINI.md` and `skills → ~/.gemini/skills` so persona and skills are shared with Gemini.
+- `dot_copilot/config.json` — GitHub Copilot CLI settings.
+- `dot_local/bin/` — custom user-space executables (`deep-prompt`, `deep-research`, `gcp-dotfiles-setup`).
+- `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
+- `run_onchange_after_install-gemini-extensions.sh` — chezmoi auto-run script; installs/updates Gemini CLI extensions (`fgate`, `googleworkspace/cli`, `chrome-devtools-mcp`) on every `mr a` when its content changes.
+- `.pre-commit-config.yaml` / `.markdownlint.json` — lint and secret-scan hygiene (gitleaks + JSON/YAML/TOML checks; markdownlint config).
+- `.github/workflows/ci.yml` — CI runs `pre-commit` on push/PR to `main`; keep `mr n` clean locally so CI passes.
+- `AGENTS.md` (this file) — repo rules.

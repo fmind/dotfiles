@@ -12,14 +12,11 @@ extensions=(
   "https://github.com/ChromeDevTools/chrome-devtools-mcp"
 )
 
-installed=$(gemini extensions list 2>/dev/null || true)
-
 for url in "${extensions[@]}"; do
   name="${url##*/}"
-  if printf '%s\n' "$installed" | grep -qiE "(^|[[:space:]/])${name}([[:space:]]|$)"; then
-    echo "=> $name already installed"
-    continue
+  if output=$(gemini extensions install "$url" --auto-update --consent 2>&1); then
+    echo "Installed $name"
+  elif ! printf '%s' "$output" | grep -q 'already installed'; then
+    echo "  install failed for $name"
   fi
-  echo "=> Installing $name (auto-update enabled)..."
-  gemini extensions install "$url" --auto-update --consent
 done

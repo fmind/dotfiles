@@ -98,7 +98,6 @@
         "type": "custom",
         "ui": {
           "comment": "#6c7086",
-          "inlineThinkingMode": "full",
           "gradient": [
             "#f5c2e7",
             "#cba6f7",
@@ -111,6 +110,7 @@
     "escapePastedAtSymbols": true,
     "hideBanner": true,
     "hideTips": true,
+    "inlineThinkingMode": "full",
     "showModelInfoInChat": true,
     "theme": "catppuccin-mocha",
     "useAlternateBuffer": true

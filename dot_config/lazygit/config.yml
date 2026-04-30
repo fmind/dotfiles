@@ -5,7 +5,7 @@ git:
   diffContextSize: 7
   paging:
     colorArg: always
-    pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="vscode://file/{path}:{line}"
+    pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="file://{path}"
 gui:
   expandFocusedSidePanel: true
   expandedSidePanelWeight: 2
@@ -41,7 +41,20 @@ customCommands:
     loadingText: "Asking Gemini..."
     subprocess: true
     command: |
-      diff=$(git diff --cached);
-      if [ -z "$diff" ]; then echo "No staged changes."; exit 1; fi;
-      msg=$(printf '%s' "$diff" | gemini -p "Write ONE Conventional Commits message for this staged diff. Format: type(scope): subject, then a blank line and a short body if useful. Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert. Output ONLY the message, no code fences, no preamble.") &&
-      git commit -e -m "$msg"
+      set -e
+      diff=$(git diff --cached)
+      use_all=0
+      if [ -z "$diff" ]; then
+        diff=$(git diff)
+        if [ -z "$diff" ]; then echo "No changes to commit."; exit 1; fi
+        printf "No staged changes. Generate from working tree (tracked files)? [y/N] "
+        read -r reply
+        case "$reply" in [yY]*) use_all=1 ;; *) echo "Aborted."; exit 1 ;; esac
+      fi
+      msg=$(printf '%s' "$diff" | head -c 200000 | gemini -p "Write ONE Conventional Commits message for this diff. Format: type(scope): subject, then a blank line and a short body if useful. Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert. Output ONLY the message, no code fences, no preamble.")
+      if [ -z "$msg" ]; then echo "Gemini returned empty message."; exit 1; fi
+      if [ "$use_all" = "1" ]; then
+        git commit -a -e -m "$msg"
+      else
+        git commit -e -m "$msg"
+      fi

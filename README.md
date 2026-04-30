@@ -60,31 +60,6 @@ mr u   upgrade     Upgrade mise tools to latest versions
 mr v   vim         Install/sync Neovim plugins headlessly with LazyVim
 ```
 
-## Repository layout
-
-```text
-.
-├── install.sh                        # one-shot installer (mise → chezmoi → apply)
-├── mise.toml                         # repo-scoped tools + tasks
-├── AGENTS.md                         # rules for agents editing THIS repo
-├── run_onchange_after_install-gemini-extensions.sh  # auto-installs Gemini CLI extensions on apply
-├── dot_gemini/                       # Gemini CLI — primary AI surface (persona, settings, agents, commands, skills)
-├── dot_claude/                       # Claude Code — settings + symlinks reusing Gemini's persona and skills
-├── dot_copilot/config.json           # GitHub Copilot CLI configuration
-├── dot_config/
-│   ├── mise/config.toml.tmpl         # global toolchain (every CLI you use)
-│   ├── fish/                         # shell, aliases, fzf, plugins
-│   ├── nvim/                         # LazyVim config, keymaps, plugins
-│   ├── starship.toml                 # prompt
-│   ├── ghostty/ zellij/ yazi/        # terminal, multiplexer, file manager
-│   ├── atuin/ bat/ bottom/ ripgrep/  # CLI tooling
-│   ├── lazygit/ lazydocker/ gh/      # git, docker, github
-│   └── ptpython/ pnpm/ fastfetch/    # language + system tooling
-├── dot_gitconfig.tmpl                # templated by chezmoi
-├── dot_inputrc dot_editrc            # readline / editrc
-└── dot_local/                        # ~/.local
-```
-
 ## Required API keys & credentials
 
 If you use age encryption with chezmoi to manage secrets (like `secrets.fish.age`), provision your private key before applying:
@@ -92,7 +67,10 @@ If you use age encryption with chezmoi to manage secrets (like `secrets.fish.age
 ```bash
 mkdir -p ~/.config/chezmoi
 # Place your age private key in ~/.config/chezmoi/key.txt BEFORE running chezmoi apply
+chmod 600 ~/.config/chezmoi/key.txt
 ```
+
+> **Back up `~/.config/chezmoi/key.txt`.** It is **not** managed by chezmoi and never committed. Lose it and every `*.age` file in this repo becomes unrecoverable. Store a copy in a password manager (1Password / Bitwarden secure note) or an offline encrypted vault. The matching public recipient lives in `.chezmoi.toml.tmpl` under `[age].recipient` — that one is fine to share.
 
 ```fish
 # ~/.config/fish/conf.d/secrets.fish — never committed
@@ -114,11 +92,3 @@ OAuth-based tools instead need an interactive login the first time:
 | `jules`                   | `jules auth login`                                           |
 
 `gcloud auth application-default login` is required by every Google Cloud / Workspace MCP that uses `authProviderType: google_credentials`.
-
-## Update flow
-
-```bash
-mr u   # mise upgrade --bump  (locks new versions)
-mr a   # chezmoi apply        (deploys updated configs)
-mr v   # nvim plugin sync     (LazyVim restore)
-```

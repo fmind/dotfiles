@@ -4,8 +4,11 @@ return {
 		opts = {
 			image = { enabled = false },
 			picker = {
-				hidden = true,
 				sources = {
+					files = {
+						hidden = true,
+						ignored = false,
+					},
 					explorer = {
 						actions = {
 							explorer_open_all = function(picker)

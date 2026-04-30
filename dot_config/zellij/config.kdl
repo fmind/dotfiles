@@ -2,7 +2,6 @@ pane_frames false
 default_shell "fish"
 default_layout "main"
 theme "catppuccin-mocha"
-copy_command "xsel --clipboard --input"
 
 keybinds {
     shared_except "locked" {
