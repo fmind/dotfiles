@@ -170,6 +170,7 @@ mise trust --untrust      # revoke
 ## Common Workflows
 
 **Onboard a new repo.**
+
 ```bash
 git clone <repo> && cd <repo>
 mise trust && mise install
@@ -177,6 +178,7 @@ mise current
 ```
 
 **Add a runtime + tool.**
+
 ```bash
 mise use node@22                   # writes [tools] node = "22"
 mise use "npm:typescript@5"        # adds an npm-backed binary
@@ -184,6 +186,7 @@ mise lock                          # capture exact resolved versions
 ```
 
 **Run CI-equivalent locally.**
+
 ```bash
 mise install --frozen              # error if mise.lock is out of date
 mise run test

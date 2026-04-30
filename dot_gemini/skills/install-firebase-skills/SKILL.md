@@ -1,6 +1,6 @@
 ---
 name: install-firebase-skills
-description: Install Firebase's official Agent Skills bundle so the agent gains expert knowledge for Firestore, Auth, Hosting, App Hosting, Genkit, AI Logic, and security rules.
+description: Install Firebase skills bundle (Firestore, Auth, Hosting, App Hosting, Genkit, AI Logic, security rules). Use for Firebase projects.
 ---
 
 # Install Firebase Skills
@@ -26,21 +26,25 @@ npx skills add firebase/agent-skills
 
 13 skills at the time of writing (verify with `npx skills add firebase/agent-skills --list`):
 
-**Core**
+### Core
+
 - `firebase-basics` — initial setup and platform workflows.
 
-**Auth & Hosting**
+### Auth & Hosting
+
 - `firebase-auth-basics` — sign-in / authentication.
 - `firebase-hosting-basics` — static sites and SPAs.
 - `firebase-app-hosting-basics` — Next.js, Angular, etc., on App Hosting.
 
-**Data**
+### Data
+
 - `firebase-firestore-standard` — Firestore essentials.
 - `firebase-firestore-enterprise-native-mode` — Firestore Enterprise Native Mode.
 - `firebase-data-connect-basics` — Data Connect (PostgreSQL + GraphQL).
 - `firebase-security-rules-auditor` — vulnerability assessment for `firestore.rules`.
 
-**AI**
+### AI
+
 - `firebase-ai-logic-basics` — Firebase AI Logic (Gemini API for web/mobile).
 - `developing-genkit-js` — Genkit in Node.js / TypeScript.
 - `developing-genkit-go` — Genkit in Go.

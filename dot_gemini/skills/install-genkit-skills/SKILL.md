@@ -1,6 +1,6 @@
 ---
 name: install-genkit-skills
-description: Install the official Genkit skills bundle so the agent gains expert knowledge for building AI flows, prompts, tools, RAG, and agentic patterns in JS/TS, Go, Python, and Dart.
+description: Install Genkit skills bundle (AI flows, prompts, tools, RAG, agentic patterns) for JS/TS, Go, Python, Dart. Use for Genkit projects.
 ---
 
 # Install Genkit Skills

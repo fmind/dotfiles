@@ -1,14 +1,13 @@
-description = "Do a full 360 review of the repository and suggest 20 numbered improvements."
+description = "360-review the repository (or a scope) and suggest 10 numbered improvements."
 
 prompt = """
-Perform a comprehensive 360-degree review of the current repository.
+Perform a 360-degree review and suggest the top 10 actionable improvements.
 
-Analyze the entire codebase to identify the top 20 actionable improvements, focusing on:
-1. Best practices and state-of-the-art patterns.
-2. Simplification, bloat reduction, and redundancy removal
-3. Security, maintainability, and code quality.
-4. Consistency with existing repository standards and idiomatic usage.
-5. Optimization for an AI-agent-friendly and highly efficient development environment.
-
-Please provide exactly 20 numbered improvements, in order of priority, with brief explanations for each.
+Requirements:
+1. Treat `{{args}}` as an optional scope (path, subsystem, or focus area). If empty, review the whole repository.
+2. Inspect the relevant code, configs, and conventions before listing anything. Do not invent issues.
+3. Cover: modern best practices, simplification and bloat reduction, security, maintainability, code quality, consistency with existing standards, and AI-agent friendliness.
+4. Produce exactly 20 numbered improvements in priority order (highest impact first). Each item: a one-line title, a short justification, and `file:line` evidence when applicable.
+5. Do not edit files.
+6. Be concise.
 """

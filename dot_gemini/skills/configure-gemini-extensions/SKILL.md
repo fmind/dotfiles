@@ -44,7 +44,7 @@ The full subcommand surface is: `config`, `disable`, `enable`, `explore`, `insta
 
 Each extension is a directory with a `gemini-extension.json` manifest plus optional payload directories:
 
-```
+```text
 my-extension/
 ├── gemini-extension.json     # manifest (required)
 ├── commands/                 # slash commands (.toml)

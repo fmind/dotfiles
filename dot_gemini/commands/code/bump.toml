@@ -1,0 +1,24 @@
+description = "Bump GitHub Actions, pre-commit hooks, and project dependencies to their latest versions."
+
+prompt = """
+Bump pinned versions in this repository to their latest stable releases.
+
+Requirements:
+1. Treat `{{args}}` as an optional scope: `actions`, `pre-commit`, `deps`, `tools`, or `all` (default).
+2. Inspect the repository to detect which sources apply before running anything:
+   - `.github/workflows/*.yml` and `.github/actions/**/action.yml` for GitHub Actions.
+   - `.pre-commit-config.yaml` for pre-commit hook revisions.
+   - Package manifests (`pyproject.toml`, `package.json`, `go.mod`, `Cargo.toml`, `requirements*.txt`, ...) for project dependencies.
+   - `mise.toml` / `.mise.toml` for runtimes and tools.
+3. For each in-scope source, prefer the project's own upgrade command over manual edits:
+   - **GitHub Actions**: pin to the latest released tag (or commit SHA if the repo already pins by SHA). Use `gh api repos/<owner>/<repo>/releases/latest` to discover the latest release.
+   - **pre-commit**: run `pre-commit autoupdate`, then re-run `pre-commit run --all-files` to verify hooks still pass.
+   - **Python (uv)**: run `uv lock --upgrade` and update `pyproject.toml` constraints if needed.
+   - **Node**: use the project's package manager (`pnpm update --latest`, `npm update`, `bun update`).
+   - **Go**: run `go get -u ./... && go mod tidy`.
+   - **mise**: run `mise upgrade` for tools managed by mise.
+4. Do not blindly apply major-version bumps that require code changes. List those separately for the user to review and apply deliberately.
+5. After bumping, run the project's lint and tests on a reasonable scope to catch obvious breakage. Fix trivial issues; flag the rest.
+6. Do not commit or push. Leave changes unstaged so the user can review.
+7. Summarize: which files changed, which versions moved (`old -> new`), what was skipped (and why), and any follow-up work needed.
+"""

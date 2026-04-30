@@ -1,6 +1,6 @@
 ---
 name: install-jules-skills
-description: Install the official Jules skills bundle so the agent can dispatch Jules (Google's async coding agent) for parallel issue triage and code work, plus notes on the Jules CLI itself.
+description: Install Jules skills bundle — dispatch Jules (Google's async coding agent) for parallel issue triage and code work, plus Jules CLI notes.
 ---
 
 # Install Jules Skills

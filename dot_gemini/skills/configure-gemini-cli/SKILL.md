@@ -28,20 +28,34 @@ Project settings override user settings, which override system settings. The sam
 
 ```json
 {
-  "model": "gemini-2.5-pro",
-  "thinking": {
-    "include": true,
-    "budget": 8192
+  "general": {
+    "checkpointing": { "enabled": true },
+    "defaultApprovalMode": "auto_edit",
+    "plan": { "directory": ".gemini/plans" }
+  },
+
+  "experimental": {
+    "autoMemory": true,
+    "jitContext": true,
+    "worktrees": true
   },
 
   "context": {
+    "fileName": ["AGENTS.md", "GEMINI.md"],
     "include": ["src/**/*.ts", "README.md"],
-    "exclude": ["node_modules/**", "dist/**"]
+    "exclude": ["node_modules/**", "dist/**"],
+    "fileFiltering": {
+      "respectGitIgnore": true,
+      "respectGeminiIgnore": true
+    }
   },
 
   "tools": {
     "core": ["read", "write", "edit", "shell", "search"],
-    "exclude": ["bash_destructive"]
+    "exclude": ["bash_destructive"],
+    "shell": {
+      "enableInteractiveShell": true
+    }
   },
 
   "mcpServers": {
@@ -73,6 +87,27 @@ Project settings override user settings, which override system settings. The sam
   }
 }
 ```
+
+### `general.*`
+
+| Key | Notes |
+|-----|-------|
+| `checkpointing.enabled` | Shadow-git snapshots before each tool call; `/restore` rolls back |
+| `defaultApprovalMode` | `default` / `auto_edit` / `yolo` / `plan` — overridable per run with `--approval-mode` |
+| `plan.directory` | Where `/plan` writes plan-mode artifacts; gitignore this path |
+| `maxSessionTurns` | Hard cap; exit code `53` when hit. `-1` = unlimited |
+
+### `experimental.*`
+
+| Key | Notes |
+|-----|-------|
+| `autoMemory` | Mine recent transcripts, draft skills under `~/.gemini/skills/`; review with `/memory inbox` |
+| `jitContext` | Lazy-load subdir `GEMINI.md` files only when a tool touches that path |
+| `worktrees` | Enables `gemini -w <branch>` for isolated parallel sessions |
+
+### `tools.shell.*`
+
+`enableInteractiveShell: true` lets shell calls reach a PTY (curses TUIs, prompts) instead of being captured as a flat string. Pair with the `shell.trust` / `allow` / `deny` policy.
 
 ## MCP Server Reference
 

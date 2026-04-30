@@ -1,6 +1,6 @@
 ---
 name: install-angular-mcp
-description: Install the Angular CLI MCP server in the current project's .gemini/settings.json so Gemini can call Angular tools without going through the angular subagent.
+description: Install Angular CLI MCP into .gemini/settings.json. Use when Angular work is central to the project.
 ---
 
 # Install Angular MCP

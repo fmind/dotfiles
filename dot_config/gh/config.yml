@@ -13,3 +13,4 @@ pager: delta
 prefer_editor_prompt: enabled
 prompt: enabled
 telemetry: disabled
+version: "1"

@@ -1,0 +1,203 @@
+#!/usr/bin/env bash
+# Verify dotfiles environment readiness.
+#
+# Read-only checks for:
+#   1. age key present and 0600
+#   2. CLI logins (gh, gcloud, ADC, firebase, clasp, gws, gemini, jules)
+#   3. Required env vars declared in ~/.config/fish/conf.d/secrets.fish
+#   4. mise health (doctor + dangling shims)
+#   5. Gemini CLI extensions installed
+#
+# Each gap prints the exact remediation command. Exits non-zero if any
+# fixable gap is found. Idempotent — safe to re-run.
+#
+# Usage:
+#   dotfiles-verify           # full report
+#   dotfiles-verify --quiet   # only print problems and the summary
+
+set -euo pipefail
+
+QUIET=0
+case "${1:-}" in
+-q | --quiet) QUIET=1 ;;
+-h | --help)
+  sed -n '2,18p' "$0" | sed 's/^# \?//'
+  exit 0
+  ;;
+"") ;;
+*)
+  echo "unknown flag: $1" >&2
+  exit 2
+  ;;
+esac
+
+GAPS=0
+ok() { ((QUIET)) || printf '  ok   %s\n' "$1"; }
+miss() {
+  printf '  MISS %s\n' "$1"
+  [[ -n ${2:-} ]] && printf '       fix: %s\n' "$2"
+  GAPS=$((GAPS + 1))
+}
+note() { ((QUIET)) || printf '  --   %s\n' "$1"; }
+section() { ((QUIET)) || printf '\n== %s ==\n' "$1"; }
+
+# --- 1. age key ------------------------------------------------------------
+section "Age key"
+KEY="$HOME/.config/chezmoi/key.txt"
+if [[ -f $KEY ]]; then
+  mode=$(stat -c '%a' "$KEY" 2>/dev/null || stat -f '%A' "$KEY")
+  if [[ $mode == "600" ]]; then
+    ok "age key present (0600)"
+  else
+    miss "age key mode is $mode (want 0600)" "chmod 600 $KEY"
+  fi
+else
+  miss "age key missing at $KEY" "place private key at $KEY, then chmod 600"
+fi
+
+# --- 2. CLI logins ---------------------------------------------------------
+section "CLI logins"
+
+if command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
+  ok "gh authenticated"
+else
+  miss "gh not authenticated" "gh auth login"
+fi
+
+if command -v gcloud >/dev/null &&
+  gcloud auth list --filter=status:ACTIVE --format="value(account)" 2>/dev/null | grep -q .; then
+  ok "gcloud authenticated"
+else
+  miss "gcloud has no active account" "gcloud auth login"
+fi
+
+if command -v gcloud >/dev/null &&
+  gcloud auth application-default print-access-token >/dev/null 2>&1; then
+  ok "gcloud ADC present"
+else
+  miss "gcloud ADC missing" "gcloud auth application-default login"
+fi
+
+if command -v firebase >/dev/null && firebase login:list 2>/dev/null | grep -q '@'; then
+  ok "firebase authenticated"
+else
+  miss "firebase not authenticated" "firebase login"
+fi
+
+if [[ -f $HOME/.clasprc.json ]]; then
+  ok "clasp authenticated"
+else
+  miss "clasp not authenticated" "clasp login"
+fi
+
+if [[ -f $HOME/.config/gws/credentials.enc ]]; then
+  ok "gws authenticated"
+else
+  miss "gws not authenticated" "gws auth login"
+fi
+
+if [[ -f $HOME/.gemini/oauth_creds.json ]]; then
+  ok "gemini authenticated (oauth-personal)"
+else
+  miss "gemini not authenticated" "run 'gemini' once and pick OAuth-personal"
+fi
+
+if [[ -f $HOME/.jules/config.yaml ]]; then
+  ok "jules configured"
+else
+  miss "jules not configured" "jules auth login"
+fi
+
+# --- 3. Secrets ------------------------------------------------------------
+# Two machine-local fish files are sourced automatically:
+#   ~/.private.fish                       (sourced from config.fish)
+#   ~/.config/fish/conf.d/secrets.fish    (auto-loaded by fish)
+# A variable counts as declared if any of them has a `set -gx VAR ...` line.
+section "Secrets"
+
+SECRETS_FILES=(
+  "$HOME/.private.fish"
+  "$HOME/.config/fish/conf.d/secrets.fish"
+)
+required=(JULES_API_KEY STITCH_ACCESS_TOKEN)
+optional=(GOOGLE_API_KEY GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET)
+
+has_in_secrets() {
+  local var="$1" file
+  for file in "${SECRETS_FILES[@]}"; do
+    [[ -f $file ]] || continue
+    grep -qE "^[[:space:]]*set -gx[[:space:]]+${var}[[:space:]]" "$file" && return 0
+  done
+  return 1
+}
+
+found_any=0
+for file in "${SECRETS_FILES[@]}"; do
+  [[ -f $file ]] && found_any=1
+done
+
+if ((!found_any)); then
+  miss "no secrets file found (looked at ${SECRETS_FILES[*]})" \
+    "create ~/.private.fish and add 'set -gx <NAME> <VALUE>' lines"
+else
+  for var in "${required[@]}"; do
+    if has_in_secrets "$var"; then
+      ok "$var declared"
+    else
+      miss "$var not declared in any sourced fish file" \
+        "add 'set -gx $var ...' to ~/.private.fish"
+    fi
+  done
+  for var in "${optional[@]}"; do
+    if has_in_secrets "$var"; then
+      ok "$var declared"
+    else
+      note "$var not set (only needed for /install-workspace-mcp or Gemini API key)"
+    fi
+  done
+fi
+
+# --- 5. mise health --------------------------------------------------------
+section "mise"
+
+if ! command -v mise >/dev/null; then
+  miss "mise not installed" "curl -fsSL https://mise.run | bash"
+else
+  doctor_out=$(mise doctor 2>&1 || true)
+  bad_shims=$(printf '%s\n' "$doctor_out" | grep -c "not a valid shim" || true)
+  if [[ $bad_shims -gt 0 ]]; then
+    miss "$bad_shims dangling mise shim(s)" "mise reshim --force   # or remove stale shim files"
+  else
+    ok "mise shims resolve"
+  fi
+  if printf '%s\n' "$doctor_out" | grep -q "warnings:"; then
+    note "mise doctor reports warnings (run 'mise doctor' for detail)"
+  else
+    ok "mise doctor clean"
+  fi
+fi
+
+# --- 6. Gemini extensions --------------------------------------------------
+section "Gemini extensions"
+
+EXT_DIR="$HOME/.gemini/extensions"
+SOURCE_DIR="$HOME/.local/share/chezmoi"
+INSTALL_SCRIPT="$SOURCE_DIR/run_onchange_after_install-gemini-extensions.sh"
+expected=(fgate google-workspace-cli chrome-devtools-mcp)
+for ext in "${expected[@]}"; do
+  if [[ -d $EXT_DIR/$ext ]]; then
+    ok "extension $ext"
+  else
+    miss "extension $ext missing" "bash $INSTALL_SCRIPT"
+  fi
+done
+
+# --- Summary ---------------------------------------------------------------
+echo
+if ((GAPS == 0)); then
+  echo "All checks passed."
+  exit 0
+else
+  echo "Found $GAPS gap(s). Re-run after applying the fixes above."
+  exit 1
+fi

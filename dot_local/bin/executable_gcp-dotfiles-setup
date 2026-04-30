@@ -160,4 +160,17 @@ else
   fi
 fi
 
+# --- 5. IAM grant (optional) ------------------------------------------------
+if [[ -n "$GRANT_PRINCIPAL" ]]; then
+  if ((CHECK_ONLY)); then
+    echo "IAM: would grant roles/mcp.toolUser to $GRANT_PRINCIPAL on $PROJECT"
+  else
+    echo "IAM: granting roles/mcp.toolUser to $GRANT_PRINCIPAL on $PROJECT"
+    gcloud projects add-iam-policy-binding "$PROJECT" \
+      --member="$GRANT_PRINCIPAL" \
+      --role="roles/mcp.toolUser" \
+      --condition=None >/dev/null
+  fi
+fi
+
 echo "Setup check complete."

@@ -1,6 +1,6 @@
 ---
 name: install-vercel-skills
-description: Install Vercel's official Agent Skills bundle for Web Interface Guidelines compliance, React composition patterns, React/Next.js performance, View Transitions, React Native, and Vercel deploys.
+description: Install Vercel skills bundle (Web Interface Guidelines, React composition/perf, View Transitions, React Native, Vercel deploys). Use for React/Next.js/Vercel projects.
 ---
 
 # Install Vercel Skills
@@ -46,21 +46,21 @@ npx skills add vercel-labs/agent-skills --skill vercel-deploy-claimable
 
 6 skills at the time of writing:
 
-**Stack-agnostic**
+### Stack-agnostic
 
 - `web-design-guidelines` — Review UI code against Vercel's Web Interface Guidelines: layout, typography, motion, accessibility, perf hygiene. Useful for any web stack.
 
-**React / Next.js**
+### React / Next.js
 
 - `react-best-practices` — Performance patterns from Vercel Engineering (data fetching, bundle splitting, RSC discipline).
 - `composition-patterns` — Compound components, render props, context providers — React 19 API changes included.
 - `react-view-transitions` — `<ViewTransition>`, `addTransitionType`, CSS view-transition pseudo-elements.
 
-**Mobile**
+### Mobile
 
 - `react-native-guidelines` — React Native + Expo: list perf, animations, native modules.
 
-**Deploy**
+### Deploy
 
 - `vercel-deploy-claimable` — Claimable Vercel deploy flow (interactive + token paths).
 

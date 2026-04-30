@@ -1,0 +1,20 @@
+description = "Update AGENTS.md and README.md to reflect the current repository state."
+
+prompt = """
+Update `AGENTS.md` and `README.md` so they accurately reflect this repository.
+
+Current AGENTS.md:
+@{AGENTS.md}
+
+Current README.md:
+@{README.md}
+
+Requirements:
+1. Inspect the repository structure, key configs (`mise.toml`, `.pre-commit-config.yaml`, package manifests, scripts, entry points), and existing conventions before editing.
+2. Update each file for its audience:
+   - `AGENTS.md`: what AI agents need — tooling, commands, directory layout, conventions, MCP servers, skills, agent guidelines.
+   - `README.md`: what a human reader or contributor needs — purpose, prerequisites, install, setup, usage, project layout, links.
+3. Update sections that are stale. Remove references to tools, files, or workflows that no longer exist. Add coverage for anything new the audience needs.
+4. Preserve voice, structure, and unrelated content. Do not rewrite for style alone.
+5. Summarize the changes you made to each file.
+"""

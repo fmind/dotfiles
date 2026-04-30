@@ -1,6 +1,6 @@
 ---
 name: install-terraform-mcp
-description: Install the HashiCorp Terraform MCP server in the current project's .gemini/settings.json so Gemini can call Terraform tools without going through the terraform subagent.
+description: Install HashiCorp Terraform MCP into .gemini/settings.json. Use when Terraform work is central to the project.
 ---
 
 # Install Terraform MCP

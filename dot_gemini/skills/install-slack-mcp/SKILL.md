@@ -1,6 +1,6 @@
 ---
 name: install-slack-mcp
-description: Install the reference Slack MCP server in the current project's .gemini/settings.json so Gemini can read channels, post messages, and manage threads without going through a subagent.
+description: Install Slack MCP (read channels, post messages, threads) into .gemini/settings.json. Use when Slack work is central to the project.
 ---
 
 # Install Slack MCP

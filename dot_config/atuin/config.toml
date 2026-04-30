@@ -15,6 +15,6 @@ secrets_filter = true
 
 # Filter sensitive commands
 history_filter = [
-    "^export .*(TOKEN|SECRET|PASSWORD|KEY|CREDENTIAL)",
-    "^set -gx .*(TOKEN|SECRET|PASSWORD|KEY|CREDENTIAL)",
+  "^export .*(TOKEN|SECRET|PASSWORD|KEY|CREDENTIAL)",
+  "^set -gx .*(TOKEN|SECRET|PASSWORD|KEY|CREDENTIAL)",
 ]

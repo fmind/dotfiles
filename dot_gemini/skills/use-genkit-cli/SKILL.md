@@ -90,7 +90,7 @@ Genkit traces are inspected in the Developer UI (`genkit start`) under the **Tra
 
 ## Project Layout (typical)
 
-```
+```text
 my-genkit-app/
 ├── package.json
 ├── src/
@@ -106,6 +106,7 @@ my-genkit-app/
 ## Common Workflows
 
 **Bootstrap a JS Genkit project.**
+
 ```bash
 mkdir my-app && cd my-app
 npm init -y
@@ -116,11 +117,13 @@ genkit start -- npx tsx src/index.ts
 ```
 
 **Iterate on a flow.**
+
 1. Edit `src/flows/foo.ts`.
 2. `genkit start` (auto-reloads).
 3. Drive the flow from the UI or `genkit flow:run`.
 
 **Run an eval set in CI.**
+
 ```bash
 genkit eval:flow myFlow --input evalsets/qa.json --evaluators genkit/faithfulness,genkit/answer_relevance
 ```

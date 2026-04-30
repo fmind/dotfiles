@@ -40,7 +40,7 @@ uv run pytest
 
 ### `--app` (default)
 
-```
+```text
 my-app/
 ├── .python-version
 ├── README.md
@@ -51,7 +51,7 @@ my-app/
 
 ### `--lib` (distributable library)
 
-```
+```text
 my-lib/
 ├── .python-version
 ├── README.md
@@ -216,6 +216,7 @@ jobs:
 ## Common Workflows
 
 **Bootstrap a CLI tool.**
+
 ```bash
 uv init --lib my-tool && cd my-tool
 uv python pin 3.13
@@ -228,6 +229,7 @@ uv run my-tool --help
 ```
 
 **Migrate from pip / poetry.**
+
 ```bash
 # From requirements.txt.
 uv init my-app && cd my-app
@@ -240,6 +242,7 @@ uv migrate                      # interactive (where supported)
 ```
 
 **Add a script entry point and publish.**
+
 1. Edit `[project.scripts]` block.
 2. `uv build`
 3. `uv publish` (with a configured PyPI token).

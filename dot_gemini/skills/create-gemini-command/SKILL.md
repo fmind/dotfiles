@@ -1,6 +1,6 @@
 ---
 name: create-gemini-command
-description: Guide for creating reusable Gemini CLI slash commands (TOML).
+description: Guide for creating Gemini CLI slash commands — TOML schema (`prompt`, `description`), `!{shell}` / `@{file}` / `{{args}}` injection, namespaced subdirectories, and scope (workspace vs global via chezmoi).
 ---
 
 # Create Gemini Command

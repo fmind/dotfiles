@@ -122,6 +122,7 @@ A `language: system` hook expects a tool that isn't installed locally. Either in
 
 **Hook is unbearably slow.**
 Inspect with `--verbose`; common fixes:
+
 - Scope with `files: '\.ext$'` or `types: [...]`.
 - Pin to a hook env with `language_version` to avoid full re-installs.
 - Use `--hook-stage=pre-push` for slow hooks (run only on push, not every commit).

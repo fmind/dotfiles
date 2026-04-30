@@ -6,13 +6,13 @@ This is `fmind/dotfiles` — a chezmoi + mise dotfiles repo for Linux, macOS, an
 
 ## House rules
 
-- **No-Sudo**: stay user-space; install via `mise`, `aqua`, or `pipx`. The `apt install` line in the README prereqs is the only allowed exception.
-- **No-Icons**: ASCII only — these configs run over SSH and in Cloud Shell.
 - **Catppuccin Mocha**: default theme everywhere it's supported.
-- **Vim mode**: enable in every TUI that supports it.
-- **Lockfiles**: bump via `mr u`; never hand-edit `mise.lock`.
-- **Verify upstream**: check the tool's current docs before adding flags or keys.
 - **Don't commit**: only when I explicitly ask. Run `mr n` first.
+- **Lockfiles**: bump via `mr u`; never hand-edit `mise.lock`.
+- **No-Icons**: ASCII only — these configs run over SSH and in Cloud Shell.
+- **No-Sudo**: stay user-space; install via `mise`, `aqua`, or `pipx`. The `apt install` line in the README prereqs is the only allowed exception.
+- **Verify upstream**: check the tool's current docs before adding flags or keys.
+- **Vim mode**: enable in every TUI that supports it.
 
 ## Chezmoi conventions
 
@@ -54,9 +54,9 @@ For wrappers around official bundles, hand-author a `dot_gemini/skills/install-*
 - `dot_gemini/` — Gemini CLI configs (primary agent surface; `GEMINI.md` is the persona). Subagent frontmatter must use `mcp_servers:` (snake_case) — Gemini CLI silently ignores the camelCase `mcpServers:` form.
 - `dot_claude/` — Claude Code settings, plus symlinks `CLAUDE.md → ~/.gemini/GEMINI.md` and `skills → ~/.gemini/skills` so persona and skills are shared with Gemini.
 - `dot_copilot/config.json` — GitHub Copilot CLI settings.
-- `dot_local/bin/` — custom user-space executables (`deep-prompt`, `deep-research`, `gcp-dotfiles-setup`).
+- `dot_local/bin/` — custom user-space executables (`deep-prompt`, `deep-research`, `dotfiles-verify`, `gcp-dotfiles-setup`).
 - `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
 - `run_onchange_after_install-gemini-extensions.sh` — chezmoi auto-run script; installs/updates Gemini CLI extensions (`fgate`, `googleworkspace/cli`, `chrome-devtools-mcp`) on every `mr a` when its content changes.
-- `.pre-commit-config.yaml` / `.markdownlint.json` — lint and secret-scan hygiene (gitleaks + JSON/YAML/TOML checks; markdownlint config).
+- `.pre-commit-config.yaml` / `.markdownlint.json` / `.yamllint` — lint and secret-scan hygiene: gitleaks, markdownlint-cli2 (auto-fix), taplo (TOML format), yamllint, shellcheck, shfmt, and the standard `pre-commit-hooks` set. `.tmpl` files are excluded from style linters since chezmoi Go-template syntax breaks parsers.
 - `.github/workflows/ci.yml` — CI runs `pre-commit` on push/PR to `main`; keep `mr n` clean locally so CI passes.
 - `AGENTS.md` (this file) — repo rules.

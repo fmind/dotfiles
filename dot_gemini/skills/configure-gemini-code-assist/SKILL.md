@@ -33,7 +33,7 @@ Required for organizations that want IAM-controlled access and group configurati
 
 Add a `.gemini/` folder at the repository root:
 
-```
+```text
 .gemini/
 ├── config.yaml      # behavior tuning
 └── styleguide.md    # repo-specific review rules (free-form Markdown)

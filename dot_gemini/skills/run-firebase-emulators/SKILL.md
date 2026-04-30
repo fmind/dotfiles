@@ -116,11 +116,14 @@ firebase emulators:exec --only firestore,storage "npx vitest run"
 Two flavors:
 
 - **Unit** — `firebase-functions-test` (offline, mocked context):
+
   ```bash
   npm install --save-dev firebase-functions-test
   npx vitest run functions/test/unit
   ```
+
 - **Integration** — emulators:exec with the real Functions runtime:
+
   ```bash
   firebase emulators:exec --only functions,firestore,auth \
     "npx vitest run functions/test/integration"
@@ -176,6 +179,7 @@ jobs:
 ```
 
 Key flags for CI:
+
 - `--project=demo-<anything>` — disables outbound calls; required for hermetic runs.
 - `--import=./seed` — deterministic state.
 - Don't use `--export-on-exit` in CI; exports are noise for ephemeral runners.
@@ -184,25 +188,30 @@ Key flags for CI:
 
 **"Port 8080 is not open" / "Could not start emulator."**
 Another emulator (or stray Java process) is holding the port:
+
 ```bash
 lsof -iTCP:8080 -sTCP:LISTEN
 firebase emulators:start --inspect-functions     # if Node debugger is the culprit
 ```
+
 Or change the port in `firebase.json`.
 
 **"Cloud Functions emulator: Failed to load function definition."**
 The functions code didn't compile. Check `functions/lib` (TS) or that `package.json` `main` points to the built entry. Run `cd functions && npm run build` first.
 
 **Tests pass locally, fail in CI.**
+
 - Missing `--project=demo-...` flag → emulator tries real GCP and times out without creds.
 - Missing JRE in CI image → use `actions/setup-java`.
 - Race condition on emulator boot → wrap with `emulators:exec` instead of background `start`.
 
 **Admin SDK writes to prod instead of the emulator.**
 The env var isn't set in the test process. Verify:
+
 ```bash
 echo $FIRESTORE_EMULATOR_HOST       # must be 127.0.0.1:8080 (or your port)
 ```
+
 `emulators:exec` injects these automatically; manual `start` does not.
 
 **Imported state is empty.**

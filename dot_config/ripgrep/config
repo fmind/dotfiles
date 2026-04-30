@@ -11,6 +11,3 @@
 # Truncate very long lines
 --max-columns=150
 --max-columns-preview
-
-# Modern features
---hyperlink

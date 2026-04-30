@@ -19,10 +19,10 @@ command -v chezmoi >/dev/null || {
 # Install dotfiles
 echo "=> Installing dotfiles..."
 if [ ! -d "$SOURCE_DIR" ]; then
-  chezmoi init git@github.com:fmind/dotfiles.git --source "$SOURCE_DIR"
+  chezmoi init https://github.com/fmind/dotfiles.git --source "$SOURCE_DIR"
 elif [ ! -d "$SOURCE_DIR/.git" ]; then
   git -C "$SOURCE_DIR" init -b main
-  git -C "$SOURCE_DIR" remote add origin git@github.com:fmind/dotfiles.git
+  git -C "$SOURCE_DIR" remote add origin https://github.com/fmind/dotfiles.git
 fi
 chezmoi init --apply --source "$SOURCE_DIR"
 

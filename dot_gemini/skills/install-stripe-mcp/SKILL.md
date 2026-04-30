@@ -1,6 +1,6 @@
 ---
 name: install-stripe-mcp
-description: Install the official Stripe MCP server in the current project's .gemini/settings.json so Gemini can manage customers, payments, products, prices, subscriptions, and invoices without leaving the session.
+description: Install Stripe MCP (customers, payments, products, prices, subscriptions, invoices) into .gemini/settings.json. Use for Stripe-heavy projects.
 ---
 
 # Install Stripe MCP

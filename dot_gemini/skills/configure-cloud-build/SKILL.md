@@ -181,12 +181,14 @@ gcloud builds submit --config=cloudbuild.yaml --region=us-central1 .
 ## Common Workflows
 
 **Bootstrap a Cloud Run deploy pipeline.**
+
 1. Add `Dockerfile` and `cloudbuild.yaml` (see "Realistic" above).
 2. `gcloud artifacts repositories create app-repo --repository-format=docker --location=us-central1 --project=$PROJECT`.
 3. Grant the Cloud Build SA Cloud Run + Artifact Registry roles.
 4. Create a trigger; push to `main` to fire the first build.
 
 **Speed up a slow build.**
+
 - Add a cache pull step + `--cache-from` (see above).
 - Bump `options.machineType` (E2_HIGHCPU_8/32).
 - Trim `.gcloudignore` so the upload stays small.

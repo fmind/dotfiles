@@ -1,6 +1,6 @@
 ---
 name: install-adk-mcp
-description: Install the ADK docs MCP server in the current project's .gemini/settings.json so Gemini can call ADK documentation tools without going through the adk subagent.
+description: Install ADK docs MCP into .gemini/settings.json (Agent Development Kit documentation tools). Use when ADK work is central to the project.
 ---
 
 # Install ADK MCP

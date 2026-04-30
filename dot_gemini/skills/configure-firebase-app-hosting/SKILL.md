@@ -117,7 +117,7 @@ env:
 
 Or run multiple backends with one config file each:
 
-```
+```text
 apps/
 ├── web/
 │   └── apphosting.yaml
@@ -172,18 +172,21 @@ Reference it in `apphosting.yaml` via `secret: stripe-secret-key`.
 ## Common Workflows
 
 **Bootstrap.**
+
 1. `firebase init apphosting` (or use the Console).
 2. Connect the GitHub repo (Developer Connect).
 3. Drop `apphosting.yaml` at the repo root (or per-app).
 4. Push to the connected branch — first rollout fires automatically.
 
 **Cut over a custom domain.**
+
 1. Verify ownership in the Console / via DNS TXT.
 2. `firebase apphosting:custom-domains:create my-app www.example.com`.
 3. Update DNS to the App Hosting CNAME / A records as instructed.
 4. Wait for cert provisioning (~minutes).
 
 **Roll back fast.**
+
 ```bash
 firebase apphosting:rollouts:list my-app
 firebase apphosting:rollouts:create my-app --rollback-to=<id>

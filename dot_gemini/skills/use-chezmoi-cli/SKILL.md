@@ -111,17 +111,20 @@ Same syntax as `.gitignore`, but applies to the *target* state — i.e. things i
 ## Common Workflows
 
 **Add a new dotfile.**
+
 1. `chezmoi add ~/.config/foo/bar.toml`
 2. Optionally rename to `.tmpl` and template it.
 3. `chezmoi diff` to confirm.
 4. `chezmoi cd` → `git add . && git commit -m "..."`.
 
 **Modify an existing dotfile.**
+
 1. `chezmoi edit ~/.zshrc` (NOT direct edit of `~/.zshrc`).
 2. `chezmoi diff`.
 3. `chezmoi apply`.
 
 **Sync a new machine.**
+
 ```bash
 chezmoi init --apply <github-user>
 ```

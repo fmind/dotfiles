@@ -1,6 +1,6 @@
 ---
 name: create-python-script
-description: Generate a standalone Python CLI script with uv, Rich, and Typer
+description: Generate a standalone Python CLI script with uv, Rich, and Typer. Use when the user asks for a single-file Python script, CLI utility, or `uv run`-style tool.
 ---
 
 # Create Python Script

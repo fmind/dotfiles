@@ -12,6 +12,7 @@ gui:
   nerdFontsVersion: ""
   scrollHeight: 5
   scrollPastBottom: false
+  showCommandLog: false
   showFileTree: true
   showIcons: false
   theme:
@@ -58,3 +59,16 @@ customCommands:
       else
         git commit -e -m "$msg"
       fi
+  - key: "P"
+    context: "global"
+    description: "Push current branch and create PR"
+    loadingText: "Pushing and opening PR..."
+    subprocess: true
+    command: |
+      set -e
+      branch=$(git branch --show-current)
+      if [ -z "$branch" ] || [ "$branch" = "HEAD" ]; then
+        echo "Not on a branch."; exit 1
+      fi
+      git push -u origin "$branch"
+      gh pr create --fill --web

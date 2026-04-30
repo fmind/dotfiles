@@ -164,17 +164,20 @@ Two parallel `gemini -w` runs against the same repo do not collide — each owns
 ## Common Workflows
 
 **Run a quick analysis without polluting the repo.**
+
 ```bash
 gemini -p "list every function over 60 lines in src/" -o json | jq -r '.result'
 ```
 
 **Use Gemini in a pre-commit hook.**
+
 ```bash
 git diff --cached | gemini -p "review this diff; output BLOCK or PASS only" \
   --approval-mode default --skip-trust
 ```
 
 **Chain headless calls in a pipeline.**
+
 ```bash
 gemini -p "extract TODO comments as JSON" -o json \
   | jq -r '.result' \

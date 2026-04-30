@@ -104,10 +104,10 @@ Per-event extras (non-exhaustive — see docs for full schemas):
 | `BeforeAgent` | `prompt` |
 | `AfterAgent` | `prompt`, `prompt_response`, `stop_hook_active` |
 | `BeforeModel` / `AfterModel` | `llm_request` / `llm_response` |
-| `SessionStart` | `source: "startup"|"resume"|"clear"` |
-| `SessionEnd`   | `reason: "exit"|"clear"|"logout"|"prompt_input_exit"|"other"` |
+| `SessionStart` | `source: "startup"\|"resume"\|"clear"` |
+| `SessionEnd`   | `reason: "exit"\|"clear"\|"logout"\|"prompt_input_exit"\|"other"` |
 | `Notification` | `notification_type`, `message`, `details` |
-| `PreCompress`  | `trigger: "auto"|"manual"` |
+| `PreCompress`  | `trigger: "auto"\|"manual"` |
 
 ### stdout (JSON only)
 

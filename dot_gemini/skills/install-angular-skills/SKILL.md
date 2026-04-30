@@ -1,6 +1,6 @@
 ---
 name: install-angular-skills
-description: Install Angular's official Agent Skills bundle so the agent gains expert knowledge for Signals, standalone components, control flow, SSR, forms, DI, routing, and accessibility.
+description: Install Angular Agent Skills bundle (Signals, standalone components, control flow, SSR, forms, DI, routing, a11y). Use for Angular projects.
 ---
 
 # Install Angular Skills

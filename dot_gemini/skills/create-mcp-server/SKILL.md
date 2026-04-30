@@ -107,7 +107,7 @@ Run via `tsx server.ts` and register the same way as the Python version.
 
 ## Project Layout (multi-tool server)
 
-```
+```text
 acme-mcp/
 ├── pyproject.toml           # or package.json
 ├── src/

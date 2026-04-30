@@ -113,6 +113,7 @@ mise upgrade
 ## Common Workflows
 
 **Onboard a new repo.**
+
 ```bash
 git clone <repo> && cd <repo>
 mise trust              # accept .mise.toml as trusted
@@ -121,6 +122,7 @@ mise current            # confirm
 ```
 
 **Add a new tool to a project.**
+
 ```bash
 mise use python@3.13            # writes to .mise.toml
 mise use "npm:typescript@5"     # adds an npm-backed binary
@@ -128,6 +130,7 @@ mise lock                       # capture exact versions
 ```
 
 **Switch shells / debug PATH.**
+
 ```bash
 mise activate bash --shims      # if `eval $(mise activate)` isn't possible
 mise which node                 # locate active binary

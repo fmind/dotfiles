@@ -1,6 +1,6 @@
 ---
 name: use-google-workspace-cli
-description: Guide for using the Google Workspace CLI (gws) to interact with Google Workspace APIs.
+description: Guide for the Google Workspace CLI (gws) — auth, listing/sending mail, drive/docs/sheets/calendar operations, and scripting Workspace APIs from the terminal.
 ---
 
 # Use Google Workspace CLI (gws)

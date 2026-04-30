@@ -220,17 +220,20 @@ The Lighthouse CI GitHub App (free) posts results as PR checks.
 ## Common Workflows
 
 **Audit a deployed page once.**
+
 ```bash
 lighthouse https://example.com --view
 ```
 
 **Compare mobile vs desktop quickly.**
+
 ```bash
 lighthouse https://example.com --form-factor=mobile  --output-path=mobile.html  --chrome-flags="--headless"
 lighthouse https://example.com --preset=desktop      --output-path=desktop.html --chrome-flags="--headless"
 ```
 
 **Run against a local dev server.**
+
 ```bash
 # In one shell:
 npm run dev
@@ -239,6 +242,7 @@ lighthouse http://localhost:3000 --view --chrome-flags="--headless"
 ```
 
 **Track regressions across PRs.**
+
 1. Add `lighthouserc.json` (assertions + URLs).
 2. Add the GitHub Actions workflow above.
 3. Install the [Lighthouse CI GitHub App](https://github.com/apps/lighthouse-ci) on the repo.

@@ -4,9 +4,9 @@ prompt = """
 Generate a Mermaid diagram for `{{args}}`.
 
 Requirements:
-1. Treat `{{args}}` as a path, subsystem, architecture concept, or workflow to visualize.
-2. Inspect the relevant code or context to understand the relationships and flows.
-3. Output a valid, well-structured Mermaid.js diagram block.
-4. Ensure the diagram is clean, idiomatic, and logically organized.
-5. Provide a brief 1-2 sentence explanation of what the diagram represents.
+1. Treat `{{args}}` as a path, subsystem, architecture concept, or workflow to visualize. If empty, ask what to visualize and stop.
+2. Inspect the relevant code or context to understand the relationships and flows before drawing.
+3. Pick the most fitting Mermaid diagram type: `flowchart` for processes, `sequenceDiagram` for interactions, `stateDiagram-v2` for state machines, `classDiagram` or `erDiagram` for data models, `gantt` for timelines.
+4. Output a valid, well-structured Mermaid block. Keep the diagram clean, idiomatic, and logically grouped.
+5. Provide a 1-2 sentence explanation of what the diagram represents.
 """

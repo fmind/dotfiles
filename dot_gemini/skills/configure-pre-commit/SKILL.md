@@ -216,6 +216,7 @@ The `pre-commit/action` caches hook environments between runs.
 ## Common Workflows
 
 **Bootstrap a project.**
+
 ```bash
 pre-commit sample-config > .pre-commit-config.yaml
 # Edit to add the hooks you actually want.
@@ -225,11 +226,13 @@ git add -A && git commit -m "chore: enable pre-commit"
 ```
 
 **Skip a hook for one commit (rare, with reason).**
+
 ```bash
 SKIP=ruff git commit -m "wip"
 ```
 
 **Diagnose a slow hook.**
+
 ```bash
 pre-commit run --all-files --verbose
 pre-commit gc                       # prune cached hook envs

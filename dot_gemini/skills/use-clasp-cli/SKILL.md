@@ -73,7 +73,7 @@ clasp delete-deployment --all
 
 ## Project Layout
 
-```
+```text
 .clasp.json          # scriptId, rootDir, parentId
 .claspignore         # files to skip on `clasp push`
 appsscript.json      # Apps Script manifest (scopes, runtime, time zone)
@@ -93,7 +93,7 @@ The `.clasp.json` minimum:
 
 `.claspignore` example:
 
-```
+```text
 **/node_modules/**
 **/.git/**
 **/*.test.ts
@@ -134,17 +134,20 @@ Once registered, the agent gets typed tools like `clasp_push`, `clasp_run`, `cla
 ## Common Workflows
 
 **Bootstrap a new Apps Script project locally.**
+
 1. `mkdir my-script && cd my-script`
 2. `clasp create --type standalone --rootDir ./src --title "My Script"`
 3. Add `appsscript.json`, write code under `src/`.
 4. `clasp push` → `clasp open` to verify in the web editor.
 
 **Promote dev → prod.**
+
 1. `clasp push`
 2. `clasp create-version "release notes"`
 3. `clasp create-deployment --description "prod" --versionNumber <n>`
 
 **Read recent errors.**
+
 ```bash
 clasp logs --json | jq 'select(.severity=="ERROR")'
 ```

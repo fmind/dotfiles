@@ -73,6 +73,7 @@ This gives you Jules dispatch from inside a Gemini CLI session without needing t
 ## Common Workflows
 
 **Dispatch many issues in parallel.**
+
 ```bash
 gh issue list --label triaged --json number,title --jq '.[]' | while read -r issue; do
   num=$(echo "$issue" | jq -r .number)
@@ -82,6 +83,7 @@ done
 ```
 
 **Pull and review.**
+
 ```bash
 jules remote list --json | jq -r '.[] | select(.status=="completed") | .id' | \
   xargs -I {} jules remote pull {}

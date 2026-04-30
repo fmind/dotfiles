@@ -121,6 +121,7 @@ uv run --package my-pkg pytest
 ## Common Workflows
 
 **Bootstrap a new project.**
+
 ```bash
 uv init my-service && cd my-service
 uv python pin 3.13
@@ -130,12 +131,14 @@ uv run pytest
 ```
 
 **Reproduce CI locally.**
+
 ```bash
 uv sync --frozen --all-extras --dev
 uv run pytest
 ```
 
 **Migrate from pip / poetry / pipenv.**
+
 ```bash
 # Convert a Poetry / Pipenv / Setuptools project to uv (third-party tool).
 uvx migrate-to-uv

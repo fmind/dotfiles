@@ -128,6 +128,7 @@ gcloud projects list --format='value(projectId)'
 ## Common Workflows
 
 **Bootstrap a new project for a deploy.**
+
 1. `gcloud projects create $PROJECT --name="$NAME"`
 2. `gcloud beta billing projects link $PROJECT --billing-account=$BILLING`
 3. `gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com --project=$PROJECT`
@@ -135,6 +136,7 @@ gcloud projects list --format='value(projectId)'
 5. `gcloud projects add-iam-policy-binding $PROJECT --member=... --role=roles/run.admin`
 
 **Deploy + tail logs.**
+
 ```bash
 gcloud run deploy svc --source . --region=$REGION --project=$PROJECT
 gcloud logging tail 'resource.type="cloud_run_revision" AND resource.labels.service_name="svc"' \

@@ -25,11 +25,9 @@
     "contextManagement": true,
     "dynamicModelConfiguration": true,
     "extensionReloading": true,
-    "jitContext": true,
-    "memoryManager": true,
+    "generalistProfile": true,
     "modelSteering": true,
     "taskTracker": true,
-    "topicUpdateNarration": true,
     "worktrees": true
   },
   "general": {
@@ -53,23 +51,21 @@
     "hasSeenNudge": true
   },
   "model": {
-    "maxSessionTurns": -1,
     "compressionThreshold": 0.33
   },
   "modelConfigs": {
     "defaultModel": "auto-gemini-3"
   },
   "security": {
-    "autoAddToPolicyByDefault": true,
-    "enablePermanentToolApproval": true,
     "auth": {
       "selectedType": "oauth-personal"
-    }
+    },
+    "autoAddToPolicyByDefault": true,
+    "enablePermanentToolApproval": true
   },
   "tools": {
     "shell": {
-      "enableInteractiveShell": true,
-      "showColor": true
+      "backgroundCompletionBehavior": "notify"
     }
   },
   "ui": {
@@ -110,8 +106,9 @@
     "escapePastedAtSymbols": true,
     "hideBanner": true,
     "hideTips": true,
-    "inlineThinkingMode": "full",
+    "loadingPhrases": "tips",
     "showModelInfoInChat": true,
+    "showStatusInTitle": true,
     "theme": "catppuccin-mocha",
     "useAlternateBuffer": true
   }

@@ -1,6 +1,6 @@
 ---
 name: install-design-md
-description: Install the official Google Labs `design.md` skills bundle so the agent gains expert knowledge for typed service contracts, TDD discipline, agent-friendly CLI design, and Ink-based terminal UIs.
+description: Install Google Labs `design.md` skills (typed service contracts, TDD, agent-friendly CLI design, Ink terminal UIs). Use when designing CLIs or services.
 ---
 
 # Install design.md Skills

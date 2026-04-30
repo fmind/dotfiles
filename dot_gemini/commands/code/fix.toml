@@ -1,14 +1,18 @@
-description = "Run the project's linters and tests, fix issues, and rerun focused checks."
+description = "Run the project's checks (lint, types, tests), fix issues, and rerun focused validation."
 
 prompt = """
-Fix warnings and errors in this project using the existing linters and tests.
+Run validation for this project, fix issues, and rerun the same focused check until it passes.
 
 Requirements:
-1. Use `{{args}}` as an optional scope, path, failing command, or bug hint. If it is empty, work repo-wide.
-2. Inspect project files to discover the correct lint and test commands. Prefer documented tasks or scripts over guessing.
-3. Run the narrowest linter and or test command that exercises the requested scope.
-4. Fix warnings and errors in code rather than suppressing them unless suppression is clearly the right fix.
-5. Re-run the same focused validation until it passes or you hit a real blocker.
-6. Keep changes minimal and avoid reformatting unrelated files.
+1. Use `{{args}}` as an optional combination of: a check kind (`lint`, `types`, `test`, or `all`), a path or scope, and any failing-command or error hint. If no kind is given, default to `all`. If no scope is given, work repo-wide.
+2. Inspect project files (scripts, manifests, `mise.toml`, `Makefile`, `.pre-commit-config.yaml`, package configs) to discover the correct commands. Prefer documented tasks or scripts over guessing.
+3. For each requested kind, run the narrowest command that exercises the requested scope before falling back to the repo-wide task:
+   - `lint`: project's lint command (e.g. `ruff`, `eslint`, `biome`, `pre-commit run`).
+   - `types`: project's type checker (e.g. `mypy`, `pyright`, `ty`, `tsc --noEmit`).
+   - `test`: closest real test command for the touched area; do not assume a generic `test` script exists.
+   - `all`: run `lint`, then `types`, then `test`, in that order.
+4. Fix issues in code or config rather than suppressing them with `# type: ignore`, `# noqa`, `any`, or `as any` unless suppression is clearly the right fix.
+5. Rerun the same focused check after each fix until it passes or you hit a real blocker.
+6. Keep changes minimal. Avoid reformatting or unrelated edits.
 7. Summarize the commands you ran, the fixes you made, and any remaining blockers.
 """

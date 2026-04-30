@@ -27,7 +27,7 @@ firebase init functions
 
 A typical layout after init:
 
-```
+```text
 functions/
 ├── package.json (or requirements.txt for Python)
 ├── tsconfig.json (Node only)
@@ -166,7 +166,7 @@ def daily_cleanup(event: scheduler_fn.ScheduledEvent) -> None:
 
 `functions/requirements.txt`:
 
-```
+```text
 firebase-functions>=0.4
 firebase-admin>=6.5
 ```
@@ -228,17 +228,20 @@ const { data } = await hello({});
 ## Common Workflows
 
 **Bootstrap a new function inside an existing project.**
+
 1. `firebase init functions` (skip if `functions/` already exists).
 2. Add the function to `src/index.ts` (Node) or `main.py` (Python).
 3. Test in the emulator.
 4. `firebase deploy --only functions:<name>`.
 
 **Promote staging → prod.**
+
 1. `firebase deploy --only functions:<name> -P staging`.
 2. Verify with `firebase functions:log -P staging --only <name>`.
 3. `firebase deploy --only functions:<name> -P prod`.
 
 **Debug a deployed function.**
+
 ```bash
 firebase functions:log --only webhook
 gcloud logging read 'resource.type="cloud_function" AND resource.labels.function_name="webhook"' --limit=50 --format=json

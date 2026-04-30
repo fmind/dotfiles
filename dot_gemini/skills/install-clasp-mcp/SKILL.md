@@ -1,6 +1,6 @@
 ---
 name: install-clasp-mcp
-description: Install the Clasp MCP server in the current project's .gemini/settings.json so Gemini can call Apps Script tools without going through the clasp subagent.
+description: Install Clasp MCP (Google Apps Script tools) into .gemini/settings.json. Use when Apps Script work is central to the project.
 ---
 
 # Install Clasp MCP

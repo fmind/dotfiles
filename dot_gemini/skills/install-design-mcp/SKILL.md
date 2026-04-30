@@ -1,6 +1,6 @@
 ---
 name: install-design-mcp
-description: Install the Google Design Center MCP server in the current project's .gemini/settings.json so Gemini can call design tools without going through the design-mcp subagent.
+description: Install Google Design Center MCP into .gemini/settings.json. Use when Design Center work is central to the project.
 ---
 
 # Install Design Center MCP

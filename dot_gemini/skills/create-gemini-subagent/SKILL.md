@@ -1,6 +1,6 @@
 ---
 name: create-gemini-subagent
-description: Guide for creating new subagents for the Gemini CLI
+description: Guide for creating Gemini CLI subagents — frontmatter (name, description, kind, tools, `mcp_servers` snake_case), persona pattern, scope (workspace vs global via chezmoi), and silent-failure pitfalls.
 ---
 
 # Create Gemini Subagent Skill

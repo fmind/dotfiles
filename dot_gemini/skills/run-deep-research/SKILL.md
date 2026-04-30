@@ -1,6 +1,6 @@
 ---
 name: run-deep-research
-description: "Run Gemini Deep Research with deep-research."
+description: Run a prepared deep research prompt with `deep-research` and print the final report. Use after `create-deep-prompt` to execute the research.
 ---
 
 # Run Deep Research

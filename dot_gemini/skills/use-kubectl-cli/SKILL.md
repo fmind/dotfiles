@@ -145,6 +145,7 @@ kubectl get pods -o json | jq '.items[] | {name: .metadata.name, status: .status
 ## Common Workflows
 
 **Diagnose a CrashLoopBackOff.**
+
 ```bash
 kubectl describe pod my-pod              # events + reason
 kubectl logs my-pod --previous           # last terminated container
@@ -152,6 +153,7 @@ kubectl get events --field-selector involvedObject.name=my-pod
 ```
 
 **Roll back after a bad deploy.**
+
 ```bash
 kubectl rollout history deployment/api
 kubectl rollout undo deployment/api
@@ -159,6 +161,7 @@ kubectl rollout status deployment/api    # confirm new revision is healthy
 ```
 
 **Local dev against a cluster.**
+
 ```bash
 kubectl port-forward svc/api 8080:80
 # In another shell:

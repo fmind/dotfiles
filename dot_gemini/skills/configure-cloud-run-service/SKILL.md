@@ -215,17 +215,20 @@ livenessProbe:                   # restarts container on repeated failure
 ## Common Workflows
 
 **Bootstrap.**
+
 1. `gcloud iam service-accounts create api-runtime --project=$PROJECT`
 2. Grant least-privilege roles (Logs Writer, Secret Accessor, etc.).
 3. Drop `service.yaml` next to the code (use the production-grade template).
 4. `gcloud run services replace service.yaml ...`.
 
 **Promote a canary.**
+
 1. Edit `traffic:` to give the new revision 10%.
 2. `gcloud run services replace service.yaml`.
 3. Watch metrics; when stable, set new revision to 100%.
 
 **Local equivalent** (Functions Framework / Express):
+
 ```bash
 docker build -t api:dev .
 docker run --rm -p 8080:8080 -e PORT=8080 api:dev

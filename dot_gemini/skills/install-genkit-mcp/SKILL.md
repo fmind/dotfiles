@@ -1,6 +1,6 @@
 ---
 name: install-genkit-mcp
-description: Install the Genkit MCP server in the current project's .gemini/settings.json so Gemini can call Genkit tools without going through the genkit subagent.
+description: Install Genkit MCP into .gemini/settings.json. Use when Genkit work is central to the project.
 ---
 
 # Install Genkit MCP

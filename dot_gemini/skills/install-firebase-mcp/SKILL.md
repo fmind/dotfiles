@@ -1,6 +1,6 @@
 ---
 name: install-firebase-mcp
-description: Install the Firebase MCP server in the current project's .gemini/settings.json so Gemini can call Firebase tools without going through the firebase subagent.
+description: Install Firebase MCP into .gemini/settings.json. Use when Firebase work is central to the project.
 ---
 
 # Install Firebase MCP

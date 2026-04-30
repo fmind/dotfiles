@@ -1,6 +1,6 @@
 ---
 name: install-stitch-skills
-description: Install the official Google Stitch skills bundle so the agent gains expert knowledge for AI-driven UI design — generating screens, React components, design systems, and walkthrough videos from prompts.
+description: Install Google Stitch skills bundle for AI-driven UI design (screens, React components, design systems, walkthrough videos). Use for Stitch UI projects.
 ---
 
 # Install Stitch Skills

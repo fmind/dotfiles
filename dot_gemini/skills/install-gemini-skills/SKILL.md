@@ -1,6 +1,6 @@
 ---
 name: install-gemini-skills
-description: Install the official Gemini API skills bundle so the agent gains expert knowledge for the Gemini API, Live API, Interactions API, and Vertex AI Gen AI SDK.
+description: Install Gemini API skills bundle (Gemini API, Live API, Interactions API, Vertex AI Gen AI SDK). Use for Gemini API projects.
 ---
 
 # Install Gemini Skills

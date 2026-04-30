@@ -13,21 +13,24 @@ chezmoi = "latest"
 [tasks.apply]
 alias = "a"
 description = "Apply with chezmoi"
+interactive = true
 run = "chezmoi apply --init"
 
 [tasks.check]
 alias = "c"
 description = "Preview chezmoi changes"
+interactive = true
 run = "chezmoi apply --dry-run --init"
 
 [tasks.diff]
 alias = "d"
 description = "Show pending chezmoi diff"
+interactive = true
 run = "chezmoi diff --init"
 
 [tasks.full]
 alias = "f"
-depends = ["trust", "apply", "hooks", "tools", "vim"]
+depends = ["trust", "tools", "hooks", "vim"]
 description = "Full first-time setup"
 run = "echo '✓ Full setup complete.'"
 
@@ -39,12 +42,17 @@ run = "pre-commit install"
 [tasks.init]
 alias = "i"
 description = "Initialize/regenerate chezmoi config"
+interactive = true
 run = "chezmoi init --source \"$PWD\""
 
 [tasks.lock]
 alias = "l"
 description = "Refresh repository and home mise lockfiles"
-run = ["mise lock", "mise -C dot_config/mise lock"]
+run = [
+  "mise lock",
+  "mise -C \"$HOME\" lock",
+  "chezmoi re-add ~/.config/mise/mise.lock",
+]
 
 [tasks.lint]
 alias = "n"
@@ -80,11 +88,12 @@ run = [
 alias = "u"
 depends_post = ["lock", "apply", "tools"]
 description = "Upgrade mise tools to latest versions"
-# fish-shell excluded: aqua resolves "latest" to a non-release tag (OpenBeta_r2) that has no assets.
-run = [
-  "mise -C dot_config/mise upgrade --bump --exclude aqua:fish-shell/fish-shell",
-  "mise upgrade --bump --exclude aqua:fish-shell/fish-shell",
-]
+run = ["mise -C \"$HOME\" upgrade --bump", "mise upgrade --bump"]
+
+[tasks.verify]
+alias = "e"
+description = "Verify environment readiness (logins, secrets, sync, extensions)"
+run = "dotfiles-verify"
 
 [tasks.vim]
 alias = "v"

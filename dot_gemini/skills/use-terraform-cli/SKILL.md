@@ -8,6 +8,7 @@ description: Guide for the terraform CLI — init/plan/apply discipline, workspa
 `terraform` is the IaC CLI for HashiCorp Terraform / OpenTofu. The skill bundle `hashicorp/agent-skills` (installed via `install-terraform-skills`) covers HCL authoring; this skill focuses on the **plan/apply discipline** and operational patterns.
 
 The agent should:
+
 1. Always `terraform plan` and surface the diff before any `apply`.
 2. Always reuse a `.terraform.lock.hcl` (commit it).
 3. Never run `terraform destroy` without explicit user confirmation.
@@ -114,6 +115,7 @@ terraform test -filter=tests/network.tftest.hcl
 ## Common Workflows
 
 **Bootstrap a new module.**
+
 ```bash
 mkdir -p modules/network && cd modules/network
 cat > main.tf <<'EOF'
@@ -125,6 +127,7 @@ terraform validate
 ```
 
 **Promote staging → prod.**
+
 ```bash
 terraform workspace select staging
 terraform plan -var-file=staging.tfvars -out=staging.tfplan
@@ -137,6 +140,7 @@ terraform apply prod.tfplan
 ```
 
 **CI gate.**
+
 ```bash
 terraform fmt -check -recursive
 terraform validate

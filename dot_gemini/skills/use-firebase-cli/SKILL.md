@@ -129,6 +129,7 @@ firebase hosting:channel:delete preview-pr-42
 ## Common Workflows
 
 **Bootstrap a Hosting + Functions project.**
+
 1. `firebase login`
 2. `firebase init hosting functions emulators`
 3. `cd functions && npm install`
@@ -136,11 +137,13 @@ firebase hosting:channel:delete preview-pr-42
 5. `firebase deploy` to ship.
 
 **Promote dev → prod.**
+
 1. `firebase use --add` to alias `default`, `staging`, `prod`.
 2. `firebase deploy -P staging --only hosting,functions`
 3. After validation: `firebase deploy -P prod --only hosting,functions`
 
 **Iterate on Firestore rules safely.**
+
 ```bash
 firebase emulators:exec --only firestore "npx jest tests/rules"
 firebase deploy --only firestore:rules -P staging

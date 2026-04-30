@@ -1,6 +1,6 @@
 ---
 name: install-find-skills
-description: Install the find-skills meta-skill from vercel-labs/skills so the agent can discover and install other Agent Skills on demand.
+description: Install the find-skills meta-skill (vercel-labs/skills) so the agent can discover and install other Agent Skills on demand.
 ---
 
 # Install find-skills

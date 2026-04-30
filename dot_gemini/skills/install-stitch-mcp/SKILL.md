@@ -1,6 +1,6 @@
 ---
 name: install-stitch-mcp
-description: Install the Google Stitch MCP server in the current project's .gemini/settings.json so Gemini can call Stitch UI design tools without going through the stitch subagent.
+description: Install Google Stitch MCP (UI design tools) into .gemini/settings.json. Use when Stitch work is central to the project.
 ---
 
 # Install Stitch MCP

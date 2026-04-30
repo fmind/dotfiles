@@ -1,6 +1,6 @@
 ---
 name: install-terraform-skills
-description: Install HashiCorp's official Agent Skills for Terraform (and Packer) so the agent gains expert HCL, module, provider, and testing knowledge.
+description: Install HashiCorp Terraform (and Packer) Agent Skills — expert HCL, modules, providers, testing knowledge. Use for Terraform projects.
 ---
 
 # Install Terraform Skills (HashiCorp)

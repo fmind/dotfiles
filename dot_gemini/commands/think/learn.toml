@@ -4,8 +4,8 @@ prompt = """
 Teach `{{args}}` using this repository as the textbook.
 
 Requirements:
-1. Treat `{{args}}` as a concept, pattern, symbol, or subsystem.
-2. Find real examples of it in the codebase. Reference each as `file:line`.
+1. Treat `{{args}}` as a concept, pattern, symbol, or subsystem. If empty, ask what to teach and stop.
+2. Find real examples of it in the codebase. Reference each as `file:line`. If none exist, say so and offer the closest analogue here.
 3. Explain in three layers: a one-paragraph overview, the mechanics, and how this repository specifically uses it.
 4. End with one short "trace this yourself" exercise pointing to a specific file the user can read.
 5. Avoid generic textbook content unless directly grounded in this codebase.

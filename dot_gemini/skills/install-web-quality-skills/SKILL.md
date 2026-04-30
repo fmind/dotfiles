@@ -1,6 +1,6 @@
 ---
 name: install-web-quality-skills
-description: Install the web-quality-skills bundle (by Addy Osmani / Chrome team) for Lighthouse-style audits — Core Web Vitals, performance, accessibility, SEO, and best practices.
+description: Install web-quality-skills (Addy Osmani / Chrome) for Lighthouse-style audits — Core Web Vitals, performance, a11y, SEO, best practices.
 ---
 
 # Install Web Quality Skills (Lighthouse / Core Web Vitals)

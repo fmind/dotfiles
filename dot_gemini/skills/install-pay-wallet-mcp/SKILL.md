@@ -1,6 +1,6 @@
 ---
 name: install-pay-wallet-mcp
-description: Install the Google Pay & Wallet MCP server in the current project's .gemini/settings.json so Gemini can call Pay/Wallet tools without going through the pay-wallet subagent.
+description: Install Google Pay & Wallet MCP into .gemini/settings.json. Use when Pay/Wallet integration is central to the project.
 ---
 
 # Install Pay & Wallet MCP

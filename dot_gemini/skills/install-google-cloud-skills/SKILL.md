@@ -1,6 +1,6 @@
 ---
 name: install-google-cloud-skills
-description: Install Google's official Agent Skills repository so the agent gains expert knowledge for Cloud Run, BigQuery, Cloud SQL, AlloyDB, GKE, Gemini API, and the Well-Architected Framework.
+description: Install Google Cloud skills bundle (Cloud Run, BigQuery, Cloud SQL, AlloyDB, GKE, Gemini API, Well-Architected). Use for GCP projects.
 ---
 
 # Install Google Cloud Skills
@@ -33,15 +33,18 @@ npx skills add google/skills --skill bigquery-basics
 
 13 skills at `skills/cloud/` at the time of writing (verify with `npx skills add google/skills --list`):
 
-**Cloud product basics**
+### Cloud product basics
+
 - `alloydb-basics`, `bigquery-basics`, `cloud-run-basics`, `cloud-sql-basics`, `gke-basics`.
 - `gemini-api` — Gemini API on Google Cloud.
 - `firebase-basics` — also published separately at `firebase/agent-skills` with more depth.
 
-**Well-Architected Framework pillars**
+### Well-Architected Framework pillars
+
 - `google-cloud-waf-security`, `google-cloud-waf-reliability`, `google-cloud-waf-cost-optimization`.
 
-**Recipes**
+### Recipes
+
 - `google-cloud-recipe-onboarding` — first-time GCP onboarding.
 - `google-cloud-recipe-auth` — authenticating clients to Google Cloud.
 - `google-cloud-networking-observability` — VPC / Cloud Logging / NetMon hands-on.

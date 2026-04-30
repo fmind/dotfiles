@@ -159,12 +159,14 @@ docker volume prune
 ## Common Workflows
 
 **Build + run a single-service Python app.**
+
 ```bash
 docker build -t app .
 docker run --rm -p 8080:8080 app
 ```
 
 **Iterate on a Compose stack.**
+
 ```bash
 docker compose up -d
 docker compose logs -f api db
@@ -173,6 +175,7 @@ docker compose build api && docker compose up -d api
 ```
 
 **Smaller images.**
+
 - Start from `distroless` or `alpine` for runtime stages.
 - `.dockerignore` to keep build context tight (mirror `.gitignore` plus `.git/`, `node_modules/`).
 - Multi-stage so build tools never reach the runtime image.

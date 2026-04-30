@@ -11,7 +11,7 @@ This skill covers authoring (`firestore.rules`, `storage.rules`), unit testing i
 
 ## File Layout
 
-```
+```text
 firebase.json                  # references the rules + index files
 firestore.rules                # Firestore security rules
 firestore.indexes.json         # composite indexes
@@ -32,7 +32,7 @@ storage.rules                  # Cloud Storage security rules
 
 ## Firestore Rules — Skeleton
 
-```
+```text
 rules_version = '2';
 
 service cloud.firestore {
@@ -68,7 +68,7 @@ service cloud.firestore {
 
 ## Storage Rules — Skeleton
 
-```
+```text
 rules_version = '2';
 
 service firebase.storage {
@@ -91,7 +91,7 @@ service firebase.storage {
 
 ## Common Patterns
 
-```
+```text
 // Owner-only writes, public reads.
 match /docs/{id} {
   allow read: if true;
@@ -196,12 +196,14 @@ diff /tmp/staging.json /tmp/prod.json
 ## Common Workflows
 
 **Add a new collection with rules.**
+
 1. Add a `match /<col>/{id} { allow ... }` block with explicit `allow` predicates.
 2. Write unit tests covering authorized + unauthorized paths.
 3. `firebase emulators:exec --only firestore "npm test"`.
 4. `firebase deploy --only firestore:rules -P staging`, then prod after validation.
 
 **Audit existing rules.**
+
 - Look for `match /{document=**}` blocks granting reads/writes broadly.
 - Look for `request.auth != null` as the only check (any signed-in user, including anonymous, satisfies it).
 - Look for missing field-key constraints (`request.resource.data.keys().hasOnly([...])`) on writes.

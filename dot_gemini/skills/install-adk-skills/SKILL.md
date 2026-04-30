@@ -1,6 +1,6 @@
 ---
 name: install-adk-skills
-description: Install Google's Agent Development Kit (ADK) skills via the google-agents-cli setup so the agent gains expert knowledge for scaffolding, developing, evaluating, observing, and deploying ADK agents.
+description: Install Google ADK skills bundle (scaffold, develop, evaluate, observe, deploy ADK agents). Use for ADK agent projects.
 ---
 
 # Install ADK Skills
