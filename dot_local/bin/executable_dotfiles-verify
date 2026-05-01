@@ -152,7 +152,7 @@ else
     if has_in_secrets "$var"; then
       ok "$var declared"
     else
-      note "$var not set (only needed for /install-workspace-mcp or Gemini API key)"
+      note "$var not set (only needed for /install-google-workspace-mcp or Gemini API key)"
     fi
   done
 fi
@@ -183,7 +183,7 @@ section "Gemini extensions"
 EXT_DIR="$HOME/.gemini/extensions"
 SOURCE_DIR="$HOME/.local/share/chezmoi"
 INSTALL_SCRIPT="$SOURCE_DIR/run_onchange_after_install-gemini-extensions.sh"
-expected=(fgate google-workspace-cli chrome-devtools-mcp)
+expected=(fgate chrome-devtools-mcp)
 for ext in "${expected[@]}"; do
   if [[ -d $EXT_DIR/$ext ]]; then
     ok "extension $ext"

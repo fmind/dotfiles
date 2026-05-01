@@ -7,7 +7,7 @@ description: Install Gemini Enterprise Agent Platform MCP into .gemini/settings.
 
 Drops the Gemini Enterprise Agent Platform MCP server into `.gemini/settings.json` for the current project. Use this when enterprise agent design/deploy work happens in nearly every session of the project — otherwise prefer the `gemini-enterprise` subagent (`~/.gemini/agents/gemini-enterprise.md`), which loads the MCP only when invoked and keeps the parent context clean.
 
-> **Note:** Vertex AI was rebranded to **Gemini Enterprise Agent Platform**. Both products share the `aiplatform.googleapis.com` MCP host but use different toolset paths (`/mcp/<toolset>`). This skill targets the Agent Platform tools (retrieval, evaluation, prompts); for Vertex AI Gen AI / training / endpoints, see the **Vertex AI** section of `install-gcp-mcp`.
+> **Note:** Vertex AI was rebranded to **Gemini Enterprise Agent Platform**. Both products share the `aiplatform.googleapis.com` MCP host but use different toolset paths (`/mcp/<toolset>`). This skill targets the Agent Platform tools (retrieval, evaluation, prompts); for Vertex AI Gen AI / training / endpoints, see the **Vertex AI** section of `install-google-cloud-mcp`.
 
 ## When to Trigger
 
@@ -17,7 +17,7 @@ Drops the Gemini Enterprise Agent Platform MCP server into `.gemini/settings.jso
 
 ## Install
 
-The `aiplatform.googleapis.com` MCP gateway has **no bare `/mcp` endpoint** — each toolset is a separate MCP server. Register one entry per Agent Platform toolset; the Vertex AI generation/training toolsets (`models`, `predict`, `generate`, `notebook`, `endpoints`, `tuning`) live in `install-gcp-mcp` instead.
+The `aiplatform.googleapis.com` MCP gateway has **no bare `/mcp` endpoint** — each toolset is a separate MCP server. Register one entry per Agent Platform toolset; the Vertex AI generation/training toolsets (`models`, `predict`, `generate`, `notebook`, `endpoints`, `tuning`) live in `install-google-cloud-mcp` instead.
 
 Merge into `.gemini/settings.json` at the project root (create the file if missing):
 

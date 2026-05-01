@@ -1,9 +1,9 @@
 ---
-name: install-gcp-mcp
+name: install-google-cloud-mcp
 description: Install one or more Google Cloud / Google MCP servers (BigQuery, Cloud Run, Cloud Storage, Cloud Logging, Cloud Monitoring, Cloud Trace, Compute Engine, Firestore, Pub/Sub, Resource Manager, Error Reporting, Agent Registry, Agent Search, Developer Knowledge, Vertex AI, CX Agent Studio, Gemini Cloud Assist, AlloyDB, Bigtable, Cloud SQL, Spanner, GKE, ...) into .gemini/settings.json. Use when one or more GCP services are central to the project.
 ---
 
-# Install GCP MCP
+# Install Google Cloud MCP
 
 Drops one or more **Google Cloud MCP servers** into `.gemini/settings.json` for the current project. Every server in this family shares the same install shape — an `httpUrl` plus `authProviderType: "google_credentials"` — and authenticates via Application Default Credentials (ADC).
 

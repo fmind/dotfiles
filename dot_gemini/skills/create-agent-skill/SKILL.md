@@ -100,7 +100,7 @@ skills add --global <owner>/<repo> --skill <name>
 
 After a global install, run `chezmoi add ~/.gemini/skills/<slug>` to import the skill into `dot_gemini/skills/<slug>/` so it's tracked.
 
-For wrappers around official bundles (e.g. `install-firebase-skills`, `install-stitch-skills`), hand-author a thin `dot_gemini/skills/install-*-skills/SKILL.md` that documents the exact `skills add ...` invocation — see the existing `install-*-skills` directories for the pattern.
+For wrappers around official bundles (e.g. `install-firebase-skills`, `install-google-stitch-skills`), hand-author a thin `dot_gemini/skills/install-*-skills/SKILL.md` that documents the exact `skills add ...` invocation — see the existing `install-*-skills` directories for the pattern.
 
 ## Documentation
 

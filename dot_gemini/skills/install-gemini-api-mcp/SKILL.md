@@ -1,9 +1,9 @@
 ---
-name: install-gemini-dev-mcp
+name: install-gemini-api-mcp
 description: Install Gemini API docs MCP (live doc-search) into .gemini/settings.json. Use when Gemini API doc lookup is needed in nearly every session.
 ---
 
-# Install Gemini Dev MCP
+# Install Gemini API MCP
 
 Drops the Gemini API docs MCP server into `.gemini/settings.json` for the current project. Use this when live Gemini API doc lookups happen in nearly every session of the project — otherwise prefer the `gemini-dev` subagent (`~/.gemini/agents/gemini-dev.md`), which loads the MCP only when invoked and keeps the parent context clean.
 

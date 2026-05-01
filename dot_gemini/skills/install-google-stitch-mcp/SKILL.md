@@ -1,9 +1,9 @@
 ---
-name: install-stitch-mcp
+name: install-google-stitch-mcp
 description: Install Google Stitch MCP (UI design tools) into .gemini/settings.json. Use when Stitch work is central to the project.
 ---
 
-# Install Stitch MCP
+# Install Google Stitch MCP
 
 Drops the Google Stitch MCP server into `.gemini/settings.json` for the current project. Use this when AI-driven UI design generation happens in nearly every session of the project — otherwise prefer the `stitch` subagent (`~/.gemini/agents/stitch.md`), which loads the MCP only when invoked and keeps the parent context clean.
 

@@ -9,7 +9,7 @@ Managed by [chezmoi](https://www.chezmoi.io/) and [mise](https://mise.jdx.dev/).
 - **Shell**: `fish` + `starship` + `atuin` + `carapace` + `zoxide` + `fzf`.
 - **Terminal**: `ghostty`, with `zellij` as multiplexer and `yazi` as file manager.
 - **Editor**: `neovim` (LazyVim) with `catppuccin-mocha`, vim mode everywhere.
-- **AI agents**: `gemini-cli` (with auto-installed extensions: `fgate`, `googleworkspace/cli`, `chrome-devtools-mcp`) + `jules` (async) + GitHub Copilot + Claude Code.
+- **AI agents**: `gemini-cli` (with auto-installed extensions: `fgate`, `chrome-devtools-mcp`) + `jules` (async) + GitHub Copilot + Claude Code.
 - **Languages out of the box**: Python (`uv`), TypeScript / Angular (`pnpm`, `biome`), Go, Terraform, Docker, Kubernetes.
 - **Theme**: `catppuccin-mocha` everywhere consistent (nvim, fzf, ghostty, starship, lazygit, gemini, claude, ptpython).
 - **Icons**: none — ASCII-only by default for portability over SSH and Cloud Shell.
@@ -120,7 +120,7 @@ You need a "Desktop app" OAuth client.  You only do this **once per Google accou
 3. Configure the **OAuth consent screen** at <https://console.cloud.google.com/auth/overview>:
    - User type: **Internal** if you own a Workspace org (recommended — no verification), otherwise **External** + add yourself as a test user.
    - App name + support email — anything sensible; only you will see this.
-   - Add the sensitive Workspace scopes you plan to use (Gmail, Calendar, Drive, Chat, People). The minimum is the read-only set listed in `dot_gemini/skills/install-workspace-mcp/SKILL.md`.
+   - Add the sensitive Workspace scopes you plan to use (Gmail, Calendar, Drive, Chat, People). The minimum is the read-only set listed in `dot_gemini/skills/install-google-workspace-mcp/SKILL.md`.
 4. Create the **OAuth 2.0 Client ID** at <https://console.cloud.google.com/auth/clients>:
    - Application type: **Desktop app**.
    - Name: e.g. `gemini-cli-workspace-mcp`.

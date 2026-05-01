@@ -56,7 +56,7 @@ For wrappers around official bundles, hand-author a `dot_gemini/skills/install-*
 - `dot_copilot/config.json` — GitHub Copilot CLI settings.
 - `dot_local/bin/` — custom user-space executables (`deep-prompt`, `deep-research`, `dotfiles-verify`, `gcp-dotfiles-setup`).
 - `dot_<file>` — top-level dotfiles (`~/.editrc`, `~/.gitconfig`, ...).
-- `run_onchange_after_install-gemini-extensions.sh` — chezmoi auto-run script; installs/updates Gemini CLI extensions (`fgate`, `googleworkspace/cli`, `chrome-devtools-mcp`) on every `mr a` when its content changes.
+- `run_onchange_after_install-gemini-extensions.sh` — chezmoi auto-run script; installs/updates Gemini CLI extensions (`fgate`, `chrome-devtools-mcp`) on every `mr a` when its content changes.
 - `.pre-commit-config.yaml` / `.markdownlint.json` / `.yamllint` — lint and secret-scan hygiene: gitleaks, markdownlint-cli2 (auto-fix), taplo (TOML format), yamllint, shellcheck, shfmt, and the standard `pre-commit-hooks` set. `.tmpl` files are excluded from style linters since chezmoi Go-template syntax breaks parsers.
 - `.github/workflows/ci.yml` — CI runs `pre-commit` on push/PR to `main`; keep `mr n` clean locally so CI passes.
 - `AGENTS.md` (this file) — repo rules.

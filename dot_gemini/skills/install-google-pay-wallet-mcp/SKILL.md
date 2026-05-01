@@ -1,9 +1,9 @@
 ---
-name: install-pay-wallet-mcp
+name: install-google-pay-wallet-mcp
 description: Install Google Pay & Wallet MCP into .gemini/settings.json. Use when Pay/Wallet integration is central to the project.
 ---
 
-# Install Pay & Wallet MCP
+# Install Google Pay & Wallet MCP
 
 Drops the Google Pay & Wallet Developer MCP server into `.gemini/settings.json` for the current project. Use this when Pay/Wallet integration work happens in nearly every session of the project — otherwise prefer the `pay-wallet` subagent (`~/.gemini/agents/pay-wallet.md`), which loads the MCP only when invoked and keeps the parent context clean.
 

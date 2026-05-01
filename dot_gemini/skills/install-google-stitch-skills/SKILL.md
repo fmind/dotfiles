@@ -1,9 +1,9 @@
 ---
-name: install-stitch-skills
+name: install-google-stitch-skills
 description: Install Google Stitch skills bundle for AI-driven UI design (screens, React components, design systems, walkthrough videos). Use for Stitch UI projects.
 ---
 
-# Install Stitch Skills
+# Install Google Stitch Skills
 
 Google Labs publishes the official [`google-labs-code/stitch-skills`](https://github.com/google-labs-code/stitch-skills) bundle. It's the canonical source for working with [Google Stitch](https://stitch.withgoogle.com) (powered by Gemini 3 Pro / Flash) — turning natural-language prompts, sketches, and screenshots into polished UI designs and frontend code.
 

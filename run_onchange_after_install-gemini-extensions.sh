@@ -8,7 +8,6 @@ command -v gemini >/dev/null || {
 
 extensions=(
   "https://github.com/fmind/fgate"
-  "https://github.com/googleworkspace/cli"
   "https://github.com/ChromeDevTools/chrome-devtools-mcp"
 )
 

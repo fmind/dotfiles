@@ -1,9 +1,9 @@
 ---
-name: install-workspace-mcp
+name: install-google-workspace-mcp
 description: Install one or more Google Workspace MCP servers (Calendar, Chat, Drive, Gmail, People) into .gemini/settings.json. Use when Workspace work is central to the project.
 ---
 
-# Install Workspace MCP
+# Install Google Workspace MCP
 
 Drops one or more **Google Workspace MCP servers** into `.gemini/settings.json` for the current project. Every Workspace server shares the same install shape — an `httpUrl` plus an `oauth` block — and authenticates via a per-user OAuth 2.0 flow (**not** Application Default Credentials).
 

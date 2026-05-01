@@ -1,5 +1,5 @@
 ---
-name: install-design-md
+name: install-design-md-skills
 description: Install Google Labs `design.md` skills (typed service contracts, TDD, agent-friendly CLI design, Ink terminal UIs). Use when designing CLIs or services.
 ---
 
@@ -7,7 +7,7 @@ description: Install Google Labs `design.md` skills (typed service contracts, TD
 
 Google Labs publishes the official [`google-labs-code/design.md`](https://github.com/google-labs-code/design.md) repo, which is both the home of the [DESIGN.md](https://github.com/google-labs-code/design.md) format spec **and** a small bundle of agent-oriented engineering skills. This skill explains when and how to install the skill bundle.
 
-> Not to be confused with the **`design-md`** skill inside `install-stitch-skills` — that one generates `DESIGN.md` files for visual design systems. This bundle is about TypeScript service architecture, TDD, CLI ergonomics, and terminal UIs.
+> Not to be confused with the **`design-md`** skill inside `install-google-stitch-skills` — that one generates `DESIGN.md` files for visual design systems. This bundle is about TypeScript service architecture, TDD, CLI ergonomics, and terminal UIs.
 
 ## When to Trigger
 

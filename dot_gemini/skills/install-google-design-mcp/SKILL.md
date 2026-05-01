@@ -1,9 +1,9 @@
 ---
-name: install-design-mcp
+name: install-google-design-mcp
 description: Install Google Design Center MCP into .gemini/settings.json. Use when Design Center work is central to the project.
 ---
 
-# Install Design Center MCP
+# Install Google Design Center MCP
 
 Drops the Google Design Center MCP server into `.gemini/settings.json` for the current project. Use this when design-token or Material 3 component work happens in nearly every session of the project — otherwise prefer the `design-mcp` subagent (`~/.gemini/agents/design-mcp.md`), which loads the MCP only when invoked and keeps the parent context clean.
 
