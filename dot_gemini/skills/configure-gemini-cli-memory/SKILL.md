@@ -1,21 +1,37 @@
 ---
 name: configure-gemini-cli-memory
-description: Guide for Gemini CLI's memory & context system — `GEMINI.md` / `AGENTS.md` resolution order, modular `@file.md` imports, `.geminiignore`, `context.fileFiltering` settings, `experimental.autoMemory` + `/memory inbox`, and the `save_memory` tool.
+description: Guide for Gemini CLI's 4-tier memory & context system — `GEMINI.md` / `AGENTS.md` / `MEMORY.md` resolution, prompt-driven `experimental.memoryV2` editing, modular `@file.md` imports, `.geminiignore`, `experimental.autoMemory` + `/memory inbox`, and the `save_memory` tool.
 ---
 
 # Configure Gemini CLI Memory
 
-Gemini CLI's "memory" is the bundle of markdown that gets prepended to every prompt. It is assembled from multiple files at session start, refreshed on demand via `/memory refresh`, and can be extended at runtime by the `save_memory` tool or Auto Memory promotion.
+Gemini CLI's "memory" is the bundle of markdown that gets prepended to every prompt. It is assembled from multiple files at session start, refreshed on demand via `/memory refresh`, and can be extended at runtime by the model itself (under `experimental.memoryV2`) or by Auto Memory promotion.
 
-This skill covers the static context layer (`GEMINI.md` / `AGENTS.md`, `.geminiignore`) and the dynamic layer (Auto Memory, `save_memory`, `/memory ...` slash commands). For session-level facts that should travel across sessions, prefer this layer over re-pasting context.
+This skill covers the static context layer (`GEMINI.md` / `AGENTS.md` / `MEMORY.md`, `.geminiignore`) and the dynamic layer (Memory v2, Auto Memory, `save_memory`, `/memory ...` slash commands). For session-level facts that should travel across sessions, prefer this layer over re-pasting context.
+
+## The 4 Tiers (v0.40+)
+
+v0.40 replaced the legacy `MemoryManagerAgent` with a **prompt-driven, four-tier memory system** (`experimental.memoryV2`, default `true`). Each tier has a different scope, audience, and commit policy:
+
+| # | Tier | Path | Scope | Commit? |
+|---|------|------|-------|---------|
+| 1 | **Global** | `~/.gemini/GEMINI.md` | Cross-project user prefs | No (lives in `$HOME`) |
+| 2 | **Project root** | `./GEMINI.md`, `./AGENTS.md` | Team-shared conventions | **Yes** |
+| 3 | **Subdirectory** | `./src/GEMINI.md`, `./infra/GEMINI.md`, ... | Folder-specific rules | **Yes** |
+| 4 | **Per-project private** | `MEMORY.md` (index) + sibling `*.md` in the per-project memory dir | Personal notes for this project | **No — gitignore** |
+
+Tier 1–3 stack and concatenate (later overrides earlier on contradiction). Tier 4 is private to you on this machine: drafts mined by Auto Memory land in `~/.gemini/tmp/<project>/memory/` until promoted. Anything that ends up as a workspace `MEMORY.md` should stay out of git — the global gitignore in this dotfile repo already covers `MEMORY.md` and `.gemini/tmp/`.
+
+Under Memory v2 the model edits these markdown files directly (no dedicated `save_memory` round-trip), so keep them small and well-structured.
 
 ## Resolution Order
 
 When a session starts, Gemini CLI loads context files in this order and **concatenates** them:
 
-1. **Global** — `~/.gemini/GEMINI.md` (always first; includes the `## Gemini Added Memories` section maintained by `save_memory`).
-2. **Workspace + ancestors** — every `GEMINI.md` (or whatever names you list in `context.fileName`) found from the cwd upward to the trusted root.
-3. **Just-in-time** — when a tool touches a path, the CLI re-scans that path and its ancestors so subdirectory `GEMINI.md` files get pulled in only when relevant (`experimental.jitContext`).
+1. **Tier 1 — Global** — `~/.gemini/GEMINI.md` (includes the `## Gemini Added Memories` section maintained by `save_memory`).
+2. **Tier 2 + 3 — Workspace + ancestors** — every `GEMINI.md` / `AGENTS.md` (per `context.fileName`) found from the cwd upward to the trusted root.
+3. **Tier 4 — Per-project private memory** — `MEMORY.md` index plus any sibling `*.md` it pulls in.
+4. **Just-in-time** — when a tool touches a path, the CLI re-scans that path and its ancestors so subdirectory `GEMINI.md` files get pulled in only when relevant (`experimental.jitContext`).
 
 There is **no supersedence** between layers — they all stack. Order matters only for who-overrides-whom in case of contradicting instructions (later wins).
 
@@ -92,6 +108,16 @@ Neither supersedes. The recommendation in this dotfile repo (and the user's `~/.
 
 Keep `AGENTS.md` first in the array so cross-tool rules load before Gemini-specific overrides.
 
+## Memory v2 (`experimental.memoryV2`)
+
+```json
+{ "experimental": { "memoryV2": true } }
+```
+
+Default `true` since v0.40. Replaces the old `MemoryManagerAgent` round-trip with **direct prompt-driven editing** of the four tier files. The model patches the relevant tier (`MEMORY.md` for personal notes, `GEMINI.md` / `AGENTS.md` for shared rules) instead of calling a dedicated tool, which keeps writes auditable as plain markdown diffs.
+
+Disable only if you specifically need the legacy `save_memory`-only flow.
+
 ## Auto Memory (`experimental.autoMemory`)
 
 ```json
@@ -100,19 +126,21 @@ Keep `AGENTS.md` first in the array so cross-tool rules load before Gemini-speci
 
 When enabled, Gemini CLI mines past sessions and proposes **Agent Skills** (multi-step procedures, not single facts) to add to `~/.gemini/skills/` or `<project>/.gemini/skills/`.
 
-- Trigger: ≥10 user messages across recent sessions, **and** sessions have been idle for 3+ hours, **and** lock-coordinated (won't fire mid-session).
+- Trigger: fires after enough recent activity has accumulated and the session has been idle for a while (lock-coordinated, won't fire mid-session). Exact thresholds change between releases — see the [Auto Memory docs](https://geminicli.com/docs/cli/auto-memory/).
 - Review: `/memory inbox` opens a dialog with each draft — **promote** (write to skills/), **discard**, or **patch** (edit before promoting).
-- Storage: drafts under the project memory dir; transcripts in `~/.gemini/tmp/<project>/chats/`.
+- Storage: drafts under `~/.gemini/tmp/<project>/memory/`; transcripts in `~/.gemini/tmp/<project>/chats/`.
 
 Promote sparingly — every promoted skill loads its frontmatter at every session, so a noisy inbox bloats the description budget over time.
 
 ## `save_memory` Tool
 
-Available to the model as a built-in tool. One arg: `fact` (a self-contained natural-language statement). Behavior:
+Available to the model as a built-in tool when Memory v2 is off. One arg: `fact` (a self-contained natural-language statement). Behavior:
 
 - Appends a bullet under `## Gemini Added Memories` in **`~/.gemini/GEMINI.md`** (user-global, NOT workspace).
 - Persists across sessions.
 - Use for things like "user prefers structlog over stdlib logging" — never for credentials or workspace-specific paths.
+
+Under Memory v2 (default), this tool is suppressed and the model edits markdown files directly — typically Tier 1 (`~/.gemini/GEMINI.md`) for cross-project facts and Tier 4 (`MEMORY.md`) for project-private notes.
 
 ## `/memory` Slash Commands
 

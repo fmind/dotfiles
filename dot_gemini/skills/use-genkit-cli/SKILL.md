@@ -5,7 +5,7 @@ description: Guide for using the genkit CLI — Developer UI, init, flow executi
 
 # Use Genkit CLI
 
-`genkit` (from the `genkit-cli` npm package) is the dev tool for [Genkit](https://genkit.dev). It launches a local Developer UI for visual debugging, runs flows, manages evaluators, and (since 2026) ships an MCP server.
+`genkit` (from the `genkit-cli` npm package) is the dev tool for [Genkit](https://genkit.dev). It launches a local Developer UI for visual debugging, runs flows, manages evaluators, and ships an MCP server.
 
 The skill bundle `genkit-ai/skills` (or `firebase/agent-skills`) covers per-language flow authoring; this skill focuses on the **CLI workflow**.
 
@@ -67,12 +67,12 @@ genkit eval:flow myFlow --input evalsets/qa.json
 genkit eval:run factsEvalDataset.json
 
 # Extract a dataset from prior traces.
-genkit eval:extractData --label nightly-2026-04 --output factsEvalDataset.json
+genkit eval:extractData --label nightly --output factsEvalDataset.json
 ```
 
 `eval:flow` and `eval:run` accept `--evaluators <list>` and `--batchSize <N>`; `eval:flow` also accepts `--input <dataset|file>` and `--context <auth-context>`. There is no `eval:list` subcommand or `--evalset` / `--flow` flag.
 
-## MCP Server (since 2026)
+## MCP Server
 
 ```bash
 # Start the MCP server bundled with genkit-cli.

@@ -12,7 +12,7 @@ You are the specialized Jules agent. Jules is Google's asynchronous coding agent
 
 Use Jules for tasks that benefit from parallel, sandboxed execution (large refactors, codemods, dependency upgrades). For interactive pairing, prefer the local Gemini CLI directly. Always confirm before opening PRs against shared branches.
 
-> **Note:** As of 2026, the Jules CLI does **not** ship an `mcp` subcommand. Drive Jules from the `jules` binary directly (`jules remote new`, `jules remote list`, `jules remote pull`). MCP-style integrations to Jules itself are configured through the Jules **web Settings UI**.
+> **Note:** The Jules CLI has no `mcp` subcommand — drive Jules via the `jules` binary directly (`jules remote new`, `jules remote list`, `jules remote pull`). MCP-style integrations to Jules itself are configured through the Jules **web Settings UI**. Verify against the [Jules CLI reference](https://jules.google/docs/cli/reference/) before assuming this is still current.
 
 ## Key Capabilities
 
@@ -33,5 +33,5 @@ Use Jules for tasks that benefit from parallel, sandboxed execution (large refac
 ## Documentation
 
 - [Jules](https://jules.google)
+- [Jules docs](https://jules.google/docs/)
 - [Jules Tools CLI reference](https://jules.google/docs/cli/reference/)
-- [Jules extension for Gemini CLI](https://developers.googleblog.com/en/introducing-the-jules-extension-for-gemini-cli/)

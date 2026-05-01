@@ -1,6 +1,6 @@
 ---
 name: configure-gemini-cli-hooks
-description: Guide for authoring Gemini CLI hooks — the 11 lifecycle events, settings.json schema, stdin/stdout JSON contract, exit codes, and patterns for blocking dangerous tools, auto-formatting, and session-start context injection.
+description: Guide for authoring Gemini CLI hooks — lifecycle events, settings.json schema, stdin/stdout JSON contract, exit codes, and patterns for blocking dangerous tools, auto-formatting, and session-start context injection.
 ---
 
 # Configure Gemini CLI Hooks
@@ -71,7 +71,7 @@ Per-entry fields:
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `type` | string | Only `"command"` is supported today |
+| `type` | string | `"command"` is the only widely-supported type — check the hooks reference for additions |
 | `command` | string | Shell string; env vars expanded |
 | `name` | string | Optional friendly id used in logs |
 | `timeout` | number | Milliseconds; default `60000` |

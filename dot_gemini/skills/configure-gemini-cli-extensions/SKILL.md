@@ -1,5 +1,5 @@
 ---
-name: configure-gemini-extensions
+name: configure-gemini-cli-extensions
 description: Guide for installing, authoring, and managing Gemini CLI extensions — bundles of MCP servers, slash commands, agents, and skills installed via `gemini extensions`.
 ---
 

@@ -53,7 +53,7 @@ alias v="nvim"
 alias vi="nvim"
 # w:zellij
 alias w="zellij"
-alias wa="zellij attach -c (basename (pwd) | tr '. ' '__')"
+alias wa="zellij attach -bc (basename (pwd) | tr '. ' '__')"
 # x:xh
 alias x="xh"
 # y:yazi

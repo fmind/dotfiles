@@ -1,9 +1,9 @@
 ---
-name: create-gemini-subagent
-description: Guide for creating Gemini CLI subagents — frontmatter (name, description, kind, tools, `mcp_servers` snake_case), persona pattern, scope (workspace vs global via chezmoi), and silent-failure pitfalls.
+name: create-gemini-cli-subagent
+description: Guide for creating Gemini CLI subagents — frontmatter (name, description, kind, tools, `mcp_servers` snake_case), persona pattern, scope (workspace vs global via chezmoi), future-proofing rules, and silent-failure pitfalls.
 ---
 
-# Create Gemini Subagent Skill
+# Create Gemini CLI Subagent Skill
 
 This skill documents how to create a new Gemini CLI subagent. For more details, refer to the [official Gemini CLI subagent documentation](https://geminicli.com/docs/core/subagents/).
 
@@ -66,6 +66,18 @@ You are the specialized <agent-name> agent. Your primary goal is to [describe pr
 2. **Fill the frontmatter:** Ensure `name` matches the filename. Use `mcp_servers` (snake_case!) for any inline MCP server config — the camelCase spelling is silently ignored in subagent frontmatter.
 3. **Draft the persona:** Keep the markdown instruction focused, clearly specifying the agent's responsibilities inline with the established standard format.
 
+## Future-Proofing Rules
+
+Subagent files outlive the moment they were written — Gemini CLI versions, model generations, and product names all turn over faster than agent prose gets re-edited. Write each agent so it stays correct without maintenance.
+
+- [ ] **No time-stamped prose.** Avoid "As of 2026…", "announced at Cloud Next 2026", "Q4 2025", "currently", "recently", "new in v…". Write capabilities in plain present tense and let linked docs carry the timestamp.
+- [ ] **No rebrand narration.** Don't write "rebranded from X", "formerly known as Y", "the new name for Z". Use the current product name; if disambiguation is genuinely useful (e.g. "Gemini Cloud Assist (NOT Gemini Code Assist)"), keep it to a one-liner aimed at *clarification*, not history.
+- [ ] **No specific model versions in prose.** Don't pin "powered by Gemini 3 Pro / Flash" or "uses Claude 4.5 Sonnet". Reference model families abstractly ("Gemini Pro/Flash family") or omit — pinning a generation locks the file to that generation.
+- [ ] **Don't pin frontmatter tuning fields (`model`, `temperature`, `max_turns`, `timeout_mins`)** unless tuning is the agent's explicit purpose. These are harness/CLI-controlled defaults; pinning them in an agent file ages with each Gemini CLI release.
+- [ ] **Pin executable references; don't assume global installs.** In `mcp_servers`, prefer `npx -y <pkg>@latest` or `uvx --from <pkg>` over `command: <bare-binary>`. A globally-installed CLI on the user's PATH drifts independently of the agent file. For Docker, pin the image tag explicitly.
+- [ ] **Cite canonical product docs, not announcements.** Link to `cloud.google.com/<product>/docs` and similar evergreen paths. Avoid blog posts, release notes, codelabs, and "introducing X" URLs whose paths rot.
+- [ ] **Describe the agent's *purpose*, not the product's *current state*.** Capabilities and workflows describe what the agent does; they don't need to narrate where the product sits in its lifecycle. If a feature is in preview, say "preview" — don't say "newly released in preview".
+
 ## Common Pitfalls
 
 Check each item before shipping a new subagent — these are silent failures (the agent loads but misbehaves):
@@ -76,7 +88,6 @@ Check each item before shipping a new subagent — these are silent failures (th
 - [ ] **Persona uses the human title, not the slug.** Write "specialized Cloud Storage agent", not "specialized cloud-storage agent".
 - [ ] **Only one MCP server unless intentional.** Registering two servers for the same purpose (e.g. `_http` + `_local` fallback) doubles the tool count and confuses tool selection.
 - [ ] **Inline MCP vs `~/.gemini/settings.json`.** Inline `mcp_servers` is isolated to the subagent. Put servers in `settings.json` only when multiple agents (or the root agent) need them — otherwise prefer inline for scope-locality.
-- [ ] **Pin `npx` packages with `@latest`** (or a fixed version) — unpinned `npx` may resolve to a stale cached install.
 - [ ] **Don't include host-specific instructions** (e.g. "Claude Code MCP setup") inside a Gemini CLI subagent file.
 
 ## Documentation

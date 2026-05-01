@@ -6,8 +6,10 @@ tools:
   - "*"
 mcp_servers:
   clasp:
-    command: clasp
+    command: npx
     args:
+      - "-y"
+      - "@google/clasp@latest"
       - mcp
 ---
 

@@ -5,7 +5,7 @@ description: Install Google Cloud skills bundle (Cloud Run, BigQuery, Cloud SQL,
 
 # Install Google Cloud Skills
 
-Google publishes the official [`google/skills`](https://github.com/google/skills) repository (announced at Cloud Next 2026), covering core Google Cloud products and well-architected pillars. This skill explains when and how to install it; the actual GCP expertise lives in the bundled skills.
+Google publishes the official [`google/skills`](https://github.com/google/skills) repository, covering core Google Cloud products and well-architected pillars. This skill explains when and how to install it; the actual GCP expertise lives in the bundled skills.
 
 ## When to Trigger
 
@@ -85,6 +85,6 @@ gcloud secrets create db-password --data-file=- --project $PROJECT < pw.txt
 ## Documentation
 
 - [google/skills repo](https://github.com/google/skills)
-- [Cloud Next 2026 announcement](https://cloud.google.com/blog/topics/developers-practitioners/level-up-your-agents-announcing-googles-official-skills-repository)
+- [Launch announcement](https://cloud.google.com/blog/topics/developers-practitioners/level-up-your-agents-announcing-googles-official-skills-repository)
 - [`npx skills` CLI](https://github.com/vercel-labs/skills)
 - [gcloud CLI reference](https://docs.cloud.google.com/sdk/gcloud/reference)

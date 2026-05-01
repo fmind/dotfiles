@@ -433,8 +433,27 @@ checksum = "sha256:0dec4f62a04c203da809c670b11c4271315ba1dc3f5d5571883c9d7a6f45b
 url = "https://github.com/twpayne/chezmoi/releases/download/v2.70.2/chezmoi_2.70.2_windows_amd64.zip"
 
 [[tools.claude-code]]
-version = "2.1.123"
+version = "2.1.126"
 backend = "aqua:anthropics/claude-code"
+
+[tools.claude-code."platforms.linux-arm64"]
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.126/linux-arm64/claude"
+
+[tools.claude-code."platforms.linux-arm64-musl"]
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.126/linux-arm64/claude"
+
+[tools.claude-code."platforms.linux-x64"]
+checksum = "blake3:a043e778db79b8deb768759f1bf1f1579c92122e4f57f442dbc9a0f62cdcae96"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.126/linux-x64/claude"
+
+[tools.claude-code."platforms.linux-x64-musl"]
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.126/linux-x64/claude"
+
+[tools.claude-code."platforms.macos-arm64"]
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.126/darwin-arm64/claude"
+
+[tools.claude-code."platforms.macos-x64"]
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.126/darwin-x64/claude"
 
 [[tools.d2]]
 version = "0.7.1"

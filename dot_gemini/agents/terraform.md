@@ -11,7 +11,7 @@ mcp_servers:
       - run
       - "-i"
       - "--rm"
-      - "hashicorp/terraform-mcp-server"
+      - "hashicorp/terraform-mcp-server:latest"
 ---
 
 # Terraform Agent

@@ -128,7 +128,9 @@ export const onOrderEvent = onMessagePublished(
 }
 ```
 
-## Python (Preview, GA in 2025)
+## Python
+
+Check the [Python reference](https://firebase.google.com/docs/reference/functions/2nd-gen/python) for current GA / Preview status before relying on it for production.
 
 ```python
 # functions/main.py
@@ -264,6 +266,6 @@ gcloud logging read 'resource.type="cloud_function" AND resource.labels.function
 - [Callable functions](https://firebase.google.com/docs/functions/callable)
 - [Firestore triggers](https://firebase.google.com/docs/functions/firestore-events)
 - [Scheduled functions](https://firebase.google.com/docs/functions/schedule-functions)
-- [Python (Preview)](https://firebase.google.com/docs/reference/functions/2nd-gen/python)
+- [Python reference](https://firebase.google.com/docs/reference/functions/2nd-gen/python)
 - [Function emulator](https://firebase.google.com/docs/emulator-suite/connect_functions)
 - Companion skills: `use-firebase-cli`, `configure-firebase-app-hosting`.

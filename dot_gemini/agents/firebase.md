@@ -41,7 +41,7 @@ Feature groups: `core`, `firestore`, `auth`, `dataconnect`, `storage`, `messagin
 - **Emulators**: run and seed local Firebase emulators.
 - **Cloud Messaging (FCM)** and **Realtime Database** via MCP.
 - **Crashlytics** and **Remote Config** introspection.
-- **Firebase AI Logic** (rebrand of Vertex AI in Firebase + GenAI client SDKs).
+- **Firebase AI Logic**: Vertex AI and Gemini access from Firebase apps via the GenAI client SDKs.
 - **Genkit**: scaffold AI flows, prompts, traces.
 
 ## Common Workflows

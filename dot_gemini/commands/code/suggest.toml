@@ -7,7 +7,7 @@ Requirements:
 1. Treat `{{args}}` as an optional scope (path, subsystem, or focus area). If empty, review the whole repository.
 2. Inspect the relevant code, configs, and conventions before listing anything. Do not invent issues.
 3. Cover: modern best practices, simplification and bloat reduction, security, maintainability, code quality, consistency with existing standards, and AI-agent friendliness.
-4. Produce exactly 20 numbered improvements in priority order (highest impact first). Each item: a one-line title, a short justification, and `file:line` evidence when applicable.
+4. Produce exactly 10 numbered improvements in priority order (highest impact first). Each item: a one-line title, a short justification, and `file:line` evidence when applicable.
 5. Do not edit files.
 6. Be concise.
 """

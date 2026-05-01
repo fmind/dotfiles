@@ -121,7 +121,7 @@ Once `agents-cli setup` has run, these 7 skills are available:
 1. **Prerequisites:** Python 3.11+, `uv`, and Node.js — all already provided by mise.
 2. **Not a coding agent:** `agents-cli` is a tool *for* coding agents, not a replacement for Claude Code or Gemini CLI.
 3. **Standalone usage:** Every CLI command works without a coding agent attached; the skills only make agent-driven workflows smoother.
-4. **Pre-GA:** the platform is in preview — expect breaking changes between minor versions. Run `agents-cli cmd-info` to confirm the installed version.
+4. **Pin versions for production.** Expect breaking changes between minor versions; run `agents-cli cmd-info` to confirm what's installed and check the docs for current lifecycle status before depending on it.
 
 ## Documentation
 

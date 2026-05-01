@@ -1,9 +1,9 @@
 ---
-name: create-gemini-command
+name: create-gemini-cli-command
 description: Guide for creating Gemini CLI slash commands — TOML schema (`prompt`, `description`), `!{shell}` / `@{file}` / `{{args}}` injection, namespaced subdirectories, and scope (workspace vs global via chezmoi).
 ---
 
-# Create Gemini Command
+# Create Gemini CLI Command
 
 Gemini CLI slash commands are short, reusable prompts stored as TOML files. They surface in the CLI as `/<filename>`. For more details, refer to the [official Gemini CLI custom commands documentation](https://geminicli.com/docs/cli/custom-commands/).
 
@@ -65,6 +65,17 @@ Return only the message, no quotes, no markdown blocks.
 - Always specify the desired output format ("only the message", "JSON only", "single sentence"). Saves the user a round-trip.
 - Quote shell snippets carefully when they may contain backticks; prefer single-line `!{...}` blocks when possible.
 - Keep `{{args}}` substitution outside of `!{...}` shell blocks unless you want raw injection — inside, arguments are auto-escaped, which can break expected quoting.
+
+## Future-proofing
+
+Commands often outlive the tool versions, models, and CLI flags they were written against. Write each prompt so it survives that drift — no rewrite required when the toolchain changes.
+
+- **Detect, don't assume.** Read project manifests (`pyproject.toml`, `package.json`, `go.mod`, `Cargo.toml`, `mise.toml`, `Makefile`, `.pre-commit-config.yaml`, ...) to discover the toolchain, then run the project's own scripts before reaching for raw tools.
+- **List alternatives, never one tool by name only.** When you must reference concrete tools, list realistic ecosystem peers (`pnpm | npm | bun`, `mypy | pyright | ty`, `pytest | jest | go test`, `ruff | eslint | biome`) so the model picks what the project actually uses.
+- **No model or version pins.** Never name a specific model (`gemini-2.5-pro`, `claude-opus-4-7`) — the harness owns model selection. Never pin tool versions (`pre-commit 3.x`, `Python 3.11`, `Node 20`); state the capability, not the version. Avoid date stamps and knowledge-cutoff phrasing.
+- **Prefer stable conventions and official CLIs.** Lean on widely-adopted conventions (Conventional Commits, semver, `AGENTS.md`, `README.md`, `.editorconfig`) and on official CLIs (`gh`, `gcloud`, `git`) — they abstract URL and API churn. Favor long-stable flags over freshly added ones.
+- **Don't lock to Gemini CLI internals.** Avoid hardcoding subagent, extension, MCP server, or skill names by name unless the command's purpose is to manage them — renames will silently break the command.
+- **Lock the output shape, not the writer.** Specify exact headers, sections, ordering, and field names so downstream tooling that parses output keeps working — and let the model fill them in.
 
 ## Documentation
 

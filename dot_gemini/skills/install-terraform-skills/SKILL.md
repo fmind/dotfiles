@@ -5,7 +5,7 @@ description: Install HashiCorp Terraform (and Packer) Agent Skills — expert HC
 
 # Install Terraform Skills (HashiCorp)
 
-HashiCorp publishes official Agent Skills at [`hashicorp/agent-skills`](https://github.com/hashicorp/agent-skills) (announced February 2026). When the user is about to write or modify Terraform code and these skills are not yet installed, recommend installing them.
+HashiCorp publishes official Agent Skills at [`hashicorp/agent-skills`](https://github.com/hashicorp/agent-skills). When the user is about to write or modify Terraform code and these skills are not yet installed, recommend installing them.
 
 This skill is a thin installer guide — the actual Terraform expertise lives in the official skills, which are loaded via progressive disclosure once installed.
 
@@ -61,5 +61,5 @@ npx skills update <skill-name>
 ## Documentation
 
 - [HashiCorp Agent Skills repo](https://github.com/hashicorp/agent-skills)
-- [HashiCorp announcement (Feb 2026)](https://www.hashicorp.com/en/blog/introducing-hashicorp-agent-skills)
+- [HashiCorp launch announcement](https://www.hashicorp.com/en/blog/introducing-hashicorp-agent-skills)
 - [`npx skills` CLI](https://github.com/vercel-labs/skills)

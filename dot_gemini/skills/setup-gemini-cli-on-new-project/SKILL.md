@@ -19,15 +19,7 @@ There is **no `gemini init` shell command**; the workflow uses the in-session `/
 
 ```bash
 mkdir -p .gemini/{commands,agents,skills,hooks}
-touch .geminiignore
-$EDITOR .gemini/settings.json     # paste the starter below
-gemini                            # accept the trust prompt for this folder
-# inside the session:
-/init                             # generates GEMINI.md tailored to this repo
-/memory list                      # confirm context files are loaded
-/permissions                      # confirm trust + shell allow/deny
-exit
-git add .gemini AGENTS.md GEMINI.md .geminiignore
+touch .geminiignore .gemini/settings.json AGENTS.md
 ```
 
 ## Recommended `.gemini/` Layout
@@ -35,7 +27,6 @@ git add .gemini AGENTS.md GEMINI.md .geminiignore
 ```text
 .gemini/
 ├── settings.json          # workspace overrides (commits with repo)
-├── GEMINI.md              # Gemini-specific persona (optional; root-level is fine too)
 ├── commands/              # custom slash commands (.toml)
 │   └── git/commit.toml
 ├── agents/                # subagents (.md, frontmatter uses mcp_servers: snake_case)
@@ -62,81 +53,37 @@ A minimal but useful baseline. Strip what you don't need.
 
 ```json
 {
-  "context": {
-    "fileName": ["AGENTS.md", "GEMINI.md"]
-  },
-  "general": {
-    "checkpointing": { "enabled": true },
-    "defaultApprovalMode": "auto_edit",
-    "plan": { "directory": ".gemini/plans" }
-  },
-  "experimental": {
-    "autoMemory": true,
-    "jitContext": true
-  },
-  "tools": {
-    "shell": { "enableInteractiveShell": true }
-  },
-  "mcpServers": {
-  },
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "startup",
-        "hooks": [
-          { "name": "ctx", "type": "command", "command": "$GEMINI_PROJECT_DIR/.gemini/hooks/inject-context.sh", "timeout": 5000 }
-        ]
-      }
-    ]
-  }
+    "context": {
+        "fileName": ["AGENTS.md", "GEMINI.md"]
+    },
+        "mcpServers": {
+    }
 }
 ```
 
 Notes:
 
 - **No comments allowed** in `settings.json` (strict JSON). Document choices in a sibling `.gemini/README.md` if you need to.
-- `mcpServers` is **camelCase** in `settings.json`. Subagent frontmatter uses `mcp_servers:` (snake_case) — see `create-gemini-subagent`.
+- `mcpServers` is **camelCase** in `settings.json`. Subagent frontmatter uses `mcp_servers:` (snake_case) — see `create-gemini-cli-subagent`.
 - `defaultApprovalMode: "auto_edit"` lets the agent write files without prompting but still asks for shell commands.
 
 ## Starter `AGENTS.md`
 
 ```markdown
-# Project Agent Rules
+# AGENTS.md
 
 `<project-name>` — `<one-line description>`.
 
 ## House rules
+
 - Stack: <languages, frameworks>.
-- Test runner: `<cmd>` — run before declaring a task done.
 - Lint: `<cmd>`. Format: `<cmd>`.
+- Tests: `<cmd>` — run before declaring a task done.
 - Secrets: never commit; use `.env.local` (gitignored) and `<secret manager>`.
 - Branching: `<convention>`. Commit style: `<convention>`.
 
 ## Source layout
-- `src/` — app code.
-- `tests/` — unit + integration tests (mirror `src/` paths).
-- `infra/` — IaC (terraform / pulumi / ...).
-- `.gemini/` — Gemini CLI workspace config (commits).
 
-## Editing workflow
-1. Branch from `main`: `git switch -c <feat>/...`.
-2. Run `<test cmd>` and `<lint cmd>` before opening the PR.
-3. Don't commit on the agent's behalf — surface the diff and let the human commit.
-```
-
-## Starter `.geminiignore`
-
-```gitignore
-# Generated / vendored — agent doesn't need to read these.
-**/generated/**
-**/__pycache__/**
-**/node_modules/**
-**/*.lock
-**/dist/**
-**/build/**
-
-# Large or sensitive fixtures.
-tests/fixtures/large/**
 ```
 
 ## What to Commit vs Gitignore
@@ -147,7 +94,7 @@ tests/fixtures/large/**
 - `.gemini/commands/`, `.gemini/agents/`, `.gemini/skills/`, `.gemini/hooks/`
 - `AGENTS.md`, `GEMINI.md`, `.geminiignore`
 
-**Add to `.gitignore`:**
+**Add to `.gitignore`** (or rely on the global gitignore — this dotfile repo's `~/.config/git/ignore` already covers them):
 
 ```gitignore
 # Local-only Gemini CLI state
@@ -155,9 +102,10 @@ tests/fixtures/large/**
 .gemini/tmp/
 .gemini/.local*
 .gemini/settings.local.json
+MEMORY.md            # Tier 4 per-project private memory (Memory v2)
 ```
 
-User-global state lives in `~/.gemini/` and never enters the repo (sessions, transcripts at `~/.gemini/tmp/<project>/chats/`, personal `GEMINI.md`).
+User-global state lives in `~/.gemini/` and never enters the repo (sessions and Auto Memory drafts at `~/.gemini/tmp/<project>/`, personal `GEMINI.md`).
 
 ## First-launch Trust
 
@@ -204,26 +152,9 @@ python -m json.tool .gemini/settings.json    # validate JSON
 Two paths — pick per workflow:
 
 1. **Commit `.gemini/`** (this skill's default). Simplest; setup applies the moment a teammate clones and accepts the trust prompt.
-2. **Ship a Gemini CLI extension**. Wraps MCP servers + commands + agents + skills + hooks into a redistributable bundle that lives outside the repo. Use this when the same setup should travel across many repos. See `configure-gemini-extensions`.
+2. **Ship a Gemini CLI extension**. Wraps MCP servers + commands + agents + skills + hooks into a redistributable bundle that lives outside the repo. Use this when the same setup should travel across many repos. See `configure-gemini-cli-extensions`.
 
 In most cases, commit `.gemini/`. Reach for an extension only when the same scaffold needs to apply to ≥3 repos.
-
-## Follow-up Skills
-
-After the initial scaffold, deepen each surface:
-
-| Surface | Skill |
-|---------|-------|
-| Settings schema, MCP servers, trust | `configure-gemini-cli` |
-| Hooks (block secrets, auto-format, session-start context) | `configure-gemini-cli-hooks` |
-| `GEMINI.md` / `AGENTS.md`, `.geminiignore`, auto-memory | `configure-gemini-cli-memory` |
-| Custom slash commands | `create-gemini-command` |
-| Subagents (remember: `mcp_servers:` snake_case in frontmatter) | `create-gemini-subagent` |
-| Workspace-scope skills | `create-agent-skill` |
-| Vendor MCP packs (Firebase, BigQuery, GitHub, ...) | `install-*-mcp` |
-| Vendor skill packs (Firebase, Stitch, Angular, ...) | `install-*-skills` |
-| CLI flags, headless mode, slash commands, sessions | `use-gemini-cli` |
-| Extensions vs project config | `configure-gemini-extensions` |
 
 ## Important Notes
 
@@ -242,4 +173,4 @@ After the initial scaffold, deepen each surface:
 - [Slash commands reference (`/init`, `/memory`, ...)](https://geminicli.com/docs/reference/commands/)
 - [Configuration reference](https://geminicli.com/docs/reference/configuration/)
 - [Extensions overview](https://geminicli.com/docs/extensions/)
-- Companion skills: `configure-gemini-cli`, `configure-gemini-cli-hooks`, `configure-gemini-cli-memory`, `configure-gemini-extensions`, `create-gemini-command`, `create-gemini-subagent`, `create-agent-skill`, `use-gemini-cli`.
+- Companion skills: `configure-gemini-cli`, `configure-gemini-cli-hooks`, `configure-gemini-cli-memory`, `configure-gemini-cli-extensions`, `create-gemini-cli-command`, `create-gemini-cli-subagent`, `create-agent-skill`, `use-gemini-cli`.

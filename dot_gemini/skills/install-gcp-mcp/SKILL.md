@@ -33,7 +33,7 @@ The repo, configuration, or user request indicates regular use of a GCP service 
 | `resource-manager` | `https://cloudresourcemanager.googleapis.com/mcp` | `cloudresourcemanager.googleapis.com` | project / folder / IAM mgmt across an org | |
 | `error-reporting` | `https://clouderrorreporting.googleapis.com/mcp` | `clouderrorreporting.googleapis.com` | crash / exception triage | |
 | `agent-registry` | `https://agentregistry.googleapis.com/mcp` | `agentregistry.googleapis.com` | publishes / consumes agent definitions | Preview |
-| `agent-search` | `https://discoveryengine.googleapis.com/mcp` | `discoveryengine.googleapis.com` | grounded enterprise search, RAG over GCS / BigQuery corpora | Same endpoint as the legacy `vertex-ai-search` (rebranded April 2026); pick one name. |
+| `agent-search` | `https://discoveryengine.googleapis.com/mcp` | `discoveryengine.googleapis.com` | grounded enterprise search, RAG over GCS / BigQuery corpora | Same endpoint as the legacy `vertex-ai-search`; pick one name. |
 | `developer-knowledge` | `https://developerknowledge.googleapis.com/mcp` | `developerknowledge.googleapis.com` | grounded GCP doc lookup | |
 | `cx-agent-studio` | `https://ces.us.rep.googleapis.com/mcp` | `dialogflow.googleapis.com` + `ces.googleapis.com` | Dialogflow CX flows / intents / webhooks / eval sets | Regional endpoint (swap `us` for the right region). Caller needs `roles/mcp.toolUser` plus a Dialogflow CX role (typically `roles/dialogflow.admin`). |
 | `gemini-cloud-assist` | `https://geminicloudassist.googleapis.com/mcp` | `geminicloudassist.googleapis.com` | GCP architecture design, troubleshooting, cost analysis | Distinct from Gemini *Code* Assist. Preview. |

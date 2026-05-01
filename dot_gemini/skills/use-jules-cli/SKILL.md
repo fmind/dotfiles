@@ -7,7 +7,7 @@ description: Guide for using the jules CLI (Jules Tools) to dispatch and inspect
 
 `jules` (the `@google/jules` npm package, also called **Jules Tools**) is the CLI for Google's autonomous async coding agent. The agent runs on a cloud VM, plans + applies changes, runs tests, and pushes results to a remote branch you can pull locally.
 
-The CLI surface is intentionally small. As of 2026, the verified commands are `version`, `remote` (with `list`, `new`, `pull` subcommands), `completion`, and `help`. Earlier docs that referenced `jules mcp`, `jules session ...`, or `jules auth login` are stale — Jules MCP integration is configured through the **Jules web Settings UI**, not the CLI.
+The CLI surface is intentionally small — `version`, `completion`, `help`, and `remote` (with `list`, `new`, `pull` subcommands). Run `jules help` to verify the live command list before relying on remembered syntax. Earlier docs that referenced `jules mcp`, `jules session ...`, or `jules auth login` are stale — Jules MCP integration is configured through the **Jules web Settings UI**, not the CLI.
 
 ## Install / Auth
 
@@ -58,7 +58,7 @@ jules completion zsh  > "${fpath[1]}/_jules"
 
 ## Companion Skill Bundle
 
-The official [`google-labs-code/jules-skills`](https://github.com/google-labs-code/jules-skills) bundle teaches the *local* coding agent how to dispatch Jules effectively (currently `automate-github-issues` and `local-action-verification`). Install via `install-jules-skills`.
+The official [`google-labs-code/jules-skills`](https://github.com/google-labs-code/jules-skills) bundle teaches the *local* coding agent how to dispatch Jules effectively. Install via `install-jules-skills`; see the bundle for the current set of skills.
 
 ## In-CLI Integration
 

@@ -1,0 +1,15 @@
+description = "Write or expand tests for the target using the project's existing test framework."
+
+prompt = """
+Write or expand tests for `{{args}}` using whatever test framework this repository already uses.
+
+Requirements:
+1. Treat `{{args}}` as a path, symbol, or behavior to cover. If empty, ask what to test and stop.
+2. Inspect the target, its callers, and at least one neighboring test before writing. Match the project's framework, naming, file layout, fixtures, and assertion style — do not introduce a new framework or runner.
+3. Detect the test command and config from the project itself (`pyproject.toml`, `package.json`, `go.mod`, `Cargo.toml`, `Makefile`, `mise.toml`, existing test directories) instead of assuming defaults.
+4. Cover the obvious cases first: happy path, edge cases (empty, boundary, invalid input), and at least one error path. Skip trivial coverage that only restates the implementation.
+5. Place new tests where the project already places similar tests. Reuse existing fixtures, factories, and helpers — do not duplicate setup logic.
+6. Run the narrowest test command available for the new tests. Iterate until they pass.
+7. Do not change production code unless the new tests reveal a clear bug. Flag any such bug separately rather than fixing it silently.
+8. Summarize what you tested, what you skipped (and why), and the command you ran.
+"""

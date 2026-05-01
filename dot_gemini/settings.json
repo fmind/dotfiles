@@ -41,17 +41,13 @@
     },
     "preferredEditor": "nvim",
     "sessionRetention": {
-      "maxAge": "7d",
-      "minRetention": "1d"
+      "maxAge": "7d"
     },
     "vimMode": true
   },
   "ide": {
     "enabled": true,
     "hasSeenNudge": true
-  },
-  "model": {
-    "compressionThreshold": 0.33
   },
   "modelConfigs": {
     "defaultModel": "auto-gemini-3"
@@ -62,6 +58,11 @@
     },
     "autoAddToPolicyByDefault": true,
     "enablePermanentToolApproval": true
+  },
+  "skills": {
+    "disabled": [
+      "skill-creator"
+    ]
   },
   "tools": {
     "shell": {
@@ -104,11 +105,12 @@
       }
     },
     "escapePastedAtSymbols": true,
-    "hideBanner": true,
     "hideTips": true,
+    "inlineThinkingMode": "full",
     "loadingPhrases": "tips",
     "showModelInfoInChat": true,
     "showStatusInTitle": true,
+    "terminalBuffer": true,
     "theme": "catppuccin-mocha",
     "useAlternateBuffer": true
   }

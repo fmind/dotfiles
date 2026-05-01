@@ -276,4 +276,4 @@ The `web-quality-skills` bundle steers towards:
 - [Lighthouse user flows](https://github.com/GoogleChrome/lighthouse/blob/main/docs/user-flows.md)
 - [Web Vitals](https://web.dev/articles/vitals)
 - [Performance budgets](https://web.dev/articles/use-lighthouse-for-performance-budgets/)
-- Companion skills: `install-web-quality-skills`, `install-vercel-skills` (web-design-guidelines).
+- Companion skills: `install-web-quality-skills`, `use-skills-cli` (install other web/UX skill bundles via `npx skills`).

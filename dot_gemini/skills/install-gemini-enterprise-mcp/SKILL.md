@@ -7,7 +7,7 @@ description: Install Gemini Enterprise Agent Platform MCP into .gemini/settings.
 
 Drops the Gemini Enterprise Agent Platform MCP server into `.gemini/settings.json` for the current project. Use this when enterprise agent design/deploy work happens in nearly every session of the project — otherwise prefer the `gemini-enterprise` subagent (`~/.gemini/agents/gemini-enterprise.md`), which loads the MCP only when invoked and keeps the parent context clean.
 
-> **Note:** Vertex AI was rebranded to **Gemini Enterprise Agent Platform** at Cloud Next 2026. Both products share the `aiplatform.googleapis.com` MCP host but use different toolset paths (`/mcp/<toolset>`). This skill targets the Agent Platform tools (retrieval, evaluation, prompts); for Vertex AI Gen AI / training / endpoints, see the **Vertex AI** section of `install-gcp-mcp`.
+> **Note:** Vertex AI was rebranded to **Gemini Enterprise Agent Platform**. Both products share the `aiplatform.googleapis.com` MCP host but use different toolset paths (`/mcp/<toolset>`). This skill targets the Agent Platform tools (retrieval, evaluation, prompts); for Vertex AI Gen AI / training / endpoints, see the **Vertex AI** section of `install-gcp-mcp`.
 
 ## When to Trigger
 

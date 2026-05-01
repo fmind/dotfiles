@@ -80,5 +80,5 @@ firebase deploy --only hosting,functions
 
 - [Firebase agent skills docs](https://firebase.google.com/docs/ai-assistance/agent-skills)
 - [`firebase/agent-skills` repo](https://github.com/firebase/agent-skills)
-- [Firebase blog announcement (Feb 2026)](https://firebase.blog/posts/2026/02/ai-agent-skills-for-firebase/)
+- [Firebase launch announcement](https://firebase.blog/posts/2026/02/ai-agent-skills-for-firebase/)
 - [Firebase CLI reference](https://firebase.google.com/docs/cli)

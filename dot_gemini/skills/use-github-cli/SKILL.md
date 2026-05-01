@@ -5,7 +5,7 @@ description: Guide for using the GitHub CLI (gh) to manage issues, pull requests
 
 # Use GitHub CLI (gh)
 
-This skill covers the `gh` CLI for day-to-day GitHub work and for managing Agent Skills via the `gh skill` subcommand (added in `gh` v2.90.0, April 2026).
+This skill covers the `gh` CLI for day-to-day GitHub work and for managing Agent Skills via the `gh skill` subcommand (added in `gh` v2.90.0+).
 
 ## One-time Setup
 
@@ -109,7 +109,7 @@ gh skill update <skill-name> --pin <sha>
 gh skill publish ./my-skill        # validate + push
 ```
 
-The v2.90.0 launch ships **`search`, `install`, `preview`, `update`, `publish`** — there is no `gh skill list` yet. Track the [manual](https://cli.github.com/manual/gh_skill) for new subcommands; the feature is in public preview.
+Track the [`gh skill` manual](https://cli.github.com/manual/gh_skill) for the canonical subcommand list — the surface is still evolving.
 
 `--scope user` writes to `~/.gemini/skills/`; `--scope project` writes to `.agents/skills/` (the generic, cross-agent location). Globally installed skills are not tracked by chezmoi by default — `chezmoi add ~/.gemini/skills/<slug>` to commit them.
 
@@ -136,5 +136,5 @@ gh pr view 123 --json title,body,comments
 - [gh CLI manual](https://cli.github.com/manual/)
 - [gh skill manual](https://cli.github.com/manual/gh_skill)
 - [gh skill install manual](https://cli.github.com/manual/gh_skill_install)
-- [gh skill changelog (Apr 2026)](https://github.blog/changelog/2026-04-16-manage-agent-skills-with-github-cli/)
+- [gh skill launch changelog](https://github.blog/changelog/2026-04-16-manage-agent-skills-with-github-cli/)
 - [Agent Skills spec](https://agentskills.io)
