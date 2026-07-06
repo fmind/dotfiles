@@ -1,0 +1,146 @@
+[env]
+_.source = ".env"
+
+[settings.task]
+run_auto_install = false
+
+[tools]
+uv = "latest"
+dprint = "latest"
+gitleaks = "latest"
+
+[tasks.all]
+alias = "a"
+description = "Format, check, test, and build the project"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
+[tasks.build]
+alias = "b"
+description = "Build project artifacts"
+depends = ["build:python"]
+
+# On-demand: needs a Dockerfile from the containerize skill. Add "build:image"
+# to the `build` task's depends once the image is part of the deliverable.
+[tasks."build:image"]
+description = "Build production OCI image (Docker)"
+run = "docker build -t <slug>:latest ."
+
+[tasks."build:python"]
+description = "Build Python distribution artifacts"
+run = "uv build"
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = [
+  "check:format",
+  "check:leaks",
+  "check:lint",
+  "check:types",
+  "check:vuln",
+]
+
+[tasks."check:format"]
+alias = "cf"
+description = "Check formatting and config validity"
+run = [
+  "uv run validate-pyproject pyproject.toml",
+  "uv run ruff format --check .",
+  "dprint check",
+  "uv lock --check",
+]
+
+[tasks."check:leaks"]
+alias = "cs"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+
+[tasks."check:lint"]
+alias = "cl"
+description = "Lint Python sources (ruff)"
+run = """
+uv run ruff check --force-exclude .
+"""
+
+[tasks."check:types"]
+alias = "ct"
+description = "Type-check Python sources (ty)"
+run = "uv run ty check"
+
+[tasks."check:vuln"]
+alias = "cv"
+description = "Scan dependencies for vulnerabilities (pip-audit)"
+run = "uv run pip-audit"
+
+[tasks.clean]
+alias = "n"
+description = "Remove build artifacts and coverage files"
+run = [
+  "find . -type f -name '*.py[co]' -delete",
+  "find . -type d -name __pycache__ -exec rm -rf {} +",
+  "rm -rf .pytest_cache .ruff_cache .coverage htmlcov dist docs",
+]
+
+[tasks.coverage]
+alias = "v"
+description = "View test coverage report"
+run = "uv run pytest --cov --cov-report=term --cov-report=html"
+
+[tasks.docs]
+alias = "d"
+description = "Generate HTML docs (pdoc)"
+run = "uv run pdoc -o docs <slug>"
+
+[tasks.format]
+alias = "f"
+description = "Format all sources and documents"
+run = ["mise run format:python", "mise run format:dprint"]
+
+[tasks."format:dprint"]
+description = "Format JSON, Markdown, TOML, YAML with dprint"
+run = "dprint fmt"
+
+[tasks."format:python"]
+description = "Format Python sources and imports (ruff)"
+run = """
+uv run ruff check --select=I --fix --force-exclude . && uv run ruff format --force-exclude .
+"""
+
+[tasks.install]
+alias = "i"
+description = "Install development dependencies"
+depends = ["install:hooks"]
+
+[tasks."install:hooks"]
+description = "Install Git hooks using Lefthook"
+depends = ["install:python"]
+run = "uv run lefthook install"
+
+[tasks."install:python"]
+description = "Sync Python dependencies (uv)"
+run = "uv sync"
+
+[tasks.publish]
+alias = "p"
+description = "Publish distribution artifacts to PyPI"
+run = "uv publish"
+
+[tasks.test]
+alias = "t"
+description = "Run the test suite (pytest)"
+run = "uv run pytest"
+
+[tasks."test:watch"]
+alias = "tw"
+description = "Run the test suite in watch mode"
+run = "uv run pytest-watcher ."
+
+[tasks.upgrade]
+alias = "u"
+description = "Upgrade dependencies to latest compatible versions"
+run = "uv sync --upgrade"
+
+[tasks.watch]
+alias = "w"
+description = "Run the dev server with live reload"
+run = "uv run granian --interface asgi --reload <slug>:app"

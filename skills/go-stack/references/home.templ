@@ -1,0 +1,73 @@
+package templates
+
+type User struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+templ UserCard(user User) {
+	<!-- "Everything in the Same File" UI Component Paradigm -->
+	<!-- Pass Go models directly to Alpine.js via JSONString attribute serialization -->
+	<div
+		x-data={ templ.JSONString(user) }
+		class="p-6 bg-zinc-900/60 border border-zinc-800 rounded-xl space-y-2"
+	>
+		<h3 class="text-lg font-bold text-zinc-100" x-text="name"></h3>
+		<p class="text-sm text-zinc-400" x-text="email"></p>
+		<!-- Execute inline functions using typesafe server values via JSFuncCall -->
+		<button
+			@click={ templ.JSFuncCall("console.log", "Initiated view for user ID: ", user.ID) }
+			class="mt-4 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition"
+		>
+			Audit Details (Console)
+		</button>
+	</div>
+}
+
+templ Home(name string, user User) {
+	<div class="space-y-8 max-w-2xl mx-auto" x-data="{ open: false }">
+		<div class="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-8 backdrop-blur-sm shadow-xl space-y-6">
+			<h2 class="text-3xl font-extrabold tracking-tight">Welcome, { name }!</h2>
+			<p class="text-zinc-400 leading-relaxed">
+				This is a premium, modern web application built using the GOTH stack: 
+				Go, Templ, HTMX, Alpine.js, and Tailwind CSS.
+			</p>
+			<div class="pt-4 flex gap-4">
+				<button
+					hx-get="/api/hello"
+					hx-target="#htmx-response"
+					class="px-5 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-zinc-950 font-semibold transition-all shadow-lg shadow-teal-500/20 hover:scale-[1.02]"
+				>
+					Test HTMX Request
+				</button>
+				<button
+					@click="open = !open"
+					class="px-5 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-semibold border border-zinc-700/50 transition-all hover:scale-[1.02]"
+				>
+					Toggle Demo Card
+				</button>
+			</div>
+		</div>
+		<div id="htmx-response" class="empty:hidden min-h-[60px] bg-zinc-900/20 border border-teal-500/20 rounded-xl p-4 text-sm text-teal-400">
+			<!-- HTMX target response renders here -->
+		</div>
+		<div
+			x-show="open"
+			x-transition:enter="transition ease-out duration-300"
+			x-transition:enter-start="opacity-0 scale-95"
+			x-transition:enter-end="opacity-100 scale-100"
+			x-transition:leave="transition ease-in duration-200"
+			x-transition:leave-start="opacity-100 scale-100"
+			x-transition:leave-end="opacity-0 scale-95"
+			class="space-y-4"
+		>
+			<div class="bg-zinc-900/20 border border-zinc-800 rounded-xl p-6 text-sm text-zinc-400 space-y-2">
+				<h4 class="font-semibold text-zinc-200">Alpine.js Active State:</h4>
+				<p>If you see this box, Alpine.js is successfully initialized and executing client-side state transitions!</p>
+			</div>
+			<!-- Component containing Go values compiled dynamically -->
+			@UserCard(user)
+		</div>
+	</div>
+}

@@ -1,0 +1,24 @@
+# Search behavior
+enter_accept = true
+inline_height = 0
+style = "compact"
+
+# Vim keybindings
+keymap_mode = "vim-insert"
+
+# Privacy: no sync
+auto_sync = false
+update_check = false
+
+# No workspace history
+workspaces = false
+
+# Built-in secrets filter
+secrets_filter = true
+
+# Search behavior defaults
+search_mode = "fuzzy"
+filter_mode = "directory"
+
+# Up-arrow scoped to the session
+filter_mode_shell_up_key_binding = "session"

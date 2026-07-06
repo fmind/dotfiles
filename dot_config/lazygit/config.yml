@@ -1,0 +1,22 @@
+disableStartupPopups: true
+git:
+  diffContextSize: 7
+  paging:
+    colorArg: always
+    pager: delta --paging=never
+gui:
+  expandFocusedSidePanel: true
+  scrollHeight: 5
+  scrollPastBottom: false
+  showCommandLog: false
+  nerdFontsVersion: "3"
+
+os:
+  editPreset: nvim
+customCommands:
+  - key: "G"
+    context: "files"
+    description: "Generate Conventional Commit message with Antigravity (agy)"
+    loadingText: "Asking Antigravity..."
+    subprocess: true
+    command: "git g"

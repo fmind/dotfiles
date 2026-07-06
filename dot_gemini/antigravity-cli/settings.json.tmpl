@@ -1,0 +1,20 @@
+{
+  "allowNonWorkspaceAccess": true,
+  "artifactReviewPolicy": "agent-decides",
+  "colorScheme": "dark",
+{{- $gcp_project := env "ANTIGRAVITY_CLOUD_PROJECT" -}}
+{{- if $gcp_project }}
+  "gcp": {
+    "project": "{{ $gcp_project }}",
+    "location": "{{ env "ANTIGRAVITY_CLOUD_LOCATION" | default "global" }}"
+  },
+{{- end }}
+  "model": "Gemini 3.5 Flash (High)",
+  "notifications": true,
+  "runningLightSpeed": "fast",
+  "showFeedbackSurvey": false,
+  "toolPermission": "always-proceed",
+  "trustedWorkspaces": [
+    "{{ .chezmoi.homeDir }}"
+  ]
+}

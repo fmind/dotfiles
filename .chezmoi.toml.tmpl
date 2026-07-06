@@ -1,0 +1,29 @@
+encryption = "age"
+
+[data]
+    git_name = {{ promptStringOnce . "git_name" "What is your Git name" "Médéric Hurier (Fmind)" | quote }}
+    git_email = {{ promptStringOnce . "git_email" "What is your Git email address" "github@fmind.dev" | quote }}
+    github_user = {{ promptStringOnce . "github_user" "What is your GitHub username" "fmind" | quote }}
+
+[age]
+    identity = "{{ .chezmoi.homeDir }}/.config/chezmoi/key.txt"
+    recipient = "age1uvmlyuvm070d22xtmsadg9a0ucw49fyn4fx0fkd805lp3kd6zy0q745paz"
+
+[cd]
+    command = "fish"
+
+[edit]
+    apply = true
+    command = "nvim"
+
+[diff]
+    pager = "delta --paging=never"
+
+[merge]
+    command = "nvim"
+    args = [
+        "-d",
+        "{{`{{ .Destination }}`}}",
+        "{{`{{ .Source }}`}}",
+        "{{`{{ .Target }}`}}"
+    ]

@@ -1,0 +1,8 @@
+external-sources=true
+source-path=SCRIPTDIR
+
+enable=add-default-case            # warn on case statements missing a default
+enable=check-extra-masked-returns  # catch exit codes lost via local/declare/pipes
+enable=deprecate-which             # prefer `command -v` over external `which`
+enable=quote-safe-variables        # suggest quoting vars that should be quoted
+enable=require-variable-braces     # enforce ${var} for readability

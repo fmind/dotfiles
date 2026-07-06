@@ -1,0 +1,126 @@
+[project]
+name = "<slug>"
+version = "0.1.0"
+description = "<description>"
+readme = "README.md"
+requires-python = ">=<latest_stable_version_major_minor>"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "<holder>" }]
+dependencies = [
+  # Core — used by every project type (CLI, web, agent, library)
+  "pydantic>=2.10.6",
+  "pydantic-settings>=2.7.1",
+  "structlog>=25.1.0",
+  # Web (Litestar) — remove for CLI, agent, or library projects
+  "advanced-alchemy>=1.11.0",
+  "alembic>=1.18.5",
+  "asyncpg>=0.31.0",
+  "granian[reload]>=1.7.0",
+  "litestar[standard]>=2.23.0",
+  "sqlalchemy>=2.0.51",
+]
+
+[dependency-groups]
+dev = [
+  "anyio>=4.8.0",
+  "lefthook>=2.1.9",
+  "pdoc>=16.0.0",
+  "pip-audit>=2.7.3",
+  "pytest-cov>=7.1.0",
+  "pytest-watcher>=0.4.3",
+  "pytest>=9.1.1",
+  "ruff>=0.15.18",
+  "testcontainers[postgres]>=4.14.2",  # web integration tests; drop for non-web projects
+  "ty>=0.0.51,<0.1",  # pre-1.0: pin a compatible range until it stabilizes
+  "validate-pyproject>=0.25",
+]
+
+[project.scripts]
+<slug> = "<slug>:main"
+
+[build-system]
+requires = ["uv_build>=0.9.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true
+line-ending = "lf"
+quote-style = "double"
+
+[tool.ruff.lint]
+select = [
+  "A",     # flake8-builtins
+  "ARG",   # flake8-unused-arguments (clean signatures)
+  "ASYNC", # flake8-async
+  "B",     # flake8-bugbear (highly reliable common bug & design detector)
+  "C4",    # flake8-comprehensions
+  "E",     # pycodestyle errors
+  "ERA",   # eradicate (clean commented out code)
+  "F",     # pyflakes
+  "FA",    # flake8-future-annotations
+  "FURB",  # refurb (modernizing constructs)
+  "I",     # isort (import sorting)
+  "ISC",   # flake8-implicit-str-concat
+  "LOG",   # flake8-logging
+  "N",     # pep8-naming (consistent formatting)
+  "PIE",   # flake8-pie
+  "PTH",   # flake8-use-pathlib (modern Path object usage)
+  "Q",     # flake8-quotes
+  "RET",   # flake8-return
+  "RSE",   # flake8-raise
+  "PERF",  # Perflint (performance anti-patterns)
+  "PGH",   # pygrep-hooks (enforces specific noqas/hooks)
+  "PT",    # flake8-pytest-style
+  "RUF",   # ruff-specific rules
+  "S",     # flake8-bandit (security checks)
+  "SIM",   # flake8-simplify
+  "SLF",   # flake8-self
+  "T10",   # flake8-debugger
+  "T20",   # flake8-print (prevent print statements in library code)
+  "TID",   # flake8-tidy-imports
+  "UP",    # pyupgrade (modern Python syntax upgrades)
+  "W",     # pycodestyle warnings
+]
+ignore = [
+  "E501",     # line length allowed for HTML tags/templates
+  "ASYNC240", # pathlib.Path methods in async functions allowed (e.g. local file checks)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+  "S101", # assert
+  "T201", # print statement allowed in tests
+]
+"conftest.py" = [
+  "S105", # fake secrets intentional in fixtures
+]
+
+
+[tool.ty.environment]
+python-version = "<latest_stable_version_major_minor>"
+
+[tool.ty.rules]
+invalid-argument-type = "ignore" # tolerate dynamic unpacking of HTML/Alpine.js attributes
+invalid-type-form = "ignore"     # tolerate dynamic ORM/DTO type forms
+unresolved-attribute = "ignore"  # tolerate optional deps / dynamic attrs
+unresolved-import = "ignore"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-config", "--strict-markers"]
+pythonpath = ["."]
+xfail_strict = true
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+omit = ["tests/*", "scripts/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+skip_empty = true

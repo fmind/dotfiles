@@ -1,0 +1,8 @@
+title = "fmind/dotfiles"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Encrypted secrets stay in-tree."
+paths = ['''\.age$''']

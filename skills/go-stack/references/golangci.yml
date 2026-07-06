@@ -1,0 +1,70 @@
+version: "2"
+run:
+  go: "1.26"
+  tests: true
+  timeout: 5m
+  concurrency: 0
+  issues-exit-code: 1
+  enable-build-vcs: false
+  relative-path-mode: cfg
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+  settings:
+    gofumpt:
+      extra-rules: true
+    goimports:
+      local-prefixes: ["<import_path>"]
+linters:
+  default: standard
+  enable:
+    - bodyclose
+    - copyloopvar
+    - errcheck
+    - errorlint
+    - gosec
+    - misspell
+    - perfsprint
+    - prealloc
+    - revive
+    - sloglint
+    - sqlclosecheck
+    - testifylint
+    - unparam
+    - unused
+    - whitespace
+  exclusions:
+    rules:
+      - path: _test\.go
+        linters:
+          - gosec
+  settings:
+    govet:
+      enable-all: true
+    errcheck:
+      check-type-assertions: true
+      check-blank: false
+    gosec:
+      severity: medium
+      confidence: medium
+      excludes:
+        - G101
+        - G107
+        - G115
+        - G204
+        - G301
+        - G302
+        - G304
+        - G306
+    revive:
+      rules:
+        - name: exported
+          disabled: true
+        - name: package-comments
+          disabled: true
+    misspell:
+      locale: US
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

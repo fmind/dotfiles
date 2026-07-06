@@ -1,0 +1,78 @@
+[env]
+APP_NAME = "dot"
+
+[tasks.all]
+alias = "a"
+description = "Format, check, test, and build the project"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
+[tasks.build]
+alias = "b"
+description = "Compile production binary"
+sources = ["go.mod", "go.sum", "**/*.go"]
+outputs = ["bin/dot"]
+run = "go build -o bin/$APP_NAME ./cmd/dot"
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = ["check:lint", "check:vuln", "check:format", "check:leaks"]
+
+[tasks."check:format"]
+alias = "cf"
+description = "Check config/markup formatting (dprint)"
+run = "dprint check"
+
+[tasks."check:leaks"]
+alias = "cs"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+
+[tasks."check:lint"]
+alias = "cl"
+description = "Lint Go sources (golangci-lint)"
+run = "go tool golangci-lint run ./..."
+
+[tasks."check:vuln"]
+alias = "cv"
+description = "Scan Go code for vulnerabilities (govulncheck)"
+run = "go tool govulncheck ./..."
+
+[tasks.format]
+alias = "f"
+description = "Format all sources and documents"
+run = ["mise run format:go", "mise run format:dprint"]
+
+[tasks."format:go"]
+description = "Format Go sources and imports (goimports + gofumpt)"
+run = ["go tool goimports -w .", "go tool gofumpt -w ."]
+
+[tasks."format:dprint"]
+description = "Format JSON, Markdown, TOML, YAML with dprint"
+run = "dprint fmt"
+
+[tasks.install]
+alias = "i"
+description = "Install development dependencies"
+run = "go mod tidy"
+
+[tasks.clean]
+alias = "n"
+description = "Remove build artifacts and coverage files"
+run = "rm -rf bin/ coverage.out"
+
+[tasks.test]
+alias = "t"
+description = "Run the test suite (gotestsum)"
+run = "go tool gotestsum --format pkgname -- -race -coverprofile=coverage.out ./..."
+
+[tasks."test:watch"]
+alias = "tw"
+description = "Run the test suite in watch mode"
+run = "go tool gotestsum --watch --format pkgname -- -race -coverprofile=coverage.out ./..."
+
+[tasks.coverage]
+alias = "v"
+description = "View test coverage in terminal"
+depends = ["test"]
+run = "go tool cover -func=coverage.out"

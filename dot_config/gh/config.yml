@@ -1,0 +1,13 @@
+aliases:
+  co: pr checkout
+  pv: pr view
+  pvw: pr view --web
+  prs: pr list
+  rv: repo view
+  rvw: repo view --web
+editor: nvim
+git_protocol: ssh
+pager: delta --paging=never
+prefer_editor_prompt: enabled
+telemetry: disabled
+version: "1"

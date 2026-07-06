@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* Scan templ templates and Go files (handlers may embed Tailwind classes in strings). */
+@source "../../**/*.{templ,go}";

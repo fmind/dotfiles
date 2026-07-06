@@ -1,0 +1,33 @@
+# Vi mode
+set editing-mode vi
+set show-mode-in-prompt on
+set vi-ins-mode-string \1\e[6 q\2
+set vi-cmd-mode-string \1\e[2 q\2
+
+# UI
+set bell-style none
+set colored-stats on
+set completion-ignore-case on
+set completion-map-case on
+set show-all-if-ambiguous on
+
+# History
+set history-size 10000
+set history-preserve-point on
+
+# Shortcuts
+$if mode=vi
+set keymap vi-insert
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-l": clear-screen
+"\C-r": reverse-search-history
+"\C-w": backward-kill-word
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+set keymap vi-command
+"\C-l": clear-screen
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+$endif

@@ -1,0 +1,194 @@
+[env]
+_.path = "~/.local/share/chezmoi/dot_local/bin"
+
+[settings.task]
+run_auto_install = false
+
+[task_config]
+dir = "~/.local/share/chezmoi"
+
+[tasks.all]
+alias = "l"
+description = "Run the full pre-commit and pre-push gate"
+run = [
+  "lefthook run pre-commit --all-files",
+  "lefthook run pre-push --all-files < /dev/null",
+]
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = [
+  "check:format",
+  "check:go",
+  "check:python",
+  "check:shell",
+  "check:leaks",
+]
+
+[tasks."check:format"]
+description = "Check config/markup formatting (dprint)"
+run = "dprint check"
+
+[tasks."check:go"]
+description = "Lint and vuln-scan the Go module (dot/)"
+# Delegate to dot/'s own tasks — the single source of truth for Go checks.
+run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
+
+[tasks."check:leaks"]
+alias = "cs"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+
+[tasks."check:python"]
+description = "Lint Python sources (ruff)"
+run = "ruff check"
+
+[tasks."check:shell"]
+description = "Lint shell scripts (shellcheck)"
+run = "git ls-files '*.sh' ':!:skills/**' ':!:.agents/**' | xargs -r shellcheck"
+
+[tasks.format]
+description = "Format all sources and documents"
+run = [
+  "mise run format:dprint",
+  "mise run format:go",
+  "mise run format:python",
+  "mise run format:shell",
+]
+
+[tasks."format:dprint"]
+description = "Format JSON, Markdown, TOML, YAML with dprint"
+run = "dprint fmt"
+
+[tasks."format:go"]
+description = "Format Go sources and imports (goimports + gofumpt)"
+# go.work resolves the tools from dot/go.mod; run from root so repo-relative
+# staged paths (dot/foo.go) resolve — `-C dot` would break them. Defaults to dot/.
+run = ["go tool goimports -w dot", "go tool gofumpt -w dot"]
+
+[tasks."format:python"]
+description = "Format Python sources and imports (ruff)"
+run = "ruff check --select=I --fix . && ruff format ."
+
+[tasks."format:shell"]
+description = "Format shell scripts (shfmt)"
+run = "shfmt -w -i 2 -s ."
+
+[tasks.test]
+description = "Run the dot CLI test suite (delegates to dot/)"
+run = "mise -C dot run test"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dotfiles management — chezmoi orchestration, tool sync, and bootstrap.
+# ─────────────────────────────────────────────────────────────────────────────
+
+[tasks.apply]
+alias = "a"
+depends = ["build"]
+description = "Apply dotfiles with chezmoi"
+run = "chezmoi apply --force --init"
+
+[tasks.build]
+alias = "b"
+description = "Build the dot CLI binary"
+run = "go build -C dot -o ../dot_local/bin/executable_dot ./cmd/dot"
+sources = ["dot/go.mod", "dot/go.sum", "dot/**/*.go"]
+outputs = ["dot_local/bin/executable_dot"]
+
+[tasks.completions]
+alias = "g"
+depends = ["build"]
+description = "Generate Fish completions for core CLI tools"
+run = "executable_dot completion"
+
+[tasks.diff]
+alias = "d"
+description = "Show pending chezmoi diff"
+run = "chezmoi diff --force --init"
+
+[tasks.doctor]
+alias = "o"
+description = "Run chezmoi/mise health checks"
+run = ["chezmoi doctor", "mise doctor"]
+
+[tasks.full]
+alias = "f"
+depends = ["apply", "tools"]
+description = "Apply dotfiles and sync global tools"
+run = "echo '✓ Dotfiles deployed.'"
+
+[tasks.hooks]
+alias = "h"
+description = "Install repository Git hooks (Lefthook)"
+run = "lefthook install"
+
+[tasks.init]
+alias = "i"
+depends = ["trust", "tools", "hooks", "vim", "krew"]
+description = "Initialize chezmoi config and run first-time bootstrap"
+run = [
+  "chezmoi init --force --source \"$PWD\"",
+  "echo '✓ First-time bootstrap complete.'",
+]
+
+[tasks.krew]
+alias = "w"
+description = "Install core kubectl plugins (krew)"
+run = "krew install neat tree df-pv view-allocations view-secret sniff"
+
+[tasks.lock]
+alias = "k"
+description = "Refresh the home mise lockfile and stage it into chezmoi"
+run = [
+  "mise -C \"$HOME\" lock",
+  "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
+]
+
+[tasks.preview]
+description = "Preview pending chezmoi changes (dry-run apply)"
+run = "chezmoi apply --dry-run --force --init"
+
+[tasks.prune]
+alias = "p"
+description = "Remove unused mise packages and clear cache"
+run = ["mise prune -y", "mise cache clear", "executable_prune-system.sh"]
+
+[tasks.skills]
+alias = "sk"
+description = "Update all global agent skills"
+run = "skills update -g -y"
+
+[tasks.tools]
+alias = "t"
+depends = ["apply"]
+depends_post = ["completions"]
+description = "Install global tools from home mise config"
+run = ["mise -C \"$HOME\" install -y"]
+
+[tasks.trust]
+alias = "r"
+description = "Trust repo and home mise configs"
+run = ["mise trust -y mise.toml", "mise trust -y ~/.config/mise/config.toml"]
+
+[tasks.upgrade]
+alias = "u"
+description = "Upgrade mise tools to latest versions"
+run = [
+  "mise -C \"$HOME\" upgrade --bump",
+  "mise upgrade --bump",
+  "mise run lock",
+  "mise run apply",
+  "mise run tools",
+]
+
+[tasks.verify]
+alias = "x"
+depends = ["build"]
+description = "Run the dotfiles sanity check suite"
+run = "executable_dot verify"
+
+[tasks.vim]
+alias = "v"
+description = "Sync Neovim plugins headlessly (LazyVim)"
+run = "nvim --headless '+Lazy! restore' +qa"

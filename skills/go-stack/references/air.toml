@@ -1,0 +1,11 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "go tool templ generate && go build -o ./tmp/main ./cmd/<slug>"
+bin = "./tmp/main"
+delay = 1000
+exclude_dir = ["tmp", "vendor"]
+include_ext = ["go", "css", "templ"]
+exclude_regex = ["_test.go", "_templ.go"]
+stop_on_error = true

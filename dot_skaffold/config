@@ -1,0 +1,5 @@
+global:
+  collect-metrics: false
+kubeContexts:
+  - kube-context: k3d-local
+    default-repo: registry.localhost:5050

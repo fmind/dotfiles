@@ -1,0 +1,2 @@
+save-exact=true   # deterministic installs — pin exact versions on --save/--save-dev
+fund=false        # silence the post-install funding banner

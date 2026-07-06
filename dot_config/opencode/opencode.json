@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "~/.agents/AGENTS.md"
+  ],
+  "model": "google-vertex/gemini-3.5-flash",
+  "small_model": "google-vertex/gemini-3.5-flash",
+  "provider": {
+    "google-vertex": {
+      "options": {
+        "project": "{env:OPENCODE_GCP_PROJECT}",
+        "location": "global"
+      }
+    }
+  },
+  "autoupdate": "notify",
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 300000
+  },
+  "formatter": true,
+  "lsp": true,
+  "watcher": {
+    "ignore": [
+      ".git/**",
+      ".mypy_cache/**",
+      ".ruff_cache/**",
+      ".venv/**",
+      "__pycache__/**",
+      "node_modules/**"
+    ]
+  },
+  "permission": "allow"
+}

@@ -1,0 +1,7 @@
+.agents/tmp/
+.antigravitycli/
+.claude/
+.gemini/
+.opencode/
+.ruff_cache/
+dot_local/bin/executable_dot

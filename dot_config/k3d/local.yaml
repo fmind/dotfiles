@@ -1,0 +1,33 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: local
+servers: 1
+agents: 0
+kubeAPI:
+  hostIP: "127.0.0.1"
+  hostPort: "6443"
+ports:
+  - port: 127.0.0.1:8080:80
+    nodeFilters:
+      - loadbalancer
+  - port: 127.0.0.1:8443:443
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d:
+    wait: true
+    timeout: 360s
+  k3s:
+    extraArgs:
+      - arg: --kubelet-arg=fail-cgroupv1=false
+        nodeFilters:
+          - server:*
+      - arg: --kubelet-arg=feature-gates=KubeletInUserNamespace=true
+        nodeFilters:
+          - server:*
+registries:
+  create:
+    name: registry.localhost
+    host: "127.0.0.1"
+    hostPort: "5050"

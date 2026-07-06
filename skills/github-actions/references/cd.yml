@@ -1,0 +1,94 @@
+name: CD
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on semver version tags (e.g., v1.0.0)
+permissions:
+  contents: read
+  id-token: write # required for keyless signing via OIDC
+  packages: write # required to push to GitHub Container Registry (GHCR)
+jobs:
+  # Option 1: Go Application (build container with ko & publish to GHCR)
+  deploy-go:
+    runs-on: ubuntu-latest
+    if: ${{ vars.ENABLE_DEPLOY_GO == 'true' }} # set repo/org variable ENABLE_DEPLOY_GO=true to enable
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install tools using mise
+        uses: jdx/mise-action@v4
+      - name: Set lower-case registry path
+        run: |
+          echo "IMAGE_REPOSITORY=$(echo "ghcr.io/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Publish OCI Image
+        env:
+          KO_DOCKER_REPO: ${{ env.IMAGE_REPOSITORY }}
+        run: |
+          # Note: 'build:image' is managed via mise.toml.
+          mise run build:image \
+            --platform=linux/amd64,linux/arm64 \
+            --tags=latest,${{ github.ref_name }}
+      # Optional: Sign the image with cosign (requires cosign to be managed in mise.toml)
+      # - name: Sign the published image
+      #   run: |
+      #     mise exec -- cosign sign --yes "${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}"
+  # Option 2: Python Package (build and publish package to PyPI)
+  deploy-python-pypi:
+    runs-on: ubuntu-latest
+    if: ${{ vars.ENABLE_DEPLOY_PYPI == 'true' }} # set repo/org variable ENABLE_DEPLOY_PYPI=true to enable
+    # environment: pypi # Configure trusted publishing on PyPI for this environment
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install tools using mise
+        uses: jdx/mise-action@v4
+      - name: Build Package
+        run: |
+          # Note: 'build' task is managed via mise.toml.
+          mise run build
+      - name: Publish to PyPI
+        run: |
+          # Note: 'publish' task is managed via mise.toml.
+          mise run publish
+  # Option 3: Python Application (build container with Dockerfile & publish to GHCR)
+  deploy-python-container:
+    runs-on: ubuntu-latest
+    if: ${{ vars.ENABLE_DEPLOY_CONTAINER == 'true' }} # set repo/org variable ENABLE_DEPLOY_CONTAINER=true to enable
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install tools using mise
+        uses: jdx/mise-action@v4
+      - name: Set lower-case registry path
+        run: |
+          echo "IMAGE_REPOSITORY=$(echo "ghcr.io/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+      - name: Set up QEMU (for multi-platform builds)
+        uses: docker/setup-qemu-action@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.IMAGE_REPOSITORY }}:latest
+            ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}
+          # Recommended: Use distroless/Chainguard base image and multi-stage Dockerfile
+      # Optional: Sign the image with cosign (requires cosign to be managed in mise.toml)
+      # - name: Sign the published image
+      #   run: |
+      #     mise exec -- cosign sign --yes "${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}"

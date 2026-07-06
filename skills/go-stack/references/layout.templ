@@ -1,0 +1,64 @@
+package templates
+
+import (
+	"context"
+	"time"
+)
+
+type contextKey string
+
+// NonceKey is the context key for the request-scoped CSP nonce.
+const NonceKey contextKey = "csp-nonce"
+
+// GetNonce retrieves the CSP nonce from context if present.
+func GetNonce(ctx context.Context) string {
+	if val, ok := ctx.Value(NonceKey).(string); ok {
+		return val
+	}
+	return ""
+}
+
+// AssetHashes maps asset paths to their content hashes for cache busting.
+// This is populated by main.go at startup.
+var AssetHashes = make(map[string]string)
+
+// AssetPath appends a cache-busting query parameter (?v=hash) if found.
+func AssetPath(path string) string {
+	if hash, ok := AssetHashes[path]; ok {
+		return path + "?v=" + hash
+	}
+	return path
+}
+
+templ Layout(title string, body templ.Component) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title }</title>
+			<!-- Hypermedia & Interactivity (HTMX & Alpine.js) served locally -->
+			<script src={ AssetPath("/static/vendor/htmx.min.js") } nonce={ GetNonce(ctx) }></script>
+			<script defer src={ AssetPath("/static/vendor/alpine.min.js") } nonce={ GetNonce(ctx) }></script>
+			<link href={ AssetPath("/static/css/dist.css") } rel="stylesheet"/>
+		</head>
+		<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col font-sans">
+			<header class="border-b border-zinc-800 py-4 px-6 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
+				<div class="max-w-7xl mx-auto flex justify-between items-center">
+					<h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
+						<a href="/">{ title }</a>
+					</h1>
+					<nav class="flex items-center gap-6 text-sm text-zinc-400">
+						<a href="/" class="hover:text-zinc-100 transition-colors">Home</a>
+					</nav>
+				</div>
+			</header>
+			<main class="flex-1 max-w-7xl mx-auto px-6 py-12 w-full">
+				@body
+			</main>
+			<footer class="border-t border-zinc-900 py-6 text-center text-xs text-zinc-600">
+				<p>&copy; { time.Now().Format("2006") } - Powered by GOTH Stack</p>
+			</footer>
+		</body>
+	</html>
+}

@@ -1,0 +1,32 @@
+theme = tokyonight_moon
+
+# Font Configs
+font-family = "FiraCode Nerd Font Mono"
+font-feature = -calt
+font-feature = -liga
+font-size = 13
+
+{{- if eq .chezmoi.os "darwin" }}
+macos-option-as-alt = left
+{{- end }}
+
+# Quality of Life
+clipboard-paste-protection = true
+clipboard-trim-trailing-spaces = true
+copy-on-select = clipboard
+cursor-click-to-move = true
+mouse-shift-capture = false
+window-save-state = always
+
+# Performance Improvements
+cursor-style-blink = false
+mouse-hide-while-typing = true
+resize-overlay = never
+scrollback-limit = 100000000
+
+# Zellij & Shell Integration
+confirm-close-surface = false
+shell-integration-features = true
+
+# Launch fish through the mise shim
+command = {{ .chezmoi.homeDir }}/.local/share/mise/shims/fish

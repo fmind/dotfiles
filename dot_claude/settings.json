@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "alwaysThinkingEnabled": true,
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "autoCompactEnabled": true,
+  "autoMemoryEnabled": true,
+  "autoUpdatesChannel": "stable",
+  "awaySummaryEnabled": true,
+  "cleanupPeriodDays": 30,
+  "editorMode": "vim",
+  "effortLevel": "xhigh",
+  "enableAllProjectMcpServers": true,
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "120000",
+    "BASH_MAX_TIMEOUT_MS": "1200000",
+    "DISABLE_TELEMETRY": "1",
+    "MAX_MCP_OUTPUT_TOKENS": "1000000"
+  },
+  "fallbackModel": [
+    "sonnet"
+  ],
+  "feedbackSurveyRate": 0,
+  "maxSkillDescriptionChars": 3000,
+  "model": "opus",
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
+  "respondToBashCommands": true,
+  "showThinkingSummaries": true,
+  "showTurnDuration": true,
+  "skillListingBudgetFraction": 0.02,
+  "skipDangerousModePermissionPrompt": true,
+  "spinnerTipsEnabled": false,
+  "terminalProgressBarEnabled": true,
+  "theme": "dark",
+  "tui": "fullscreen",
+  "verbose": true,
+  "viewMode": "verbose",
+  "worktree": {
+    "baseRef": "fresh"
+  }
+}

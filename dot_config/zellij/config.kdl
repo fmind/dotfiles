@@ -1,0 +1,18 @@
+default_shell "fish"
+pane_frames false
+theme "tokyonight_moon"
+
+keybinds {
+    shared_except "locked" {
+        unbind "Ctrl h" // Conflicts with nvim
+        bind "Alt y" { Run "yazi" { floating true; x "10%"; y "10%"; width "80%"; height "80%"; }; }
+        bind "Alt g" { Run "lazygit" { floating true; x "1%"; y "1%"; width "98%"; height "98%"; }; }
+        bind "Alt /" { LaunchOrFocusPlugin "session-manager" { floating true; move_to_focused_tab true; }; }
+    }
+    shared_except "move" "locked" {
+        bind "Alt m" { SwitchToMode "Move"; }
+    }
+    move {
+        bind "Alt m" { SwitchToMode "Normal"; }
+    }
+}

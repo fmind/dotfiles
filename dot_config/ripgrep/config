@@ -1,0 +1,13 @@
+--glob=!.git/
+--glob=!.mypy_cache/
+--glob=!.pytest_cache/
+--glob=!.ruff_cache/
+--glob=!.terraform/
+--glob=!.venv/
+--glob=!__pycache__/
+--glob=!node_modules/
+--glob=!package-lock.json
+--hidden
+--max-columns-preview
+--max-columns=150
+--smart-case

@@ -1,0 +1,147 @@
+[env]
+APP_NAME = "<slug>"
+
+[settings.task]
+run_auto_install = false
+
+[tools]
+dprint = "latest"
+gitleaks = "latest"
+go = "latest"
+golangci-lint = "latest"
+gotestsum = "latest"
+lefthook = "latest"
+# Tailwind v4 standalone CLI (web projects only)
+"github:tailwindlabs/tailwindcss" = "latest"
+
+[tasks.all]
+alias = "a"
+description = "Format, check, test, and build the project"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
+[tasks.build]
+alias = "b"
+description = "Compile production binary"
+depends = ["build:go"]
+
+[tasks."build:image"]
+description = "Build production OCI image (ko)"
+depends = ["build:templ", "build:css"]
+run = "go tool ko build ./cmd/$APP_NAME --bare"
+
+[tasks."build:css"]
+description = "Compile and minify Tailwind CSS"
+sources = ["static/css/styles.css", "**/*.go", "**/*.templ"]
+outputs = ["static/css/dist.css"]
+run = "tailwindcss -i static/css/styles.css -o static/css/dist.css --minify"
+
+[tasks."build:go"]
+description = "Compile production Go binary"
+depends = ["build:templ", "build:css"]
+sources = ["go.mod", "go.sum", "**/*.go"]
+outputs = ["bin/{{env.APP_NAME}}"]
+run = "go build -o bin/$APP_NAME ./cmd/$APP_NAME"
+
+[tasks."build:templ"]
+description = "Generate Go code from Templ templates"
+sources = ["**/*.templ"]
+outputs = ["**/*_templ.go"]
+run = "go tool templ generate"
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = ["check:lint", "check:vuln", "check:format", "check:leaks"]
+
+[tasks."check:leaks"]
+alias = "cs"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+
+[tasks."check:format"]
+alias = "cf"
+description = "Check config/markup formatting (dprint)"
+run = "dprint check"
+
+[tasks."check:lint"]
+alias = "cl"
+description = "Lint Go sources (golangci-lint)"
+run = "golangci-lint run ./..."
+
+[tasks."check:vuln"]
+alias = "cv"
+description = "Scan Go code for vulnerabilities (govulncheck)"
+run = "go tool govulncheck ./..."
+
+[tasks.clean]
+alias = "n"
+description = "Remove build artifacts and coverage files"
+run = "rm -rf bin/ coverage.out tmp/ static/css/dist.css"
+
+[tasks.coverage]
+alias = "v"
+description = "View test coverage in terminal"
+depends = ["test"]
+run = "go tool cover -func=coverage.out"
+
+[tasks.format]
+alias = "f"
+description = "Format all sources and documents"
+depends = ["format:go", "format:templ", "format:dprint"]
+
+[tasks."format:dprint"]
+description = "Format JSON, Markdown, TOML, YAML with dprint"
+run = "dprint fmt"
+
+[tasks."format:go"]
+description = "Format Go sources and imports (goimports + gofumpt)"
+run = ["go tool goimports -w .", "go tool gofumpt -w ."]
+
+[tasks."format:templ"]
+description = "Format Templ templates"
+run = "go tool templ fmt ."
+
+[tasks.install]
+alias = "i"
+description = "Install development dependencies"
+depends = ["install:hooks", "install:vendor"]
+
+[tasks."install:go"]
+description = "Tidy Go modules and download dependencies"
+depends = ["build:templ"]
+run = "go mod tidy"
+
+[tasks."install:hooks"]
+description = "Install Git hooks using Lefthook"
+depends = ["install:go"]
+run = "lefthook install"
+
+[tasks."install:vendor"]
+description = "Download and vendor static assets"
+depends = ["install:go"]
+run = "go run scripts/vendor.go"
+
+[tasks.test]
+alias = "t"
+description = "Run the test suite (gotestsum)"
+depends = ["build:templ"]
+run = "gotestsum --format pkgname -- -race -coverprofile=coverage.out ./..."
+
+[tasks."test:watch"]
+alias = "tw"
+description = "Run the test suite in watch mode"
+depends = ["build:templ"]
+run = "gotestsum --watch --format pkgname -- -race -coverprofile=coverage.out ./..."
+
+[tasks.watch]
+alias = "w"
+description = "Run the dev server with live reload"
+depends = ["watch:css", "watch:air"]
+
+[tasks."watch:air"]
+hide = true
+run = "go tool air"
+
+[tasks."watch:css"]
+hide = true
+run = "tailwindcss -i static/css/styles.css -o static/css/dist.css --watch"

@@ -1,0 +1,3 @@
+*.gen.go   -diff
+*.pb.go    -diff
+*_templ.go -diff

@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: false
+  commands:
+    format:dprint:
+      glob: "*.{json,md,toml,yaml,yml}"
+      run: mise run format:dprint {staged_files}
+      stage_fixed: true
+    format:python:
+      glob: "*.py"
+      run: mise run format:python {staged_files}
+      stage_fixed: true
+    check:
+      run: mise run check
+pre-push:
+  commands:
+    test:
+      run: mise run test

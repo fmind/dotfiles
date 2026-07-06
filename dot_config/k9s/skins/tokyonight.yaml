@@ -1,0 +1,81 @@
+k9s:
+  body:
+    fgColor: "#c8d3f5"
+    bgColor: default
+    logoColor: "#86e1fc"
+  info:
+    fgColor: "#c099ff"
+    sectionColor: "#c8d3f5"
+  dialog:
+    fgColor: "#c8d3f5"
+    bgColor: "#222436"
+    buttonFgColor: "#222436"
+    buttonBgColor: "#86e1fc"
+    buttonFocusFgColor: "#222436"
+    buttonFocusBgColor: "#ff966c"
+  frame:
+    border:
+      fgColor: "#636da6"
+      focusColor: "#86e1fc"
+    menu:
+      fgColor: "#c8d3f5"
+      keyColor: "#ff966c"
+      numKeyColor: "#ff966c"
+    crumbs:
+      fgColor: "#c8d3f5"
+      bgColor: "#222436"
+      activeBgColor: "#86e1fc"
+    status:
+      newColor: "#86e1fc"
+      modifyColor: "#c099ff"
+      deleteColor: "#ff757f"
+      portForwardColor: "#c3e88d"
+      activeColor: "#c3e88d"
+      pendingColor: "#ff966c"
+      errorColor: "#ff757f"
+    title:
+      fgColor: "#86e1fc"
+      bgColor: default
+      highlightColor: "#ff966c"
+      counterColor: "#c3e88d"
+      filterColor: "#c099ff"
+  views:
+    table:
+      fgColor: "#c8d3f5"
+      bgColor: default
+      cursorFgColor: "#222436"
+      cursorBgColor: "#2d3f76"
+      cursorLineFgColor: "#c8d3f5"
+      cursorLineBgColor: "#2f334d"
+      markColor: "#c3e88d"
+      header:
+        fgColor: "#86e1fc"
+        bgColor: default
+        sorterColor: "#ff966c"
+    xray:
+      fgColor: "#c8d3f5"
+      bgColor: default
+      cursorColor: "#2f334d"
+      graphicColor: "#86e1fc"
+      showHeaders: true
+    charts:
+      bgColor: default
+      defaultDialColor: "#86e1fc"
+      defaultChartColor: "#86e1fc"
+      resourceColors:
+        cpu:
+          - "#86e1fc"
+          - "#c099ff"
+        mem:
+          - "#c099ff"
+          - "#ff757f"
+    yaml:
+      keyColor: "#ff966c"
+      valueColor: "#c8d3f5"
+      colonColor: "#636da6"
+    logs:
+      fgColor: "#c8d3f5"
+      bgColor: default
+      indicator:
+        fgColor: "#86e1fc"
+        bgColor: default

@@ -1,0 +1,11 @@
+[flags]
+default_time_value = "60s"
+default_widget_count = 1
+default_widget_type = "proc"
+disable_advanced_kill = true
+group_processes = false
+hide_table_gap = true
+mem_as_value = true
+rate = "1s"
+temperature_type = "celsius"
+tree = true

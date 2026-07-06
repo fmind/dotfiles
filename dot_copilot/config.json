@@ -1,0 +1,11 @@
+{
+  "banner": "never",
+  "editor": "nvim",
+  "experimental": true,
+  "mouse": true,
+  "telemetry": {
+    "enabled": false
+  },
+  "theme": "auto",
+  "version": "1"
+}

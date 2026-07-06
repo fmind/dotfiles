@@ -1,0 +1,50 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+format = '$directory$git_branch$git_state$git_status$kubernetes$cmd_duration$character'
+
+palette = 'tokyonight'
+
+[palettes.tokyonight]
+red = '#ff757f'
+purple = '#c099ff'
+green = '#c3e88d'
+blue = '#82aaff'
+orange = '#ff966c'
+gray = '#636da6'
+
+[directory]
+style = 'bold blue'
+
+[git_branch]
+style = 'bold red'
+format = 'on [$symbol$branch]($style) '
+
+[git_status]
+style = 'bold orange'
+format = '([\[$all_status$ahead_behind\]]($style) )'
+
+[cmd_duration]
+min_time = 1500
+style = 'bold gray'
+format = 'took [$duration]($style) '
+
+[character]
+error_symbol = '[❯](bold red)'
+success_symbol = '[❯](bold blue)'
+vimcmd_replace_one_symbol = '[❮](bold purple)'
+vimcmd_replace_symbol = '[❮](bold purple)'
+vimcmd_symbol = '[❮](bold green)'
+vimcmd_visual_symbol = '[❮](bold orange)'
+
+[kubernetes]
+disabled = false
+format = 'on [☸  $context (\($namespace\))](bold blue) '
+
+[[kubernetes.contexts]]
+context_pattern = 'gke_.*_prod-.*'
+context_alias = 'prod-gke'
+
+[[kubernetes.contexts]]
+context_pattern = 'k3d-.*'
+context_alias = 'local'

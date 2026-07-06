@@ -1,0 +1,18 @@
+k9s:
+  skipLatestRevCheck: true
+  shellPod:
+    image: nicolaka/netshoot
+    namespace: default
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  ui:
+    enableMouse: true
+    reactive: true
+    skin: tokyonight
+  logger:
+    buffer: 5000
+    showTime: true
+    sinceSeconds: -1
+    tail: 100
+    textWrap: true

@@ -1,0 +1,22 @@
+/AGENTS.md
+/CHANGELOG.md
+/LICENSE
+/README.md
+/dot
+/dprint.json
+/go.work
+/go.work.sum
+/install.sh
+/lefthook.yml
+/mise.toml
+/skill-lock.json
+/skills
+
+{{- if ne .chezmoi.os "linux" }}
+.local/share/applications/com.mitchellh.ghostty.desktop
+{{- end }}
+
+{{- if not (stat (joinPath .chezmoi.homeDir ".config/chezmoi/key.txt")) }}
+.config/fish/conf.d/secrets.fish
+{{- end }}
+

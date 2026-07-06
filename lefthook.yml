@@ -1,0 +1,32 @@
+glob_matcher: doublestar
+pre-commit:
+  parallel: false
+  commands:
+    format:dprint:
+      glob: "**/*.{json,jsonc,md,toml,yaml,yml}"
+      run: mise run format:dprint {staged_files}
+      stage_fixed: true
+    format:go:
+      glob: "**/*.go"
+      exclude:
+        - "skills/**/*.go"
+        - ".agents/tmp/**/*.go"
+      run: mise run format:go {staged_files}
+      stage_fixed: true
+    format:python:
+      glob: "**/*.py"
+      exclude:
+        - "skills/**/*.py"
+        - ".agents/tmp/**/*.py"
+      run: mise run format:python {staged_files}
+      stage_fixed: true
+    format:shell:
+      glob: "**/*.sh"
+      run: mise run format:shell {staged_files}
+      stage_fixed: true
+    check:
+      run: mise run check
+pre-push:
+  commands:
+    test:
+      run: mise run test

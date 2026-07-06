@@ -1,0 +1,5 @@
+.agents/tmp/
+.antigravitycli/
+.claude/
+.gemini/
+.opencode/

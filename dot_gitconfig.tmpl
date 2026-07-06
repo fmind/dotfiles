@@ -1,0 +1,114 @@
+[alias]
+    a = add
+    b = branch
+    c = commit
+    co = checkout
+    cp = cherry-pick
+    d = diff
+    f = fetch
+    g = "!{{ .chezmoi.homeDir }}/.local/bin/dot commit"
+    l = log --oneline --graph --all
+    m = merge
+    p = push
+    r = rebase
+    s = status
+    st = stash
+    u = restore --staged
+    w = switch
+
+[advice]
+    detachedHead = false
+    statusHints = false
+
+[branch]
+    autoSetupMerge = inherit
+    sort = -committerdate
+
+[column]
+    ui = auto
+
+[commit]
+    verbose = true
+
+[gpg]
+    format = ssh
+
+[core]
+    autocrlf = input
+    editor = nvim
+    pager = delta --paging=never
+
+[delta]
+    pager = cat
+    light = false
+    line-numbers = true
+    navigate = true
+    side-by-side = true
+    syntax-theme = "ansi"
+    minus-style = syntax "#3a273a"
+    minus-emph-style = syntax "#552f43"
+    plus-style = syntax "#273849"
+    plus-emph-style = syntax "#2c5064"
+
+
+[diff]
+    algorithm = histogram
+    colorMoved = zebra
+    colorMovedWS = allow-indentation-change
+    mnemonicPrefix = true
+
+[fetch]
+    all = true
+    parallel = 0
+    prune = true
+    pruneTags = true
+
+[github]
+    user = {{ .github_user }}
+
+[help]
+    autocorrect = prompt
+
+[init]
+    defaultBranch = main
+
+[interactive]
+    diffFilter = delta --color-only --paging=never
+
+[maintenance]
+    auto = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+    default = current
+    followTags = true
+
+[rebase]
+    autoSquash = true
+    autoStash = true
+    instructionFormat = "[%an @ %ar] %s"
+    missingCommitsCheck = warn
+    updateRefs = true
+
+[rerere]
+    autoupdate = true
+    enabled = true
+
+[tag]
+    sort = version:refname
+
+[transfer]
+    fsckobjects = true
+
+[url "git@github.com:"]
+    pushInsteadOf = "https://github.com/"
+
+[user]
+    name = {{ .git_name }}
+    email = {{ .git_email }}
