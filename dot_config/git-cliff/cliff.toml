@@ -19,8 +19,6 @@ body = """
     {% endfor %}
 {% endfor %}
 """
-footer = ""
-postprocessors = []
 trim = true
 
 [git]
@@ -38,19 +36,11 @@ commit_parsers = [
   { message = "^revert", group = "<!-- 8 -->⏪ Reverts" },
   { message = ".*", group = "<!-- 9 -->📦 Other" },
 ]
-commit_preprocessors = []
 conventional_commits = true
-filter_commits = false
 filter_unconventional = true
-ignore_tags = ""
 protect_breaking_commits = true
-skip_tags = ""
 sort_commits = "oldest"
-split_commits = false
 tag_pattern = "v[0-9].*"
-topo_order = false
 
 [bump]
-features_always_bump_minor = false
-breaking_always_bump_major = false
 initial_tag = "v0.1.0"
