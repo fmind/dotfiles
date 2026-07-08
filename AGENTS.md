@@ -36,6 +36,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
   - **Iterate**: edit source → `mr a` to apply (`mr d` to preview the diff) → `mr c` for quick static checks (or `mr l` for the full pre-commit + pre-push gate) → `mr x` to verify dotfiles sanity.
   - **Add a tool**: append to `dot_config/mise/config.toml.tmpl` (alphabetical) — use `mise registry` to find tools → `mr t` to deploy and install → `mr k` to refresh and stage the lockfile.
   - **Upgrade tools**: `mr u` bumps versions, re-locks, re-applies.
+  - **Release**: `mr r` bumps the version in `dot/version.go`, updates `CHANGELOG.md`, tags, pushes, and publishes a GitHub release using `git-cliff` and `gh`.
   - **Manage skills**: register new skills via `skills add fmind/agent-<name> -g -y` (which writes directly to the root `skills/` directory via the chezmoi symlink). Sync/upgrade global skills with `mr sk`.
   - **Custom AI Utilities**: Deployed via `dot_local/bin/` to `~/.local/bin/` (e.g. `dot` CLI) and added to PATH.
 
@@ -47,7 +48,8 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
   - `dot login` (alias `l`) — Interactive OAuth login wrapper command targeting `github` (via `gh`), `workspace` (via `gws`), `gcp` (via `gcloud` user and Application Default Credentials), or `clasp` (via `clasp login`).
   - `dot setup` (alias `u`) — Custom setup wrapper to enable APIs on the active GCP Google Workspace project.
   - `dot completion` (aliases `g`, `completions`) — Automatically generates fish autocompletions for dot itself and external CLI tools.
-  - `dot pr` (alias `r`) — Generates a structured pull request description via AI and triggers `gh pr create`.
+  - `dot pr` (alias `pr`) — Generates a structured pull request description via AI and triggers `gh pr create`.
+  - `dot release` (alias `r`) — Bumps the version in `dot/version.go`, updates `CHANGELOG.md`, tags, pushes, and publishes a GitHub release.
   - `dot status` (alias `s`) — Provides a unified summary status of local development Git repositories, active docker containers, and local k3d Kubernetes configurations; supports `--json`/`-j` for scripting.
   - `dot chezmoi clean` (group alias `m`, subcommand aliases `c`, `cc`) — Scans for previously managed chezmoi files and cleans up unmanaged orphans in home directory.
   - `dot config` (alias `f`) — Inspects, scaffolds, edits, and validates the `~/.config/dot.yaml` configuration file (`show`, `path`, `init`, `edit`, `validate`).

@@ -101,6 +101,7 @@ func NewApp() *cli.Command {
 			NewSetupCmd(state),
 			NewCompletionCmd(state),
 			NewPrCmd(state),
+			NewReleaseCmd(state),
 			NewStatusCmd(state),
 			NewChezmoiCmd(state),
 			NewConfigCmd(state),

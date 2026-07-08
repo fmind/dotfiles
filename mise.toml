@@ -146,6 +146,7 @@ run = [
 ]
 
 [tasks.preview]
+alias = "pr"
 description = "Preview pending chezmoi changes (dry-run apply)"
 run = "chezmoi apply --dry-run --force --init"
 
@@ -153,6 +154,12 @@ run = "chezmoi apply --dry-run --force --init"
 alias = "p"
 description = "Remove unused mise packages and clear cache"
 run = ["mise prune -y", "mise cache clear", "executable_prune-system.sh"]
+
+[tasks.release]
+alias = "r"
+depends = ["build"]
+description = "Bump version, update CHANGELOG, and publish a GitHub release"
+run = "executable_dot release"
 
 [tasks.skills]
 alias = "sk"
@@ -167,7 +174,7 @@ description = "Install global tools from home mise config"
 run = ["mise -C \"$HOME\" install -y"]
 
 [tasks.trust]
-alias = "r"
+alias = "tr"
 description = "Trust repo and home mise configs"
 run = ["mise trust -y mise.toml", "mise trust -y ~/.config/mise/config.toml"]
 

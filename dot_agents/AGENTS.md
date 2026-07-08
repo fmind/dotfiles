@@ -53,3 +53,9 @@
 
 - **Shared Cluster & Namespaces**: Deploy all local projects to the shared `local` k3d cluster (`dot cluster start`), each in its own namespace (e.g., `project-name`).
 - **Ingress Routing**: Access services via `.localhost` ingress (e.g., `http://project-name.localhost:8080`) instead of per-project host ports — see the k8s-local skill.
+
+## Project Directories
+
+- **`~/internals`**: Private GitHub repositories (e.g., client projects, proprietary tools).
+- **`~/externals`**: Public GitHub repositories (e.g., open-source libraries, courses).
+- **`~/workspaces`**: Personal workspace brain — a Go CLI (`ws`) that records daily developer activity (GitHub, Gmail, Calendar, Drive, Chat, Jira, Confluence, Airtable, Google Cloud, shell, Chrome) into local logs, caches resource indexes, traces agent tasks, and distils a private wiki. Agents query the local store via `ws` instead of hitting live APIs. See `~/workspaces/AGENTS.md` for the full data model and CLI reference.

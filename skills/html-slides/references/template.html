@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+  Single-file HTML deck. Zero dependencies, zero build.
+  Edit: 1) title + --theme tokens  2) <section class="slide"> blocks.
+  Controls: →/Space next · ← prev · Home/End · F fullscreen · swipe on touch.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentation Title</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --slide-bg: #ffffff;
+    --fg: #1a1a2e;
+    --muted: #64748b;
+    --accent: #4285f4;
+    --code-bg: #f1f5f9;
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+    --w: 1280px;
+    --h: 720px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); overflow: hidden; font-family: var(--font); }
+
+  #stage {
+    position: absolute; top: 50%; left: 50%;
+    width: var(--w); height: var(--h);
+    transform: translate(-50%, -50%) scale(var(--scale, 1));
+    transform-origin: center center;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    width: var(--w); height: var(--h);
+    background: var(--slide-bg); color: var(--fg);
+    padding: 72px 88px;
+    display: none; flex-direction: column; justify-content: center; gap: 24px;
+  }
+  .slide.active { display: flex; }
+
+  h1 { font-size: 64px; line-height: 1.1; letter-spacing: -1px; }
+  h2 { font-size: 44px; line-height: 1.15; color: var(--accent); letter-spacing: -0.5px; }
+  p, li { font-size: 28px; line-height: 1.5; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  ul, ol { padding-left: 1.2em; display: flex; flex-direction: column; gap: 14px; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--code-bg); padding: 2px 7px; border-radius: 4px; }
+  pre { font-family: var(--mono); font-size: 22px; line-height: 1.45; background: var(--code-bg);
+        padding: 24px 28px; border-radius: 10px; overflow: auto; border: 1px solid #e2e8f0; }
+  a { color: var(--accent); }
+
+  .center { text-align: center; align-items: center; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .kicker { font-size: 20px; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); font-weight: 600; }
+
+  .fragment { opacity: 0.12; transition: opacity 0.3s ease; }
+  .fragment.revealed { opacity: 1; }
+
+  #progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--accent);
+              width: 0; transition: width 0.25s ease; z-index: 1; }
+  #counter { position: absolute; bottom: 12px; right: 20px; color: var(--muted);
+             font-family: var(--mono); font-size: 16px; }
+
+  @page { size: 1280px 720px; margin: 0; }
+  @media print {
+    html, body { overflow: visible; background: #fff; }
+    #stage { position: static; transform: none; }
+    #progress, #counter { display: none; }
+    .slide { position: static; inset: auto; display: flex !important;
+             page-break-after: always; break-after: page; }
+    .fragment { opacity: 1 !important; }
+  }
+</style>
+</head>
+<body>
+  <div id="stage">
+
+    <section class="slide active center">
+      <div class="kicker">Kicker / Section</div>
+      <h1>Presentation Title</h1>
+      <p class="muted">Subtitle · Author · Date</p>
+    </section>
+
+    <section class="slide">
+      <h2>Key Points</h2>
+      <ul>
+        <li class="fragment">First point revealed on step</li>
+        <li class="fragment">Second point — press → or Space</li>
+        <li class="fragment">Third point</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Two Columns</h2>
+      <div class="cols">
+        <div>
+          <p class="accent">Left</p>
+          <p class="muted">Explanatory text on the left side.</p>
+        </div>
+        <div>
+          <p class="accent">Right</p>
+          <pre><code>$ command --flag</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide center">
+      <h1>Thank you</h1>
+      <p class="muted">Questions? · contact@example.com</p>
+    </section>
+
+    <div id="counter"></div>
+  </div>
+  <div id="progress"></div>
+
+<script>
+  const slides = [...document.querySelectorAll(".slide")];
+  const stage = document.getElementById("stage");
+  const progress = document.getElementById("progress");
+  const counter = document.getElementById("counter");
+  let i = 0;
+
+  const frags = (n) => [...slides[n].querySelectorAll(".fragment")];
+
+  function render() {
+    slides.forEach((s, n) => s.classList.toggle("active", n === i));
+    frags(i).forEach((f) => f.classList.remove("revealed"));
+    progress.style.width = ((i + 1) / slides.length) * 100 + "%";
+    counter.textContent = (i + 1) + " / " + slides.length;
+    if (location.hash !== "#" + (i + 1)) history.replaceState(null, "", "#" + (i + 1));
+  }
+
+  function next() {
+    const f = frags(i).find((el) => !el.classList.contains("revealed"));
+    if (f) { f.classList.add("revealed"); return; }
+    if (i < slides.length - 1) { i++; render(); }
+  }
+  function prev() {
+    const shown = frags(i).filter((el) => el.classList.contains("revealed"));
+    if (shown.length) { shown[shown.length - 1].classList.remove("revealed"); return; }
+    if (i > 0) { i--; render(); frags(i).forEach((el) => el.classList.add("revealed")); }
+  }
+
+  function fit() {
+    const st = getComputedStyle(document.documentElement);
+    const W = parseFloat(st.getPropertyValue("--w"));
+    const H = parseFloat(st.getPropertyValue("--h"));
+    const k = Math.min(window.innerWidth / W, window.innerHeight / H);
+    stage.style.setProperty("--scale", k);
+  }
+
+  addEventListener("keydown", (e) => {
+    switch (e.key) {
+      case "ArrowRight": case " ": case "PageDown": e.preventDefault(); next(); break;
+      case "ArrowLeft": case "PageUp": e.preventDefault(); prev(); break;
+      case "Home": i = 0; render(); break;
+      case "End": i = slides.length - 1; render(); break;
+      case "f": case "F": document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); break;
+    }
+  });
+  addEventListener("resize", fit);
+
+  let tx = 0;
+  addEventListener("touchstart", (e) => { tx = e.changedTouches[0].clientX; }, { passive: true });
+  addEventListener("touchend", (e) => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) dx < 0 ? next() : prev();
+  });
+
+  i = Math.min(Math.max((parseInt(location.hash.slice(1)) || 1) - 1, 0), slides.length - 1);
+  fit(); render();
+</script>
+</body>
+</html>

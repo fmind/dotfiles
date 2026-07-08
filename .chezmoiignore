@@ -9,6 +9,7 @@
 /install.sh
 /lefthook.yml
 /mise.toml
+/pyproject.toml
 /skill-lock.json
 /skills
 
