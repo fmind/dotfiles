@@ -194,8 +194,8 @@ type CompletionConfig struct {
 func defaultCompletionConfig() CompletionConfig {
 	return CompletionConfig{
 		Tools: []string{
-			"ast-grep", "atlas", "atuin", "bat", "carapace", "chezmoi", "cosign", "delta", "dive",
-			"doggo", "dprint", "dyff", "flux", "gh", "git-lfs", "gitleaks", "golangci-lint", "goreleaser",
+			"ast-grep", "atlas", "atuin", "bat", "carapace", "chezmoi", "codex", "cosign", "delta", "dive",
+			"dlv", "doggo", "dprint", "dyff", "flux", "gh", "git-lfs", "gitleaks", "golangci-lint", "goreleaser",
 			"helm", "helmfile", "jules", "just", "k3d", "k9s", "kind", "ko", "kube-linter", "kubecolor",
 			"kubectl", "kustomize", "lazygit", "lefthook", "mirrord", "mise", "opencode", "pluto",
 			"rg", "ruff", "sg", "skaffold", "sqlc", "starship", "step", "stern",
@@ -208,8 +208,10 @@ func defaultCompletionConfig() CompletionConfig {
 			"atuin":     {Args: []string{"gen-completions", "--shell", "fish"}},
 			"bat":       {Args: []string{"--completion", "fish"}},
 			"carapace":  {Args: []string{"_carapace", "fish"}},
+			"codex":     {Args: []string{"completion", "fish"}},
 			"delta":     {Args: []string{"--generate-completion", "fish"}},
 			"dive":      {Args: []string{"completion", "fish"}},
+			"dlv":       {Args: []string{"completion", "fish"}},
 			"doggo":     {Args: []string{"completions", "fish"}},
 			"dprint":    {Args: []string{"completions", "fish"}},
 			"gh":        {Args: []string{"completion", "-s", "fish"}},

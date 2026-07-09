@@ -24,6 +24,19 @@
     "sonnet"
   ],
   "feedbackSurveyRate": 0,
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "dot agent session claude"
+          }
+        ]
+      }
+    ]
+  },
   "maxSkillDescriptionChars": 3000,
   "model": "opus",
   "permissions": {

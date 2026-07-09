@@ -51,6 +51,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
   - `dot pr` (alias `pr`) — Generates a structured pull request description via AI and triggers `gh pr create`.
   - `dot release` (alias `r`) — Bumps the version in `dot/version.go`, updates `CHANGELOG.md`, tags, pushes, and publishes a GitHub release.
   - `dot status` (alias `s`) — Provides a unified summary status of local development Git repositories, active docker containers, and local k3d Kubernetes configurations; supports `--json`/`-j` for scripting.
+  - `dot agent` (alias `a`) — Normalizes agent session transcripts into `~/.agents/sessions/`; `dot agent session codex` is wired to the Codex `Stop` hook, with sibling handlers for `agy`, `claude`, and `opencode`, plus `sync` and `clean`.
   - `dot chezmoi clean` (group alias `m`, subcommand aliases `c`, `cc`) — Scans for previously managed chezmoi files and cleans up unmanaged orphans in home directory.
   - `dot config` (alias `f`) — Inspects, scaffolds, edits, and validates the `~/.config/dot.yaml` configuration file (`show`, `path`, `init`, `edit`, `validate`).
   - `dot version` (alias `n`) — Prints the version enriched with the embedded VCS revision so an installed binary can be matched against the current sources.
@@ -60,6 +61,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
 Two assets are authored once and consumed by all agent CLIs through symlinks or direct configuration:
 
 - **Persona** — `dot_agents/AGENTS.md` deploys to `~/.agents/AGENTS.md`.
+  - Codex consumes it via a symlink at `~/.codex/AGENTS.md` pointing to `~/.agents/AGENTS.md`.
   - Antigravity consumes it via a symlink at `~/.gemini/GEMINI.md` pointing to `~/.agents/AGENTS.md`.
   - OpenCode consumes it via the `instructions` option in `opencode.json` pointing to `~/.agents/AGENTS.md`.
   - Claude consumes it via a symlink at `~/.claude/CLAUDE.md` pointing to `~/.agents/AGENTS.md`.
@@ -86,6 +88,7 @@ Two assets are authored once and consumed by all agent CLIs through symlinks or 
 - `dot/` — Go CLI source package containing the unified `dot` command-line utility.
 - `dot_agents/` — Source folder containing unified instructions (AGENTS.md) and custom skills.
 - `dot_claude/` — Claude Code CLI configuration template and symlinks.
+- `dot_codex/` — OpenAI Codex CLI configuration template plus the shared persona symlink into `~/.codex/`.
 - `dot_config/` — Custom configuration templates deployed to the user's `~/.config/` directory.
 - `dot_copilot/` — GitHub Copilot CLI integration configurations and symlink templates.
 - `dot_duckdbrc` — DuckDB CLI settings deployed to `~/.duckdbrc`.

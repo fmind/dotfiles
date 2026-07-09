@@ -1,0 +1,96 @@
+# Model selection
+model = "gpt-5.5"
+review_model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+plan_mode_reasoning_effort = "xhigh"
+model_reasoning_summary = "auto"
+model_verbosity = "medium"
+personality = "pragmatic"
+service_tier = "fast"
+
+# Autonomy and sandboxing
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+allow_login_shell = true
+web_search = "live"
+
+# Instruction and history controls
+project_doc_max_bytes = 131072
+project_doc_fallback_filenames = []
+background_terminal_max_timeout = 1200000
+hide_agent_reasoning = false
+show_raw_agent_reasoning = false
+check_for_update_on_startup = true
+log_dir = "{{ .chezmoi.homeDir }}/.codex/log"
+sqlite_home = "{{ .chezmoi.homeDir }}/.codex/sqlite"
+suppress_unstable_features_warning = true
+
+[history]
+persistence = "save-all"
+max_bytes = 104857600
+
+[tui]
+alternate_screen = "auto"
+animations = true
+notification_condition = "always"
+notification_method = "auto"
+notifications = true
+show_tooltips = false
+vim_mode_default = true
+
+[analytics]
+enabled = false
+
+[feedback]
+enabled = false
+
+[tools]
+view_image = true
+web_search = { context_size = "high" }
+
+[features]
+apps = true
+browser_use = true
+browser_use_external = true
+browser_use_full_cdp_access = true
+computer_use = true
+fast_mode = true
+goals = true
+hooks = true
+image_generation = true
+in_app_browser = true
+memories = true
+mentions_v2 = true
+multi_agent = true
+personality = true
+plugin_sharing = true
+plugins = true
+remote_plugin = true
+shell_snapshot = true
+shell_tool = true
+skill_mcp_dependency_install = true
+unified_exec = true
+workspace_dependencies = true
+
+[memories]
+generate_memories = true
+use_memories = true
+disable_on_external_context = false
+
+[agents]
+max_threads = 12
+max_depth = 1
+job_max_runtime_seconds = 3600
+interrupt_message = true
+
+[[hooks.Stop]]
+matcher = ""
+
+[[hooks.Stop.hooks]]
+type = "command"
+command = "dot agent session codex"
+timeout = 30
+statusMessage = "Syncing Codex session"
+
+[projects."{{ .chezmoi.sourceDir }}"]
+trust_level = "trusted"
