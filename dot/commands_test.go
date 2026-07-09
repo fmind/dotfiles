@@ -879,21 +879,21 @@ func TestLoginCommand(t *testing.T) {
 	})
 
 	t.Run("login gcp success", func(t *testing.T) {
-		var userLoginCalled, adcLoginCalled int32
+		var loginCalled int32
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
 				return "/bin/" + name, nil
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
-				if name == "gcloud" {
-					if args[0] == "auth" && args[1] == "login" {
-						atomic.AddInt32(&userLoginCalled, 1)
-						return nil
+				if name == "gcloud" && args[0] == "auth" && args[1] == "login" {
+					// Verify --update-adc is passed
+					for _, a := range args {
+						if a == "--update-adc" {
+							atomic.AddInt32(&loginCalled, 1)
+							return nil
+						}
 					}
-					if args[0] == "auth" && args[1] == "application-default" && args[2] == "login" {
-						atomic.AddInt32(&adcLoginCalled, 1)
-						return nil
-					}
+					return fmt.Errorf("expected --update-adc flag, got args: %v", args)
 				}
 				return fmt.Errorf("unexpected RunInteractive: %s %v", name, args)
 			},
@@ -910,11 +910,8 @@ func TestLoginCommand(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Expected no error, got %v", err)
 		}
-		if atomic.LoadInt32(&userLoginCalled) != 1 {
-			t.Error("Expected gcloud auth login to be called")
-		}
-		if atomic.LoadInt32(&adcLoginCalled) != 1 {
-			t.Error("Expected gcloud auth application-default login to be called")
+		if atomic.LoadInt32(&loginCalled) != 1 {
+			t.Error("Expected gcloud auth login --update-adc to be called")
 		}
 	})
 

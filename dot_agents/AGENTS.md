@@ -32,6 +32,15 @@
 - **Git Hooks**: Use [lefthook](~/.agents/skills/lefthook/SKILL.md) for pre-commit (`format`, `check`, `secure`) and pre-push (`test`), delegating to `mise run` tasks so hooks and CI stay in sync.
 - **Task Standard**: Use [mise](~/.agents/skills/mise/SKILL.md) to expose the canonical task vocabulary (`install`, `format`, `check`, `test`, `secure`, `build`, `watch`) that agents, hooks, and CI all reuse.
 
+## Available CLI Tools
+
+- **`rg` (ripgrep)**: Prefer over `grep` for fast, recursive code search.
+- **`fd`**: Prefer over `find` for fast file discovery by name or extension.
+- **`jq`** / **`yq`**: Process, filter, and transform JSON / YAML / TOML / XML on the command line.
+- **`ast-grep`**: Structural code search, lint, and rewrite using AST patterns — use for precise refactoring across files.
+- **`xh`**: Send HTTP requests (like `curl` but with sane defaults and JSON support).
+- **`uv`**: Run standalone Python scripts with PEP 723 inline dependencies via `uv run <script>.py` — see the [python-script](~/.agents/skills/python-script/SKILL.md) skill.
+
 ## Development Workflow & Safety
 
 - **CLI Automation**: Use `gh` (GitHub), `gws` (Google Workspace), and `gcloud` (Google Cloud) to automate workspace, repository, and cloud tasks.

@@ -42,32 +42,8 @@ func TestRunLoginGcp_Failures(t *testing.T) {
 		}
 		state := newTestState(runner)
 		err := RunLoginGcp(ctx, state)
-		if err == nil || !strings.Contains(err.Error(), "gcloud user login failed") {
-			t.Errorf("Expected user login failure error, got %v", err)
-		}
-	})
-
-	t.Run("gcloud ADC login fails", func(t *testing.T) {
-		runner := &FakeRunner{
-			LookPathFunc: func(name string) (string, error) {
-				return "/usr/bin/" + name, nil
-			},
-			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
-				if name == "gcloud" && args[0] == "auth" {
-					if args[1] == "login" {
-						return nil
-					}
-					if args[1] == "application-default" && args[2] == "login" {
-						return errors.New("ADC failed")
-					}
-				}
-				return nil
-			},
-		}
-		state := newTestState(runner)
-		err := RunLoginGcp(ctx, state)
-		if err == nil || !strings.Contains(err.Error(), "gcloud application default login failed") {
-			t.Errorf("Expected application default login failure error, got %v", err)
+		if err == nil || !strings.Contains(err.Error(), "gcloud login failed") {
+			t.Errorf("Expected login failure error, got %v", err)
 		}
 	})
 }

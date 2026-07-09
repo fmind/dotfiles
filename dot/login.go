@@ -120,21 +120,16 @@ func RunLoginWorkspace(ctx context.Context, state *GlobalState) error {
 }
 
 // RunLoginGcp triggers interactive GCP login and ADC credentials setup.
+// Uses --update-adc to set both user and Application Default Credentials in a single auth flow.
 func RunLoginGcp(ctx context.Context, state *GlobalState) error {
 	if _, err := state.Runner.LookPath("gcloud"); err != nil {
 		return ErrGcloudNotInstalled
 	}
 
-	_, _ = fmt.Fprintln(state.Stdout, "gcloud: authenticating user credentials...")
-	err := state.Runner.RunInteractive(ctx, "", "gcloud", "auth", "login")
+	_, _ = fmt.Fprintln(state.Stdout, "gcloud: authenticating user and Application Default Credentials (ADC)...")
+	err := state.Runner.RunInteractive(ctx, "", "gcloud", "auth", "login", "--update-adc")
 	if err != nil {
-		return fmt.Errorf("gcloud user login failed: %w", err)
-	}
-
-	_, _ = fmt.Fprintln(state.Stdout, "gcloud: authenticating Application Default Credentials (ADC)...")
-	err = state.Runner.RunInteractive(ctx, "", "gcloud", "auth", "application-default", "login")
-	if err != nil {
-		return fmt.Errorf("gcloud application default login failed: %w", err)
+		return fmt.Errorf("gcloud login failed: %w", err)
 	}
 
 	_, _ = fmt.Fprintln(state.Stdout, "gcloud: credentials successfully updated.")

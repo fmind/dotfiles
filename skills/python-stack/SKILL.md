@@ -59,13 +59,7 @@ Canonical guidelines for Python development, scaffolding, CLI scripts, web appli
 
 ## 3. Standalone Script Template
 
-For standalone single-file CLI scripts:
-
-1. **Template**: Base scripts on [script.py](references/script.py).
-1. **Metadata**: Declare `uv` run shebang and PEP 723 inline dependencies at the file top.
-1. **UI & UX**: Use `Typer` with `Rich` for CLI interactions.
-1. **Execution**: Run via `uv run <script>.py`.
-1. **Error Handling**: Use `err.print_exception(show_locals=True)` for fatal errors.
+For standalone single-file CLI scripts with PEP 723 inline dependencies, use the [python-script](../python-script/SKILL.md) skill.
 
 ## 4. Web Stack & Serving Standard
 
