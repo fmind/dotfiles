@@ -133,7 +133,10 @@ zellij = "latest" # Terminal multiplexer and workspace built in Rust
 zoxide = "latest" # Smarter cd command that learns directories
 
 [tools."github:googleworkspace/cli"]
-version = "latest" # Google Workspace CLI (gws)
+# v0.22.5's musl-labeled x64 asset is glibc-linked and requires GLIBC 2.39.
+# Keep every platform on the last verified portable release so the shared lockfile
+# cannot resolve Linux back to the broken version through a newer macOS entry.
+version = "0.22.4" # Google Workspace CLI (gws)
 
 [tools."github:googleworkspace/cli".platforms]
 linux-x64 = { asset_pattern = "*x86_64-unknown-linux-musl*" }
