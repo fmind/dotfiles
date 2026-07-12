@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.1] - 2026-07-12
+
+### 🧹 Miscellaneous
+
+- Add hadolint linter and migrate lazygit config
+
 ## [1.2.0] - 2026-07-12
 
 ### 🚀 Features
