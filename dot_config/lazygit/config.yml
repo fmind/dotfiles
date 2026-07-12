@@ -1,9 +1,9 @@
 disableStartupPopups: true
 git:
   diffContextSize: 7
-  paging:
-    colorArg: always
-    pager: delta --paging=never
+  pagers:
+    - pager: delta --paging=never
+      colorArg: always
 gui:
   expandFocusedSidePanel: true
   scrollHeight: 5
@@ -17,5 +17,5 @@ customCommands:
     context: "files"
     description: "Generate Conventional Commit message with Antigravity (agy)"
     loadingText: "Asking Antigravity..."
-    subprocess: true
+    output: terminal
     command: "git g"

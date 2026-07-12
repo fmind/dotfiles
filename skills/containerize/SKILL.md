@@ -60,6 +60,10 @@ run = "go tool ko build ./cmd/<slug> --bare" # For Go
 [tasks."check:image"]
 description = "Scan container image for vulnerabilities"
 run = "trivy image <registry>/<slug>:<tag>"
+
+[tasks."check:dockerfile"]
+description = "Lint Dockerfile (hadolint)"
+run = "hadolint Dockerfile"
 ```
 
 ## Local Dev Loop
