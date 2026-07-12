@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.2] - 2026-07-12
+
+### 🐛 Bug Fixes
+
+- _(mise)_ Pin gws to 0.22.4 for glibc compatibility
+
 ## [1.2.1] - 2026-07-12
 
 ### 🧹 Miscellaneous
