@@ -10,7 +10,7 @@ import (
 
 // Version is the base semantic version. It can be overridden at build time via
 // -ldflags "-X dot.Version=...", and is enriched with VCS metadata by VersionString.
-var Version = "1.1.1"
+var Version = "1.2.0"
 
 // NewVersionCmd constructs the top-level version command.
 func NewVersionCmd(state *GlobalState) *cli.Command {
