@@ -44,6 +44,8 @@ fi
 
 # 6. mise caches and downloads
 if command -v mise &>/dev/null; then
+  echo "Pruning tracked and trusted configuration links..."
+  mise prune --configs -y || true
   echo "Pruning unused tool versions from mise..."
   mise prune -y
   echo "Cleaning mise cache..."

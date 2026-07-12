@@ -1,4 +1,4 @@
-# Syntax highlighting (Tokyo Night Moon)
+# Syntax highlighting
 set -g fish_color_normal c8d3f5
 set -g fish_color_command 82aaff
 set -g fish_color_keyword ff757f

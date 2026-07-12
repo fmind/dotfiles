@@ -138,7 +138,7 @@ func RunClusterStart(ctx context.Context, state *GlobalState) error {
 			return fmt.Errorf("config file not found at %s", configPath)
 		}
 		_, _ = fmt.Fprintf(state.Stdout, "Creating cluster '%s' using config %s...\n", name, configPath)
-		err = state.Runner.RunInteractive(ctx, "", "k3d", "cluster", "create", "--config", configPath)
+		err = state.Runner.RunInteractive(ctx, "", "k3d", "cluster", "create", name, "--config", configPath)
 		if err != nil {
 			return fmt.Errorf("failed to create cluster: %w", err)
 		}

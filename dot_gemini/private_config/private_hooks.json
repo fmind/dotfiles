@@ -1,0 +1,11 @@
+{
+  "session-log": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "dot agent session agy",
+        "timeout": 30
+      }
+    ]
+  }
+}

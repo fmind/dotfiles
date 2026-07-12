@@ -447,9 +447,9 @@ func defaultVerifyConfig() VerifyConfig {
 			Optional: []string{EnvStudioAPIKey, EnvKaggleAPIToken, EnvGWSProject, EnvAntigravityCloudProject, EnvAntigravityCloudLocation},
 		},
 		Tools: []string{
-			"age", "agy", "chezmoi", "clasp", "docker", "dprint", "gcloud", "gh", "git", "go", "gws",
+			"age", "agy", "chezmoi", "clasp", "claude", "codex", "copilot", "docker", "dprint", "gcloud", "gh", "git", "git-cliff", "go", "gws",
 			"helm", "helmfile", "jules", "k3d", "k9s", "kubectl", "lefthook", "mise", "nvim",
-			"opencode", "python", "skaffold", "uv",
+			"opencode", "python", "skaffold", "sqlite3", "uv",
 		},
 		Secrets: []SecretConfig{
 			{

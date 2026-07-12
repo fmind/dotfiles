@@ -1,11 +1,12 @@
 ---
 name: github-pull-request
 description: Create or update a GitHub pull request with a structured What / Why / How / Test-plan body. Use when opening or updating a PR for the current branch.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/github-pull-request
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Create GitHub Pull Request

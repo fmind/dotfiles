@@ -1,11 +1,12 @@
 ---
 name: release
 description: Cut a versioned release — bump semver, generate the changelog with git-cliff, tag, and publish a GitHub release. Use when shipping a new tagged version.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/release
   created: 2026-07-04
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Release Process
@@ -50,8 +51,9 @@ Turn the Conventional Commits since the last tag into a versioned release: a bum
    ```
 1. **Publish** the GitHub release using only the latest section as notes (write to a temp file to stay shell-agnostic):
    ```bash
-   git-cliff --config ~/.config/git-cliff/cliff.toml --latest --strip all > /tmp/release-notes.md
-   gh release create vX.Y.Z --title "vX.Y.Z" --notes-file /tmp/release-notes.md
+   mkdir -p .agents/tmp
+   git-cliff --config ~/.config/git-cliff/cliff.toml --latest --strip all > .agents/tmp/release-notes.md
+   gh release create vX.Y.Z --title "vX.Y.Z" --notes-file .agents/tmp/release-notes.md
    ```
 1. Print the release URL and the resolved version.
 

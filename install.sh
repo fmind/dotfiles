@@ -34,24 +34,23 @@ command -v chezmoi >/dev/null || {
 # Install dotfiles
 echo "=> Installing dotfiles..."
 if [ ! -d "${SOURCE_DIR}" ]; then
-  chezmoi init --apply --force https://github.com/fmind/dotfiles.git --source "${SOURCE_DIR}" "$@"
+  chezmoi init --force https://github.com/fmind/dotfiles.git --source "${SOURCE_DIR}" "$@"
 else
   echo "=> Updating dotfiles repository..."
   if [ "${SKIP_GIT_PULL:-}" = "true" ] || [ "${CI:-}" = "true" ]; then
     echo "=> Skipping git pull as requested by environment variable."
   else
-    git -C "${SOURCE_DIR}" pull --ff-only || echo "=> Warning: git pull failed, proceeding with local version..."
+    git -C "${SOURCE_DIR}" pull --ff-only
   fi
-  chezmoi init --apply --force --source "${SOURCE_DIR}" "$@"
+  chezmoi init --force --source "${SOURCE_DIR}" "$@"
 fi
 
-# Trust mise configs
-echo "=> Trusting mise config ..."
+# Trust the repository config so it can drive the remaining bootstrap.
+echo "=> Trusting mise config..."
 mise trust -y "${SOURCE_DIR}/mise.toml"
-mise -C "${SOURCE_DIR}" run trust
 
-# Trigger automatic tool installation
-echo "=> Installing global tools from mise.toml..."
-mise install -y
+# Complete the ordered bootstrap: apply, trust, tools, hooks, editor, and krew.
+echo "=> Completing environment bootstrap..."
+mise -C "${SOURCE_DIR}" run init
 
 echo "=> Install complete! You are ready to go."

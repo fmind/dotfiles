@@ -1,0 +1,54 @@
+{{ $currentConfig := dict -}}
+{{- if ne (trim .chezmoi.stdin) "" -}}
+{{-   $currentConfig = fromToml .chezmoi.stdin -}}
+{{- end -}}
+{{- $managedConfig := fromToml `
+# chezmoi:modify-template
+allow_login_shell = true
+approval_policy = "never"
+background_terminal_max_timeout = 1200000
+sandbox_mode = "danger-full-access"
+suppress_unstable_features_warning = true
+web_search = "live"
+vim_mode_default = true
+
+[agents]
+job_max_runtime_seconds = 3600
+max_depth = 1
+max_threads = 3
+
+[features]
+code_mode = { enabled = true }
+fast_mode = false
+memories = true
+
+[[hooks.Stop]]
+matcher = ""
+
+[[hooks.Stop.hooks]]
+command = "dot agent session codex"
+statusMessage = "Syncing Codex session"
+timeout = 30
+type = "command"
+
+[memories]
+generate_memories = true
+
+[otel]
+metrics_exporter = "none"
+trace_exporter = "none"
+
+[tools]
+web_search = { context_size = "high" }
+
+[tui]
+
+` -}}
+{{- $_ := set $managedConfig "log_dir" (joinPath .chezmoi.homeDir ".codex/log") -}}
+{{- $_ = set $managedConfig "sqlite_home" (joinPath .chezmoi.homeDir ".codex/sqlite") -}}
+{{- $desiredConfig := mergeOverwrite (dict "personality" "pragmatic") (deepCopy $currentConfig) $managedConfig -}}
+{{- if and (ne (trim .chezmoi.stdin) "") (deepEqual $currentConfig $desiredConfig) -}}
+{{ .chezmoi.stdin -}}
+{{- else -}}
+{{ $desiredConfig | toToml -}}
+{{- end -}}

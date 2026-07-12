@@ -1,11 +1,12 @@
 ---
 name: security-scan
 description: Scan a repo with Trivy (deps, IaC, secrets, licenses, images) and gitleaks (git history), then triage findings. Use for a full-repo security audit beyond the stack's native checks.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/security-scan
   created: 2026-07-04
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Security Scanning

@@ -1,11 +1,12 @@
 ---
 name: git-add-commit-push
 description: Stage, commit (Conventional Commits), and push in one flow, auto-healing lefthook pre-commit and pre-push failures. Use when committing and pushing work end-to-end.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/git-add-commit-push
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Git Add, Commit, and Push

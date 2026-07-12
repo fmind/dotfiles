@@ -1,11 +1,12 @@
 ---
 name: readme-agents
 description: Sync AGENTS.md (for agents) and README.md (for humans) with the codebase's current tools, layout, and usage. Use when either drifts from the project's actual state.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/readme-agents
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Sync README and AGENTS Files

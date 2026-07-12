@@ -1,11 +1,12 @@
 ---
 name: dprint
 description: Canonical dprint setup — the standard formatter for config and markup files (JSON, Markdown, TOML, YAML). Use when configuring or running formatting for these file types.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dprint
   created: 2026-06-29
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # dprint Formatting Standard
@@ -14,10 +15,10 @@ Canonical setup for **dprint**, the primary formatter for configuration and mark
 
 ## 1. Configuration Strategy
 
-dprint resolves config from the project directory upward and never auto-loads the home config, so every project needs its own resolvable `dprint.json`/`dprint.jsonc`. The home file (`~/.config/dprint/dprint.jsonc`, managed via chezmoi under `dot_config/dprint/dprint.jsonc`) is only a stored template. Seed a project one of two ways:
+dprint resolves config from the project directory upward and never auto-loads the home config, so every project needs its own resolvable `dprint.json`/`dprint.jsonc`. In this dotfiles repository, root `dprint.json` is the single canonical config and `dot_config/dprint/symlink_dprint.jsonc.tmpl` deploys `~/.config/dprint/dprint.jsonc` as a symlink to it; do not maintain a second config copy.
 
-1. **Copy (default)**: Copy the global config into the project root. Self-contained, version-pinned, and offline; bump plugin versions per repo.
-1. **Extends (DRY)**: Set `"extends"` to a single source of truth — a local path or a commit-pinned URL, e.g. `"extends": "https://raw.githubusercontent.com/fmind/dotfiles/<commit>/dot_config/dprint/dprint.jsonc"`. Projects inherit and can still override rules or add plugins.
+1. **Copy (default)**: Copy root `dprint.json` into the project root. This is self-contained, version-pinned, and offline; bump plugin versions per repo.
+1. **Extends (DRY)**: Set `"extends"` to a single source of truth — a local path or a commit-pinned URL, e.g. `"extends": "https://raw.githubusercontent.com/fmind/dotfiles/<commit>/dprint.json"`. Projects inherit and can still override rules or add plugins.
 
 ## 2. Usage
 

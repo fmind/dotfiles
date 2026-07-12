@@ -1,20 +1,45 @@
 # PLUGINS
 if command -q mise
-    mise activate fish | source
-    if not status is-interactive
-        mise hook-env -s fish | source
+    if status is-interactive
+        mise activate fish | source
+    else
+        mise activate fish --shims | source
     end
 end
 
 if status is-interactive
+    set -l fish_cache_dir "$HOME/.cache/fish"
+    if set -q XDG_CACHE_HOME
+        set fish_cache_dir "$XDG_CACHE_HOME/fish"
+    end
     if command -q carapace
-        carapace _carapace | source
+        set -l carapace_init "$fish_cache_dir/carapace-init.fish"
+        if test -r "$carapace_init"
+            source "$carapace_init"
+        else
+            carapace _carapace | source
+        end
     end
     if command -q fzf
         fzf --fish | source
     end
     if command -q atuin
-        atuin init fish | source
+        # Atuin's UUID helper is expensive; use the OS UUID source before loading
+        # the cached integration, while preserving its one-session-per-shell rule.
+        if not set -q ATUIN_SESSION; or test "$ATUIN_SHLVL" != "$SHLVL"
+            if test -r /proc/sys/kernel/random/uuid
+                set -gx ATUIN_SESSION (string trim </proc/sys/kernel/random/uuid)
+            else
+                set -gx ATUIN_SESSION (command -q uuidgen; and uuidgen | string lower; or atuin uuid)
+            end
+            set -gx ATUIN_SHLVL $SHLVL
+        end
+        set -l atuin_init "$fish_cache_dir/atuin-init.fish"
+        if test -r "$atuin_init"
+            source "$atuin_init"
+        else
+            atuin init fish | source
+        end
     end
     if command -q starship
         starship init fish | source

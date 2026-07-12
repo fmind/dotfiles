@@ -79,3 +79,25 @@ func TestGatherK3dStatus_StoppedNotRunning(t *testing.T) {
 		t.Errorf("expected stopped cluster to report not running, got %+v", got)
 	}
 }
+
+func TestGatherRepoStatus_StatusFailureIsReported(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name == "git" && args[0] == "branch" {
+				return "main\n", nil
+			}
+			if name == "git" && args[0] == "status" {
+				return "", errors.New("status unavailable")
+			}
+			return "", nil
+		},
+	}
+
+	got := gatherRepoStatus(context.Background(), newTestState(runner), t.TempDir())
+	if got.Err == nil || got.Error == "" {
+		t.Fatalf("expected repository status error, got %+v", got)
+	}
+	if got.Dirty {
+		t.Fatalf("repository with unknown status must not be reported dirty or clean: %+v", got)
+	}
+}

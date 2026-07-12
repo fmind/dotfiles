@@ -2,7 +2,7 @@ version: "2"
 run:
   go: "1.26"
   tests: true
-  timeout: 5m
+  timeout: 10m
   concurrency: 0
   issues-exit-code: 1
   enable-build-vcs: false

@@ -1,11 +1,12 @@
 ---
 name: python-stack
 description: Canonical Python development stack — uv, Ruff, ty, pytest, scaffolding, Litestar web, Typer scripts, and AI agents via agents-cli. Use for any Python project, library, CLI, or agent.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/python-stack
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Python Stack Standard
@@ -35,8 +36,8 @@ Canonical guidelines for Python development, scaffolding, CLI scripts, web appli
    cd <slug> && uv python pin <major.minor>  # align .python-version with requires-python
    ```
 1. **Config Initialization**: Copy and customize:
-   - `pyproject.toml` from [pyproject.toml](references/pyproject.toml)
-   - `mise.toml` from [mise.toml](references/mise.toml)
+   - `pyproject.toml` from [pyproject.toml](references/pyproject.toml) — `dependencies` are grouped **Core** (every project type) and **Web (Litestar)**; delete the Web block and `testcontainers` for library/CLI/agent projects.
+   - `mise.toml` from [mise.toml](references/mise.toml) — for non-web projects, swap the web-only `watch` task (see its inline comment).
    - `lefthook.yml` from [lefthook.yml](references/lefthook.yml)
    - `dprint.json` (setup as instructed in the [dprint skill](../dprint/SKILL.md))
    - `.env` & `.env.example` from [env.example](references/env.example)
@@ -44,8 +45,8 @@ Canonical guidelines for Python development, scaffolding, CLI scripts, web appli
    - `LICENSE` from [LICENSE](references/LICENSE)
    - `.gitignore` from [gitignore](references/gitignore)
 1. **Scaffold Directory**:
-   - Write `src/<slug>/__init__.py` using [init.py](references/init.py).
-   - Write `conftest.py` from [conftest.py](references/conftest.py) (web integration wiring), plus `tests/__init__.py` and `tests/test_smoke.py` from [test_smoke.py](references/test_smoke.py).
+   - Write `src/<slug>/__init__.py` — **web**: [init.py](references/init.py) (the Litestar `app`); **library/CLI**: [init-cli.py](references/init-cli.py) (minimal package: `__version__`, env-aware `structlog`, `main()`).
+   - Write `tests/__init__.py` and `tests/test_smoke.py` from [test_smoke.py](references/test_smoke.py). **Web** projects also add `conftest.py` from [conftest.py](references/conftest.py) (Postgres `testcontainers` wiring); library/CLI keep only the `__version__` test.
 1. **Git & Validation**:
    - Run `git init --initial-branch=main`.
    - Run verification sequence (`install` already runs `uv sync`):
@@ -55,6 +56,7 @@ Canonical guidelines for Python development, scaffolding, CLI scripts, web appli
      mise run check
      mise run test
      ```
+     On a fresh repo, `check:leaks` prints a benign `no commits yet` and exits 0 — nothing to scan until the first commit below.
    - Review and commit: `git add . && git commit -m "chore: initial commit"`.
 
 ## 3. Standalone Script Template
@@ -91,28 +93,29 @@ Build GCP-based AI agents with **agents-cli** (https://github.com/google/agents-
      ```bash
      uvx google-agents-cli create --agent-guidance-filename AGENTS.md --deployment-target cloud_run --cicd-runner github_actions --session-type agent_platform_sessions --region europe-west1 --agent adk <slug>
      ```
-2. **Layout**:
+1. **Layout**:
    - `app/agent.py` — defines the `root_agent` symbol and its tools. Tools are plain typed functions; ADK infers each JSON schema from the signature and docstring. Keep business logic in the library/modules and call into it from tools.
    - `app/fast_api_app.py` — FastAPI backend server for API interaction.
-3. **Models & Auth**:
-   - Use `gemini-3.5-flash` by default as the model.
+1. **Models & Auth**:
+   - Use `gemini-flash-latest` by default — a `-latest` alias that tracks the current flash model (pin a dated model only when you need reproducibility).
    - Use Google Application Default Credentials (ADC) for authentication. In local development, run `gcloud auth application-default login`.
    - In `.env`, ensure `GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT=<project_id>`, and `GOOGLE_CLOUD_LOCATION=<region>` (e.g., `europe-west1` or `global`) are set.
-4. **Development Commands**:
+1. **Development Commands**:
    - Setup project: `uvx google-agents-cli setup`
    - Install dependencies: `agents-cli install`
    - Start local playground with live reload: `agents-cli playground`
    - Run tests: `uv run pytest tests/unit tests/integration`
    - Evaluate agent: `agents-cli eval generate` followed by `agents-cli eval grade`
    - Deploy agent: `agents-cli deploy`
-5. **Testing**: Import `root_agent` and assert its wiring (name, model, tools), and exercise tool functions directly — no API key, no mocks, and no web `conftest.py`/Postgres.
+1. **Testing**: Import `root_agent` and assert its wiring (name, model, tools), and exercise tool functions directly — no API key, no mocks, and no web `conftest.py`/Postgres.
 
 ## Gotchas & Guidelines
 
 - **`uv init` Python Pin**: `uv init` writes a `.python-version` for the interpreter it resolves, which can be older than `requires-python` and breaks `uv sync`. Run `uv python pin <major.minor>` right after bootstrapping.
 - **`ty` Python Version**: `[tool.ty.environment].python-version` requires `major.minor` format (e.g., `"3.14"`). Do not supply patch versions.
 - **Line Length**: Ruff default line length is 120 characters.
-- **Alpine.js Directives**: Unpack dicts for dynamic directives (e.g., `**{"@click": "..."}`) to pass static analysis type checks.
+- **`ty` & SQLAlchemyDTO**: The scaffold ships with no blanket `[tool.ty.rules]` ignores and type-checks clean. `ty` is pre-1.0; if it later flags the generated DTO type forms once you add ORM models, add a single scoped `invalid-type-form = "ignore"` rather than a broad `unresolved-*` ignore that would hide real typos and missing imports.
+- **Granian Interface**: Pass the `Interfaces.ASGI` enum (`from granian.constants import Interfaces`), not the `"asgi"` string, so `ty` stays clean without an ignore.
 - **CDN Restrictions**: Never reference external CDNs; serve all assets locally.
 - **Mise Dotenv**: `mise` auto-loads `.env` if configured via `_.source = ".env"`.
 - **agents-cli Discovery & Layout**: `agents-cli` automatically scans and manages the project structure based on `agents-cli-manifest.yaml`. Development logic goes in `app/agent.py` and the entry point uses the `root_agent` symbol. Directives are mapped via the manifest file.

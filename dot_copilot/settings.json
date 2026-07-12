@@ -1,0 +1,12 @@
+{
+  "banner": "never",
+  "experimental": true,
+  "includeCoAuthoredBy": false,
+  "mouse": true,
+  "permissions": {
+    "disableBypassPermissionsMode": "disable"
+  },
+  "remote": "off",
+  "remoteExport": false,
+  "theme": "auto"
+}

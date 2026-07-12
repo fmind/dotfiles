@@ -1,11 +1,12 @@
 ---
 name: feature-branch
 description: Create and switch to a new git branch with conventional `<type>/<slug>` naming. Use when starting a piece of work that needs its own branch off main.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/feature-branch
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Create Feature Branch

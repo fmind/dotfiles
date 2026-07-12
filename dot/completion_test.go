@@ -7,8 +7,10 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/urfave/cli/v3"
 )
@@ -64,6 +66,7 @@ func TestCompletionCommand(t *testing.T) {
 	// Create a temp home directory so it writes completions there
 	tempDir := t.TempDir()
 	t.Setenv("HOME", tempDir)
+	t.Setenv("XDG_CACHE_HOME", filepath.Join(tempDir, ".cache"))
 
 	// Mock runner where LookPath always finds the tool, and Run always succeeds
 	runner := &FakeRunner{
@@ -100,6 +103,20 @@ func TestCompletionCommand(t *testing.T) {
 			content, _ := os.ReadFile(filePath)
 			if tool != "dot" && !strings.Contains(string(content), "completion output for") {
 				t.Errorf("Completions file content incorrect for %s: %s", tool, string(content))
+			}
+		}
+	}
+
+	// Verify cache files were written to ~/.cache/fish/
+	cacheDir := filepath.Join(tempDir, ".cache", "fish")
+	for _, file := range []string{"atuin-init.fish", "carapace-init.fish"} {
+		filePath := filepath.Join(cacheDir, file)
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			t.Errorf("Expected cache file to exist: %s", filePath)
+		} else {
+			content, _ := os.ReadFile(filePath)
+			if !strings.Contains(string(content), "completion output for") {
+				t.Errorf("Cache file content incorrect for %s: %s", file, string(content))
 			}
 		}
 	}
@@ -165,6 +182,33 @@ func TestGenerateToolCompletion(t *testing.T) {
 		}
 	})
 
+	t.Run("empty primary output uses fallback", func(t *testing.T) {
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) {
+				return "/bin/" + name, nil
+			},
+			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+				if len(args) == 2 && args[0] == "completions" && args[1] == "fish" {
+					return "", nil
+				}
+				if len(args) == 2 && args[0] == "completion" && args[1] == "fish" {
+					return "fallback-completions", nil
+				}
+				return "", errors.New("unexpected command")
+			},
+		}
+		state := newTestState(runner)
+		state.Config.Completions.CustomCommands["custom"] = ToolConfig{Args: []string{"completions", "fish"}}
+
+		out, err := generateToolCompletion(context.Background(), state, "custom")
+		if err != nil {
+			t.Fatalf("Expected no error, got %v", err)
+		}
+		if out != "fallback-completions" {
+			t.Fatalf("Expected fallback output, got %q", out)
+		}
+	})
+
 	t.Run("generation fails completely", func(t *testing.T) {
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
@@ -182,6 +226,63 @@ func TestGenerateToolCompletion(t *testing.T) {
 			t.Errorf("Expected error to contain 'failed to generate completions', got %v", err)
 		}
 	})
+}
+
+func TestGenerateToolCompletionIsolatesWorkingDirectory(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("test helper is a POSIX shell script")
+	}
+
+	binDir := t.TempDir()
+	capturePath := filepath.Join(t.TempDir(), "cwd")
+	toolPath := filepath.Join(binDir, "artifact-tool")
+	script := "#!/bin/sh\npwd > \"$DOT_COMPLETION_CAPTURE\"\ntouch shell-completion\nprintf '# fish completion\\n'\n"
+	if err := os.WriteFile(toolPath, []byte(script), 0o755); err != nil {
+		t.Fatalf("Failed to write helper tool: %v", err)
+	}
+	t.Setenv("DOT_COMPLETION_CAPTURE", capturePath)
+	t.Setenv("PATH", binDir+string(os.PathListSeparator)+os.Getenv("PATH"))
+
+	state := newTestState(NewStandardRunner(nil, io.Discard, io.Discard))
+	state.Config.Completions.CustomCommands["artifact-tool"] = ToolConfig{Args: []string{"generate"}}
+	if _, err := generateToolCompletion(context.Background(), state, "artifact-tool"); err != nil {
+		t.Fatalf("Expected no error, got %v", err)
+	}
+
+	data, err := os.ReadFile(capturePath)
+	if err != nil {
+		t.Fatalf("Failed to read captured working directory: %v", err)
+	}
+	workDir := strings.TrimSpace(string(data))
+	if _, err := os.Stat(workDir); !os.IsNotExist(err) {
+		t.Fatalf("Expected isolated workspace to be removed, stat error: %v", err)
+	}
+}
+
+func TestGenerateToolCompletionHonorsDeadline(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(ctx context.Context, _ string, _ io.Reader, _ string, _ ...string) (string, error) {
+			<-ctx.Done()
+			return "", ctx.Err()
+		},
+	}
+	state := newTestState(runner)
+	state.Config.Completions.CustomCommands["slow-tool"] = ToolConfig{Args: []string{"completions", "fish"}}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+	defer cancel()
+
+	_, err := generateToolCompletion(ctx, state, "slow-tool")
+	if !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("expected completion deadline error, got %v", err)
+	}
+}
+
+func TestDefaultCompletionConfigExcludesSystemSG(t *testing.T) {
+	for _, tool := range defaultCompletionConfig().Tools {
+		if tool == "sg" {
+			t.Fatal("sg resolves to the system newgrp helper on Linux; use ast-grep instead")
+		}
+	}
 }
 
 func TestGetCompletionCommand_CustomAndConfigs(t *testing.T) {
@@ -218,6 +319,10 @@ func TestGetCompletionCommand_CustomAndConfigs(t *testing.T) {
 }
 
 func TestCompletionCommand_Errors(t *testing.T) {
+	tempDir := t.TempDir()
+	t.Setenv("HOME", tempDir)
+	t.Setenv("XDG_CACHE_HOME", filepath.Join(tempDir, ".cache"))
+
 	t.Run("failed to create completions directory", func(t *testing.T) {
 		state := newTestState(&FakeRunner{})
 		// Use a path that is a file to cause MkdirAll to fail

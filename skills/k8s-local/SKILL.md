@@ -1,11 +1,12 @@
 ---
 name: k8s-local
 description: Create and manage local Kubernetes clusters (k3d or kind) and deploy to them with kubectl, helm, helmfile, and skaffold. Use for local k8s cluster setup, dev loops, and debugging.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/k8s-local
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Local Kubernetes Cluster Management

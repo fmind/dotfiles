@@ -75,6 +75,7 @@ app = Litestar(
 def main() -> None:
     """Entrypoint invoked by the `<slug>` console script or `uv run`."""
     from granian import Granian
+    from granian.constants import Interfaces
 
     # Auto-detect context for hot-reloading imports
     target = f"{__name__}:app"
@@ -88,7 +89,7 @@ def main() -> None:
 
     server = Granian(
         target,
-        interface="asgi",
+        interface=Interfaces.ASGI,
         port=settings.port,
         address=settings.host,
         reload=settings.environment == "development",

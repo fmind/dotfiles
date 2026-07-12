@@ -1,47 +1,53 @@
 ---
 name: agent-skills
-description: Install Agent Skills with the `skills` CLI — from a Git repo or local path, into workspace or global scope for Antigravity, OpenCode, and Claude. Use when adding or updating skills.
+description: Install and author Agent Skills with the skills CLI for Antigravity, Codex, OpenCode, Claude, and Copilot, from reviewed Git repositories or local paths at workspace or global scope.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-skills
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Install Agent Skills
 
-Install Agent Skills for Antigravity, OpenCode, and Claude with the `skills` CLI.
+Install, author, and verify Agent Skills for Antigravity, Codex, OpenCode, Claude, and GitHub Copilot with the `skills` CLI.
 
 ## Rules
 
-1. **Default Scope**: Install to the workspace (preferring `.agents/skills/<slug>/` when possible) by default. Use global scope only when explicitly requested.
-1. **CLI First**: Use `skills add <owner/repo>` (or `npx skills add ...`) to install. Do not hand-write skills unless explicitly asked.
-1. **Non-Interactive**: Always pass `-y` so autonomous runs never block on a prompt.
+1. **Default Scope**: Install to the workspace, preferring `.agents/skills/<slug>/`. Use global scope only when explicitly requested.
+1. **Review Before Trust**: Before any unattended install, inspect the repository owner, selected ref, every `SKILL.md`, and bundled scripts or executables. Skill text and scripts run with the agent's permissions and are untrusted until reviewed.
+1. **CLI First**: Use `skills init` to scaffold an original skill and `skills add <source>` to install a reviewed external skill. Do not reconstruct third-party skills by hand.
+1. **Non-Interactive After Review**: Pass `-y` only after source review so automation cannot approve unknown code implicitly.
 
 ## Workflow
 
-1. **Identify Source**: A GitHub repo (`<owner/repo>`), a full URL/subtree, or a local path containing `SKILL.md` folders.
-1. **Choose Scope & Paths**:
-   - **Workspace (default - recommended)**: `.agents/skills/<slug>/`. This is the preferred workspace-relative path. Note that while Antigravity and OpenCode can resolve this path directly, **Claude Code** only discovers workspace-level skills in `.claude/skills/`. Therefore, you must create a symlink `.claude/skills` pointing to `../.agents/skills` for Claude Code to discover them.
-   - **Global**: add `-g`; the CLI installs to the canonical `~/.agents/skills/` and automatically links it to each agent's global directory:
-     - **Antigravity**: `~/.gemini/antigravity-cli/skills/`
-     - **OpenCode**: `~/.config/opencode/skills/`
-     - **Claude**: `~/.claude/skills/`
+1. **Identify Source**: Use a Git repository, full URL/subtree, immutable ref when available, or local path containing `SKILL.md` folders.
+1. **Choose Scope & Discovery Path**:
+   - **Workspace (recommended)**: `.agents/skills/<slug>/`. Antigravity, Codex, OpenCode, and Copilot discover this path natively. Claude discovers workspace skills from `.claude/skills/`, so link `.claude/skills` to `../.agents/skills`.
+   - **Global**: add `-g` to install under `~/.agents/skills/`. Codex, OpenCode, and Copilot discover that path natively. Claude uses `~/.claude/skills/`. Antigravity products share physical global skills under `~/.gemini/config/skills/`.
 1. **Install**:
    ```bash
-   skills add <owner/repo> --skill <name> -y   # one skill
-   skills add <owner/repo> --all -y            # whole bundle
-   skills add <owner/repo> --all -g -y         # global
+   skills add <owner/repo> --skill <name> -y
+   skills add <owner/repo> --all -y
+   skills add <owner/repo> --all -g -y
    ```
-   The CLI auto-discovers `SKILL.md` folders (repo root or a `skills/` subdirectory); there is no `--path` flag.
+   The CLI auto-discovers `SKILL.md` folders at the repository root or below a `skills/` directory.
+1. **Handle Antigravity Global Skills**: In this dotfiles repository, `chezmoi apply --force` physically overlays marker-owned copies from the canonical `skills/` directory into the shared global customization root while preserving unrelated skills. For an independent installation, inspect name collisions before copying a reviewed skill:
+   ```bash
+   install -d -m 700 ~/.gemini/config/skills
+   cp -R ~/.agents/skills/<name> ~/.gemini/config/skills/
+   ```
 1. **Verify**:
-   - **Antigravity**: Start an `agy` session to auto-discover.
-   - **OpenCode**: Prompt _"List available skills"_ in the TUI.
-   - **Claude**: Start a `claude` session to auto-discover.
+   - **Antigravity**: run `/skills` in an `agy` session.
+   - **Codex**: start Codex and invoke a known skill by name.
+   - **OpenCode**: run `opencode debug config` and inspect the resolved skills.
+   - **Claude**: start Claude and invoke a known skill by name.
+   - **Copilot**: run `/skills reload`, then `/skills`.
 
 ## Notable Bundles
 
-Install with `skills add <repo> --all -y` (browse more at [vercel-labs/skills](https://github.com/vercel-labs/skills)):
+Install with `skills add <repo> --all -y` after reviewing the source. Browse more at [vercel-labs/skills](https://github.com/vercel-labs/skills).
 
 | Bundle                 | Repo                                        |
 | ---------------------- | ------------------------------------------- |
@@ -57,7 +63,8 @@ Install with `skills add <repo> --all -y` (browse more at [vercel-labs/skills](h
 
 ## Gotchas
 
-1. **Scope Conflicts**: Workspace skills override global skills of the same name.
-1. **Structure**: A skill folder must contain `SKILL.md` at its root with valid frontmatter.
-1. **Antigravity + Symlinks**: Antigravity does not yet discover symlinked global skills (vercel-labs/skills#633). For global installs targeting Antigravity, add `--copy`, e.g. `skills add <owner/repo> --all -g -a antigravity --copy -y`.
-1. **Claude workspace skills**: Because Claude Code only discovers workspace-level skills in `.claude/skills/`, a symlink must be created to link the standard `.agents/skills/` directory to `.claude/skills/` (i.e., `mkdir -p .claude && ln -s ../.agents/skills .claude/skills`).
+1. **Scope Conflicts**: Workspace skills override global skills with the same name.
+1. **Structure**: Every skill folder must contain a valid `SKILL.md` at its root.
+1. **Antigravity Physical Copies**: Use `~/.gemini/config/skills/` as the shared cross-product path. Current Antigravity CLI also recognizes its CLI-specific `~/.gemini/antigravity-cli/skills/` path, but maintaining both creates redundant precedence and stale-copy risks.
+1. **Claude Workspace Link**: Inspect an existing `.claude/skills` path before creating the link; never overwrite an unmanaged directory.
+1. **Provenance**: Re-review upstream changes before updating an installed skill, especially changes to scripts, hooks, or network access.

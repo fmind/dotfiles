@@ -40,7 +40,7 @@ dev = [
 <slug> = "<slug>:main"
 
 [build-system]
-requires = ["uv_build>=0.9.0"]
+requires = ["uv_build>=0.9.0,<0.12"]
 build-backend = "uv_build"
 
 [tool.ruff]
@@ -103,11 +103,9 @@ ignore = [
 [tool.ty.environment]
 python-version = "<latest_stable_version_major_minor>"
 
-[tool.ty.rules]
-invalid-argument-type = "ignore" # tolerate dynamic unpacking of HTML/Alpine.js attributes
-invalid-type-form = "ignore"     # tolerate dynamic ORM/DTO type forms
-unresolved-attribute = "ignore"  # tolerate optional deps / dynamic attrs
-unresolved-import = "ignore"
+# No blanket [tool.ty.rules] ignores — the scaffold type-checks clean. If ty
+# (pre-1.0) flags the generated SQLAlchemyDTO type forms once you add ORM models,
+# add a narrowly-scoped `[tool.ty.rules]` with `invalid-type-form = "ignore"`.
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -10,7 +10,6 @@ gui:
   scrollPastBottom: false
   showCommandLog: false
   nerdFontsVersion: "3"
-
 os:
   editPreset: nvim
 customCommands:

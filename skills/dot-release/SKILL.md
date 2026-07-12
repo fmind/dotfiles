@@ -1,11 +1,12 @@
 ---
 name: dot-release
 description: Cut a versioned release for fmind/dotfiles using the Go dot CLI release command (alias r). Use when shipping a new tagged version of dotfiles.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dot-release
   created: 2026-07-08
-  updated: 2026-07-08
+  updated: 2026-07-09
 ---
 
 # Dotfiles Release

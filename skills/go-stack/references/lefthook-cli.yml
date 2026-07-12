@@ -1,0 +1,19 @@
+pre-commit:
+  parallel: false
+  commands:
+    format:dprint:
+      glob: "*.{json,md,toml,yaml,yml}"
+      run: mise run format:dprint {staged_files}
+      stage_fixed: true
+    format:go:
+      glob: "*.go"
+      run: mise run format:go {staged_files}
+      stage_fixed: true
+    check:leaks:
+      run: mise run check:leaks --staged
+    check:
+      run: mise run check
+pre-push:
+  commands:
+    test:
+      run: mise run test

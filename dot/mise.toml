@@ -31,12 +31,23 @@ run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
 [tasks."check:lint"]
 alias = "cl"
 description = "Lint Go sources (golangci-lint)"
-run = "go tool golangci-lint run ./..."
+run = "golangci-lint run ./..."
 
 [tasks."check:vuln"]
 alias = "cv"
 description = "Scan Go code for vulnerabilities (govulncheck)"
 run = "go tool govulncheck ./..."
+
+[tasks.clean]
+alias = "n"
+description = "Remove build artifacts and coverage files"
+run = "rm -rf bin/ coverage.out"
+
+[tasks.coverage]
+alias = "v"
+description = "View test coverage in terminal"
+depends = ["test"]
+run = "go tool cover -func=coverage.out"
 
 [tasks.format]
 alias = "f"
@@ -56,23 +67,12 @@ alias = "i"
 description = "Install development dependencies"
 run = "go mod tidy"
 
-[tasks.clean]
-alias = "n"
-description = "Remove build artifacts and coverage files"
-run = "rm -rf bin/ coverage.out"
-
 [tasks.test]
 alias = "t"
 description = "Run the test suite (gotestsum)"
-run = "go tool gotestsum --format pkgname -- -race -coverprofile=coverage.out ./..."
+run = "gotestsum --format pkgname -- -race -coverprofile=coverage.out ./..."
 
 [tasks."test:watch"]
 alias = "tw"
 description = "Run the test suite in watch mode"
-run = "go tool gotestsum --watch --format pkgname -- -race -coverprofile=coverage.out ./..."
-
-[tasks.coverage]
-alias = "v"
-description = "View test coverage in terminal"
-depends = ["test"]
-run = "go tool cover -func=coverage.out"
+run = "gotestsum --watch --format pkgname -- -race -coverprofile=coverage.out ./..."

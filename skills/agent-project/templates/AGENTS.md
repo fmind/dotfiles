@@ -24,7 +24,5 @@ This file provides the context and rules for AI agents.
 
 ## Workspace Layout
 
-- `.agents/` — Workspace-scoped agent config (Antigravity; OpenCode also reads `AGENTS.md`):
-  - `agents/` — Custom subagents (`*.md`)
-  - `skills/` — Project-specific agent skills (`SKILL.md` packages)
-  - `mcp_config.json` — MCP server definitions
+- `AGENTS.md` — Shared project instructions for Antigravity, Codex, OpenCode, and Copilot; Claude imports it from `CLAUDE.md`.
+- `.agents/skills/` — Portable project skills discovered by Antigravity, Codex, OpenCode, and Copilot; Claude links `.claude/skills` here.

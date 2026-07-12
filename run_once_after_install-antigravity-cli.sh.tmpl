@@ -3,7 +3,7 @@
 {{- if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") }}
 set -euo pipefail
 command -v agy >/dev/null && exit 0
-curl -fsSL https://antigravity.google/cli/install.sh | bash || echo "Warning: Failed to install Antigravity CLI. Please install manually."
+curl -fsSL https://antigravity.google/cli/install.sh | bash
 {{- else }}
 exit 0
 {{- end }}

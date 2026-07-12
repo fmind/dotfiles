@@ -1,14 +1,39 @@
 [env]
 _.path = "~/.local/share/chezmoi/dot_local/bin"
 
+[settings]
+github_attestations = true
+locked_verify_provenance = true
+lockfile = true
+lockfile_platforms = ["linux-x64", "macos-arm64"]
+slsa = true
+
 [settings.task]
 run_auto_install = false
 
 [task_config]
-dir = "~/.local/share/chezmoi"
+# Default to the repo, but honour the CI checkout path when running on GitHub.
+dir = "{{ env.GITHUB_WORKSPACE | default(value='~/.local/share/chezmoi') }}"
+
+[tools]
+"aqua:fish-shell/fish-shell" = "4"
+chezmoi = "latest"
+dprint = "latest"
+gitleaks = "latest"
+go = "1.26"
+golangci-lint = "latest"
+gotestsum = "latest"
+lefthook = "latest"
+ruff = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Project management — check quality, format sources, and run tests.
+# ─────────────────────────────────────────────────────────────────────────────
 
 [tasks.all]
-alias = "l"
+alias = "ma"
 description = "Run the full pre-commit and pre-push gate"
 run = [
   "lefthook run pre-commit --all-files",
@@ -16,66 +41,71 @@ run = [
 ]
 
 [tasks.check]
-alias = "c"
+alias = "mc"
 description = "Run all static checks in parallel"
 depends = [
-  "check:format",
+  "check:dprint",
   "check:go",
   "check:python",
   "check:shell",
   "check:leaks",
 ]
 
-[tasks."check:format"]
+[tasks."check:dprint"]
+alias = "mcd"
 description = "Check config/markup formatting (dprint)"
 run = "dprint check"
 
 [tasks."check:go"]
+alias = "mcg"
 description = "Lint and vuln-scan the Go module (dot/)"
 # Delegate to dot/'s own tasks — the single source of truth for Go checks.
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
 
-[tasks."check:leaks"]
-alias = "cs"
-description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
-
 [tasks."check:python"]
+alias = "mcp"
 description = "Lint Python sources (ruff)"
 run = "ruff check"
 
 [tasks."check:shell"]
+alias = "mcs"
 description = "Lint shell scripts (shellcheck)"
-run = "git ls-files '*.sh' ':!:skills/**' ':!:.agents/**' | xargs -r shellcheck"
+run = "git ls-files '*.sh' | xargs -r shellcheck"
+
+[tasks."check:leaks"]
+alias = "mcl"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
 
 [tasks.format]
+alias = "mf"
 description = "Format all sources and documents"
-run = [
-  "mise run format:dprint",
-  "mise run format:go",
-  "mise run format:python",
-  "mise run format:shell",
-]
+depends = ["format:dprint", "format:go", "format:python", "format:shell"]
 
 [tasks."format:dprint"]
+alias = "mfd"
 description = "Format JSON, Markdown, TOML, YAML with dprint"
 run = "dprint fmt"
 
 [tasks."format:go"]
+alias = "mfg"
 description = "Format Go sources and imports (goimports + gofumpt)"
 # go.work resolves the tools from dot/go.mod; run from root so repo-relative
-# staged paths (dot/foo.go) resolve — `-C dot` would break them. Defaults to dot/.
+# staged paths (dot/foo.go) resolve — `-C dot` would break them.
 run = ["go tool goimports -w dot", "go tool gofumpt -w dot"]
 
 [tasks."format:python"]
+alias = "mfp"
 description = "Format Python sources and imports (ruff)"
-run = "ruff check --select=I --fix . && ruff format ."
+run = ["ruff check --select=I --fix .", "ruff format ."]
 
 [tasks."format:shell"]
+alias = "mfs"
 description = "Format shell scripts (shfmt)"
-run = "shfmt -w -i 2 -s ."
+run = "git ls-files '*.sh' | xargs -r shfmt -w -i 2 -s"
 
 [tasks.test]
+alias = "mt"
 description = "Run the dot CLI test suite (delegates to dot/)"
 run = "mise -C dot run test"
 
@@ -87,7 +117,7 @@ run = "mise -C dot run test"
 alias = "a"
 depends = ["build"]
 description = "Apply dotfiles with chezmoi"
-run = "chezmoi apply --force --init"
+run = "chezmoi apply --force"
 
 [tasks.build]
 alias = "b"
@@ -99,13 +129,13 @@ outputs = ["dot_local/bin/executable_dot"]
 [tasks.completions]
 alias = "g"
 depends = ["build"]
-description = "Generate Fish completions for core CLI tools"
+description = "Generate Fish completions for core CLI tools and cached integrations"
 run = "executable_dot completion"
 
 [tasks.diff]
 alias = "d"
 description = "Show pending chezmoi diff"
-run = "chezmoi diff --force --init"
+run = "chezmoi diff --force"
 
 [tasks.doctor]
 alias = "o"
@@ -126,11 +156,8 @@ run = "lefthook install"
 [tasks.init]
 alias = "i"
 depends = ["trust", "tools", "hooks", "vim", "krew"]
-description = "Initialize chezmoi config and run first-time bootstrap"
-run = [
-  "chezmoi init --force --source \"$PWD\"",
-  "echo '✓ First-time bootstrap complete.'",
-]
+description = "Bootstrap a freshly initialized checkout"
+run = "echo '✓ First-time bootstrap complete.'"
 
 [tasks.krew]
 alias = "w"
@@ -139,21 +166,22 @@ run = "krew install neat tree df-pv view-allocations view-secret sniff"
 
 [tasks.lock]
 alias = "k"
-description = "Refresh the home mise lockfile and stage it into chezmoi"
+description = "Refresh the repo and home mise lockfiles"
 run = [
-  "mise -C \"$HOME\" lock",
+  "mise lock --yes",
+  "mise lock --global --yes",
   "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
 ]
 
 [tasks.preview]
 alias = "pr"
 description = "Preview pending chezmoi changes (dry-run apply)"
-run = "chezmoi apply --dry-run --force --init"
+run = "chezmoi apply --dry-run --force"
 
 [tasks.prune]
 alias = "p"
-description = "Remove unused mise packages and clear cache"
-run = ["mise prune -y", "mise cache clear", "executable_prune-system.sh"]
+description = "Remove unused tools, containers, and development caches"
+run = "executable_prune-system.sh"
 
 [tasks.release]
 alias = "r"
@@ -170,8 +198,8 @@ run = "skills update -g -y"
 alias = "t"
 depends = ["apply"]
 depends_post = ["completions"]
-description = "Install global tools from home mise config"
-run = ["mise -C \"$HOME\" install -y"]
+description = "Install pinned tools for this repo and the global config"
+run = ["mise -C \"$HOME\" install -y", "mise install -y"]
 
 [tasks.trust]
 alias = "tr"

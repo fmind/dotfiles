@@ -169,3 +169,28 @@ func TestGetChezmoiTargetPath_NestedCleanup(t *testing.T) {
 		}
 	})
 }
+
+func TestGetChezmoiTargetPathReportsCleanupFailure(t *testing.T) {
+	source := t.TempDir()
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name != "chezmoi" || args[0] != "target-path" {
+				return "", nil
+			}
+			if err := os.WriteFile(filepath.Join(filepath.Dir(args[1]), "concurrent-file"), []byte("keep"), 0o600); err != nil {
+				return "", err
+			}
+			return "~/.config/newtool/conf", nil
+		},
+	}
+
+	_, err := getChezmoiTargetPath(
+		context.Background(),
+		newTestState(runner),
+		source,
+		filepath.Join("dot_config", "newtool", "dot_conf"),
+	)
+	if err == nil || !strings.Contains(err.Error(), "failed to remove chezmoi probe directory") {
+		t.Fatalf("expected probe cleanup error, got %v", err)
+	}
+}

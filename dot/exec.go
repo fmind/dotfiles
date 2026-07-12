@@ -6,7 +6,13 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	"time"
 )
+
+// killGracePeriod bounds how long Run waits for output pipes to drain after the
+// context is canceled and the process group is killed. Without it, a descendant
+// that escapes the group while holding a pipe's write end could block Run forever.
+const killGracePeriod = 3 * time.Second
 
 // Runner defines the interface for executing external command-line tools.
 // Implementations of this interface allow commands to be run either headlessly
@@ -39,6 +45,8 @@ func (r *StandardRunner) Run(ctx context.Context, dir string, stdin io.Reader, n
 	// Trusted call site and single command choke point: name is a constant tool name
 	// and args are built by dot, never shell-interpolated from untrusted input.
 	cmd := exec.CommandContext(ctx, name, args...) //nolint:gosec // G204: args are dot-built, not user shell input
+	isolateProcessGroup(cmd)
+	cmd.WaitDelay = killGracePeriod
 	if dir != "" {
 		cmd.Dir = dir
 	}

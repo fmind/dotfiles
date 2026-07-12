@@ -117,8 +117,10 @@ depends = ["install:go"]
 run = "lefthook install"
 
 [tasks."install:vendor"]
-description = "Download and vendor static assets"
+description = "Download and vendor static assets (skips when already vendored)"
 depends = ["install:go"]
+sources = ["scripts/vendor.go"]
+outputs = ["static/vendor/htmx.min.js", "static/vendor/alpine.min.js"]
 run = "go run scripts/vendor.go"
 
 [tasks.test]

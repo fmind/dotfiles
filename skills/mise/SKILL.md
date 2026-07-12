@@ -1,11 +1,12 @@
 ---
 name: mise
 description: Canonical mise setup — the per-project task vocabulary (install, format, check, test, build, watch) and pinned toolchain that hooks and CI reuse. Use when defining `mise.toml` tasks or pinning tools.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/mise
   created: 2026-07-04
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Mise Standard

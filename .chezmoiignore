@@ -8,9 +8,9 @@
 /go.work.sum
 /install.sh
 /lefthook.yml
+/mise.lock
 /mise.toml
-/pyproject.toml
-/skill-lock.json
+/ruff.toml
 /skills
 
 {{- if ne .chezmoi.os "linux" }}
@@ -20,4 +20,3 @@
 {{- if not (stat (joinPath .chezmoi.homeDir ".config/chezmoi/key.txt")) }}
 .config/fish/conf.d/secrets.fish
 {{- end }}
-

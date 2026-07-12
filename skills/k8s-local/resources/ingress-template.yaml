@@ -4,7 +4,7 @@ metadata:
   name: <project-name>
   namespace: <project-name>
 spec:
-  ingressClassName: traefik # k3d default; use "nginx" on the kind fallback
+  ingressClassName: traefik
   rules:
     - host: <project-name>.localhost
       http:

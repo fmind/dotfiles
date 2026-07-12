@@ -1,11 +1,12 @@
 ---
 name: lefthook
 description: Canonical lefthook git-hooks setup — pre-commit (format, check, secret scan) and pre-push (test), each delegating to `mise run` tasks. Use when configuring or debugging git hooks.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/lefthook
   created: 2026-07-04
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Lefthook Git Hooks Standard

@@ -1,6 +1,7 @@
 ---
 name: python-script
 description: Write standalone single-file Python scripts using PEP 723 inline metadata and uv. Use when creating a quick CLI script that needs dependencies without a full project.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/python-script

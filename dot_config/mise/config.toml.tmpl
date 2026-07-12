@@ -1,26 +1,28 @@
 [settings]
+env_cache = true
 github_attestations = true
+locked_verify_provenance = true
 lockfile = true
-minimum_release_age = "0s"
+lockfile_platforms = ["linux-x64", "macos-arm64"]
+minimum_release_age = "0d"
 slsa = true
+
+[settings.hook_env]
+chpwd_only = true
 
 [tools]
 "aqua:fish-shell/fish-shell" = "4" # Friendly interactive shell (Fish)
-"aqua:sqlc-dev/sqlc" = "latest" # Compiles SQL queries to type-safe Go code
-"go:github.com/a-h/templ/cmd/templ" = "latest" # HTML templating compiler for Go
 "go:github.com/fatih/gomodifytags" = "latest" # Go tool to modify struct field tags
 "go:github.com/go-delve/delve/cmd/dlv" = "latest" # Go debugger (Delve)
-"go:github.com/google/ko" = "latest" # Fast container image builder for Go apps
-"go:github.com/josharian/impl" = "latest" # Go method stub generator for interfaces
-"go:golang.org/x/pkgsite/cmd/pkgsite" = "latest" # Local server for Go package documentation
 "go:golang.org/x/tools/cmd/goimports" = "latest" # Format and fix import statements in Go
 "go:golang.org/x/tools/gopls" = "latest" # Official Go language server (LSP)
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest" # Scans Go code for known vulnerabilities
 # "npm:@angular/cli" = "latest" # Angular web framework CLI
+"npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] } # Allow only its native-binary postinstall
+"npm:@github/copilot" = "latest" # GitHub Copilot terminal-based AI coding agent CLI
 "npm:@google/clasp" = "latest" # Google Apps Script projects development tool
 "npm:@likec4/lsp" = "latest" # Language server for LikeC4 diagrams
 "npm:@mermaid-js/mermaid-cli" = "latest" # Generate images from Mermaid diagram markdown
-"npm:@openai/codex" = "latest" # OpenAI Codex terminal-based AI coding agent CLI
 # "npm:genkit-cli" = "latest" # Firebase Genkit CLI tool for AI/LLM workflows
 "npm:lighthouse" = "latest" # Web page audit tool for performance and SEO
 "npm:likec4" = "latest" # CLI for LikeC4 architecture-as-code diagramming tool
@@ -28,7 +30,6 @@ slsa = true
 "npm:skills" = "latest" # Agent Skills CLI manager
 # "npm:tsx" = "latest" # Run TypeScript files directly with Node
 # "npm:typescript" = "latest" # TypeScript language compiler
-"pipx:google-agents-cli" = "latest" # Google Antigravity Agent SDK command-line tools
 "pipx:google-colab-cli" = "latest" # CLI client for Google Colab
 "pipx:huggingface_hub" = "latest" # Hugging Face Hub CLI client
 "pipx:kaggle" = "latest" # Kaggle dataset and competition CLI
@@ -43,10 +44,11 @@ bat = "latest" # Cat clone with syntax highlighting and git integration
 bottom = "latest" # Graphical system and process monitor for terminal
 carapace = "latest" # Multi-shell command argument completion generator
 chezmoi = "latest" # Dotfiles manager across diverse machines
+codex = "latest" # OpenAI Codex terminal-based AI coding agent CLI
 cosign = "latest" # Sign and verify container images and attestations (Sigstore)
 delta = "latest" # Syntax-highlighter for git, diff, and grep output
+doggo = "latest" # Command-line DNS client supporting modern protocols
 dive = "latest" # Docker image explorer and optimization tool
-"github:mr-karan/doggo" = "latest" # Command-line DNS client supporting modern protocols
 dprint = "latest" # Pluggable and ultra-fast code formatter
 duckdb = "latest" # Embedded SQL analytical database management system
 duf = "latest" # Disk usage utility with clean tabular layout
@@ -68,8 +70,7 @@ gofumpt = "latest" # Stricter formatter for Go code
 golangci-lint = "latest" # Fast Go linting runner
 goreleaser = "latest" # Deliver Go binaries as fast and easily as possible
 gotestsum = "latest" # Go test runner with summary and watcher
-gping = "latest" # Ping utility with visual latency graph
-helm = "latest" # Package manager for Kubernetes charts
+helm = "latest" # Package manager for Kubernetes charts (pin major: v3/v4 release in parallel)
 helmfile = "latest" # Declarative spec runner for Helm charts
 hyperfine = "latest" # Command-line benchmarking utility
 jq = "latest" # Command-line JSON processor
@@ -78,13 +79,14 @@ just = "latest" # Handy command runner and make alternative
 k3d = "latest" # Run lightweight k3s Kubernetes clusters in Docker
 k9s = "latest" # Terminal UI for viewing Kubernetes clusters
 kind = "latest" # Kubernetes IN Docker cluster manager
+ko = "latest" # Fast container image builder for Go apps
 krew = "latest" # Plugin manager for kubectl
 kube-linter = "latest" # Static analysis linter for Kubernetes YAML/Helm
 kube-score = "latest" # Evaluates resiliency/security of Kubernetes specs
 kubecolor = "latest" # Colorizes kubectl command output
-kubectx = "latest" # Fast switcher between Kubernetes cluster contexts
 kubeconform = "latest" # Kubernetes manifest schema validator
 kubectl = "latest" # Command-line tool to control Kubernetes clusters
+kubectx = "latest" # Fast switcher between Kubernetes cluster contexts
 kubens = "latest" # Switch between Kubernetes namespaces
 kustomize = "latest" # Customizes raw Kubernetes YAML configurations
 lazydocker = "latest" # Terminal UI for managing Docker containers
@@ -104,19 +106,21 @@ shellcheck = "latest" # Static analysis tool for shell scripts
 shfmt = "latest" # Parser, formatter, and interpreter for shell code
 skaffold = "latest" # Continuous local Kubernetes development workflow tool
 sops = "latest" # Mozilla secrets editor (encrypts YAML/JSON/etc)
+sqlc = "latest" # Compiles SQL queries to type-safe Go code
 sqlite = "latest" # Lightweight SQL database engine CLI
 starship = "latest" # Minimal and customizable cross-shell prompt
 step = "latest" # Tool for automating PKI and certificate management
 stern = "latest" # Multi-pod and multi-container log tailing for Kubernetes
+stylua = "latest" # Opinionated Lua formatter
 terraform = "latest" # HashiCorp Terraform infrastructure as code CLI
 terraform-docs = "latest" # Generate documentation from Terraform modules
 tflint = "latest" # Terraform code linter
-tlrc = "latest" # Official Rust tldr client — fast, offline command examples (binary: tldr)
-trivy = "latest" # Security vulnerability and secret scanner
+tlrc = "latest" # Official Rust tldr client (binary: tldr)
 # Pinned: newer tree-sitter releases break LazyVim's nvim-treesitter parser ABI.
 tree-sitter = "0.25.10"
+trivy = "latest" # Security vulnerability and secret scanner
 ty = "latest" # Astral's high-performance Python type checker
-usql = "latest" # Universal command-line interface for SQL databases
+usql = "latest" # Portable universal SQL client
 uv = "latest" # Astral's high-performance Python package installer
 vault = "latest" # HashiCorp Vault secrets management CLI
 viddy = "latest" # Modern, interactive version of the watch command
@@ -126,11 +130,12 @@ yazi = "latest" # Blazing-fast terminal file manager in Rust
 yq = "latest" # Command-line YAML, XML, and TOML processor
 zellij = "latest" # Terminal multiplexer and workspace built in Rust
 zoxide = "latest" # Smarter cd command that learns directories
-{{- if eq .chezmoi.os "linux" }}
-{{-   $arch := ternary "aarch64" "x86_64" (eq .chezmoi.arch "arm64") }}
-"github:googleworkspace/cli" = { version = "latest", asset_pattern = "*{{ $arch }}-unknown-linux-musl*" } # Google Workspace CLI (gws)
-{{- else }}
-"github:googleworkspace/cli" = "latest" # Google Workspace CLI (gws)
-{{- end }}
 
+[tools."github:googleworkspace/cli"]
+version = "latest" # Google Workspace CLI (gws)
 
+[tools."github:googleworkspace/cli".platforms]
+linux-x64 = { asset_pattern = "*x86_64-unknown-linux-musl*" }
+linux-arm64 = { asset_pattern = "*aarch64-unknown-linux-musl*" }
+macos-x64 = { asset_pattern = "*x86_64-apple-darwin*" }
+macos-arm64 = { asset_pattern = "*aarch64-apple-darwin*" }

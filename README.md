@@ -15,19 +15,23 @@ Managed with [chezmoi](https://www.chezmoi.io/) (files) and [mise](https://mise.
 - **AI-CLI Integration** — Built-in setups for [OpenAI Codex](https://developers.openai.com/codex/) (`codex`), [Antigravity](https://antigravity.google/) (`agy`), [OpenCode](https://opencode.ai/), [Claude Code](https://claude.com/claude-code), and [GitHub Copilot](https://github.com/features/copilot) (`copilot`), sharing a unified persona (`AGENTS.md`) and skills.
 - **Languages** — Go and Python, with pinned toolchains, formatters, linters, and checkers.
 - **Custom `dot` CLI** — A custom Go utility to pull workspace repos, manage local Kubernetes, generate commits, and handle logins. Source in [`dot/`](dot/).
-- **Zero Host Dependencies** — Bootstrapped via `install.sh`; a single mise config (`~/.config/mise/config.toml`) pins and manages every user-space tool.
+- **User-space toolchain** — `install.sh` bootstraps mise and chezmoi, while a single mise config (`~/.config/mise/config.toml`) pins and manages the development CLI toolchain without system package managers.
 
 ## Prerequisites
 
-Install basic system requirements for Linux (Debian/Ubuntu) or macOS:
+The development CLI toolchain is installed in user space, but the bootstrap still needs Git, curl, host build tools, and native credential storage:
 
 ```bash
 # Linux (Debian/Ubuntu) — build tools and secret storage keyring
 sudo apt install -y git curl libatomic1 build-essential gnome-keyring
 
-# macOS — command-line tools for Git and Curl
+# macOS — Git, curl, compilers, and system headers
 xcode-select --install
 ```
+
+Install a Docker-compatible engine if you plan to use the local k3d cluster.
+
+[Ghostty](https://ghostty.org/docs/install/binary) and [FiraCode Nerd Font Mono](https://www.nerdfonts.com/font-downloads) are recommended host integrations for the configured terminal experience; they are not installed by mise.
 
 Generate an SSH key for GitHub authentication:
 
@@ -44,15 +48,11 @@ ssh-keygen -t ed25519 -a 100 -C "your_email@example.com"
 # 1. Clone into the chezmoi source directory
 git clone https://github.com/fmind/dotfiles.git ~/.local/share/chezmoi
 
-# 2. Run the installer (mise → chezmoi → apply)
+# 2. Run the installer (mise → chezmoi → apply → tools and integrations)
 bash ~/.local/share/chezmoi/install.sh
-
-# 3. First-time bootstrap (trust → tools → hooks → vim → krew)
-~/.local/bin/mise -C ~/.local/share/chezmoi run init
-
-# 4. Standard routine updates (apply → tools)
-~/.local/bin/mise -C ~/.local/share/chezmoi run full
 ```
+
+Set `SKIP_GIT_PULL=true` only when intentionally bootstrapping from the existing local checkout without fetching its upstream branch.
 
 ## Credentials
 
@@ -104,6 +104,8 @@ Logins and session tokens initialized on demand or configured via local/workspac
 
 - **Antigravity CLI**: `agy` (authenticates on-demand during use)
 - **OpenAI Codex CLI**: `codex login` (or authenticate on-demand during use)
+- **Claude Code**: start `claude`, then run `/login` when authentication is required
+- **GitHub Copilot CLI**: start `copilot`, then run `/login` when authentication is required
 - **Jules CLI**: `jules auth login`
 - **Workspace MCP Integrations**: Define PATs/tokens on-demand for workspace configurations:
   - `AIRTABLE_PAT` (Airtable)

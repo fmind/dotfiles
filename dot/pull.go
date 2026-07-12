@@ -163,12 +163,24 @@ func pullRepo(ctx context.Context, state *GlobalState, path string, push bool) R
 	res.Branch = branch
 
 	status, err := state.Runner.Run(ctx, path, nil, "git", "status", "--porcelain")
-	if err == nil && strings.TrimSpace(status) != "" {
-		res.Dirty = true
+	if err != nil {
+		res.Err = fmt.Errorf("failed to check worktree status: %w", err)
+		return res
 	}
+	res.Dirty = strings.TrimSpace(status) != ""
 
-	if _, ferr := state.Runner.Run(ctx, path, nil, "git", "fetch", "--prune"); ferr != nil && ctx.Err() != nil {
-		res.Err = fmt.Errorf("fetch timed out: %w", ctx.Err())
+	if _, fetchErr := state.Runner.Run(ctx, path, nil, "git", "fetch", "--prune"); fetchErr != nil {
+		if ctx.Err() != nil {
+			res.Err = fmt.Errorf("fetch timed out: %w", ctx.Err())
+			return res
+		}
+		// A repository without an upstream often has no default remote either, so
+		// `git fetch` fails before the later rev-list check can classify it as a skip.
+		if _, upstreamErr := state.Runner.Run(ctx, path, nil, "git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"); upstreamErr != nil {
+			res.NoUpstream = true
+			return res
+		}
+		res.Err = fmt.Errorf("failed to fetch repository: %w", fetchErr)
 		return res
 	}
 
@@ -184,9 +196,12 @@ func pullRepo(ctx context.Context, state *GlobalState, path string, push bool) R
 		}
 		return res
 	}
-	if cnt, parseErr := strconv.Atoi(strings.TrimSpace(behind)); parseErr == nil {
-		res.Commits = cnt
+	cnt, parseErr := strconv.Atoi(strings.TrimSpace(behind))
+	if parseErr != nil {
+		res.Err = fmt.Errorf("failed to parse behind count %q: %w", strings.TrimSpace(behind), parseErr)
+		return res
 	}
+	res.Commits = cnt
 
 	// --ff-only so an unattended bulk pull never creates a surprise merge commit or leaves
 	// a repo half-merged: a diverged branch fails cleanly and is reported as a pull failure.
@@ -195,11 +210,17 @@ func pullRepo(ctx context.Context, state *GlobalState, path string, push bool) R
 		return res
 	}
 
-	if ahead, aErr := state.Runner.Run(ctx, path, nil, "git", "rev-list", "--count", "@{u}..HEAD"); aErr == nil {
-		if cnt, parseErr := strconv.Atoi(strings.TrimSpace(ahead)); parseErr == nil {
-			res.Ahead = cnt
-		}
+	ahead, err := state.Runner.Run(ctx, path, nil, "git", "rev-list", "--count", "@{u}..HEAD")
+	if err != nil {
+		res.Err = fmt.Errorf("failed to determine ahead count: %w", err)
+		return res
 	}
+	aheadCount, parseErr := strconv.Atoi(strings.TrimSpace(ahead))
+	if parseErr != nil {
+		res.Err = fmt.Errorf("failed to parse ahead count %q: %w", strings.TrimSpace(ahead), parseErr)
+		return res
+	}
+	res.Ahead = aheadCount
 
 	if push {
 		pushRepo(ctx, state, path, &res)
@@ -229,7 +250,6 @@ type PullConfig struct {
 func defaultPullConfig() PullConfig {
 	return PullConfig{
 		Directories: []string{
-			"~/personals",
 			"~/internals",
 			"~/externals",
 			"~/workspaces",

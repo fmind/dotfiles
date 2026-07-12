@@ -41,6 +41,22 @@ func TestIsInsideWorkTree(t *testing.T) {
 	})
 }
 
+func TestRepoBranchPropagatesDetachedHeadFailure(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, _ string, args ...string) (string, error) {
+			if args[0] == "branch" {
+				return "", nil
+			}
+			return "", errors.New("cannot resolve HEAD")
+		},
+	}
+
+	branch, err := repoBranch(context.Background(), newTestState(runner), t.TempDir())
+	if err == nil || !strings.Contains(err.Error(), "failed to resolve detached HEAD") {
+		t.Fatalf("expected detached HEAD error, got branch=%q err=%v", branch, err)
+	}
+}
+
 func TestGetCachedDiff(t *testing.T) {
 	ctx := context.Background()
 	runner := &FakeRunner{

@@ -22,10 +22,14 @@ window-save-state = always
 cursor-style-blink = false
 mouse-hide-while-typing = true
 resize-overlay = never
-scrollback-limit = 100000000
+quick-terminal-animation-duration = 0
+custom-shader-animation = false
+{{- if eq .chezmoi.os "linux" }}
+gtk-single-instance = true
+linux-cgroup = never
+{{- end }}
 
 # Zellij & Shell Integration
-confirm-close-surface = false
 shell-integration-features = true
 
 # Launch fish through the mise shim

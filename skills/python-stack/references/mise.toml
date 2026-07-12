@@ -140,6 +140,8 @@ alias = "u"
 description = "Upgrade dependencies to latest compatible versions"
 run = "uv sync --upgrade"
 
+# Web form (granian). CLI/library projects: replace with `uv run <slug>`;
+# agent projects: `agents-cli playground`.
 [tasks.watch]
 alias = "w"
 description = "Run the dev server with live reload"

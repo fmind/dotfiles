@@ -121,6 +121,125 @@ func TestRunPull_PushFailure(t *testing.T) {
 	}
 }
 
+func TestPullRepo_StatusFailurePreventsPush(t *testing.T) {
+	var pushed int32
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name != "git" {
+				return "", nil
+			}
+			switch args[0] {
+			case "branch":
+				return "main\n", nil
+			case "status":
+				return "", errors.New("status unavailable")
+			case "push":
+				atomic.AddInt32(&pushed, 1)
+			}
+			return "", nil
+		},
+	}
+
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true)
+	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to check worktree status") {
+		t.Fatalf("expected worktree status error, got %+v", res)
+	}
+	if atomic.LoadInt32(&pushed) != 0 {
+		t.Fatalf("git push ran despite unknown worktree status")
+	}
+}
+
+func TestPullRepo_FetchFailureStopsRepository(t *testing.T) {
+	var laterCalls int32
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name != "git" {
+				return "", nil
+			}
+			switch args[0] {
+			case "branch":
+				return "main\n", nil
+			case "status":
+				return "", nil
+			case "fetch":
+				return "", errors.New("authentication failed")
+			case "rev-list", "pull", "push":
+				atomic.AddInt32(&laterCalls, 1)
+			}
+			return "", nil
+		},
+	}
+
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true)
+	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to fetch repository") {
+		t.Fatalf("expected fetch error, got %+v", res)
+	}
+	if atomic.LoadInt32(&laterCalls) != 0 {
+		t.Fatalf("repository operations continued after failed fetch: %d", laterCalls)
+	}
+}
+
+func TestPullRepo_FetchFailureWithoutUpstreamIsSkipped(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name != "git" {
+				return "", nil
+			}
+			switch args[0] {
+			case "branch":
+				return "local-only\n", nil
+			case "status":
+				return "", nil
+			case "fetch":
+				return "", errors.New("no remote repository specified")
+			case "rev-parse":
+				return "", errors.New("no upstream configured")
+			default:
+				t.Fatalf("unexpected command after no-upstream detection: %v", args)
+			}
+			return "", nil
+		},
+	}
+
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), false)
+	if res.Err != nil || !res.NoUpstream {
+		t.Fatalf("expected no-upstream skip, got %+v", res)
+	}
+}
+
+func TestPullRepo_AheadFailurePreventsPush(t *testing.T) {
+	var pushed int32
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name != "git" {
+				return "", nil
+			}
+			switch args[0] {
+			case "branch":
+				return "main\n", nil
+			case "status", "fetch", "pull":
+				return "", nil
+			case "rev-list":
+				if len(args) > 2 && args[2] == "@{u}..HEAD" {
+					return "", errors.New("ahead count unavailable")
+				}
+				return "0\n", nil
+			case "push":
+				atomic.AddInt32(&pushed, 1)
+			}
+			return "", nil
+		},
+	}
+
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true)
+	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to determine ahead count") {
+		t.Fatalf("expected ahead-count error, got %+v", res)
+	}
+	if atomic.LoadInt32(&pushed) != 0 {
+		t.Fatalf("git push ran despite unknown ahead count")
+	}
+}
+
 // A canceled context (e.g. the per-repo timeout firing on a wedged remote) must be
 // reported as a real failure, not silently downgraded to "no upstream".
 func TestPullRepo_TimeoutNotNoUpstream(t *testing.T) {
@@ -266,6 +385,12 @@ func TestRunPull_Scenarios(t *testing.T) {
 					if args[0] == "rev-parse" && args[1] == "--short" {
 						return "", errors.New("rev-parse failed")
 					}
+					if args[0] == "rev-list" {
+						return "0\n", nil
+					}
+					if args[0] == "status" || args[0] == "fetch" || args[0] == "pull" {
+						return "", nil
+					}
 				}
 				return "", nil
 			},
@@ -277,12 +402,12 @@ func TestRunPull_Scenarios(t *testing.T) {
 		state.Stdout = &buf
 
 		err := RunPull(ctx, state, false)
-		if err != nil {
-			t.Fatalf("Expected no error, got %v", err)
+		if err == nil || !strings.Contains(err.Error(), "failed to pull 1 repositories") {
+			t.Fatalf("expected detached HEAD resolution failure, got %v", err)
 		}
 		output := buf.String()
-		if !strings.Contains(output, "unknown") {
-			t.Errorf("Expected fallback to contain 'unknown', got %q", output)
+		if !strings.Contains(output, "failed to resolve detached HEAD") {
+			t.Errorf("expected detached HEAD error in output, got %q", output)
 		}
 	})
 

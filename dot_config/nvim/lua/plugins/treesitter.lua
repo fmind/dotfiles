@@ -11,7 +11,9 @@ return {
         -- Dynamically filter out gitcommit only if host's GLIBC is older than 2.39
         local handle = io.popen("ldd --version 2>/dev/null | head -n 1")
         local result = handle and handle:read("*a") or ""
-        if handle then handle:close() end
+        if handle then
+          handle:close()
+        end
         local version_str = string.match(result, "GLIBC%s+([%d%.]+)")
         if version_str then
           local major, minor = string.match(version_str, "^(%d+)%.(%d+)")

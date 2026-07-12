@@ -43,20 +43,40 @@ func buildExcludePathspecs(excludes []string) []string {
 
 // GetCachedDiff returns the staged git diff, or empty string if no staged changes.
 func GetCachedDiff(ctx context.Context, state *GlobalState) (string, error) {
+	return getCachedDiff(ctx, state, state.Config.Commit.ExcludeDiff)
+}
+
+// GetCachedDiffUnfiltered returns the complete staged git diff, including paths
+// excluded from AI input. Callers use it only to distinguish filtered changes
+// from a genuinely clean index.
+func GetCachedDiffUnfiltered(ctx context.Context, state *GlobalState) (string, error) {
+	return getCachedDiff(ctx, state, nil)
+}
+
+func getCachedDiff(ctx context.Context, state *GlobalState, excludes []string) (string, error) {
 	if err := checkGit(state); err != nil {
 		return "", err
 	}
-	pathspecs := buildExcludePathspecs(state.Config.Commit.ExcludeDiff)
+	pathspecs := buildExcludePathspecs(excludes)
 	diffArgs := append([]string{"diff", "--cached", "--"}, pathspecs...)
 	return state.Runner.Run(ctx, "", nil, "git", diffArgs...)
 }
 
 // GetUnstagedDiff returns the unstaged git diff.
 func GetUnstagedDiff(ctx context.Context, state *GlobalState) (string, error) {
+	return getUnstagedDiff(ctx, state, state.Config.Commit.ExcludeDiff)
+}
+
+// GetUnstagedDiffUnfiltered returns the complete unstaged tracked-file diff.
+func GetUnstagedDiffUnfiltered(ctx context.Context, state *GlobalState) (string, error) {
+	return getUnstagedDiff(ctx, state, nil)
+}
+
+func getUnstagedDiff(ctx context.Context, state *GlobalState, excludes []string) (string, error) {
 	if err := checkGit(state); err != nil {
 		return "", err
 	}
-	pathspecs := buildExcludePathspecs(state.Config.Commit.ExcludeDiff)
+	pathspecs := buildExcludePathspecs(excludes)
 	diffArgs := append([]string{"diff", "--"}, pathspecs...)
 	return state.Runner.Run(ctx, "", nil, "git", diffArgs...)
 }
@@ -64,10 +84,20 @@ func GetUnstagedDiff(ctx context.Context, state *GlobalState) (string, error) {
 // GetBaseDiff returns the git diff against a base branch. It first attempts to diff with baseBranch... (merge base)
 // and falls back to diffing directly with baseBranch if that fails.
 func GetBaseDiff(ctx context.Context, state *GlobalState, baseBranch string) (string, error) {
+	return getBaseDiff(ctx, state, baseBranch, state.Config.Commit.ExcludeDiff)
+}
+
+// GetBaseDiffUnfiltered returns the complete branch diff, including paths excluded
+// from AI input. It is used only to detect whether the branch has any real changes.
+func GetBaseDiffUnfiltered(ctx context.Context, state *GlobalState, baseBranch string) (string, error) {
+	return getBaseDiff(ctx, state, baseBranch, nil)
+}
+
+func getBaseDiff(ctx context.Context, state *GlobalState, baseBranch string, excludes []string) (string, error) {
 	if err := checkGit(state); err != nil {
 		return "", err
 	}
-	pathspecs := buildExcludePathspecs(state.Config.Commit.ExcludeDiff)
+	pathspecs := buildExcludePathspecs(excludes)
 	// The "--" separator disambiguates revisions from pathspecs, matching the other
 	// diff helpers. Without it, a path named like the base branch makes git abort with
 	// "ambiguous argument ... both a revision and a filename" on the fallback form.
@@ -119,7 +149,7 @@ func repoBranch(ctx context.Context, state *GlobalState, path string) (string, e
 	}
 	shortHead, err := state.Runner.Run(ctx, path, nil, "git", "rev-parse", "--short", "HEAD")
 	if err != nil {
-		return "unknown", nil
+		return "", fmt.Errorf("failed to resolve detached HEAD: %w", err)
 	}
 	return strings.TrimSpace(shortHead), nil
 }

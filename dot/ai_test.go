@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"io"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -26,7 +28,107 @@ func TestGetAIBinary(t *testing.T) {
 	})
 }
 
+func TestScanDiffForSecrets(t *testing.T) {
+	t.Run("passes exact diff to gitleaks", func(t *testing.T) {
+		const diff = "diff --git a/file b/file\n+safe change\n"
+		var scanned string
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) {
+				if name != "gitleaks" {
+					t.Fatalf("unexpected LookPath(%q)", name)
+				}
+				return "/bin/gitleaks", nil
+			},
+			RunFunc: func(_ context.Context, _ string, stdin io.Reader, name string, args ...string) (string, error) {
+				if name != "/bin/gitleaks" || strings.Join(args, " ") != "stdin --no-banner --redact" {
+					t.Fatalf("unexpected scanner command: %s %v", name, args)
+				}
+				data, err := io.ReadAll(stdin)
+				if err != nil {
+					t.Fatal(err)
+				}
+				scanned = string(data)
+				return "", nil
+			},
+		}
+
+		if err := ScanDiffForSecrets(context.Background(), newTestState(runner), diff); err != nil {
+			t.Fatalf("ScanDiffForSecrets failed: %v", err)
+		}
+		if scanned != diff {
+			t.Errorf("scanner received %q, want exact diff %q", scanned, diff)
+		}
+	})
+
+	t.Run("scanner failure is fatal", func(t *testing.T) {
+		runner := &FakeRunner{
+			RunFunc: func(_ context.Context, _ string, _ io.Reader, _ string, _ ...string) (string, error) {
+				return "", errors.New("secret detected")
+			},
+		}
+		err := ScanDiffForSecrets(context.Background(), newTestState(runner), "diff")
+		if err == nil || !strings.Contains(err.Error(), "outgoing diff secret scan failed") {
+			t.Fatalf("expected secret scan failure, got %v", err)
+		}
+	})
+}
+
 func TestGenerateText(t *testing.T) {
+	t.Run("agy uses sandbox in an isolated workspace", func(t *testing.T) {
+		var workDir string
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) {
+				return "/bin/" + name, nil
+			},
+			RunFunc: func(_ context.Context, dir string, _ io.Reader, name string, args ...string) (string, error) {
+				if name != "/bin/agy" || strings.Join(args, " ") != "--sandbox --prompt prompt" {
+					t.Fatalf("unexpected AI command: %s %v", name, args)
+				}
+				if info, err := os.Stat(dir); err != nil || !info.IsDir() {
+					t.Fatalf("AI workspace is unavailable: %v", err)
+				}
+				workDir = dir
+				if err := os.WriteFile(filepath.Join(dir, "provider-artifact"), []byte("temporary"), 0o600); err != nil {
+					t.Fatalf("create provider artifact: %v", err)
+				}
+				return "generated message", nil
+			},
+		}
+
+		if _, err := GenerateText(context.Background(), newTestState(runner), "prompt", "input", 100); err != nil {
+			t.Fatalf("GenerateText failed: %v", err)
+		}
+		if workDir == "" {
+			t.Fatal("AI command did not receive an isolated workspace")
+		}
+		if _, err := os.Stat(workDir); !errors.Is(err, os.ErrNotExist) {
+			t.Fatalf("isolated AI workspace was not removed: %v", err)
+		}
+	})
+
+	t.Run("custom binary does not receive agy flags", func(t *testing.T) {
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) {
+				return "/bin/" + name, nil
+			},
+			RunFunc: func(_ context.Context, dir string, _ io.Reader, name string, args ...string) (string, error) {
+				if dir == "" {
+					t.Fatal("custom provider did not receive an isolated workspace")
+				}
+				if name != "/bin/custom-ai" || strings.Join(args, " ") != "--prompt prompt" {
+					t.Fatalf("unexpected custom AI command: %s %v", name, args)
+				}
+				return "generated message", nil
+			},
+		}
+		state := newTestState(runner)
+		state.Config.AI.Binary = "custom-ai"
+
+		if _, err := GenerateText(context.Background(), state, "prompt", "input", 100); err != nil {
+			t.Fatalf("GenerateText failed: %v", err)
+		}
+	})
+
 	t.Run("generate success", func(t *testing.T) {
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {

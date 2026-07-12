@@ -55,7 +55,7 @@
 - **Scratch Scripts**: Keep temporary scripts in `.agents/tmp/` and verify they are git-ignored. Never commit credentials or secrets.
 - **Documentation**: Keep `README.md` (humans) and `AGENTS.md` (agents) clean and current; never write unsolicited summary/report/plan `*.md` files — see the [readme-agents](~/.agents/skills/readme-agents/SKILL.md) skill.
 - **Environment & Dotfiles**: Dotfiles live in `~/.local/share/chezmoi` (active tool settings in `dot_config/mise/config.toml.tmpl`); consult only when you need to understand the environment.
-- **Testing Standard**: Avoid mocks. Prefer integration tests on real dev/staging or light resources (e.g., Gemini Flash Lite). Test your changes first, then the whole project.
+- **Testing Standard**: Prefer deterministic unit tests, lightweight fakes, and local integration tests. Use real dev/staging or paid external services only when they materially validate the boundary and the user has explicitly approved the access and cost. Test your changes first, then the whole project.
 - **Security Scanning**: Use the [security-scan](~/.agents/skills/security-scan/SKILL.md) skill for full-repo Trivy (deps, IaC, secrets, licenses, images) and gitleaks git-history scans, beyond the stack-native vuln checks in `mise run check`.
 
 ## Local Kubernetes Standard

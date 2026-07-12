@@ -28,7 +28,7 @@ func NewChezmoiCmd(state *GlobalState) *cli.Command {
 func NewChezmoiCleanCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
 		Name:    "clean",
-		Aliases: []string{"c", "cc"},
+		Aliases: []string{"c"},
 		Usage:   "Scan for previously managed chezmoi files and clean up unmanaged orphans",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
@@ -332,8 +332,23 @@ func defaultChezmoiCleanConfig() ChezmoiCleanConfig {
 	}
 }
 
+func cleanupChezmoiProbe(sourcePath string, createdDirs []string) error {
+	var cleanupErrors []error
+	if sourcePath != "" {
+		if err := os.Remove(sourcePath); err != nil && !errors.Is(err, os.ErrNotExist) {
+			cleanupErrors = append(cleanupErrors, fmt.Errorf("failed to remove chezmoi probe %s: %w", sourcePath, err))
+		}
+	}
+	for _, dir := range createdDirs {
+		if err := os.Remove(dir); err != nil && !errors.Is(err, os.ErrNotExist) {
+			cleanupErrors = append(cleanupErrors, fmt.Errorf("failed to remove chezmoi probe directory %s: %w", dir, err))
+		}
+	}
+	return errors.Join(cleanupErrors...)
+}
+
 // getChezmoiTargetPath maps a relative source path to its target home path using a temporary touch.
-func getChezmoiTargetPath(ctx context.Context, state *GlobalState, chezmoiSourceDir, relPath string) (string, error) {
+func getChezmoiTargetPath(ctx context.Context, state *GlobalState, chezmoiSourceDir, relPath string) (targetPath string, resultErr error) {
 	sourceAbsPath := filepath.Join(chezmoiSourceDir, relPath)
 	parentDir := filepath.Dir(sourceAbsPath)
 
@@ -362,18 +377,19 @@ func getChezmoiTargetPath(ctx context.Context, state *GlobalState, chezmoiSource
 	// removes what we create here, keeping the function safe regardless of caller ordering.
 	f, err := os.OpenFile(sourceAbsPath, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0o644)
 	if err != nil {
-		for _, dir := range createdDirs {
-			_ = os.Remove(dir)
-		}
-		return "", err
+		return "", errors.Join(err, cleanupChezmoiProbe("", createdDirs))
 	}
-	_ = f.Close()
+	if closeErr := f.Close(); closeErr != nil {
+		return "", errors.Join(
+			fmt.Errorf("failed to close chezmoi probe %s: %w", sourceAbsPath, closeErr),
+			cleanupChezmoiProbe(sourceAbsPath, createdDirs),
+		)
+	}
 
 	// Defer cleanup of touched files and folders
 	defer func() {
-		_ = os.Remove(sourceAbsPath)
-		for _, dir := range createdDirs {
-			_ = os.Remove(dir) // only removes if empty
+		if cleanupErr := cleanupChezmoiProbe(sourceAbsPath, createdDirs); cleanupErr != nil {
+			resultErr = errors.Join(resultErr, cleanupErr)
 		}
 	}()
 

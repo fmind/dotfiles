@@ -12,6 +12,18 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
+func TestDefaultVerifyConfigIncludesManagedAgentCLIs(t *testing.T) {
+	tools := make(map[string]bool)
+	for _, tool := range defaultVerifyConfig().Tools {
+		tools[tool] = true
+	}
+	for _, tool := range []string{"claude", "codex", "copilot"} {
+		if !tools[tool] {
+			t.Errorf("default verification tools omit managed agent CLI %q", tool)
+		}
+	}
+}
+
 func TestEnvVarsChecker(t *testing.T) {
 	checker := &EnvVarsChecker{}
 	state := newTestState(&FakeRunner{})

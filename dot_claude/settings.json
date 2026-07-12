@@ -12,13 +12,11 @@
   "awaySummaryEnabled": true,
   "cleanupPeriodDays": 30,
   "editorMode": "vim",
-  "effortLevel": "xhigh",
-  "enableAllProjectMcpServers": true,
   "env": {
     "BASH_DEFAULT_TIMEOUT_MS": "120000",
     "BASH_MAX_TIMEOUT_MS": "1200000",
     "DISABLE_TELEMETRY": "1",
-    "MAX_MCP_OUTPUT_TOKENS": "1000000"
+    "MAX_MCP_OUTPUT_TOKENS": "50000"
   },
   "fallbackModel": [
     "sonnet"
@@ -54,6 +52,6 @@
   "verbose": true,
   "viewMode": "verbose",
   "worktree": {
-    "baseRef": "fresh"
+    "baseRef": "head"
   }
 }

@@ -6,11 +6,96 @@ import (
 	"errors"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/urfave/cli/v3"
 )
+
+type failingPRDescriptionFile struct {
+	writeErr error
+	closeErr error
+}
+
+func (f failingPRDescriptionFile) Write(p []byte) (int, error) {
+	if f.writeErr != nil {
+		return 0, f.writeErr
+	}
+	return len(p), nil
+}
+
+func (f failingPRDescriptionFile) Close() error {
+	return f.closeErr
+}
+
+func TestWritePRDescription(t *testing.T) {
+	t.Run("close failure", func(t *testing.T) {
+		closeErr := errors.New("close failed")
+		err := writePRDescription(failingPRDescriptionFile{closeErr: closeErr}, "description")
+		if !errors.Is(err, closeErr) {
+			t.Fatalf("expected close error, got %v", err)
+		}
+	})
+
+	t.Run("write and close failures", func(t *testing.T) {
+		writeErr := errors.New("write failed")
+		closeErr := errors.New("close failed")
+		err := writePRDescription(failingPRDescriptionFile{writeErr: writeErr, closeErr: closeErr}, "description")
+		if !errors.Is(err, writeErr) || !errors.Is(err, closeErr) {
+			t.Fatalf("expected joined write and close errors, got %v", err)
+		}
+	})
+}
+
+func TestFindPRTemplateSkipsDirectories(t *testing.T) {
+	// GitHub also supports a PULL_REQUEST_TEMPLATE/ directory of templates; a directory
+	// candidate must be skipped rather than aborting on the EISDIR read.
+	templateDir := filepath.Join(t.TempDir(), "PULL_REQUEST_TEMPLATE")
+	if err := os.Mkdir(templateDir, 0o700); err != nil {
+		t.Fatal(err)
+	}
+
+	content, found, err := findPRTemplate([]string{templateDir})
+	if err != nil || found || content != "" {
+		t.Fatalf("expected directory to be skipped, got content=%q found=%v err=%v", content, found, err)
+	}
+}
+
+func TestFindPRTemplateReportsReadErrors(t *testing.T) {
+	if os.Geteuid() == 0 {
+		t.Skip("permission-denied read cannot be simulated as root")
+	}
+	templatePath := filepath.Join(t.TempDir(), "pull_request_template.md")
+	if err := os.WriteFile(templatePath, []byte("body"), 0o000); err != nil {
+		t.Fatal(err)
+	}
+
+	_, found, err := findPRTemplate([]string{templatePath})
+	if err == nil || found || !strings.Contains(err.Error(), "failed to read PR template") {
+		t.Fatalf("expected template read error, got found=%v err=%v", found, err)
+	}
+}
+
+func TestWithPRDescriptionFileReportsCleanupFailure(t *testing.T) {
+	var tempPath string
+	err := withPRDescriptionFile("description", func(path string) error {
+		tempPath = path
+		if removeErr := os.Remove(path); removeErr != nil {
+			return removeErr
+		}
+		if mkdirErr := os.Mkdir(path, 0o700); mkdirErr != nil {
+			return mkdirErr
+		}
+		return os.WriteFile(filepath.Join(path, "leftover"), []byte("data"), 0o600)
+	})
+	if tempPath != "" {
+		t.Cleanup(func() { _ = os.RemoveAll(tempPath) })
+	}
+	if err == nil || !strings.Contains(err.Error(), "failed to remove temporary PR description") {
+		t.Fatalf("expected cleanup failure, got %v", err)
+	}
+}
 
 func TestRunPr_ErrorsAndBranches(t *testing.T) {
 	ctx := context.Background()
@@ -87,6 +172,62 @@ func TestRunPr_ErrorsAndBranches(t *testing.T) {
 		}
 		if !strings.Contains(buf.String(), "No changes detected against base branch 'main'") {
 			t.Errorf("Expected message about no changes, got %q", buf.String())
+		}
+	})
+
+	t.Run("excluded-only changes are not reported clean", func(t *testing.T) {
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) { return "/usr/bin/" + name, nil },
+			RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+				if name == "git" && args[0] == "rev-parse" {
+					return "true", nil
+				}
+				if name == "git" && args[0] == "diff" {
+					if len(args) == 4 {
+						return "unfiltered lockfile diff", nil
+					}
+					return "", nil
+				}
+				return "", nil
+			},
+		}
+		err := RunPr(ctx, newTestState(runner), nil, "main")
+		if err == nil || !strings.Contains(err.Error(), "every changed path is excluded") {
+			t.Fatalf("expected excluded-diff error, got %v", err)
+		}
+	})
+
+	t.Run("secret scan failure prevents AI and gh", func(t *testing.T) {
+		aiCalled := false
+		ghCalled := false
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) { return "/usr/bin/" + name, nil },
+			RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+				if name == "git" && args[0] == "rev-parse" {
+					return "true", nil
+				}
+				if name == "git" && args[0] == "diff" {
+					return "diff containing a secret", nil
+				}
+				if name == "/usr/bin/gitleaks" {
+					return "", errors.New("secret detected")
+				}
+				if name == "/usr/bin/agy" {
+					aiCalled = true
+				}
+				return "", nil
+			},
+			RunInteractiveFunc: func(_ context.Context, _, _ string, _ ...string) error {
+				ghCalled = true
+				return nil
+			},
+		}
+		err := RunPr(ctx, newTestState(runner), nil, "main")
+		if err == nil || !strings.Contains(err.Error(), "outgoing diff secret scan failed") {
+			t.Fatalf("expected secret scan error, got %v", err)
+		}
+		if aiCalled || ghCalled {
+			t.Fatalf("AI or gh ran after failed scan: ai=%v gh=%v", aiCalled, ghCalled)
 		}
 	})
 

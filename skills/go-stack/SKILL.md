@@ -1,11 +1,12 @@
 ---
 name: go-stack
 description: Canonical Go development stack — tooling, scaffolding, web (GOTH), CLI/TUI, and ADK agents. Use for any Go (Golang) project, library, or application.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/go-stack
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Go Stack Standard (Go 1.26+)
@@ -14,7 +15,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 
 ## 1. Core & Quality Stack
 
-- **Go Version**: Target latest stable (Go 1.26+). Use modern idioms: `new(expr)` to allocate an initialized value, self-referential generic constraints (F-bounded), and the rewritten `go fix` modernizers (e.g. `omitempty` → `omitzero`).
+- **Go Version**: Target latest stable (Go 1.26+). Adopt current idioms mechanically — run `go fix ./...` (modernizers) and `gofumpt` rather than hand-porting.
 - **Dependency & Tooling**: Manage heavy CLI tools (`golangci-lint`, `lefthook`, `gotestsum`) via `mise.toml` ([mise.toml](references/mise.toml)) to prevent `go.mod` dependency bloat and compile errors. Use native `tool` directive in `go.mod` (Go 1.24+) only for code generators and small utilities (`templ`, `goimports`, `gofumpt`, `govulncheck`). Run via `go tool <name>`.
 - **Project Tools**:
   - **Via `mise.toml`**: `golangci-lint` (v2+), `lefthook`, `gotestsum`.
@@ -23,9 +24,8 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 - **Linting & Formatting**: Clean markdown/JSON/YAML with `dprint` using the configuration maintained by the [dprint skill](../dprint/SKILL.md). Format Go files with `goimports`/`gofumpt`. Enforce zero-warning rule with `golangci-lint` ([golangci.yml](references/golangci.yml)).
 - **Testing**: Standard library `testing` (starters stay dependency-free); reach for `stretchr/testify` when you want richer assertions. Run with `gotestsum`.
   - Use `testing/synctest` (Go 1.25+) for deterministic concurrent testing (virtualized clocks).
-  - Use `testing/cryptotest.SetGlobalRandom` (Go 1.26+) to make crypto key generation deterministic in tests.
 - **Logging**: Use standard `log/slog`. Local: `slog.TextHandler` (or `charmbracelet/log`) with dynamic `slog.LevelVar`. Production: `slog.JSONHandler` with OpenTelemetry span/trace context propagation.
-- **Diagnostics & Observability**: Continuous trace buffering via `runtime/trace.FlightRecorder` (Go 1.25+) to dump on error/panic. Standardize on OpenTelemetry (`otel`) for traces — wired for **web and agents only**, not CLIs. The web starter's `SetupOTel` ([telemetry.go](references/telemetry.go)) installs an OTLP/HTTP exporter and wraps the router in `otelhttp` for per-request spans; `OtelHandler` then stamps the active `trace_id`/`span_id` onto every `slog` record. Tracing activates only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set, so local runs stay quiet. ADK agents inherit tracing from the launcher (same OTLP env var, or `--otel_to_cloud` for GCP Cloud Trace).
+- **Diagnostics & Observability**: Standardize on OpenTelemetry (`otel`) for traces — wired for **web and agents only**, not CLIs. The web starter's `SetupOTel` ([telemetry.go](references/telemetry.go)) installs an OTLP/HTTP exporter and wraps the router in `otelhttp` for per-request spans; `OtelHandler` then stamps the active `trace_id`/`span_id` onto every `slog` record. Tracing activates only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set, so local runs stay quiet. ADK agents inherit tracing from the launcher (same OTLP env var, or `--otel_to_cloud` for GCP Cloud Trace). For deep local debugging, `runtime/trace.FlightRecorder` (Go 1.25+) keeps a rolling in-memory trace to dump on error/panic.
 - **Container Awareness**: Go 1.25+ is cgroups/container-aware—`GOMAXPROCS` aligns automatically (do not use `automaxprocs`).
 - **Omit Zero Struct Tags**: Use native `json:",omitzero"` (Go 1.24+) on structs/types (e.g., `time.Time`) instead of `omitempty`.
 
@@ -34,19 +34,19 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 1. **Information**: Define project `Slug`, `Import Path` (e.g. `github.com/username/slug`), and `Holder/Year`.
 1. **Go Pinning**: Pin target version in `go.mod`.
 1. **Bootstrap**: Run `go mod init <import_path>` in the project root.
-1. **Config Initialization**: Copy and customize configurations:
-   - `mise.toml` ([mise.toml](references/mise.toml)) — this reference is the **web** variant. For **CLI/agent** projects, delete the web-only tasks (`build:css`, `build:templ`, `format:templ`, `install:vendor`, `watch`/`watch:css`/`watch:air`) and the `tailwindcss` tool, then remove the now-dangling `depends` references to them: `build:go` (drop the whole line), `build:image` (drop the whole line), `format` (remove `format:templ`), `install:go` (drop the whole line), `install` (remove `install:vendor`), and `test`/`test:watch` (drop the whole line).
+1. **Config Initialization**: Copy and customize configurations. Pick the task runner and hooks by project type — no manual trimming:
+   - **Web**: `mise.toml` ([mise.toml](references/mise.toml)) + `lefthook.yml` ([lefthook.yml](references/lefthook.yml)) — the full set, with templ/Tailwind/vendor/watch tasks.
+   - **CLI/agent**: `mise-cli.toml` ([mise-cli.toml](references/mise-cli.toml)) + `lefthook-cli.yml` ([lefthook-cli.yml](references/lefthook-cli.yml)), saved as `mise.toml`/`lefthook.yml` — same task vocabulary, no web-only tasks or the `tailwindcss` tool.
    - `.golangci.yml` ([golangci.yml](references/golangci.yml))
-   - `lefthook.yml` ([lefthook.yml](references/lefthook.yml))
    - `dprint.json` (setup as instructed in the [dprint skill](../dprint/SKILL.md))
-   - `.air.toml` ([air.toml](references/air.toml)) (for web)
-   - `.env`/`.env.example` ([env.example](references/env.example)), `LICENSE` ([LICENSE](references/LICENSE)), and `.gitignore` ([gitignore](references/gitignore))
-   - `AGENTS.md` ([AGENTS.md](references/AGENTS.md)) — Go-specific agent context (trim the web-only layout line for CLI/agent projects)
-   - Run `mise trust` so the mise-shimmed `go` and `mise run` tasks are allowed to execute against the new project config, then add tool dependencies: `go get -tool golang.org/x/tools/cmd/goimports mvdan.cc/gofumpt golang.org/x/vuln/cmd/govulncheck` (**web** projects also need the templ generator: `go get -tool github.com/a-h/templ/cmd/templ`).
+   - `.air.toml` ([air.toml](references/air.toml)) (web only)
+   - `.env`/`.env.example` ([env.example](references/env.example)) — one universal file; uncomment the vars your project type uses. `LICENSE` ([LICENSE](references/LICENSE)) and `.gitignore` ([gitignore](references/gitignore)).
+   - `AGENTS.md` ([AGENTS.md](references/AGENTS.md)) — Go-specific agent context. For CLI/agent, delete the lines marked web (the `(web)` layout entry and the `watch` command).
+   - Run `mise trust`, then `mise install` to provision the mise-managed toolchain (`run_auto_install = false` means tools are not fetched on demand). Then add the Go tool dependencies: `go get -tool golang.org/x/tools/cmd/goimports mvdan.cc/gofumpt golang.org/x/vuln/cmd/govulncheck` (**web** projects also need the templ generator: `go get -tool github.com/a-h/templ/cmd/templ`).
 1. **Scaffold Sources**:
    - Write entry point `cmd/<slug>/main.go` using reference template [main.go](references/main.go) (web), [cli.go](references/cli.go) (CLI), or [agent.go](references/agent.go) (ADK agent — also run `go get google.golang.org/adk/v2`).
    - Write core library files `<slug>.go` using [lib.go](references/lib.go) and `<slug>_test.go` using [lib_test.go](references/lib_test.go).
-   - Write the typed config package `config/config.go` using [config.go](references/config.go) (`go mod tidy` pulls in `caarlos0/env`). CLI/agent projects may drop the web-only `Port` field; the [agent.go](references/agent.go) starter adds Vertex `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (auth via ADC — `gcloud auth application-default login`), so put those in the agent's `.env.example` instead of `PORT`.
+   - Write the typed config package `config/config.go` using [config.go](references/config.go) (`go mod tidy` pulls in `caarlos0/env`). CLI/agent projects may drop the web-only `Port` field; the [agent.go](references/agent.go) starter reads Vertex `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (auth via ADC — `gcloud auth application-default login`), already listed in `.env.example`.
    - For web:
      - Copy web server components: `server.go` ([server.go](references/server.go)), `server_test.go` ([server_test.go](references/server_test.go)), `middleware.go` ([middleware.go](references/middleware.go)), and `telemetry.go` ([telemetry.go](references/telemetry.go)).
      - Copy templates ([layout.templ](references/layout.templ), [home.templ](references/home.templ)), stylesheet ([styles.css](references/styles.css)), and run `go run scripts/vendor.go` (using [vendor.go](references/vendor.go)) to self-host assets.
@@ -59,6 +59,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
      mise run check
      mise run test
      ```
+     On a fresh repo, `check:leaks` prints a benign `no commits yet` and exits 0 — it has no history to scan until the first commit below.
    - Initialize workspace agent context via the [agent-project skill](../agent-project/SKILL.md), but **keep the Go-specific [AGENTS.md](references/AGENTS.md) copied in step 4** — skip agent-project's generic AGENTS.md template so it does not overwrite the stack file.
    - Create `README.md` (humans) and keep it in sync with `AGENTS.md` via the [readme-agents skill](../readme-agents/SKILL.md); the layouts (§8) list it but no reference template ships one.
    - Commit changes: `git add . && git commit -m "chore: initial commit"`.
@@ -93,7 +94,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 
 - **Framework**: Use the **Agent Development Kit for Go** (`google.golang.org/adk/v2`, Go 1.25+) — the code-first, model-agnostic toolkit optimized for Gemini. Scaffold with the [agent.go](references/agent.go) starter (`go get google.golang.org/adk/v2`).
 - **Agents**: Build with `llmagent.New(llmagent.Config{...})` — set `Name`, `Model`, `Instruction`, and `Tools`; delegate to `SubAgents` for multi-agent trees.
-- **Models & Auth**: `gemini.NewModel(ctx, "gemini-3.5-flash", &genai.ClientConfig{...})`. The [agent.go](references/agent.go) starter defaults to **Vertex AI with Application Default Credentials** — `Backend: genai.BackendVertexAI` plus `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (parsed fail-fast via `caarlos0/env`), credentials from `gcloud auth application-default login` locally or the attached service account in prod (no key stored). For AI Studio instead, drop the Vertex fields and set `APIKey` from `GOOGLE_API_KEY`. Logging goes through the shared `config` package (env-aware `slog` handler), not `log.Fatalf`.
+- **Models & Auth**: `gemini.NewModel(ctx, "gemini-flash-latest", &genai.ClientConfig{...})` (use the `-latest` alias so the model never rots; pin a dated model only when you need reproducibility). The [agent.go](references/agent.go) starter defaults to **Vertex AI with Application Default Credentials** — `Backend: genai.BackendVertexAI` plus `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (parsed fail-fast via `caarlos0/env`), credentials from `gcloud auth application-default login` locally or the attached service account in prod (no key stored). For AI Studio instead, drop the Vertex fields and set `APIKey` from `GOOGLE_API_KEY`. Logging goes through the shared `config` package (env-aware `slog` handler), not `log.Fatalf`.
 - **Tools**: Wrap typed Go functions with `functiontool.New` (generic `[TArgs, TResults]`; `jsonschema` struct tags document fields). Add built-ins from `tool/geminitool` (Google Search) or connect external servers via `tool/mcptoolset` (MCP).
 - **Entry Point**: `full.NewLauncher()` serves the agent through a CLI with two top-level modes — `console` (interactive) and `web` (HTTP server); the `web` mode hosts the `webui` (dev UI), `api` (REST), and `a2a` sublaunchers — no custom wiring. Invoking with an **unrecognized** mode prints the usage and exits non-zero; invoking with **no** arguments defaults to interactive `console` mode. Note: ADK owns this CLI; reserve `urfave/cli/v3` for non-agent tools.
 - **Streaming**: Agent runs return `iter.Seq2[*session.Event, error]`; consume with `for event, err := range …` — never collect events into a slice.
@@ -193,12 +194,12 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 
 ## Gotchas & Guidelines
 
-- **Go Tool Directive**: Tool management in Go 1.24+ requires direct `go tool` invocations. For `golangci-lint` (v2+), use module `github.com/golangci/golangci-lint/v2/cmd/golangci-lint` with a `version: "2"` config schema.
+- **Go Tool Directive**: Go 1.24+ project tools declared in `go.mod` require direct `go tool` invocations. Keep heavyweight standalone tools such as `golangci-lint` and `gotestsum` in `mise.toml`; reserve the `tool` directive for code generators and small Go-native utilities that need module-level reproducibility.
 - **Port Conflicts**: Default address is `:8080`.
-- **Tailwind v4 CLI**: Compiled via the standalone `tailwindcss` CLI executable, installed automatically via `mise` (using the `github` backend: `"github:tailwindlabs/tailwindcss"`).
+- **Tailwind v4 CLI**: Compiled via the standalone `tailwindcss` CLI executable, provisioned by `mise install` (the `github` backend: `"github:tailwindlabs/tailwindcss"`). Because the reference `mise.toml` sets `run_auto_install = false`, run `mise install` once after `mise trust` — tools are not fetched on demand.
 - **Embedded Asset Updates**: Since assets are embedded via `go:embed`, running `go run` does not hot-reload static assets. Use `air` or rebuild assets to see updates.
 - **Committed Generated Code**: The reference `.gitignore` does not exclude `*_templ.go`, so commit the generated Templ code — `check`/CI compile `server.go` (which imports `templates`) without first running `build:templ` (only `test`/`build` regenerate it). `mise run test`'s `build:templ` keeps it fresh and CI's `git diff --exit-code` catches staleness.
-- **Self-Hosted Assets**: Never reference CDNs; serve all assets locally.
+- **Self-Hosted Assets**: Never reference CDNs at runtime; serve all assets locally. `scripts/vendor.go` fetches HTMX/Alpine once, pinned by version **and** sha256 (fails loudly on a hash mismatch), and commits them under `static/vendor/`; `install:vendor` is idempotent (skips when present), so normal installs never touch the network. Bump a version by editing its URL + hash together.
 - **No JS/TS Toolchain**: The GOTH stack is deliberately Node-free — Tailwind is the standalone `tailwindcss` binary, HTMX/Alpine are vendored. Never introduce `npm`/`npx`/`node`.
 - **Container Builds (`ko`)**: `mise run build:image` needs `ko` from the [containerize skill](../containerize/SKILL.md) (`go get -tool github.com/google/ko`); it is not installed by default.
 - **ADK Agents**: Require Go 1.25+ and a `GOOGLE_API_KEY` (AI Studio) or Vertex AI ADC. `full.NewLauncher()` is cobra-based and separate from `urfave/cli/v3`.

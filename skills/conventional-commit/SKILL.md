@@ -1,11 +1,12 @@
 ---
 name: conventional-commit
 description: Write a Conventional Commits subject for the staged changes and commit them. Use when committing staged work with a typed, scoped message.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/conventional-commit
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Create Conventional Commit

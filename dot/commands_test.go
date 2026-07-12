@@ -162,6 +162,9 @@ func TestClusterCommands(t *testing.T) {
 			t.Fatalf("Failed to create temp config: %v", err)
 		}
 		defer func() { _ = os.Remove(tempFile.Name()) }()
+		if _, writeErr := tempFile.WriteString("name: from-file\n"); writeErr != nil {
+			t.Fatalf("Failed to write temp config: %v", writeErr)
+		}
 		_ = tempFile.Close()
 
 		var createCalled, mergeCalled, waitCalled int32
@@ -183,7 +186,8 @@ func TestClusterCommands(t *testing.T) {
 				return "", fmt.Errorf("unexpected command: %s %v", name, args)
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
-				if name == "k3d" && args[0] == "cluster" && args[1] == "create" && args[3] == tempFile.Name() {
+				if name == "k3d" && len(args) == 5 && args[0] == "cluster" && args[1] == "create" &&
+					args[2] == "configured-name" && args[3] == "--config" && args[4] == tempFile.Name() {
 					atomic.AddInt32(&createCalled, 1)
 					return nil
 				}
@@ -196,6 +200,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		state.Config.Cluster.Name = "configured-name"
 		state.Config.Cluster.ConfigPath = tempFile.Name()
 
 		app := &cli.Command{
@@ -423,6 +428,9 @@ func TestCommitCommand(t *testing.T) {
 						return "some git diff content", nil
 					}
 				}
+				if name == "/bin/gitleaks" {
+					return "", nil
+				}
 				if name == "/bin/agy" {
 					diffBytes, _ := io.ReadAll(stdin)
 					if string(diffBytes) != "some git diff content" {
@@ -460,6 +468,7 @@ func TestCommitCommand(t *testing.T) {
 
 	t.Run("successful commit with unstaged changes when no cached changes", func(t *testing.T) {
 		var gitCommitCalled int32
+		added := false
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
 				return "/bin/" + name, nil
@@ -470,11 +479,21 @@ func TestCommitCommand(t *testing.T) {
 						return "true", nil
 					}
 					if args[0] == "diff" && args[1] == "--cached" {
-						return "", nil // no cached changes
+						if added {
+							return "unstaged changes content", nil
+						}
+						return "", nil
 					}
-					if args[0] == "diff" && args[1] == "--" {
-						return "unstaged changes content", nil
+					if args[0] == "status" {
+						return " M file.go\n", nil
 					}
+					if args[0] == "add" {
+						added = true
+						return "", nil
+					}
+				}
+				if name == "/bin/gitleaks" {
+					return "", nil
 				}
 				if name == "/bin/agy" {
 					return "fix(api): handle empty input", nil
@@ -482,8 +501,7 @@ func TestCommitCommand(t *testing.T) {
 				return "", fmt.Errorf("unexpected command: %s %v", name, args)
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
-				// Should include -a for commit
-				if name == "git" && args[0] == "commit" && args[1] == "-a" && args[4] == "fix(api): handle empty input" {
+				if name == "git" && args[0] == "commit" && args[1] == "-e" && args[3] == "fix(api): handle empty input" {
 					atomic.AddInt32(&gitCommitCalled, 1)
 					return nil
 				}
@@ -504,7 +522,7 @@ func TestCommitCommand(t *testing.T) {
 		}
 
 		if atomic.LoadInt32(&gitCommitCalled) != 1 {
-			t.Error("Expected git commit -a to be called once")
+			t.Error("Expected staged git commit to be called once")
 		}
 	})
 
@@ -523,6 +541,9 @@ func TestCommitCommand(t *testing.T) {
 					if args[0] == "diff" && args[1] == "--cached" {
 						return "some git diff content", nil
 					}
+				}
+				if name == "/bin/gitleaks" {
+					return "", nil
 				}
 				if name == "/bin/agy" {
 					for i, arg := range args {
@@ -579,6 +600,9 @@ func TestCommitCommand(t *testing.T) {
 						return "some git diff content", nil
 					}
 				}
+				if name == "/bin/gitleaks" {
+					return "", nil
+				}
 				if name == "/bin/agy" {
 					for i, arg := range args {
 						if arg == "--prompt" && i+1 < len(args) {
@@ -618,6 +642,60 @@ func TestCommitCommand(t *testing.T) {
 		}
 	})
 
+	t.Run("excluded-only staged changes are not reported clean", func(t *testing.T) {
+		runner := &FakeRunner{
+			RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+				if name == "git" && args[0] == "rev-parse" {
+					return "true", nil
+				}
+				if name == "git" && args[0] == "diff" && args[1] == "--cached" {
+					if len(args) == 4 {
+						return "unfiltered lockfile diff", nil
+					}
+					return "", nil
+				}
+				return "", fmt.Errorf("unexpected command: %s %v", name, args)
+			},
+		}
+		err := RunCommit(context.Background(), newTestState(runner), "", "")
+		if err == nil || !strings.Contains(err.Error(), "every changed path is excluded") {
+			t.Fatalf("expected excluded-diff error, got %v", err)
+		}
+	})
+
+	t.Run("secret scan failure prevents AI and commit", func(t *testing.T) {
+		var aiCalls, commitCalls int32
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) { return "/bin/" + name, nil },
+			RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+				if name == "git" && args[0] == "rev-parse" {
+					return "true", nil
+				}
+				if name == "git" && args[0] == "diff" {
+					return "diff containing a secret", nil
+				}
+				if name == "/bin/gitleaks" {
+					return "", errors.New("secret detected")
+				}
+				if name == "/bin/agy" {
+					atomic.AddInt32(&aiCalls, 1)
+				}
+				return "", nil
+			},
+			RunInteractiveFunc: func(_ context.Context, _, _ string, _ ...string) error {
+				atomic.AddInt32(&commitCalls, 1)
+				return nil
+			},
+		}
+		err := RunCommit(context.Background(), newTestState(runner), "", "")
+		if err == nil || !strings.Contains(err.Error(), "outgoing diff secret scan failed") {
+			t.Fatalf("expected secret scan error, got %v", err)
+		}
+		if atomic.LoadInt32(&aiCalls) != 0 || atomic.LoadInt32(&commitCalls) != 0 {
+			t.Fatalf("AI or git commit ran after failed scan: ai=%d commit=%d", aiCalls, commitCalls)
+		}
+	})
+
 	t.Run("fails when not in a git repository", func(t *testing.T) {
 		runner := &FakeRunner{
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
@@ -644,6 +722,9 @@ func TestCommitCommand(t *testing.T) {
 	t.Run("fails when AI client is not found in PATH", func(t *testing.T) {
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
+				if name == "git" || name == "gitleaks" {
+					return "/bin/" + name, nil
+				}
 				return "", errors.New("file not found")
 			},
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
@@ -654,6 +735,9 @@ func TestCommitCommand(t *testing.T) {
 					if args[0] == "diff" {
 						return "some diff content", nil
 					}
+				}
+				if name == "/bin/gitleaks" {
+					return "", nil
 				}
 				return "", fmt.Errorf("unexpected command: %s %v", name, args)
 			},
@@ -667,7 +751,7 @@ func TestCommitCommand(t *testing.T) {
 		}
 
 		err := app.Run(context.Background(), []string{"dot", "commit"})
-		if err == nil || !strings.Contains(err.Error(), "CLI is not installed or not in PATH") {
+		if !errors.Is(err, ErrToolNotInstalled) {
 			t.Fatalf("Expected installation error, got %v", err)
 		}
 	})
@@ -685,6 +769,9 @@ func TestCommitCommand(t *testing.T) {
 					if args[0] == "diff" && args[1] == "--cached" {
 						return "some git diff content", nil
 					}
+				}
+				if name == "/bin/gitleaks" {
+					return "", nil
 				}
 				if name == "/bin/agy" {
 					return "", nil
@@ -1075,7 +1162,10 @@ func TestPrCommand(t *testing.T) {
 					return "some diff content", nil
 				}
 			}
-			if name == "/bin/agy" && args[0] == "--prompt" {
+			if name == "/bin/gitleaks" {
+				return "", nil
+			}
+			if name == "/bin/agy" && len(args) >= 2 && strings.Join(args[:2], " ") == "--sandbox --prompt" {
 				atomic.AddInt32(&agyCalled, 1)
 				return "pr description text", nil
 			}
@@ -1101,8 +1191,8 @@ func TestPrCommand(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
 	}
-	if atomic.LoadInt32(&gitCalled) != 1 {
-		t.Error("Expected git diff to be called once")
+	if atomic.LoadInt32(&gitCalled) != 2 {
+		t.Error("Expected filtered and unfiltered git diffs")
 	}
 	if atomic.LoadInt32(&agyCalled) != 1 {
 		t.Error("Expected agy to be called once")

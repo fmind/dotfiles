@@ -9,10 +9,13 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/urfave/cli/v3"
 	"golang.org/x/sync/errgroup"
 )
+
+const completionCommandTimeout = 60 * time.Second
 
 // NewCompletionCmd constructs the top-level completion command.
 func NewCompletionCmd(state *GlobalState) *cli.Command {
@@ -68,7 +71,7 @@ func RunCompletionGenerate(ctx context.Context, state *GlobalState) error {
 	_, _ = fmt.Fprintf(state.Stdout, "=> Generating Fish Autocompletions for %d tools in %s...\n\n", len(tools), compDir)
 
 	g, groupCtx := errgroup.WithContext(ctx)
-	g.SetLimit(8)
+	g.SetLimit(4)
 
 	var mu sync.Mutex // Protect concurrent writes to state.Stdout and genErrors
 	var genErrors []error
@@ -76,6 +79,60 @@ func RunCompletionGenerate(ctx context.Context, state *GlobalState) error {
 	for _, t := range tools {
 		g.Go(func() error {
 			writeToolCompletion(groupCtx, state, t, compDir, &mu, &genErrors)
+			return nil
+		})
+	}
+
+	// Generate cached shell integrations for atuin and carapace if installed.
+	cacheDir := os.Getenv("XDG_CACHE_HOME")
+	if cacheDir == "" {
+		cacheDir = filepath.Join(os.Getenv("HOME"), ".cache")
+	}
+	fishCacheDir := filepath.Join(cacheDir, "fish")
+
+	if err := os.MkdirAll(fishCacheDir, 0o700); err != nil { //nolint:gosec // G301, G304, G703
+		_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to create fish cache directory: %v\n", failIcon, err)
+		genErrors = append(genErrors, fmt.Errorf("failed to create fish cache directory: %w", err))
+	} else {
+		g.Go(func() error {
+			if _, err := state.Runner.LookPath("atuin"); err == nil {
+				out, err := state.Runner.Run(groupCtx, fishCacheDir, nil, "atuin", "init", "fish")
+				mu.Lock()
+				defer mu.Unlock()
+				if err != nil {
+					_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to generate atuin-init.fish: %v\n", failIcon, err)
+					genErrors = append(genErrors, fmt.Errorf("failed to generate atuin-init.fish: %w", err))
+				} else {
+					atuinPath := filepath.Join(fishCacheDir, "atuin-init.fish")
+					if err := os.WriteFile(atuinPath, []byte(out), 0o600); err != nil { //nolint:gosec // G304, G703
+						_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to write atuin-init.fish: %v\n", failIcon, err)
+						genErrors = append(genErrors, fmt.Errorf("failed to write atuin-init.fish: %w", err))
+					} else {
+						_, _ = fmt.Fprintf(state.Stdout, "  %s Generated atuin-init.fish\n", passIcon)
+					}
+				}
+			}
+			return nil
+		})
+
+		g.Go(func() error {
+			if _, err := state.Runner.LookPath("carapace"); err == nil {
+				out, err := state.Runner.Run(groupCtx, fishCacheDir, nil, "carapace", "_carapace", "fish")
+				mu.Lock()
+				defer mu.Unlock()
+				if err != nil {
+					_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to generate carapace-init.fish: %v\n", failIcon, err)
+					genErrors = append(genErrors, fmt.Errorf("failed to generate carapace-init.fish: %w", err))
+				} else {
+					carapacePath := filepath.Join(fishCacheDir, "carapace-init.fish")
+					if err := os.WriteFile(carapacePath, []byte(out), 0o600); err != nil { //nolint:gosec // G304, G703
+						_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to write carapace-init.fish: %v\n", failIcon, err)
+						genErrors = append(genErrors, fmt.Errorf("failed to write carapace-init.fish: %w", err))
+					} else {
+						_, _ = fmt.Fprintf(state.Stdout, "  %s Generated carapace-init.fish\n", passIcon)
+					}
+				}
+			}
 			return nil
 		})
 	}
@@ -143,20 +200,43 @@ func writeToolCompletion(ctx context.Context, state *GlobalState, tool, compDir 
 // generateToolCompletion attempts to generate fish completion output for a single tool.
 // It returns the output string, or an error if the generation fails.
 // If the tool is not installed, it returns ErrToolNotInstalled.
-func generateToolCompletion(ctx context.Context, state *GlobalState, tool string) (string, error) {
+func generateToolCompletion(ctx context.Context, state *GlobalState, tool string) (output string, resultErr error) {
 	_, err := state.Runner.LookPath(tool)
 	if err != nil {
 		return "", fmt.Errorf("%w: %s", ErrToolNotInstalled, tool)
 	}
 
+	// Completion commands should be read-only, but some CLIs interpret an unknown
+	// subcommand as a database or output filename. Isolate those side effects from
+	// the caller's repository and discard them after each command finishes.
+	workDir, err := os.MkdirTemp("", "dot-completion-")
+	if err != nil {
+		return "", fmt.Errorf("failed to create completion workspace: %w", err)
+	}
+	defer func() {
+		if cleanupErr := removeTemporaryDirectory(workDir, "completion workspace"); cleanupErr != nil {
+			resultErr = errors.Join(resultErr, cleanupErr)
+		}
+	}()
+
 	binary, args := GetCompletionCommand(state, tool)
 
-	out, err := state.Runner.Run(ctx, "", nil, binary, args...)
+	run := func(name string, commandArgs ...string) (string, error) {
+		commandCtx, cancel := context.WithTimeout(ctx, completionCommandTimeout)
+		out, runErr := state.Runner.Run(commandCtx, workDir, nil, name, commandArgs...)
+		cancel()
+		if runErr == nil && strings.TrimSpace(out) == "" {
+			return "", errors.New("completion command returned no output")
+		}
+		return out, runErr
+	}
+
+	out, err := run(binary, args...)
 	if err != nil {
 		// Fallback to standard "t completion fish" if the attempted command was different.
 		isStandardFallback := binary == tool && len(args) == 2 && args[0] == "completion" && args[1] == "fish"
 		if !isStandardFallback {
-			out, err = state.Runner.Run(ctx, "", nil, tool, "completion", "fish")
+			out, err = run(tool, "completion", "fish")
 		}
 	}
 
@@ -198,7 +278,7 @@ func defaultCompletionConfig() CompletionConfig {
 			"dlv", "doggo", "dprint", "dyff", "flux", "gh", "git-lfs", "gitleaks", "golangci-lint", "goreleaser",
 			"helm", "helmfile", "jules", "just", "k3d", "k9s", "kind", "ko", "kube-linter", "kubecolor",
 			"kubectl", "kustomize", "lazygit", "lefthook", "mirrord", "mise", "opencode", "pluto",
-			"rg", "ruff", "sg", "skaffold", "sqlc", "starship", "step", "stern",
+			"rg", "ruff", "skaffold", "sqlc", "starship", "step", "stern",
 			"terraform-docs", "trivy", "ty", "uv", "watchexec", "xh", "yq", "zellij",
 		},
 		Path: DefaultCompletionsPath,
@@ -221,7 +301,6 @@ func defaultCompletionConfig() CompletionConfig {
 			"mirrord":   {Args: []string{"completions", "fish"}},
 			"rg":        {Args: []string{"--generate", "complete-fish"}},
 			"ruff":      {Args: []string{"generate-shell-completion", "fish"}},
-			"sg":        {Args: []string{"completions", "fish"}},
 			"starship":  {Args: []string{"completions", "fish"}},
 			"stern":     {Args: []string{"--completion", "fish"}},
 			"ty":        {Args: []string{"generate-shell-completion", "fish"}},

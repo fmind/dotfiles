@@ -4,6 +4,7 @@ pre-commit:
   commands:
     format:dprint:
       glob: "**/*.{json,jsonc,md,toml,yaml,yml}"
+      priority: 10
       run: mise run format:dprint {staged_files}
       stage_fixed: true
     format:go:
@@ -11,6 +12,7 @@ pre-commit:
       exclude:
         - "skills/**/*.go"
         - ".agents/tmp/**/*.go"
+      priority: 10
       run: mise run format:go {staged_files}
       stage_fixed: true
     format:python:
@@ -18,13 +20,19 @@ pre-commit:
       exclude:
         - "skills/**/*.py"
         - ".agents/tmp/**/*.py"
+      priority: 10
       run: mise run format:python {staged_files}
       stage_fixed: true
     format:shell:
       glob: "**/*.sh"
+      priority: 10
       run: mise run format:shell {staged_files}
       stage_fixed: true
+    check:leaks:
+      priority: 20
+      run: mise run check:leaks --staged
     check:
+      priority: 30
       run: mise run check
 pre-push:
   commands:

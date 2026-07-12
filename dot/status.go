@@ -194,13 +194,21 @@ func gatherRepoStatus(ctx context.Context, state *GlobalState, path string) Repo
 	}
 
 	status, err := state.Runner.Run(ctx, path, nil, "git", "status", "--porcelain")
-	dirty := err == nil && strings.TrimSpace(status) != ""
+	if err != nil {
+		return RepoStatus{
+			Name:       repoName,
+			ParentBase: parentBase,
+			Branch:     branch,
+			Err:        err,
+			Error:      err.Error(),
+		}
+	}
 
 	return RepoStatus{
 		Name:       repoName,
 		ParentBase: parentBase,
 		Branch:     branch,
-		Dirty:      dirty,
+		Dirty:      strings.TrimSpace(status) != "",
 	}
 }
 

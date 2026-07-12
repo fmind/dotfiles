@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <!--
   Single-file HTML deck. Zero dependencies, zero build.
-  Edit: 1) title + --theme tokens  2) <section class="slide"> blocks.
+  Edit: 1) <title> + the :root theme palette  2) <section class="slide"> blocks.
+  Per-slide background: add style="background:#0b1021" to a .slide section.
   Controls: →/Space next · ← prev · Home/End · F fullscreen · swipe on touch.
 -->
 <html lang="en">
@@ -11,12 +12,13 @@
 <title>Presentation Title</title>
 <style>
   :root {
-    --bg: #ffffff;
-    --slide-bg: #ffffff;
-    --fg: #1a1a2e;
-    --muted: #64748b;
-    --accent: #4285f4;
-    --code-bg: #f1f5f9;
+    /* Theme — re-skin the whole deck by editing this palette as a set. */
+    --bg: #ffffff;        /* letterbox area around the slide */
+    --slide-bg: #ffffff;  /* slide background — set with --bg for dark themes */
+    --fg: #1a1a2e;        /* body text */
+    --muted: #64748b;     /* secondary / caption text */
+    --accent: #4285f4;    /* headings, links, progress bar */
+    --code-bg: #f1f5f9;   /* code blocks and inline code */
     --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
     --w: 1280px;
@@ -123,6 +125,7 @@
   let i = 0;
 
   const frags = (n) => [...slides[n].querySelectorAll(".fragment")];
+  const slideFromHash = () => Math.min(Math.max((parseInt(location.hash.slice(1)) || 1) - 1, 0), slides.length - 1);
 
   function render() {
     slides.forEach((s, n) => s.classList.toggle("active", n === i));
@@ -155,12 +158,14 @@
     switch (e.key) {
       case "ArrowRight": case " ": case "PageDown": e.preventDefault(); next(); break;
       case "ArrowLeft": case "PageUp": e.preventDefault(); prev(); break;
-      case "Home": i = 0; render(); break;
-      case "End": i = slides.length - 1; render(); break;
+      case "Home": e.preventDefault(); i = 0; render(); break;
+      case "End": e.preventDefault(); i = slides.length - 1; render(); break;
       case "f": case "F": document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); break;
     }
   });
   addEventListener("resize", fit);
+  // Live deep-linking: react to URL hash edits / back button (replaceState in render() does not fire this).
+  addEventListener("hashchange", () => { const n = slideFromHash(); if (n !== i) { i = n; render(); } });
 
   let tx = 0;
   addEventListener("touchstart", (e) => { tx = e.changedTouches[0].clientX; }, { passive: true });
@@ -169,7 +174,7 @@
     if (Math.abs(dx) > 50) dx < 0 ? next() : prev();
   });
 
-  i = Math.min(Math.max((parseInt(location.hash.slice(1)) || 1) - 1, 0), slides.length - 1);
+  i = slideFromHash();
   fit(); render();
 </script>
 </body>

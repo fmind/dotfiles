@@ -1,11 +1,12 @@
 ---
 name: github-actions
 description: Canonical GitHub Actions CI/CD that runs the same `mise run` tasks (format, check, test) as the local git hooks, plus CD deploy templates. Use when setting up or editing repository workflows.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/github-actions
   created: 2026-07-04
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # GitHub Actions CI/CD Standard
@@ -20,14 +21,13 @@ Canonical CI/CD workflows for GitHub repositories. The CI workflow runs the cano
 - **OIDC & Trusted Publishing**: Prefer OpenID Connect (OIDC) for keyless container signing (via `cosign`) and package publishing (via PyPI Trusted Publishing), eliminating long-lived credentials.
 - **Downcased registry paths**: Dynamically sanitize and downcase repository references to prevent push failures to case-sensitive container registries.
 - **Fail fast, cancel stale**: Concurrency settings cancel superseded runs on pull requests and feature branches automatically while preserving runs on the main branch.
-- **Clean-state verification**: CI runs a git diff check (`git diff --exit-code`) to fail the build if formatting/generation tasks modify any files, ensuring that developers must commit formatted code.
+- **Clean-state verification**: CI asserts an empty porcelain status (`test -z "$(git status --porcelain)"`) after formatting and generation so both tracked modifications and untracked artifacts fail the build.
 - **Latest Actions**: Keep GitHub Actions dependencies up-to-date (e.g., `actions/checkout@v7`, `jdx/mise-action@v4`).
 
 ## Setup
 
 1. Copy [ci.yml](references/ci.yml) to `.github/workflows/ci.yml`.
 1. Copy [cd.yml](references/cd.yml) to `.github/workflows/cd.yml` and enable/customize the template corresponding to your project's language and deployment target.
-1. Validate the workflows before pushing: `actionlint .github/workflows/*.yml` (runs automatically in the pre-commit hook if wired to a `check` task in `mise.toml`).
 
 ## Templates
 
@@ -38,7 +38,6 @@ Canonical CI/CD workflows for GitHub repositories. The CI workflow runs the cano
 
 - **Optional security job**: CI defaults to the `format`/`check`/`test` tasks only. For full-history secret and dependency scanning, add a separate `security` job with `fetch-depth: 0` running `gitleaks git` + `trivy fs` — see the [security-scan](../security-scan/SKILL.md) skill (or run those scans on demand).
 - **Stable caches**: `jdx/mise-action` caches using `mise.toml`/`mise.lock` — commit `mise.lock` for reproducible caching.
-- **Workflow linting**: Install `actionlint` via `mise` (or your preferred tool manager) and add `actionlint` checks to your project checks (e.g., a `check:workflows` task in `mise.toml` mapped to your pre-commit hook) to catch errors early.
 - **Runtime warning mitigation**: Use current major versions of actions (e.g., `actions/checkout@v7` and `jdx/mise-action@v4`) to stay compliant with GitHub's latest runner runtime deprecations (Node 20+).
 
 ## Documentation

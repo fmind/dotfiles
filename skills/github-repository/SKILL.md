@@ -1,11 +1,12 @@
 ---
 name: github-repository
 description: Configure a GitHub repository's metadata (description, homepage, topics) and solo-developer settings via `gh`, derived from the codebase. Use when setting up or tidying a repo's GitHub settings.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/github-repository
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Configure GitHub Repository

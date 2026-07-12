@@ -3,6 +3,7 @@ package dot
 import (
 	"cmp"
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -42,24 +43,53 @@ func RunCommit(ctx context.Context, state *GlobalState, commitType, commitScope 
 	}
 
 	allowedTypes := strings.Join(state.Config.Commit.AllowedTypes, ", ")
-	diff, err := GetCachedDiff(ctx, state)
+	allDiff, err := GetCachedDiffUnfiltered(ctx, state)
 	if err != nil {
-		return fmt.Errorf("failed to get git diff: %w", err)
+		return fmt.Errorf("failed to get unfiltered git diff: %w", err)
 	}
 
-	useAll := false
-	if strings.TrimSpace(diff) == "" {
-		diff, err = GetUnstagedDiff(ctx, state)
-		if err != nil {
-			return fmt.Errorf("failed to get git diff: %w", err)
+	autoStaged := false
+	rollback := func(cause error) error {
+		if !autoStaged {
+			return cause
 		}
+		if _, rollbackErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "reset", "--mixed"); rollbackErr != nil {
+			return errors.Join(cause, fmt.Errorf("failed to restore initially clean index: %w", rollbackErr))
+		}
+		return cause
+	}
 
-		if strings.TrimSpace(diff) == "" {
+	if strings.TrimSpace(allDiff) == "" {
+		status, statusErr := state.Runner.Run(ctx, "", nil, "git", "status", "--porcelain")
+		if statusErr != nil {
+			return fmt.Errorf("failed to inspect working tree: %w", statusErr)
+		}
+		if strings.TrimSpace(status) == "" {
 			_, _ = fmt.Fprintln(state.Stdout, "No changes to commit.")
 			return nil
 		}
-		_, _ = fmt.Fprintln(state.Stdout, "No staged changes found. Generating commit message from unstaged tracked files...")
-		useAll = true
+
+		autoStaged = true
+		if _, addErr := state.Runner.Run(ctx, "", nil, "git", "add", "-A"); addErr != nil {
+			return rollback(fmt.Errorf("failed to stage working tree changes: %w", addErr))
+		}
+		allDiff, err = GetCachedDiffUnfiltered(ctx, state)
+		if err != nil {
+			return rollback(fmt.Errorf("failed to get staged git diff: %w", err))
+		}
+		if strings.TrimSpace(allDiff) == "" {
+			return rollback(errors.New("git add -A completed without producing a staged diff"))
+		}
+		_, _ = fmt.Fprintln(state.Stdout, "No staged changes found. Staged all working tree changes for commit message generation...")
+	}
+
+	diff, err := GetCachedDiff(ctx, state)
+	if err != nil {
+		return rollback(fmt.Errorf("failed to get git diff: %w", err))
+	}
+
+	if strings.TrimSpace(diff) == "" {
+		return rollback(errors.New("git changes exist, but every changed path is excluded from AI diff generation"))
 	}
 
 	// cmp.Or falls back to the built-in prompt if a config sets commit.prompt to "",
@@ -78,20 +108,19 @@ func RunCommit(ctx context.Context, state *GlobalState, commitType, commitScope 
 		}
 	}
 
-	msg, err := GenerateText(ctx, state, prompt, diff, state.Config.Commit.MaxDiffSize)
-	if err != nil {
-		return err
+	aiDiff := limitAIInput(diff, state.Config.Commit.MaxDiffSize)
+	if scanErr := ScanDiffForSecrets(ctx, state, aiDiff); scanErr != nil {
+		return rollback(scanErr)
 	}
 
-	commitArgs := []string{"commit"}
-	if useAll {
-		commitArgs = append(commitArgs, "-a")
-	}
-	commitArgs = append(commitArgs, "-e", "-m", msg)
-
-	err = state.Runner.RunInteractive(ctx, "", "git", commitArgs...)
+	msg, err := GenerateText(ctx, state, prompt, aiDiff, state.Config.Commit.MaxDiffSize)
 	if err != nil {
-		return fmt.Errorf("git commit failed: %w", err)
+		return rollback(err)
+	}
+
+	err = state.Runner.RunInteractive(ctx, "", "git", "commit", "-e", "-m", msg)
+	if err != nil {
+		return rollback(fmt.Errorf("git commit failed: %w", err))
 	}
 
 	return nil

@@ -1,11 +1,12 @@
 ---
 name: project-license
 description: Select and generate the correct LICENSE — MIT for public fmind/fmind-ai repos, otherwise proprietary — and update project manifests. Use when adding or fixing a project's license.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/project-license
   created: 2026-06-23
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Create Project License

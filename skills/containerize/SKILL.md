@@ -1,11 +1,12 @@
 ---
 name: containerize
 description: Build minimal, non-root OCI images — `ko` for Go or a distroless multi-stage Dockerfile — then scan, sign, and SBOM them. Use when containerizing or packaging an app for deployment.
+license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/containerize
   created: 2026-07-04
-  updated: 2026-07-06
+  updated: 2026-07-09
 ---
 
 # Containerize an Application
