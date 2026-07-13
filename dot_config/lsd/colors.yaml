@@ -1,0 +1,32 @@
+user: yellow
+group: 243
+permission:
+  read: green
+  write: yellow
+  exec: red
+  exec-sticky: magenta
+  no-access: 240
+date:
+  hour-old: cyan
+  day-old: blue
+  older: 243
+size:
+  none: 243
+  small: green
+  medium: yellow
+  large: red
+inode:
+  valid: magenta
+  invalid: red
+links:
+  valid: cyan
+  invalid: red
+git-status:
+  unmodified: 243
+  ignored: 243
+  new-in-index: green
+  new-in-workdir: green
+  deleted: red
+  renamed: cyan
+  modified: yellow
+  conflicted: red

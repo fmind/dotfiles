@@ -2,11 +2,11 @@
 _.path = "~/.local/share/chezmoi/dot_local/bin"
 
 [settings]
-github_attestations = true
-locked_verify_provenance = true
+github_attestations = false
+locked_verify_provenance = false
 lockfile = true
 lockfile_platforms = ["linux-x64", "macos-arm64"]
-slsa = true
+slsa = false
 
 [settings.task]
 run_auto_install = false
@@ -59,8 +59,12 @@ run = "dprint check"
 [tasks."check:go"]
 alias = "mcg"
 description = "Lint and vuln-scan the Go module (dot/)"
-# Delegate to dot/'s own tasks — the single source of truth for Go checks.
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
+
+[tasks."check:leaks"]
+alias = "mcl"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
 
 [tasks."check:python"]
 alias = "mcp"
@@ -71,11 +75,6 @@ run = "ruff check"
 alias = "mcs"
 description = "Lint shell scripts (shellcheck)"
 run = "git ls-files '*.sh' | xargs -r shellcheck"
-
-[tasks."check:leaks"]
-alias = "mcl"
-description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
 
 [tasks.format]
 alias = "mf"
@@ -91,7 +90,6 @@ run = "dprint fmt"
 alias = "mfg"
 description = "Format Go sources and imports (goimports + gofumpt)"
 # go.work resolves the tools from dot/go.mod; run from root so repo-relative
-# staged paths (dot/foo.go) resolve — `-C dot` would break them.
 run = ["go tool goimports -w dot", "go tool gofumpt -w dot"]
 
 [tasks."format:python"]

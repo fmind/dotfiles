@@ -1,0 +1,32 @@
+blocks:
+  - permission
+  - user
+  - group
+  - size
+  - date
+  - git
+  - name
+classic: false
+color:
+  theme: custom
+  when: auto
+date: date
+display: visible-only
+icons:
+  separator: " "
+  theme: fancy
+  when: always
+ignore-globs:
+  - .DS_Store
+  - .git
+  - .ipynb_checkpoints
+  - .localized
+  - .mypy_cache
+  - .pytest_cache
+  - .ruff_cache
+  - .sass-cache
+  - __pycache__
+sorting:
+  column: name
+  dir-grouping: first
+  reverse: false
