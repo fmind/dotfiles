@@ -155,7 +155,7 @@ url = "https://github.com/twpayne/chezmoi/releases/download/v2.71.0/chezmoi_2.71
 url_api = "https://api.github.com/repos/twpayne/chezmoi/releases/assets/469677947"
 
 [[tools.codex]]
-version = "0.144.1"
+version = "0.144.3"
 backend = "npm:@openai/codex"
 
 [[tools.cosign]]
@@ -286,15 +286,6 @@ checksum = "sha256:3c1bbefb44ec92675c9fc1349a102a41d2568f294fd1fd4e468dc08049440
 url = "https://github.com/homeport/dyff/releases/download/v1.12.0/dyff_1.12.0_darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/homeport/dyff/releases/assets/406097911"
 
-[[tools.eza]]
-version = "0.23.5"
-backend = "aqua:eza-community/eza"
-
-[tools.eza."platforms.linux-x64"]
-checksum = "sha256:e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904"
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228890"
-
 [[tools.fastfetch]]
 version = "2.66.0"
 backend = "aqua:fastfetch-cli/fastfetch"
@@ -422,6 +413,19 @@ asset_pattern = "*x86_64-unknown-linux-musl*"
 checksum = "sha256:4cc776909c8d4a1b2733f2cc38002eb5e6bf175fd84c89adc6bc7f42c8eb3d83"
 url = "https://github.com/googleworkspace/cli/releases/download/v0.22.4/google-workspace-cli-x86_64-unknown-linux-musl.tar.gz"
 url_api = "https://api.github.com/repos/googleworkspace/cli/releases/assets/385687597"
+provenance = "github-attestations"
+
+[[tools."github:googleworkspace/cli"]]
+version = "0.22.4"
+backend = "github:googleworkspace/cli"
+
+[tools."github:googleworkspace/cli".options]
+asset_pattern = "*aarch64-apple-darwin*"
+
+[tools."github:googleworkspace/cli"."platforms.macos-arm64"]
+checksum = "sha256:ad15056fb71e6dc7524f1e5c2f1abf8a3969c59b4a481bd793cd0e35afcb5409"
+url = "https://github.com/googleworkspace/cli/releases/download/v0.22.4/google-workspace-cli-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/googleworkspace/cli/releases/assets/385687580"
 provenance = "github-attestations"
 
 [[tools.gitleaks]]
@@ -855,23 +859,37 @@ url = "https://github.com/evilmartians/lefthook/releases/download/v2.1.10/leftho
 url_api = "https://api.github.com/repos/evilmartians/lefthook/releases/assets/470227499"
 provenance = "github-attestations"
 
+[[tools.lsd]]
+version = "1.2.0"
+backend = "aqua:lsd-rs/lsd"
+
+[tools.lsd."platforms.linux-x64"]
+checksum = "sha256:77849da1210336534258551a581401ba19ae6b8d7b66a2a1feff148ad41e3814"
+url = "https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd-v1.2.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/lsd-rs/lsd/releases/assets/303319745"
+
+[tools.lsd."platforms.macos-arm64"]
+checksum = "sha256:9e34a5d392ff913302098aad0543dafa1883c531eaf229b82f086c3fca675e3e"
+url = "https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd-v1.2.0-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/lsd-rs/lsd/releases/assets/303319340"
+
 [[tools.make]]
 version = "4.4.1"
 backend = "asdf:make"
 
 [[tools.mirrord]]
-version = "3.231.0"
+version = "3.232.0"
 backend = "aqua:metalbear-co/mirrord"
 
 [tools.mirrord."platforms.linux-x64"]
-checksum = "sha256:b67322d1c9861c4cf20b4310ceb232d6d1b289debfbff51fd202b248b3ca92cd"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.231.0/mirrord_linux_x86_64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/470278174"
+checksum = "sha256:82d8012573344762f1bd281118e89d97f8e379482d58b5f7273f75aafc8f19b9"
+url = "https://github.com/metalbear-co/mirrord/releases/download/3.232.0/mirrord_linux_x86_64.zip"
+url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/475409228"
 
 [tools.mirrord."platforms.macos-arm64"]
-checksum = "sha256:25365f670623411d9044b9c6938eba0247de72bc6fc30c5ca6fece614bb2d9e3"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.231.0/mirrord_mac_universal.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/470278169"
+checksum = "sha256:de4f2b8333942d1b20b30b1f2216260720f063d114ae57b51676ec267147d957"
+url = "https://github.com/metalbear-co/mirrord/releases/download/3.232.0/mirrord_mac_universal.zip"
+url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/475409223"
 
 [[tools.neovim]]
 version = "0.12.4"
@@ -1259,19 +1277,19 @@ url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/46201
 provenance = "cosign"
 
 [[tools.ty]]
-version = "0.0.58"
+version = "0.0.59"
 backend = "aqua:astral-sh/ty"
 
 [tools.ty."platforms.linux-x64"]
-checksum = "sha256:f02ff0d20cc6a1f2d4ae2b3ec57c77c14beabaecf21a268897251d6a7abab155"
-url = "https://github.com/astral-sh/ty/releases/download/0.0.58/ty-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ty/releases/assets/472043202"
+checksum = "sha256:6038c362f4ad340741a5b1ebb5ffa9d227983b145c2c7f8baf98fe1cab3acfc5"
+url = "https://github.com/astral-sh/ty/releases/download/0.0.59/ty-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/ty/releases/assets/474699013"
 provenance = "github-attestations"
 
 [tools.ty."platforms.macos-arm64"]
-checksum = "sha256:eab18cbeec298d9b59a374d3b49b5e17827118119a0a43d47f25eb847c93b390"
-url = "https://github.com/astral-sh/ty/releases/download/0.0.58/ty-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ty/releases/assets/472043114"
+checksum = "sha256:920497d7bf09f1bebbeccbe3ddec0dc00485e7c0bbd9fd4839dced77aafbcc71"
+url = "https://github.com/astral-sh/ty/releases/download/0.0.59/ty-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/ty/releases/assets/474698925"
 provenance = "github-attestations"
 
 [[tools.usql]]

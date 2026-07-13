@@ -15,5 +15,5 @@ set -gx FZF_DEFAULT_OPTS \
     "--color=marker:#82aaff,spinner:#86e1fc,header:#ff757f,border:#636da6"
 
 # Preview options
-set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --color=always {} | head -200'"
+set -gx FZF_ALT_C_OPTS "--preview 'lsd --tree --color=always {} | head -200'"
 set -gx FZF_CTRL_T_OPTS "--preview 'bat --number --color=always --line-range=:500 {}'"

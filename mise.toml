@@ -210,8 +210,8 @@ run = ["mise trust -y mise.toml", "mise trust -y ~/.config/mise/config.toml"]
 alias = "u"
 description = "Upgrade mise tools to latest versions"
 run = [
-  "mise -C \"$HOME\" upgrade --bump",
-  "mise upgrade --bump",
+  "mise -C \"$HOME\" upgrade --bump --exclude tree-sitter --exclude github:googleworkspace/cli",
+  "mise upgrade --bump --local",
   "mise run lock",
   "mise run apply",
   "mise run tools",

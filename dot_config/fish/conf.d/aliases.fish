@@ -56,14 +56,14 @@ if status is-interactive
     abbr -a kn kubens
     abbr -a kpf "kubectl port-forward"
     abbr -a kx kubectx
-    # l:eza
-    alias eza="eza --icons=always --git --group-directories-first --time-style=relative --no-quotes"
-    alias ls="eza"
-    abbr -a l "eza --long --all"
-    abbr -a la "eza --all"
-    abbr -a ll "eza --long"
-    abbr -a lg "eza --long --git --git-ignore"
-    abbr -a lt "eza --tree"
+    # l:lsd
+    alias lsd="lsd --icon=always --git --group-directories-first --date=relative --literal"
+    alias ls="lsd"
+    abbr -a l "lsd --long --all"
+    abbr -a la "lsd --all"
+    abbr -a ll "lsd --long"
+    abbr -a lg "lsd --long --git"
+    abbr -a lt "lsd --tree"
     # m:mise
     abbr -a m mise
     abbr -a mr "mise run"
