@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.3] - 2026-07-13
+
+### ♻️ Refactor
+
+- Replace eza with lsd
+
 ## [1.2.2] - 2026-07-12
 
 ### 🐛 Bug Fixes
