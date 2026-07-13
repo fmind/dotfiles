@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.4] - 2026-07-13
+
+### 🧹 Miscellaneous
+
+- Configure lsd and disable slsa attestations in mise
+
 ## [1.2.3] - 2026-07-13
 
 ### ♻️ Refactor
