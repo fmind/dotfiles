@@ -1,0 +1,17 @@
+# chezmoi:modify-template
+{{- $stdin := .chezmoi.stdin -}}
+{{- $sentinel := "# chezmoi: mise-bash-integration" -}}
+{{- if contains $sentinel $stdin -}}
+{{-   $stdin -}}
+{{- else -}}
+{{-   if ne (trim $stdin) "" -}}
+{{-     $stdin }}
+
+{{   end -}}
+{{ $sentinel }}
+# Set up mise paths for login shells
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate bash)"
+fi
+{{- end -}}
