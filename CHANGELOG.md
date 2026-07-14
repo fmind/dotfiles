@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.0] - 2026-07-14
+
+### 🚀 Features
+
+- _(skills)_ Add dependabot skill
+
 ## [1.2.4] - 2026-07-13
 
 ### 🧹 Miscellaneous
