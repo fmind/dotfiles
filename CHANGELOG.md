@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.0] - 2026-07-14
+
+### 🚀 Features
+
+- _(bash)_ Add mise activation and paths
+
 ## [1.3.0] - 2026-07-14
 
 ### 🚀 Features
