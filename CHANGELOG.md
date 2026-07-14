@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.2] - 2026-07-14
+
+### 🧹 Miscellaneous
+
+- _(gh)_ Remove prefer_editor_prompt
+
 ## [1.4.1] - 2026-07-14
 
 ### 📚 Documentation
