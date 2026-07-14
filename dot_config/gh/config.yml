@@ -8,6 +8,6 @@ aliases:
 editor: nvim
 git_protocol: ssh
 pager: delta --paging=never
-prefer_editor_prompt: enabled
+prefer_editor_prompt: disabled
 telemetry: disabled
 version: "1"
