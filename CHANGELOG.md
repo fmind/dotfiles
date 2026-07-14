@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.1] - 2026-07-14
+
+### 📚 Documentation
+
+- _(agents)_ Allow direct push to main branch
+
 ## [1.4.0] - 2026-07-14
 
 ### 🚀 Features
