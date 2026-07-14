@@ -9,6 +9,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
 - **Chezmoi Force**: always use `chezmoi apply --force` when applying changes in automation/scripts to prevent getting blocked by interactive prompts when target files have changed.
 - **Edit-source**: change files in this chezmoi source (`~/.local/share/chezmoi/...`), never their deployed copies under `~/.gemini` or `~/.config`.
 - **GitHub Access**: use the `gh` CLI for all repository, issue, and PR operations.
+- **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first).
 - **Lint-before-done**: `mr ma` must pass before reporting a task complete.
 - **Markdown Lists**: only use `1.` for all numbered list items in markdown files (e.g. `1. first`, `1. second`) to ensure correct dynamic rendering.
 - **No-Hard-Wrap**: every `*.md` keeps each paragraph on a single line.
