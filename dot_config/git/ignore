@@ -1,5 +1,7 @@
+.agents/skills/local-*
 .agents/tmp/
 .antigravitycli/
 .claude/
 .gemini/
 .opencode/
+skills/local-*

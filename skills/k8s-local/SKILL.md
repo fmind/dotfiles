@@ -13,6 +13,13 @@ metadata:
 
 Bootstrap and manage lightweight local Kubernetes clusters with **k3d** (default, Docker-based K3s) or **kind**, plus the local dev-tool ecosystem (kubectl, helm, helmfile, skaffold, k9s).
 
+## Global vs Project-Scoped Setup
+
+When designing project local environments, choose the appropriate isolation scope:
+
+1. **Project-Scoped Setup (Recommended for important/complex projects)**: Important projects must remain independent, self-contained, and reproducible across hosts. Do not rely on the global `k3d-local` cluster or default configs. Instead, declare all dependencies (like `k3d`, `kubectl`, `helm`, `flux2`) under the `[tools]` section of the project's mise.toml, store cluster engine configurations within the repository, and isolate active workloads by generating temporary, process-scoped `KUBECONFIG` variables. Author a project-scoped skill at `.agents/skills/local-cluster/SKILL.md` to guide agents to use your local task vocabulary instead of global `dot cluster` commands.
+1. **Global Setup (Optional fallback for small/simple projects)**: Simple projects or quick experiments without custom orchestration needs can rely on the global cluster configuration managed here. Use the unified `dot cluster` CLI or manually bootstrap using the global templates.
+
 ## Templates & Resources
 
 - **k3d Configuration**: Deployed at `~/.config/k3d/local.yaml` (source: `dot_config/k3d/local.yaml`).
@@ -23,7 +30,7 @@ Bootstrap and manage lightweight local Kubernetes clusters with **k3d** (default
 ## Core Principles
 
 - **Cloud Agnostic**: Local clusters must mirror production API interfaces. Avoid vendor-specific or platform-specific configurations unless mapping local routes.
-- **Engine Choice**: Use `k3d` (default/recommended) for lightweight, fast startup times with integrated Traefik ingress and a local registry. Use `kind` as a fallback for upstream-compatible, multi-node configurations.
+- **Engine Choice (Hybrid Pattern)**: Match the engine to the workflow. Use `k3d` for interactive developer loops (fast startup, built-in Traefik ingress, and registry integration). Use `kind` for automated/disposable integration tests to validate vanilla, upstream-conformant Kubernetes API and security compliance.
 - **Local Registry Dev Loop**: Push locally built Docker images to the local registry at `registry.localhost:5050` or load them directly into the cluster engine nodes. (The registry container is named `registry.localhost`, so the same `registry.localhost:5050` reference resolves for both host push and in-cluster pull via the k3s containerd mirror.)
 - **Declarative Operations**: Manage all workloads using declarative configurations (Helm, Helmfile, Skaffold, Kustomize) rather than raw imperatives.
 

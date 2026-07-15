@@ -114,5 +114,4 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `mise.toml` — Project-scoped task definitions and mise configuration for task runs.
 - `README.md` — Human-centric documentation detailing requirements, installation steps, and secrets.
 - `run_once_after_install-antigravity-cli.sh.tmpl` — Post-install hook script to automate Antigravity CLI installation.
-- `run_onchange_after_generate-completions.sh.tmpl` — Post-apply hook script to automatically generate CLI autocompletions.
 - `skills/` — Storage directory holding global agent skills symlinked into active agent directories.
