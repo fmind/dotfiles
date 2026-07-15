@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.4] - 2026-07-15
+
+### 🧹 Miscellaneous
+
+- _(mise)_ Update lockfile
+
 ## [1.4.3] - 2026-07-15
 
 ### 🧹 Miscellaneous
