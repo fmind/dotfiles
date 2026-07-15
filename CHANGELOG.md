@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.3] - 2026-07-15
+
+### 🧹 Miscellaneous
+
+- Ignore local skills, remove completions hook, update k8s docs
+
 ## [1.4.2] - 2026-07-14
 
 ### 🧹 Miscellaneous
