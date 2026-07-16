@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.5.0] - 2026-07-16
+
+### 🚀 Features
+
+- _(skills)_ Add visual and presentation skills
+
 ## [1.4.4] - 2026-07-15
 
 ### 🧹 Miscellaneous
