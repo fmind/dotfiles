@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "skills": {
+    "likec4-dsl": {
+      "source": "likec4.dev",
+      "sourceType": "well-known",
+      "computedHash": "84daceebd5b5cf0e5cb3d3e70d611b106bc88db9dea8d352c8607ccb412c4d6a"
+    },
+    "slidev": {
+      "source": "slidevjs/slidev",
+      "sourceType": "github",
+      "skillPath": "skills/slidev/SKILL.md",
+      "computedHash": "64746507a65f5cae5386d2fd3acefc7f77edf7c4b60de596d7b1cabec87db11e"
+    }
+  }
+}

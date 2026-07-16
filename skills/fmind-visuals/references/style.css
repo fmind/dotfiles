@@ -1,0 +1,74 @@
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("/brand/Outfit-Variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("/brand/Inter-Variable.woff2") format("woff2");
+}
+
+:root {
+  --fmind-bg: #0f172a;
+  --fmind-panel: #1e293b;
+  --fmind-fg: #f8fafc;
+  --fmind-muted: #cbd5e1;
+  --fmind-primary: #646cff;
+  --fmind-border: #334155;
+}
+
+.slidev-layout {
+  background: var(--fmind-bg);
+  color: var(--fmind-fg);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  color: var(--fmind-fg);
+  font-family: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.slidev-layout a,
+.slidev-layout strong {
+  color: var(--fmind-primary);
+}
+
+.slidev-layout code {
+  background: var(--fmind-panel);
+  border: 1px solid var(--fmind-border);
+}
+
+.slidev-layout:not(.cover)::after {
+  bottom: 1rem;
+  color: var(--fmind-muted);
+  content: "www.fmind.dev";
+  font-size: 0.65rem;
+  position: absolute;
+  right: 1.25rem;
+}
+
+.fmind-logo {
+  height: 3rem;
+  margin-bottom: 1.5rem;
+  object-fit: contain;
+  width: auto;
+}
+
+.fmind-meta {
+  color: var(--fmind-muted);
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+.mermaid {
+  display: grid;
+  place-items: center;
+}

@@ -12,6 +12,7 @@
 /mise.toml
 /ruff.toml
 /skills
+/skills-lock.json
 
 {{- if ne .chezmoi.os "linux" }}
 .local/share/applications/com.mitchellh.ghostty.desktop

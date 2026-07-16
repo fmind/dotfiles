@@ -59,7 +59,10 @@ Install with `skills add <repo> --all -y` after reviewing the source. Browse mor
 | Chrome DevTools        | `ChromeDevTools/chrome-devtools-mcp`        |
 | Modern Web Guidance    | `GoogleChrome/modern-web-guidance`          |
 | Terraform              | `hashicorp/agent-skills`                    |
-| LikeC4                 | `https://likec4.dev/`                       |
+| LikeC4 DSL             | `https://likec4.dev/`                       |
+| Slidev                 | `slidevjs/slidev`                           |
+
+Mermaid and D2 did not publish official skills when last checked on 2026-07-16, so this repository maintains reviewed first-party `mermaid` and `d2` skills with official documentation references.
 
 ## Gotchas
 

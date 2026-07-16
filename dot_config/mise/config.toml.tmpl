@@ -27,7 +27,8 @@ chpwd_only = true
 "npm:@github/copilot" = "latest" # GitHub Copilot terminal-based AI coding agent CLI
 "npm:@google/clasp" = "latest" # Google Apps Script projects development tool
 "npm:@likec4/lsp" = "latest" # Language server for LikeC4 diagrams
-"npm:@mermaid-js/mermaid-cli" = "latest" # Generate images from Mermaid diagram markdown
+"npm:@mermaid-js/mermaid-cli" = { version = "latest", allow_builds = ["puppeteer"] } # Allow Puppeteer to install the headless browser used for rendering
+"npm:@slidev/cli" = "latest" # Markdown and Vue presentation framework for developer slides
 # "npm:genkit-cli" = "latest" # Firebase Genkit CLI tool for AI/LLM workflows
 "npm:lighthouse" = "latest" # Web page audit tool for performance and SEO
 "npm:likec4" = "latest" # CLI for LikeC4 architecture-as-code diagramming tool
@@ -51,6 +52,7 @@ carapace = "latest" # Multi-shell command argument completion generator
 chezmoi = "latest" # Dotfiles manager across diverse machines
 codex = "latest" # OpenAI Codex terminal-based AI coding agent CLI
 cosign = "latest" # Sign and verify container images and attestations (Sigstore)
+d2 = "latest" # Text-to-diagram language for bespoke standalone compositions
 delta = "latest" # Syntax-highlighter for git, diff, and grep output
 doggo = "latest" # Command-line DNS client supporting modern protocols
 dive = "latest" # Docker image explorer and optimization tool

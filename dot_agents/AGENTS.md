@@ -31,6 +31,7 @@
 - **Formatting**: Use [dprint](~/.agents/skills/dprint/SKILL.md) as the main formatter for config and markup files (JSON, TOML, YAML, Markdown).
 - **Git Hooks**: Use [lefthook](~/.agents/skills/lefthook/SKILL.md) for pre-commit (`format`, `check`, `secure`) and pre-push (`test`), delegating to `mise run` tasks so hooks and CI stay in sync.
 - **Task Standard**: Use [mise](~/.agents/skills/mise/SKILL.md) to expose the canonical task vocabulary (`install`, `format`, `check`, `test`, `secure`, `build`, `watch`) that agents, hooks, and CI all reuse.
+- **Visual Communication**: Use [fmind-visuals](~/.agents/skills/fmind-visuals/SKILL.md) for Fmind theming and tool choice. Use [Slidev](~/.agents/skills/slidev/SKILL.md) for every new slide deck and [Mermaid](~/.agents/skills/mermaid/SKILL.md) for diagrams by default; reserve [LikeC4](~/.agents/skills/likec4-dsl/SKILL.md) for durable multi-view architecture models and [D2](~/.agents/skills/d2/SKILL.md) for existing D2 sources or bespoke standalone compositions.
 
 ## Available CLI Tools
 

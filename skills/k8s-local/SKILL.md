@@ -57,7 +57,7 @@ When designing project local environments, choose the appropriate isolation scop
      ```
    - **Using kind**:
      ```bash
-     kind create cluster --config ~/.agents/skills/k8s-local/resources/kind-config.yaml
+     kind create cluster --config resources/kind-config.yaml
      ```
 1. **Context & Namespace Switching**:
    - List and switch contexts easily:

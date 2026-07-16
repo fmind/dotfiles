@@ -7,7 +7,9 @@
     "**/references/**",
     ".git",
     ".venv",
-    "dot_codex/modify_private_config.toml"
+    "dot_codex/modify_private_config.toml",
+    "skills/likec4-dsl/**",
+    "skills/slidev/**"
   ],
   "markdown": {
     "textWrap": "never"

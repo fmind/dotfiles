@@ -41,6 +41,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
   - **Upgrade tools**: `mr u` bumps versions, re-locks, re-applies.
   - **Release**: `mr r` bumps the version in `dot/version.go`, updates `CHANGELOG.md`, tags, pushes, and publishes a GitHub release using `git-cliff` and `gh`.
   - **Manage skills**: author first-party skills directly under `skills/`, review every external skill and bundled script before installation, and validate the collection with `gh skill publish --dry-run`.
+  - **Create visuals**: use `fmind-visuals` for the brand contract and routing; Slidev is the only default for new decks, Mermaid is the default for diagrams, LikeC4 remains the architecture-model option, and D2 remains the bespoke composition option.
   - **Custom AI Utilities**: Deployed via `dot_local/bin/` to `~/.local/bin/` (e.g. `dot` CLI) and added to PATH.
 
 - The unified `dot` CLI command-line utility (source in `dot/`) is compiled to `~/.local/bin/dot` and provides the following subcommands:
@@ -114,4 +115,5 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `mise.toml` — Project-scoped task definitions and mise configuration for task runs.
 - `README.md` — Human-centric documentation detailing requirements, installation steps, and secrets.
 - `run_once_after_install-antigravity-cli.sh.tmpl` — Post-install hook script to automate Antigravity CLI installation.
+- `skills-lock.json` — Provenance and content hashes for external skills installed through `npx skills`.
 - `skills/` — Storage directory holding global agent skills symlinked into active agent directories.
