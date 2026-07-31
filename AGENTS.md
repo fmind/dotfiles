@@ -51,15 +51,15 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
   - `dot cluster` (alias `k`) — Creates, starts, stops, or inspects the shared local k3d Kubernetes cluster.
   - `dot login` (alias `l`) — Interactive OAuth login wrapper command targeting `github` (via `gh`), `workspace` (via `gws`), `gcp` (via `gcloud` user and Application Default Credentials), or `clasp` (via `clasp login`).
   - `dot setup` (alias `u`) — Custom setup wrapper to enable APIs on the active GCP Google Workspace project.
-  - `dot completion` (aliases `g`, `completions`) — Automatically generates fish autocompletions for dot itself and external CLI tools.
-  - `dot pr` (alias `pr`) — Generates a structured pull request description via AI and triggers `gh pr create`.
+  - `dot completion` (alias `g`) — Automatically generates fish autocompletions for dot itself and external CLI tools.
+  - `dot pull-request` (alias `pr`) — Generates a structured pull request description via AI and triggers `gh pr create`.
   - `dot release` (alias `r`) — Bumps the version in `dot/version.go`, updates `CHANGELOG.md`, tags, pushes, and publishes a GitHub release.
   - `dot status` (alias `s`) — Provides a unified summary status of local development Git repositories, active docker containers, and local k3d Kubernetes configurations; supports `--json`/`-j` for scripting.
   - `dot agent` (alias `a`) — Normalizes agent session transcripts into `~/.agents/sessions/`. `agy`, `claude`, and `codex` are wired to each tool's `Stop` hook; `opencode` fires from its `session.idle` plugin; `copilot` has no live hook API, so its `~/.copilot/session-store.db` is captured by `dot agent session sync`. `sync` also backfills every source's untracked sessions and `clean` prunes logs past a retention window.
   - `dot notify` (alias `n`) — Sends an OS-independent desktop notification for agent hook events (`<agent> <stop|session-end>`) or custom alerts (`<summary> [headline] [details...]`), naming the project and zellij pane to return to so background agents announce themselves instead of waiting to be checked; Claude and Codex fire it from their `Stop` and `SessionEnd` hooks.
   - `dot chezmoi clean` (group alias `m`, subcommand aliases `c`, `cc`) — Scans for previously managed chezmoi files and cleans up unmanaged orphans in home directory.
   - `dot config` (alias `f`) — Inspects, scaffolds, edits, and validates the `~/.config/dot.yaml` configuration file (`show`, `path`, `init`, `edit`, `validate`).
-  - `dot version` (alias `n`) — Prints the version enriched with the embedded VCS revision so an installed binary can be matched against the current sources.
+  - `dot version` (alias `i`) — Prints the version enriched with the embedded VCS revision so an installed binary can be matched against the current sources.
 
 ## Agents
 

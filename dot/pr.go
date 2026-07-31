@@ -15,7 +15,7 @@ import (
 // NewPrCmd constructs the top-level PR command.
 func NewPrCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
-		Name:    "pr",
+		Name:    "pull-request",
 		Aliases: []string{"pr"},
 		Usage:   "Generate a GitHub Pull Request description from git diff using AI, and invoke gh pr create",
 		Flags: []cli.Flag{

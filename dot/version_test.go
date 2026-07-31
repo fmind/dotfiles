@@ -28,9 +28,9 @@ func TestVersionCommand(t *testing.T) {
 		t.Errorf("expected version output to contain %q, got %q", "dot "+Version, buf.String())
 	}
 
-	// Verify that "n" is in the aliases
-	hasAlias := slices.Contains(cmd.Aliases, "n")
+	// Verify that "i" is in the aliases
+	hasAlias := slices.Contains(cmd.Aliases, "i")
 	if !hasAlias {
-		t.Errorf("expected version command to have 'n' alias, got: %v", cmd.Aliases)
+		t.Errorf("expected version command to have 'i' alias, got: %v", cmd.Aliases)
 	}
 }

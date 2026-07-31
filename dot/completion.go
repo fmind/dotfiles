@@ -21,7 +21,7 @@ const completionCommandTimeout = 60 * time.Second
 func NewCompletionCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
 		Name:    "completion",
-		Aliases: []string{"g", "completions"},
+		Aliases: []string{"g"},
 		Usage:   "Generate fish autocompletions for dot itself and external CLI tools",
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			return RunCompletionGenerate(ctx, state)

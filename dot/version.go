@@ -16,7 +16,7 @@ var Version = "1.6.0"
 func NewVersionCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
 		Name:    "version",
-		Aliases: []string{"n"},
+		Aliases: []string{"i"},
 		Usage:   "Print the version and embedded build metadata",
 		Action: func(_ context.Context, _ *cli.Command) error {
 			_, _ = fmt.Fprintln(state.Stdout, VersionString())
