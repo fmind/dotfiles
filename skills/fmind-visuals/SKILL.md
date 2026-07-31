@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/fmind-visuals
   created: 2026-07-16
-  updated: 2026-07-16
+  updated: 2026-07-31
 ---
 
 # Fmind Visual Communication
@@ -42,7 +42,7 @@ Do not create a custom HTML deck, Typst deck, PowerPoint source, or generated ra
 
 1. Read the official [Slidev skill](../slidev/SKILL.md), then use the current official docs for any unstable feature.
 1. Scaffold with the project's package manager and keep Slidev, Vue, the default theme, and `playwright-chromium` as project-local dependencies for reproducibility.
-1. Start from [package.json](references/package.json), [slides.md](references/slides.md), and [style.css](references/style.css), then copy the canonical logo and WOFF2 fonts into `public/brand/`.
+1. Start from [package.json.template](references/package.json.template), [slides.md](references/slides.md), and [style.css](references/style.css), then copy the canonical logo and WOFF2 fonts into `public/brand/`.
 1. Keep the starter's DOMPurify override until Monaco no longer pins a vulnerable release; verify any removal with `npm audit`.
 1. Keep one claim, mechanism, decision, or artifact per slide. Split dense content instead of shrinking type.
 1. Embed Mermaid directly for ordinary diagrams. Use exported LikeC4 or D2 SVGs only when their specialist boundary applies.

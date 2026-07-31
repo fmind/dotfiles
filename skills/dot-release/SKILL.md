@@ -6,12 +6,12 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dot-release
   created: 2026-07-08
-  updated: 2026-07-09
+  updated: 2026-07-31
 ---
 
 # Dotfiles Release
 
-Run `dot release` (alias `dot r`) to turn Conventional Commits since the last tag into a versioned release. The command handles everything: compute next semver via `git-cliff`, update [version.go](file:///home/fmind/.local/share/chezmoi/dot/version.go) and [CHANGELOG.md](file:///home/fmind/.local/share/chezmoi/CHANGELOG.md), format, lint, test, commit, tag, push, and publish a GitHub release.
+Run `dot release` (alias `dot r`) to turn Conventional Commits since the last tag into a versioned release. The command handles everything: compute next semver via `git-cliff`, update `dot/version.go` and `CHANGELOG.md`, format, lint, test, commit, tag, push, and publish a GitHub release.
 
 ## Preconditions
 

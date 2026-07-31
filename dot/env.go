@@ -16,6 +16,9 @@ const (
 	// EnvKaggleAPIToken is the environment variable for the Kaggle API Token.
 	EnvKaggleAPIToken = "KAGGLE_API_TOKEN"
 
+	// EnvHuggingfaceAPIToken is the environment variable for the Hugging Face API Token.
+	EnvHuggingfaceAPIToken = "HUGGINGFACE_API_TOKEN"
+
 	// EnvAntigravityCloudProject is the environment variable for the Antigravity Cloud Project.
 	EnvAntigravityCloudProject = "ANTIGRAVITY_CLOUD_PROJECT"
 

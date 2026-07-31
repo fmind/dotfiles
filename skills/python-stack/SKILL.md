@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/python-stack
   created: 2026-06-23
-  updated: 2026-07-09
+  updated: 2026-07-31
 ---
 
 # Python Stack Standard
@@ -36,7 +36,7 @@ Canonical guidelines for Python development, scaffolding, CLI scripts, web appli
    cd <slug> && uv python pin <major.minor>  # align .python-version with requires-python
    ```
 1. **Config Initialization**: Copy and customize:
-   - `pyproject.toml` from [pyproject.toml](references/pyproject.toml) — `dependencies` are grouped **Core** (every project type) and **Web (Litestar)**; delete the Web block and `testcontainers` for library/CLI/agent projects.
+   - `pyproject.toml` from [pyproject.toml.template](references/pyproject.toml.template) — `dependencies` are grouped **Core** (every project type) and **Web (Litestar)**; delete the Web block and `testcontainers` for library/CLI/agent projects.
    - `mise.toml` from [mise.toml](references/mise.toml) — for non-web projects, swap the web-only `watch` task (see its inline comment).
    - `lefthook.yml` from [lefthook.yml](references/lefthook.yml)
    - `dprint.json` (setup as instructed in the [dprint skill](../dprint/SKILL.md))

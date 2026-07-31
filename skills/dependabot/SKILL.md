@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dependabot
   created: 2026-07-14
-  updated: 2026-07-14
+  updated: 2026-07-31
 ---
 
 # Dependabot Dependency Management Standard
@@ -15,7 +15,7 @@ Canonical setup for **GitHub Dependabot**, an automated dependency update engine
 
 ## 1. Principles
 
-1. **Pin-Everything Strategy**: Pin GitHub Action SHAs, Go modules, npm modules, and Python packages explicitly.
+1. **Pin-Everything Strategy**: Pin GitHub Actions to a major-version tag (`actions/checkout@v7`) and Go, npm, and Python packages explicitly. Do not pin action SHAs — the tag already tracks security patches within the major, and SHAs turn every upstream patch into review noise.
 1. **Reduce PR Noise**: Group minor, patch, and digest updates into single, consolidated pull requests using the Dependabot `groups` configuration (e.g., grouping GitHub Action updates or Go module updates) while leaving major updates separate.
 1. **Local Validation**: Never merge automated updates blindly. Always run validation pipelines locally (`mise run check` and `mise run test`) before pushing/merging to verify compatibility and catch regressions.
 1. **No Auto-Merge**: Do not configure auto-merge for dependencies. Automated systems cannot anticipate protocol, type-checking, or model drift.
