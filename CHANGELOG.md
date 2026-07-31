@@ -2,6 +2,22 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.7.0] - 2026-07-31
+
+### 🚀 Features
+
+- _(dot)_ Notify desktop on agent stop and session end
+
+### 🐛 Bug Fixes
+
+- _(ci)_ Lock trivy and restore a green cross-platform pipeline
+- _(check)_ Render chezmoi against a seeded config so CI can validate it
+- _(dot)_ Stub the platform browser opener so macOS tests pass
+
+### ♻️ Refactor
+
+- _(dot)_ Resolve command alias collisions
+
 ## [1.6.0] - 2026-07-31
 
 ### 🚀 Features
