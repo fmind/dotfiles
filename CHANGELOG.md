@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.7.3] - 2026-07-31
+
+### 🐛 Bug Fixes
+
+- _(skills)_ Correct inaccurate commands and broken hook ordering
+
+### 🧹 Miscellaneous
+
+- _(prune)_ Include the antigravity brain dir in agent transcript pruning
+
 ## [1.7.2] - 2026-07-31
 
 ### 🐛 Bug Fixes
