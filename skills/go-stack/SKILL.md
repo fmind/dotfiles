@@ -37,7 +37,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 1. **Config Initialization**: Copy and customize configurations. Pick the task runner and hooks by project type — no manual trimming:
    - **Web**: `mise.toml` ([mise.toml](references/mise.toml)) + `lefthook.yml` ([lefthook.yml](references/lefthook.yml)) — the full set, with templ/Tailwind/vendor/watch tasks.
    - **CLI/agent**: `mise-cli.toml` ([mise-cli.toml](references/mise-cli.toml)) + `lefthook-cli.yml` ([lefthook-cli.yml](references/lefthook-cli.yml)), saved as `mise.toml`/`lefthook.yml` — same task vocabulary, no web-only tasks or the `tailwindcss` tool.
-   - `.golangci.yml` ([golangci.yml](references/golangci.yml))
+   - `.golangci.yml` ([golangci.yml](references/golangci.yml)) — replace `<import_path>` in `goimports.local-prefixes`, and mirror the same value in the `format:go` task's `goimports -local` flag so `format` and `check` agree on one style.
    - `dprint.json` (setup as instructed in the [dprint skill](../dprint/SKILL.md))
    - `.air.toml` ([air.toml](references/air.toml)) (web only)
    - `.env`/`.env.example` ([env.example](references/env.example)) — one universal file; uncomment the vars your project type uses. `LICENSE` ([LICENSE](references/LICENSE)) and `.gitignore` ([gitignore](references/gitignore)).

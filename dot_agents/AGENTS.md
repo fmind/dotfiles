@@ -47,14 +47,16 @@
 - **CLI Automation**: Use `gh` (GitHub), `gws` (Google Workspace), and `gcloud` (Google Cloud) to automate workspace, repository, and cloud tasks.
 - **Git Commits**: Do NOT commit unless explicitly requested; run validation locally (lefthook, linters, tests) warning-free first. Use Conventional Commits (`feat:`, `fix:`, `refactor:`, `chore:`) — see the conventional-commit skill for the full taxonomy.
 - **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first).
+- **Idempotent Operations**: Design scripts, tasks, and state mutations to be safely re-runnable without side effects; keep checks simple and pragmatic without over-engineering one-off actions.
 - **Latest Stable**: Use latest stable releases for new projects/upgrades (no RCs/betas); verify current versions online.
 - **Markdown Lists**: Use only `1.` for every numbered list item so rendering stays dynamic.
 - **No Absolute Paths**: Never use absolute paths in agent skills or `AGENTS.md`; use relative or `~`-relative paths.
 - **No Attribution**: never make attribution on the code generated (e.g., be mentioned in commit, or co-authored).
-- **Progressive Alignment**: Comment the "why" behind non-obvious design decisions inline, for future agent runs.
+- **Progressive Alignment**: Leave explicit inline comments explaining the "why" and trade-offs directly at the spot non-obvious choices or decisions are made, capturing rationale for future developers and agents.
 - **Release & Versioning**: Use the [release](~/.agents/skills/release/SKILL.md) skill to cut tagged semver releases — git-cliff changelog, `v`-prefixed tag, GitHub publish.
 - **Stop Before Irreversible**: Pause and confirm before irreversible or costly actions (data loss, force-push, history rewrite, `destroy`, prod, spend); for low-stakes ambiguity, state your assumption and proceed.
 - **Documentation**: Keep `README.md` (humans) and `AGENTS.md` (agents) clean and current; never write unsolicited summary/report/plan `*.md` files — see the [readme-agents](~/.agents/skills/readme-agents/SKILL.md) skill.
+- **Efficient Workflows**: Keep development loops fast and build artifacts lean; reuse canonical task definitions (`mise run`) across local hooks, agents, and CI/CD to avoid duplicating work, compute cycles, and context tokens ("make it done, make it right, make it fast").
 - **Environment & Dotfiles**: Dotfiles live in `~/.local/share/chezmoi` (active tool settings in `dot_config/mise/config.toml.tmpl`); consult only when you need to understand the environment.
 - **Testing Standard**: Prefer deterministic unit tests, lightweight fakes, and local integration tests. Use real dev/staging or paid external services only when they materially validate the boundary and the user has explicitly approved the access and cost. Test your changes first, then the whole project.
 - **Security Scanning**: Use the [security-scan](~/.agents/skills/security-scan/SKILL.md) skill for full-repo Trivy (deps, IaC, secrets, licenses, images) and gitleaks git-history scans, beyond the stack-native vuln checks in `mise run check`.

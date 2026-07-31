@@ -74,7 +74,7 @@ Validate by rebuilding the image (`mise run build:image`) and scanning (`mise ru
 
 ### GitHub Actions — workflow pins (`.github/workflows/*.yml`)
 
-Pin third-party actions by full commit SHA (supply-chain safety) and bump the SHA on release; keep first-party actions (`actions/checkout`, `jdx/mise-action`) at the latest major. Automate with `pinact run` or Dependabot (`.github/dependabot.yml`, `package-ecosystem: github-actions`). Validate with `actionlint`. See [github-actions](../github-actions/SKILL.md).
+Pin every action to a major-version tag (`actions/checkout@v7`, `jdx/mise-action@v4`) and let the tag track security patches within the major. Do not pin SHAs — they turn every upstream patch into review noise. Automate the major bumps with Dependabot (`.github/dependabot.yml`, `package-ecosystem: github-actions`) — see [dependabot](../dependabot/SKILL.md). Validate with `actionlint`. See [github-actions](../github-actions/SKILL.md).
 
 ### dprint — formatter plugins (`dprint.json` / `dprint.jsonc`)
 
@@ -107,4 +107,4 @@ Same shape — bump, then re-lock, then validate:
 - [OpenTofu: Provider Dependency Lock File](https://opentofu.org/docs/cli/config/dependency-lock-files/)
 - [Docker: Pinning Base Images](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#use-multi-stage-builds)
 - [dprint: config update](https://dprint.dev/cli/#update)
-- [GitHub Actions: security hardening (pin by SHA)](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions)
+- [GitHub Actions: using third-party actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions)

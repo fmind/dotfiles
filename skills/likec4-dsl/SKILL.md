@@ -118,7 +118,7 @@ pnpm dlx likec4 validate --json --no-layout --file <edited-file> <project-dir>
 
 - `--json` — structured output (stdout), logging goes to stderr
 - `--no-layout` — skip layout drift checks (faster, only syntax+semantic)
-- `--file <path>` — use with `--json` to scope results to the edited files. Without `--json`, text output still prints all diagnostics. Repeat once per edited source file.
+- `--file <path>` — use with `--json` to scope results to the edited files. Without `--json`, text output still prints all diagnostics. Repeat once per edited source file. **Paths resolve against the current working directory, not against `<project-dir>`** — a path that matches nothing is silently ignored, yielding `valid: true`, `filteredErrors: 0`, and exit 0 on a project that is actually broken.
 - `<project-dir>` — path to the project directory
 - There is **no** `likec4 check` command; use `likec4 validate`.
 
@@ -142,21 +142,22 @@ Example output:
   "stats": {
     "totalFiles": 100, // Total number of files in the project
     "totalErrors": 500, // Total number of errors in the project
-    "filteredFiles": 1, // Number of files that match the --file filter
+    "filteredFiles": 1, // Number of filtered files that contain errors — NOT the number passed to --file
     "filteredErrors": 1 // Number of errors in the filtered files
   }
 }
 ```
 
-Broken specification/model in a large project can cascade into lots of errors across all files. Always use `--file` to focus on the files you edited. If `filteredErrors` is 0 but `totalErrors` is high, your files are clean but something else in the project is broken (not your problem). Selfcheck that `filteredFiles` matches the number of files you passed to `--file`.
+Broken specification/model in a large project can cascade into lots of errors across all files. Always use `--file` to focus on the files you edited. If `filteredErrors` is 0 but `totalErrors` is high, your files are clean but something else in the project is broken (not your problem).
+
+Selfcheck instead that `totalFiles` is non-zero and that every path you passed to `--file` resolves from the current working directory — a typo produces the same all-clean output as a genuinely clean run.
 
 Field semantics (must be explicit in answers):
 
-- `filteredFiles`: count of files actually included by repeated `--file` filters
+- `filteredFiles`: count of filtered files that contain errors — it is `0` on every clean run, so never compare it against the number of `--file` arguments
 - `filteredErrors`: errors in the filtered subset only
+- `totalFiles`: files in the full project model — `0` means the project directory resolved to nothing
 - `totalErrors`: errors across the full project model
-
-Example edge case: if you pass 3 files but one is `likec4.config.json`, `filteredFiles` may be `2` because config JSON is not a `.c4`/`.likec4` source file for DSL validation.
 
 ## Export PNG flags (precision)
 

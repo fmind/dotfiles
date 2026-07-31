@@ -23,7 +23,7 @@ These are intentional and not vulnerabilities in this repository:
 
 ## Reporting a vulnerability
 
-Report privately via [GitHub Security Advisories](https://github.com/fmind/dotfiles/security/advisories/new), or by email to <mederic.hurier@fmind.dev>. Please do not open a public issue for a suspected vulnerability.
+Report privately via [GitHub Security Advisories](https://github.com/fmind/dotfiles/security/advisories/new), or by email to <github@fmind.dev>. Please do not open a public issue for a suspected vulnerability.
 
 Include the affected file or command, the impact, and reproduction steps. Expect an initial response within 7 days.
 

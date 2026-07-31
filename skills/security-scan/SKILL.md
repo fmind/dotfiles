@@ -17,11 +17,11 @@ Scan a repository (and its images) for vulnerabilities, misconfigurations, secre
 
 1. **Repository scan** (dependencies, misconfig, secrets, licenses in one pass):
    ```bash
-   trivy fs .   # loads ./trivy.yaml if present; else pass --config ~/.config/trivy/trivy.yaml (or export TRIVY_CONFIG) — see Gotchas
+   trivy --config trivy.yaml fs .   # always pass --config: an exported TRIVY_CONFIG outranks ./trivy.yaml — see Gotchas
    ```
 1. **Targeted config scan** (Dockerfiles, Kubernetes manifests, Terraform — optional if already done via `trivy fs`):
    ```bash
-   trivy config .
+   trivy --config trivy.yaml config .
    ```
 1. **Secrets in git history** (deeper than a working-tree scan — catches committed-then-deleted secrets):
    ```bash
@@ -30,7 +30,7 @@ Scan a repository (and its images) for vulnerabilities, misconfigurations, secre
    ```
 1. **Container image scan** (after a build — see [containerize](../containerize/SKILL.md)):
    ```bash
-   trivy image <registry>/<image>:<tag>
+   trivy --config trivy.yaml image <registry>/<image>:<tag>
    ```
 1. **Language-native depth** (already wired into `mise run check` as `check:vuln`):
    - Go: `go tool govulncheck ./...`
@@ -49,22 +49,22 @@ run = "gitleaks git --verbose" # history scan; `mise run check:leaks --staged` a
 
 [tasks."check:scan"]
 description = "Scan configuration files (IaC, manifests, Dockerfiles) for misconfigurations"
-run = "trivy config ." # mise auto-appends extra path args; do NOT use `${@:-.}` (mise skill: it collapses to `.` and only appends)
+run = "trivy --config trivy.yaml config ." # mise auto-appends extra path args; do NOT use `${@:-.}` (mise skill: it collapses to `.` and only appends)
 
 [tasks."check:vuln"]
 # Fallback for repos with no native scanner; a Go/Python repo uses govulncheck/pip-audit here instead.
 description = "Scan project files and dependencies for vulnerabilities"
-run = "trivy fs ."
+run = "trivy --config trivy.yaml fs ." # --config is mandatory: an exported TRIVY_CONFIG would otherwise win
 ```
 
 ## Gotchas
 
 - **Signal over noise**: `ignore-unfixed: true` and `HIGH`/`CRITICAL` keep results actionable; widen severity only for a deliberate audit.
-- **Trivy config resolution**: trivy auto-loads only `./trivy.yaml` (project root) — never `~/.config/trivy/`. With no config found (and no `TRIVY_CONFIG`/`--config`), it silently falls back to built-in defaults (**all** severities, no `ignore-unfixed`), dropping the signal-over-noise settings. For reproducible local **and** CI scans, commit a project `trivy.yaml` (copy the global one, or `extends`-style — mirrors [dprint](../dprint/SKILL.md)); for ad-hoc runs against the global config, `export TRIVY_CONFIG=~/.config/trivy/trivy.yaml` or pass `--config`.
+- **Trivy config resolution**: precedence is `--config` > `TRIVY_CONFIG` > `./trivy.yaml` > built-in defaults — trivy never auto-loads `~/.config/trivy/`. On this machine `dot_config/fish/conf.d/env.fish` exports `TRIVY_CONFIG=~/.config/trivy/trivy.yaml` globally, so **a bare `trivy fs .` silently ignores the project `trivy.yaml`** and scans with the global policy instead. Always pass `--config trivy.yaml` from a repo that ships one (this is why the `check:scan`/`check:vuln` tasks below do). Falling through to built-in defaults is the other failure mode: **all** severities, no `ignore-unfixed`, and the signal-over-noise settings gone. For reproducible local **and** CI scans, commit a project `trivy.yaml` (copy the global one — mirrors [dprint](../dprint/SKILL.md)).
 - **Pre-commit gates need `--staged`**: `gitleaks git` scans committed history, so it can **not** block a secret in the commit being made — it isn't in history yet (returns clean). Reserve history mode for CI/on-demand and give the pre-commit hook its own staged scan so incoming secrets are actually gated. In [lefthook](../lefthook/SKILL.md) `pre-commit`, add (with a `priority` after the formatters):
   ```yaml
   check:leaks:
-    priority: 3
+    priority: 20 # after the formatters (10), before the whole-tree `check` (30)
     run: mise run check:leaks --staged # → gitleaks git --verbose --staged
   ```
   Keep the history-mode `check:leaks` inside `mise run check` for CI's full-history pass.

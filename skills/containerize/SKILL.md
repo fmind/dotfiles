@@ -40,7 +40,7 @@ Build a small, non-root, reproducible OCI image and verify it before it ships. P
    ```
 1. **Sign** keyless with Sigstore (OIDC, no long-lived keys):
    ```bash
-   cosign sign <registry>/<slug>@<digest>
+   cosign sign --yes <registry>/<slug>@<digest> # --yes is mandatory: cosign prompts by default and hangs any CI job or agent session
    ```
 1. **SBOM** for provenance:
    ```bash

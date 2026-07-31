@@ -95,7 +95,9 @@ run = "dprint fmt"
 
 [tasks."format:go"]
 description = "Format Go sources and imports (goimports + gofumpt)"
-run = ["go tool goimports -w .", "go tool gofumpt -w ."]
+# Flags must mirror .golangci.yml: `local-prefixes` and `extra-rules` are format policy,
+# so without them `format` writes a style that `check` then rejects.
+run = ["go tool goimports -local <import_path> -w .", "go tool gofumpt -extra -w ."]
 
 [tasks."format:templ"]
 description = "Format Templ templates"

@@ -35,15 +35,19 @@ pre-commit:
   commands:
     format:dprint:
       glob: "*.{json,md,toml,yaml,yml}"
+      priority: 10
       run: mise run format:dprint {staged_files}
       stage_fixed: true
     format:<lang>: # one per language: format:go / format:python / format:templ ...
       glob: "*.<ext>"
+      priority: 10
       run: mise run format:<lang> {staged_files}
       stage_fixed: true
     check:leaks: # staged secret scan — history-mode gitleaks in `check` can't gate the incoming commit
+      priority: 20
       run: mise run check:leaks --staged
     check:
+      priority: 30
       run: mise run check
 pre-push:
   commands:
@@ -56,7 +60,7 @@ See the reference `lefthook.yml` in [go-stack](../go-stack/references/lefthook.y
 ## Gotchas
 
 - **Thin hooks**: never inline tool commands; call `mise run <task>` so CI stays identical.
-- **Ordering**: lefthook runs a hook's commands **alphabetically by name**, not in file order — so `check` sorts before `format:*` and, left unordered, runs first and fails on still-unformatted files. Set explicit `priority` (formatters low, `check` high) **with** `parallel: false` so formatters restage before `check` reads from disk.
+- **Ordering**: lefthook runs a hook's commands **alphabetically by name**, not in file order — so `check` sorts before `format:*` and, left unordered, runs first and fails on still-unformatted files. Set explicit `priority` (`10` formatters, `20` `check:leaks`, `30` `check` — lower runs first) **with** `parallel: false` so formatters restage before `check` reads from disk. A command with no `priority` falls back to the alphabetical order, so set it on every command or none.
 - **Bypass**: avoid `--no-verify`; fix the failure instead — the [git-add-commit-push](../git-add-commit-push/SKILL.md) skill auto-heals hook failures.
 - **Unstaged changes**: Lefthook stashes unstaged changes automatically under the hood to prevent accidental commits of unstaged changes when formatting.
 

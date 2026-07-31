@@ -1,52 +1,61 @@
 #!/usr/bin/env bash
-# prune-agents.sh — reclaim disk from agent session transcripts and build caches.
-#
-# Deliberately narrower than prune-system.sh. Two things it must never do, because both
-# make the machine slower at the only thing it is optimized for (running Fgentic's gates):
-#
-#   * `docker container prune` / `docker volume prune` — stopped k3d containers ARE the
-#     clusters. Pruning them destroys every local cluster and its node state.
-#   * `go clean -cache -modcache` — the Go build cache is what keeps `mise run test` at
-#     ~77 s instead of several minutes, and ~/go/pkg/mod is where agents read pinned
-#     upstream source.
+# prune-agents.sh — Clean up agent session transcripts and development build caches
+# (Deliberately keeps Docker containers/volumes and Go build cache intact)
 
 set -euo pipefail
 
 readonly KEEP_DAYS="${PRUNE_KEEP_DAYS:-7}"
 
-# POSIX df output keeps this portable across GNU/Linux and macOS.
-free_gb() { df -Pk / | awk 'NR == 2 { print int($4 / 1024 / 1024) }'; }
+echo -e "\033[1mStarting agent pruning...\033[0m"
 
-before=$(free_gb)
-echo "Free before: ${before}G (keeping the last ${KEEP_DAYS} days of transcripts)"
-
-# 1. Agent session transcripts — the fastest-growing consumer, ~1.5 GiB/day.
-for dir in "${HOME}/.codex/sessions" "${HOME}/.claude/projects"; do
+# 1. Agent session transcripts
+echo "Pruning agent transcripts older than ${KEEP_DAYS} days..."
+for dir in "${HOME}/.codex/sessions" "${HOME}/.claude/projects" "${HOME}/.agents/sessions"; do
   if [ -d "${dir}" ]; then
     find "${dir}" -type f -mtime "+${KEEP_DAYS}" -delete 2>/dev/null || true
     find "${dir}" -type d -empty -delete 2>/dev/null || true
-    echo "✓ pruned ${dir}"
   fi
 done
+echo "✓ Agent transcripts pruned."
 
-# 2. Docker build cache only. Never containers, volumes, or images.
-if command -v docker &>/dev/null && docker info >/dev/null 2>&1; then
-  docker builder prune -af >/dev/null 2>&1 || true
-  echo "✓ docker build cache pruned (containers, volumes and images untouched)"
+# 2. Docker build cache
+if command -v docker &>/dev/null && docker info &>/dev/null; then
+  echo "Pruning Docker build cache..."
+  docker builder prune -af &>/dev/null || true
+  echo "✓ Docker build cache pruned."
 fi
 
-# 3. Regenerable package caches.
-[ -d "${HOME}/.npm/_npx" ] && rm -rf "${HOME}/.npm/_npx" && echo "✓ npx cache cleared"
-[ -d "${HOME}/.cache/trivy" ] && rm -rf "${HOME}/.cache/trivy" && echo "✓ trivy cache cleared"
-command -v uv &>/dev/null && uv cache prune >/dev/null 2>&1 && echo "✓ uv cache pruned"
+# 3. Package caches
+if [ -d "${HOME}/.npm/_npx" ]; then
+  echo "Cleaning npx cache..."
+  rm -rf "${HOME}/.npm/_npx"
+  echo "✓ npx cache cleaned."
+fi
 
-# 4. mise: unused tool versions and download tarballs, not the installs in use.
+if [ -d "${HOME}/.cache/trivy" ]; then
+  echo "Cleaning Trivy cache..."
+  rm -rf "${HOME}/.cache/trivy"
+  echo "✓ Trivy cache cleaned."
+fi
+
+if command -v uv &>/dev/null; then
+  echo "Pruning uv cache..."
+  uv cache prune &>/dev/null || true
+  echo "✓ uv cache pruned."
+fi
+
+# 4. mise unused versions and downloads
 if command -v mise &>/dev/null; then
-  mise prune -y >/dev/null 2>&1 || true
-  mise cache clear >/dev/null 2>&1 || true
-  rm -rf "${HOME}/.local/share/mise/http-tarballs"/* "${HOME}/.local/share/mise/downloads"/* 2>/dev/null || true
-  echo "✓ mise unused versions and tarballs pruned"
+  echo "Pruning unused tool versions from mise..."
+  mise prune -y &>/dev/null || true
+  echo "Cleaning mise cache..."
+  mise cache clear &>/dev/null || true
+  if [ -d "${HOME}/.local/share/mise/downloads" ] || [ -d "${HOME}/.local/share/mise/http-tarballs" ]; then
+    echo "Cleaning mise downloads..."
+    rm -rf "${HOME}/.local/share/mise/http-tarballs"/* "${HOME}/.local/share/mise/downloads"/* 2>/dev/null || true
+    echo "✓ mise downloads cleaned."
+  fi
+  echo "✓ mise caches cleaned."
 fi
 
-after=$(free_gb)
-echo "Free after:  ${after}G  (reclaimed $((after - before))G)"
+echo -e "\033[32;1m✓ Agent pruning complete.\033[0m"

@@ -61,10 +61,10 @@ Turn the Conventional Commits since the last tag into a versioned release: a bum
 
 - **Semver source of truth**: let `git-cliff --bumped-version` decide from commits; only override for a deliberate bump (e.g. first stable `v1.0.0`).
 - **Tag prefix**: keep the `v` prefix consistent — git-cliff, `gh`, and Go module tags all expect `vX.Y.Z`.
-- **Pre-1.0**: breaking changes bump the minor, not the major, until `v1.0.0`. Features/fixes bump the patch. This is controlled by `features_always_bump_minor = false` and `breaking_always_bump_major = false` in `cliff.toml`.
+- **Pre-1.0**: git-cliff applies the same rules below `v1.0.0` as above it — a `feat` bumps the **minor** (`v0.1.0` → `v0.2.0`) and a breaking change jumps straight to **`v1.0.0`**. Verify before tagging: `git-cliff --bumped-version`. To keep a 0.x line breaking-change-tolerant instead, set `features_always_bump_minor = false` and `breaking_always_bump_major = false` under `[bump]` in `cliff.toml` — neither key is set in the global config, which holds only `initial_tag`.
 - **First Release (No Tags)**: if the repository has no tags, `git-cliff` defaults to the `initial_tag` (configured as `v0.1.0` in `cliff.toml` to match the `tag_pattern`).
 - **Idempotency**: if the tag already exists, stop — never move a published tag.
-- **Config Resolution**: if `git-cliff` is run without `--config`, it looks for a local `cliff.toml` or `git-cliff/cliff.toml` at the repository root. Fall back to `--config ~/.config/git-cliff/cliff.toml` when running in a repository without a custom setup.
+- **Config Resolution**: run without `--config` and git-cliff searches `cliff.toml`, `.cliff.toml`, then `.config/cliff.toml` at the repository root, and automatically falls back to `~/.config/git-cliff/cliff.toml` — so `--config` is only needed to force a non-default file.
 
 ## Documentation
 

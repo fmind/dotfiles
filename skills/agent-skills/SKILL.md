@@ -25,7 +25,7 @@ Install, author, and verify Agent Skills for Antigravity, Codex, OpenCode, Claud
 1. **Identify Source**: Use a Git repository, full URL/subtree, immutable ref when available, or local path containing `SKILL.md` folders.
 1. **Choose Scope & Discovery Path**:
    - **Workspace (recommended)**: `.agents/skills/<slug>/`. Antigravity, Codex, OpenCode, and Copilot discover this path natively. Claude discovers workspace skills from `.claude/skills/`, so link `.claude/skills` to `../.agents/skills`.
-   - **Global**: add `-g` to install under `~/.agents/skills/`. Codex, OpenCode, and Copilot discover that path natively. Claude uses `~/.claude/skills/`. Antigravity products share physical global skills under `~/.gemini/config/skills/`.
+   - **Global**: add `-g` to install under `~/.agents/skills/`. Codex, OpenCode, and Copilot discover that path natively. Claude reaches it through the `~/.claude/skills/` symlink, Antigravity products through `~/.gemini/config/skills/` — both point back to `~/.agents/skills/`.
 1. **Install**:
    ```bash
    skills add <owner/repo> --skill <name> -y
@@ -33,7 +33,7 @@ Install, author, and verify Agent Skills for Antigravity, Codex, OpenCode, Claud
    skills add <owner/repo> --all -g -y
    ```
    The CLI auto-discovers `SKILL.md` folders at the repository root or below a `skills/` directory.
-1. **Handle Antigravity Global Skills**: In this dotfiles repository, `chezmoi apply --force` physically overlays marker-owned copies from the canonical `skills/` directory into the shared global customization root while preserving unrelated skills. For an independent installation, inspect name collisions before copying a reviewed skill:
+1. **Handle Antigravity Global Skills**: In this dotfiles repository nothing is copied — `chezmoi apply --force` renders `dot_gemini/private_config/symlink_skills.tmpl` into a symlink chain, so `~/.gemini/config/skills` → `~/.agents/skills` → the canonical `skills/` directory. Every agent CLI therefore reads one source of truth, and a skill edited in `skills/` is live immediately with no re-apply. For an independent installation outside this repo, inspect name collisions before copying a reviewed skill:
    ```bash
    install -d -m 700 ~/.gemini/config/skills
    cp -R ~/.agents/skills/<name> ~/.gemini/config/skills/
@@ -68,6 +68,6 @@ Mermaid and D2 did not publish official skills when last checked on 2026-07-16, 
 
 1. **Scope Conflicts**: Workspace skills override global skills with the same name.
 1. **Structure**: Every skill folder must contain a valid `SKILL.md` at its root.
-1. **Antigravity Physical Copies**: Use `~/.gemini/config/skills/` as the shared cross-product path. Current Antigravity CLI also recognizes its CLI-specific `~/.gemini/antigravity-cli/skills/` path, but maintaining both creates redundant precedence and stale-copy risks.
+1. **Antigravity Shared Path**: Use `~/.gemini/config/skills/` as the shared cross-product path. Current Antigravity CLI also recognizes its CLI-specific `~/.gemini/antigravity-cli/skills/` path, but maintaining both creates redundant precedence and stale-copy risks.
 1. **Claude Workspace Link**: Inspect an existing `.claude/skills` path before creating the link; never overwrite an unmanaged directory.
 1. **Provenance**: Re-review upstream changes before updating an installed skill, especially changes to scripts, hooks, or network access.

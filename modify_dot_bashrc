@@ -5,16 +5,9 @@
 export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"
 ` -}}
 {{- $activation := "# Set up mise activation for interactive bash shells.\n" -}}
-{{- /* Drop the pre-1.7 in-guard PATH export; it is now hoisted above the guard. */ -}}
 {{- $stdin := replace $legacy $activation .chezmoi.stdin -}}
 {{- $pathBlock := `# chezmoi: mise-bash-path
-# PATH must be set ABOVE the stock Debian "if not running interactively, return"
-# guard a few lines down. Non-interactive shells that DO source this file --
-# agent CLI bash tools, "ssh host cmd" -- return at that guard and never reach
-# the mise block at the end, so without this hoist they get no mise at all.
-# (Plain "bash -c" never reads .bashrc; login shells get PATH from .profile.)
-# Only PATH needs to clear the guard: the mise shell function and chpwd hooks
-# installed at the end of this file are interactive-only by design.
+# Set up mise paths above non-interactive shell guard
 export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"` -}}
 {{- if contains $pathSentinel $stdin -}}
 {{-   $stdin -}}

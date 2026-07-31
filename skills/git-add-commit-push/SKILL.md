@@ -16,7 +16,7 @@ Wraps the commit-subject rules from `conventional-commit`, then stages, commits,
 ## Workflow
 
 1. **Check Working Directory & Staging State**:
-   - Run `git branch --show-current`; if on the default branch (`main`/`master`), stop and suggest branching first via the [feature-branch](../feature-branch/SKILL.md) skill (or confirm with the user) before committing and pushing.
+   - Run `git branch --show-current` and record it — committing and pushing directly to `main`/`master` is allowed and is the normal flow. Branch first via the [feature-branch](../feature-branch/SKILL.md) skill only when the user asked for a PR flow, or when the push is later rejected by branch protection.
    - Check if there are staged changes: `git diff --cached --name-only`.
    - If nothing is staged, check if there are unstaged changes: `git status --short`.
    - If there are unstaged changes, stage them using `git add` to prepare for commit.

@@ -28,7 +28,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
 - `private_*` → mode 0600. `executable_*` → mode 0755. `*.age` → encrypted.
 - `run_once_after_*.sh` → executed by `chezmoi apply` once per unique content hash; use it for one-shot install/bootstrap steps.
 - `run_onchange_after_*.sh` → executed by `chezmoi apply` after files are written, only when the script's content changes.
-- `.chezmoiignore` keeps repo-only files (the `/dot` Go CLI, `/skills`, `/AGENTS.md`, `README.md`, `SECURITY.md`, `LICENSE`, `install.sh`, `mise.toml`/`mise.lock`, `lefthook.yml`, `dprint.json`, `ruff.toml`, and `go.work`/`go.work.sum`) out of `apply`, plus the Ghostty `.desktop` file on non-Linux hosts and `secrets.fish` when the age key is absent.
+- `.chezmoiignore` keeps repo-only files (the `/dot` Go CLI, `/skills`, `/AGENTS.md`, `README.md`, `SECURITY.md`, `LICENSE`, `CHANGELOG.md`, `install.sh`, `mise.toml`/`mise.lock`, `lefthook.yml`, `dprint.json`, `ruff.toml`, `trivy.yaml`, `skills-lock.json`, and `go.work`/`go.work.sum`) out of `apply`, plus the Ghostty `.desktop` file on non-Linux hosts and `secrets.fish` when the age key is absent.
 - `.chezmoi.toml.tmpl` seeds the per-machine chezmoi config (git identity, age recipient, editor/cd/diff/merge commands) on `chezmoi init`.
 
 ## Workflows
@@ -82,8 +82,8 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 
 - `.agents/` — Workspace-scoped state, session records, and scratch scripts for AI agents.
 - `.antigravitycli/` — Workspace-scoped session records, configuration settings, and state for Antigravity CLI.
-- `.chezmoiignore` — Chezmoi exclude patterns to ignore repository files from deployment.
 - `.chezmoi.toml.tmpl` — Template config initialized as the host-specific chezmoi configuration.
+- `.chezmoiignore` — Chezmoi exclude patterns to ignore repository files from deployment.
 - `.claude/` — Workspace-scoped session records and state for the Claude Code CLI.
 - `.gemini/` — Workspace configurations and metadata for the Antigravity CLI.
 - `.github/` — GitHub Actions CI and Dependabot dependency-update configuration.
