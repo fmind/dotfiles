@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.7.2] - 2026-07-31
+
+### 🐛 Bug Fixes
+
+- _(claude)_ Keep Claude Code runtime settings across chezmoi applies
+
+### 🧪 Testing
+
+- _(dot)_ Expand unit test coverage across dot cli subcommands
+
 ## [1.7.1] - 2026-07-31
 
 ### ♻️ Refactor
