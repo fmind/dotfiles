@@ -59,10 +59,16 @@ depends = [
 [tasks."check:chezmoi"]
 alias = "mcc"
 description = "Validate rendered chezmoi source in an isolated destination"
+# Seed a throwaway config from .chezmoi.toml.tmpl defaults so this renders on a
+# host that never ran `chezmoi init` (CI), instead of inheriting ~/.config and
+# only ever being exercised on my own machines. --exclude=encrypted skips the
+# age secrets, whose private key is deliberately absent everywhere but my hosts.
 run = """
 render_destination="$(mktemp -d)"
-trap 'rm -rf "$render_destination"' EXIT
-chezmoi apply --dry-run --force --source "$PWD" --destination "$render_destination"
+render_config="$(mktemp -d)"
+trap 'rm -rf "$render_destination" "$render_config"' EXIT
+chezmoi init --source "$PWD" --config-path "$render_config/chezmoi.toml" --promptDefaults
+chezmoi apply --dry-run --force --source "$PWD" --destination "$render_destination" --config "$render_config/chezmoi.toml" --exclude=encrypted
 """
 
 [tasks."check:dprint"]
