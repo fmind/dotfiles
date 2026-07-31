@@ -22,6 +22,17 @@
   ],
   "feedbackSurveyRate": 0,
   "hooks": {
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "dot notify claude session-end"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",
@@ -29,6 +40,10 @@
           {
             "type": "command",
             "command": "dot agent session claude"
+          },
+          {
+            "type": "command",
+            "command": "dot notify claude stop"
           }
         ]
       }

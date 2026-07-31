@@ -13,6 +13,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/urfave/cli/v3"
 )
 
 func TestNewAgentCmd(t *testing.T) {
@@ -26,10 +28,19 @@ func TestNewAgentCmd(t *testing.T) {
 		t.Errorf("expected command alias 'a', got %v", cmd.Aliases)
 	}
 
-	if len(cmd.Commands) != 1 || cmd.Commands[0].Name != "session" {
-		t.Fatalf("expected sub-command 'session'")
+	groups := make(map[string]*cli.Command, len(cmd.Commands))
+	for _, sub := range cmd.Commands {
+		groups[sub.Name] = sub
 	}
-	sessionCmd := cmd.Commands[0]
+	for _, name := range []string{"session", "notify"} {
+		if groups[name] == nil {
+			t.Fatalf("expected sub-command %q, got %v", name, groups)
+		}
+	}
+	if notifyCmd := groups["notify"]; len(notifyCmd.Aliases) != 1 || notifyCmd.Aliases[0] != "n" {
+		t.Errorf("expected command alias 'n', got %v", notifyCmd.Aliases)
+	}
+	sessionCmd := groups["session"]
 	if len(sessionCmd.Aliases) != 1 || sessionCmd.Aliases[0] != "s" {
 		t.Errorf("expected command alias 's', got %v", sessionCmd.Aliases)
 	}

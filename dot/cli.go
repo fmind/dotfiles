@@ -107,6 +107,7 @@ func NewApp() *cli.Command {
 			NewConfigCmd(state),
 			NewVersionCmd(state),
 			NewAgentCmd(state),
+			NewNotifyCmd(state),
 		},
 	}
 }
