@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.6.0] - 2026-07-31
+
+### 🚀 Features
+
+- Update dot CLI agent tools, dotfiles tasks, and skills
+
+### 🧹 Miscellaneous
+
+- _(claude)_ Remove DISABLE_TELEMETRY setting
+
 ## [1.5.0] - 2026-07-16
 
 ### 🚀 Features
