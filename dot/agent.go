@@ -83,7 +83,6 @@ func NewAgentCmd(state *GlobalState) *cli.Command {
 		Usage:   "Manage AI agent integrations and sessions",
 		Commands: []*cli.Command{
 			NewAgentSessionCmd(state),
-			NewAgentNotifyCmd(state),
 		},
 	}
 }

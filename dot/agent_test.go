@@ -32,13 +32,14 @@ func TestNewAgentCmd(t *testing.T) {
 	for _, sub := range cmd.Commands {
 		groups[sub.Name] = sub
 	}
-	for _, name := range []string{"session", "notify"} {
+	for _, name := range []string{"session"} {
 		if groups[name] == nil {
 			t.Fatalf("expected sub-command %q, got %v", name, groups)
 		}
 	}
-	if notifyCmd := groups["notify"]; len(notifyCmd.Aliases) != 1 || notifyCmd.Aliases[0] != "n" {
-		t.Errorf("expected command alias 'n', got %v", notifyCmd.Aliases)
+	// notify was promoted to a top-level command; `agent` must not re-expose it.
+	if groups["notify"] != nil {
+		t.Error("agent should not expose notify; it is a top-level command")
 	}
 	sessionCmd := groups["session"]
 	if len(sessionCmd.Aliases) != 1 || sessionCmd.Aliases[0] != "s" {

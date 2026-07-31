@@ -64,14 +64,6 @@ func NewNotifyCmd(state *GlobalState) *cli.Command {
 	}
 }
 
-// NewAgentNotifyCmd constructs the agent notify command.
-func NewAgentNotifyCmd(state *GlobalState) *cli.Command {
-	cmd := NewNotifyCmd(state)
-	cmd.Usage = "Send a desktop notification for an agent hook event"
-	cmd.ArgsUsage = "<agent> <event>"
-	return cmd
-}
-
 // RunNotify sends desktop notifications for agent hooks (<agent> <event>) or custom payloads (<summary> [headline] [details...]).
 func RunNotify(ctx context.Context, state *GlobalState, args ...string) error {
 	if len(args) == 0 {
