@@ -36,6 +36,7 @@ When designing project local environments, choose the appropriate isolation scop
 
 ## AI Agent Instructions
 
+- **OFF by Default**: The local k3d cluster must remain OFF by default. Only start it (`dot cluster start`) for short periods when active deployment or verification is needed, and shut it down immediately (`dot cluster stop local`) as soon as the task is done to conserve CPU/RAM.
 - **Docker Healthcheck**: Always run `docker info` before launching, stopping, or configuring clusters.
 - **Context Verification**: Verify that the active context matches the intended local cluster before running `kubectl` commands. Use `kubectx` or `kubectl config current-context` to ensure the context is `k3d-local`.
 - **Local Images**: Build local images, tag them for the local registry (`registry.localhost:5050/image:tag`), and push them, or load them directly into the cluster engine. Set `imagePullPolicy: IfNotPresent` or `Never` in deployment specs if using sideloaded or locally tagged images.
@@ -126,10 +127,10 @@ When designing project local environments, choose the appropriate isolation scop
      mirrord exec --target deploy/<deployment-name> -- <local-command>
      ```
 1. **Teardown & Cleanup**:
-   - **For k3d**:
+   - **For k3d**: OFF/stopped is the resting state. The cluster must only run for short periods when needed and should be stopped immediately after the task is finished. Because k3d containers use `restart=unless-stopped`, they will auto-start on reboot and consume resources unless explicitly stopped.
      ```bash
-     k3d cluster stop local  # Pause to save resources
-     k3d cluster start local # Resume cluster
+     k3d cluster stop local  # Resting state: stop immediately when done
+     k3d cluster start local # Start only for short active verification sessions
      k3d cluster delete local
      ```
    - **For kind**:

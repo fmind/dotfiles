@@ -20,11 +20,9 @@ ignore-globs:
   - .DS_Store
   - .git
   - .ipynb_checkpoints
-  - .localized
   - .mypy_cache
   - .pytest_cache
   - .ruff_cache
-  - .sass-cache
   - __pycache__
 sorting:
   column: name

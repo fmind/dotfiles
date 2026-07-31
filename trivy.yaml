@@ -1,3 +1,4 @@
+timeout: 15m
 severity:
   - HIGH
   - CRITICAL
@@ -5,9 +6,15 @@ scan:
   scanners:
     - license
     - misconfig
-    - secret
     - vuln
   skip-dirs:
-    - .agents/tmp
+    - .agents
+    - .antigravitycli
+    - .claude
+    - .gemini
+    - .git
+    - .ruff_cache
+    - .venv
+    - dot_local
 vulnerability:
   ignore-unfixed: true

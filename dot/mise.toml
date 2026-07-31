@@ -69,8 +69,11 @@ run = "go mod tidy"
 
 [tasks.test]
 alias = "t"
-description = "Run the test suite (gotestsum)"
-run = "gotestsum --format pkgname -- -race -coverprofile=coverage.out ./..."
+description = "Run the test suite and enforce at least 85% statement coverage"
+run = [
+  "gotestsum --format pkgname -- -race -coverprofile=coverage.out ./...",
+  "go tool cover -func=coverage.out | awk '/^total:/ { sub(/%/, \"\", $3); if ($3 + 0 < 85) { printf \"coverage %.1f%% is below 85%%\\n\", $3 > \"/dev/stderr\"; exit 1 } }'",
+]
 
 [tasks."test:watch"]
 alias = "tw"

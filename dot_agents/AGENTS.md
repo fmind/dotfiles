@@ -63,6 +63,7 @@
 
 - **Shared Cluster & Namespaces**: Deploy all local projects to the shared `local` k3d cluster (`dot cluster start`), each in its own namespace (e.g., `project-name`).
 - **Ingress Routing**: Access services via `.localhost` ingress (e.g., `http://project-name.localhost:8080`) instead of per-project host ports — see the k8s-local skill.
+- **OFF by Default**: The local k3d cluster must remain OFF by default. Only start it (`dot cluster start`) for short periods when active deployment or verification is needed, and shut it down immediately (`dot cluster stop local`) as soon as the task is done. The workstation has only 14 GiB RAM and no swap, so an idle cluster (k3s + observability ≈ 3 GiB and steady CPU usage) will freeze concurrent builds. Never leave the cluster running or run two clusters at once.
 
 ## Project Directories
 

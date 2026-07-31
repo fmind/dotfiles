@@ -97,6 +97,24 @@ func TestGetUnstagedDiff(t *testing.T) {
 	}
 }
 
+func TestGetUnstagedDiffUnfiltered(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name != "git" || strings.Join(args, " ") != "diff -- :/" {
+				t.Fatalf("unexpected command: %s %v", name, args)
+			}
+			return "complete diff", nil
+		},
+	}
+	diff, err := GetUnstagedDiffUnfiltered(context.Background(), newTestState(runner))
+	if err != nil {
+		t.Fatalf("GetUnstagedDiffUnfiltered: %v", err)
+	}
+	if diff != "complete diff" {
+		t.Fatalf("diff = %q, want complete diff", diff)
+	}
+}
+
 // TestGitDiffIntegration exercises the real pathspec/merge-base logic against an actual
 // git repo (the lightest real resource) rather than canned FakeRunner output, so a broken
 // :(exclude) pathspec or merge-base invocation would be caught.

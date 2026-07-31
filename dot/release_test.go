@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -14,15 +15,9 @@ func TestReleaseCommandAlias(t *testing.T) {
 	state := newTestState(&FakeRunner{})
 	cmd := NewReleaseCmd(state)
 
-	hasAlias := false
-	for _, alias := range cmd.Aliases {
-		if alias == "r" {
-			hasAlias = true
-			break
-		}
-	}
+	hasAlias := slices.Contains(cmd.Aliases, "r")
 	if !hasAlias {
-		t.Errorf("expected release command to have 'rl' alias, got: %v", cmd.Aliases)
+		t.Errorf("expected release command to have 'r' alias, got: %v", cmd.Aliases)
 	}
 }
 
@@ -90,6 +85,66 @@ func TestRunReleaseNoBump(t *testing.T) {
 	err := RunRelease(context.Background(), state, true)
 	if err != nil {
 		t.Fatalf("RunRelease failed: %v", err)
+	}
+}
+
+func TestConfirmRelease(t *testing.T) {
+	for _, tt := range []struct {
+		answer string
+		want   bool
+	}{
+		{answer: "yes\n", want: true},
+		{answer: "Y\n", want: true},
+		{answer: "no\n", want: false},
+		{answer: "", want: false},
+	} {
+		var output strings.Builder
+		if got := confirmRelease(strings.NewReader(tt.answer), &output, "Proceed? "); got != tt.want {
+			t.Fatalf("confirmRelease(%q) = %t, want %t", tt.answer, got, tt.want)
+		}
+		if output.String() != "Proceed? " {
+			t.Fatalf("prompt = %q", output.String())
+		}
+	}
+}
+
+func TestReleaseCommandDispatches(t *testing.T) {
+	state := newTestState(&FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, _ string, _ ...string) (string, error) {
+			return "", errors.New("not a repository")
+		},
+	})
+	cmd := NewReleaseCmd(state)
+	if err := cmd.Action(context.Background(), cmd); err == nil {
+		t.Fatal("expected release precondition failure")
+	}
+}
+
+func TestRunReleaseRejectsDirtyWorktree(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			command := name + " " + strings.Join(args, " ")
+			switch command {
+			case "git rev-parse --is-inside-work-tree":
+				return "true", nil
+			case "git status --porcelain":
+				return " M local-change", nil
+			default:
+				return "", errors.New("unexpected command")
+			}
+		},
+	}
+	err := RunRelease(context.Background(), newTestState(runner), true)
+	if err == nil || !strings.Contains(err.Error(), "uncommitted or staged changes") {
+		t.Fatalf("expected dirty-worktree rejection, got %v", err)
+	}
+}
+
+func TestValidateReleaseStatusMalformedRecords(t *testing.T) {
+	for _, status := range []string{"x\x00", "M? path\x00", "R  renamed\x00", "C  copied\x00"} {
+		if err := validateReleaseStatus(status); err == nil {
+			t.Fatalf("expected malformed or unsupported status %q to fail", status)
+		}
 	}
 }
 

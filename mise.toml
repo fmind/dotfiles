@@ -27,6 +27,8 @@ lefthook = "latest"
 ruff = "latest"
 shellcheck = "latest"
 shfmt = "latest"
+stylua = "latest"
+trivy = "latest"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Project management — check quality, format sources, and run tests.
@@ -44,12 +46,24 @@ run = [
 alias = "mc"
 description = "Run all static checks in parallel"
 depends = [
+  "check:chezmoi",
   "check:dprint",
   "check:go",
   "check:python",
   "check:shell",
   "check:leaks",
+  "check:lua",
+  "check:scan",
 ]
+
+[tasks."check:chezmoi"]
+alias = "mcc"
+description = "Validate rendered chezmoi source in an isolated destination"
+run = """
+render_destination="$(mktemp -d)"
+trap 'rm -rf "$render_destination"' EXIT
+chezmoi apply --dry-run --force --source "$PWD" --destination "$render_destination"
+"""
 
 [tasks."check:dprint"]
 alias = "mcd"
@@ -66,6 +80,16 @@ alias = "mcl"
 description = "Audit codebase for leaked secrets (gitleaks)"
 run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
 
+[tasks."check:lua"]
+alias = "mcu"
+description = "Check Neovim Lua formatting (stylua)"
+run = "stylua --check dot_config/nvim"
+
+[tasks."check:scan"]
+alias = "mct"
+description = "Scan dependencies, IaC, licenses, and secrets (Trivy)"
+run = "trivy --config trivy.yaml fs ."
+
 [tasks."check:python"]
 alias = "mcp"
 description = "Lint Python sources (ruff)"
@@ -79,7 +103,7 @@ run = "git ls-files '*.sh' | xargs -r shellcheck"
 [tasks.format]
 alias = "mf"
 description = "Format all sources and documents"
-depends = ["format:dprint", "format:go", "format:python", "format:shell"]
+depends = ["format:dprint", "format:go", "format:lua", "format:python", "format:shell"]
 
 [tasks."format:dprint"]
 alias = "mfd"
@@ -91,6 +115,11 @@ alias = "mfg"
 description = "Format Go sources and imports (goimports + gofumpt)"
 # go.work resolves the tools from dot/go.mod; run from root so repo-relative
 run = ["go tool goimports -w dot", "go tool gofumpt -w dot"]
+
+[tasks."format:lua"]
+alias = "mfu"
+description = "Format Neovim Lua sources (stylua)"
+run = "stylua dot_config/nvim"
 
 [tasks."format:python"]
 alias = "mfp"
@@ -142,7 +171,7 @@ run = ["chezmoi doctor", "mise doctor"]
 
 [tasks.full]
 alias = "f"
-depends = ["apply", "tools"]
+depends = ["tools"]
 description = "Apply dotfiles and sync global tools"
 run = "echo '✓ Dotfiles deployed.'"
 
@@ -153,9 +182,15 @@ run = "lefthook install"
 
 [tasks.init]
 alias = "i"
-depends = ["trust", "tools", "hooks", "vim", "krew"]
 description = "Bootstrap a freshly initialized checkout"
-run = "echo '✓ First-time bootstrap complete.'"
+run = [
+  "mise trust -y mise.toml",
+  "mise run tools",
+  "mise run hooks",
+  "mise run vim",
+  "mise run krew",
+  "echo '✓ First-time bootstrap complete.'",
+]
 
 [tasks.krew]
 alias = "w"
@@ -194,10 +229,14 @@ run = "skills update -g -y"
 
 [tasks.tools]
 alias = "t"
-depends = ["apply"]
-depends_post = ["completions"]
 description = "Install pinned tools for this repo and the global config"
-run = ["mise -C \"$HOME\" install -y", "mise install -y"]
+run = [
+  "mise install -y",
+  "mise run apply",
+  "mise trust -y ~/.config/mise/config.toml",
+  "mise -C \"$HOME\" install -y",
+  "mise run completions",
+]
 
 [tasks.trust]
 alias = "tr"
@@ -210,8 +249,9 @@ description = "Upgrade mise tools to latest versions"
 run = [
   "mise -C \"$HOME\" upgrade --bump --exclude tree-sitter --exclude github:googleworkspace/cli",
   "mise upgrade --bump --local",
-  "mise run lock",
-  "mise run apply",
+  "mise lock --bump --yes",
+  "mise lock --global --bump --yes",
+  "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
   "mise run tools",
 ]
 

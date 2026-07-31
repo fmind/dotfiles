@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/urfave/cli/v3"
 )
 
 func TestRunConfigShow(t *testing.T) {
@@ -206,5 +208,29 @@ func TestConfigCommandAliases(t *testing.T) {
 	}
 	if hasCfg || !hasF {
 		t.Errorf("expected config command to have 'f' alias but NOT 'cfg', got: %v", cmd.Aliases)
+	}
+}
+
+func TestConfigCommandActions(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "dot.yaml")
+	runner := &FakeRunner{
+		RunInteractiveFunc: func(_ context.Context, _, _ string, _ ...string) error {
+			return nil
+		},
+	}
+	state := newTestState(runner)
+	state.ConfigPath = path
+	state.Stdout = &bytes.Buffer{}
+	t.Setenv("EDITOR", "editor")
+
+	command := NewConfigCmd(state)
+	byName := make(map[string]*cli.Command, len(command.Commands))
+	for _, subcommand := range command.Commands {
+		byName[subcommand.Name] = subcommand
+	}
+	for _, name := range []string{"show", "path", "init", "edit", "validate"} {
+		if err := byName[name].Action(context.Background(), byName[name]); err != nil {
+			t.Fatalf("%s action: %v", name, err)
+		}
 	}
 }

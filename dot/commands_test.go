@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"sync/atomic"
 	"testing"
@@ -410,6 +411,29 @@ func TestClusterCommands(t *testing.T) {
 			t.Error("Expected kubectl config set-context to be called")
 		}
 	})
+}
+
+func TestAgentSessionCommandDispatch(t *testing.T) {
+	t.Setenv("HOME", t.TempDir())
+	state := newTestState(&FakeRunner{})
+	state.Stdin = nil
+	app := &cli.Command{Commands: []*cli.Command{NewAgentCmd(state)}}
+
+	if err := app.Run(context.Background(), []string{"dot", "agent", "session", "sync"}); err != nil {
+		t.Fatalf("empty session sync failed: %v", err)
+	}
+	if err := app.Run(context.Background(), []string{"dot", "agent", "session", "clean", "--days", "0"}); err == nil {
+		t.Fatal("expected invalid retention to fail")
+	}
+
+	for _, source := range []string{"agy", "claude", "codex", "opencode", "copilot"} {
+		t.Run(source, func(t *testing.T) {
+			err := app.Run(context.Background(), []string{"dot", "agent", "session", source})
+			if err == nil {
+				t.Fatalf("expected %s without a session to fail", source)
+			}
+		})
+	}
 }
 
 func TestCommitCommand(t *testing.T) {
@@ -974,11 +998,9 @@ func TestLoginCommand(t *testing.T) {
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "gcloud" && args[0] == "auth" && args[1] == "login" {
 					// Verify --update-adc is passed
-					for _, a := range args {
-						if a == "--update-adc" {
-							atomic.AddInt32(&loginCalled, 1)
-							return nil
-						}
+					if slices.Contains(args, "--update-adc") {
+						atomic.AddInt32(&loginCalled, 1)
+						return nil
 					}
 					return fmt.Errorf("expected --update-adc flag, got args: %v", args)
 				}

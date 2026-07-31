@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-skills
   created: 2026-06-23
-  updated: 2026-07-09
+  updated: 2026-07-28
 ---
 
 # Install Agent Skills
@@ -59,7 +59,7 @@ Install with `skills add <repo> --all -y` after reviewing the source. Browse mor
 | Chrome DevTools        | `ChromeDevTools/chrome-devtools-mcp`        |
 | Modern Web Guidance    | `GoogleChrome/modern-web-guidance`          |
 | Terraform              | `hashicorp/agent-skills`                    |
-| LikeC4 DSL             | `https://likec4.dev/`                       |
+| LikeC4 DSL             | `likec4/likec4`                             |
 | Slidev                 | `slidevjs/slidev`                           |
 
 Mermaid and D2 did not publish official skills when last checked on 2026-07-16, so this repository maintains reviewed first-party `mermaid` and `d2` skills with official documentation references.

@@ -3,6 +3,7 @@ package dot
 import (
 	"bytes"
 	"context"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -28,13 +29,7 @@ func TestVersionCommand(t *testing.T) {
 	}
 
 	// Verify that "n" is in the aliases
-	hasAlias := false
-	for _, alias := range cmd.Aliases {
-		if alias == "n" {
-			hasAlias = true
-			break
-		}
-	}
+	hasAlias := slices.Contains(cmd.Aliases, "n")
 	if !hasAlias {
 		t.Errorf("expected version command to have 'n' alias, got: %v", cmd.Aliases)
 	}

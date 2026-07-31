@@ -1297,3 +1297,48 @@ func TestRunAgentSessionSync(t *testing.T) {
 		t.Errorf("expected synced file to be for new-session-456, got %s", logFiles[0])
 	}
 }
+
+func TestRunAgentSessionSyncDiscoversAgyAndClaude(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	agySession := "agy-sync-session"
+	agyLogs := filepath.Join(home, ".gemini", "antigravity-cli", "brain", agySession, ".system_generated", "logs")
+	if err := os.MkdirAll(agyLogs, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	agyTranscript := `{"source":"USER_EXPLICIT","type":"USER_INPUT","created_at":"2026-07-09T14:09:12Z","content":"sync agy"}`
+	if err := os.WriteFile(filepath.Join(agyLogs, "transcript.jsonl"), []byte(agyTranscript), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	claudeSession := "claude-sync-session"
+	claudeProject := filepath.Join(home, ".claude", "projects", "-workspace-sync")
+	if err := os.MkdirAll(claudeProject, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	claudeTranscript := `{"type":"user","timestamp":"2026-07-09T14:09:12Z","message":{"content":"sync claude"},"cwd":"/workspace/sync"}`
+	if err := os.WriteFile(filepath.Join(claudeProject, claudeSession+".jsonl"), []byte(claudeTranscript), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(claudeProject, "memory.jsonl"), []byte("{}"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	state := newTestState(&FakeRunner{})
+	var stderr strings.Builder
+	state.Stderr = &stderr
+	if err := RunAgentSessionSync(context.Background(), state); err != nil {
+		t.Fatalf("RunAgentSessionSync: %v", err)
+	}
+
+	output := stderr.String()
+	if !strings.Contains(output, "agy: 1 new") || !strings.Contains(output, "claude: 1 new") || !strings.Contains(output, "done (2 total new)") {
+		t.Fatalf("unexpected sync summary: %q", output)
+	}
+	agySessions := readAgentSessionLogs(t, home, "agy")
+	claudeSessions := readAgentSessionLogs(t, home, "claude")
+	if len(agySessions[agySession]) != 1 || len(claudeSessions[claudeSession]) != 1 {
+		t.Fatalf("expected both sessions to be normalized, got agy=%+v claude=%+v", agySessions, claudeSessions)
+	}
+}

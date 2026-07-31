@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 
@@ -272,17 +273,13 @@ func shouldIgnore(cfg ChezmoiCleanConfig, path string) bool {
 		return true
 	}
 
-	for _, prefix := range cfg.IgnoredPrefixes {
-		if parts[0] == prefix {
-			return true
-		}
+	if slices.Contains(cfg.IgnoredPrefixes, parts[0]) {
+		return true
 	}
 
 	base := filepath.Base(path)
-	for _, f := range cfg.IgnoredFiles {
-		if base == f {
-			return true
-		}
+	if slices.Contains(cfg.IgnoredFiles, base) {
+		return true
 	}
 
 	// Chezmoi internal scripts

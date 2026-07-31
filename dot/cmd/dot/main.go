@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"os/signal"
 	"syscall"
@@ -13,18 +14,26 @@ import (
 	"dot"
 )
 
+type appRunner interface {
+	Run(context.Context, []string) error
+}
+
+func run(ctx context.Context, app appRunner, args []string, stderr io.Writer) int {
+	if err := app.Run(ctx, args); err != nil {
+		if errors.Is(err, context.Canceled) {
+			return 130 // 128 + SIGINT, the conventional interrupt exit code
+		}
+		_, _ = fmt.Fprintln(stderr, "dot:", err)
+		return 1
+	}
+	return 0
+}
+
 func main() {
 	// Cancel the root context on interrupt so in-flight operations stop and deferred
 	// cleanup runs (e.g. removing chezmoi's temporary probe files) instead of a hard kill.
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	app := dot.NewApp()
-	if err := app.Run(ctx, os.Args); err != nil {
-		if errors.Is(err, context.Canceled) {
-			os.Exit(130) // 128 + SIGINT, the conventional interrupt exit code
-		}
-		_, _ = fmt.Fprintln(os.Stderr, "dot:", err)
-		os.Exit(1)
-	}
+	os.Exit(run(ctx, dot.NewApp(), os.Args, os.Stderr))
 }

@@ -271,7 +271,7 @@ func writeSessionLogs(agent, sessionID string, logs []SessionLogLine) (resultErr
 
 	// Propagate model name across all lines in the session
 	var activeModel string
-	for i := 0; i < len(logs); i++ {
+	for i := range logs {
 		if logs[i].Model != "" {
 			activeModel = logs[i].Model
 		} else if activeModel != "" {
@@ -363,31 +363,31 @@ func extractCodexSessionID(name string) string {
 	return ""
 }
 
-func stringValue(v interface{}) string {
+func stringValue(v any) string {
 	if s, ok := v.(string); ok {
 		return s
 	}
 	return ""
 }
 
-func mapValue(v interface{}) map[string]interface{} {
-	if m, ok := v.(map[string]interface{}); ok {
+func mapValue(v any) map[string]any {
+	if m, ok := v.(map[string]any); ok {
 		return m
 	}
 	return nil
 }
 
-func textFromCodexContent(value interface{}) string {
+func textFromCodexContent(value any) string {
 	switch content := value.(type) {
 	case string:
 		return content
-	case []interface{}:
+	case []any:
 		textParts := make([]string, 0, len(content))
 		for _, part := range content {
 			switch partValue := part.(type) {
 			case string:
 				textParts = append(textParts, partValue)
-			case map[string]interface{}:
+			case map[string]any:
 				if text := stringValue(partValue["text"]); text != "" {
 					textParts = append(textParts, text)
 				} else if text := stringValue(partValue["content"]); text != "" {
@@ -401,7 +401,7 @@ func textFromCodexContent(value interface{}) string {
 	}
 }
 
-func codexRole(raw map[string]interface{}) string {
+func codexRole(raw map[string]any) string {
 	if role := stringValue(raw["role"]); role != "" {
 		return role
 	}
@@ -423,7 +423,7 @@ func codexRole(raw map[string]interface{}) string {
 	}
 }
 
-func codexContent(raw map[string]interface{}) string {
+func codexContent(raw map[string]any) string {
 	if content := textFromCodexContent(raw["content"]); content != "" {
 		return content
 	}
@@ -447,7 +447,7 @@ func codexContent(raw map[string]interface{}) string {
 	return stringValue(raw["text"])
 }
 
-func codexModel(raw map[string]interface{}) string {
+func codexModel(raw map[string]any) string {
 	if model := stringValue(raw["model"]); model != "" {
 		return model
 	}
@@ -457,7 +457,7 @@ func codexModel(raw map[string]interface{}) string {
 	return ""
 }
 
-func codexCWD(raw map[string]interface{}) string {
+func codexCWD(raw map[string]any) string {
 	if cwd := stringValue(raw["cwd"]); cwd != "" {
 		return cwd
 	}
@@ -524,7 +524,7 @@ func RunAgentSessionLogAgy(ctx context.Context, state *GlobalState, sessionID, c
 	defer func() { _ = file.Close() }()
 
 	var logs []SessionLogLine
-	decodeErr := decodeJSONL(state.Stderr, transcriptPath, file, func(raw map[string]interface{}) error {
+	decodeErr := decodeJSONL(state.Stderr, transcriptPath, file, func(raw map[string]any) error {
 		if trunc, ok := raw["is_truncated"].(bool); ok && trunc {
 			return nil
 		}
@@ -695,14 +695,14 @@ func RunAgentSessionLogClaude(ctx context.Context, state *GlobalState, sessionID
 	defer func() { _ = file.Close() }()
 
 	var logs []SessionLogLine
-	decodeErr := decodeJSONL(state.Stderr, sessionFile, file, func(raw map[string]interface{}) error {
+	decodeErr := decodeJSONL(state.Stderr, sessionFile, file, func(raw map[string]any) error {
 		typ, _ := raw["type"].(string)
 		if typ != "user" && typ != "assistant" {
 			return nil
 		}
 
 		ts, _ := raw["timestamp"].(string)
-		msgVal, ok := raw["message"].(map[string]interface{})
+		msgVal, ok := raw["message"].(map[string]any)
 		if !ok {
 			return nil
 		}
@@ -712,10 +712,10 @@ func RunAgentSessionLogClaude(ctx context.Context, state *GlobalState, sessionID
 		case "user":
 			content, _ = msgVal["content"].(string)
 		case "assistant":
-			if contentsList, ok := msgVal["content"].([]interface{}); ok {
+			if contentsList, ok := msgVal["content"].([]any); ok {
 				var textParts []string
 				for _, part := range contentsList {
-					if partMap, ok := part.(map[string]interface{}); ok {
+					if partMap, ok := part.(map[string]any); ok {
 						if ptype, _ := partMap["type"].(string); ptype == "text" {
 							if text, _ := partMap["text"].(string); text != "" {
 								textParts = append(textParts, text)
@@ -832,7 +832,7 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 	var logs []SessionLogLine
 	activeModel := ""
 	activeCWD := cwd
-	decodeErr := decodeJSONL(state.Stderr, transcriptPath, file, func(raw map[string]interface{}) error {
+	decodeErr := decodeJSONL(state.Stderr, transcriptPath, file, func(raw map[string]any) error {
 		if model := codexModel(raw); model != "" {
 			activeModel = model
 		}
@@ -1632,7 +1632,7 @@ func RunAgentSessionClean(ctx context.Context, state *GlobalState, days int) err
 
 // decodeJSONL reads a line-delimited JSON file robustly and calls the callback for each line.
 // If a line cannot be parsed as JSON, it prints a warning to warnOut and continues.
-func decodeJSONL(warnOut io.Writer, filePath string, file *os.File, callback func(raw map[string]interface{}) error) error {
+func decodeJSONL(warnOut io.Writer, filePath string, file *os.File, callback func(raw map[string]any) error) error {
 	reader := bufio.NewReader(file)
 	for {
 		line, err := reader.ReadString('\n')
@@ -1640,7 +1640,7 @@ func decodeJSONL(warnOut io.Writer, filePath string, file *os.File, callback fun
 			return fmt.Errorf("reading file %s: %w", filePath, err)
 		}
 		if len(line) > 0 {
-			var raw map[string]interface{}
+			var raw map[string]any
 			if decodeErr := json.Unmarshal([]byte(line), &raw); decodeErr != nil {
 				if warnOut != nil {
 					_, _ = fmt.Fprintf(warnOut, "warning: failed to decode JSON line in %s: %v\n", filePath, decodeErr)

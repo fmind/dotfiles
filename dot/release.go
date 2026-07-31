@@ -15,7 +15,7 @@ import (
 
 func validateReleaseStatus(status string) error {
 	unexpected := make([]string, 0)
-	for _, record := range strings.Split(status, "\x00") {
+	for record := range strings.SplitSeq(status, "\x00") {
 		if record == "" {
 			continue
 		}

@@ -15,6 +15,11 @@ pre-commit:
       priority: 10
       run: mise run format:go {staged_files}
       stage_fixed: true
+    format:lua:
+      glob: "**/*.lua"
+      priority: 10
+      run: mise run format:lua {staged_files}
+      stage_fixed: true
     format:python:
       glob: "**/*.py"
       exclude:
