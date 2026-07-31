@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.7.1] - 2026-07-31
+
+### ♻️ Refactor
+
+- _(dot)_ Drop the duplicate agent notify subcommand
+
+### 🧹 Miscellaneous
+
+- _(mise)_ Re-sync the global lockfile with installed platforms
+
 ## [1.7.0] - 2026-07-31
 
 ### 🚀 Features
