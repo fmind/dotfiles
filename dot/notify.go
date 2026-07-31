@@ -26,6 +26,11 @@ type notifyEvent struct {
 var notifyEvents = map[string]notifyEvent{
 	"stop":        {Icon: "✅", Headline: "Turn finished — waiting for you"},
 	"session-end": {Icon: "🏁", Headline: "Session ended"},
+	// A blocked agent is worse than a finished one: it burns wall-clock while
+	// the pane sits idle. Fired from Claude's Notification hook and Codex's
+	// equivalent, so a background agent asking a question surfaces immediately
+	// instead of on the next manual check.
+	"needs-input": {Icon: "⏳", Headline: "Waiting for your input"},
 }
 
 // notifyAgents spells agent slugs the way their vendors do.
@@ -107,6 +112,9 @@ func RunAgentNotify(ctx context.Context, state *GlobalState, agent, event string
 	}
 	cwd := ""
 	if input != nil {
+		if input.StopHookActive || (!input.FullyIdle && agent == "agy") {
+			return nil
+		}
 		cwd = resolveCWD(input.CWD)
 	}
 

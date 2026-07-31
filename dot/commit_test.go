@@ -169,3 +169,142 @@ func TestRunCommitSurfacesRollbackFailure(t *testing.T) {
 		t.Fatalf("expected scan and rollback errors, got %v", err)
 	}
 }
+
+// TestRunCommitPreconditionFailures drives the pre-AI stages with a pure fake so
+// each git failure reports its own context instead of a bare exec error.
+func TestRunCommitPreconditionFailures(t *testing.T) {
+	tests := []struct {
+		name    string
+		run     func(args []string) (string, error, bool)
+		wantMsg string
+	}{
+		{
+			name: "unfiltered diff failure",
+			run: func(args []string) (string, error, bool) {
+				if args[0] == "diff" {
+					return "", errors.New("boom"), true
+				}
+				return "", nil, false
+			},
+			wantMsg: "failed to get unfiltered git diff",
+		},
+		{
+			name: "status failure",
+			run: func(args []string) (string, error, bool) {
+				if args[0] == "status" {
+					return "", errors.New("boom"), true
+				}
+				return "", nil, false
+			},
+			wantMsg: "failed to inspect working tree",
+		},
+		{
+			name: "staging failure",
+			run: func(args []string) (string, error, bool) {
+				switch args[0] {
+				case "status":
+					return "?? new.txt\n", nil, true
+				case "add":
+					return "", errors.New("boom"), true
+				}
+				return "", nil, false
+			},
+			wantMsg: "failed to stage working tree changes",
+		},
+		{
+			name: "staging produces no diff",
+			run: func(args []string) (string, error, bool) {
+				if args[0] == "status" {
+					return "?? new.txt\n", nil, true
+				}
+				return "", nil, false
+			},
+			wantMsg: "git add -A completed without producing a staged diff",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			state := newTestState(&FakeRunner{
+				RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+					if name != "git" {
+						return "", nil
+					}
+					if args[0] == "rev-parse" {
+						return "true", nil
+					}
+					if out, err, handled := tc.run(args); handled {
+						return out, err
+					}
+					return "", nil
+				},
+			})
+
+			err := RunCommit(context.Background(), state, "", "")
+			if err == nil || !strings.Contains(err.Error(), tc.wantMsg) {
+				t.Fatalf("expected an error containing %q, got %v", tc.wantMsg, err)
+			}
+		})
+	}
+}
+
+func TestRunCommitReportsNothingToCommit(t *testing.T) {
+	state := newTestState(&FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name == "git" && args[0] == "rev-parse" {
+				return "true", nil
+			}
+			return "", nil
+		},
+	})
+	var stdout strings.Builder
+	state.Stdout = &stdout
+
+	if err := RunCommit(context.Background(), state, "", ""); err != nil {
+		t.Fatalf("RunCommit: %v", err)
+	}
+	if !strings.Contains(stdout.String(), "No changes to commit.") {
+		t.Errorf("expected a no-changes message, got %q", stdout.String())
+	}
+}
+
+// The commit type and scope hints are appended to the AI prompt; a dropped hint
+// silently produces a message that ignores what the user asked for.
+func TestRunCommitPromptHints(t *testing.T) {
+	tests := []struct{ name, commitType, commitScope, want string }{
+		{name: "type only", commitType: "fix", want: "Suggest a scope and use 'fix' as the type."},
+		{name: "scope only", commitScope: "dot", want: "Use scope 'dot' and suggest an appropriate type."},
+		{name: "both", commitType: "feat", commitScope: "dot", want: "Use type 'feat' and scope 'dot'."},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			var prompt string
+			state := newTestState(&FakeRunner{
+				RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+					switch {
+					case name == "git" && args[0] == "rev-parse":
+						return "true", nil
+					case name == "git" && args[0] == "diff":
+						return "some diff", nil
+					case strings.HasSuffix(name, "agy"):
+						for i, arg := range args {
+							if arg == "--prompt" && i+1 < len(args) {
+								prompt = args[i+1]
+							}
+						}
+						return "fix(dot): message", nil
+					}
+					return "", nil
+				},
+			})
+
+			if err := RunCommit(context.Background(), state, tc.commitType, tc.commitScope); err != nil {
+				t.Fatalf("RunCommit: %v", err)
+			}
+			if !strings.Contains(prompt, tc.want) {
+				t.Errorf("expected the prompt to contain %q, got %q", tc.want, prompt)
+			}
+		})
+	}
+}

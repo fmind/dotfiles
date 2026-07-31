@@ -29,15 +29,22 @@ func NewVersionCmd(state *GlobalState) *cli.Command {
 // flag that the Go toolchain embeds automatically for builds from a Git checkout,
 // so a user can tell whether an installed binary matches their current sources.
 func VersionString() string {
-	base := "dot " + Version
 	info, ok := debug.ReadBuildInfo()
 	if !ok {
-		return base
+		return "dot " + Version
 	}
+	return formatVersion(Version, info.Settings)
+}
+
+// formatVersion renders the version line from the toolchain's build settings. It is
+// split out of VersionString because a test binary carries no VCS metadata, so the
+// revision and dirty branches are only reachable with synthetic settings.
+func formatVersion(version string, settings []debug.BuildSetting) string {
+	base := "dot " + version
 
 	var revision string
 	var dirty bool
-	for _, s := range info.Settings {
+	for _, s := range settings {
 		switch s.Key {
 		case "vcs.revision":
 			revision = s.Value

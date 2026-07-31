@@ -117,6 +117,128 @@ func TestToolsChecker(t *testing.T) {
 	}
 }
 
+func TestInstalledRevision(t *testing.T) {
+	cases := []struct {
+		name     string
+		version  string
+		revision string
+		dirty    bool
+		ok       bool
+	}{
+		{"clean build", "dot 1.7.1 (5efbbb4eb501)", "5efbbb4eb501", false, true},
+		{"dirty build", "dot 1.7.0 (56fc23c35a3e, dirty)", "56fc23c35a3e", true, true},
+		{"trailing newline", "dot 1.7.1 (5efbbb4eb501)\n", "5efbbb4eb501", false, true},
+		{"no revision", "dot 1.7.1", "", false, false},
+		{"empty revision", "dot 1.7.1 ()", "", false, false},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			revision, dirty, ok := installedRevision(tc.version)
+			if ok != tc.ok {
+				t.Fatalf("ok = %v, want %v", ok, tc.ok)
+			}
+			if revision != tc.revision {
+				t.Errorf("revision = %q, want %q", revision, tc.revision)
+			}
+			if dirty != tc.dirty {
+				t.Errorf("dirty = %v, want %v", dirty, tc.dirty)
+			}
+		})
+	}
+}
+
+func TestInstallChecker(t *testing.T) {
+	checker := &InstallChecker{}
+	const head = "5efbbb4eb501a1b2c3d4e5f60718293a4b5c6d7e"
+
+	// runnerFor wires the three probes the checker makes: chezmoi source-path,
+	// git rev-parse HEAD, and `dot version` on the installed binary.
+	runnerFor := func(version string) *FakeRunner {
+		return &FakeRunner{
+			LookPathFunc: func(name string) (string, error) {
+				if name == "dot" {
+					return "/home/fmind/.local/bin/dot", nil
+				}
+				return "", errors.New("not installed")
+			},
+			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+				switch {
+				case name == "chezmoi":
+					return "/home/fmind/.local/share/chezmoi\n", nil
+				case name == "git":
+					return head + "\n", nil
+				case strings.HasSuffix(name, "dot"):
+					return version, nil
+				}
+				return "", errors.New("unexpected command " + name)
+			},
+		}
+	}
+
+	t.Run("installed binary matches source HEAD", func(t *testing.T) {
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (5efbbb4eb501)")), false)
+		if !passed {
+			t.Error("expected the check to pass when the binary matches HEAD")
+		}
+		if len(res) == 0 || res[0].Status != statusPass {
+			t.Errorf("expected pass result, got %+v", res)
+		}
+	})
+
+	t.Run("installed binary is stale", func(t *testing.T) {
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.0 (56fc23c35a3e)")), false)
+		if passed {
+			t.Error("expected the check to fail when the binary predates HEAD")
+		}
+		if len(res) == 0 || res[0].Status != statusFail {
+			t.Fatalf("expected fail result, got %+v", res)
+		}
+		if !strings.Contains(res[0].Details, "STALE") {
+			t.Errorf("details = %q, want it to flag staleness", res[0].Details)
+		}
+	})
+
+	t.Run("matching but dirty build only warns", func(t *testing.T) {
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (5efbbb4eb501, dirty)")), false)
+		if !passed {
+			t.Error("a dirty build still matches HEAD, so it must not fail the suite")
+		}
+		if len(res) == 0 || res[0].Status != statusWarn {
+			t.Errorf("expected warn result, got %+v", res)
+		}
+	})
+
+	t.Run("dot not installed is skipped", func(t *testing.T) {
+		runner := runnerFor("")
+		runner.LookPathFunc = func(string) (string, error) { return "", errors.New("not installed") }
+		res, passed := checker.Check(context.Background(), newTestState(runner), false)
+		if !passed {
+			t.Error("a host without dot on PATH must not fail verification")
+		}
+		if len(res) == 0 || res[0].Status != statusSkip {
+			t.Errorf("expected skip result, got %+v", res)
+		}
+	})
+
+	t.Run("non-git source checkout is skipped", func(t *testing.T) {
+		runner := runnerFor("dot 1.7.1 (5efbbb4eb501)")
+		runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+			if name == "git" {
+				return "", errors.New("not a git repository")
+			}
+			return "/home/fmind/.local/share/chezmoi\n", nil
+		}
+		res, passed := checker.Check(context.Background(), newTestState(runner), false)
+		if !passed {
+			t.Error("a non-git source checkout must not fail verification")
+		}
+		if len(res) == 0 || res[0].Status != statusSkip {
+			t.Errorf("expected skip result, got %+v", res)
+		}
+	})
+}
+
 func TestDockerChecker(t *testing.T) {
 	checker := &DockerChecker{}
 

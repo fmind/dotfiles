@@ -9,6 +9,8 @@ import (
 	"runtime"
 	"strings"
 	"testing"
+
+	"github.com/urfave/cli/v3"
 )
 
 // requireLinux guards the tests that exercise the runtime.GOOS-dependent
@@ -68,6 +70,19 @@ func TestBuildNotificationWithoutZellijOrCWD(t *testing.T) {
 	}
 	if len(notification.Details) != 0 {
 		t.Errorf("details = %v, want none", notification.Details)
+	}
+}
+
+func TestBuildNotificationNeedsInput(t *testing.T) {
+	notification, err := buildNotification("claude", "needs-input", "/home/fmind/externals/demo", "/home/fmind", envMap(nil))
+	if err != nil {
+		t.Fatalf("buildNotification returned error: %v", err)
+	}
+	if want := "⏳ Claude Code · demo"; notification.Summary != want {
+		t.Errorf("summary = %q, want %q", notification.Summary, want)
+	}
+	if want := "Waiting for your input"; notification.Headline != want {
+		t.Errorf("headline = %q, want %q", notification.Headline, want)
 	}
 }
 
@@ -351,6 +366,102 @@ func TestRunNotifyCustomAndAgent(t *testing.T) {
 		joined := strings.Join(gotArgs, " ")
 		if !strings.Contains(joined, "Claude Code") {
 			t.Errorf("args %v missing Claude Code agent headline", gotArgs)
+		}
+	})
+}
+
+func TestRunAgentNotifySurfacesFailures(t *testing.T) {
+	t.Run("a malformed hook payload is rejected", func(t *testing.T) {
+		state := newTestState(&FakeRunner{})
+		state.Stdin = strings.NewReader("{not json")
+
+		err := RunAgentNotify(context.Background(), state, "claude", "stop")
+		if err == nil || !strings.Contains(err.Error(), "failed to parse agent hook input") {
+			t.Fatalf("expected a hook parse error, got %v", err)
+		}
+	})
+
+	t.Run("an unresolvable home is reported", func(t *testing.T) {
+		t.Setenv("HOME", "")
+		state := newTestState(&FakeRunner{})
+
+		err := RunAgentNotify(context.Background(), state, "claude", "stop")
+		if err == nil || !strings.Contains(err.Error(), "failed to resolve home directory") {
+			t.Fatalf("expected a home directory error, got %v", err)
+		}
+	})
+
+	t.Run("a notifier failure is reported", func(t *testing.T) {
+		requireLinux(t)
+		t.Setenv("DBUS_SESSION_BUS_ADDRESS", "unix:path=/run/user/1000/bus")
+
+		state := newTestState(&FakeRunner{
+			LookPathFunc: func(name string) (string, error) {
+				if name == "notify-send" {
+					return "/usr/bin/notify-send", nil
+				}
+				return notFound(name)
+			},
+			RunFunc: func(context.Context, string, io.Reader, string, ...string) (string, error) {
+				return "", errors.New("dbus unavailable")
+			},
+		})
+
+		err := RunAgentNotify(context.Background(), state, "claude", "stop")
+		if err == nil || !strings.Contains(err.Error(), "failed to send desktop notification with notify-send") {
+			t.Fatalf("expected a notifier failure, got %v", err)
+		}
+	})
+}
+
+func TestNotifyCommandDispatchesAgentHooks(t *testing.T) {
+	requireLinux(t)
+	t.Setenv("DBUS_SESSION_BUS_ADDRESS", "")
+
+	state := newTestState(&FakeRunner{})
+	app := &cli.Command{Commands: []*cli.Command{NewNotifyCmd(state)}}
+
+	// "stop" is a known event, so the pair routes to the agent hook path even
+	// though "some-agent" is not a known agent.
+	if err := app.Run(context.Background(), []string{"dot", "notify", "some-agent", "stop"}); err != nil {
+		t.Fatalf("notify command: %v", err)
+	}
+}
+
+func TestRunAgentNotifySkipsNonIdleOrStopHookActive(t *testing.T) {
+	requireLinux(t)
+	t.Setenv("DBUS_SESSION_BUS_ADDRESS", "unix:path=/run/user/1000/bus")
+
+	ran := false
+	runner := &FakeRunner{
+		LookPathFunc: func(name string) (string, error) { return "/usr/bin/notify-send", nil },
+		RunFunc: func(context.Context, string, io.Reader, string, ...string) (string, error) {
+			ran = true
+			return "", nil
+		},
+	}
+
+	t.Run("skips when agy is not fully idle", func(t *testing.T) {
+		ran = false
+		state := newTestState(runner)
+		state.Stdin = strings.NewReader(`{"conversationId":"abc","fullyIdle":false}`)
+		if err := RunAgentNotify(context.Background(), state, "agy", "stop"); err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if ran {
+			t.Error("notification should be skipped when agy is not fully idle")
+		}
+	})
+
+	t.Run("skips when stop hook active", func(t *testing.T) {
+		ran = false
+		state := newTestState(runner)
+		state.Stdin = strings.NewReader(`{"session_id":"abc","stop_hook_active":true}`)
+		if err := RunAgentNotify(context.Background(), state, "claude", "stop"); err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if ran {
+			t.Error("notification should be skipped when stop hook is active")
 		}
 	})
 }

@@ -293,3 +293,61 @@ func TestGetBaseDiff(t *testing.T) {
 		}
 	})
 }
+
+// TestGitCommandsRequireGit covers the shared checkGit guard that fronts every
+// git-backed helper, so a missing binary fails with a clear error instead of an
+// opaque exec failure deeper in the call.
+func TestGitCommandsRequireGit(t *testing.T) {
+	ctx := context.Background()
+	state := newTestState(&FakeRunner{
+		LookPathFunc: func(string) (string, error) { return "", errors.New("not found") },
+		RunFunc: func(context.Context, string, io.Reader, string, ...string) (string, error) {
+			t.Error("no git command must run when git is not installed")
+			return "", nil
+		},
+	})
+
+	tests := []struct {
+		call func() error
+		name string
+	}{
+		{name: "IsInsideWorkTree", call: func() error { return IsInsideWorkTree(ctx, state) }},
+		{name: "getCachedDiff", call: func() error { _, err := getCachedDiff(ctx, state, nil); return err }},
+		{name: "getUnstagedDiff", call: func() error { _, err := getUnstagedDiff(ctx, state, nil); return err }},
+		{name: "getBaseDiff", call: func() error { _, err := getBaseDiff(ctx, state, "main", nil); return err }},
+		{name: "RunStatus", call: func() error { return RunStatus(ctx, state, false) }},
+		{name: "RunChezmoiClean", call: func() error { return RunChezmoiClean(ctx, state, false, false) }},
+		{name: "RunPull", call: func() error { return RunPull(ctx, state, false) }},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := tc.call(); !errors.Is(err, ErrGitNotInstalled) {
+				t.Fatalf("expected ErrGitNotInstalled, got %v", err)
+			}
+		})
+	}
+}
+
+func TestFindGitReposSkipsNonRepoEntries(t *testing.T) {
+	root := t.TempDir()
+	// A plain file, a directory without .git, and a real repository.
+	if err := os.WriteFile(filepath.Join(root, "loose-file"), []byte("x"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(filepath.Join(root, "not-a-repo"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	repo := filepath.Join(root, "a-repo")
+	if err := os.MkdirAll(filepath.Join(repo, ".git"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+
+	state := newTestState(&FakeRunner{})
+	// The missing directory must be skipped with a warning rather than aborting the scan.
+	state.Config.Pull.Directories = []string{root, filepath.Join(root, "does-not-exist")}
+
+	got := findGitRepos(state)
+	if len(got) != 1 || got[0] != repo {
+		t.Fatalf("findGitRepos = %v, want [%s]", got, repo)
+	}
+}

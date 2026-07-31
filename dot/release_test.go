@@ -371,3 +371,208 @@ func TestRunReleaseSafetyChecks(t *testing.T) {
 		}
 	})
 }
+
+// TestRunReleaseCommandFailures walks the release sequence and fails one command at
+// a time, asserting each step reports its own context instead of a bare exec error.
+func TestRunReleaseCommandFailures(t *testing.T) {
+	failRun := func(match string) func(*FakeRunner) {
+		return func(runner *FakeRunner) {
+			base := runner.RunFunc
+			runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+				if name+" "+strings.Join(args, " ") == match {
+					return "", errors.New("boom")
+				}
+				return base(ctx, dir, stdin, name, args...)
+			}
+		}
+	}
+	// Prefix matching, because the release-notes commands carry a generated temp path
+	// and extra flags that a test should not have to spell out in full.
+	failRunPrefix := func(prefix string) func(*FakeRunner) {
+		return func(runner *FakeRunner) {
+			base := runner.RunFunc
+			runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+				if strings.HasPrefix(name+" "+strings.Join(args, " "), prefix) {
+					return "", errors.New("boom")
+				}
+				return base(ctx, dir, stdin, name, args...)
+			}
+		}
+	}
+	failInteractive := func(prefix string) func(*FakeRunner) {
+		return func(runner *FakeRunner) {
+			runner.RunInteractiveFunc = func(_ context.Context, _, name string, args ...string) error {
+				if strings.HasPrefix(name+" "+strings.Join(args, " "), prefix) {
+					return errors.New("boom")
+				}
+				return nil
+			}
+		}
+	}
+
+	tests := []struct {
+		name    string
+		setup   func(*FakeRunner)
+		wantMsg string
+	}{
+		{name: "git status", setup: failRun("git status --porcelain"), wantMsg: "failed to check git status"},
+		{name: "gh auth", setup: failRun("gh auth status"), wantMsg: "github CLI is not authenticated"},
+		{
+			name: "git-cliff missing",
+			setup: func(runner *FakeRunner) {
+				runner.LookPathFunc = func(name string) (string, error) {
+					if name == "git-cliff" {
+						return "", errors.New("not found")
+					}
+					return "/bin/" + name, nil
+				}
+			},
+			wantMsg: "git-cliff is not installed",
+		},
+		{
+			name:    "bumped version",
+			setup:   failRun("git-cliff --config dot_config/git-cliff/cliff.toml --bumped-version"),
+			wantMsg: "failed to calculate next version",
+		},
+		{name: "current branch", setup: failRun("git branch --show-current"), wantMsg: "failed to get current branch"},
+		{
+			name:    "upstream ref",
+			setup:   failRun("git config --get branch.main.merge"),
+			wantMsg: "failed to resolve upstream ref",
+		},
+		{
+			name: "invalid upstream ref",
+			setup: func(runner *FakeRunner) {
+				base := runner.RunFunc
+				runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+					if name+" "+strings.Join(args, " ") == "git config --get branch.main.merge" {
+						return "refs/tags/v1.2.0", nil
+					}
+					return base(ctx, dir, stdin, name, args...)
+				}
+			},
+			wantMsg: "invalid upstream ref",
+		},
+		{
+			name:    "changelog generation",
+			setup:   failRun("git-cliff --config dot_config/git-cliff/cliff.toml --bump -o CHANGELOG.md"),
+			wantMsg: "failed to generate CHANGELOG.md",
+		},
+		{name: "checks", setup: failInteractive("mise run check"), wantMsg: "project checks failed"},
+		{
+			name:    "post-validation status",
+			setup:   failRun("git status --porcelain=v1 -z --untracked-files=all"),
+			wantMsg: "failed to inspect release changes after validation",
+		},
+		{
+			name:    "stage",
+			setup:   failRun("git add CHANGELOG.md dot/version.go"),
+			wantMsg: "failed to stage release files",
+		},
+		{name: "commit", setup: failRun("git commit -m chore(release): v1.2.0"), wantMsg: "git commit failed"},
+		{name: "tag", setup: failRun("git tag -a v1.2.0 -m v1.2.0"), wantMsg: "git tag failed"},
+		{
+			name:    "push",
+			setup:   failInteractive("git push --atomic origin HEAD:refs/heads/main v1.2.0"),
+			wantMsg: "atomic push of HEAD:refs/heads/main and tag v1.2.0 to origin failed",
+		},
+		{
+			name:    "release notes generation",
+			setup:   failRunPrefix("git-cliff --config dot_config/git-cliff/cliff.toml --latest"),
+			wantMsg: "failed to generate latest changelog",
+		},
+		{
+			name:    "github release creation",
+			setup:   failInteractive("gh release create v1.2.0 --title v1.2.0 --notes-file"),
+			wantMsg: "failed to create github release",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Chdir(t.TempDir())
+			writeReleaseVersionFile(t, "package dot\n\nvar Version = \"1.1.1\"\n")
+			runner := releaseTestRunner("v1.2.0")
+			tc.setup(runner)
+
+			err := RunRelease(context.Background(), newTestState(runner), true)
+			if err == nil || !strings.Contains(err.Error(), tc.wantMsg) {
+				t.Fatalf("expected an error containing %q, got %v", tc.wantMsg, err)
+			}
+		})
+	}
+}
+
+func TestRunReleaseWithoutPriorTag(t *testing.T) {
+	t.Chdir(t.TempDir())
+	writeReleaseVersionFile(t, "package dot\n\nvar Version = \"0.0.0\"\n")
+	runner := releaseTestRunner("v0.1.0")
+	base := runner.RunFunc
+	runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+		// A fresh repository has no tags; the release must fall back to v0.0.0.
+		if name+" "+strings.Join(args, " ") == "git describe --tags --abbrev=0" {
+			return "", errors.New("no names found")
+		}
+		return base(ctx, dir, stdin, name, args...)
+	}
+	state := newTestState(runner)
+	var stdout strings.Builder
+	state.Stdout = &stdout
+
+	if err := RunRelease(context.Background(), state, true); err != nil {
+		t.Fatalf("RunRelease: %v", err)
+	}
+	if !strings.Contains(stdout.String(), "v0.0.0") {
+		t.Errorf("expected the v0.0.0 fallback to be reported, got:\n%s", stdout.String())
+	}
+}
+
+func TestRunReleaseCanceledAtConfirmation(t *testing.T) {
+	t.Chdir(t.TempDir())
+	writeReleaseVersionFile(t, "package dot\n\nvar Version = \"1.1.1\"\n")
+	runner := releaseTestRunner("v1.2.0")
+	base := runner.RunFunc
+	runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+		if name == "git" && len(args) > 0 && (args[0] == "commit" || args[0] == "tag" || args[0] == "add") {
+			t.Errorf("release must not mutate the repository after cancellation (ran git %s)", args[0])
+		}
+		return base(ctx, dir, stdin, name, args...)
+	}
+	state := newTestState(runner)
+	state.Stdin = strings.NewReader("n\n")
+	var stdout strings.Builder
+	state.Stdout = &stdout
+
+	if err := RunRelease(context.Background(), state, false); err != nil {
+		t.Fatalf("RunRelease: %v", err)
+	}
+	if !strings.Contains(stdout.String(), "Release canceled.") {
+		t.Errorf("expected the release to be canceled, got:\n%s", stdout.String())
+	}
+}
+
+func TestRunReleaseVersionFileFailures(t *testing.T) {
+	t.Run("a missing version file stops the release", func(t *testing.T) {
+		t.Chdir(t.TempDir())
+		err := RunRelease(context.Background(), newTestState(releaseTestRunner("v1.2.0")), true)
+		if err == nil || !strings.Contains(err.Error(), "failed to read version.go") {
+			t.Fatalf("expected a read error, got %v", err)
+		}
+	})
+
+	t.Run("an unwritable version file stops the release", func(t *testing.T) {
+		if os.Geteuid() == 0 {
+			t.Skip("root bypasses file permissions")
+		}
+		t.Chdir(t.TempDir())
+		writeReleaseVersionFile(t, "package dot\n\nvar Version = \"1.1.1\"\n")
+		if err := os.Chmod(filepath.Join("dot", "version.go"), 0o400); err != nil {
+			t.Fatal(err)
+		}
+
+		err := RunRelease(context.Background(), newTestState(releaseTestRunner("v1.2.0")), true)
+		if err == nil || !strings.Contains(err.Error(), "failed to write version.go") {
+			t.Fatalf("expected a write error, got %v", err)
+		}
+	})
+}

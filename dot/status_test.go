@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -99,5 +100,116 @@ func TestGatherRepoStatus_StatusFailureIsReported(t *testing.T) {
 	}
 	if got.Dirty {
 		t.Fatalf("repository with unknown status must not be reported dirty or clean: %+v", got)
+	}
+}
+
+func TestRenderStatus(t *testing.T) {
+	state := newTestState(&FakeRunner{})
+	state.Config.Cluster.Name = "local"
+
+	tests := []struct {
+		name     string
+		status   *SystemStatus
+		contains []string
+	}{
+		{
+			name:     "tools missing and no repositories",
+			status:   &SystemStatus{},
+			contains: []string{"Not installed.", "k3d not installed.", "No repositories found"},
+		},
+		{
+			name: "tools installed but down",
+			status: &SystemStatus{
+				Docker: DockerStatus{Installed: true},
+				K3d:    K3dStatus{Installed: true},
+			},
+			contains: []string{"Stopped or unreachable.", "Cluster 'local' does not exist or is stopped."},
+		},
+		{
+			name: "everything up with a dirty and a broken repository",
+			status: &SystemStatus{
+				Docker: DockerStatus{Installed: true, Running: true, Details: "28.0.0"},
+				K3d:    K3dStatus{Installed: true, Running: true, Details: "local 1/1 1/1 true"},
+				Repositories: []RepoStatus{
+					{Name: "dotfiles", ParentBase: "externals", Branch: "main", Dirty: true},
+					{Name: "broken", ParentBase: "internals", Err: errors.New("boom")},
+				},
+			},
+			contains: []string{
+				"Running: 28.0.0",
+				"Cluster 'local': local 1/1 1/1 true",
+				"externals/dotfiles [main] [dirty]",
+				// A repository that failed to probe must render as "error", never as a blank branch.
+				"internals/broken [error]",
+			},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			var stdout bytes.Buffer
+			state.Stdout = &stdout
+			RenderStatus(tc.status, state)
+
+			// Styling is applied unconditionally and stripped downstream, so compare
+			// against the plain text a piped consumer would see.
+			got := ansiPattern.ReplaceAllString(stdout.String(), "")
+			for _, want := range tc.contains {
+				if !strings.Contains(got, want) {
+					t.Errorf("expected output to contain %q, got:\n%s", want, got)
+				}
+			}
+		})
+	}
+}
+
+func TestGatherK3dStatus(t *testing.T) {
+	ctx := context.Background()
+
+	tests := []struct {
+		listErr       error
+		lookPath      func(string) (string, error)
+		name          string
+		list          string
+		wantInstalled bool
+		wantRunning   bool
+	}{
+		{
+			name:     "k3d missing",
+			lookPath: func(string) (string, error) { return "", errors.New("not found") },
+		},
+		{
+			name:          "list fails",
+			listErr:       errors.New("boom"),
+			wantInstalled: true,
+		},
+		{
+			name:          "other clusters are ignored",
+			list:          "other 1/1 1/1 true\n",
+			wantInstalled: true,
+		},
+		{
+			name:          "running cluster",
+			list:          "local 1/1 1/1 true\n",
+			wantInstalled: true,
+			wantRunning:   true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			state := newTestState(&FakeRunner{
+				LookPathFunc: tc.lookPath,
+				RunFunc: func(context.Context, string, io.Reader, string, ...string) (string, error) {
+					return tc.list, tc.listErr
+				},
+			})
+			state.Config.Cluster.Name = "local"
+
+			got := gatherK3dStatus(ctx, state)
+			if got.Installed != tc.wantInstalled || got.Running != tc.wantRunning {
+				t.Fatalf("gatherK3dStatus = %+v, want installed=%v running=%v", got, tc.wantInstalled, tc.wantRunning)
+			}
+		})
 	}
 }

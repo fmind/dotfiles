@@ -20,11 +20,12 @@ type Browser interface {
 // OSBrowser is the default Browser implementation that opens URLs using the OS default browser.
 type OSBrowser struct{}
 
-// platformOpener maps the host OS to the command that hands a URL to the
-// default browser. Split out of Open so tests can stub the right binary name
-// instead of hardcoding the Linux one and failing everywhere else.
-func platformOpener(url string) (cmd string, args []string, err error) {
-	switch runtime.GOOS {
+// platformOpener maps goos to the command that hands a URL to the default
+// browser. Split out of Open so tests can stub the right binary name instead of
+// hardcoding the Linux one and failing everywhere else, and so every platform
+// branch stays reachable from a single host.
+func platformOpener(goos, url string) (cmd string, args []string, err error) {
+	switch goos {
 	case "linux":
 		return "xdg-open", []string{url}, nil
 	case "windows":
@@ -32,7 +33,7 @@ func platformOpener(url string) (cmd string, args []string, err error) {
 	case "darwin": // macOS
 		return "open", []string{url}, nil
 	default:
-		return "", nil, fmt.Errorf("unsupported platform: %s", runtime.GOOS)
+		return "", nil, fmt.Errorf("unsupported platform: %s", goos)
 	}
 }
 
@@ -42,7 +43,7 @@ func (b OSBrowser) Open(url string) error {
 		return errors.New("no browser support")
 	}
 
-	cmd, args, err := platformOpener(url)
+	cmd, args, err := platformOpener(runtime.GOOS, url)
 	if err != nil {
 		return err
 	}
@@ -52,11 +53,16 @@ func (b OSBrowser) Open(url string) error {
 }
 
 // HasSupport checks if the current environment supports opening a browser.
-func (b OSBrowser) HasSupport() bool {
-	if runtime.GOOS == "linux" {
+func (b OSBrowser) HasSupport() bool { return browserSupported(runtime.GOOS) }
+
+// browserSupported reports whether goos can hand a URL to a browser. On Linux a
+// display server must be reachable, otherwise the opener would fail at exec time.
+// Parameterized on goos for the same reason as platformOpener.
+func browserSupported(goos string) bool {
+	if goos == "linux" {
 		return os.Getenv("DISPLAY") != "" || os.Getenv("WAYLAND_DISPLAY") != ""
 	}
-	return runtime.GOOS == "darwin" || runtime.GOOS == "windows"
+	return goos == "darwin" || goos == "windows"
 }
 
 // urlOpener intercepts writes to search for URLs and opens them with the provided Browser.

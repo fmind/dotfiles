@@ -372,7 +372,17 @@ url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d
 
 [[tools.codex]]
 version = "0.146.0"
-backend = "npm:@openai/codex"
+backend = "aqua:openai/codex"
+
+[tools.codex."platforms.linux-x64"]
+checksum = "sha256:3c89125af1d7c98abec8beb551292ef99daca52e204e5852a9139feae2c467e5"
+url = "https://github.com/openai/codex/releases/download/rust-v0.146.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/493444505"
+
+[tools.codex."platforms.macos-arm64"]
+checksum = "sha256:cd961b480f6dfc4703bd244601f1927231fa31a587cb9046ccdffa6c4c29e7d5"
+url = "https://github.com/openai/codex/releases/download/rust-v0.146.0/codex-package-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/493444574"
 
 [[tools.cosign]]
 version = "3.1.2"
@@ -2031,10 +2041,6 @@ backend = "npm:@mermaid-js/mermaid-cli"
 
 [tools."npm:@mermaid-js/mermaid-cli".options]
 allow_builds = '["puppeteer"]'
-
-[[tools."npm:@openai/codex"]]
-version = "0.144.1"
-backend = "npm:@openai/codex"
 
 [[tools."npm:@slidev/cli"]]
 version = "52.18.0"

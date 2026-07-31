@@ -416,3 +416,76 @@ func TestRunPr_CustomTemplates(t *testing.T) {
 		}
 	})
 }
+
+// TestPrCommandForwardsFlags checks that every optional gh flag reaches
+// `gh pr create`, since a dropped flag silently opens the wrong pull request.
+func TestPrCommandForwardsFlags(t *testing.T) {
+	var ghArgs []string
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name == "git" && args[0] == "rev-parse" {
+				return "true", nil
+			}
+			if name == "git" && args[0] == "diff" {
+				return "some diff content", nil
+			}
+			return "generated description", nil
+		},
+		RunInteractiveFunc: func(_ context.Context, _, _ string, args ...string) error {
+			ghArgs = args
+			return nil
+		},
+	}
+
+	state := newTestState(runner)
+	app := &cli.Command{Commands: []*cli.Command{NewPrCmd(state)}}
+
+	err := app.Run(context.Background(), []string{
+		"dot", "pr",
+		"--title", "My PR",
+		"--draft",
+		"--label", "bug", "--label", "docs",
+		"--reviewer", "octocat",
+		"--assignee", "hubot",
+	})
+	if err != nil {
+		t.Fatalf("pr command: %v", err)
+	}
+
+	got := strings.Join(ghArgs, " ")
+	for _, want := range []string{"-t My PR", "-d", "-l bug", "-l docs", "-r octocat", "-a hubot"} {
+		if !strings.Contains(got, want) {
+			t.Errorf("expected gh args to contain %q, got %q", want, got)
+		}
+	}
+}
+
+func TestWithPRDescriptionFileCleansUpAfterWriteFailure(t *testing.T) {
+	// A closed file makes the write fail; the temp file must still be removed and
+	// both problems reported rather than one masking the other.
+	var captured string
+	err := withPRDescriptionFile("description", func(path string) error {
+		captured = path
+		return errors.New("run failed")
+	})
+	if err == nil || !strings.Contains(err.Error(), "run failed") {
+		t.Fatalf("expected the callback error to be surfaced, got %v", err)
+	}
+	if _, statErr := os.Stat(captured); !os.IsNotExist(statErr) {
+		t.Errorf("expected the temporary description to be removed, stat err = %v", statErr)
+	}
+}
+
+func TestFindPRTemplateReportsInspectionFailure(t *testing.T) {
+	t.Chdir(t.TempDir())
+	// A path whose parent is a file yields ENOTDIR rather than ENOENT, which must be
+	// reported instead of quietly treated as "no template here".
+	if err := os.WriteFile("blocker", []byte("x"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	_, _, err := findPRTemplate([]string{filepath.Join("blocker", "PULL_REQUEST_TEMPLATE.md")})
+	if err == nil || !strings.Contains(err.Error(), "failed to inspect PR template") {
+		t.Fatalf("expected a template inspection error, got %v", err)
+	}
+}

@@ -119,8 +119,11 @@ run = "dprint fmt"
 [tasks."format:go"]
 alias = "mfg"
 description = "Format Go sources and imports (goimports + gofumpt)"
-# go.work resolves the tools from dot/go.mod; run from root so repo-relative
-run = ["go tool goimports -w dot", "go tool gofumpt -w dot"]
+# go.work resolves the tools from dot/go.mod; run from root so repo-relative.
+# The flags must mirror dot/.golangci.yml (gofumpt extra-rules, goimports
+# local-prefixes) or `format` writes a style `check` then rejects, and CI —
+# which runs format before check — fails on code this task just rewrote.
+run = ["go tool goimports -local dot -w dot", "go tool gofumpt -extra -w dot"]
 
 [tasks."format:lua"]
 alias = "mfu"
@@ -205,11 +208,15 @@ run = "krew install neat tree df-pv view-allocations view-secret sniff"
 
 [tasks.lock]
 alias = "k"
-description = "Refresh the repo and home mise lockfiles"
+description = "Refresh the repo, home, and Neovim plugin lockfiles"
+# LazyVim rewrites lazy-lock.json in place whenever plugins move, so it is
+# re-added here alongside mise.lock: both are machine-written pins that only
+# reach the repo through an explicit re-add.
 run = [
   "mise lock --yes",
   "mise lock --global --yes",
   "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
+  "chezmoi re-add --source \"$PWD\" ~/.config/nvim/lazy-lock.json",
 ]
 
 [tasks.preview]
@@ -221,6 +228,14 @@ run = "chezmoi apply --dry-run --force"
 alias = "p"
 description = "Remove unused tools, containers, and development caches"
 run = "executable_prune-system.sh"
+
+[tasks."prune:agents"]
+alias = "pa"
+description = "Reclaim disk from agent transcripts and caches (keeps k3d clusters and the Go cache)"
+# Narrower and safer than `prune`: it never touches Docker containers (stopped
+# k3d containers *are* the clusters) or the Go build cache, so it is the one to
+# reach for while local clusters or a warm test cache still matter.
+run = "executable_prune-agents.sh"
 
 [tasks.release]
 alias = "r"
@@ -258,6 +273,10 @@ run = [
   "mise lock --bump --yes",
   "mise lock --global --bump --yes",
   "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
+  # Neovim plugins are pinned too, so bump them in the same sweep instead of
+  # letting lazy-lock.json drift until someone notices a stale plugin.
+  "nvim --headless '+Lazy! update' +qa",
+  "chezmoi re-add --source \"$PWD\" ~/.config/nvim/lazy-lock.json",
   "mise run tools",
 ]
 

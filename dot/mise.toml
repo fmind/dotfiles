@@ -56,7 +56,8 @@ run = ["mise run format:go", "mise run format:dprint"]
 
 [tasks."format:go"]
 description = "Format Go sources and imports (goimports + gofumpt)"
-run = ["go tool goimports -w .", "go tool gofumpt -w ."]
+# Flags mirror .golangci.yml so formatting and linting agree; see mise.toml.
+run = ["go tool goimports -local dot -w .", "go tool gofumpt -extra -w ."]
 
 [tasks."format:dprint"]
 description = "Format JSON, Markdown, TOML, YAML with dprint"

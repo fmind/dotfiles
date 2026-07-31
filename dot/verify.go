@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 
@@ -20,6 +21,7 @@ type VerifyResults struct {
 	Secrets []CheckResult `json:"secrets"`
 	Docker  []CheckResult `json:"docker"`
 	Tools   []CheckResult `json:"tools"`
+	Install []CheckResult `json:"install"`
 	Passed  bool          `json:"passed"`
 }
 
@@ -125,6 +127,10 @@ func RunAllChecks(ctx context.Context, state *GlobalState, shouldFix bool) *Veri
 		{
 			checker: &ToolsChecker{},
 			assign:  func(res []CheckResult) { results.Tools = res },
+		},
+		{
+			checker: &InstallChecker{},
+			assign:  func(res []CheckResult) { results.Install = res },
 		},
 	}
 
@@ -326,6 +332,84 @@ func (c *SecretsChecker) Check(ctx context.Context, state *GlobalState, shouldFi
 	return results, passed
 }
 
+// InstallChecker compares the deployed `dot` binary against the source checkout.
+//
+// The binary is built from this repo and deployed by chezmoi, so nothing forces
+// the two to stay in step: a release can be tagged and pushed while the copy on
+// PATH is still whatever was last applied — possibly built from a dirty tree.
+// Every other check here runs *through* that stale binary, so the skew is
+// invisible precisely when it matters most.
+type InstallChecker struct{}
+
+func (c *InstallChecker) Name() string { return "Install Freshness" }
+
+// installedRevision extracts the short VCS revision and dirty flag from the
+// output of `dot version` (e.g. "dot 1.7.0 (56fc23c35a3e, dirty)").
+func installedRevision(version string) (revision string, dirty, ok bool) {
+	open := strings.LastIndex(version, "(")
+	closing := strings.LastIndex(version, ")")
+	if open == -1 || closing == -1 || closing < open {
+		return "", false, false
+	}
+	body := version[open+1 : closing]
+	revision, flag, hasFlag := strings.Cut(body, ",")
+	revision = strings.TrimSpace(revision)
+	if revision == "" {
+		return "", false, false
+	}
+	return revision, hasFlag && strings.TrimSpace(flag) == "dirty", true
+}
+
+func (c *InstallChecker) Check(ctx context.Context, state *GlobalState, _ bool) ([]CheckResult, bool) {
+	const name = "dot binary"
+
+	source, err := state.Runner.Run(ctx, "", nil, "chezmoi", "source-path")
+	if err != nil {
+		return []CheckResult{{Name: name, Status: statusSkip, Details: "chezmoi source path unavailable"}}, true
+	}
+	source = strings.TrimSpace(source)
+
+	head, err := state.Runner.Run(ctx, source, nil, "git", "rev-parse", "HEAD")
+	if err != nil {
+		return []CheckResult{{Name: name, Status: statusSkip, Details: "source checkout is not a git repository"}}, true
+	}
+	head = strings.TrimSpace(head)
+
+	path, err := state.Runner.LookPath("dot")
+	if err != nil {
+		return []CheckResult{{Name: name, Status: statusSkip, Details: "dot not installed on PATH"}}, true
+	}
+
+	version, err := state.Runner.Run(ctx, "", nil, path, "version")
+	if err != nil {
+		return []CheckResult{{Name: name, Status: statusFail, Details: "installed binary failed to report its version"}}, false
+	}
+
+	revision, dirty, ok := installedRevision(version)
+	if !ok {
+		// A binary built outside a Git checkout carries no revision at all; that
+		// is a packaging choice, not a staleness signal.
+		return []CheckResult{{Name: name, Status: statusSkip, Details: "installed binary carries no VCS revision"}}, true
+	}
+
+	switch {
+	case !strings.HasPrefix(head, revision):
+		return []CheckResult{{
+			Name:    name,
+			Status:  statusFail,
+			Details: fmt.Sprintf("STALE: built from %s, source HEAD is %s (run `mise run apply`)", revision, head[:min(len(head), 12)]),
+		}}, false
+	case dirty:
+		return []CheckResult{{
+			Name:    name,
+			Status:  statusWarn,
+			Details: fmt.Sprintf("built from %s with uncommitted changes", revision),
+		}}, true
+	default:
+		return []CheckResult{{Name: name, Status: statusPass, Details: "matches source HEAD (" + revision + ")"}}, true
+	}
+}
+
 // DockerChecker checks if Docker CLI is installed and the daemon is reachable.
 type DockerChecker struct{}
 
@@ -397,6 +481,12 @@ func PrintHumanResults(w io.Writer, res *VerifyResults) {
 	section(w, "System Services")
 	for _, dk := range res.Docker {
 		printRow(w, dk.Status, dk.Name, dk.Details)
+	}
+
+	_, _ = fmt.Fprintln(w)
+	section(w, "Install Freshness")
+	for _, in := range res.Install {
+		printRow(w, in.Status, in.Name, in.Details)
 	}
 
 	_, _ = fmt.Fprintln(w)

@@ -3,6 +3,7 @@ package dot
 import (
 	"bytes"
 	"context"
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -233,4 +234,96 @@ func TestConfigCommandActions(t *testing.T) {
 			t.Fatalf("%s action: %v", name, err)
 		}
 	}
+}
+
+// TestConfigCommandsRequireResolvedPath pins the guard that every config subcommand
+// shares: an unresolved path must fail loudly instead of silently targeting "".
+func TestConfigCommandsRequireResolvedPath(t *testing.T) {
+	state := newTestState(&FakeRunner{})
+	state.ConfigPath = ""
+
+	tests := []struct {
+		call func() error
+		name string
+	}{
+		{name: "init", call: func() error { return RunConfigInit(state, false) }},
+		{name: "edit", call: func() error { return RunConfigEdit(context.Background(), state) }},
+		{name: "validate", call: func() error { return RunConfigValidate(state) }},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			err := tc.call()
+			if err == nil || !strings.Contains(err.Error(), "could not resolve configuration path") {
+				t.Fatalf("expected an unresolved path error, got %v", err)
+			}
+		})
+	}
+}
+
+func TestRunConfigInitWriteFailures(t *testing.T) {
+	t.Run("an unusable parent directory is reported", func(t *testing.T) {
+		state := newTestState(&FakeRunner{})
+		// os.DevNull is a file, so creating a directory beneath it must fail.
+		state.ConfigPath = filepath.Join(os.DevNull, "sub", "dot.yaml")
+
+		err := RunConfigInit(state, false)
+		if err == nil || !strings.Contains(err.Error(), "failed to create config directory") {
+			t.Fatalf("expected a directory creation error, got %v", err)
+		}
+	})
+
+	t.Run("an unwritable target is reported", func(t *testing.T) {
+		dir := t.TempDir()
+		// A directory at the config path makes the write fail regardless of ownership.
+		path := filepath.Join(dir, "dot.yaml")
+		if err := os.MkdirAll(path, 0o755); err != nil {
+			t.Fatal(err)
+		}
+		state := newTestState(&FakeRunner{})
+		state.ConfigPath = path
+
+		err := RunConfigInit(state, true)
+		if err == nil || !strings.Contains(err.Error(), "failed to write config file") {
+			t.Fatalf("expected a write error, got %v", err)
+		}
+	})
+}
+
+func TestRunConfigEditScaffoldsAndRequiresEditor(t *testing.T) {
+	t.Run("a missing editor is reported", func(t *testing.T) {
+		state := newTestState(&FakeRunner{
+			LookPathFunc: func(string) (string, error) { return "", errors.New("not found") },
+		})
+		state.ConfigPath = filepath.Join(t.TempDir(), "dot.yaml")
+		var stdout bytes.Buffer
+		state.Stdout = &stdout
+		t.Setenv("EDITOR", "definitely-not-an-editor")
+
+		err := RunConfigEdit(context.Background(), state)
+		if err == nil || !strings.Contains(err.Error(), `editor "definitely-not-an-editor" not found`) {
+			t.Fatalf("expected a missing editor error, got %v", err)
+		}
+		// The file is scaffolded before the editor lookup, so it must exist by now.
+		if _, statErr := os.Stat(state.ConfigPath); statErr != nil {
+			t.Errorf("expected the config to be scaffolded: %v", statErr)
+		}
+	})
+
+	t.Run("scaffolding failures abort the edit", func(t *testing.T) {
+		if os.Geteuid() == 0 {
+			t.Skip("root bypasses directory permissions")
+		}
+		// Readable but not writable: the config looks absent, yet cannot be created.
+		dir := t.TempDir()
+		if err := os.Chmod(dir, 0o500); err != nil {
+			t.Fatal(err)
+		}
+		state := newTestState(&FakeRunner{})
+		state.ConfigPath = filepath.Join(dir, "sub", "dot.yaml")
+
+		err := RunConfigEdit(context.Background(), state)
+		if err == nil || !strings.Contains(err.Error(), "failed to create config directory") {
+			t.Fatalf("expected the scaffolding error to propagate, got %v", err)
+		}
+	})
 }

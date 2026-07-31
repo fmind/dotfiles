@@ -489,3 +489,88 @@ func TestRunPull_Scenarios(t *testing.T) {
 		}
 	})
 }
+
+// TestPullRepo_LateFailures covers the steps after the fetch succeeds: a diverged
+// branch, an unparsable ahead count, and a fetch that fails only because the
+// context expired.
+func TestPullRepo_LateFailures(t *testing.T) {
+	tests := []struct {
+		name    string
+		run     func(args []string) (string, error, bool)
+		wantMsg string
+	}{
+		{
+			name: "a diverged branch fails the fast-forward pull",
+			run: func(args []string) (string, error, bool) {
+				if args[0] == "pull" {
+					return "", errors.New("not possible to fast-forward"), true
+				}
+				return "", nil, false
+			},
+			wantMsg: "not possible to fast-forward",
+		},
+		{
+			name: "an unparsable ahead count is reported",
+			run: func(args []string) (string, error, bool) {
+				if args[0] == "rev-list" && len(args) > 2 && args[2] == "@{u}..HEAD" {
+					return "not-a-number\n", nil, true
+				}
+				return "", nil, false
+			},
+			wantMsg: `failed to parse ahead count "not-a-number"`,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			runner := &FakeRunner{
+				RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+					if name != "git" {
+						return "", nil
+					}
+					if out, err, handled := tc.run(args); handled {
+						return out, err
+					}
+					switch args[0] {
+					case "branch":
+						return "main\n", nil
+					case "rev-list":
+						return "0\n", nil
+					}
+					return "", nil
+				},
+			}
+
+			res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), false)
+			if res.Err == nil || !strings.Contains(res.Err.Error(), tc.wantMsg) {
+				t.Fatalf("expected an error containing %q, got %+v", tc.wantMsg, res)
+			}
+		})
+	}
+}
+
+func TestPullRepo_FetchTimeoutIsReported(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name == "git" && args[0] == "fetch" {
+				// Cancel first so the fetch failure is attributable to the timeout.
+				cancel()
+				return "", errors.New("fetch interrupted")
+			}
+			if name == "git" && args[0] == "branch" {
+				return "main\n", nil
+			}
+			return "", nil
+		},
+	}
+	defer cancel()
+
+	res := pullRepo(ctx, newTestState(runner), t.TempDir(), false)
+	if res.Err == nil || !strings.Contains(res.Err.Error(), "fetch timed out") {
+		t.Fatalf("expected a fetch timeout error, got %+v", res)
+	}
+	if res.NoUpstream {
+		t.Error("a timed-out fetch must not be reported as a missing upstream")
+	}
+}

@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -393,4 +394,137 @@ func TestCompletionCommand_Errors(t *testing.T) {
 			t.Errorf("dot.fish should not be written on cancellation")
 		}
 	})
+}
+
+func TestCompletionCommand_ShellIntegrations(t *testing.T) {
+	// Only atuin and carapace are probed for cached shell integrations, so an empty
+	// tool list keeps each subtest focused on that path.
+	newIntegrationState := func(t *testing.T, run func(name string, args []string) (string, error)) (*GlobalState, string, *bytes.Buffer) {
+		t.Helper()
+		home := t.TempDir()
+		t.Setenv("HOME", home)
+		t.Setenv("XDG_CACHE_HOME", "")
+
+		state := newTestState(&FakeRunner{
+			RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+				return run(name, args)
+			},
+		})
+		state.Config.Completions.Path = t.TempDir()
+		state.Config.Completions.Tools = nil
+		var stdout bytes.Buffer
+		state.Stdout = &stdout
+		return state, filepath.Join(home, ".cache", "fish"), &stdout
+	}
+
+	t.Run("cached integrations are written", func(t *testing.T) {
+		state, fishCacheDir, stdout := newIntegrationState(t, func(name string, _ []string) (string, error) {
+			return "# " + name + " init\n", nil
+		})
+
+		if err := RunCompletionGenerate(context.Background(), state); err != nil {
+			t.Fatalf("RunCompletionGenerate: %v", err)
+		}
+		for _, file := range []string{"atuin-init.fish", "carapace-init.fish"} {
+			if _, err := os.Stat(filepath.Join(fishCacheDir, file)); err != nil {
+				t.Errorf("expected %s to be generated: %v", file, err)
+			}
+		}
+		if !strings.Contains(stdout.String(), "Generated atuin-init.fish") {
+			t.Errorf("expected atuin generation to be reported, got:\n%s", stdout.String())
+		}
+	})
+
+	t.Run("generation failures are collected", func(t *testing.T) {
+		state, _, _ := newIntegrationState(t, func(name string, _ []string) (string, error) {
+			return "", errors.New(name + " exploded")
+		})
+
+		err := RunCompletionGenerate(context.Background(), state)
+		if err == nil {
+			t.Fatal("expected the integration failures to be surfaced")
+		}
+		for _, want := range []string{"failed to generate atuin-init.fish", "failed to generate carapace-init.fish"} {
+			if !strings.Contains(err.Error(), want) {
+				t.Errorf("expected the error to mention %q, got %v", want, err)
+			}
+		}
+	})
+
+	t.Run("write failures are collected", func(t *testing.T) {
+		state, fishCacheDir, _ := newIntegrationState(t, func(name string, _ []string) (string, error) {
+			return "# " + name + " init\n", nil
+		})
+		// Directories at the destination paths make the writes fail without
+		// depending on file permissions (which root would bypass).
+		for _, file := range []string{"atuin-init.fish", "carapace-init.fish"} {
+			if err := os.MkdirAll(filepath.Join(fishCacheDir, file), 0o755); err != nil {
+				t.Fatal(err)
+			}
+		}
+
+		err := RunCompletionGenerate(context.Background(), state)
+		if err == nil || !strings.Contains(err.Error(), "failed to write atuin-init.fish") {
+			t.Fatalf("expected an atuin write failure, got %v", err)
+		}
+	})
+
+	t.Run("an unusable cache directory is reported but does not abort", func(t *testing.T) {
+		state, _, stdout := newIntegrationState(t, func(string, []string) (string, error) { return "", nil })
+		t.Setenv("XDG_CACHE_HOME", os.DevNull) // a file, so creating <cache>/fish fails
+
+		err := RunCompletionGenerate(context.Background(), state)
+		if err == nil || !strings.Contains(err.Error(), "failed to create fish cache directory") {
+			t.Fatalf("expected a cache directory failure, got %v", err)
+		}
+		// dot.fish is still generated: one broken cache must not lose the main output.
+		if !strings.Contains(stdout.String(), "Generated completions for dot") {
+			t.Errorf("expected dot completions to still be generated, got:\n%s", stdout.String())
+		}
+	})
+}
+
+func TestWriteToolCompletionReportsSkipsAndFailures(t *testing.T) {
+	tests := []struct {
+		name       string
+		lookPath   func(string) (string, error)
+		wantOutput string
+		wantErrors int
+	}{
+		{
+			name:       "a missing tool is skipped without an error",
+			lookPath:   func(string) (string, error) { return "", errors.New("not found") },
+			wantOutput: "is not installed, skipping",
+		},
+		{
+			name:       "a failing generator is recorded as an error",
+			lookPath:   func(name string) (string, error) { return "/bin/" + name, nil },
+			wantOutput: "Failed to generate completions for gh",
+			wantErrors: 1,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			state := newTestState(&FakeRunner{
+				LookPathFunc: tc.lookPath,
+				RunFunc: func(context.Context, string, io.Reader, string, ...string) (string, error) {
+					return "", errors.New("boom")
+				},
+			})
+			var stdout bytes.Buffer
+			state.Stdout = &stdout
+
+			var mu sync.Mutex
+			var genErrors []error
+			writeToolCompletion(context.Background(), state, "gh", t.TempDir(), &mu, &genErrors)
+
+			if !strings.Contains(stdout.String(), tc.wantOutput) {
+				t.Errorf("expected output to contain %q, got %q", tc.wantOutput, stdout.String())
+			}
+			if len(genErrors) != tc.wantErrors {
+				t.Errorf("collected %d errors, want %d", len(genErrors), tc.wantErrors)
+			}
+		})
+	}
 }

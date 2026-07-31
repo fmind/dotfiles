@@ -2,6 +2,7 @@ package dot
 
 import (
 	"bytes"
+	"errors"
 	"os"
 	"strings"
 	"testing"
@@ -70,5 +71,18 @@ func TestSection(t *testing.T) {
 	section(&buf, "Title")
 	if out := buf.String(); !strings.Contains(out, "=> Title") {
 		t.Errorf("expected section header to contain '=> Title', got %q", out)
+	}
+}
+
+func TestAnsiStripperPropagatesWriteError(t *testing.T) {
+	wantErr := errors.New("boom")
+	s := ansiStripper{failingWriter{err: wantErr}}
+
+	n, err := s.Write([]byte(green("hello")))
+	if !errors.Is(err, wantErr) {
+		t.Fatalf("expected the underlying write error, got %v", err)
+	}
+	if n != 0 {
+		t.Errorf("expected n=0 on a failed write, got %d", n)
 	}
 }

@@ -93,8 +93,7 @@ keeps everything else, and seeds are written only when the key is still absent.
 {{- $hook := dict "type" "command" "timeout" 30 -}}
 {{- $_ := set $managedConfig "hooks" (dict
       "SessionEnd" (list (dict "matcher" "" "hooks" (list
-        (merge (dict "command" "dot agent session claude") $hook)
-        (merge (dict "command" "dot notify claude session-end") $hook))))
+        (merge (dict "command" "dot agent session claude") $hook))))
       "Stop" (list (dict "matcher" "" "hooks" (list
         (merge (dict "command" "dot agent session claude") $hook)
         (merge (dict "command" "dot notify claude stop") $hook))))

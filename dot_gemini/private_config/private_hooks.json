@@ -1,4 +1,13 @@
 {
+  "notify": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "dot notify agy stop",
+        "timeout": 30
+      }
+    ]
+  },
   "session-log": {
     "Stop": [
       {

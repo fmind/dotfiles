@@ -259,3 +259,29 @@ func TestGenerateText(t *testing.T) {
 		}
 	})
 }
+
+func TestScanDiffForSecretsRequiresGitleaks(t *testing.T) {
+	// The scan fails closed: without gitleaks the diff must never leave the machine.
+	state := newTestState(&FakeRunner{
+		LookPathFunc: func(string) (string, error) { return "", errors.New("not found") },
+		RunFunc: func(context.Context, string, io.Reader, string, ...string) (string, error) {
+			t.Error("no scan may run when gitleaks is missing")
+			return "", nil
+		},
+	})
+
+	err := ScanDiffForSecrets(context.Background(), state, "diff")
+	if !errors.Is(err, ErrToolNotInstalled) {
+		t.Fatalf("expected ErrToolNotInstalled, got %v", err)
+	}
+}
+
+func TestLimitAIInputRespectsRuneBoundaries(t *testing.T) {
+	// "é" is two bytes, so a cut at maxSize=1 would split it and stream invalid UTF-8.
+	if got := limitAIInput("aéb", 2); got != "a" {
+		t.Errorf("limitAIInput = %q, want %q", got, "a")
+	}
+	if got := limitAIInput("abc", 0); got != "abc" {
+		t.Errorf("a non-positive limit must fall back to the default, got %q", got)
+	}
+}

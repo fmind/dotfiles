@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -291,5 +292,38 @@ func TestLoadConfig_EmptyFile(t *testing.T) {
 	}
 	if cfg.Cluster.Name != "local" {
 		t.Errorf("Expected defaults for an empty config, got %q", cfg.Cluster.Name)
+	}
+}
+
+// TestExpandPathWithoutHome pins the fallback behavior when the home directory
+// cannot be resolved: paths are returned untouched rather than half-expanded.
+func TestExpandPathWithoutHome(t *testing.T) {
+	t.Setenv("HOME", "")
+
+	for _, path := range []string{"~", "~/.config/dot.yaml", "relative/path", "/absolute/path"} {
+		if got := ExpandPath(path); got != path {
+			t.Errorf("ExpandPath(%q) = %q, want it unchanged", path, got)
+		}
+	}
+}
+
+func TestConfigFilePathWithoutHome(t *testing.T) {
+	t.Setenv("HOME", "")
+
+	resolved, isDefault, err := ConfigFilePath("")
+	if err == nil || !strings.Contains(err.Error(), "failed to get home directory") {
+		t.Fatalf("expected a home directory error, got %v", err)
+	}
+	if resolved != "" || !isDefault {
+		t.Errorf("ConfigFilePath = (%q, %v), want (\"\", true)", resolved, isDefault)
+	}
+
+	// The failure must also surface through LoadConfig, with usable defaults returned.
+	cfg, err := LoadConfig("")
+	if err == nil {
+		t.Fatal("expected LoadConfig to surface the home directory error")
+	}
+	if cfg == nil || cfg.Cluster.Name == "" {
+		t.Error("expected LoadConfig to still return the default configuration")
 	}
 }

@@ -27,12 +27,14 @@ code_mode = { enabled = true }
 fast_mode = false
 memories = true
 
-[[hooks.SessionEnd]]
+# Compaction is the one point where transcript detail is discarded, so snapshot
+# the session before it happens instead of only on Stop.
+[[hooks.PreCompact]]
 matcher = ""
 
-[[hooks.SessionEnd.hooks]]
-command = "dot notify codex session-end"
-statusMessage = "Notifying session end"
+[[hooks.PreCompact.hooks]]
+command = "dot agent session codex"
+statusMessage = "Syncing Codex session"
 timeout = 30
 type = "command"
 
