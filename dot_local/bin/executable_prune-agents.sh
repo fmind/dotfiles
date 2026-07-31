@@ -10,7 +10,7 @@ echo -e "\033[1mStarting agent pruning...\033[0m"
 
 # 1. Agent session transcripts
 echo "Pruning agent transcripts older than ${KEEP_DAYS} days..."
-for dir in "${HOME}/.codex/sessions" "${HOME}/.claude/projects" "${HOME}/.agents/sessions"; do
+for dir in "${HOME}/.codex/sessions" "${HOME}/.claude/projects" "${HOME}/.agents/sessions" "${HOME}/.gemini/antigravity-cli/brain"; do
   if [ -d "${dir}" ]; then
     find "${dir}" -type f -mtime "+${KEEP_DAYS}" -delete 2>/dev/null || true
     find "${dir}" -type d -empty -delete 2>/dev/null || true
