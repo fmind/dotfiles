@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.8.0] - 2026-07-31
+
+### 🚀 Features
+
+- _(dot)_ Consolidate prune command into dot cli and refine skills
+
 ## [1.7.3] - 2026-07-31
 
 ### 🐛 Bug Fixes
