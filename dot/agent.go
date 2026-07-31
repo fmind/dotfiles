@@ -140,7 +140,6 @@ func NewAgentSessionCmd(state *GlobalState) *cli.Command {
 				},
 			},
 			NewAgentSessionSyncCmd(state),
-			NewAgentSessionCleanCmd(state),
 		},
 	}
 }
@@ -153,27 +152,6 @@ func NewAgentSessionSyncCmd(state *GlobalState) *cli.Command {
 		Usage:   "Scan for new sessions across all agents and log them",
 		Action: func(ctx context.Context, _ *cli.Command) error {
 			return RunAgentSessionSync(ctx, state)
-		},
-	}
-}
-
-// NewAgentSessionCleanCmd constructs the agent session clean command.
-func NewAgentSessionCleanCmd(state *GlobalState) *cli.Command {
-	return &cli.Command{
-		Name:    "clean",
-		Aliases: []string{"c"},
-		Usage:   "Clean up session logs older than 30 days",
-		Flags: []cli.Flag{
-			&cli.IntFlag{
-				Name:    "days",
-				Aliases: []string{"d"},
-				Value:   30,
-				Usage:   "Number of days of history to keep",
-			},
-		},
-		Action: func(ctx context.Context, cmd *cli.Command) error {
-			days := cmd.Int("days")
-			return RunAgentSessionClean(ctx, state, int(days))
 		},
 	}
 }
@@ -1544,89 +1522,6 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 	}
 
 	_, _ = fmt.Fprintf(state.Stderr, "agent-session-sync: done (%d total new)\n", total)
-	return nil
-}
-
-// RunAgentSessionClean deletes session logs older than N days.
-func RunAgentSessionClean(ctx context.Context, state *GlobalState, days int) error {
-	if days <= 0 {
-		return errors.New("retention days must be greater than zero")
-	}
-
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return err
-	}
-	sessionsDir := filepath.Join(home, ".agents", "sessions")
-
-	if _, statErr := os.Stat(sessionsDir); os.IsNotExist(statErr) {
-		return nil
-	}
-
-	cutoff := time.Now().AddDate(0, 0, -days)
-	deletedFiles := 0
-	var dirs []string
-
-	err = filepath.WalkDir(sessionsDir, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-		if d.IsDir() {
-			if path != sessionsDir {
-				dirs = append(dirs, path)
-			}
-			return nil
-		}
-
-		if strings.HasSuffix(d.Name(), ".jsonl") {
-			info, err := d.Info()
-			if err != nil {
-				return fmt.Errorf("failed to inspect session log %s: %w", path, err)
-			}
-
-			shouldDelete := false
-			dirName := filepath.Base(filepath.Dir(path))
-			if t, err := time.Parse("2006-01-02", dirName); err == nil {
-				if t.Before(cutoff) {
-					shouldDelete = true
-				}
-			} else {
-				// Fallback to modtime
-				if info.ModTime().Before(cutoff) {
-					shouldDelete = true
-				}
-			}
-
-			if shouldDelete {
-				//nolint:gosec // G122: path is walked from trusted sessions directory
-				if err := os.Remove(path); err != nil {
-					return fmt.Errorf("failed to remove expired session log %s: %w", path, err)
-				}
-				deletedFiles++
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		return err
-	}
-
-	// Remove empty directories in reverse order (deepest first)
-	for i := len(dirs) - 1; i >= 0; i-- {
-		entries, readErr := os.ReadDir(dirs[i])
-		if readErr != nil {
-			return fmt.Errorf("failed to inspect session directory %s: %w", dirs[i], readErr)
-		}
-		if len(entries) > 0 {
-			continue
-		}
-		//nolint:gosec // G122: path is walked from trusted sessions directory
-		if removeErr := os.Remove(dirs[i]); removeErr != nil {
-			return fmt.Errorf("failed to remove empty session directory %s: %w", dirs[i], removeErr)
-		}
-	}
-
-	_, _ = fmt.Fprintf(state.Stderr, "agent-session-clean: deleted %d file(s) older than %d days\n", deletedFiles, days)
 	return nil
 }
 

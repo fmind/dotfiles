@@ -1234,43 +1234,18 @@ url = "https://github.com/gotestyourself/gotestsum/releases/download/v1.13.0/got
 url_api = "https://api.github.com/repos/gotestyourself/gotestsum/releases/assets/291996823"
 
 [[tools.hadolint]]
-version = "2.15.0"
+version = "2.15.1"
 backend = "aqua:hadolint/hadolint"
 
-[tools.hadolint."platforms.linux-arm64"]
-checksum = "sha256:17993abf41a0a4da7f2e08970b4f4baf3f95e5e79b9ac80ba6b2aac1960ca71c"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-linux-arm64"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394498"
-
-[tools.hadolint."platforms.linux-arm64-musl"]
-checksum = "sha256:17993abf41a0a4da7f2e08970b4f4baf3f95e5e79b9ac80ba6b2aac1960ca71c"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-linux-arm64"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394498"
-
 [tools.hadolint."platforms.linux-x64"]
-checksum = "sha256:eb8eb4dd06a068cce65cb84743fba69f09ed12a36ff13d58f9af090d6d696970"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-linux-x86_64"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394499"
-
-[tools.hadolint."platforms.linux-x64-musl"]
-checksum = "sha256:eb8eb4dd06a068cce65cb84743fba69f09ed12a36ff13d58f9af090d6d696970"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-linux-x86_64"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394499"
+checksum = "sha256:c7187db94eeeeca956519a6af171adc31453941a1e777961f6e680f697c8c507"
+url = "https://github.com/hadolint/hadolint/releases/download/v2.15.1/hadolint-linux-x86_64"
+url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/496546506"
 
 [tools.hadolint."platforms.macos-arm64"]
-checksum = "sha256:1d701a41d2760ec88f8eff8d93f78b743d6ed57c53146ef274dbeb540816e563"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-macos-arm64"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394500"
-
-[tools.hadolint."platforms.macos-x64"]
-checksum = "sha256:1d701a41d2760ec88f8eff8d93f78b743d6ed57c53146ef274dbeb540816e563"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-macos-x86_64"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394502"
-
-[tools.hadolint."platforms.windows-x64"]
-checksum = "sha256:8a155b50a75d7afb26a03bd29e7c67f32d83f2e5992d918010b1832fcb5866c6"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-windows-x86_64.exe"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394496"
+checksum = "sha256:5c09f3213f8e40406abe048233d985eebef336d4a6a20021be47fadb6cf480a2"
+url = "https://github.com/hadolint/hadolint/releases/download/v2.15.1/hadolint-macos-arm64"
+url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/496546505"
 
 [[tools.helm]]
 version = "4.2.3"
@@ -2043,7 +2018,7 @@ backend = "npm:@mermaid-js/mermaid-cli"
 allow_builds = '["puppeteer"]'
 
 [[tools."npm:@slidev/cli"]]
-version = "52.18.0"
+version = "52.18.1"
 backend = "npm:@slidev/cli"
 
 [[tools."npm:lighthouse"]]

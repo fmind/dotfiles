@@ -81,7 +81,7 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 
 	// Check git-cliff
 	if _, err = state.Runner.LookPath("git-cliff"); err != nil {
-		return errors.New("git-cliff is not installed; run 'mr t' or install it via mise")
+		return errors.New("git-cliff is not installed; run 'mise run tools' or install it via mise")
 	}
 	if _, err = state.Runner.LookPath("mise"); err != nil {
 		return errors.New("mise is not installed; release validation cannot run")

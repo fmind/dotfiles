@@ -23,6 +23,7 @@ type Config struct {
 	ChezmoiClean ChezmoiCleanConfig `yaml:"chezmoi_clean"`
 	Pull         PullConfig         `yaml:"pull"`
 	Setup        SetupConfig        `yaml:"setup"`
+	Prune        PruneConfig        `yaml:"prune"`
 	Commit       CommitConfig       `yaml:"commit"`
 }
 
@@ -57,6 +58,7 @@ func DefaultConfig() *Config {
 		Setup:        defaultSetupConfig(),
 		Commit:       defaultCommitConfig(),
 		ChezmoiClean: defaultChezmoiCleanConfig(),
+		Prune:        defaultPruneConfig(),
 	}
 }
 

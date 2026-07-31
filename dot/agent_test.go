@@ -42,6 +42,12 @@ func TestNewAgentCmd(t *testing.T) {
 		t.Error("agent should not expose notify; it is a top-level command")
 	}
 	sessionCmd := groups["session"]
+	for _, sub := range sessionCmd.Commands {
+		// Deleting transcripts belongs to `dot prune --agents`; session only gathers.
+		if sub.Name == "clean" {
+			t.Error("agent session should not expose clean; dot prune owns retention")
+		}
+	}
 	if len(sessionCmd.Aliases) != 1 || sessionCmd.Aliases[0] != "s" {
 		t.Errorf("expected command alias 's', got %v", sessionCmd.Aliases)
 	}
@@ -56,7 +62,6 @@ func TestNewAgentCmd(t *testing.T) {
 		"opencode": {alias: "", found: false},
 		"copilot":  {alias: "", found: false},
 		"sync":     {alias: "s", found: false},
-		"clean":    {alias: "c", found: false},
 	}
 
 	for _, sub := range sessionCmd.Commands {
@@ -966,90 +971,6 @@ func TestSessionTranscriptMalformedJSONSkips(t *testing.T) {
 				t.Fatalf("expected output log to contain the valid entry, got: %s", string(content))
 			}
 		})
-	}
-}
-
-func TestRunAgentSessionClean(t *testing.T) {
-	tempDir := t.TempDir()
-	t.Setenv("HOME", tempDir)
-
-	sessionsDir := filepath.Join(tempDir, ".agents", "sessions")
-
-	// Create directories representing old and new dates relative to the test run.
-	now := time.Now().UTC()
-	oldDateDir := filepath.Join(sessionsDir, now.AddDate(0, 0, -60).Format("2006-01-02"))
-	newDateDir := filepath.Join(sessionsDir, now.Format("2006-01-02"))
-	if err := os.MkdirAll(oldDateDir, 0o755); err != nil {
-		t.Fatalf("failed to create old dir: %v", err)
-	}
-	if err := os.MkdirAll(newDateDir, 0o755); err != nil {
-		t.Fatalf("failed to create new dir: %v", err)
-	}
-
-	// Write mock session log files
-	oldFile := filepath.Join(oldDateDir, "120000_agy_old-session.jsonl")
-	newFile := filepath.Join(newDateDir, "120000_agy_new-session.jsonl")
-
-	if err := os.WriteFile(oldFile, []byte("old content"), 0o644); err != nil {
-		t.Fatalf("failed to write old file: %v", err)
-	}
-	if err := os.WriteFile(newFile, []byte("new content"), 0o644); err != nil {
-		t.Fatalf("failed to write new file: %v", err)
-	}
-
-	state := newTestState(&FakeRunner{})
-	ctx := context.Background()
-
-	// Clean logs older than 30 days. Cutoff from 2026-07-09 is 2026-06-09.
-	err := RunAgentSessionClean(ctx, state, 30)
-	if err != nil {
-		t.Fatalf("RunAgentSessionClean failed: %v", err)
-	}
-
-	// Verify old file is deleted and its directory is removed
-	if _, err := os.Stat(oldFile); !os.IsNotExist(err) {
-		t.Errorf("expected old file to be deleted, but it exists")
-	}
-	if _, err := os.Stat(oldDateDir); !os.IsNotExist(err) {
-		t.Errorf("expected empty old date directory to be removed, but it exists")
-	}
-
-	// Verify new file still exists along with its directory
-	if _, err := os.Stat(newFile); err != nil {
-		t.Errorf("expected new file to persist, got error: %v", err)
-	}
-	if _, err := os.Stat(newDateDir); err != nil {
-		t.Errorf("expected new date directory to persist, got error: %v", err)
-	}
-}
-
-func TestRunAgentSessionCleanRejectsInvalidRetention(t *testing.T) {
-	for _, days := range []int{0, -1} {
-		if err := RunAgentSessionClean(context.Background(), newTestState(&FakeRunner{}), days); err == nil {
-			t.Errorf("expected retention days %d to be rejected", days)
-		}
-	}
-}
-
-func TestRunAgentSessionCleanSurfacesRemovalFailure(t *testing.T) {
-	home := t.TempDir()
-	t.Setenv("HOME", home)
-	oldDir := filepath.Join(home, ".agents", "sessions", time.Now().UTC().AddDate(0, 0, -60).Format("2006-01-02"))
-	if err := os.MkdirAll(oldDir, 0o700); err != nil {
-		t.Fatal(err)
-	}
-	oldFile := filepath.Join(oldDir, "120000_agy_old-session.jsonl")
-	if err := os.WriteFile(oldFile, []byte("old"), 0o600); err != nil {
-		t.Fatal(err)
-	}
-	if err := os.Chmod(oldDir, 0o500); err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = os.Chmod(oldDir, 0o700) })
-
-	err := RunAgentSessionClean(context.Background(), newTestState(&FakeRunner{}), 30)
-	if err == nil || !strings.Contains(err.Error(), "failed to remove expired session log") {
-		t.Fatalf("expected removal failure, got %v", err)
 	}
 }
 

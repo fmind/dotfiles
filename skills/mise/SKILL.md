@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/mise
   created: 2026-07-04
-  updated: 2026-07-09
+  updated: 2026-07-31
 ---
 
 # Mise Standard
@@ -72,7 +72,7 @@ mise upgrade --bump      # bump pinned versions, then re-lock
 - **Trust**: `mise` requires `mise trust` before running a new project's config.
 - **Fail fast in hooks**: set `run_auto_install = false` under `[settings.task]` so hooks error on a missing tool instead of silently installing it.
 - **Non-interactive execution**: Always pass `-y`/`--yes` to `mise` commands in automated scripts or workflows (e.g., `mise trust -y`, `mise install -y`) to prevent blocking on prompts.
-- **Portable task dirs**: if the same `mise.toml` is exposed globally (e.g. via a `conf.d` symlink), a hardcoded `[task_config] dir` breaks in CI where the source isn't deployed — fall back to `$GITHUB_WORKSPACE`, e.g. `dir = "{{ env.GITHUB_WORKSPACE | default(value='~/path') }}"`.
+- **Keep a project config project-local**: never expose a repository's `mise.toml` globally (e.g. by symlinking it into `~/.config/mise/conf.d/`). mise then loads it as a global config and leaves the project root unset, so `mise lock` reports `No tools configured to lock` and silently never refreshes that repository's lockfile — and its tools, settings, and tasks leak into every other project. Expose only what is genuinely global, such as a small `conf.d` file holding a `_.path` entry. Task `dir` defaults to the config root, which is already the repo locally and the checkout in CI, so no `[task_config] dir` override is needed.
 
 ## Documentation
 

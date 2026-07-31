@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-skills
   created: 2026-06-23
-  updated: 2026-07-28
+  updated: 2026-07-31
 ---
 
 # Install Agent Skills
@@ -47,7 +47,7 @@ Install, author, and verify Agent Skills for Antigravity, Codex, OpenCode, Claud
 
 ## Notable Bundles
 
-Install with `skills add <repo> --all -y` after reviewing the source. Browse more at [vercel-labs/skills](https://github.com/vercel-labs/skills).
+Candidates, not installed: this repository vendors no external skill, so every entry below is installed on demand with `skills add <repo> --all -y` after reviewing the source. Browse more at [vercel-labs/skills](https://github.com/vercel-labs/skills).
 
 | Bundle                 | Repo                                        |
 | ---------------------- | ------------------------------------------- |

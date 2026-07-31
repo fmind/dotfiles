@@ -2,7 +2,6 @@
 /CHANGELOG.md
 /LICENSE
 /README.md
-/SECURITY.md
 /dot
 /dprint.json
 /go.work
@@ -13,7 +12,6 @@
 /mise.toml
 /ruff.toml
 /skills
-/skills-lock.json
 /trivy.yaml
 
 {{- if ne .chezmoi.os "linux" }}

@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/mermaid
   created: 2026-07-16
-  updated: 2026-07-16
+  updated: 2026-07-31
 ---
 
 # Mermaid Diagram Standard
@@ -16,7 +16,7 @@ Mermaid is the default diagram format because the same editable text can render 
 ## Decision Boundary
 
 - Use Mermaid for flowcharts, sequences, states, classes, entity relationships, timelines, mind maps, Git graphs, and other compact technical visuals.
-- Use [LikeC4](../likec4-dsl/SKILL.md) instead when the architecture model is the durable source of truth and must generate multiple consistent views.
+- Use [LikeC4](https://likec4.dev/) instead when the architecture model is the durable source of truth and must generate multiple consistent views.
 - Use [D2](../d2/SKILL.md) instead for an existing D2 codebase or a bespoke standalone composition that Mermaid cannot express clearly.
 - Omit the diagram when prose, code, a short list, or a table communicates the point more directly.
 

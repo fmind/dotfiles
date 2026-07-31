@@ -7,10 +7,7 @@
     "**/references/**",
     ".git",
     ".venv",
-    "dot_claude/modify_settings.json",
-    "dot_codex/modify_private_config.toml",
-    "skills/likec4-dsl/**",
-    "skills/slidev/**"
+    "dot_codex/modify_private_config.toml"
   ],
   "markdown": {
     "textWrap": "never"

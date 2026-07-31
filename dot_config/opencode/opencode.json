@@ -3,8 +3,8 @@
   "instructions": [
     "~/.agents/AGENTS.md"
   ],
-  "model": "google-vertex/gemini-3.5-flash",
-  "small_model": "google-vertex/gemini-3.5-flash",
+  "model": "google-vertex/gemini-3.6-flash",
+  "small_model": "google-vertex/gemini-3.6-flash",
   "provider": {
     "google-vertex": {
       "options": {

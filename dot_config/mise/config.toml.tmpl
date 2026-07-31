@@ -1,4 +1,11 @@
 [settings]
+# Signature/provenance verification (cosign, minisign, SLSA, GitHub attestations)
+# is deliberately off across every backend, and releases are installed the day they
+# ship. The trade-off: mise.lock pins each tool to a digest so a *re-install* is
+# reproducible, but the first fetch of a new version is unverified. Upstream
+# attestation coverage is too patchy to gate routine upgrades on, and this is a
+# single-user workstation. Raise minimum_release_age (e.g. "3d") to trade upgrade
+# latency for a window in which a compromised release gets pulled.
 aqua.cosign = false
 aqua.github_attestations = false
 aqua.minisign = false

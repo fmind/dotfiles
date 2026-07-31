@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/d2
   created: 2026-07-16
-  updated: 2026-07-16
+  updated: 2026-07-31
 ---
 
 # D2 Diagram Standard
@@ -20,7 +20,7 @@ D2 remains an installed specialist tool. Mermaid is the default for portable Git
 - A standalone SVG, PNG, PDF, PPTX, GIF, or ASCII export is the primary deliverable.
 - Mermaid cannot express the visual clearly without renderer-specific workarounds.
 
-Use [Mermaid](../mermaid/SKILL.md) for the ordinary case and [LikeC4](../likec4-dsl/SKILL.md) for a durable multi-view architecture model.
+Use [Mermaid](../mermaid/SKILL.md) for the ordinary case and [LikeC4](https://likec4.dev/) for a durable multi-view architecture model.
 
 ## Workflow
 

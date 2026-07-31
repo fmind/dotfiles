@@ -13,13 +13,8 @@ web_search = "live"
 vim_mode_default = true
 
 [agents]
-# Long agent batches (e.g. a Fgentic runtime session: create cluster, reconcile,
-# capture evidence for several issues, tear down) run past an hour; 3600 s cut
-# them mid-batch and discarded cluster uptime already paid for.
 job_max_runtime_seconds = 10800
 max_depth = 1
-# Repos that serialize their heavy gates behind a mutex gain nothing from a third
-# concurrent tool-running thread, and this host has 14 GiB with no swap.
 max_threads = 2
 
 [features]
@@ -27,8 +22,6 @@ code_mode = { enabled = true }
 fast_mode = false
 memories = true
 
-# Compaction is the one point where transcript detail is discarded, so snapshot
-# the session before it happens instead of only on Stop.
 [[hooks.PreCompact]]
 matcher = ""
 

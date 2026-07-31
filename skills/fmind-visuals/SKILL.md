@@ -15,12 +15,14 @@ Create calm, exact, spacious technical visuals that feel native to `www.fmind.de
 
 ## Canonical Tool Choice
 
-| Need                                                        | Tool                             | Boundary                                                  |
-| ----------------------------------------------------------- | -------------------------------- | --------------------------------------------------------- |
-| Slides, talks, workshops, LinkedIn documents                | [Slidev](../slidev/SKILL.md)     | Default for every new deck                                |
-| Flow, sequence, state, class, ER, compact technical diagram | [Mermaid](../mermaid/SKILL.md)   | Default for every new diagram                             |
-| Durable architecture model with multiple generated views    | [LikeC4](../likec4-dsl/SKILL.md) | Use when the model, not one image, is the source of truth |
-| Existing D2 source or bespoke standalone composition        | [D2](../d2/SKILL.md)             | Specialist fallback                                       |
+| Need                                                        | Tool                           | Boundary                                                  |
+| ----------------------------------------------------------- | ------------------------------ | --------------------------------------------------------- |
+| Slides, talks, workshops, LinkedIn documents                | [Slidev](https://sli.dev)      | Default for every new deck                                |
+| Flow, sequence, state, class, ER, compact technical diagram | [Mermaid](../mermaid/SKILL.md) | Default for every new diagram                             |
+| Durable architecture model with multiple generated views    | [LikeC4](https://likec4.dev/)  | Use when the model, not one image, is the source of truth |
+| Existing D2 source or bespoke standalone composition        | [D2](../d2/SKILL.md)           | Specialist fallback                                       |
+
+Slidev and LikeC4 publish their own upstream skills; this repository does not vendor them. Install either on demand with the [agent-skills](../agent-skills/SKILL.md) workflow when a task needs the full DSL or CLI detail.
 
 Do not create a custom HTML deck, Typst deck, PowerPoint source, or generated raster diagram unless the user explicitly requests that format or an existing project requires it.
 
@@ -40,7 +42,7 @@ Do not create a custom HTML deck, Typst deck, PowerPoint source, or generated ra
 
 ## Slidev Workflow
 
-1. Read the official [Slidev skill](../slidev/SKILL.md), then use the current official docs for any unstable feature.
+1. Install the upstream Slidev skill when the deck needs its detail (`skills add slidevjs/slidev --all -y`), then use the current official docs for any unstable feature.
 1. Scaffold with the project's package manager and keep Slidev, Vue, the default theme, and `playwright-chromium` as project-local dependencies for reproducibility.
 1. Start from [package.json.template](references/package.json.template), [slides.md](references/slides.md), and [style.css](references/style.css), then copy the canonical logo and WOFF2 fonts into `public/brand/`.
 1. Keep the starter's DOMPurify override until Monaco no longer pins a vulnerable release; verify any removal with `npm audit`.

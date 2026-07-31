@@ -1,3 +1,4 @@
+.agents/prompts/
 .agents/skills/local-*
 .agents/tmp/
 .antigravitycli/

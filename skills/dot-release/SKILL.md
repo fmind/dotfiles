@@ -23,7 +23,7 @@ Run `dot release` (alias `dot r`) to turn Conventional Commits since the last ta
 
 ```bash
 # Agent / non-interactive (skips confirmation prompt)
-mise run r -- -y
+mise run release -- -y
 ```
 
 ## Gotchas

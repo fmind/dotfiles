@@ -26,7 +26,7 @@ run = "dprint check"
 [tasks."check:leaks"]
 alias = "cs"
 description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+run = "gitleaks git --log-opts=\"--max-count=10\" --verbose"
 
 [tasks."check:lint"]
 alias = "cl"
@@ -56,7 +56,6 @@ run = ["mise run format:go", "mise run format:dprint"]
 
 [tasks."format:go"]
 description = "Format Go sources and imports (goimports + gofumpt)"
-# Flags mirror .golangci.yml so formatting and linting agree; see mise.toml.
 run = ["go tool goimports -local dot -w .", "go tool gofumpt -extra -w ."]
 
 [tasks."format:dprint"]

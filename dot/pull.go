@@ -252,7 +252,7 @@ func defaultPullConfig() PullConfig {
 		Directories: []string{
 			"~/internals",
 			"~/externals",
-			"~/workspaces",
+			"~/externals/workspaces",
 		},
 	}
 }

@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/upgrade-tools
   created: 2026-07-05
-  updated: 2026-07-09
+  updated: 2026-07-31
 ---
 
 # Upgrade Tools & Dependencies
@@ -90,7 +90,7 @@ Same shape — bump, then re-lock, then validate:
 
 - **Node**: use `npx npm-check-updates -u` or `pnpm update --latest` to bump `package.json` constraints, then re-lock (`npm install` / `pnpm install` / `pnpm update`).
 - **Rust**: `cargo update` → commit `Cargo.lock`. Use `cargo upgrade` (from `cargo-edit`) to bump constraints in `Cargo.toml`.
-- **Agent skills**: `skills update -g -y` (this repo: `mise run skills`).
+- **Agent skills**: `skills update -y` where external skills are installed; skip it in repositories that only author first-party skills.
 
 ## Validate & Commit
 

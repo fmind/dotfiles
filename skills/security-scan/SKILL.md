@@ -25,8 +25,9 @@ Scan a repository (and its images) for vulnerabilities, misconfigurations, secre
    ```
 1. **Secrets in git history** (deeper than a working-tree scan — catches committed-then-deleted secrets):
    ```bash
-   mise run check:leaks          # full history
+   mise run check:leaks          # recent commits (this repo caps at the last 10)
    mise run check:leaks --staged # pre-commit scope
+   gitleaks git --verbose        # full history — the actual audit
    ```
 1. **Container image scan** (after a build — see [containerize](../containerize/SKILL.md)):
    ```bash

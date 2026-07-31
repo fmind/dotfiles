@@ -51,6 +51,6 @@ mise trust -y "${SOURCE_DIR}/mise.toml"
 
 # Complete the ordered bootstrap: apply, trust, tools, hooks, editor, and krew.
 echo "=> Completing environment bootstrap..."
-mise -C "${SOURCE_DIR}" run init
+mise -C "${SOURCE_DIR}" run install
 
 echo "=> Install complete! You are ready to go."

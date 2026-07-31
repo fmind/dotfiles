@@ -1,28 +1,21 @@
 # chezmoi:modify-template
-{{- $sentinel := "# chezmoi: mise-bash-integration" -}}
 {{- $pathSentinel := "# chezmoi: mise-bash-path" -}}
-{{- $legacy := `# Set up mise paths and activation for AI agents running bash
-export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"
-` -}}
-{{- $activation := "# Set up mise activation for interactive bash shells.\n" -}}
-{{- $stdin := replace $legacy $activation .chezmoi.stdin -}}
 {{- $pathBlock := `# chezmoi: mise-bash-path
 # Set up mise paths above non-interactive shell guard
 export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.local/share/mise/shims:$PATH"` -}}
-{{- if contains $pathSentinel $stdin -}}
-{{-   $stdin -}}
+{{- $activationBlock := `# chezmoi: mise-bash-integration
+# Set up mise activation for interactive bash shells.
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate bash)"
+fi` -}}
+{{- if contains $pathSentinel .chezmoi.stdin -}}
+{{- .chezmoi.stdin -}}
 {{- else -}}
 {{ $pathBlock }}
 
-{{ if ne (trim $stdin) "" -}}
-{{ $stdin }}
-{{ end -}}
-{{- if not (contains $sentinel $stdin) }}
+{{ if ne (trim .chezmoi.stdin) "" -}}
+{{ .chezmoi.stdin }}
+{{ end }}
 
-{{ $sentinel }}
-{{ $activation -}}
-if command -v mise >/dev/null 2>&1; then
-    eval "$(mise activate bash)"
-fi
-{{- end -}}
+{{ $activationBlock -}}
 {{- end -}}
