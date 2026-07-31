@@ -69,10 +69,13 @@ run = "go mod tidy"
 
 [tasks.test]
 alias = "t"
-description = "Run the test suite and enforce at least 85% statement coverage"
+description = "Run the test suite and enforce at least 85% statement coverage (Linux)"
+# The whole suite runs everywhere, but the notify dispatch and browser-opener
+# tests are Linux-gated, so on macOS the total measures how much the platform
+# skipped rather than how much is tested. Gate on the reference platform.
 run = [
   "gotestsum --format pkgname -- -race -coverprofile=coverage.out ./...",
-  "go tool cover -func=coverage.out | awk '/^total:/ { sub(/%/, \"\", $3); if ($3 + 0 < 85) { printf \"coverage %.1f%% is below 85%%\\n\", $3 > \"/dev/stderr\"; exit 1 } }'",
+  "test \"$(uname -s)\" != Linux || go tool cover -func=coverage.out | awk '/^total:/ { sub(/%/, \"\", $3); if ($3 + 0 < 85) { printf \"coverage %.1f%% is below 85%%\\n\", $3 > \"/dev/stderr\"; exit 1 } }'",
 ]
 
 [tasks."test:watch"]

@@ -23,8 +23,14 @@ func TestOSBrowserWithoutDisplay(t *testing.T) {
 
 func TestOSBrowserStartsPlatformOpener(t *testing.T) {
 	t.Setenv("DISPLAY", ":test")
+	// Stub whichever opener this platform actually shells out to; PATH is
+	// replaced wholesale below, so a hardcoded xdg-open fails on macOS.
+	openerName, _, err := platformOpener("https://example.com")
+	if err != nil {
+		t.Skipf("no platform opener: %v", err)
+	}
 	binDir := t.TempDir()
-	opener := filepath.Join(binDir, "xdg-open")
+	opener := filepath.Join(binDir, openerName)
 	if err := os.WriteFile(opener, []byte("#!/bin/sh\nexit 0\n"), 0o700); err != nil {
 		t.Fatal(err)
 	}

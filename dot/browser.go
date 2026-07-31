@@ -20,27 +20,31 @@ type Browser interface {
 // OSBrowser is the default Browser implementation that opens URLs using the OS default browser.
 type OSBrowser struct{}
 
+// platformOpener maps the host OS to the command that hands a URL to the
+// default browser. Split out of Open so tests can stub the right binary name
+// instead of hardcoding the Linux one and failing everywhere else.
+func platformOpener(url string) (cmd string, args []string, err error) {
+	switch runtime.GOOS {
+	case "linux":
+		return "xdg-open", []string{url}, nil
+	case "windows":
+		return "cmd", []string{"/c", "start", url}, nil
+	case "darwin": // macOS
+		return "open", []string{url}, nil
+	default:
+		return "", nil, fmt.Errorf("unsupported platform: %s", runtime.GOOS)
+	}
+}
+
 // Open opens the specified URL using the OS default browser.
 func (b OSBrowser) Open(url string) error {
 	if !b.HasSupport() {
 		return errors.New("no browser support")
 	}
 
-	var cmd string
-	var args []string
-
-	switch runtime.GOOS {
-	case "linux":
-		cmd = "xdg-open"
-		args = []string{url}
-	case "windows":
-		cmd = "cmd"
-		args = []string{"/c", "start", url}
-	case "darwin": // macOS
-		cmd = "open"
-		args = []string{url}
-	default:
-		return fmt.Errorf("unsupported platform: %s", runtime.GOOS)
+	cmd, args, err := platformOpener(url)
+	if err != nil {
+		return err
 	}
 
 	c := exec.Command(cmd, args...) //nolint:gosec // G204: command and args are constructed safely inside Open
