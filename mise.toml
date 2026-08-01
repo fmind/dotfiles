@@ -62,6 +62,7 @@ depends = [
   "check:go",
   "check:python",
   "check:shell",
+  "check:trust",
   "check:leaks",
   "check:lua",
   "check:scan",
@@ -85,6 +86,7 @@ run = "dprint check"
 
 [tasks."check:go"]
 alias = "cg"
+depends = ["trust:repo"]
 description = "Lint and vuln-scan the Go module (dot/)"
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
 
@@ -123,6 +125,11 @@ for template in $(git ls-files '*.sh.tmpl'); do
   printf '%s\\n' "$rendered" | shellcheck --shell=bash -
 done
 """
+
+[tasks."check:trust"]
+alias = "cr"
+description = "Test clean-clone repository mise trust"
+run = ".github/scripts/trust-mise_test.sh"
 
 [tasks.format]
 alias = "f"
@@ -164,7 +171,7 @@ run = "git ls-files '*.sh' | xargs -r shfmt -w -i 2 -s"
 alias = "i"
 description = "Bootstrap a freshly initialized checkout"
 run = [
-  "mise trust -y mise.toml",
+  ".github/scripts/trust-mise.sh",
   "mise run tools",
   "mise run hooks",
   "mise run vim",
@@ -174,11 +181,18 @@ run = [
 
 [tasks.test]
 alias = "t"
+depends = ["trust:repo"]
 description = "Run the dot CLI test suite (delegates to dot/)"
 run = "mise -C dot run test"
 
+[tasks."trust:repo"]
+description = "Trust every reviewed mise config in this checkout"
+hide = true
+run = ".github/scripts/trust-mise.sh"
+
 [tasks.watch]
 alias = "w"
+depends = ["trust:repo"]
 description = "Re-run the dot CLI test suite on every change"
 run = "mise -C dot run test:watch"
 
@@ -264,7 +278,7 @@ run = [
 [tasks.trust]
 alias = "mtr"
 description = "Trust repo and home mise configs"
-run = ["mise trust -y mise.toml", "mise trust -y ~/.config/mise/config.toml"]
+run = [".github/scripts/trust-mise.sh", "mise trust -y ~/.config/mise/config.toml"]
 
 [tasks.upgrade]
 alias = "mu"
