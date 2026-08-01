@@ -73,6 +73,9 @@ func TestDefaultConfig(t *testing.T) {
 	if len(cfg.Login.WorkspaceScopes) == 0 {
 		t.Error("Expected default WorkspaceScopes to be non-empty")
 	}
+	if cfg.Context.MaxBytes != defaultContextBytes || len(cfg.Context.Collectors) != len(defaultContextCollectors) {
+		t.Errorf("unexpected default context config: %+v", cfg.Context)
+	}
 	if cfg.Release != defaultReleaseConfig() {
 		t.Errorf("unexpected default release config: %+v", cfg.Release)
 	}
@@ -120,6 +123,11 @@ pr:
   prompt: "custom pr prompt"
 commit:
   prompt: "custom commit prompt"
+context:
+  collectors:
+    - git
+    - tasks
+  max_bytes: 12000
 release:
   remote: "upstream"
   default_branch: "stable"
@@ -160,6 +168,9 @@ login:
 	}
 	if cfg.Commit.Prompt != "custom commit prompt" {
 		t.Errorf("Expected Commit prompt 'custom commit prompt', got %q", cfg.Commit.Prompt)
+	}
+	if cfg.Context.MaxBytes != 12000 || len(cfg.Context.Collectors) != 2 {
+		t.Errorf("unexpected custom context config: %+v", cfg.Context)
 	}
 	if cfg.Release.Remote != "upstream" || cfg.Release.DefaultBranch != "stable" || cfg.Release.Workflow != "publish.yml" {
 		t.Errorf("unexpected custom release config: %+v", cfg.Release)
