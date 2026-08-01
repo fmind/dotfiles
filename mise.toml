@@ -23,9 +23,11 @@ slsa = false
 run_auto_install = false
 
 [tools]
+actionlint = "1.7.12"
 "aqua:fish-shell/fish-shell" = "4"
 chezmoi = "latest"
 dprint = "latest"
+gh = "2.97.0"
 gitleaks = "latest"
 go = "1.26"
 golangci-lint = "latest"
@@ -57,6 +59,7 @@ outputs = ["dot_local/bin/executable_dot"]
 alias = "c"
 description = "Run all static checks in parallel"
 depends = [
+  "check:actions",
   "check:chezmoi",
   "check:dprint",
   "check:go",
@@ -66,7 +69,13 @@ depends = [
   "check:leaks",
   "check:lua",
   "check:scan",
+  "check:skills",
 ]
+
+[tasks."check:actions"]
+alias = "ca"
+description = "Validate GitHub Actions workflows (actionlint)"
+run = "actionlint"
 
 [tasks."check:chezmoi"]
 alias = "cc"
@@ -125,6 +134,14 @@ for template in $(git ls-files '*.sh.tmpl'); do
   printf '%s\\n' "$rendered" | shellcheck --shell=bash -
 done
 """
+
+[tasks."check:skills"]
+alias = "ck"
+description = "Validate first-party skill packages and offline contracts"
+run = [
+  "gh skill publish --dry-run",
+  "go test -C dot -run '^(TestSkillContracts|TestHighRiskSkillSmokeContracts)$' ./...",
+]
 
 [tasks."check:trust"]
 alias = "cr"
