@@ -98,9 +98,17 @@ func fingerprintFile(path string) (string, error) {
 		return "", fmt.Errorf("failed to fingerprint session source %s: %w", path, err)
 	}
 	defer func() { _ = file.Close() }()
-	hash := sha256.New()
-	if _, err := io.Copy(hash, file); err != nil {
+	fingerprint, err := fingerprintReader(file)
+	if err != nil {
 		return "", fmt.Errorf("failed to fingerprint session source %s: %w", path, err)
+	}
+	return fingerprint, nil
+}
+
+func fingerprintReader(reader io.Reader) (string, error) {
+	hash := sha256.New()
+	if _, err := io.Copy(hash, reader); err != nil {
+		return "", err
 	}
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
@@ -221,7 +229,7 @@ func validateSessionGeneration(path string, expected sessionManifest) error {
 	if fingerprintBytes(transcript) != manifest.TranscriptSHA256 {
 		return errors.New("session transcript fingerprint mismatch")
 	}
-	count := 0
+	logs := make([]SessionLogLine, 0, manifest.RecordCount)
 	decoder := json.NewDecoder(bytes.NewReader(transcript))
 	for {
 		var log SessionLogLine
@@ -235,10 +243,13 @@ func validateSessionGeneration(path string, expected sessionManifest) error {
 		if log.Agent != manifest.Agent || log.SID != manifest.SessionID {
 			return errors.New("normalized transcript record has mismatched lineage")
 		}
-		count++
+		logs = append(logs, log)
 	}
-	if count != manifest.RecordCount {
-		return fmt.Errorf("normalized transcript contains %d records, expected %d", count, manifest.RecordCount)
+	if len(logs) != manifest.RecordCount {
+		return fmt.Errorf("normalized transcript contains %d records, expected %d", len(logs), manifest.RecordCount)
+	}
+	if highWater := sessionHighWater(logs); highWater != manifest.HighWaterMark {
+		return fmt.Errorf("normalized transcript high-water mark %q does not match manifest %q", highWater, manifest.HighWaterMark)
 	}
 	return nil
 }

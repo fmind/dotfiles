@@ -66,16 +66,21 @@ dot prune --all=deep           # every target, deepest depth
 | tools  | `-t` | Trivy, Helm, dprint, golangci-lint | —                                      |
 
 - **`--docker=system` deletes stopped local k3d clusters** — stopped k3d containers _are_ the cluster. Use the default depth while a cluster matters.
-- Every target has a config section: `level` is the depth a bare flag (and `--all`) selects, `paths` are the directories it removes, and `agents.sessions` carries the retention of each session store. `--days N` overrides every store for one run; `--days 0` empties them.
+- Every target has a config section: `level` is the depth a bare flag (and `--all`) selects, `paths` are the directories it removes, and `agents.sessions` carries the type and retention of each session store. `--days N` overrides every store for one run; `--days 0` makes every age eligible but never bypasses normalized-successor verification.
 
 ```yaml
 prune:
   agents:
     sessions:
       - path: ~/.claude/projects
+        source: claude
         keep_days: 7
+      - path: ~/.local/share/opencode/opencode.db
+        source: opencode
+        keep_days: 7 # retained until safe row-level compaction exists
       - path: ~/.agents/sessions
-        keep_days: 30 # 0 empties the store, whatever the file age
+        source: archive
+        keep_days: 30
     keep: [memory, memory.jsonl, MEMORY.md] # never pruned, however old
   docker:
     level: build # set to system on a machine with no local k3d cluster
@@ -84,7 +89,9 @@ prune:
     paths: [~/.npm/_npx]
 ```
 
-- `dot prune --agents` is the only command that deletes session logs; `dot agent session` just gathers them.
+- `dot prune --agents` is the only command that deletes session logs; `dot agent session` and migration only gather or copy them. Aged Claude, Codex, and Antigravity sources require one exact complete normalized successor; unnormalized, stale, partial, unreadable, interrupted, and ambiguous sources are retained and reported.
+- OpenCode and Copilot mix lineages in shared SQLite files, so pruning inventories but retains those databases until a source-specific row compactor can prove each deletion independently.
+- `--dry-run` prints every raw-source decision with its type, hashed lineage, age, size, reason, and successor evidence.
 - Agent long-term memory (`memory/`, `memory.jsonl`, `MEMORY.md`) is never pruned, however old.
 - Missing tools and a stopped Docker daemon are reported as skipped, not as failures; a failing target never stops the others.
 
