@@ -25,6 +25,7 @@ type Config struct {
 	Setup        SetupConfig        `yaml:"setup"`
 	Prune        PruneConfig        `yaml:"prune"`
 	Commit       CommitConfig       `yaml:"commit"`
+	Context      ContextConfig      `yaml:"context"`
 }
 
 // ExpandPath replaces a leading "~" or "~/" (or "~\") with the user's home directory.
@@ -57,6 +58,7 @@ func DefaultConfig() *Config {
 		Pull:         defaultPullConfig(),
 		Setup:        defaultSetupConfig(),
 		Commit:       defaultCommitConfig(),
+		Context:      defaultContextConfig(),
 		ChezmoiClean: defaultChezmoiCleanConfig(),
 		Prune:        defaultPruneConfig(),
 	}

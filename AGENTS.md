@@ -69,6 +69,7 @@ Aliases split into two namespaces so a mistyped letter can never fire the wrong 
   - `dot prune` (alias `x`) — Reclaims disk space from agent session logs and development caches, and owns all session retention (both the raw per-agent stores and `~/.agents/sessions`, each with its own `keep_days` under `prune.agents.sessions`). Targets compose as flags (`--agents`, `--docker`, `--go`, `--python`, `--node`, `--mise`, `--tools`, or `--all`) and each accepts an optional depth (`--docker=system`, `--go=module`, `--all=deep`); every target has a `prune.<target>` config section carrying its default depth and cache paths, `--dry-run` reports without deleting, and `--days` overrides every configured retention (`--days 0` empties the stores).
   - `dot chezmoi clean` (group alias `m`, subcommand aliases `c`, `cc`) — Scans for previously managed chezmoi files and cleans up unmanaged orphans in home directory.
   - `dot config` (alias `f`) — Inspects, scaffolds, edits, and validates the `~/.config/dot.yaml` configuration file (`show`, `path`, `init`, `edit`, `validate`).
+  - `dot context` — Emits a deterministic project-only context pack as Markdown or versioned JSON, within an explicit byte or approximate token budget; collectors and sensitive path/environment patterns are allowlisted through `context` in `~/.config/dot.yaml`, and the exact final payload is secret-scanned before output.
   - `dot version` (alias `i`) — Prints the version enriched with the embedded VCS revision so an installed binary can be matched against the current sources.
 
 ## Agents

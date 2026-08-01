@@ -73,6 +73,9 @@ func TestDefaultConfig(t *testing.T) {
 	if len(cfg.Login.WorkspaceScopes) == 0 {
 		t.Error("Expected default WorkspaceScopes to be non-empty")
 	}
+	if cfg.Context.MaxBytes != defaultContextBytes || len(cfg.Context.Collectors) != len(defaultContextCollectors) {
+		t.Errorf("unexpected default context config: %+v", cfg.Context)
+	}
 }
 
 func TestLoadConfig_NonExistent(t *testing.T) {
@@ -117,6 +120,11 @@ pr:
   prompt: "custom pr prompt"
 commit:
   prompt: "custom commit prompt"
+context:
+  collectors:
+    - git
+    - tasks
+  max_bytes: 12000
 completions:
   path: "/custom/completions/path"
 login:
@@ -153,6 +161,9 @@ login:
 	}
 	if cfg.Commit.Prompt != "custom commit prompt" {
 		t.Errorf("Expected Commit prompt 'custom commit prompt', got %q", cfg.Commit.Prompt)
+	}
+	if cfg.Context.MaxBytes != 12000 || len(cfg.Context.Collectors) != 2 {
+		t.Errorf("unexpected custom context config: %+v", cfg.Context)
 	}
 	if cfg.Completions.Path != "/custom/completions/path" {
 		t.Errorf("Expected Completions path '/custom/completions/path', got %q", cfg.Completions.Path)
