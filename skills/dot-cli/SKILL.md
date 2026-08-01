@@ -25,7 +25,7 @@ metadata:
 | `dot release`       | `r`   | Bump version, changelog, tag, publish (see [dot-release](../dot-release/SKILL.md)) |
 | `dot cluster`       | `k`   | `start` / `stop` / `status` / `delete` / `namespace` the local k3d cluster         |
 | `dot prune`         | `x`   | Reclaim disk from agent session logs and caches (see below)                        |
-| `dot agent session` | `a s` | Log and `sync` agent sessions into `~/.agents/sessions/` (gathers only)            |
+| `dot agent session` | `a s` | Atomically log, sync, and migrate private agent-session lineage (gathers only)     |
 | `dot notify`        | `n`   | Desktop notification for agent hooks or custom alerts                              |
 | `dot chezmoi clean` | `m c` | Delete `$HOME` orphans left by files chezmoi no longer manages                     |
 | `dot config`        | `f`   | `show` / `path` / `init` / `edit` / `validate` `~/.config/dot.yaml`                |
@@ -35,6 +35,12 @@ metadata:
 | `dot version`       | `i`   | Version plus the embedded VCS revision                                             |
 
 Global flags: `--config/-c <path>` (or `DOT_CONFIG_PATH`) and `--verbose` (or `DOT_VERBOSE`).
+
+## Session ingestion
+
+Live hooks and `dot agent session sync` write the same append-only store under `~/.agents/sessions/v1/`. A hashed `(agent, session_id)` directory contains immutable source generations; each generation is keyed by the source fingerprint and parser version, holds `manifest.json` plus `transcript.jsonl`, and appears only after both owner-only files validate and their temporary directory is atomically renamed. Outcomes report a truncated lineage hash, record counts, malformed/skipped counts, and completeness without printing the raw session ID.
+
+Run `dot agent session migrate` before relying on the new store for historical evidence. It is a read-only dry run by default, deterministically selects the most complete legacy transcript for every lineage, reports duplicate/partial/skipped/malformed totals, and leaves every legacy file in place. `dot agent session migrate --apply` copies each selection into the versioned store without deleting the old archive.
 
 ## Prune
 
