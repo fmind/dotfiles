@@ -1,0 +1,4 @@
+interface:
+  display_name: "Issue Execution"
+  short_description: "Claim and deliver one GitHub issue safely"
+  default_prompt: "Use $issue-execution to claim and implement one eligible GitHub issue within the authority I provide."

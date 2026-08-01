@@ -208,6 +208,12 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 			ordered: []string{"git status --short", "git commit -m", "git push", "Do not use `--no-verify`"},
 		},
 		{
+			name:     "issue execution gates claims proof and publication",
+			path:     "skills/issue-execution/SKILL.md",
+			required: []string{"complete body, comments, labels", "native `blockedBy`", "already satisfied", "UTC RFC3339 timestamp", "staged, unstaged, and untracked", "dot context", "fast gate", "mise run all", "every acceptance criterion", "source-ready", "full-local-green", "exact-head-CI", "runtime-proven", "deployed", "release-published", "Implementing does not authorize commit", "needs-human", "tests/fixtures/cases.json"},
+			commands: [][]string{{"context"}},
+		},
+		{
 			name:     "repository review preserves proof boundaries",
 			path:     "skills/repository-review/SKILL.md",
 			required: []string{"staged, unstaged, and untracked", "isolated temporary worktree", "mise run all", "source-ready", "local-green", "exact-head-CI", "runtime-proven", "deployed", "release-published", "Key findings", "Actions"},
@@ -249,6 +255,57 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+type issueExecutionFixtures struct {
+	Cases   []issueExecutionCase `json:"cases"`
+	Version int                  `json:"version"`
+}
+
+type issueExecutionCase struct {
+	Name                string   `json:"name"`
+	ExpectedDisposition string   `json:"expected_disposition"`
+	Conditions          []string `json:"conditions"`
+	Forbidden           []string `json:"forbidden"`
+}
+
+func TestIssueExecutionBehavioralFixtures(t *testing.T) {
+	repo := skillRepositoryRoot(t)
+	data, err := os.ReadFile(filepath.Join(repo, "skills/issue-execution/tests/fixtures/cases.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	var fixtures issueExecutionFixtures
+	if err := decoder.Decode(&fixtures); err != nil {
+		t.Fatalf("decode issue execution fixtures: %v", err)
+	}
+	if fixtures.Version != 1 {
+		t.Fatalf("issue execution fixtures: unsupported version %d", fixtures.Version)
+	}
+	expected := map[string]bool{
+		"dirty-worktree": false, "stale-lease": false, "blocked-dependencies": false,
+		"partial-validation": false, "ci-failure": false, "unauthorized-publication": false,
+	}
+	for _, fixture := range fixtures.Cases {
+		if _, ok := expected[fixture.Name]; !ok {
+			t.Errorf("unexpected issue execution fixture %q", fixture.Name)
+			continue
+		}
+		if expected[fixture.Name] {
+			t.Errorf("duplicate issue execution fixture %q", fixture.Name)
+		}
+		expected[fixture.Name] = true
+		if len(fixture.Conditions) == 0 || fixture.ExpectedDisposition == "" || len(fixture.Forbidden) == 0 {
+			t.Errorf("fixture %q must define conditions, expected disposition, and forbidden actions", fixture.Name)
+		}
+	}
+	for name, found := range expected {
+		if !found {
+			t.Errorf("missing issue execution fixture %q", name)
+		}
 	}
 }
 

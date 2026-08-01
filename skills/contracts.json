@@ -20,6 +20,7 @@
     "github-repository": ["gh"],
     "github-triage": ["delta", "gh", "gh-dash", "jq", "lazygit", "nvim"],
     "go-stack": ["go", "mise"],
+    "issue-execution": ["dot", "gh", "git", "mise"],
     "k8s-local": ["docker", "kubectl"],
     "k8s-review": ["dot", "kubectl", "mise"],
     "lefthook": ["lefthook", "mise"],
