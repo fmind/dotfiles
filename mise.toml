@@ -191,6 +191,7 @@ run = [
   "bash bootstrap/verified-installers_test.sh",
   "mise -C dot run test",
   "python3 -B -m unittest skills/python-stack/scripts/resolve_source_test.py skills/go-stack/scripts/resolve_source_test.py",
+  "python3 -B -m unittest skills/release-audit/scripts/audit_test.py",
 ]
 
 [tasks.watch]
