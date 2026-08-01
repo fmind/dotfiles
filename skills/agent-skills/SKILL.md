@@ -39,6 +39,7 @@ Install, author, and verify Agent Skills for Antigravity, Codex, OpenCode, Claud
    cp -R ~/.agents/skills/<name> ~/.gemini/config/skills/
    ```
 1. **Verify**:
+   - **Package contract**: run `gh skill publish --dry-run`. In this repository, `mise run check:skills` also verifies every skill's declared tools in `skills/contracts.json`, referenced resources, progressive-disclosure layout, and offline safety smoke contracts.
    - **Antigravity**: run `/skills` in an `agy` session.
    - **Codex**: start Codex and invoke a known skill by name.
    - **OpenCode**: run `opencode debug config` and inspect the resolved skills.
