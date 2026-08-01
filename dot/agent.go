@@ -96,6 +96,9 @@ func NewAgentSessionCmd(state *GlobalState) *cli.Command {
 		Aliases: []string{"s"},
 		Usage:   "Manage agent session logs",
 		Commands: []*cli.Command{
+			NewAgentSessionListCmd(state),
+			NewAgentSessionShowCmd(state),
+			NewAgentSessionExportCmd(state),
 			{
 				Name:  "agy",
 				Usage: "Process session end hook for Antigravity (agy)",
