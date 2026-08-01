@@ -53,6 +53,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		app := &cli.Command{
 			Commands: []*cli.Command{
 				NewClusterCmd(state),
@@ -67,8 +68,8 @@ func TestClusterCommands(t *testing.T) {
 		if atomic.LoadInt32(&startCalled) != 1 {
 			t.Error("Expected k3d cluster start to be called once")
 		}
-		if atomic.LoadInt32(&mergeCalled) != 1 {
-			t.Error("Expected k3d kubeconfig merge to be called once")
+		if atomic.LoadInt32(&mergeCalled) != 0 {
+			t.Error("Expected the default kubeconfig never to be merged")
 		}
 		if atomic.LoadInt32(&waitCalled) != 1 {
 			t.Error("Expected kubectl wait to be called once")
@@ -88,6 +89,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		app := &cli.Command{
 			Commands: []*cli.Command{
 				NewClusterCmd(state),
@@ -111,6 +113,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		app := &cli.Command{
 			Commands: []*cli.Command{
 				NewClusterCmd(state),
@@ -187,8 +190,9 @@ func TestClusterCommands(t *testing.T) {
 				return "", fmt.Errorf("unexpected command: %s %v", name, args)
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
-				if name == "k3d" && len(args) == 5 && args[0] == "cluster" && args[1] == "create" &&
-					args[2] == "configured-name" && args[3] == "--config" && args[4] == tempFile.Name() {
+				if name == "k3d" && len(args) == 7 && args[0] == "cluster" && args[1] == "create" &&
+					args[2] == "configured-name" && args[3] == "--config" && args[4] == tempFile.Name() &&
+					slices.Contains(args, "--kubeconfig-update-default=false") && slices.Contains(args, "--kubeconfig-switch-context=false") {
 					atomic.AddInt32(&createCalled, 1)
 					return nil
 				}
@@ -203,6 +207,7 @@ func TestClusterCommands(t *testing.T) {
 		state := newTestState(runner)
 		state.Config.Cluster.Name = "configured-name"
 		state.Config.Cluster.ConfigPath = tempFile.Name()
+		configureClusterTestTarget(t, state, runner)
 
 		app := &cli.Command{
 			Commands: []*cli.Command{
@@ -218,8 +223,8 @@ func TestClusterCommands(t *testing.T) {
 		if atomic.LoadInt32(&createCalled) != 1 {
 			t.Error("Expected k3d cluster create to be called once")
 		}
-		if atomic.LoadInt32(&mergeCalled) != 1 {
-			t.Error("Expected k3d kubeconfig merge to be called once")
+		if atomic.LoadInt32(&mergeCalled) != 0 {
+			t.Error("Expected the default kubeconfig never to be merged")
 		}
 		if atomic.LoadInt32(&waitCalled) != 1 {
 			t.Error("Expected kubectl wait to be called once")
@@ -239,6 +244,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		app := &cli.Command{
 			Commands: []*cli.Command{
 				NewClusterCmd(state),
@@ -295,6 +301,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		app := &cli.Command{
 			Commands: []*cli.Command{
 				NewClusterCmd(state),
@@ -324,6 +331,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		app := &cli.Command{
 			Commands: []*cli.Command{
 				NewClusterCmd(state),
@@ -391,6 +399,7 @@ func TestClusterCommands(t *testing.T) {
 		}
 
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		app := &cli.Command{
 			Commands: []*cli.Command{
 				NewClusterCmd(state),

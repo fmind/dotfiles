@@ -4,12 +4,46 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 )
+
+func clusterTestKubeconfig(name, contextName, server string) string {
+	return fmt.Sprintf("apiVersion: v1\nclusters:\n  - name: k3d-%[1]s\n    cluster:\n      server: %[3]s\ncontexts:\n  - name: %[2]s\n    context:\n      cluster: k3d-%[1]s\n      namespace: default\ncurrent-context: %[2]s\n", name, contextName, server)
+}
+
+func configureClusterTestTarget(t *testing.T, state *GlobalState, runner *FakeRunner) {
+	t.Helper()
+	name := state.Config.Cluster.Name
+	contextName := expectedClusterContext(name)
+	content := clusterTestKubeconfig(name, contextName, "https://127.0.0.1:6443")
+	path := filepath.Join(t.TempDir(), name+".yaml")
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	state.Config.Cluster.KubeconfigPath = path
+	originalRun := runner.RunFunc
+	runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, command string, args ...string) (string, error) {
+		if command == "docker" && slices.Equal(args, []string{"info"}) {
+			return "docker ok", nil
+		}
+		if command == "k3d" && slices.Equal(args, []string{"kubeconfig", "get", name}) {
+			return content, nil
+		}
+		if command == "kubectl" && slices.Contains(args, "--raw=/version") {
+			return `{"gitVersion":"v1"}`, nil
+		}
+		if originalRun != nil {
+			return originalRun(ctx, dir, stdin, command, args...)
+		}
+		return "", nil
+	}
+}
 
 func TestRunClusterNamespace_Errors(t *testing.T) {
 	ctx := context.Background()
@@ -32,6 +66,7 @@ func TestRunClusterNamespace_Errors(t *testing.T) {
 			},
 		}
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterNamespace(ctx, state, "test-ns")
 		if !errors.Is(err, ErrToolNotInstalled) {
 			t.Errorf("Expected ErrToolNotInstalled, got %v", err)
@@ -56,6 +91,7 @@ func TestRunClusterNamespace_Errors(t *testing.T) {
 			},
 		}
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterNamespace(ctx, state, "test-ns")
 		if err == nil || !strings.Contains(err.Error(), "failed to create namespace 'test-ns'") {
 			t.Errorf("Expected create namespace error, got %v", err)
@@ -82,6 +118,7 @@ func TestRunClusterNamespace_Errors(t *testing.T) {
 			},
 		}
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterNamespace(ctx, state, "test-ns")
 		if err == nil || !strings.Contains(err.Error(), "failed to query namespace 'test-ns'") {
 			t.Errorf("Expected query namespace error, got %v", err)
@@ -109,6 +146,7 @@ func TestRunClusterNamespace_Errors(t *testing.T) {
 			},
 		}
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterNamespace(ctx, state, "test-ns")
 		if err == nil || !strings.Contains(err.Error(), "failed to set context namespace") {
 			t.Errorf("Expected set-context error, got %v", err)
@@ -176,6 +214,7 @@ func TestRunClusterStart_Scenarios(t *testing.T) {
 		}
 		state := newTestState(runner)
 		state.Config.Cluster.Name = "my-cluster"
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterStart(ctx, state)
 		if err == nil || !strings.Contains(err.Error(), "failed to start cluster") {
 			t.Errorf("Expected failed to start cluster error, got %v", err)
@@ -193,7 +232,7 @@ func TestRunClusterStart_Scenarios(t *testing.T) {
 				}
 				if name == "k3d" {
 					if args[0] == "cluster" && args[1] == "list" {
-						return "", errors.New("no cluster") // cluster doesn't exist
+						return "", nil // cluster doesn't exist
 					}
 				}
 				return "", nil
@@ -237,7 +276,7 @@ func TestRunClusterStart_Scenarios(t *testing.T) {
 		}
 	})
 
-	t.Run("k3d merge kubeconfig fails", func(t *testing.T) {
+	t.Run("k3d kubeconfig retrieval fails", func(t *testing.T) {
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
 				return "/usr/bin/" + name, nil
@@ -253,8 +292,8 @@ func TestRunClusterStart_Scenarios(t *testing.T) {
 					if args[0] == "cluster" && args[1] == "start" {
 						return "started", nil
 					}
-					if args[0] == "kubeconfig" && args[1] == "merge" {
-						return "", errors.New("merge failed")
+					if args[0] == "kubeconfig" && args[1] == "get" {
+						return "", errors.New("kubeconfig failed")
 					}
 				}
 				return "", nil
@@ -263,8 +302,8 @@ func TestRunClusterStart_Scenarios(t *testing.T) {
 		state := newTestState(runner)
 		state.Config.Cluster.Name = "my-cluster"
 		err := RunClusterStart(ctx, state)
-		if err == nil || !strings.Contains(err.Error(), "failed to merge kubeconfig") {
-			t.Errorf("Expected merge kubeconfig error, got %v", err)
+		if err == nil || !strings.Contains(err.Error(), "failed to get kubeconfig") {
+			t.Errorf("Expected kubeconfig retrieval error, got %v", err)
 		}
 	})
 
@@ -296,6 +335,7 @@ func TestRunClusterStart_Scenarios(t *testing.T) {
 		}
 		state := newTestState(runner)
 		state.Config.Cluster.Name = "my-cluster"
+		configureClusterTestTarget(t, state, runner)
 		var errBuf bytes.Buffer
 		state.Stderr = &errBuf
 
@@ -322,6 +362,7 @@ func TestRunClusterStatus_Errors(t *testing.T) {
 			},
 		}
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterStatus(ctx, state)
 		if !errors.Is(err, ErrToolNotInstalled) {
 			t.Errorf("Expected ErrToolNotInstalled, got %v", err)
@@ -341,6 +382,7 @@ func TestRunClusterStatus_Errors(t *testing.T) {
 			},
 		}
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterStatus(ctx, state)
 		if err == nil || !strings.Contains(err.Error(), "failed to list k3d clusters") {
 			t.Errorf("Expected list failed error, got %v", err)
@@ -360,6 +402,7 @@ func TestRunClusterStatus_Errors(t *testing.T) {
 			},
 		}
 		state := newTestState(runner)
+		configureClusterTestTarget(t, state, runner)
 		err := RunClusterStatus(ctx, state)
 		if err == nil || !strings.Contains(err.Error(), "failed to get kubectl nodes") {
 			t.Errorf("Expected get nodes failed error, got %v", err)
