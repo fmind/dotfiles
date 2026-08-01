@@ -30,6 +30,7 @@
     "readme-agents": [],
     "release": ["gh", "git", "git-cliff"],
     "release-audit": ["cosign", "gh", "git", "python3"],
+    "repository-review": ["git", "mise"],
     "security-scan": ["gitleaks", "trivy"],
     "upgrade-tools": ["mise"]
   }

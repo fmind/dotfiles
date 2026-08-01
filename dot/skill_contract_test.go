@@ -201,6 +201,11 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 			path:    "skills/git-add-commit-push/SKILL.md",
 			ordered: []string{"git status --short", "git commit -m", "git push", "Do not use `--no-verify`"},
 		},
+		{
+			name:     "repository review preserves proof boundaries",
+			path:     "skills/repository-review/SKILL.md",
+			required: []string{"staged, unstaged, and untracked", "isolated temporary worktree", "mise run all", "source-ready", "local-green", "exact-head-CI", "runtime-proven", "deployed", "release-published", "Key findings", "Actions"},
+		},
 	}
 	app := NewApp()
 	for _, test := range tests {
