@@ -253,6 +253,7 @@ func TestRunReleasePublishRejectsMovedOrLightweightTag(t *testing.T) {
 }
 
 func TestRunReleasePublishRequiresActionsAndExactCheckout(t *testing.T) {
+	t.Setenv("GITHUB_ACTIONS", "false")
 	t.Chdir(releaseFixture(t, "1.2.0"))
 	runner := newPublishRunner(t)
 	if err := RunReleasePublish(context.Background(), newTestState(runner.fake), releaseTestCommit, &fakeReleaseWaiter{}); err == nil || !strings.Contains(err.Error(), "restricted to GitHub Actions") {
