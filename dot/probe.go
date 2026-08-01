@@ -36,11 +36,12 @@ func CapabilityProbeRegistry() map[string]CapabilityProbe {
 		"claude": {"--version"}, "codex": {"--version"}, "copilot": {"--version"}, "docker": {"--version"},
 		"dprint": {"--version"}, "gcloud": {"--version"}, "gh": {"--version"}, "git": {"--version"},
 		"git-cliff": {"--version"}, "gitleaks": {"version"}, "go": {"version"}, "gws": {"--version"},
-		"helm": {"version", "--client"}, "helmfile": {"--version"}, "jules": {"--version"}, "k3d": {"version"},
+		"gdbus": {"help"}, "helm": {"version", "--client"}, "helmfile": {"--version"}, "jules": {"--version"}, "k3d": {"version"},
 		"k9s": {"version", "--short"}, "kubectl": {"version", "--client"}, "lefthook": {"version"}, "mise": {"--version"},
-		"nvim": {"--version"}, "opencode": {"--version"}, "python": {"--version"}, "skaffold": {"version"},
+		"notify-send": {"--help"}, "nvim": {"--version"}, "opencode": {"--version"}, "osascript": {"-e", "return \"ok\""}, "python": {"--version"}, "skaffold": {"version"},
 		"sqlite3": {"--version"}, "trivy": {"--version"}, "uv": {"--version"},
 	}
+	args["dot"] = []string{"version"}
 
 	registry := make(map[string]CapabilityProbe, len(args))
 	for name, probeArgs := range args {

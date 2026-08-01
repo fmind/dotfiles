@@ -25,6 +25,8 @@ metadata:
 | `dot release`       | `r`   | Bump version, changelog, tag, publish (see [dot-release](../dot-release/SKILL.md)) |
 | `dot cluster`       | `k`   | `start` / `stop` / `status` / `delete` / `namespace` the local k3d cluster         |
 | `dot prune`         | `x`   | Reclaim disk from agent session logs and caches (see below)                        |
+| `dot agent doctor`  | —     | Read-only cross-agent discovery, hook, source, and lineage health                  |
+| `dot agent hook`    | —     | Observable session and notification hook boundary with bounded failure spooling    |
 | `dot agent session` | `a s` | Atomically log, sync, and migrate private agent-session lineage (gathers only)     |
 | `dot notify`        | `n`   | Desktop notification for agent hooks or custom alerts                              |
 | `dot chezmoi clean` | `m c` | Delete `$HOME` orphans left by files chezmoi no longer manages                     |
@@ -41,6 +43,10 @@ Global flags: `--config/-c <path>` (or `DOT_CONFIG_PATH`) and `--verbose` (or `D
 Live hooks and `dot agent session sync` write the same append-only store under `~/.agents/sessions/v1/`. A hashed `(agent, session_id)` directory contains immutable source generations; each generation is keyed by the source fingerprint and parser version, holds `manifest.json` plus `transcript.jsonl`, and appears only after both owner-only files validate and their temporary directory is atomically renamed. Outcomes report a truncated lineage hash, record counts, malformed/skipped counts, and completeness without printing the raw session ID.
 
 Run `dot agent session migrate` before relying on the new store for historical evidence. It is a read-only dry run by default, deterministically selects the most complete legacy transcript for every lineage, reports duplicate/partial/skipped/malformed totals, and leaves every legacy file in place. `dot agent session migrate --apply` copies each selection into the versioned store without deleting the old archive.
+
+Agent hook templates invoke `dot agent hook session ...` and `dot agent hook notify ...`. The wrapper preserves the original non-zero exit and writes bounded failure metadata to the owner-only `~/.agents/hook-failures/v1/` spool, capped at 100 records; it stores no transcript body or raw session ID.
+
+Use `dot agent doctor` for a read-only cross-agent check of persona and skill discovery, hook commands, local capability probes, source-store presence, latest complete ingestion, latest hook failure, partial state, and archive lag. It never reads transcript bodies or contacts vendor services. Repair is explicit: `dot agent doctor --fix --dry-run` previews the targeted forced chezmoi apply, and `dot agent doctor --fix` performs it.
 
 ## Prune
 
