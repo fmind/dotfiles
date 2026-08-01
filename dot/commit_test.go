@@ -286,7 +286,7 @@ func TestRunCommitPromptHints(t *testing.T) {
 					case name == "git" && args[0] == "rev-parse":
 						return "true", nil
 					case name == "git" && args[0] == "diff":
-						return "some diff", nil
+						return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 					case strings.HasSuffix(name, "agy"):
 						for i, arg := range args {
 							if arg == "--prompt" && i+1 < len(args) {

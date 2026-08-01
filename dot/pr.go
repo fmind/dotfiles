@@ -139,7 +139,10 @@ func RunPr(ctx context.Context, state *GlobalState, cmd *cli.Command, baseBranch
 	aiBinary := GetAIBinary(state)
 	_, _ = fmt.Fprintf(state.Stdout, "Generating PR description using %s...\n", aiBinary)
 
-	aiDiff := limitAIInput(diff, state.Config.Commit.MaxDiffSize)
+	aiDiff, err := PackDiff(diff, state.Config.Commit.MaxDiffSize)
+	if err != nil {
+		return fmt.Errorf("failed to pack pull request diff: %w", err)
+	}
 	if scanErr := ScanDiffForSecrets(ctx, state, aiDiff); scanErr != nil {
 		return scanErr
 	}
