@@ -213,6 +213,7 @@ alias = "t"
 depends = ["trust:repo"]
 description = "Run bootstrap, dot CLI, and skill script test suites"
 run = [
+  "bash bootstrap/update-convergence_test.sh",
   "bash bootstrap/verified-installers_test.sh",
   "mise -C dot run test",
   "python3 -B -m unittest skills/python-stack/scripts/resolve_source_test.py skills/go-stack/scripts/resolve_source_test.py",
@@ -259,9 +260,8 @@ run = ["chezmoi doctor", "mise doctor"]
 
 [tasks.full]
 alias = "mf"
-depends = ["tools"]
 description = "Apply dotfiles and sync global tools"
-run = "echo '✓ Dotfiles deployed.'"
+run = "mise run converge"
 
 [tasks.hooks]
 alias = "mh"
@@ -306,14 +306,8 @@ run = "executable_dot release"
 
 [tasks.tools]
 alias = "mt"
-description = "Install pinned tools for this repo and the global config"
-run = [
-  "mise install -y",
-  "mise run apply",
-  "mise trust -y ~/.config/mise/config.toml",
-  "mise -C \"$HOME\" install -y",
-  "mise run completions",
-]
+description = "Compatibility entrypoint for workstation convergence"
+run = "mise run converge"
 
 [tasks.trust]
 alias = "mtr"
@@ -322,17 +316,16 @@ run = [".github/scripts/trust-mise.sh", "mise trust -y ~/.config/mise/config.tom
 
 [tasks.upgrade]
 alias = "mu"
-description = "Upgrade mise tools to latest versions"
-run = [
-  "mise -C \"$HOME\" upgrade --bump --exclude tree-sitter --exclude github:googleworkspace/cli",
-  "mise upgrade --bump --local",
-  "mise lock --bump --yes",
-  "mise lock --global --bump --yes",
-  "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
-  "nvim --headless '+Lazy! update' +qa",
-  "chezmoi re-add --source \"$PWD\" ~/.config/nvim/lazy-lock.json",
-  "mise run tools",
-]
+description = "Update repository pins, then converge the workstation"
+run = ["mise run update:repo", "mise run converge"]
+
+[tasks."update:repo"]
+description = "Update repository mise pins and lockfile in an isolated home"
+run = "bootstrap/update-repository.sh"
+
+[tasks.converge]
+description = "Install and apply reviewed source, then verify capabilities"
+run = "bootstrap/converge-workstation.sh"
 
 [tasks.verify]
 alias = "mx"
