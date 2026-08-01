@@ -40,11 +40,11 @@ repository_log="${fixture_root}/repository.log"
 )
 repository_changes="$(git -C "${repo_fixture}" diff --name-only)"
 test "${repository_changes}" = $'mise.lock\nmise.toml'
-rg -q '^trust -y .*/mise.toml$' "${repository_log}"
-rg -q '^upgrade --bump --local --yes$' "${repository_log}"
-rg -q '^lock --bump --yes$' "${repository_log}"
-rg -q '^Repository update ecosystems: mise tools$' "${fixture_root}/repository.out"
-rg -q '^Expected repository changes: mise.toml mise.lock$' "${fixture_root}/repository.out"
+grep -q '^trust -y .*/mise.toml$' "${repository_log}"
+grep -q '^upgrade --bump --local --yes$' "${repository_log}"
+grep -q '^lock --bump --yes$' "${repository_log}"
+grep -q '^Repository update ecosystems: mise tools$' "${fixture_root}/repository.out"
+grep -q '^Expected repository changes: mise.toml mise.lock$' "${fixture_root}/repository.out"
 
 cat >"${fake_bin}/mise" <<'EOF'
 #!/usr/bin/env bash
@@ -64,8 +64,8 @@ if TEST_LOG="${convergence_log}" FAIL_ONCE_FILE="${fail_once}" PATH="${fake_bin}
   echo "expected the first convergence attempt to fail" >&2
   exit 1
 fi
-rg -q '^Workstation convergence failed at phase: dotfiles$' "${fixture_root}/failed.err"
-if rg -q '^run verify$' "${convergence_log}"; then
+grep -q '^Workstation convergence failed at phase: dotfiles$' "${fixture_root}/failed.err"
+if grep -q '^run verify$' "${convergence_log}"; then
   echo "convergence continued after a failed phase" >&2
   exit 1
 fi
@@ -74,8 +74,8 @@ fi
 TEST_LOG="${convergence_log}" FAIL_ONCE_FILE="${fail_once}" PATH="${fake_bin}:${PATH}" \
   "${repo_root}/bootstrap/converge-workstation.sh" >"${fixture_root}/retry.out"
 for expected in 'install -y' 'run apply' 'trust -y' 'run completions' 'run verify'; do
-  rg -q "${expected}" "${convergence_log}"
+  grep -q "${expected}" "${convergence_log}"
 done
-rg -q '^Workstation convergence complete\.$' "${fixture_root}/retry.out"
+grep -q '^Workstation convergence complete\.$' "${fixture_root}/retry.out"
 
 echo "PASS: repository update and workstation convergence fixtures"
