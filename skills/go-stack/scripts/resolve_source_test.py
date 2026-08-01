@@ -52,7 +52,7 @@ class ResolveGoSourceTest(unittest.TestCase):
         payload = json.loads(result.stdout)
         self.assertEqual(payload["schema"], "fmind.dev/dependency-source/v1")
         self.assertEqual(payload["version"], "v1.2.3")
-        self.assertEqual(payload["provenance"]["replacement"]["Dir"], str(self.dependency))
+        self.assertEqual(Path(payload["provenance"]["replacement"]["Dir"]).resolve(), self.dependency.resolve())
         self.assertTrue(payload["provenance"]["private"])
 
     def test_resolves_qualified_method(self) -> None:
