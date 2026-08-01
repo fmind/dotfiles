@@ -7,6 +7,13 @@ readonly SCRIPT_DIR
 REPO_ROOT=$(cd -- "${SCRIPT_DIR}/../.." && pwd)
 readonly REPO_ROOT
 
+# Git exports repository-local variables to hooks. Clear them before initializing
+# the foreign fixture so its index and worktree can never resolve to the caller.
+git_local_variables=$(git rev-parse --local-env-vars)
+while IFS= read -r variable; do
+  unset "${variable}"
+done <<<"${git_local_variables}"
+
 fixture_root=$(mktemp -d /tmp/mise-trust-fixture.XXXXXX)
 cleanup() {
   [[ ${fixture_root} == /tmp/mise-trust-fixture.* && -d ${fixture_root} && ! -L ${fixture_root} ]] || {
