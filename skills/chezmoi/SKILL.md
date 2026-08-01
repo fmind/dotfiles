@@ -60,7 +60,7 @@ Never commit or apply a decrypted copy — a `*.age` blob is the only committabl
 5. **Pull target edits back**: `chezmoi re-add` folds manual changes to a managed file back into the source (e.g. a regenerated lockfile).
 6. **Diagnose**: `chezmoi doctor` (config, encryption, template health); `chezmoi managed` / `chezmoi unmanaged` list coverage; `chezmoi cd` opens a shell in the source root.
 
-In this repo the tasks are wrapped by [mise](../mise/SKILL.md): `mise run apply` (`chezmoi apply --force`), `mise run diff`, `mise run preview` (dry-run apply), `mise run doctor` (`chezmoi doctor` + `mise doctor`), and `dot chezmoi clean` scans for orphaned once-managed files in `$HOME`.
+In this repo the tasks are wrapped by [mise](../mise/SKILL.md): `mise run apply` (`chezmoi apply --force`), `mise run diff` (preview), `mise run doctor` (`chezmoi doctor` + `mise doctor`), and `dot chezmoi clean` scans for orphaned once-managed files in `$HOME`.
 
 ## 5. Config Seed & Ignore
 

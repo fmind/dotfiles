@@ -59,6 +59,7 @@ description = "Run all static checks in parallel"
 depends = [
   "check:chezmoi",
   "check:dprint",
+  "check:docs",
   "check:go",
   "check:python",
   "check:shell",
@@ -82,6 +83,11 @@ chezmoi apply --dry-run --force --source "$PWD" --destination "$render_destinati
 alias = "cd"
 description = "Check config/markup formatting (dprint)"
 run = "dprint check"
+
+[tasks."check:docs"]
+alias = "ca"
+description = "Validate agent documentation against live commands and paths"
+run = "go test -C dot -run '^TestDocumentationContract$' ./..."
 
 [tasks."check:go"]
 alias = "cg"
