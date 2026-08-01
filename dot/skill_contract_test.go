@@ -127,7 +127,7 @@ func checkSkillLinks(t *testing.T, repo, skillFile, content string) {
 
 func checkSkillResources(t *testing.T, repo, skillFile, content string) {
 	t.Helper()
-	allowedDirectories := []string{"assets", "references", "resources", "scripts", "templates"}
+	allowedDirectories := []string{"agents", "assets", "references", "resources", "scripts", "templates"}
 	skillDirectory := filepath.Dir(skillFile)
 	err := filepath.WalkDir(skillDirectory, func(path string, entry os.DirEntry, walkErr error) error {
 		if walkErr != nil {
@@ -144,7 +144,7 @@ func checkSkillResources(t *testing.T, repo, skillFile, content string) {
 		if !slices.Contains(allowedDirectories, first) {
 			return &skillLayoutError{path: path}
 		}
-		if !entry.IsDir() && !strings.Contains(content, filepath.ToSlash(relative)) {
+		if !entry.IsDir() && first != "agents" && !strings.Contains(content, filepath.ToSlash(relative)) {
 			relativeSkill, repoErr := filepath.Rel(repo, skillFile)
 			if repoErr != nil {
 				relativeSkill = skillFile
@@ -160,7 +160,7 @@ func checkSkillResources(t *testing.T, repo, skillFile, content string) {
 			if relErr != nil {
 				relative = layoutErr.path
 			}
-			t.Errorf("%s: unsupported progressive-disclosure path; move it under assets, references, resources, scripts, or templates", relative)
+			t.Errorf("%s: unsupported progressive-disclosure path; move it under agents, assets, references, resources, scripts, or templates", relative)
 			return
 		}
 		t.Fatal(err)
@@ -200,6 +200,11 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 			name:    "git publication validates before push",
 			path:    "skills/git-add-commit-push/SKILL.md",
 			ordered: []string{"git status --short", "git commit -m", "git push", "Do not use `--no-verify`"},
+		},
+		{
+			name:     "repository review preserves proof boundaries",
+			path:     "skills/repository-review/SKILL.md",
+			required: []string{"staged, unstaged, and untracked", "isolated temporary worktree", "mise run all", "source-ready", "local-green", "exact-head-CI", "runtime-proven", "deployed", "release-published", "Key findings", "Actions"},
 		},
 	}
 	app := NewApp()

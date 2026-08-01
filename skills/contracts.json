@@ -28,6 +28,7 @@
     "python-stack": ["ruff", "uv"],
     "readme-agents": [],
     "release": ["gh", "git", "git-cliff"],
+    "repository-review": ["git", "mise"],
     "security-scan": ["gitleaks", "trivy"],
     "upgrade-tools": ["mise"]
   }
