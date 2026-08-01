@@ -68,6 +68,26 @@ func writeAged(t *testing.T, path, contents string, age time.Duration) {
 	}
 }
 
+func writeCompleteSessionSuccessor(t *testing.T, agent, sessionID, sourcePath string) sessionIngestionResult {
+	t.Helper()
+	fingerprint, err := fingerprintFile(sourcePath)
+	if err != nil {
+		t.Fatalf("failed to fingerprint raw session source: %v", err)
+	}
+	logs := []SessionLogLine{{Agent: agent, SID: sessionID, Role: "user", Content: "normalized"}}
+	result, err := ingestSession(context.Background(), agent, sessionID, logs, sessionSource{
+		Type:        agent + "-test",
+		Fingerprint: fingerprint,
+	})
+	if err != nil {
+		t.Fatalf("failed to create normalized successor: %v", err)
+	}
+	if result.Status != sessionIngested {
+		t.Fatalf("expected successor ingestion, got %s", result.Status)
+	}
+	return result
+}
+
 func requireExists(t *testing.T, path string) {
 	t.Helper()
 	if _, err := os.Lstat(path); err != nil {
@@ -92,6 +112,7 @@ func TestPruneAgentSessions(t *testing.T) {
 		fresh := filepath.Join(projects, "live", "new.jsonl")
 		writeAged(t, expired, "0123456789", 30*24*time.Hour)
 		writeAged(t, fresh, "still relevant", time.Hour)
+		writeCompleteSessionSuccessor(t, sessionStoreClaude, "old", expired)
 
 		if err := RunPrune(context.Background(), state, PruneOptions{
 			Targets: map[string]string{"agents": levelSessions},
@@ -126,6 +147,7 @@ func TestPruneAgentSessions(t *testing.T) {
 		for _, path := range []string{memoryNote, memoryIndex, memoryLog, sessionLog} {
 			writeAged(t, path, "aged out", 90*24*time.Hour)
 		}
+		writeCompleteSessionSuccessor(t, sessionStoreClaude, "session", sessionLog)
 
 		if err := RunPrune(context.Background(), state, PruneOptions{
 			Targets: map[string]string{"agents": levelSessions},
@@ -508,10 +530,11 @@ func TestPruneRetention(t *testing.T) {
 			{Path: "~/.codex/sessions", KeepDays: 7},
 			{Path: "~/.agents/sessions", KeepDays: 30},
 		}
-		raw := filepath.Join(home, ".codex", "sessions", "rollout.jsonl")
+		raw := filepath.Join(home, ".codex", "sessions", "rollout-2026-07-09T12-00-00-retention-session.jsonl")
 		archived := filepath.Join(home, ".agents", "sessions", "session.jsonl")
 		writeAged(t, raw, "raw", 10*24*time.Hour)
 		writeAged(t, archived, "archived", 10*24*time.Hour)
+		writeCompleteSessionSuccessor(t, sessionStoreCodex, "retention-session", raw)
 		return state, out, raw, archived
 	}
 
@@ -832,23 +855,25 @@ func TestDefaultPruneConfig(t *testing.T) {
 	state, _, home := newPruneTestState(t, &FakeRunner{})
 	cfg := state.Config.Prune
 
-	want := map[string]int{
-		"~/.claude/projects":              7,
-		"~/.codex/sessions":               7,
-		"~/.gemini/antigravity-cli/brain": 7,
+	want := map[string]PruneSessionStore{
+		"~/.claude/projects":                  {Source: sessionStoreClaude, KeepDays: 7},
+		"~/.codex/sessions":                   {Source: sessionStoreCodex, KeepDays: 7},
+		"~/.gemini/antigravity-cli/brain":     {Source: sessionStoreAgy, KeepDays: 7},
+		"~/.local/share/opencode/opencode.db": {Source: sessionStoreOpenCode, KeepDays: 7},
+		"~/.copilot/session-store.db":         {Source: sessionStoreCopilot, KeepDays: 7},
 		// The normalized archive outlives the raw session logs it was distilled from.
-		"~/.agents/sessions": 30,
+		"~/.agents/sessions": {Source: sessionStoreArchive, KeepDays: 30},
 	}
 	if len(cfg.Agents.Sessions) != len(want) {
 		t.Fatalf("expected %d session stores, got %v", len(want), cfg.Agents.Sessions)
 	}
 	for _, store := range cfg.Agents.Sessions {
-		days, known := want[store.Path]
+		expected, known := want[store.Path]
 		if !known {
 			t.Fatalf("unexpected session store %s", store.Path)
 		}
-		if store.KeepDays != days {
-			t.Fatalf("expected %s to keep %d days, got %d", store.Path, days, store.KeepDays)
+		if store.KeepDays != expected.KeepDays || store.Source != expected.Source {
+			t.Fatalf("expected %s to use source %s and keep %d days, got %+v", store.Path, expected.Source, expected.KeepDays, store)
 		}
 	}
 	for _, keep := range []string{"memory", "memory.jsonl", "MEMORY.md"} {

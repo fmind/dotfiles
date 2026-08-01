@@ -10,7 +10,6 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 )
 
 // errReader fails on the first read so the io.ReadAll error path of parseStdin
@@ -95,44 +94,28 @@ func TestHookInputRejectsMalformedJSON(t *testing.T) {
 	}
 }
 
-func TestGetOutputPath(t *testing.T) {
-	t.Run("builds a date and time partitioned private path", func(t *testing.T) {
-		home := t.TempDir()
-		t.Setenv("HOME", home)
-
-		when := time.Date(2026, 7, 31, 9, 8, 7, 0, time.UTC)
-		got, err := getOutputPath("claude", "sess-1", when)
-		if err != nil {
-			t.Fatalf("getOutputPath: %v", err)
-		}
-
-		want := filepath.Join(home, ".agents", "sessions", "2026-07-31", "090807_claude_sess-1.jsonl")
-		if got != want {
-			t.Fatalf("getOutputPath = %q, want %q", got, want)
-		}
-		// The directory holds transcripts with secrets, so it must never be group or world readable.
-		info, err := os.Stat(filepath.Dir(got))
-		if err != nil {
-			t.Fatal(err)
-		}
-		if perm := info.Mode().Perm(); perm != 0o700 {
-			t.Errorf("session directory mode = %o, want 700", perm)
-		}
-	})
-
-	t.Run("an unresolvable home surfaces the error", func(t *testing.T) {
-		t.Setenv("HOME", "")
-		if _, err := getOutputPath("claude", "sess-1", time.Now()); err == nil {
-			t.Fatal("expected an error when the home directory cannot be resolved")
-		}
-	})
+func TestSessionLineageIdentityIsStableAndAgentScoped(t *testing.T) {
+	first := sessionLineageID("claude", "sess-1")
+	if first != sessionLineageID("claude", "sess-1") {
+		t.Fatal("lineage identity is not stable")
+	}
+	if first == sessionLineageID("codex", "sess-1") {
+		t.Fatal("the same bare session ID collided across agents")
+	}
+	if strings.Contains(first, "sess-1") || len(first) != 64 {
+		t.Fatalf("lineage identity leaks its raw session ID: %q", first)
+	}
 }
 
 func TestWriteSessionLogsIgnoresEmptyInput(t *testing.T) {
 	// No HOME override: an empty batch must return before touching the filesystem.
 	t.Setenv("HOME", "")
-	if err := writeSessionLogs("claude", "sess-1", nil); err != nil {
+	result, err := writeSessionLogs(context.Background(), newTestState(&FakeRunner{}), "claude", "sess-1", nil, sessionSource{Type: "test"})
+	if err != nil {
 		t.Fatalf("writeSessionLogs(nil) = %v, want nil", err)
+	}
+	if result.Status != sessionSkipped {
+		t.Fatalf("empty input status = %q, want skipped", result.Status)
 	}
 }
 
@@ -530,11 +513,10 @@ func TestSQLiteBackedCommandsHandleQueryResults(t *testing.T) {
 
 func TestDecodeSessionIDs(t *testing.T) {
 	tests := []struct {
-		processed map[string]bool
-		name      string
-		output    string
-		wantErr   string
-		want      []string
+		name    string
+		output  string
+		wantErr string
+		want    []string
 	}{
 		{name: "null decodes to an explicit error", output: "null", wantErr: "expected a JSON array"},
 		{name: "malformed JSON is rejected", output: "{", wantErr: "failed to decode"},
@@ -543,20 +525,11 @@ func TestDecodeSessionIDs(t *testing.T) {
 			output:  `[{"id":"a"},{"id":"a"}]`,
 			wantErr: "duplicate session ID",
 		},
-		{
-			name:      "already processed sessions are skipped",
-			output:    `[{"id":"a"},{"id":"b"}]`,
-			processed: map[string]bool{"a": true},
-			want:      []string{"b"},
-		},
+		{name: "valid sessions preserve source order", output: `[{"id":"a"},{"id":"b"}]`, want: []string{"a", "b"}},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			processed := tc.processed
-			if processed == nil {
-				processed = map[string]bool{}
-			}
-			got, err := decodeSessionIDs("OpenCode", tc.output, processed)
+			got, err := decodeSessionIDs("OpenCode", tc.output)
 			if tc.wantErr != "" {
 				if err == nil || !strings.Contains(err.Error(), tc.wantErr) {
 					t.Fatalf("expected an error containing %q, got %v", tc.wantErr, err)
@@ -654,7 +627,7 @@ func TestSyncCopilotSessionsFailures(t *testing.T) {
 				},
 			})
 
-			_, err := syncCopilotSessions(context.Background(), state, copilotDBPath(home), map[string]bool{})
+			_, err := syncCopilotSessions(context.Background(), state, copilotDBPath(home))
 			if err == nil || !strings.Contains(err.Error(), tc.wantErr) {
 				t.Fatalf("expected an error containing %q, got %v", tc.wantErr, err)
 			}
@@ -677,21 +650,21 @@ func TestSyncCopilotSessionsWritesLogs(t *testing.T) {
 					CWD:               "/workspace",
 				}}), nil
 			}
-			// "ses-skipped" is already processed and must not be requested again.
+			// One source has no turns and must be reported as skipped.
 			return `[{"id":"ses-valid_1"},{"id":"ses-skipped"}]`, nil
 		},
 	})
 
-	count, err := syncCopilotSessions(context.Background(), state, copilotDBPath(home), map[string]bool{"ses-skipped": true})
+	count, err := syncCopilotSessions(context.Background(), state, copilotDBPath(home))
 	if err != nil {
 		t.Fatalf("syncCopilotSessions: %v", err)
 	}
 	if count != 1 {
 		t.Fatalf("synced %d sessions, want 1", count)
 	}
-	matches, err := filepath.Glob(filepath.Join(home, ".agents", "sessions", "*", "*_copilot_ses-valid_1.jsonl"))
-	if err != nil || len(matches) != 1 {
-		t.Fatalf("expected one copilot session log, got %v (%v)", matches, err)
+	logs := readAgentSessionLogs(t, home, "copilot")
+	if len(logs["ses-valid_1"]) != 2 {
+		t.Fatalf("expected one normalized copilot session, got %+v", logs)
 	}
 }
 

@@ -22,24 +22,16 @@ func NewClusterCmd(state *GlobalState) *cli.Command {
 				Aliases: []string{"k"},
 				Usage:   "Path to the isolated kubeconfig file",
 			},
-		},
-		Before: func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
-			kubeconfig := cmd.String("kubeconfig")
-			if kubeconfig == "" && state.Config.Cluster.KubeconfigPath != "" {
-				kubeconfig = state.Config.Cluster.KubeconfigPath
-			}
-			if kubeconfig != "" {
-				kubeconfig = ExpandPath(kubeconfig)
-				if err := os.Setenv("KUBECONFIG", kubeconfig); err != nil {
-					return ctx, fmt.Errorf("failed to set KUBECONFIG: %w", err)
-				}
-			}
-			return ctx, nil
+			&cli.StringFlag{
+				Name:  "context",
+				Usage: "Explicit context inside the managed cluster kubeconfig",
+			},
 		},
 		Commands: []*cli.Command{
 			NewClusterStartCmd(state),
 			NewClusterStopCmd(state),
 			NewClusterStatusCmd(state),
+			NewClusterDiagnoseCmd(state),
 			NewClusterDeleteCmd(state),
 			NewClusterNamespaceCmd(state),
 		},
@@ -53,7 +45,7 @@ func NewClusterStartCmd(state *GlobalState) *cli.Command {
 		Aliases: []string{"s"},
 		Usage:   "Idempotently start or create the local cluster",
 		Action: func(ctx context.Context, cmd *cli.Command) error {
-			return RunClusterStart(ctx, state)
+			return RunClusterStartWithOptions(ctx, state, clusterTargetOptions(cmd))
 		},
 	}
 }
@@ -65,7 +57,7 @@ func NewClusterStopCmd(state *GlobalState) *cli.Command {
 		Aliases: []string{"x"},
 		Usage:   "Stop the local cluster",
 		Action: func(ctx context.Context, cmd *cli.Command) error {
-			return RunClusterStop(ctx, state)
+			return RunClusterStopWithOptions(ctx, state, clusterTargetOptions(cmd))
 		},
 	}
 }
@@ -77,7 +69,7 @@ func NewClusterStatusCmd(state *GlobalState) *cli.Command {
 		Aliases: []string{"t"},
 		Usage:   "Check local cluster status",
 		Action: func(ctx context.Context, cmd *cli.Command) error {
-			return RunClusterStatus(ctx, state)
+			return RunClusterStatusWithOptions(ctx, state, clusterTargetOptions(cmd))
 		},
 	}
 }
@@ -96,9 +88,13 @@ func NewClusterDeleteCmd(state *GlobalState) *cli.Command {
 			},
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {
-			return RunClusterDelete(ctx, state, cmd.Bool("yes"))
+			return RunClusterDeleteWithOptions(ctx, state, cmd.Bool("yes"), clusterTargetOptions(cmd))
 		},
 	}
+}
+
+func clusterTargetOptions(cmd *cli.Command) ClusterTargetOptions {
+	return ClusterTargetOptions{KubeconfigPath: cmd.String("kubeconfig"), Context: cmd.String("context")}
 }
 
 // requireTools ensures each named CLI dependency is available in PATH.
@@ -111,8 +107,33 @@ func requireTools(state *GlobalState, tools ...string) error {
 	return nil
 }
 
-// RunClusterStart checks Docker daemon availability, verifies or creates the k3d cluster config, merges credentials, and waits for nodes to be ready.
+func requireDocker(ctx context.Context, state *GlobalState) error {
+	if _, err := state.Runner.Run(ctx, "", nil, "docker", "info"); err != nil {
+		return errors.New("docker daemon is not running. please start docker")
+	}
+	return nil
+}
+
+func k3dClusterExists(ctx context.Context, state *GlobalState, name string) (bool, error) {
+	listOut, err := state.Runner.Run(ctx, "", nil, "k3d", "cluster", "list", name, "--no-headers")
+	if err != nil {
+		return false, fmt.Errorf("failed to inspect cluster %q: %w", name, err)
+	}
+	for _, line := range strings.Split(strings.TrimSpace(listOut), "\n") {
+		if fields := strings.Fields(line); len(fields) > 0 && fields[0] == name {
+			return true, nil
+		}
+	}
+	return false, nil
+}
+
+// RunClusterStart checks Docker, verifies or creates the named k3d cluster without
+// changing the default kubeconfig, and waits for the isolated target to be ready.
 func RunClusterStart(ctx context.Context, state *GlobalState) error {
+	return RunClusterStartWithOptions(ctx, state, ClusterTargetOptions{})
+}
+
+func RunClusterStartWithOptions(ctx context.Context, state *GlobalState, options ClusterTargetOptions) error {
 	name := state.Config.Cluster.Name
 	configPath := ExpandPath(state.Config.Cluster.ConfigPath)
 
@@ -120,68 +141,124 @@ func RunClusterStart(ctx context.Context, state *GlobalState) error {
 		return err
 	}
 
-	if _, err := state.Runner.Run(ctx, "", nil, "docker", "info"); err != nil {
-		return errors.New("docker daemon is not running. please start docker")
+	if err := requireDocker(ctx, state); err != nil {
+		return err
 	}
 
-	listOut, err := state.Runner.Run(ctx, "", nil, "k3d", "cluster", "list", name)
-	clusterExists := err == nil && listOut != ""
+	clusterExists, err := k3dClusterExists(ctx, state, name)
+	if err != nil {
+		return err
+	}
 
+	var kubeconfig string
 	if clusterExists {
+		if ensureErr := ensureClusterKubeconfig(ctx, state, options); ensureErr != nil {
+			return ensureErr
+		}
+		kubeconfig, err = clusterKubeconfigPath(state.Config.Cluster, options)
+		if err != nil {
+			return err
+		}
+		target, resolveErr := resolveClusterTarget(ctx, state, options, false)
+		if resolveErr != nil {
+			return resolveErr
+		}
+		reportClusterTarget(state, target)
 		_, _ = fmt.Fprintf(state.Stdout, "Starting cluster '%s'...\n", name)
 		_, err = state.Runner.Run(ctx, "", nil, "k3d", "cluster", "start", name)
 		if err != nil {
 			return fmt.Errorf("failed to start cluster: %w", err)
 		}
 	} else {
-		if _, statErr := os.Stat(configPath); os.IsNotExist(statErr) {
-			return fmt.Errorf("config file not found at %s", configPath)
+		if options.Context != "" && options.Context != expectedClusterContext(name) {
+			return fmt.Errorf("context override %q cannot target cluster %q before it exists", options.Context, name)
+		}
+		if _, statErr := os.Stat(configPath); statErr != nil {
+			if os.IsNotExist(statErr) {
+				return fmt.Errorf("config file not found at %s", configPath)
+			}
+			return fmt.Errorf("failed to inspect cluster config %s: %w", configPath, statErr)
+		}
+		target, targetErr := intendedClusterTarget(state, options)
+		if targetErr != nil {
+			return targetErr
+		}
+		reportClusterTarget(state, target)
+		if existsNow, inspectErr := k3dClusterExists(ctx, state, name); inspectErr != nil {
+			return inspectErr
+		} else if existsNow {
+			return fmt.Errorf("cluster %q appeared before creation; refusing an ambiguous target", name)
 		}
 		_, _ = fmt.Fprintf(state.Stdout, "Creating cluster '%s' using config %s...\n", name, configPath)
-		err = state.Runner.RunInteractive(ctx, "", "k3d", "cluster", "create", name, "--config", configPath)
+		err = state.Runner.RunInteractive(ctx, "", "k3d", "cluster", "create", name, "--config", configPath, "--kubeconfig-update-default=false", "--kubeconfig-switch-context=false")
 		if err != nil {
 			return fmt.Errorf("failed to create cluster: %w", err)
 		}
+		kubeconfig, err = refreshClusterKubeconfig(ctx, state, options)
+		if err != nil {
+			return err
+		}
 	}
-
-	_, _ = fmt.Fprintln(state.Stdout, "Updating kubeconfig...")
-	_, err = state.Runner.Run(ctx, "", nil, "k3d", "kubeconfig", "merge", name, "--kubeconfig-merge-default", "--kubeconfig-switch-context")
+	target, err := resolveClusterTarget(ctx, state, options, true)
 	if err != nil {
-		return fmt.Errorf("failed to merge kubeconfig: %w", err)
+		return err
 	}
-
-	kubeconfig := os.Getenv("KUBECONFIG")
-	if kubeconfig != "" {
-		_, _ = fmt.Fprintf(state.Stdout, "Isolated kubeconfig updated. To use it in your terminal, run:\n  export KUBECONFIG=%s\n", kubeconfig)
-	}
+	reportClusterTarget(state, target)
+	_, _ = fmt.Fprintf(state.Stdout, "Isolated kubeconfig updated. To use it in your terminal, run:\n  export KUBECONFIG=%s\n", kubeconfig)
 
 	_, _ = fmt.Fprintln(state.Stdout, "Waiting for nodes to be ready...")
-	err = state.Runner.RunInteractive(ctx, "", "kubectl", "--request-timeout=15s", "wait", "--for=condition=Ready", "nodes", "--all", "--timeout=30s")
+	err = state.Runner.RunInteractive(ctx, "", "kubectl", target.kubectlArgs("--request-timeout=15s", "wait", "--for=condition=Ready", "nodes", "--all", "--timeout=30s")...)
 	if err != nil {
 		_, _ = fmt.Fprintf(state.Stderr, "Warning: Nodes are not fully ready yet: %v. Services will continue reconciling in background.\n", err)
 	}
 
-	_, _ = fmt.Fprintf(state.Stdout, "Cluster context set to 'k3d-%s'. Services will reconcile in background.\n", name)
+	_, _ = fmt.Fprintf(state.Stdout, "Cluster context '%s' is isolated; the default kubeconfig was not changed. Services will reconcile in background.\n", target.Context)
 	return nil
 }
 
 // RunClusterStop stops the local development Kubernetes cluster.
 func RunClusterStop(ctx context.Context, state *GlobalState) error {
+	return RunClusterStopWithOptions(ctx, state, ClusterTargetOptions{})
+}
+
+func RunClusterStopWithOptions(ctx context.Context, state *GlobalState, options ClusterTargetOptions) error {
 	name := state.Config.Cluster.Name
-	if err := requireTools(state, "k3d"); err != nil {
+	if err := requireTools(state, "docker", "k3d", "kubectl"); err != nil {
 		return err
 	}
-
+	if err := requireDocker(ctx, state); err != nil {
+		return err
+	}
+	if err := ensureClusterKubeconfig(ctx, state, options); err != nil {
+		return err
+	}
+	target, err := resolveClusterTarget(ctx, state, options, true)
+	if err != nil {
+		return err
+	}
+	reportClusterTarget(state, target)
 	_, _ = fmt.Fprintf(state.Stdout, "Stopping cluster '%s'...\n", name)
 	return state.Runner.RunInteractive(ctx, "", "k3d", "cluster", "stop", name)
 }
 
 // RunClusterStatus queries k3d and kubectl to display development cluster node details.
 func RunClusterStatus(ctx context.Context, state *GlobalState) error {
+	return RunClusterStatusWithOptions(ctx, state, ClusterTargetOptions{})
+}
+
+func RunClusterStatusWithOptions(ctx context.Context, state *GlobalState, options ClusterTargetOptions) error {
 	name := state.Config.Cluster.Name
 	if err := requireTools(state, "k3d", "kubectl"); err != nil {
 		return err
 	}
+	if err := ensureClusterKubeconfig(ctx, state, options); err != nil {
+		return err
+	}
+	target, err := resolveClusterTarget(ctx, state, options, false)
+	if err != nil {
+		return err
+	}
+	reportClusterTarget(state, target)
 
 	_, _ = fmt.Fprintln(state.Stdout, "=> k3d cluster list:")
 	if err := state.Runner.RunInteractive(ctx, "", "k3d", "cluster", "list", name); err != nil {
@@ -189,7 +266,7 @@ func RunClusterStatus(ctx context.Context, state *GlobalState) error {
 	}
 
 	_, _ = fmt.Fprintln(state.Stdout, "\n=> kubectl node status:")
-	if err := state.Runner.RunInteractive(ctx, "", "kubectl", "get", "nodes", "-o", "wide"); err != nil {
+	if err := state.Runner.RunInteractive(ctx, "", "kubectl", target.kubectlArgs("get", "nodes", "-o", "wide")...); err != nil {
 		return fmt.Errorf("failed to get kubectl nodes: %w", err)
 	}
 	return nil
@@ -199,8 +276,12 @@ func RunClusterStatus(ctx context.Context, state *GlobalState) error {
 // Because the cluster is shared across every local project, deletion is guarded by a
 // confirmation prompt unless autoApprove is set.
 func RunClusterDelete(ctx context.Context, state *GlobalState, autoApprove bool) error {
+	return RunClusterDeleteWithOptions(ctx, state, autoApprove, ClusterTargetOptions{})
+}
+
+func RunClusterDeleteWithOptions(ctx context.Context, state *GlobalState, autoApprove bool, options ClusterTargetOptions) error {
 	name := state.Config.Cluster.Name
-	if err := requireTools(state, "k3d"); err != nil {
+	if err := requireTools(state, "docker", "k3d", "kubectl"); err != nil {
 		return err
 	}
 
@@ -211,7 +292,17 @@ func RunClusterDelete(ctx context.Context, state *GlobalState, autoApprove bool)
 			return nil
 		}
 	}
-
+	if err := requireDocker(ctx, state); err != nil {
+		return err
+	}
+	if err := ensureClusterKubeconfig(ctx, state, options); err != nil {
+		return err
+	}
+	target, err := resolveClusterTarget(ctx, state, options, true)
+	if err != nil {
+		return err
+	}
+	reportClusterTarget(state, target)
 	_, _ = fmt.Fprintf(state.Stdout, "Deleting cluster '%s'...\n", name)
 	return state.Runner.RunInteractive(ctx, "", "k3d", "cluster", "delete", name)
 }
@@ -225,32 +316,52 @@ func NewClusterNamespaceCmd(state *GlobalState) *cli.Command {
 		ArgsUsage: "[NAMESPACE]",
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			name := cmd.Args().First()
-			return RunClusterNamespace(ctx, state, name)
+			return RunClusterNamespaceWithOptions(ctx, state, name, clusterTargetOptions(cmd))
 		},
 	}
 }
 
 // RunClusterNamespace idempotently creates a namespace and switches the current context to it.
 func RunClusterNamespace(ctx context.Context, state *GlobalState, name string) error {
+	return RunClusterNamespaceWithOptions(ctx, state, name, ClusterTargetOptions{})
+}
+
+func RunClusterNamespaceWithOptions(ctx context.Context, state *GlobalState, name string, options ClusterTargetOptions) error {
 	if name == "" {
 		return errors.New("namespace name is required")
 	}
 
-	if err := requireTools(state, "kubectl"); err != nil {
+	if err := requireTools(state, "docker", "k3d", "kubectl"); err != nil {
 		return err
 	}
+	if err := requireDocker(ctx, state); err != nil {
+		return err
+	}
+	if err := ensureClusterKubeconfig(ctx, state, options); err != nil {
+		return err
+	}
+	target, err := resolveClusterTarget(ctx, state, options, true)
+	if err != nil {
+		return err
+	}
+	reportClusterTarget(state, target)
 
 	_, _ = fmt.Fprintf(state.Stdout, "Checking namespace '%s'...\n", name)
 	// --ignore-not-found lets us tell a genuinely missing namespace (empty output, no
 	// error) apart from a real failure (cluster unreachable, wrong context, unauthorized),
 	// so we never misreport a transport/auth error as "not found" and then fail on create.
-	out, err := state.Runner.Run(ctx, "", nil, "kubectl", "get", "namespace", name, "--ignore-not-found", "-o", "name")
+	out, err := state.Runner.Run(ctx, "", nil, "kubectl", target.kubectlArgs("get", "namespace", name, "--ignore-not-found", "-o", "name")...)
 	if err != nil {
 		return fmt.Errorf("failed to query namespace '%s': %w", name, err)
 	}
 	if strings.TrimSpace(out) == "" {
+		verifiedTarget, verifyErr := resolveClusterTarget(ctx, state, options, true)
+		if verifyErr != nil {
+			return verifyErr
+		}
+		reportClusterTarget(state, verifiedTarget)
 		_, _ = fmt.Fprintf(state.Stdout, "Namespace '%s' not found. Creating...\n", name)
-		if _, createErr := state.Runner.Run(ctx, "", nil, "kubectl", "create", "namespace", name); createErr != nil {
+		if _, createErr := state.Runner.Run(ctx, "", nil, "kubectl", verifiedTarget.kubectlArgs("create", "namespace", name)...); createErr != nil {
 			return fmt.Errorf("failed to create namespace '%s': %w", name, createErr)
 		}
 		_, _ = fmt.Fprintf(state.Stdout, "Namespace '%s' created.\n", name)
@@ -258,20 +369,26 @@ func RunClusterNamespace(ctx context.Context, state *GlobalState, name string) e
 		_, _ = fmt.Fprintf(state.Stdout, "Namespace '%s' already exists.\n", name)
 	}
 
-	_, _ = fmt.Fprintf(state.Stdout, "Setting current context namespace to '%s'...\n", name)
-	_, err = state.Runner.Run(ctx, "", nil, "kubectl", "config", "set-context", "--current", "--namespace", name)
+	target, err = resolveClusterTarget(ctx, state, options, true)
+	if err != nil {
+		return err
+	}
+	reportClusterTarget(state, target)
+	_, _ = fmt.Fprintf(state.Stdout, "Setting isolated context '%s' namespace to '%s'...\n", target.Context, name)
+	_, err = state.Runner.Run(ctx, "", nil, "kubectl", "config", "set-context", target.Context, "--namespace", name, "--kubeconfig", target.Kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to set context namespace: %w", err)
 	}
-	_, _ = fmt.Fprintf(state.Stdout, "Current context namespace set to '%s'.\n", name)
+	_, _ = fmt.Fprintf(state.Stdout, "Isolated context '%s' namespace set to '%s'; the default kubeconfig was not changed.\n", target.Context, name)
 	return nil
 }
 
 // ClusterConfig represents the configuration for local cluster management.
 type ClusterConfig struct {
-	Name           string `yaml:"name"`
-	ConfigPath     string `yaml:"config_path"`
-	KubeconfigPath string `yaml:"kubeconfig_path"`
+	Name           string                  `yaml:"name"`
+	ConfigPath     string                  `yaml:"config_path"`
+	KubeconfigPath string                  `yaml:"kubeconfig_path"`
+	Diagnostics    ClusterDiagnosticConfig `yaml:"diagnostics"`
 }
 
 func defaultClusterConfig() ClusterConfig {
@@ -279,5 +396,6 @@ func defaultClusterConfig() ClusterConfig {
 		Name:           "local",
 		ConfigPath:     "~/.config/k3d/local.yaml",
 		KubeconfigPath: "",
+		Diagnostics:    ClusterDiagnosticConfig{},
 	}
 }

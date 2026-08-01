@@ -1,0 +1,23 @@
+{
+  "contract": {
+    "artifacts": [],
+    "schema": "fmind.dev/release-audit-contract/v1",
+    "workflows": []
+  },
+  "evidence": {
+    "artifact_checks": {},
+    "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "release": {
+      "assets": [],
+      "draft": true,
+      "exists": true,
+      "published_at": null,
+      "target_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "remote_tag_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tag_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "upstream_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "workflow_runs": []
+  },
+  "expected_state": "draft"
+}

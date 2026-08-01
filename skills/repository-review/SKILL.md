@@ -8,6 +8,8 @@ license: MIT
 
 Review the whole delivery system, preserve user work, and report only what the available evidence proves. A review-only request authorizes inspection and bounded validation, not fixes, issue creation, comments, deployment, publication, or runtime mutation.
 
+Agent presentation metadata is kept in [openai.yaml](agents/openai.yaml).
+
 ## Authority and proof ceiling
 
 1. Read the repository instructions and the stack, CI, security, or documentation skills needed by the requested dimensions. The full security-scan skill is not mandatory for a bounded review that excludes the security boundary.
