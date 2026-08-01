@@ -60,6 +60,7 @@ depends = [
   "check:chezmoi",
   "check:dprint",
   "check:go",
+  "check:github-queue",
   "check:python",
   "check:shell",
   "check:leaks",
@@ -87,6 +88,11 @@ run = "dprint check"
 alias = "cg"
 description = "Lint and vuln-scan the Go module (dot/)"
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
+
+[tasks."check:github-queue"]
+alias = "cq"
+description = "Test the agent-runnable GitHub issue queue contract"
+run = "skills/github-triage/tests/queue_test.sh"
 
 [tasks."check:leaks"]
 alias = "cl"
