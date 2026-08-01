@@ -11,10 +11,10 @@ readonly EXPECTED_CONFIGS=$'dot/mise.toml\nmise.toml'
 tracked_configs=$(git -C "${REPO_ROOT}" ls-files -- ':(glob)**/mise.toml')
 discovered_configs=$(
   while IFS= read -r config; do
-    case ${config} in
-    skills/*/references/mise.toml) continue ;;
-    *) printf '%s\n' "${config}" ;;
-    esac
+    if [[ ${config} == skills/*/references/mise.toml ]]; then
+      continue
+    fi
+    printf '%s\n' "${config}"
   done <<<"${tracked_configs}"
 )
 if [[ ${discovered_configs} != "${EXPECTED_CONFIGS}" ]]; then
