@@ -206,6 +206,11 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 			path:     "skills/repository-review/SKILL.md",
 			required: []string{"staged, unstaged, and untracked", "isolated temporary worktree", "mise run all", "source-ready", "local-green", "exact-head-CI", "runtime-proven", "deployed", "release-published", "Key findings", "Actions"},
 		},
+		{
+			name:     "project backlog separates drafts from mutation",
+			path:     "skills/project-backlog/SKILL.md",
+			required: []string{"read-only", "explicitly authorizes", "open and closed", "verified finding", "trend opportunity", "confirmed repository", "private", "unavailable services", "Unauthorized writes", "partial issue creation", "addBlockedBy", "Mutation receipt"},
+		},
 	}
 	app := NewApp()
 	for _, test := range tests {

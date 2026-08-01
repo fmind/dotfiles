@@ -24,6 +24,7 @@
     "mermaid": ["mmdc"],
     "mise": ["mise"],
     "project-license": ["git"],
+    "project-backlog": ["gh", "git"],
     "python-script": ["uv"],
     "python-stack": ["ruff", "uv"],
     "readme-agents": [],
