@@ -24,6 +24,7 @@
     "lefthook": ["lefthook", "mise"],
     "mermaid": ["mmdc"],
     "mise": ["mise"],
+    "project-backlog": ["gh", "git"],
     "project-license": ["git"],
     "python-script": ["uv"],
     "python-stack": ["ruff", "uv"],

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Backlog"
+  short_description: "Evidence-first review-to-backlog workflow"
+  default_prompt: "Use $project-backlog to audit this repository and prepare deduplicated, reviewable issue drafts."
