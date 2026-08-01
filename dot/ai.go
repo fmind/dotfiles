@@ -38,12 +38,19 @@ func GetAIBinary(state *GlobalState) string {
 // gitleaks first. The scan fails closed: missing tooling, scanner errors, and
 // detected secrets all prevent the diff from leaving the machine.
 func ScanDiffForSecrets(ctx context.Context, state *GlobalState, diff string) error {
+	if err := scanPayloadForSecrets(ctx, state, diff); err != nil {
+		return fmt.Errorf("outgoing diff secret scan failed: %w", err)
+	}
+	return nil
+}
+
+func scanPayloadForSecrets(ctx context.Context, state *GlobalState, payload string) error {
 	gitleaksPath, err := state.Runner.LookPath("gitleaks")
 	if err != nil {
 		return fmt.Errorf("%w: gitleaks", ErrToolNotInstalled)
 	}
-	if _, err := state.Runner.Run(ctx, "", strings.NewReader(diff), gitleaksPath, "stdin", "--no-banner", "--redact"); err != nil {
-		return fmt.Errorf("outgoing diff secret scan failed: %w", err)
+	if _, err := state.Runner.Run(ctx, "", strings.NewReader(payload), gitleaksPath, "stdin", "--no-banner", "--redact"); err != nil {
+		return err
 	}
 	return nil
 }

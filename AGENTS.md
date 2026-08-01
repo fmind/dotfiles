@@ -38,7 +38,7 @@ Tasks run via `mise run <task>`. **Do not use `mr`** — it is a fish abbreviati
 Aliases split into two namespaces so a mistyped letter can never fire the wrong kind of task:
 
 - **Common tasks** take the canonical one-letter alias from the mise skill: `a` all, `b` build, `c` check, `f` format, `i` install, `t` test, `w` watch (plus `c*`/`f*` for subtasks, e.g. `cg` check:go, `fd` format:dprint).
-- **Project management** tasks take an `m`-prefixed alias: `ma` apply, `md` diff, `mf` full, `mg` completions, `mh` hooks, `mk` lock, `mo` doctor, `mp` prune, `mpa` prune:agents, `mpr` preview, `mr` release, `msk` skills, `mt` tools, `mtr` trust, `mu` upgrade, `mv` vim, `mw` krew, `mx` verify.
+- **Project management** tasks take an `m`-prefixed alias: `ma` apply, `md` diff, `mf` full, `mg` completions, `mh` hooks, `mk` lock, `mo` doctor, `mp` prune, `mr` release, `mt` tools, `mtr` trust, `mu` upgrade, `mv` vim, `mw` krew, `mx` verify.
 
 - **First-time setup**: `mise run install` (trust → tools → hooks → vim → krew).
 - **Routine update**: `mise run full` (fast standard routine synchronization).
@@ -69,6 +69,7 @@ Aliases split into two namespaces so a mistyped letter can never fire the wrong 
   - `dot prune` (alias `x`) — Reclaims disk space from agent session logs and development caches, and owns all session retention (both the raw per-agent stores and `~/.agents/sessions`, each with its own typed `source` and `keep_days` under `prune.agents.sessions`). An aged raw Claude, Codex, or Antigravity transcript is deleted only after its exact lineage, source fingerprint, completeness, high-water mark, and immutable normalized generation are verified; unnormalized, stale, partial, unreadable, interrupted, or ambiguous sources are retained with evidence, and the shared OpenCode/Copilot databases are retained until row-level pruning exists. Targets compose as flags (`--agents`, `--docker`, `--go`, `--python`, `--node`, `--mise`, `--tools`, or `--all`) and each accepts an optional depth (`--docker=system`, `--go=module`, `--all=deep`); every target has a `prune.<target>` config section carrying its default depth and cache paths, `--dry-run` reports each session decision without deleting, and `--days` overrides every configured retention.
   - `dot chezmoi clean` (group alias `m`, subcommand aliases `c`, `cc`) — Scans for previously managed chezmoi files and cleans up unmanaged orphans in home directory.
   - `dot config` (alias `f`) — Inspects, scaffolds, edits, and validates the `~/.config/dot.yaml` configuration file (`show`, `path`, `init`, `edit`, `validate`).
+  - `dot context` — Emits a deterministic project-only context pack as Markdown or versioned JSON, within an explicit byte or approximate token budget; collectors and sensitive path/environment patterns are allowlisted through `context` in `~/.config/dot.yaml`, and the exact final payload is secret-scanned before output.
   - `dot version` (alias `i`) — Prints the version enriched with the embedded VCS revision so an installed binary can be matched against the current sources.
 
 ## Agents
@@ -94,7 +95,6 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `.antigravitycli/` — Workspace-scoped session records, configuration settings, and state for Antigravity CLI.
 - `.chezmoi.toml.tmpl` — Template config initialized as the host-specific chezmoi configuration.
 - `.chezmoiignore` — Chezmoi exclude patterns to ignore repository files from deployment.
-- `.chezmoiremove` — Paths chezmoi deletes from the destination, so retired dotfiles disappear on every machine.
 - `.claude/` — Workspace-scoped session records and state for the Claude Code CLI.
 - `.gemini/` — Workspace configurations and metadata for the Antigravity CLI.
 - `.github/` — GitHub Actions CI and Dependabot dependency-update configuration.

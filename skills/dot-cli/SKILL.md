@@ -101,12 +101,12 @@ Inside the dotfiles repo, prefer the `mise run` wrappers: they depend on `build`
 
 ```bash
 mise run prune               # dot prune --all=deep
-mise run prune:agents        # session logs and caches, keeping k3d and the Go cache
+mise run prune --agents      # session logs and caches, keeping k3d and the Go cache
 mise run verify              # dot verify
 mise run release -- -y       # dot release, non-interactive
 ```
 
-Project-management tasks are aliased with an `m` prefix (`mp`, `mpa`, `mx`, `mr`); the bare letters belong to the common vocabulary (`f` format, `c` check, `t` test, `b` build). `mr` is _not_ shorthand for `mise run` in a script — that is an interactive-only fish abbreviation.
+Project-management tasks are aliased with an `m` prefix (`mp`, `mx`, `mr`); the bare letters belong to the common vocabulary (`f` format, `c` check, `t` test, `b` build). `mr` is _not_ shorthand for `mise run` in a script — that is an interactive-only fish abbreviation.
 
 ## Config
 
