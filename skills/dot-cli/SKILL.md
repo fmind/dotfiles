@@ -25,7 +25,9 @@ metadata:
 | `dot release`       | `r`   | Bump version, changelog, tag, publish (see [dot-release](../dot-release/SKILL.md)) |
 | `dot cluster`       | `k`   | Manage and diagnose the verified local k3d cluster                                 |
 | `dot prune`         | `x`   | Reclaim disk from agent session logs and caches (see below)                        |
-| `dot agent session` | `a s` | Log and `sync` agent sessions into `~/.agents/sessions/` (gathers only)            |
+| `dot agent doctor`  | —     | Read-only cross-agent discovery, hook, source, and lineage health                  |
+| `dot agent hook`    | —     | Observable session and notification hook boundary with bounded failure spooling    |
+| `dot agent session` | `a s` | Atomically log, sync, and migrate private agent-session lineage (gathers only)     |
 | `dot notify`        | `n`   | Desktop notification for agent hooks or custom alerts                              |
 | `dot chezmoi clean` | `m c` | Delete `$HOME` orphans left by files chezmoi no longer manages                     |
 | `dot config`        | `f`   | `show` / `path` / `init` / `edit` / `validate` `~/.config/dot.yaml`                |
@@ -35,6 +37,16 @@ metadata:
 | `dot version`       | `i`   | Version plus the embedded VCS revision                                             |
 
 Global flags: `--config/-c <path>` (or `DOT_CONFIG_PATH`) and `--verbose` (or `DOT_VERBOSE`).
+
+## Session ingestion
+
+Live hooks and `dot agent session sync` write the same append-only store under `~/.agents/sessions/v1/`. A hashed `(agent, session_id)` directory contains immutable source generations; each generation is keyed by the source fingerprint and parser version, holds `manifest.json` plus `transcript.jsonl`, and appears only after both owner-only files validate and their temporary directory is atomically renamed. Outcomes report a truncated lineage hash, record counts, malformed/skipped counts, and completeness without printing the raw session ID.
+
+Run `dot agent session migrate` before relying on the new store for historical evidence. It is a read-only dry run by default, deterministically selects the most complete legacy transcript for every lineage, reports duplicate/partial/skipped/malformed totals, and leaves every legacy file in place. `dot agent session migrate --apply` copies each selection into the versioned store without deleting the old archive.
+
+Agent hook templates invoke `dot agent hook session ...` and `dot agent hook notify ...`. The wrapper preserves the original non-zero exit and writes bounded failure metadata to the owner-only `~/.agents/hook-failures/v1/` spool, capped at 100 records; it stores no transcript body or raw session ID.
+
+Use `dot agent doctor` for a read-only cross-agent check of persona and skill discovery, hook commands, local capability probes, source-store presence, latest complete ingestion, latest hook failure, partial state, and archive lag. It never reads transcript bodies or contacts vendor services. Repair is explicit: `dot agent doctor --fix --dry-run` previews the targeted forced chezmoi apply, and `dot agent doctor --fix` performs it.
 
 ## Prune
 
@@ -60,16 +72,21 @@ dot prune --all=deep           # every target, deepest depth
 | tools  | `-t` | Trivy, Helm, dprint, golangci-lint | —                                      |
 
 - **`--docker=system` deletes stopped local k3d clusters** — stopped k3d containers _are_ the cluster. Use the default depth while a cluster matters.
-- Every target has a config section: `level` is the depth a bare flag (and `--all`) selects, `paths` are the directories it removes, and `agents.sessions` carries the retention of each session store. `--days N` overrides every store for one run; `--days 0` empties them.
+- Every target has a config section: `level` is the depth a bare flag (and `--all`) selects, `paths` are the directories it removes, and `agents.sessions` carries the type and retention of each session store. `--days N` overrides every store for one run; `--days 0` makes every age eligible but never bypasses normalized-successor verification.
 
 ```yaml
 prune:
   agents:
     sessions:
       - path: ~/.claude/projects
+        source: claude
         keep_days: 7
+      - path: ~/.local/share/opencode/opencode.db
+        source: opencode
+        keep_days: 7 # retained until safe row-level compaction exists
       - path: ~/.agents/sessions
-        keep_days: 30 # 0 empties the store, whatever the file age
+        source: archive
+        keep_days: 30
     keep: [memory, memory.jsonl, MEMORY.md] # never pruned, however old
   docker:
     level: build # set to system on a machine with no local k3d cluster
@@ -78,7 +95,9 @@ prune:
     paths: [~/.npm/_npx]
 ```
 
-- `dot prune --agents` is the only command that deletes session logs; `dot agent session` just gathers them.
+- `dot prune --agents` is the only command that deletes session logs; `dot agent session` and migration only gather or copy them. Aged Claude, Codex, and Antigravity sources require one exact complete normalized successor; unnormalized, stale, partial, unreadable, interrupted, and ambiguous sources are retained and reported.
+- OpenCode and Copilot mix lineages in shared SQLite files, so pruning inventories but retains those databases until a source-specific row compactor can prove each deletion independently.
+- `--dry-run` prints every raw-source decision with its type, hashed lineage, age, size, reason, and successor evidence.
 - Agent long-term memory (`memory/`, `memory.jsonl`, `MEMORY.md`) is never pruned, however old.
 - Missing tools and a stopped Docker daemon are reported as skipped, not as failures; a failing target never stops the others.
 
@@ -88,12 +107,12 @@ Inside the dotfiles repo, prefer the `mise run` wrappers: they depend on `build`
 
 ```bash
 mise run prune               # dot prune --all=deep
-mise run prune:agents        # session logs and caches, keeping k3d and the Go cache
+mise run prune --agents      # session logs and caches, keeping k3d and the Go cache
 mise run verify              # dot verify
 mise run release -- -y       # dot release, non-interactive
 ```
 
-Project-management tasks are aliased with an `m` prefix (`mp`, `mpa`, `mx`, `mr`); the bare letters belong to the common vocabulary (`f` format, `c` check, `t` test, `b` build). `mr` is _not_ shorthand for `mise run` in a script — that is an interactive-only fish abbreviation.
+Project-management tasks are aliased with an `m` prefix (`mp`, `mx`, `mr`); the bare letters belong to the common vocabulary (`f` format, `c` check, `t` test, `b` build). `mr` is _not_ shorthand for `mise run` in a script — that is an interactive-only fish abbreviation.
 
 ## Config
 

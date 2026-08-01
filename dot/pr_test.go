@@ -207,7 +207,7 @@ func TestRunPr_ErrorsAndBranches(t *testing.T) {
 					return "true", nil
 				}
 				if name == "git" && args[0] == "diff" {
-					return "diff containing a secret", nil
+					return testDiff("secret.txt", "@@ -0,0 +1 @@\n+secret\n"), nil
 				}
 				if name == "/usr/bin/gitleaks" {
 					return "", errors.New("secret detected")
@@ -238,7 +238,7 @@ func TestRunPr_ErrorsAndBranches(t *testing.T) {
 			},
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 				if name == "git" && args[0] == "diff" {
-					return "some changes", nil
+					return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 				}
 				if name == "/usr/bin/agy" {
 					return "", errors.New("agy failed")
@@ -260,7 +260,7 @@ func TestRunPr_ErrorsAndBranches(t *testing.T) {
 			},
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 				if name == "git" && args[0] == "diff" {
-					return "some changes", nil
+					return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 				}
 				if name == "/usr/bin/agy" {
 					return "AI description output", nil
@@ -296,7 +296,7 @@ func TestNewPrCmd_Flags(t *testing.T) {
 					// Extract base branch being diffed against
 					// args are usually like: "diff", "branch...", "."
 					passedBaseBranch = strings.TrimSuffix(args[1], "...")
-					return "diff content", nil
+					return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 				}
 				if strings.Contains(name, "agy") {
 					return "AI description output", nil
@@ -330,7 +330,7 @@ func TestNewPrCmd_Flags(t *testing.T) {
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 				if name == "git" && args[0] == "diff" {
 					passedBaseBranch = strings.TrimSuffix(args[1], "...")
-					return "diff content", nil
+					return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 				}
 				if strings.Contains(name, "agy") {
 					return "AI description output", nil
@@ -387,7 +387,7 @@ func TestRunPr_CustomTemplates(t *testing.T) {
 			},
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 				if name == "git" && args[0] == "diff" {
-					return "diff content", nil
+					return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 				}
 				if strings.Contains(name, "agy") {
 					for i, arg := range args {
@@ -427,7 +427,7 @@ func TestPrCommandForwardsFlags(t *testing.T) {
 				return "true", nil
 			}
 			if name == "git" && args[0] == "diff" {
-				return "some diff content", nil
+				return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 			}
 			return "generated description", nil
 		},
