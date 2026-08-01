@@ -109,6 +109,7 @@ func NewApp() *cli.Command {
 			NewAgentCmd(state),
 			NewNotifyCmd(state),
 			NewPruneCmd(state),
+			NewContextCmd(state),
 		},
 	}
 }

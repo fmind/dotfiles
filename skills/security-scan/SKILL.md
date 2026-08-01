@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/security-scan
   created: 2026-07-04
-  updated: 2026-07-09
+  updated: 2026-08-01
 ---
 
 # Security Scanning
@@ -73,6 +73,7 @@ run = "trivy --config trivy.yaml fs ." # --config is mandatory: an exported TRIV
   - **Trivy**: Add CVEs or paths to `.trivyignore` (one per line, comments prefixed with `#`).
   - **Gitleaks**: Use inline `gitleaks:allow` comments next to false positives, or configure rules/ignores in `.gitleaks.toml` / `.gitleaksignore`.
 - **CI parity**: CI runs `mise run check`, so the `check:leaks` scan runs there too — but a shallow CI checkout limits its git-history scope. For full-history secret + dependency scanning in CI, add a dedicated `security` job (`gitleaks git` + `trivy fs`, `fetch-depth: 0`) and gate on a non-zero exit; otherwise run `mise run check:leaks` and `trivy fs` on demand.
+- **Evidence boundaries**: A green push gate proves only the configured recent-history and checkout checks. The repository's weekly/manual full-history workflow is separate evidence: it checks out all commits, runs `gitleaks git` and repository-configured `trivy fs`, uploads only redacted/allowlisted machine-readable reports, and fails on findings, scanner errors, timeouts, or missing reports. Never describe one boundary as the other.
 - **Secret rotation**: a leaked secret is compromised even after removal from history — rotate it, don't just delete the commit.
 
 ## Documentation

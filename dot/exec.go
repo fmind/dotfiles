@@ -30,6 +30,30 @@ type StandardRunner struct {
 	Stderr io.Writer
 }
 
+type boundedBuffer struct {
+	buf       bytes.Buffer
+	limit     int
+	truncated bool
+}
+
+func (b *boundedBuffer) Write(p []byte) (int, error) {
+	written := len(p)
+	remaining := max(b.limit-b.buf.Len(), 0)
+	if remaining < len(p) {
+		b.truncated = true
+		p = p[:remaining]
+	}
+	_, _ = b.buf.Write(p)
+	return written, nil
+}
+
+func (b *boundedBuffer) String() string {
+	if b.truncated {
+		return b.buf.String() + "…"
+	}
+	return b.buf.String()
+}
+
 // NewStandardRunner creates a new instance of StandardRunner with specified standard streams.
 func NewStandardRunner(stdin io.Reader, stdout, stderr io.Writer) *StandardRunner {
 	return &StandardRunner{
@@ -69,6 +93,27 @@ func (r *StandardRunner) Run(ctx context.Context, dir string, stdin io.Reader, n
 		return "", fmt.Errorf("command %s %v failed: %w\nstderr: %s", name, args, err, stderr.String())
 	}
 
+	return stdout.String(), nil
+}
+
+// RunBounded executes a non-interactive diagnostic command while bounding captured output.
+func (r *StandardRunner) RunBounded(ctx context.Context, dir, name string, limit int, args ...string) (string, error) {
+	cmd := exec.CommandContext(ctx, name, args...) //nolint:gosec // registry-defined command and arguments
+	isolateProcessGroup(cmd)
+	cmd.WaitDelay = killGracePeriod
+	if dir != "" {
+		cmd.Dir = dir
+	}
+	stdout := &boundedBuffer{limit: limit}
+	stderr := &boundedBuffer{limit: limit}
+	cmd.Stdout = stdout
+	cmd.Stderr = stderr
+	if err := cmd.Run(); err != nil {
+		if cause := ctx.Err(); cause != nil {
+			return stdout.String(), cause
+		}
+		return stdout.String(), fmt.Errorf("command %s %v failed: %w; stderr: %s", name, args, err, stderr.String())
+	}
 	return stdout.String(), nil
 }
 

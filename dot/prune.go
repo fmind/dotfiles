@@ -27,6 +27,13 @@ const (
 	levelConfigs  = "configs"
 	levelShallow  = "shallow"
 	levelDeep     = "deep"
+
+	sessionStoreArchive  = "archive"
+	sessionStoreAgy      = "agy"
+	sessionStoreClaude   = "claude"
+	sessionStoreCodex    = "codex"
+	sessionStoreOpenCode = "opencode"
+	sessionStoreCopilot  = "copilot"
 )
 
 // pruneAllFlag selects every target at once; it is not a target itself.
@@ -38,10 +45,12 @@ const pruneLevelBare = "true"
 
 // PruneSessionStore is one agent session store and how long its files are kept.
 // Retention is per store because they are not equivalent: the raw per-agent stores are
-// disposable once `dot agent session` has normalized them, while ~/.agents/sessions is
-// the archive that survives them. keep_days 0 empties the store whatever the file age.
+// disposable once `dot agent session` has produced an exact verified successor, while
+// ~/.agents/sessions is the archive that survives them. keep_days 0 bypasses age only;
+// raw-source proof is still mandatory.
 type PruneSessionStore struct {
 	Path     string `yaml:"path"`
+	Source   string `yaml:"source,omitempty"`
 	KeepDays int    `yaml:"keep_days"`
 }
 
@@ -77,13 +86,17 @@ func defaultPruneConfig() PruneConfig {
 	return PruneConfig{
 		Agents: PruneAgentsConfig{
 			Sessions: []PruneSessionStore{
-				// Raw per-agent stores: disposable as soon as `dot agent session` has
-				// normalized them, and by far the biggest consumers of disk.
-				{Path: "~/.claude/projects", KeepDays: 7},
-				{Path: "~/.codex/sessions", KeepDays: 7},
-				{Path: "~/.gemini/antigravity-cli/brain", KeepDays: 7},
+				// Raw per-agent stores: disposable after exact successor verification,
+				// and by far the biggest consumers of disk.
+				{Path: "~/.claude/projects", Source: sessionStoreClaude, KeepDays: 7},
+				{Path: "~/.codex/sessions", Source: sessionStoreCodex, KeepDays: 7},
+				{Path: "~/.gemini/antigravity-cli/brain", Source: sessionStoreAgy, KeepDays: 7},
+				// SQLite stores mix many lineages in one file, so they are inventoried and
+				// retained until a future source-specific compactor can delete rows safely.
+				{Path: "~/.local/share/opencode/opencode.db", Source: sessionStoreOpenCode, KeepDays: 7},
+				{Path: "~/.copilot/session-store.db", Source: sessionStoreCopilot, KeepDays: 7},
 				// The normalized archive the workspace brain reads; kept far longer.
-				{Path: "~/.agents/sessions", KeepDays: 30},
+				{Path: "~/.agents/sessions", Source: sessionStoreArchive, KeepDays: 30},
 			},
 			// Agent long-term memory lives inside the session stores (e.g.
 			// ~/.claude/projects/<project>/memory/*.md). It is hand-curated state, not a
@@ -624,15 +637,21 @@ func (r *pruneRun) pruneSessions(root string, cutoff time.Time, keep []string) (
 	return files, total, nil
 }
 
-// pruneAgentSessions expires every configured session store: the raw per-agent
-// directories and the normalized ~/.agents/sessions archive that `dot agent session`
-// writes. Each store reports its own line because each keeps its own retention.
+// pruneAgentSessions expires every configured session store. Raw per-agent sources are
+// removed only after an exact complete normalized successor is verified; the normalized
+// archive and backwards-compatible custom stores retain their age-based policy.
 func pruneAgentSessions(_ context.Context, run *pruneRun, _ string) error {
 	cfg := run.state.Config.Prune.Agents
+	now := time.Now()
 
 	var errs []error
 	pruned := 0
 	for _, dir := range cfg.Sessions {
+		source := sessionStoreSource(dir)
+		if dir.Source != "" && !isKnownSessionStoreSource(source) {
+			errs = append(errs, fmt.Errorf("invalid session source %q for %s", dir.Source, dir.Path))
+			continue
+		}
 		path := ExpandPath(dir.Path)
 		if _, err := os.Stat(path); err != nil {
 			if !errors.Is(err, os.ErrNotExist) {
@@ -646,14 +665,21 @@ func pruneAgentSessions(_ context.Context, run *pruneRun, _ string) error {
 			errs = append(errs, err)
 			continue
 		}
-		files, total, err := run.pruneSessions(path, time.Now().AddDate(0, 0, -days), cfg.Keep)
+		cutoff := now.AddDate(0, 0, -days)
+		var files int
+		var total int64
+		if source == sessionStoreAgy || source == sessionStoreClaude || source == sessionStoreCodex || source == sessionStoreOpenCode || source == sessionStoreCopilot {
+			files, total, err = run.pruneRawSessions(path, source, cutoff, now, cfg.Keep)
+		} else {
+			files, total, err = run.pruneSessions(path, cutoff, cfg.Keep)
+		}
 		if err != nil {
 			errs = append(errs, err)
 			continue
 		}
 
 		pruned++
-		run.state.Logger.Debug("Pruned agent sessions", "dir", path, "days", days, "files", files, "bytes", total)
+		run.state.Logger.Debug("Pruned agent sessions", "dir", path, "source", source, "days", days, "files", files, "bytes", total)
 		verb, report := "deleted", run.passf
 		if run.dryRun {
 			verb, report = "would delete", run.skipf

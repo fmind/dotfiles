@@ -23,6 +23,8 @@ slsa = false
 chpwd_only = true
 
 [tools]
+# Not in the mise registry short-name list, so the aqua backend is named explicitly.
+"aqua:dlvhdr/gh-dash" = "latest" # TUI dashboard for GitHub PRs, issues, and notifications
 "aqua:fish-shell/fish-shell" = "4" # Friendly interactive shell (Fish)
 "go:github.com/fatih/gomodifytags" = "latest" # Go tool to modify struct field tags
 "go:github.com/go-delve/delve/cmd/dlv" = "latest" # Go debugger (Delve)
