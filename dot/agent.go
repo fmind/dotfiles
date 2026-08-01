@@ -1171,8 +1171,8 @@ func parseCopilotRows(sessionID, fallbackCWD string, rows []CopilotRow) []Sessio
 }
 
 // RunAgentSessionLogCopilot reads a single Copilot session from its store and logs it.
-// Copilot exposes no session-end hook, so this is invoked with an explicit session ID
-// (by the sync scanner or manually) rather than from a piped hook payload.
+// The Copilot sessionEnd hook supplies only identity/lifecycle metadata, so the
+// transcript remains sourced from this store-backed query.
 func RunAgentSessionLogCopilot(ctx context.Context, state *GlobalState, sessionID, cwd string) error {
 	if sessionID == "" {
 		return errors.New("missing session_id")
@@ -1449,7 +1449,7 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 		total += count
 	}
 
-	// 5. copilot (no live hook API; captured from its session store)
+	// 5. copilot (full idempotent backfill complements targeted sessionEnd sync)
 	copilotDB := copilotDBPath(home)
 	copilotInfo, copilotStatErr := os.Stat(copilotDB)
 	if copilotStatErr != nil && !errors.Is(copilotStatErr, os.ErrNotExist) {

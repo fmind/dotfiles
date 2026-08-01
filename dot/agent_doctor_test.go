@@ -54,6 +54,7 @@ func setupHealthyAgentDoctor(t *testing.T) (*GlobalState, *strings.Builder, stri
 	writeDoctorFile(t, filepath.Join(home, ".codex", "config.toml"), "command = \"dot agent hook session codex\"\ncommand = \"dot agent hook notify codex stop\"\n")
 	writeDoctorFile(t, filepath.Join(home, ".config", "opencode", "opencode.json"), `{"instructions":["~/.agents/AGENTS.md"]}`)
 	writeDoctorFile(t, filepath.Join(home, ".config", "opencode", "plugins", "session-log.ts"), "dot agent hook session opencode")
+	writeDoctorFile(t, filepath.Join(home, ".copilot", "hooks", "session-log.json"), `{"version":1,"hooks":{"sessionEnd":[{"bash":"dot agent hook copilot-session-end"}]}}`)
 	for _, path := range []string{
 		filepath.Join(home, ".gemini", "antigravity-cli", "brain", ".keep"),
 		filepath.Join(home, ".claude", "projects", ".keep"),

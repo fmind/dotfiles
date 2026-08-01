@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionEnd": [
+      {
+        "type": "command",
+        "bash": "dot agent hook copilot-session-end",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}
