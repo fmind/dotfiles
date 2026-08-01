@@ -122,6 +122,7 @@ func TestGitDiffIntegration(t *testing.T) {
 	if _, err := exec.LookPath("git"); err != nil {
 		t.Skip("git not available")
 	}
+	isolateGitEnvironment(t)
 
 	ctx := context.Background()
 	repo := t.TempDir()
@@ -191,6 +192,7 @@ func TestGitDiffFromSubdirectory(t *testing.T) {
 	if _, err := exec.LookPath("git"); err != nil {
 		t.Skip("git not available")
 	}
+	isolateGitEnvironment(t)
 	ctx := context.Background()
 	repo := t.TempDir()
 	runner := NewStandardRunner(strings.NewReader(""), io.Discard, io.Discard)
