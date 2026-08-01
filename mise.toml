@@ -59,7 +59,9 @@ description = "Run all static checks in parallel"
 depends = [
   "check:chezmoi",
   "check:dprint",
+  "check:docs",
   "check:go",
+  "check:github-queue",
   "check:python",
   "check:shell",
   "check:leaks",
@@ -83,10 +85,20 @@ alias = "cd"
 description = "Check config/markup formatting (dprint)"
 run = "dprint check"
 
+[tasks."check:docs"]
+alias = "ca"
+description = "Validate agent documentation against live commands and paths"
+run = "go test -C dot -run '^TestDocumentationContract$' ./..."
+
 [tasks."check:go"]
 alias = "cg"
 description = "Lint and vuln-scan the Go module (dot/)"
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
+
+[tasks."check:github-queue"]
+alias = "cq"
+description = "Test the agent-runnable GitHub issue queue contract"
+run = "skills/github-triage/tests/queue_test.sh"
 
 [tasks."check:leaks"]
 alias = "cl"
@@ -244,10 +256,16 @@ depends = ["build"]
 description = "Remove unused tools, containers, and development caches"
 run = "executable_dot prune --all=deep"
 
+[tasks."prune:agents"]
+alias = "mpa"
+depends = ["build"]
+description = "Reclaim agent transcripts and caches while preserving clusters and the Go cache"
+run = "executable_dot prune --agents"
+
 [tasks.release]
 alias = "mr"
 depends = ["build"]
-description = "Bump version, update CHANGELOG, and publish a GitHub release"
+description = "Prepare and dispatch an exact-head GitHub release"
 run = "executable_dot release"
 
 [tasks.tools]

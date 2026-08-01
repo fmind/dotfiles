@@ -76,6 +76,9 @@ func TestDefaultConfig(t *testing.T) {
 	if cfg.Context.MaxBytes != defaultContextBytes || len(cfg.Context.Collectors) != len(defaultContextCollectors) {
 		t.Errorf("unexpected default context config: %+v", cfg.Context)
 	}
+	if cfg.Release != defaultReleaseConfig() {
+		t.Errorf("unexpected default release config: %+v", cfg.Release)
+	}
 }
 
 func TestLoadConfig_NonExistent(t *testing.T) {
@@ -125,6 +128,10 @@ context:
     - git
     - tasks
   max_bytes: 12000
+release:
+  remote: "upstream"
+  default_branch: "stable"
+  workflow: "publish.yml"
 completions:
   path: "/custom/completions/path"
 login:
@@ -164,6 +171,9 @@ login:
 	}
 	if cfg.Context.MaxBytes != 12000 || len(cfg.Context.Collectors) != 2 {
 		t.Errorf("unexpected custom context config: %+v", cfg.Context)
+	}
+	if cfg.Release.Remote != "upstream" || cfg.Release.DefaultBranch != "stable" || cfg.Release.Workflow != "publish.yml" {
+		t.Errorf("unexpected custom release config: %+v", cfg.Release)
 	}
 	if cfg.Completions.Path != "/custom/completions/path" {
 		t.Errorf("Expected Completions path '/custom/completions/path', got %q", cfg.Completions.Path)
