@@ -82,7 +82,7 @@ func agentIntegrations(home string) []agentIntegration {
 		{Agent: sessionStoreClaude, PersonaPath: filepath.Join(home, ".claude", "CLAUDE.md"), SkillsPath: filepath.Join(home, ".claude", "skills"), HookPath: filepath.Join(home, ".claude", "settings.json"), SourcePath: filepath.Join(home, ".claude", "projects"), HookCommands: []string{"dot agent hook session claude", "dot agent hook notify claude"}, ProbeNames: []string{"dot", "claude"}, HookJSON: true, Notifications: true},
 		{Agent: sessionStoreCodex, PersonaPath: filepath.Join(home, ".codex", "AGENTS.md"), SkillsPath: sharedSkills, HookPath: filepath.Join(home, ".codex", "config.toml"), SourcePath: filepath.Join(home, ".codex", "sessions"), HookCommands: []string{"dot agent hook session codex", "dot agent hook notify codex stop"}, ProbeNames: []string{"dot", "codex"}, Notifications: true},
 		{Agent: sessionStoreOpenCode, PersonaPath: filepath.Join(home, ".config", "opencode", "opencode.json"), SkillsPath: sharedSkills, HookPath: filepath.Join(home, ".config", "opencode", "plugins", "session-log.ts"), SourcePath: filepath.Join(home, ".local", "share", "opencode", "opencode.db"), HookCommands: []string{"dot agent hook session opencode"}, ProbeNames: []string{"dot", "opencode", "sqlite3"}, PersonaInFile: true},
-		{Agent: sessionStoreCopilot, PersonaPath: filepath.Join(home, ".copilot", "copilot-instructions.md"), SkillsPath: sharedSkills, SourcePath: filepath.Join(home, ".copilot", "session-store.db"), ProbeNames: []string{"dot", "copilot", "sqlite3"}},
+		{Agent: sessionStoreCopilot, PersonaPath: filepath.Join(home, ".copilot", "copilot-instructions.md"), SkillsPath: sharedSkills, HookPath: filepath.Join(home, ".copilot", "hooks", "session-log.json"), SourcePath: filepath.Join(home, ".copilot", "session-store.db"), HookCommands: []string{"dot agent hook copilot-session-end"}, ProbeNames: []string{"dot", "copilot", "sqlite3"}, HookJSON: true},
 		// These canonical targets are checked through every resolved path above.
 		{Agent: "canonical", PersonaPath: sharedPersona, SkillsPath: sharedSkills},
 	}
@@ -95,7 +95,7 @@ func doctorRepairTargets(home string) []string {
 		filepath.Join(home, ".codex", "AGENTS.md"), filepath.Join(home, ".codex", "config.toml"),
 		filepath.Join(home, ".gemini", "GEMINI.md"), filepath.Join(home, ".gemini", "config", "hooks.json"), filepath.Join(home, ".gemini", "config", "skills"),
 		filepath.Join(home, ".config", "opencode", "opencode.json"), filepath.Join(home, ".config", "opencode", "plugins", "session-log.ts"),
-		filepath.Join(home, ".copilot", "copilot-instructions.md"),
+		filepath.Join(home, ".copilot", "copilot-instructions.md"), filepath.Join(home, ".copilot", "hooks", "session-log.json"),
 	}
 }
 
@@ -209,6 +209,17 @@ func checkAgentHooks(integration agentIntegration) (string, bool) {
 	}
 	if integration.HookJSON && !json.Valid(content) {
 		return "malformed", false
+	}
+	if integration.Agent == sessionStoreCopilot {
+		var config struct {
+			Version int `json:"version"`
+		}
+		if err := json.Unmarshal(content, &config); err != nil {
+			return "malformed", false
+		}
+		if config.Version != 1 {
+			return "unsupported-version", false
+		}
 	}
 	for _, command := range integration.HookCommands {
 		if !strings.Contains(string(content), command) {

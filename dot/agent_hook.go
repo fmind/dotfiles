@@ -35,6 +35,13 @@ func NewAgentHookCmd(state *GlobalState) *cli.Command {
 		Usage: "Run an observable agent hook and spool bounded failure metadata",
 		Commands: []*cli.Command{
 			{
+				Name:  "copilot-session-end",
+				Usage: "Use Copilot sessionEnd metadata to trigger non-blocking targeted sync",
+				Action: func(ctx context.Context, _ *cli.Command) error {
+					return RunCopilotSessionEndHook(ctx, state)
+				},
+			},
+			{
 				Name:      "session",
 				Usage:     "Run a session-ingestion hook",
 				ArgsUsage: "<agent> [session-id] [cwd]",
