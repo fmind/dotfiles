@@ -37,6 +37,8 @@ Resolve a symbol through the project's selected module graph before proposing a 
 python3 ~/.agents/skills/go-stack/scripts/resolve_source.py <package-import-path> <symbol-or-Receiver.Method> --project <project>
 ```
 
+The resolver's offline contract suite is [resolve_source_test.py](scripts/resolve_source_test.py).
+
 - Keep inspection read-only: the resolver forces `GOPROXY=off`, `GOSUMDB=off`, `GOTOOLCHAIN=local`, and `-mod=readonly`, then reads only the package selected by `go list`.
 - Respect `replace` directives and `GOPRIVATE`, and reject missing or stale cache entries, standard-library targets, generated files, escaped module paths, and ambiguous symbols with actionable errors.
 - Do not clean, populate, or repair the module cache during review. Refresh dependencies explicitly outside the inspection flow when resolution reports missing source.

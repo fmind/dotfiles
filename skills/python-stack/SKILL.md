@@ -34,6 +34,8 @@ Resolve a symbol from the uv-selected environment before proposing a dependency-
 python3 ~/.agents/skills/python-stack/scripts/resolve_source.py <distribution> <symbol> --project <project> [--module <import-module>]
 ```
 
+The resolver's offline contract suite is [resolve_source_test.py](scripts/resolve_source_test.py).
+
 - Keep inspection read-only: the resolver parses `*.dist-info` metadata and Python ASTs without importing or executing dependency code.
 - Treat an ambiguous environment, duplicate installed version, missing or stale source, generated file, or ambiguous symbol as an actionable error. Pass `--environment` only after confirming the intended uv environment.
 - Editable installs resolve through their local `direct_url.json`; normal installs remain confined to the selected environment's `site-packages`.

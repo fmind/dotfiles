@@ -20,7 +20,7 @@ Create the portable instruction and skill layer once, then add only the tool-spe
    mkdir -p .agents/skills
    touch AGENTS.md
    ```
-   Put project-wide rules in `AGENTS.md` and reusable project skills in `.agents/skills/<name>/SKILL.md`.
+   Start `AGENTS.md` from the minimal [project template](templates/AGENTS.md), then put project-wide rules there and reusable project skills in `.agents/skills/<name>/SKILL.md`.
 1. **Add Tool-Specific Files Only When Needed**:
    - **Antigravity**: use `.agents/settings.json` for workspace settings and `.agents/mcp_config.json` for MCP. It respects `.gitignore`; do not invent an `.antigravityignore`.
    - **Codex**: use `.codex/config.toml` for trusted project overrides and MCP. Codex reads `AGENTS.md` and `.agents/skills` natively.

@@ -8,6 +8,12 @@ license: MIT
 
 Prove each release boundary independently and report gaps without creating, moving, deleting, or publishing tags or releases.
 
+Prerequisites are `python3`, `git`, `gh`, and `cosign`; authentication must already be configured for read-only GitHub and signature verification.
+
+Agent presentation metadata is kept in [openai.yaml](agents/openai.yaml).
+
+Offline behavior is covered by [audit_test.py](scripts/audit_test.py) with [draft release](scripts/fixtures/draft-release.json), [missing assets](scripts/fixtures/missing-assets.json), [moved tag](scripts/fixtures/moved-tag.json), [stale CI](scripts/fixtures/stale-ci.json), and [valid source-only](scripts/fixtures/valid-source-only.json) fixtures.
+
 ## Contract
 
 Require a repository-owned `.release-audit.json` so an audit never invents an artifact requirement or assumes binaries exist:

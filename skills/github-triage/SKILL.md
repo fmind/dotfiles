@@ -20,6 +20,7 @@ Agents open most of the pull requests and issues here, so throughput is limited 
 | `gh-dash`   | Triage queue — cross-repository sections, approve/merge/comment/label inline (`gd`) |
 | `octo.nvim` | Review surface — line comments, review threads, submit/approve inside Neovim        |
 | `gh`        | Scripting and bulk operations                                                       |
+| `jq`        | Structured queue filtering used by the bundled shell helper                         |
 | `delta`     | Diff rendering, already wired as the `gh` pager                                     |
 
 Configuration lives in `~/.config/gh-dash/config.yml`. Sections are scoped by identity (`involves:@me`, `review-requested:@me`) rather than by owner, so new repositories and orgs appear without editing the file.
@@ -96,6 +97,8 @@ Every implementation issue must contain these explicit fields:
 - **Validation** — focused checks plus the repository's complete local gate.
 - **Routing** — one or more `area/*`, exactly one `priority/p*`, and exactly one `effort/*` label.
 - **Dependencies** — native GitHub `blocked-by` and `blocking` relationships, not prose-only links.
+
+The queue helper's offline contract is exercised by [queue_test.sh](tests/queue_test.sh) against [issues.json](tests/fixtures/issues.json).
 
 The underlying live query excludes blocked, claimed, human-gated, and epic issues:
 

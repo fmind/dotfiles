@@ -15,7 +15,7 @@ Canonical CI/CD workflows for GitHub repositories. The CI workflow runs the cano
 
 ## Principles
 
-- **Single task vocabulary**: CI runs the same `mise run format/check/test` tasks that the local pre-commit/pre-push hooks delegate to. Driving both from one mise task set eliminates drift between local checks and CI.
+- **Single task vocabulary**: CI runs the same `mise run format/check/test` tasks that the local pre-commit/pre-push hooks delegate to. Driving both from one mise task set eliminates drift between local checks and CI; workflow syntax and first-party skill contracts belong inside `check`, not in parallel CI-only steps.
 - **Tools from `mise.toml`**: `jdx/mise-action` installs and caches the project toolchain, ensuring that the CI runner runs the identical tool versions pinned locally.
 - **Least privilege**: Default to `permissions: contents: read`; widen permissions (like `packages: write` or `id-token: write`) only where needed in deployment jobs.
 - **OIDC & Trusted Publishing**: Prefer OpenID Connect (OIDC) for keyless container signing (via `cosign`) and package publishing (via PyPI Trusted Publishing), eliminating long-lived credentials.
