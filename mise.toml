@@ -59,7 +59,9 @@ description = "Run all static checks in parallel"
 depends = [
   "check:chezmoi",
   "check:dprint",
+  "check:docs",
   "check:go",
+  "check:github-queue",
   "check:python",
   "check:shell",
   "check:leaks",
@@ -83,10 +85,20 @@ alias = "cd"
 description = "Check config/markup formatting (dprint)"
 run = "dprint check"
 
+[tasks."check:docs"]
+alias = "ca"
+description = "Validate agent documentation against live commands and paths"
+run = "go test -C dot -run '^TestDocumentationContract$' ./..."
+
 [tasks."check:go"]
 alias = "cg"
 description = "Lint and vuln-scan the Go module (dot/)"
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
+
+[tasks."check:github-queue"]
+alias = "cq"
+description = "Test the agent-runnable GitHub issue queue contract"
+run = "skills/github-triage/tests/queue_test.sh"
 
 [tasks."check:leaks"]
 alias = "cl"
@@ -120,7 +132,7 @@ for template in $(git ls-files '*.sh.tmpl'); do
   # template that fails to render would feed shellcheck an empty script and
   # pass. A failed substitution aborts the task instead.
   rendered="$(chezmoi execute-template < "$template")"
-  printf '%s\\n' "$rendered" | shellcheck --shell=bash -
+  printf '%s\\n' "$rendered" | shellcheck --external-sources --shell=bash -
 done
 """
 
@@ -174,8 +186,9 @@ run = [
 
 [tasks.test]
 alias = "t"
-description = "Run the dot CLI and skill script test suites"
+description = "Run bootstrap, dot CLI, and skill script test suites"
 run = [
+  "bash bootstrap/verified-installers_test.sh",
   "mise -C dot run test",
   "python3 -B -m unittest skills/python-stack/scripts/resolve_source_test.py skills/go-stack/scripts/resolve_source_test.py",
 ]
@@ -246,6 +259,12 @@ alias = "mp"
 depends = ["build"]
 description = "Remove unused tools, containers, and development caches"
 run = "executable_dot prune --all=deep"
+
+[tasks."prune:agents"]
+alias = "mpa"
+depends = ["build"]
+description = "Reclaim agent transcripts and caches while preserving clusters and the Go cache"
+run = "executable_dot prune --agents"
 
 [tasks.release]
 alias = "mr"
