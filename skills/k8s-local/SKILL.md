@@ -36,9 +36,9 @@ When designing project local environments, choose the appropriate isolation scop
 
 ## AI Agent Instructions
 
-- **OFF by Default**: The local k3d cluster must remain OFF by default. Only start it (`dot cluster start`) for short periods when active deployment or verification is needed, and shut it down immediately (`dot cluster stop local`) as soon as the task is done to conserve CPU/RAM.
+- **OFF by Default**: The local k3d cluster must remain OFF by default. Only start it (`dot cluster start`) for short periods when active deployment or verification is needed, and shut it down immediately (`dot cluster stop`) as soon as the task is done to conserve CPU/RAM.
 - **Docker Healthcheck**: Always run `docker info` before launching, stopping, or configuring clusters.
-- **Context Verification**: Verify that the active context matches the intended local cluster before running `kubectl` commands. Use `kubectx` or `kubectl config current-context` to ensure the context is `k3d-local`.
+- **Context Verification**: `dot cluster` resolves an owner-only kubeconfig at `~/.kube/dot/<cluster-name>.yaml`, passes explicit `--kubeconfig` and `--context` flags, and verifies the selected context against fresh non-secret k3d metadata before mutation. It never relies on or switches the default current context. A renamed context requires the explicit `dot cluster --context <name> <command>` override.
 - **Local Images**: Build local images, tag them for the local registry (`registry.localhost:5050/image:tag`), and push them, or load them directly into the cluster engine. Set `imagePullPolicy: IfNotPresent` or `Never` in deployment specs if using sideloaded or locally tagged images.
 
 ## Workflow
@@ -52,24 +52,19 @@ When designing project local environments, choose the appropriate isolation scop
      ```bash
      dot cluster start
      ```
-     Or manually create it using the configuration file:
-     ```bash
-     k3d cluster create --config ~/.config/k3d/local.yaml
-     ```
+     This is the supported global path because it disables k3d's default kubeconfig update/switch flags and publishes the credentials atomically with owner-only permissions.
    - **Using kind**:
      ```bash
      kind create cluster --config resources/kind-config.yaml
      ```
 1. **Context & Namespace Switching**:
-   - List and switch contexts easily:
+   - Inspect the isolated context without changing the default kubeconfig:
      ```bash
-     kubectx
-     kubectx k3d-local # or kind-local-cluster
+     kubectl --kubeconfig ~/.kube/dot/local.yaml --context k3d-local get nodes
      ```
-   - List and switch active namespaces:
+   - Set the namespace on the verified isolated context:
      ```bash
-     kubens
-     kubens default
+     dot cluster namespace default
      ```
 1. **Validate and Lint Manifests**:
    - Validate YAML structures:
@@ -129,9 +124,9 @@ When designing project local environments, choose the appropriate isolation scop
 1. **Teardown & Cleanup**:
    - **For k3d**: OFF/stopped is the resting state. The cluster must only run for short periods when needed and should be stopped immediately after the task is finished. Because k3d containers use `restart=unless-stopped`, they will auto-start on reboot and consume resources unless explicitly stopped.
      ```bash
-     k3d cluster stop local  # Resting state: stop immediately when done
-     k3d cluster start local # Start only for short active verification sessions
-     k3d cluster delete local
+     dot cluster stop   # Resting state: stop immediately when done
+     dot cluster start  # Start only for short active verification sessions
+     dot cluster delete # Destructive; requires confirmation
      ```
    - **For kind**:
      ```bash

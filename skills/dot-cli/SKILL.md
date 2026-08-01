@@ -102,7 +102,9 @@ All commands read `~/.config/dot.yaml`; `dot config init` scaffolds it with the 
 ## Gotchas
 
 - Rebuild after changing `dot/`: `mise run build` (or `mise run apply` to build and apply).
-- The local k3d cluster must stay off by default — `dot cluster stop local` as soon as the task is done.
+- `dot cluster` derives an owner-only kubeconfig at `~/.kube/dot/<cluster-name>.yaml` unless `cluster.kubeconfig_path` or `--kubeconfig` overrides it. It never merges, overwrites, or switches the default kubeconfig; every kubectl call uses explicit target flags.
+- Cluster mutations print and immediately re-verify the managed name, selected context, namespace, and non-secret ownership fingerprint. A renamed context requires `dot cluster --context <name> <command>` and must still resolve to the managed cluster's authoritative API server.
+- The local k3d cluster must stay off by default — run `dot cluster stop` as soon as the task is done.
 - `dot commit` and `dot pull-request` call an AI CLI, so they need it installed and authenticated.
 
 ## See Also
