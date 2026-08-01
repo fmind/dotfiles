@@ -45,7 +45,7 @@ Aliases split into two namespaces so a mistyped letter can never fire the wrong 
 - **Routine update**: `mise run full` (fast standard routine synchronization).
 - **Iterate**: edit source → `mise run apply` (`mise run diff` to preview) → `mise run check` for quick static checks (or `mise run all` for the full CI gate) → `mise run verify` for dotfiles sanity.
 - **Add a tool**: append to `dot_config/mise/config.toml.tmpl` (alphabetical) — use `mise registry` to find tools → `mise run tools` to deploy and install → `mise run lock` to refresh and stage the lockfile.
-- **Upgrade tools**: `mise run upgrade` bumps versions, updates Neovim plugins, re-locks (`mise.lock` + `lazy-lock.json`), re-applies.
+- **Upgrade tools**: `mise run update:repo` updates only repository mise pins and `mise.lock` inside an isolated home; review those changes, then run `mise run converge` to install/apply the reviewed source and probe capabilities. `mise run upgrade` remains the compatibility entrypoint that runs both phases in order.
 - **Reclaim disk**: `mise run prune:agents` while local k3d clusters or a warm Go cache still matter; `mise run prune` (`--all=deep`) otherwise.
 - **Release**: `mise run release` fetches and proves `main == origin/main`, validates and pushes only the release commit, then dispatches `.github/workflows/release.yml`; the workflow waits for exact-head CI before creating an immutable annotated tag and publishing the GitHub release.
 - **Manage skills**: author first-party skills directly under `skills/` and validate with `gh skill publish --dry-run`. No external skill is vendored here; install reviewed upstream ones on demand with `skills add <repo> --all -y` (candidates are listed in the `agent-skills` skill).
