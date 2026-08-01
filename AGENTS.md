@@ -11,6 +11,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
 - **GitHub Access**: use the `gh` CLI for all repository, issue, and PR operations.
 - **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first).
 - **Lint-before-done**: `mise run all` (format + check + test, the same gate CI runs) must pass before reporting a task complete.
+- **Security Evidence**: push CI intentionally scans the latest 10 commits; `.github/workflows/security.yml` is the distinct weekly/manual full-history GitLeaks and full-checkout Trivy boundary. A timeout or missing report is a failed scan, never clean evidence.
 - **Markdown Lists**: only use `1.` for all numbered list items in markdown files (e.g. `1. first`, `1. second`) to ensure correct dynamic rendering.
 - **No-Hard-Wrap**: every `*.md` keeps each paragraph on a single line.
 - **No-Sudo**: stay user-space; install via `mise`.
