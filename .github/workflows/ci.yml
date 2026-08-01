@@ -31,6 +31,8 @@ jobs:
         uses: jdx/mise-action@v4
         with:
           cache: true
+      - name: Trust repository mise configs
+        run: .github/scripts/trust-mise.sh
       - name: Run formatters
         run: mise run format
       - name: Run checkers
