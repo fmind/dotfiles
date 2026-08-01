@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/k8s-local
   created: 2026-06-23
-  updated: 2026-07-09
+  updated: 2026-08-01
 ---
 
 # Local Kubernetes Cluster Management
@@ -39,6 +39,7 @@ When designing project local environments, choose the appropriate isolation scop
 - **OFF by Default**: The local k3d cluster must remain OFF by default. Only start it (`dot cluster start`) for short periods when active deployment or verification is needed, and shut it down immediately (`dot cluster stop`) as soon as the task is done to conserve CPU/RAM.
 - **Docker Healthcheck**: Always run `docker info` before launching, stopping, or configuring clusters.
 - **Context Verification**: `dot cluster` resolves an owner-only kubeconfig at `~/.kube/dot/<cluster-name>.yaml`, passes explicit `--kubeconfig` and `--context` flags, and verifies the selected context against fresh non-secret k3d metadata before mutation. It never relies on or switches the default current context. A renamed context requires the explicit `dot cluster --context <name> <command>` override.
+- **Bounded Evidence**: Start Kubernetes investigations with `dot cluster diagnose --namespace <name>`. It verifies the same isolated target, runs only the reusable read-only allowlist, sanitizes known secrets and configured project patterns, and writes a versioned owner-only manifest without uploading it. Do not replace it with ad hoc Secret, environment, kubeconfig, or unlimited-log collection.
 - **Local Images**: Build local images, tag them for the local registry (`registry.localhost:5050/image:tag`), and push them, or load them directly into the cluster engine. Set `imagePullPolicy: IfNotPresent` or `Never` in deployment specs if using sideloaded or locally tagged images.
 
 ## Workflow
@@ -108,6 +109,11 @@ When designing project local environments, choose the appropriate isolation scop
      kubectl apply -k <kustomization-directory>
      ```
 1. **Observability & Debugging**:
+   - Collect a bounded evidence bundle before opening interactive tools:
+     ```bash
+     dot cluster diagnose --namespace <namespace>
+     ```
+     The JSON manifest preserves unavailable metrics and other partial probe errors. Review it locally before deciding whether sharing is authorized.
    - Launch `k9s` to monitor and manage the cluster interactively:
      ```bash
      k9s

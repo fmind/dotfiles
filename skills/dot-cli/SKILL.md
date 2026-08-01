@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dot-cli
   created: 2026-07-31
-  updated: 2026-07-31
+  updated: 2026-08-01
 ---
 
 # Dot CLI
@@ -23,7 +23,7 @@ metadata:
 | `dot commit`        | `c`   | Write a Conventional Commit from the staged diff via AI                            |
 | `dot pull-request`  | `pr`  | Draft a PR description via AI, then `gh pr create`                                 |
 | `dot release`       | `r`   | Bump version, changelog, tag, publish (see [dot-release](../dot-release/SKILL.md)) |
-| `dot cluster`       | `k`   | `start` / `stop` / `status` / `delete` / `namespace` the local k3d cluster         |
+| `dot cluster`       | `k`   | Manage and diagnose the verified local k3d cluster                                 |
 | `dot prune`         | `x`   | Reclaim disk from agent session logs and caches (see below)                        |
 | `dot agent session` | `a s` | Log and `sync` agent sessions into `~/.agents/sessions/` (gathers only)            |
 | `dot notify`        | `n`   | Desktop notification for agent hooks or custom alerts                              |
@@ -99,11 +99,26 @@ Project-management tasks are aliased with an `m` prefix (`mp`, `mpa`, `mx`, `mr`
 
 All commands read `~/.config/dot.yaml`; `dot config init` scaffolds it with the built-in defaults and `dot config validate` checks it (unknown keys are rejected). A malformed file is fatal for every command except the `config` group, so the file stays repairable.
 
+## Cluster diagnostics
+
+`dot cluster diagnose` verifies the isolated context and namespace, then writes an owner-only JSON manifest under `~/.local/state/dot/diagnostics/`. It never collects Secret objects, kubeconfigs, full environment dumps, or unlimited logs, and never uploads a bundle.
+
+```bash
+dot cluster diagnose --namespace default
+dot cluster diagnose --namespace app --output ./app-diagnostics.json --since 20m --tail 80
+dot cluster diagnose --redact-pattern 'customer-[0-9]+'
+```
+
+Every allowlisted probe has a timeout, snapshot or time-window declaration, retained line limit, and retained byte limit. Logs are additionally bounded by pod count and per-container tail. Missing metrics or another individual probe failure is recorded as a sanitized partial error rather than discarding the successful evidence. Configure persistent project-specific RE2 patterns under `cluster.diagnostics.redact_patterns`; repeat `--redact-pattern` for one collection.
+
+The reusable contract for presentation layers is exported by the `dot` package as `ClusterDiagnosticPlan`, `ClusterDiagnosticProbe`, `ClusterDiagnosticManifest`, and `ClusterDiagnosticSchemaVersion`. Consumers must render the generated manifest; they must not recreate or widen the collection commands.
+
 ## Gotchas
 
 - Rebuild after changing `dot/`: `mise run build` (or `mise run apply` to build and apply).
 - `dot cluster` derives an owner-only kubeconfig at `~/.kube/dot/<cluster-name>.yaml` unless `cluster.kubeconfig_path` or `--kubeconfig` overrides it. It never merges, overwrites, or switches the default kubeconfig; every kubectl call uses explicit target flags.
 - Cluster mutations print and immediately re-verify the managed name, selected context, namespace, and non-secret ownership fingerprint. A renamed context requires `dot cluster --context <name> <command>` and must still resolve to the managed cluster's authoritative API server.
+- Diagnostic manifests contain only the verified target identity and non-secret fingerprint, bounded sanitized probe results, and partial errors. Review the local file before sharing it; collection is not proof that external disclosure is authorized.
 - The local k3d cluster must stay off by default — run `dot cluster stop` as soon as the task is done.
 - `dot commit` and `dot pull-request` call an AI CLI, so they need it installed and authenticated.
 
