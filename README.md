@@ -15,7 +15,7 @@ Managed with [chezmoi](https://www.chezmoi.io/) (files) and [mise](https://mise.
 - **AI-CLI Integration** — Built-in setups for [OpenAI Codex](https://developers.openai.com/codex/) (`codex`), [Antigravity](https://antigravity.google/) (`agy`), [OpenCode](https://opencode.ai/), [Claude Code](https://claude.com/claude-code), and [GitHub Copilot](https://github.com/features/copilot) (`copilot`), sharing a unified persona (`AGENTS.md`) and skills.
 - **Languages** — Go and Python, with modern toolchains, formatters, linters, and checkers.
 - **Custom `dot` CLI** — A custom Go utility to pull workspace repos, manage local Kubernetes, generate commits, and handle logins. Source in [`dot/`](dot/).
-- **User-space toolchain** — `install.sh` bootstraps mise and chezmoi, while a single mise config (`~/.config/mise/config.toml`) pins and manages the development CLI toolchain without system package managers.
+- **User-space toolchain** — `install.sh` bootstraps mise and chezmoi, while a single mise config (`~/.config/mise/config.toml`) pins and manages the development CLI toolchain without system package managers. Bootstrap downloads use reviewed stable versions and upstream-published checksums instead of executing network responses directly.
 
 ## Prerequisites
 
@@ -53,6 +53,8 @@ bash ~/.local/share/chezmoi/install.sh
 ```
 
 Set `SKIP_GIT_PULL=true` only when intentionally bootstrapping from the existing local checkout without fetching its upstream branch.
+
+Verified mise and Antigravity artifacts are cached under `~/.cache/dot/bootstrap/<tool>/<version>/`. Re-running the bootstrap uses a checksum-valid cached artifact when offline, keeps an installed version that is at least as new as the reviewed pin, and fails before execution when transport, checksum, archive layout, or reported-version verification fails. Linux x64/arm64 and macOS x64/arm64 are pinned independently.
 
 ## Credentials
 
