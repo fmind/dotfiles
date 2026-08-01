@@ -1,7 +1,6 @@
 package dot
 
 import (
-	"bufio"
 	"context"
 	"encoding/json"
 	"errors"
@@ -62,6 +61,7 @@ func TestNewAgentCmd(t *testing.T) {
 		"opencode": {alias: "", found: false},
 		"copilot":  {alias: "", found: false},
 		"sync":     {alias: "s", found: false},
+		"migrate":  {alias: "", found: false},
 	}
 
 	for _, sub := range sessionCmd.Commands {
@@ -414,12 +414,15 @@ func readAgentSessionLogs(t *testing.T, home, agent string) map[string][]Session
 	t.Helper()
 
 	logs := make(map[string][]SessionLogLine)
-	sessionsDir := filepath.Join(home, ".agents", "sessions")
+	sessionsDir := filepath.Join(home, ".agents", "sessions", sessionStoreVersion, agent)
 	if err := filepath.WalkDir(sessionsDir, func(path string, entry os.DirEntry, err error) error {
 		if err != nil {
+			if errors.Is(err, os.ErrNotExist) {
+				return filepath.SkipAll
+			}
 			return err
 		}
-		if entry.IsDir() || !strings.Contains(entry.Name(), "_"+agent+"_") || !strings.HasSuffix(entry.Name(), ".jsonl") {
+		if entry.IsDir() || entry.Name() != "transcript.jsonl" {
 			return nil
 		}
 		data, err := os.ReadFile(path)
@@ -754,7 +757,7 @@ func TestRunAgentSessionSyncOpencodeEmpty(t *testing.T) {
 			if err := RunAgentSessionSync(context.Background(), state); err != nil {
 				t.Fatalf("RunAgentSessionSync failed: %v", err)
 			}
-			if !strings.Contains(stderr.String(), "opencode: 0 new\n") {
+			if !strings.Contains(stderr.String(), "opencode: 0 ingested\n") {
 				t.Fatalf("missing zero-session summary in %q", stderr.String())
 			}
 			if stub.messageQueries != test.messageQueries {
@@ -767,16 +770,25 @@ func TestRunAgentSessionSyncOpencodeEmpty(t *testing.T) {
 	}
 }
 
-func TestRunAgentSessionSyncReportsProcessedTreeErrors(t *testing.T) {
+func TestRunAgentSessionSyncReportsStoreErrorsOnIngestion(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("HOME", home)
 	if err := os.WriteFile(filepath.Join(home, ".agents"), []byte("not a directory"), 0o600); err != nil {
 		t.Fatalf("create broken agents path: %v", err)
 	}
+	sessionID := "codex-store-error"
+	sourceDir := filepath.Join(home, ".codex", "sessions")
+	if err := os.MkdirAll(sourceDir, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	source := filepath.Join(sourceDir, "rollout-2026-07-09T15-00-00-"+sessionID+".jsonl")
+	if err := os.WriteFile(source, []byte(`{"timestamp":"2026-07-09T15:00:00Z","type":"user_message","payload":{"message":"hello"}}`), 0o600); err != nil {
+		t.Fatal(err)
+	}
 
 	err := RunAgentSessionSync(context.Background(), newTestState(&FakeRunner{}))
-	if err == nil || !strings.Contains(err.Error(), "failed to scan processed session logs") {
-		t.Fatalf("expected processed-session traversal error, got %v", err)
+	if err == nil || !strings.Contains(err.Error(), "failed to create session directory") {
+		t.Fatalf("expected session-store error, got %v", err)
 	}
 }
 
@@ -797,23 +809,12 @@ func TestWriteSessionLogsRepairsPrivatePermissions(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("HOME", home)
 
-	dateDir := filepath.Join(home, ".agents", "sessions", "2026-07-09")
-	if err := os.MkdirAll(dateDir, 0o755); err != nil {
+	sessionsDir := filepath.Join(home, ".agents", "sessions", sessionStoreVersion)
+	if err := os.MkdirAll(sessionsDir, 0o755); err != nil {
 		t.Fatalf("create permissive session directory: %v", err)
 	}
-	sessionsDir := filepath.Dir(dateDir)
-	for _, path := range []string{sessionsDir, dateDir} {
-		if err := os.Chmod(path, 0o755); err != nil {
-			t.Fatalf("set permissive directory mode: %v", err)
-		}
-	}
-
-	outPath := filepath.Join(dateDir, "140912_codex_existing-session.jsonl")
-	if err := os.WriteFile(outPath, []byte("old content\n"), 0o644); err != nil {
-		t.Fatalf("create permissive session log: %v", err)
-	}
-	if err := os.Chmod(outPath, 0o644); err != nil {
-		t.Fatalf("set permissive file mode: %v", err)
+	if err := os.Chmod(sessionsDir, 0o755); err != nil {
+		t.Fatalf("set permissive directory mode: %v", err)
 	}
 
 	logs := []SessionLogLine{{
@@ -823,14 +824,16 @@ func TestWriteSessionLogsRepairsPrivatePermissions(t *testing.T) {
 		Role:    "user",
 		Content: "private prompt",
 	}}
-	if err := writeSessionLogs("codex", "existing-session", logs); err != nil {
+	result, err := writeSessionLogs(context.Background(), newTestState(&FakeRunner{}), "codex", "existing-session", logs, sessionSource{Type: "test"})
+	if err != nil {
 		t.Fatalf("writeSessionLogs failed: %v", err)
 	}
-
+	generationDir := filepath.Join(sessionsDir, "codex", result.LineageID, result.GenerationID)
 	for path, want := range map[string]os.FileMode{
-		sessionsDir: 0o700,
-		dateDir:     0o700,
-		outPath:     0o600,
+		sessionsDir:   0o700,
+		generationDir: 0o700,
+		filepath.Join(generationDir, "manifest.json"):    0o600,
+		filepath.Join(generationDir, "transcript.jsonl"): 0o600,
 	} {
 		info, err := os.Stat(path)
 		if err != nil {
@@ -839,38 +842,6 @@ func TestWriteSessionLogsRepairsPrivatePermissions(t *testing.T) {
 		if got := info.Mode().Perm(); got != want {
 			t.Errorf("mode for %s: got %04o, want %04o", path, got, want)
 		}
-	}
-}
-
-type failingSessionWriter struct {
-	err error
-}
-
-func (w failingSessionWriter) Write(_ []byte) (int, error) {
-	return 0, w.err
-}
-
-type failingSessionCloser struct {
-	err error
-}
-
-func (c failingSessionCloser) Close() error {
-	return c.err
-}
-
-func TestSessionLogFinalizationErrors(t *testing.T) {
-	flushFailure := errors.New("disk full")
-	writer := bufio.NewWriter(failingSessionWriter{err: flushFailure})
-	if _, err := writer.WriteString("buffered log"); err != nil {
-		t.Fatalf("buffer log: %v", err)
-	}
-	if err := flushSessionLog(writer, "session.jsonl"); !errors.Is(err, flushFailure) {
-		t.Fatalf("expected flush failure, got %v", err)
-	}
-
-	closeFailure := errors.New("close failed")
-	if err := closeSessionLog(failingSessionCloser{err: closeFailure}, "session.jsonl"); !errors.Is(err, closeFailure) {
-		t.Fatalf("expected close failure, got %v", err)
 	}
 }
 
@@ -1206,28 +1177,9 @@ func TestRunAgentSessionSync(t *testing.T) {
 		t.Fatalf("RunAgentSessionSync failed: %v", err)
 	}
 
-	// Verify that ONLY the new session log was written to ~/.agents/sessions/YYYY-MM-DD/HHMMSS_codex_new-session-456.jsonl
-	outputDir := filepath.Join(tempDir, ".agents", "sessions")
-	var logFiles []string
-	_ = filepath.Walk(outputDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return nil
-		}
-		if !info.IsDir() && strings.HasSuffix(info.Name(), ".jsonl") {
-			// Skip the mock existing file we created manually
-			if !strings.Contains(path, "existing-session-123") {
-				logFiles = append(logFiles, path)
-			}
-		}
-		return nil
-	})
-
-	if len(logFiles) != 1 {
-		t.Fatalf("expected exactly 1 new synced log file, found %d: %v", len(logFiles), logFiles)
-	}
-
-	if !strings.Contains(logFiles[0], "new-session-456") {
-		t.Errorf("expected synced file to be for new-session-456, got %s", logFiles[0])
+	logs := readAgentSessionLogs(t, tempDir, "codex")
+	if len(logs["new-session-456"]) != 1 || len(logs["existing-session-123"]) != 0 {
+		t.Fatalf("expected only the content-bearing source to be normalized, got %+v", logs)
 	}
 }
 
@@ -1266,12 +1218,48 @@ func TestRunAgentSessionSyncDiscoversAgyAndClaude(t *testing.T) {
 	}
 
 	output := stderr.String()
-	if !strings.Contains(output, "agy: 1 new") || !strings.Contains(output, "claude: 1 new") || !strings.Contains(output, "done (2 total new)") {
+	if !strings.Contains(output, "agy: 1 checked") || !strings.Contains(output, "claude: 1 checked") || !strings.Contains(output, "done (2 total processed)") {
 		t.Fatalf("unexpected sync summary: %q", output)
 	}
 	agySessions := readAgentSessionLogs(t, home, "agy")
 	claudeSessions := readAgentSessionLogs(t, home, "claude")
 	if len(agySessions[agySession]) != 1 || len(claudeSessions[claudeSession]) != 1 {
 		t.Fatalf("expected both sessions to be normalized, got agy=%+v claude=%+v", agySessions, claudeSessions)
+	}
+}
+
+func TestRunAgentSessionSyncPreservesDuplicateSourceLocations(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+	claudeSession := "shared-claude-session"
+	for index, content := range []string{"first claude source", "second claude source"} {
+		path := filepath.Join(home, ".claude", "projects", fmt.Sprintf("project-%d", index), claudeSession+".jsonl")
+		if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+			t.Fatal(err)
+		}
+		line := fmt.Sprintf(`{"type":"user","timestamp":"2026-08-01T12:00:0%dZ","message":{"content":%q}}`, index, content)
+		if err := os.WriteFile(path, []byte(line), 0o600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	codexSession := "shared-codex-session"
+	for index, content := range []string{"first codex source", "second codex source"} {
+		path := filepath.Join(home, ".codex", "sessions", fmt.Sprintf("rollout-2026-08-01T12-00-0%d-%s.jsonl", index, codexSession))
+		if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+			t.Fatal(err)
+		}
+		line := fmt.Sprintf(`{"type":"user_message","timestamp":"2026-08-01T12:00:0%dZ","payload":{"message":%q}}`, index, content)
+		if err := os.WriteFile(path, []byte(line), 0o600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := RunAgentSessionSync(context.Background(), newTestState(&FakeRunner{})); err != nil {
+		t.Fatal(err)
+	}
+	if logs := readAgentSessionLogs(t, home, "claude")[claudeSession]; len(logs) != 2 {
+		t.Fatalf("Claude sources sharing one ID were collapsed: %+v", logs)
+	}
+	if logs := readAgentSessionLogs(t, home, "codex")[codexSession]; len(logs) != 2 {
+		t.Fatalf("Codex sources sharing one ID were collapsed: %+v", logs)
 	}
 }

@@ -82,6 +82,8 @@ func NewAgentCmd(state *GlobalState) *cli.Command {
 		Aliases: []string{"a"},
 		Usage:   "Manage AI agent integrations and sessions",
 		Commands: []*cli.Command{
+			NewAgentDoctorCmd(state),
+			NewAgentHookCmd(state),
 			NewAgentSessionCmd(state),
 		},
 	}
@@ -140,6 +142,16 @@ func NewAgentSessionCmd(state *GlobalState) *cli.Command {
 				},
 			},
 			NewAgentSessionSyncCmd(state),
+			{
+				Name:  "migrate",
+				Usage: "Select the most complete legacy transcript per lineage without deleting evidence",
+				Flags: []cli.Flag{
+					&cli.BoolFlag{Name: "apply", Usage: "Write selected transcripts to the versioned store (default is dry-run)"},
+				},
+				Action: func(ctx context.Context, cmd *cli.Command) error {
+					return RunAgentSessionMigrate(ctx, state, cmd.Bool("apply"))
+				},
+			},
 		},
 	}
 }
@@ -154,6 +166,16 @@ func NewAgentSessionSyncCmd(state *GlobalState) *cli.Command {
 			return RunAgentSessionSync(ctx, state)
 		},
 	}
+}
+
+func sessionStateWithTranscript(state *GlobalState, sessionID, transcriptPath string) (*GlobalState, error) {
+	payload, err := json.Marshal(HookInput{SessionID: sessionID, TranscriptPath: transcriptPath, FullyIdle: true})
+	if err != nil {
+		return nil, err
+	}
+	copy := *state
+	copy.Stdin = strings.NewReader(string(payload))
+	return &copy, nil
 }
 
 // parseStdin reads stdin to extract HookInput when data is piped by an agent hook.
@@ -187,29 +209,6 @@ func parseStdin(stdin io.Reader) (*HookInput, error) {
 	return &input, nil
 }
 
-// getOutputPath resolves target file under ~/.agents/sessions/YYYY-MM-DD/HHMMSS_agent_session.jsonl
-func getOutputPath(agent, sessionID string, sessionTime time.Time) (string, error) {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return "", err
-	}
-	sessionsDir := filepath.Join(home, ".agents", "sessions")
-	datePart := sessionTime.Format("2006-01-02")
-	timePart := sessionTime.Format("150405")
-	dir := filepath.Join(sessionsDir, datePart)
-	if err := os.MkdirAll(dir, 0o700); err != nil {
-		return "", err
-	}
-	// Session transcripts can contain source code, credentials, and private prompts.
-	// Tighten directories created by older dot versions as they are encountered.
-	for _, path := range []string{sessionsDir, dir} {
-		if err := os.Chmod(path, 0o700); err != nil {
-			return "", fmt.Errorf("failed to secure session directory %s: %w", path, err)
-		}
-	}
-	return filepath.Join(dir, fmt.Sprintf("%s_%s_%s.jsonl", timePart, agent, sessionID)), nil
-}
-
 // resolveCWD converts a relative or empty CWD to an absolute path.
 func resolveCWD(cwd string) string {
 	if cwd == "" {
@@ -225,91 +224,6 @@ func resolveCWD(cwd string) string {
 		return abs
 	}
 	return cwd
-}
-
-func flushSessionLog(writer *bufio.Writer, outPath string) error {
-	if err := writer.Flush(); err != nil {
-		return fmt.Errorf("failed to flush session log %s: %w", outPath, err)
-	}
-	return nil
-}
-
-func closeSessionLog(closer io.Closer, outPath string) error {
-	if err := closer.Close(); err != nil {
-		return fmt.Errorf("failed to close session log %s: %w", outPath, err)
-	}
-	return nil
-}
-
-// writeSessionLogs marshals and writes log lines to the session file.
-func writeSessionLogs(agent, sessionID string, logs []SessionLogLine) (resultErr error) {
-	if len(logs) == 0 {
-		return nil
-	}
-
-	// Propagate model name across all lines in the session
-	var activeModel string
-	for i := range logs {
-		if logs[i].Model != "" {
-			activeModel = logs[i].Model
-		} else if activeModel != "" {
-			logs[i].Model = activeModel
-		}
-	}
-	for i := len(logs) - 1; i >= 0; i-- {
-		if logs[i].Model != "" {
-			activeModel = logs[i].Model
-		} else if activeModel != "" {
-			logs[i].Model = activeModel
-		}
-	}
-
-	sessionTime := time.Now().UTC()
-	if len(logs) > 0 && logs[0].TS != "" {
-		if t, err := time.Parse(time.RFC3339Nano, logs[0].TS); err == nil {
-			sessionTime = t.UTC()
-		} else if t, err := time.Parse(time.RFC3339, logs[0].TS); err == nil {
-			sessionTime = t.UTC()
-		}
-	}
-
-	outPath, err := getOutputPath(agent, sessionID, sessionTime)
-	if err != nil {
-		return err
-	}
-	file, err := os.OpenFile(outPath, os.O_CREATE|os.O_WRONLY, 0o600)
-	if err != nil {
-		return err
-	}
-	defer func() {
-		if closeErr := closeSessionLog(file, outPath); closeErr != nil {
-			resultErr = errors.Join(resultErr, closeErr)
-		}
-	}()
-	// OpenFile does not change the mode of an existing file, so explicitly repair
-	// transcripts written with the historical 0644 permissions.
-	if err := file.Chmod(0o600); err != nil {
-		return fmt.Errorf("failed to secure session log %s: %w", outPath, err)
-	}
-	if err := file.Truncate(0); err != nil {
-		return fmt.Errorf("failed to truncate session log %s: %w", outPath, err)
-	}
-
-	writer := bufio.NewWriter(file)
-
-	for _, log := range logs {
-		data, err := json.Marshal(log)
-		if err != nil {
-			return fmt.Errorf("failed to encode session log %s: %w", outPath, err)
-		}
-		if _, err := writer.Write(data); err != nil {
-			return fmt.Errorf("failed to buffer session log %s: %w", outPath, err)
-		}
-		if err := writer.WriteByte('\n'); err != nil {
-			return fmt.Errorf("failed to buffer session log %s: %w", outPath, err)
-		}
-	}
-	return flushSessionLog(writer, outPath)
 }
 
 // isValidSessionRune checks if a rune is allowed in a session ID.
@@ -502,7 +416,7 @@ func RunAgentSessionLogAgy(ctx context.Context, state *GlobalState, sessionID, c
 	defer func() { _ = file.Close() }()
 
 	var logs []SessionLogLine
-	decodeErr := decodeJSONL(state.Stderr, transcriptPath, file, func(raw map[string]any) error {
+	decodeStats, decodeErr := decodeJSONLWithStats(state.Stderr, transcriptPath, file, func(raw map[string]any) error {
 		if trunc, ok := raw["is_truncated"].(bool); ok && trunc {
 			return nil
 		}
@@ -539,7 +453,11 @@ func RunAgentSessionLogAgy(ctx context.Context, state *GlobalState, sessionID, c
 		return decodeErr
 	}
 
-	if err := writeSessionLogs("agy", sessionID, logs); err != nil {
+	fingerprint, err := fingerprintFile(transcriptPath)
+	if err != nil {
+		return err
+	}
+	if _, err := writeSessionLogs(ctx, state, "agy", sessionID, logs, sessionSource{Type: "antigravity-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)}); err != nil {
 		return err
 	}
 	if isHookCall {
@@ -673,7 +591,7 @@ func RunAgentSessionLogClaude(ctx context.Context, state *GlobalState, sessionID
 	defer func() { _ = file.Close() }()
 
 	var logs []SessionLogLine
-	decodeErr := decodeJSONL(state.Stderr, sessionFile, file, func(raw map[string]any) error {
+	decodeStats, decodeErr := decodeJSONLWithStats(state.Stderr, sessionFile, file, func(raw map[string]any) error {
 		typ, _ := raw["type"].(string)
 		if typ != "user" && typ != "assistant" {
 			return nil
@@ -735,7 +653,12 @@ func RunAgentSessionLogClaude(ctx context.Context, state *GlobalState, sessionID
 		return decodeErr
 	}
 
-	return writeSessionLogs("claude", sessionID, logs)
+	fingerprint, err := fingerprintFile(sessionFile)
+	if err != nil {
+		return err
+	}
+	_, err = writeSessionLogs(ctx, state, "claude", sessionID, logs, sessionSource{Type: "claude-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
+	return err
 }
 
 // RunAgentSessionLogCodex reads Codex rollout session files and processes the session.
@@ -810,7 +733,7 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 	var logs []SessionLogLine
 	activeModel := ""
 	activeCWD := cwd
-	decodeErr := decodeJSONL(state.Stderr, transcriptPath, file, func(raw map[string]any) error {
+	decodeStats, decodeErr := decodeJSONLWithStats(state.Stderr, transcriptPath, file, func(raw map[string]any) error {
 		if model := codexModel(raw); model != "" {
 			activeModel = model
 		}
@@ -835,9 +758,8 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 		if ts == "" {
 			ts, _ = raw["ts"].(string)
 		}
-		if ts == "" {
-			ts = time.Now().UTC().Format(time.RFC3339)
-		}
+		// A missing source time remains empty so normalized output does not change
+		// merely because a hook and sync run at different times.
 
 		model := codexModel(raw)
 		if model == "" {
@@ -866,7 +788,12 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 		return decodeErr
 	}
 
-	return writeSessionLogs("codex", sessionID, logs)
+	fingerprint, err := fingerprintFile(transcriptPath)
+	if err != nil {
+		return err
+	}
+	_, err = writeSessionLogs(ctx, state, "codex", sessionID, logs, sessionSource{Type: "codex-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
+	return err
 }
 
 // OpencodeData represents the nested structure inside message.data for OpenCode.
@@ -984,10 +911,9 @@ func parseOpencodeRows(sessionID, fallbackCWD string, rows []OpencodeRow) ([]Ses
 	return logs, nil
 }
 
-// decodeSessionIDs parses a sqlite3 -json `SELECT id ...` result into the set of
-// not-yet-processed session IDs. Shared by the OpenCode and Copilot DB scanners;
-// label names the agent in error messages.
-func decodeSessionIDs(label, output string, processed map[string]bool) ([]string, error) {
+// decodeSessionIDs parses a sqlite3 -json `SELECT id ...` result. Idempotence is
+// decided later from the agent-scoped fingerprint, never from a bare session ID.
+func decodeSessionIDs(label, output string) ([]string, error) {
 	output = strings.TrimSpace(output)
 	if output == "" || output == "[]" {
 		return nil, nil
@@ -1014,20 +940,18 @@ func decodeSessionIDs(label, output string, processed map[string]bool) ([]string
 			return nil, fmt.Errorf("malformed %s session rows: duplicate session ID %q", label, sessionID)
 		}
 		seen[sessionID] = true
-		if !processed[sessionID] {
-			sessionIDs = append(sessionIDs, sessionID)
-		}
+		sessionIDs = append(sessionIDs, sessionID)
 	}
 	return sessionIDs, nil
 }
 
-func syncOpencodeSessions(ctx context.Context, state *GlobalState, dbPath string, processed map[string]bool) (int, error) {
+func syncOpencodeSessions(ctx context.Context, state *GlobalState, dbPath string) (int, error) {
 	output, err := state.Runner.Run(ctx, "", nil, "sqlite3", "-init", os.DevNull, "-json", dbPath, opencodeSessionsQuery)
 	if err != nil {
 		return 0, fmt.Errorf("failed to query OpenCode sessions: %w", err)
 	}
 
-	sessionIDs, err := decodeSessionIDs("OpenCode", output, processed)
+	sessionIDs, err := decodeSessionIDs("OpenCode", output)
 	if err != nil {
 		return 0, err
 	}
@@ -1051,6 +975,11 @@ func syncOpencodeSessions(ctx context.Context, state *GlobalState, dbPath string
 
 	messageOutput = strings.TrimSpace(messageOutput)
 	if messageOutput == "" || messageOutput == "[]" {
+		for _, sessionID := range sessionIDs {
+			if _, writeErr := writeSessionLogs(ctx, state, "opencode", sessionID, nil, sessionSource{Type: "opencode-db"}); writeErr != nil {
+				return 0, writeErr
+			}
+		}
 		return 0, nil
 	}
 
@@ -1081,18 +1010,28 @@ func syncOpencodeSessions(ctx context.Context, state *GlobalState, dbPath string
 
 	count := 0
 	for _, sessionID := range sessionIDs {
-		logs, parseErr := parseOpencodeRows(sessionID, "", sessionRows[sessionID])
+		rows := sessionRows[sessionID]
+		logs, parseErr := parseOpencodeRows(sessionID, "", rows)
 		if parseErr != nil {
 			return 0, fmt.Errorf("failed to parse OpenCode session %q: %w", sessionID, parseErr)
 		}
 		if len(logs) == 0 {
+			if _, writeErr := writeSessionLogs(ctx, state, "opencode", sessionID, nil, sessionSource{Type: "opencode-db"}); writeErr != nil {
+				return 0, writeErr
+			}
 			continue
 		}
-		if writeErr := writeSessionLogs("opencode", sessionID, logs); writeErr != nil {
+		fingerprint, fingerprintErr := fingerprintJSON(rows)
+		if fingerprintErr != nil {
+			return 0, fingerprintErr
+		}
+		result, writeErr := writeSessionLogs(ctx, state, "opencode", sessionID, logs, sessionSource{Type: "opencode-db", Fingerprint: fingerprint})
+		if writeErr != nil {
 			return 0, fmt.Errorf("failed to write OpenCode session %q: %w", sessionID, writeErr)
 		}
-		count++
-		_, _ = fmt.Fprint(state.Stderr, ".")
+		if result.Status == sessionIngested {
+			count++
+		}
 	}
 	return count, nil
 }
@@ -1142,7 +1081,8 @@ func RunAgentSessionLogOpencode(ctx context.Context, state *GlobalState, session
 
 	out = strings.TrimSpace(out)
 	if out == "" || out == "[]" {
-		return nil
+		_, err = writeSessionLogs(ctx, state, "opencode", sessionID, nil, sessionSource{Type: "opencode-db"})
+		return err
 	}
 
 	var rows []OpencodeRow
@@ -1154,8 +1094,12 @@ func RunAgentSessionLogOpencode(ctx context.Context, state *GlobalState, session
 	if err != nil {
 		return err
 	}
-
-	return writeSessionLogs("opencode", sessionID, logs)
+	fingerprint, err := fingerprintJSON(rows)
+	if err != nil {
+		return err
+	}
+	_, err = writeSessionLogs(ctx, state, "opencode", sessionID, logs, sessionSource{Type: "opencode-db", Fingerprint: fingerprint})
+	return err
 }
 
 // CopilotRow is a joined session/turn row returned by sqlite3 -json from Copilot's session-store.db.
@@ -1253,7 +1197,8 @@ func RunAgentSessionLogCopilot(ctx context.Context, state *GlobalState, sessionI
 
 	out = strings.TrimSpace(out)
 	if out == "" || out == "[]" {
-		return nil
+		_, err = writeSessionLogs(ctx, state, "copilot", sessionID, nil, sessionSource{Type: "copilot-db"})
+		return err
 	}
 
 	var rows []CopilotRow
@@ -1261,17 +1206,22 @@ func RunAgentSessionLogCopilot(ctx context.Context, state *GlobalState, sessionI
 		return fmt.Errorf("failed to parse Copilot query result: %w", parseErr)
 	}
 
-	return writeSessionLogs("copilot", sessionID, parseCopilotRows(sessionID, cwd, rows))
+	fingerprint, err := fingerprintJSON(rows)
+	if err != nil {
+		return err
+	}
+	_, err = writeSessionLogs(ctx, state, "copilot", sessionID, parseCopilotRows(sessionID, cwd, rows), sessionSource{Type: "copilot-db", Fingerprint: fingerprint})
+	return err
 }
 
 // syncCopilotSessions scans the Copilot store and logs every untracked session.
-func syncCopilotSessions(ctx context.Context, state *GlobalState, dbPath string, processed map[string]bool) (int, error) {
+func syncCopilotSessions(ctx context.Context, state *GlobalState, dbPath string) (int, error) {
 	output, err := state.Runner.Run(ctx, "", nil, "sqlite3", "-init", os.DevNull, "-json", dbPath, copilotSessionsQuery)
 	if err != nil {
 		return 0, fmt.Errorf("failed to query Copilot sessions: %w", err)
 	}
 
-	sessionIDs, err := decodeSessionIDs("Copilot", output, processed)
+	sessionIDs, err := decodeSessionIDs("Copilot", output)
 	if err != nil {
 		return 0, err
 	}
@@ -1294,6 +1244,11 @@ func syncCopilotSessions(ctx context.Context, state *GlobalState, dbPath string,
 
 	turnOutput = strings.TrimSpace(turnOutput)
 	if turnOutput == "" || turnOutput == "[]" {
+		for _, sessionID := range sessionIDs {
+			if _, writeErr := writeSessionLogs(ctx, state, "copilot", sessionID, nil, sessionSource{Type: "copilot-db"}); writeErr != nil {
+				return 0, writeErr
+			}
+		}
 		return 0, nil
 	}
 
@@ -1318,15 +1273,25 @@ func syncCopilotSessions(ctx context.Context, state *GlobalState, dbPath string,
 
 	count := 0
 	for _, sessionID := range sessionIDs {
-		logs := parseCopilotRows(sessionID, "", sessionRows[sessionID])
+		rows := sessionRows[sessionID]
+		logs := parseCopilotRows(sessionID, "", rows)
 		if len(logs) == 0 {
+			if _, writeErr := writeSessionLogs(ctx, state, "copilot", sessionID, nil, sessionSource{Type: "copilot-db"}); writeErr != nil {
+				return 0, writeErr
+			}
 			continue
 		}
-		if writeErr := writeSessionLogs("copilot", sessionID, logs); writeErr != nil {
+		fingerprint, fingerprintErr := fingerprintJSON(rows)
+		if fingerprintErr != nil {
+			return 0, fingerprintErr
+		}
+		result, writeErr := writeSessionLogs(ctx, state, "copilot", sessionID, logs, sessionSource{Type: "copilot-db", Fingerprint: fingerprint})
+		if writeErr != nil {
 			return 0, fmt.Errorf("failed to write Copilot session %q: %w", sessionID, writeErr)
 		}
-		count++
-		_, _ = fmt.Fprint(state.Stderr, ".")
+		if result.Status == sessionIngested {
+			count++
+		}
 	}
 	return count, nil
 }
@@ -1337,32 +1302,12 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 	if err != nil {
 		return err
 	}
-	sessionsDir := filepath.Join(home, ".agents", "sessions")
 
 	// The per-agent log helpers double as hook entrypoints and parse state.Stdin.
 	// When invoked from sync there is no hook payload, so detach stdin to avoid
 	// consuming (and choking on) whatever the sync process was started with.
 	noStdinState := *state
 	noStdinState.Stdin = nil
-
-	processed := make(map[string]bool)
-	processedWalkErr := filepath.WalkDir(sessionsDir, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-		if !d.IsDir() && strings.HasSuffix(d.Name(), ".jsonl") {
-			name := strings.TrimSuffix(d.Name(), ".jsonl")
-			parts := strings.Split(name, "_")
-			if len(parts) >= 3 {
-				sid := strings.Join(parts[2:], "_")
-				processed[sid] = true
-			}
-		}
-		return nil
-	})
-	if processedWalkErr != nil && !errors.Is(processedWalkErr, os.ErrNotExist) {
-		return fmt.Errorf("failed to scan processed session logs: %w", processedWalkErr)
-	}
 
 	total := 0
 
@@ -1394,19 +1339,16 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 						continue
 					}
 				}
-				if !processed[sid] {
-					if logErr := RunAgentSessionLogAgy(ctx, &noStdinState, sid, ""); logErr != nil {
-						return fmt.Errorf("failed to sync agy session %s: %w", sid, logErr)
-					}
-					count++
-					_, _ = fmt.Fprint(state.Stderr, ".")
+				if logErr := RunAgentSessionLogAgy(ctx, &noStdinState, sid, ""); logErr != nil {
+					return fmt.Errorf("failed to sync agy session %s: %w", sid, logErr)
 				}
+				count++
 			}
 		}
 		if count > 0 {
 			_, _ = fmt.Fprintln(state.Stderr)
 		}
-		_, _ = fmt.Fprintf(state.Stderr, "agy: %d new\n", count)
+		_, _ = fmt.Fprintf(state.Stderr, "agy: %d checked\n", count)
 		total += count
 	}
 
@@ -1424,13 +1366,14 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 			}
 			if !d.IsDir() && strings.HasSuffix(d.Name(), ".jsonl") && d.Name() != "memory.jsonl" {
 				sid := strings.TrimSuffix(d.Name(), ".jsonl")
-				if !processed[sid] {
-					if logErr := RunAgentSessionLogClaude(ctx, &noStdinState, sid, ""); logErr != nil {
-						return fmt.Errorf("failed to sync Claude session %s: %w", sid, logErr)
-					}
-					count++
-					_, _ = fmt.Fprint(state.Stderr, ".")
+				sourceState, stateErr := sessionStateWithTranscript(&noStdinState, sid, path)
+				if stateErr != nil {
+					return stateErr
 				}
+				if logErr := RunAgentSessionLogClaude(ctx, sourceState, sid, ""); logErr != nil {
+					return fmt.Errorf("failed to sync Claude session %s: %w", sid, logErr)
+				}
+				count++
 			}
 			return nil
 		})
@@ -1440,7 +1383,7 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 		if count > 0 {
 			_, _ = fmt.Fprintln(state.Stderr)
 		}
-		_, _ = fmt.Fprintf(state.Stderr, "claude: %d new\n", count)
+		_, _ = fmt.Fprintf(state.Stderr, "claude: %d checked\n", count)
 		total += count
 	}
 
@@ -1459,12 +1402,15 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 			if !d.IsDir() && strings.HasSuffix(d.Name(), ".jsonl") {
 				name := strings.TrimSuffix(d.Name(), ".jsonl")
 				sid := extractCodexSessionID(name)
-				if sid != "" && !processed[sid] {
-					if logErr := RunAgentSessionLogCodex(ctx, &noStdinState, sid, ""); logErr != nil {
+				if sid != "" {
+					sourceState, stateErr := sessionStateWithTranscript(&noStdinState, sid, path)
+					if stateErr != nil {
+						return stateErr
+					}
+					if logErr := RunAgentSessionLogCodex(ctx, sourceState, sid, ""); logErr != nil {
 						return fmt.Errorf("failed to sync Codex session %s: %w", sid, logErr)
 					}
 					count++
-					_, _ = fmt.Fprint(state.Stderr, ".")
 				}
 			}
 			return nil
@@ -1475,7 +1421,7 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 		if count > 0 {
 			_, _ = fmt.Fprintln(state.Stderr)
 		}
-		_, _ = fmt.Fprintf(state.Stderr, "codex: %d new\n", count)
+		_, _ = fmt.Fprintf(state.Stderr, "codex: %d checked\n", count)
 		total += count
 	}
 
@@ -1489,14 +1435,14 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 		if info.IsDir() {
 			return fmt.Errorf("OpenCode database path is a directory: %s", dbPath)
 		}
-		count, syncErr := syncOpencodeSessions(ctx, state, dbPath, processed)
+		count, syncErr := syncOpencodeSessions(ctx, state, dbPath)
 		if syncErr != nil {
 			return syncErr
 		}
 		if count > 0 {
 			_, _ = fmt.Fprintln(state.Stderr)
 		}
-		_, _ = fmt.Fprintf(state.Stderr, "opencode: %d new\n", count)
+		_, _ = fmt.Fprintf(state.Stderr, "opencode: %d ingested\n", count)
 		total += count
 	}
 
@@ -1510,39 +1456,47 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 		if copilotInfo.IsDir() {
 			return fmt.Errorf("copilot database path is a directory: %s", copilotDB)
 		}
-		count, syncErr := syncCopilotSessions(ctx, state, copilotDB, processed)
+		count, syncErr := syncCopilotSessions(ctx, state, copilotDB)
 		if syncErr != nil {
 			return syncErr
 		}
 		if count > 0 {
 			_, _ = fmt.Fprintln(state.Stderr)
 		}
-		_, _ = fmt.Fprintf(state.Stderr, "copilot: %d new\n", count)
+		_, _ = fmt.Fprintf(state.Stderr, "copilot: %d ingested\n", count)
 		total += count
 	}
 
-	_, _ = fmt.Fprintf(state.Stderr, "agent-session-sync: done (%d total new)\n", total)
+	_, _ = fmt.Fprintf(state.Stderr, "agent-session-sync: done (%d total processed)\n", total)
 	return nil
 }
 
-// decodeJSONL reads a line-delimited JSON file robustly and calls the callback for each line.
-// If a line cannot be parsed as JSON, it prints a warning to warnOut and continues.
-func decodeJSONL(warnOut io.Writer, filePath string, file *os.File, callback func(raw map[string]any) error) error {
+type jsonlDecodeStats struct {
+	Decoded   int
+	Malformed int
+}
+
+// decodeJSONLWithStats reads line-delimited JSON and retains malformed-record
+// evidence so the normalized generation is marked partial instead of silently clean.
+func decodeJSONLWithStats(warnOut io.Writer, filePath string, file *os.File, callback func(raw map[string]any) error) (jsonlDecodeStats, error) {
+	var stats jsonlDecodeStats
 	reader := bufio.NewReader(file)
 	for {
 		line, err := reader.ReadString('\n')
 		if err != nil && !errors.Is(err, io.EOF) {
-			return fmt.Errorf("reading file %s: %w", filePath, err)
+			return stats, fmt.Errorf("reading file %s: %w", filePath, err)
 		}
 		if len(line) > 0 {
 			var raw map[string]any
 			if decodeErr := json.Unmarshal([]byte(line), &raw); decodeErr != nil {
+				stats.Malformed++
 				if warnOut != nil {
 					_, _ = fmt.Fprintf(warnOut, "warning: failed to decode JSON line in %s: %v\n", filePath, decodeErr)
 				}
 			} else {
+				stats.Decoded++
 				if cbErr := callback(raw); cbErr != nil {
-					return cbErr
+					return stats, cbErr
 				}
 			}
 		}
@@ -1550,5 +1504,11 @@ func decodeJSONL(warnOut io.Writer, filePath string, file *os.File, callback fun
 			break
 		}
 	}
-	return nil
+	return stats, nil
+}
+
+// decodeJSONL retains the compatibility surface for focused parser tests.
+func decodeJSONL(warnOut io.Writer, filePath string, file *os.File, callback func(raw map[string]any) error) error {
+	_, err := decodeJSONLWithStats(warnOut, filePath, file, callback)
+	return err
 }

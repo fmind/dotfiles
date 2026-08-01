@@ -26,7 +26,7 @@ memories = true
 matcher = ""
 
 [[hooks.PreCompact.hooks]]
-command = "dot agent session codex"
+command = "dot agent hook session codex"
 statusMessage = "Syncing Codex session"
 timeout = 30
 type = "command"
@@ -35,13 +35,13 @@ type = "command"
 matcher = ""
 
 [[hooks.Stop.hooks]]
-command = "dot agent session codex"
+command = "dot agent hook session codex"
 statusMessage = "Syncing Codex session"
 timeout = 30
 type = "command"
 
 [[hooks.Stop.hooks]]
-command = "dot notify codex stop"
+command = "dot agent hook notify codex stop"
 statusMessage = "Notifying turn end"
 timeout = 30
 type = "command"

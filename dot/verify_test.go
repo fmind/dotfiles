@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/urfave/cli/v3"
 )
@@ -20,6 +21,15 @@ func TestDefaultVerifyConfigIncludesManagedAgentCLIs(t *testing.T) {
 	for _, tool := range []string{"claude", "codex", "copilot"} {
 		if !tools[tool] {
 			t.Errorf("default verification tools omit managed agent CLI %q", tool)
+		}
+	}
+}
+
+func TestDefaultVerifyToolsHaveCapabilityProbes(t *testing.T) {
+	registry := CapabilityProbeRegistry()
+	for _, tool := range defaultVerifyConfig().Tools {
+		if _, ok := registry[tool]; !ok {
+			t.Errorf("default verification tool %q has no capability probe", tool)
 		}
 	}
 }
@@ -85,7 +95,10 @@ func TestEnvVarsChecker(t *testing.T) {
 }
 
 func TestToolsChecker(t *testing.T) {
-	checker := &ToolsChecker{}
+	checker := &ToolsChecker{Registry: map[string]CapabilityProbe{
+		"existing-tool": {Name: "existing-tool", Command: "existing-tool", Args: []string{"--version"}, Timeout: time.Second, OutputLimit: 128},
+		"missing-tool":  {Name: "missing-tool", Command: "missing-tool", Args: []string{"--version"}, Timeout: time.Second, OutputLimit: 128},
+	}}
 
 	// Setup fake runner that fails to find 'missing-tool' and finds 'existing-tool'
 	runner := &FakeRunner{
@@ -114,6 +127,28 @@ func TestToolsChecker(t *testing.T) {
 
 	if res[1].Name != "missing-tool" || res[1].Status != statusFail {
 		t.Errorf("Expected missing-tool to fail, got %+v", res[1])
+	}
+}
+
+func TestToolsCheckerRejectsBrokenPathVisibleShim(t *testing.T) {
+	checker := &ToolsChecker{Registry: map[string]CapabilityProbe{
+		"broken": {Name: "broken", Command: "broken", Args: []string{"--version"}, Timeout: time.Second, OutputLimit: 64},
+	}}
+	runner := &FakeRunner{
+		LookPathFunc: func(string) (string, error) { return "/mise/shims/broken", nil },
+		RunFunc: func(context.Context, string, io.Reader, string, ...string) (string, error) {
+			return "", errors.New("package target is missing")
+		},
+	}
+	state := newTestState(runner)
+	state.Config.Verify.Tools = []string{"broken"}
+
+	results, passed := checker.Check(context.Background(), state, false)
+	if passed || len(results) != 1 || results[0].Condition != ProbeBroken {
+		t.Fatalf("broken shim result = %+v, passed=%v", results, passed)
+	}
+	if results[0].Path != "/mise/shims/broken" {
+		t.Errorf("diagnostic path = %q", results[0].Path)
 	}
 }
 
