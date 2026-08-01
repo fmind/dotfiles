@@ -1,2 +1,0 @@
-# Placeholder so chezmoi creates ~/.terraform.d/plugin-cache/.
-# Terraform silently disables the shared plugin cache if this directory is absent.

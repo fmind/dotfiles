@@ -1,6 +1,0 @@
-[cache]
-auto_update = true
-max_age = 720
-
-[output]
-compact = false

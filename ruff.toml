@@ -1,6 +1,0 @@
-line-length = 120
-exclude = [
-  "skills",
-  ".agents",
-]
-force-exclude = true

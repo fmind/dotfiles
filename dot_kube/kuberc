@@ -1,7 +1,0 @@
-apiVersion: kubectl.config.k8s.io/v1beta1
-kind: Preference
-defaults:
-  - command: apply
-    options:
-      - name: server-side
-        default: "true"
