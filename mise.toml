@@ -55,6 +55,34 @@ run = "go build -C dot -o ../dot_local/bin/executable_dot ./cmd/dot"
 sources = ["dot/go.mod", "dot/go.sum", "dot/**/*.go"]
 outputs = ["dot_local/bin/executable_dot"]
 
+[tasks.fast]
+alias = "q"
+description = "Run deterministic changed-file feedback (never a completion gate)"
+run = ".github/scripts/fast.sh"
+
+[tasks."fast:go"]
+description = "Check Go formatting, compile/test, and lint without security scans"
+run = """
+unformatted="$({ go tool goimports -l dot; gofumpt -l dot; } | sort -u)"
+if [ -n "$unformatted" ]; then
+  printf 'Go files need formatting:\n%s\n' "$unformatted"
+  exit 1
+fi
+go test -C dot ./...
+mise -C dot run check:lint
+"""
+
+[tasks."fast:shell"]
+description = "Check shell formatting and linting"
+run = """
+unformatted="$(git ls-files '*.sh' | xargs -r shfmt -l -i 2 -s)"
+if [ -n "$unformatted" ]; then
+  printf 'Shell files need formatting:\n%s\n' "$unformatted"
+  exit 1
+fi
+mise run check:shell
+"""
+
 [tasks.check]
 alias = "c"
 description = "Run all static checks in parallel"
@@ -198,9 +226,13 @@ run = [
 
 [tasks.test]
 alias = "t"
-depends = ["trust:repo"]
-description = "Run the dot CLI test suite (delegates to dot/)"
+depends = ["test:fast", "trust:repo"]
+description = "Run selector and dot CLI tests"
 run = "mise -C dot run test"
+
+[tasks."test:fast"]
+description = "Test deterministic fast-gate selection"
+run = ".github/scripts/fast_test.sh"
 
 [tasks."trust:repo"]
 description = "Trust every reviewed mise config in this checkout"

@@ -42,7 +42,7 @@ Aliases split into two namespaces so a mistyped letter can never fire the wrong 
 
 - **First-time setup**: `mise run install` (trust → tools → hooks → vim → krew).
 - **Routine update**: `mise run full` (fast standard routine synchronization).
-- **Iterate**: edit source → `mise run apply` (`mise run diff` to preview) → `mise run check` for quick static checks (or `mise run all` for the full CI gate) → `mise run verify` for dotfiles sanity.
+- **Iterate**: edit source → `mise run fast` for deterministic changed-file feedback → `mise run apply` (`mise run diff` to preview) → `mise run check` for all static checks → `mise run all` before completion → `mise run verify` for deployed dotfiles sanity. The fast gate never replaces the full gate.
 - **Add a tool**: append to `dot_config/mise/config.toml.tmpl` (alphabetical) — use `mise registry` to find tools → `mise run tools` to deploy and install → `mise run lock` to refresh and stage the lockfile.
 - **Upgrade tools**: `mise run upgrade` bumps versions, updates Neovim plugins, re-locks (`mise.lock` + `lazy-lock.json`), re-applies.
 - **Reclaim disk**: `mise run prune:agents` while local k3d clusters or a warm Go cache still matter; `mise run prune` (`--all=deep`) otherwise.
