@@ -18,6 +18,7 @@
     "github-actions": ["mise"],
     "github-pull-request": ["gh", "git"],
     "github-repository": ["gh"],
+    "github-triage": ["delta", "gh", "gh-dash", "jq", "lazygit", "nvim"],
     "go-stack": ["go", "mise"],
     "k8s-local": ["docker", "kubectl"],
     "lefthook": ["lefthook", "mise"],
@@ -28,6 +29,7 @@
     "python-stack": ["ruff", "uv"],
     "readme-agents": [],
     "release": ["gh", "git", "git-cliff"],
+    "release-audit": ["cosign", "gh", "git", "python3"],
     "security-scan": ["gitleaks", "trivy"],
     "upgrade-tools": ["mise"]
   }

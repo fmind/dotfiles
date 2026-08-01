@@ -1,0 +1,64 @@
+name: Full-history security
+on:
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: full-history-security
+  cancel-in-progress: true
+jobs:
+  scan:
+    name: Full-history GitLeaks and Trivy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout complete history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Install pinned scanners
+        uses: jdx/mise-action@v4
+        with:
+          cache: true
+      - name: Scan complete Git history
+        id: gitleaks
+        continue-on-error: true
+        run: |
+          mkdir -p security-results
+          set +e
+          gitleaks git --config .gitleaks.toml --verbose --redact=100 --timeout 900 --report-format sarif --report-path "$RUNNER_TEMP/gitleaks.sarif"
+          status=$?
+          set -e
+          jq 'walk(if type == "object" then del(.snippet, .artifactContent) else . end)' "$RUNNER_TEMP/gitleaks.sarif" > security-results/gitleaks.sarif
+          exit "$status"
+      - name: Scan full checkout
+        id: trivy
+        continue-on-error: true
+        run: |
+          mkdir -p security-results
+          set +e
+          trivy --config trivy.yaml fs --format json --output "$RUNNER_TEMP/trivy.json" --timeout 15m .
+          status=$?
+          set -e
+          jq '{schema_version:"dotfiles.security.trivy/v1",results:[.Results[]? | {target:.Target,class:.Class,type:.Type,vulnerabilities:[.Vulnerabilities[]? | {id:.VulnerabilityID,package:.PkgName,installed_version:.InstalledVersion,fixed_version:.FixedVersion,severity:.Severity,title:.Title,primary_url:.PrimaryURL}],misconfigurations:[.Misconfigurations[]? | {id:.ID,avd_id:.AVDID,type:.Type,title:.Title,severity:.Severity,resolution:.Resolution,primary_url:.PrimaryURL,references:.References}],secrets:[.Secrets[]? | {rule_id:.RuleID,category:.Category,severity:.Severity,title:.Title,start_line:.StartLine,end_line:.EndLine}],licenses:[.Licenses[]? | {category:.Category,name:.Name,confidence:.Confidence,severity:.Severity}]}]}' "$RUNNER_TEMP/trivy.json" > security-results/trivy.json
+          exit "$status"
+      - name: Upload redacted machine-readable findings
+        if: always() && hashFiles('security-results/*') != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: security-findings-${{ github.run_id }}
+          path: security-results/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Enforce scanner results
+        if: always()
+        env:
+          GITLEAKS_OUTCOME: ${{ steps.gitleaks.outcome }}
+          TRIVY_OUTCOME: ${{ steps.trivy.outcome }}
+        run: |
+          if [ "$GITLEAKS_OUTCOME" != success ] || [ "$TRIVY_OUTCOME" != success ]; then
+            echo "Full-history security evidence is incomplete or contains findings." >&2
+            exit 1
+          fi

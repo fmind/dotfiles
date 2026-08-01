@@ -108,7 +108,10 @@ func RunCommit(ctx context.Context, state *GlobalState, commitType, commitScope 
 		}
 	}
 
-	aiDiff := limitAIInput(diff, state.Config.Commit.MaxDiffSize)
+	aiDiff, err := PackDiff(diff, state.Config.Commit.MaxDiffSize)
+	if err != nil {
+		return rollback(fmt.Errorf("failed to pack staged git diff: %w", err))
+	}
 	if scanErr := ScanDiffForSecrets(ctx, state, aiDiff); scanErr != nil {
 		return rollback(scanErr)
 	}

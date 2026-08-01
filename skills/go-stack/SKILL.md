@@ -1,12 +1,12 @@
 ---
 name: go-stack
-description: Canonical Go development stack — tooling, scaffolding, web (GOTH), CLI/TUI, and ADK agents. Use for any Go (Golang) project, library, or application.
+description: Canonical Go development stack — tooling, scaffolding, web (GOTH), CLI/TUI, ADK agents, and exact local dependency source review. Use for any Go project, library, or application, including confirmation of selected module APIs from the configured module cache.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/go-stack
   created: 2026-06-23
-  updated: 2026-07-09
+  updated: 2026-08-01
 ---
 
 # Go Stack Standard (Go 1.26+)
@@ -28,6 +28,21 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 - **Diagnostics & Observability**: Standardize on OpenTelemetry (`otel`) for traces — wired for **web and agents only**, not CLIs. The web starter's `SetupOTel` ([telemetry.go](references/telemetry.go)) installs an OTLP/HTTP exporter and wraps the router in `otelhttp` for per-request spans; `OtelHandler` then stamps the active `trace_id`/`span_id` onto every `slog` record. Tracing activates only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set, so local runs stay quiet. ADK agents inherit tracing from the launcher (same OTLP env var, or `--otel_to_cloud` for GCP Cloud Trace). For deep local debugging, `runtime/trace.FlightRecorder` (Go 1.25+) keeps a rolling in-memory trace to dump on error/panic.
 - **Container Awareness**: Go 1.25+ is cgroups/container-aware—`GOMAXPROCS` aligns automatically (do not use `automaxprocs`).
 - **Omit Zero Struct Tags**: Use native `json:",omitzero"` (Go 1.24+) on structs/types (e.g., `time.Time`) instead of `omitempty`.
+
+## Exact Dependency Source Review
+
+Resolve a symbol through the project's selected module graph before proposing a dependency-specific fix:
+
+```bash
+python3 ~/.agents/skills/go-stack/scripts/resolve_source.py <package-import-path> <symbol-or-Receiver.Method> --project <project>
+```
+
+The resolver's offline contract suite is [resolve_source_test.py](scripts/resolve_source_test.py).
+
+- Keep inspection read-only: the resolver forces `GOPROXY=off`, `GOSUMDB=off`, `GOTOOLCHAIN=local`, and `-mod=readonly`, then reads only the package selected by `go list`.
+- Respect `replace` directives and `GOPRIVATE`, and reject missing or stale cache entries, standard-library targets, generated files, escaped module paths, and ambiguous symbols with actionable errors.
+- Do not clean, populate, or repair the module cache during review. Refresh dependencies explicitly outside the inspection flow when resolution reports missing source.
+- Consume the versioned JSON result: `language`, `dependency`, `version`, `source_path`, `defining_file`, `symbol`, bounded `excerpt`, and `provenance`. This shape is compatible with the Python resolver, while Go module semantics remain owned here.
 
 ## 2. Project Scaffolding Workflow
 

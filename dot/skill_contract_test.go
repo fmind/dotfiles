@@ -127,7 +127,7 @@ func checkSkillLinks(t *testing.T, repo, skillFile, content string) {
 
 func checkSkillResources(t *testing.T, repo, skillFile, content string) {
 	t.Helper()
-	allowedDirectories := []string{"assets", "references", "resources", "scripts", "templates"}
+	allowedDirectories := []string{"agents", "assets", "references", "resources", "scripts", "templates", "tests"}
 	skillDirectory := filepath.Dir(skillFile)
 	err := filepath.WalkDir(skillDirectory, func(path string, entry os.DirEntry, walkErr error) error {
 		if walkErr != nil {
@@ -160,7 +160,7 @@ func checkSkillResources(t *testing.T, repo, skillFile, content string) {
 			if relErr != nil {
 				relative = layoutErr.path
 			}
-			t.Errorf("%s: unsupported progressive-disclosure path; move it under assets, references, resources, scripts, or templates", relative)
+			t.Errorf("%s: unsupported progressive-disclosure path; move it under agents, assets, references, resources, scripts, templates, or tests", relative)
 			return
 		}
 		t.Fatal(err)
@@ -193,7 +193,7 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 		{
 			name:     "kubernetes verifies and stops local state",
 			path:     "skills/k8s-local/SKILL.md",
-			required: []string{"OFF by Default", "docker info", "kubectl config current-context", "dot cluster start", "dot cluster stop local"},
+			required: []string{"OFF by Default", "docker info", "--kubeconfig ~/.kube/dot/local.yaml --context k3d-local", "dot cluster start", "dot cluster stop"},
 			commands: [][]string{{"cluster", "start"}, {"k", "s"}, {"cluster", "stop"}},
 		},
 		{
