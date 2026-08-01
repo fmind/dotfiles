@@ -132,7 +132,7 @@ for template in $(git ls-files '*.sh.tmpl'); do
   # template that fails to render would feed shellcheck an empty script and
   # pass. A failed substitution aborts the task instead.
   rendered="$(chezmoi execute-template < "$template")"
-  printf '%s\\n' "$rendered" | shellcheck --shell=bash -
+  printf '%s\\n' "$rendered" | shellcheck --external-sources --shell=bash -
 done
 """
 
@@ -186,8 +186,8 @@ run = [
 
 [tasks.test]
 alias = "t"
-description = "Run the dot CLI test suite (delegates to dot/)"
-run = "mise -C dot run test"
+description = "Run bootstrap smoke tests and the dot CLI test suite"
+run = ["bash bootstrap/verified-installers_test.sh", "mise -C dot run test"]
 
 [tasks.watch]
 alias = "w"
