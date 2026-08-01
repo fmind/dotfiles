@@ -38,7 +38,7 @@ Tasks run via `mise run <task>`. **Do not use `mr`** — it is a fish abbreviati
 Aliases split into two namespaces so a mistyped letter can never fire the wrong kind of task:
 
 - **Common tasks** take the canonical one-letter alias from the mise skill: `a` all, `b` build, `c` check, `f` format, `i` install, `t` test, `w` watch (plus `c*`/`f*` for subtasks, e.g. `cg` check:go, `fd` format:dprint).
-- **Project management** tasks take an `m`-prefixed alias: `ma` apply, `md` diff, `mf` full, `mg` completions, `mh` hooks, `mk` lock, `mo` doctor, `mp` prune, `mpa` prune:agents, `mpr` preview, `mr` release, `msk` skills, `mt` tools, `mtr` trust, `mu` upgrade, `mv` vim, `mw` krew, `mx` verify.
+- **Project management** tasks take an `m`-prefixed alias: `ma` apply, `md` diff, `mf` full, `mg` completions, `mh` hooks, `mk` lock, `mo` doctor, `mp` prune, `mr` release, `mt` tools, `mtr` trust, `mu` upgrade, `mv` vim, `mw` krew, `mx` verify.
 
 - **First-time setup**: `mise run install` (trust → tools → hooks → vim → krew).
 - **Routine update**: `mise run full` (fast standard routine synchronization).
@@ -94,7 +94,6 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `.antigravitycli/` — Workspace-scoped session records, configuration settings, and state for Antigravity CLI.
 - `.chezmoi.toml.tmpl` — Template config initialized as the host-specific chezmoi configuration.
 - `.chezmoiignore` — Chezmoi exclude patterns to ignore repository files from deployment.
-- `.chezmoiremove` — Paths chezmoi deletes from the destination, so retired dotfiles disappear on every machine.
 - `.claude/` — Workspace-scoped session records and state for the Claude Code CLI.
 - `.gemini/` — Workspace configurations and metadata for the Antigravity CLI.
 - `.github/` — GitHub Actions CI and Dependabot dependency-update configuration.
