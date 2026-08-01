@@ -26,9 +26,11 @@ type VerifyResults struct {
 }
 
 type CheckResult struct {
-	Name    string `json:"name"`
-	Status  string `json:"status"`
-	Details string `json:"details,omitzero"`
+	Name      string `json:"name"`
+	Status    string `json:"status"`
+	Condition string `json:"condition,omitzero"`
+	Path      string `json:"path,omitzero"`
+	Details   string `json:"details,omitzero"`
 }
 
 // NewVerifyCmd constructs the top-level verify command.
@@ -235,17 +237,17 @@ func (c *AuthChecker) Check(ctx context.Context, state *GlobalState, shouldFix b
 
 	for i, task := range tasks {
 		wg.Go(func() {
-			_, err := state.Runner.LookPath(task.cmdName)
+			path, err := state.Runner.LookPath(task.cmdName)
 			if err != nil {
-				results[i] = CheckResult{Name: task.label, Status: statusSkip, Details: task.cmdName + " not installed"}
+				results[i] = CheckResult{Name: task.label, Status: statusSkip, Condition: ProbeSkipped, Details: task.cmdName + " not installed"}
 				return
 			}
 
 			_, err = state.Runner.Run(ctx, "", nil, task.cmdName, task.args...)
 			if err == nil {
-				results[i] = CheckResult{Name: task.label, Status: statusPass, Details: "authenticated"}
+				results[i] = CheckResult{Name: task.label, Status: statusPass, Condition: ProbeHealthy, Path: path, Details: "authenticated"}
 			} else {
-				results[i] = CheckResult{Name: task.label, Status: statusFail, Details: "NOT authenticated"}
+				results[i] = CheckResult{Name: task.label, Status: statusFail, Condition: ProbeUnauthenticated, Path: path, Details: "NOT authenticated"}
 				mu.Lock()
 				passed = false
 				mu.Unlock()
@@ -437,25 +439,18 @@ func (c *DockerChecker) Check(ctx context.Context, state *GlobalState, shouldFix
 }
 
 // ToolsChecker checks if required CLI binaries exist in the system PATH.
-type ToolsChecker struct{}
+type ToolsChecker struct {
+	Registry map[string]CapabilityProbe
+}
 
 func (c *ToolsChecker) Name() string { return "CLI Tools" }
 
 func (c *ToolsChecker) Check(ctx context.Context, state *GlobalState, shouldFix bool) ([]CheckResult, bool) {
-	var results []CheckResult
-	passed := true
-
-	for _, tool := range state.Config.Verify.Tools {
-		path, err := state.Runner.LookPath(tool)
-		if err == nil {
-			results = append(results, CheckResult{Name: tool, Status: statusPass, Details: fmt.Sprintf("in PATH (%s)", path)})
-		} else {
-			results = append(results, CheckResult{Name: tool, Status: statusFail, Details: "MISSING"})
-			passed = false
-		}
+	registry := c.Registry
+	if registry == nil {
+		registry = CapabilityProbeRegistry()
 	}
-
-	return results, passed
+	return runToolProbes(ctx, state.Runner, state.Config.Verify.Tools, registry)
 }
 
 // PrintHumanResults outputs the verification results in a user-friendly console format.

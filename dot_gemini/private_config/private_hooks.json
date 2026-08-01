@@ -3,7 +3,7 @@
     "Stop": [
       {
         "type": "command",
-        "command": "dot notify agy stop",
+        "command": "dot agent hook notify agy stop",
         "timeout": 30
       }
     ]
@@ -12,7 +12,7 @@
     "Stop": [
       {
         "type": "command",
-        "command": "dot agent session agy",
+        "command": "dot agent hook session agy",
         "timeout": 30
       }
     ]

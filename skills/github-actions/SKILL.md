@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/github-actions
   created: 2026-07-04
-  updated: 2026-07-09
+  updated: 2026-08-01
 ---
 
 # GitHub Actions CI/CD Standard
@@ -32,11 +32,12 @@ Canonical CI/CD workflows for GitHub repositories. The CI workflow runs the cano
 ## Templates
 
 - **CI**: See [ci.yml](references/ci.yml) which runs `mise run format`, `mise run check` (static checks incl. `check:leaks`), and `mise run test` across the whole tree, then `git diff --exit-code` to fail if formatting or generation left changes. CI stays minimal; the `check:leaks` task covers commit-scope secret scanning.
+- **Full-history security**: This repository's `.github/workflows/security.yml` runs weekly and on manual dispatch with `fetch-depth: 0`. It preserves redacted GitLeaks SARIF and an allowlisted Trivy JSON summary as short-lived artifacts, while any finding, scanner error, timeout, or missing sanitized report keeps the job failed.
 - **CD**: See [cd.yml](references/cd.yml) which provides commented templates for Go containers (using `ko`), Python packages (using `uv`), and general Docker builds.
 
 ## Gotchas
 
-- **Optional security job**: CI defaults to the `format`/`check`/`test` tasks only. For full-history secret and dependency scanning, add a separate `security` job with `fetch-depth: 0` running `gitleaks git` + `trivy fs` — see the [security-scan](../security-scan/SKILL.md) skill (or run those scans on demand).
+- **Separate security cadence**: Keep full-history scanning out of push CI. Use a scheduled/manual workflow with `fetch-depth: 0`, explicit scanner and job timeouts, redacted machine-readable artifacts, and a final step that fails if any scanner did not succeed.
 - **Stable caches**: `jdx/mise-action` caches using `mise.toml`/`mise.lock` — commit `mise.lock` for reproducible caching.
 - **Runtime warning mitigation**: Use current major versions of actions (e.g., `actions/checkout@v7` and `jdx/mise-action@v4`) to stay compliant with GitHub's latest runner runtime deprecations (Node 20+).
 

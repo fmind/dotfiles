@@ -3,6 +3,10 @@ set -euo pipefail
 
 export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/bin:${HOME}/.local/share/mise/shims:${PATH}"
 SOURCE_DIR="${HOME}/.local/share/chezmoi"
+SCRIPT_DIR="$(CDPATH='' cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+# shellcheck source=bootstrap/verified-installers.sh
+. "${SCRIPT_DIR}/bootstrap/verified-installers.sh"
 
 # Error trap handler for clean bootstrapping diagnostics
 on_error() {
@@ -19,11 +23,8 @@ on_error() {
 }
 trap 'on_error $LINENO' ERR
 
-# Install mise
-command -v mise >/dev/null || {
-  echo "=> Installing mise..."
-  curl -fsSL https://mise.run | bash
-}
+# Install or retain a newer mise without executing a remote response.
+bootstrap_install_mise
 
 # Install chezmoi
 command -v chezmoi >/dev/null || {

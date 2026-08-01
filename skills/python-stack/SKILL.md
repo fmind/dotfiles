@@ -1,12 +1,12 @@
 ---
 name: python-stack
-description: Canonical Python development stack — uv, Ruff, ty, pytest, scaffolding, Litestar web, Typer scripts, and AI agents via agents-cli. Use for any Python project, library, CLI, or agent.
+description: Canonical Python development stack — uv, Ruff, ty, pytest, scaffolding, Litestar web, Typer scripts, AI agents, and exact local dependency source review. Use for any Python project, library, CLI, or agent, including confirmation of installed dependency APIs without importing their code.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/python-stack
   created: 2026-06-23
-  updated: 2026-07-31
+  updated: 2026-08-01
 ---
 
 # Python Stack Standard
@@ -25,6 +25,19 @@ Canonical guidelines for Python development, scaffolding, CLI scripts, web appli
 - **Security**: Scan dependencies for known vulnerabilities with `pip-audit` (`uv run pip-audit`), wired into `mise run check` as `check:vuln`.
 - **Validation & Config**: Use `Pydantic` (v2+) & `Pydantic Settings` (`BaseSettings`). Keep configs in typed Python files (e.g., `config.py`); restrict YAML to cross-language needs.
 - **Logging**: Use `structlog`. Local: `ConsoleRenderer`. Production: `JSONRenderer`. Route standard library logs (SQLAlchemy, HTTPX) through `structlog` for uniform JSON outputs.
+
+## Exact Dependency Source Review
+
+Resolve a symbol from the uv-selected environment before proposing a dependency-specific fix:
+
+```bash
+python3 ~/.agents/skills/python-stack/scripts/resolve_source.py <distribution> <symbol> --project <project> [--module <import-module>]
+```
+
+- Keep inspection read-only: the resolver parses `*.dist-info` metadata and Python ASTs without importing or executing dependency code.
+- Treat an ambiguous environment, duplicate installed version, missing or stale source, generated file, or ambiguous symbol as an actionable error. Pass `--environment` only after confirming the intended uv environment.
+- Editable installs resolve through their local `direct_url.json`; normal installs remain confined to the selected environment's `site-packages`.
+- Consume the versioned JSON result: `language`, `dependency`, `version`, `source_path`, `defining_file`, `symbol`, bounded `excerpt`, and `provenance`. This shape is compatible with the Go resolver, while environment semantics remain owned here.
 
 ## 2. Project Scaffolding Workflow
 
