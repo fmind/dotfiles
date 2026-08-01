@@ -73,6 +73,9 @@ func TestDefaultConfig(t *testing.T) {
 	if len(cfg.Login.WorkspaceScopes) == 0 {
 		t.Error("Expected default WorkspaceScopes to be non-empty")
 	}
+	if cfg.Release != defaultReleaseConfig() {
+		t.Errorf("unexpected default release config: %+v", cfg.Release)
+	}
 }
 
 func TestLoadConfig_NonExistent(t *testing.T) {
@@ -117,6 +120,10 @@ pr:
   prompt: "custom pr prompt"
 commit:
   prompt: "custom commit prompt"
+release:
+  remote: "upstream"
+  default_branch: "stable"
+  workflow: "publish.yml"
 completions:
   path: "/custom/completions/path"
 login:
@@ -153,6 +160,9 @@ login:
 	}
 	if cfg.Commit.Prompt != "custom commit prompt" {
 		t.Errorf("Expected Commit prompt 'custom commit prompt', got %q", cfg.Commit.Prompt)
+	}
+	if cfg.Release.Remote != "upstream" || cfg.Release.DefaultBranch != "stable" || cfg.Release.Workflow != "publish.yml" {
+		t.Errorf("unexpected custom release config: %+v", cfg.Release)
 	}
 	if cfg.Completions.Path != "/custom/completions/path" {
 		t.Errorf("Expected Completions path '/custom/completions/path', got %q", cfg.Completions.Path)

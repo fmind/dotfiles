@@ -247,7 +247,7 @@ run = "executable_dot prune --all=deep"
 [tasks.release]
 alias = "mr"
 depends = ["build"]
-description = "Bump version, update CHANGELOG, and publish a GitHub release"
+description = "Prepare and dispatch an exact-head GitHub release"
 run = "executable_dot release"
 
 [tasks.tools]
