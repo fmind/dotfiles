@@ -174,8 +174,11 @@ run = [
 
 [tasks.test]
 alias = "t"
-description = "Run the dot CLI test suite (delegates to dot/)"
-run = "mise -C dot run test"
+description = "Run the dot CLI and skill script test suites"
+run = [
+  "mise -C dot run test",
+  "python3 -B -m unittest skills/release-audit/scripts/audit_test.py",
+]
 
 [tasks.watch]
 alias = "w"
