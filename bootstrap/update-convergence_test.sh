@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Git hooks export repository internals; nested fixture repositories must never
+# inherit an index or object database that belongs to the checkout under test.
+unset GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_DIR GIT_INDEX_FILE GIT_OBJECT_DIRECTORY GIT_PREFIX GIT_WORK_TREE
+
 repo_root="$(git rev-parse --show-toplevel)"
 fixture_root="$(mktemp -d)"
 readonly repo_root fixture_root
@@ -16,7 +20,7 @@ git -C "${repo_fixture}" init -q
 git -C "${repo_fixture}" config user.email test@example.com
 git -C "${repo_fixture}" config user.name Test
 git -C "${repo_fixture}" add .
-git -C "${repo_fixture}" commit -qm fixture
+git -C "${repo_fixture}" -c core.hooksPath=/dev/null commit -qm fixture
 
 cat >"${fake_bin}/mise" <<'EOF'
 #!/usr/bin/env bash
