@@ -24,6 +24,7 @@ type Config struct {
 	Pull         PullConfig         `yaml:"pull"`
 	Setup        SetupConfig        `yaml:"setup"`
 	Prune        PruneConfig        `yaml:"prune"`
+	Release      ReleaseConfig      `yaml:"release"`
 	Commit       CommitConfig       `yaml:"commit"`
 }
 
@@ -57,6 +58,7 @@ func DefaultConfig() *Config {
 		Pull:         defaultPullConfig(),
 		Setup:        defaultSetupConfig(),
 		Commit:       defaultCommitConfig(),
+		Release:      defaultReleaseConfig(),
 		ChezmoiClean: defaultChezmoiCleanConfig(),
 		Prune:        defaultPruneConfig(),
 	}

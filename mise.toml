@@ -256,10 +256,16 @@ depends = ["build"]
 description = "Remove unused tools, containers, and development caches"
 run = "executable_dot prune --all=deep"
 
+[tasks."prune:agents"]
+alias = "mpa"
+depends = ["build"]
+description = "Reclaim agent transcripts and caches while preserving clusters and the Go cache"
+run = "executable_dot prune --agents"
+
 [tasks.release]
 alias = "mr"
 depends = ["build"]
-description = "Bump version, update CHANGELOG, and publish a GitHub release"
+description = "Prepare and dispatch an exact-head GitHub release"
 run = "executable_dot release"
 
 [tasks.tools]
