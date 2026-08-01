@@ -118,44 +118,48 @@ func sanitizedServerAddress(server string) string {
 	return parsed.Scheme + "://" + parsed.Host
 }
 
-func writeIsolatedKubeconfig(path string, content []byte) error {
+func writeOwnerOnlyFile(path string, content []byte, description string) error {
 	if info, err := os.Lstat(path); err == nil && info.Mode()&os.ModeSymlink != 0 {
-		return fmt.Errorf("refusing linked kubeconfig path %s", path)
+		return fmt.Errorf("refusing linked %s path %s", description, path)
 	} else if err != nil && !errors.Is(err, os.ErrNotExist) {
-		return fmt.Errorf("failed to inspect kubeconfig path: %w", err)
+		return fmt.Errorf("failed to inspect %s path: %w", description, err)
 	}
 	dir := filepath.Dir(path)
 	if err := os.MkdirAll(dir, 0o700); err != nil {
-		return fmt.Errorf("failed to create kubeconfig directory: %w", err)
+		return fmt.Errorf("failed to create %s directory: %w", description, err)
 	}
 	if err := os.Chmod(dir, 0o700); err != nil {
-		return fmt.Errorf("failed to secure kubeconfig directory: %w", err)
+		return fmt.Errorf("failed to secure %s directory: %w", description, err)
 	}
 	temp, err := os.CreateTemp(dir, ".kubeconfig-*")
 	if err != nil {
-		return fmt.Errorf("failed to create temporary kubeconfig: %w", err)
+		return fmt.Errorf("failed to create temporary %s: %w", description, err)
 	}
 	tempPath := temp.Name()
 	defer func() { _ = os.Remove(tempPath) }()
 	if err := temp.Chmod(0o600); err != nil {
 		_ = temp.Close()
-		return fmt.Errorf("failed to secure temporary kubeconfig: %w", err)
+		return fmt.Errorf("failed to secure temporary %s: %w", description, err)
 	}
 	if _, err := temp.Write(content); err != nil {
 		_ = temp.Close()
-		return fmt.Errorf("failed to write temporary kubeconfig: %w", err)
+		return fmt.Errorf("failed to write temporary %s: %w", description, err)
 	}
 	if err := temp.Sync(); err != nil {
 		_ = temp.Close()
-		return fmt.Errorf("failed to sync temporary kubeconfig: %w", err)
+		return fmt.Errorf("failed to sync temporary %s: %w", description, err)
 	}
 	if err := temp.Close(); err != nil {
-		return fmt.Errorf("failed to close temporary kubeconfig: %w", err)
+		return fmt.Errorf("failed to close temporary %s: %w", description, err)
 	}
 	if err := os.Rename(tempPath, path); err != nil {
-		return fmt.Errorf("failed to publish isolated kubeconfig: %w", err)
+		return fmt.Errorf("failed to publish %s: %w", description, err)
 	}
 	return nil
+}
+
+func writeIsolatedKubeconfig(path string, content []byte) error {
+	return writeOwnerOnlyFile(path, content, "isolated kubeconfig")
 }
 
 func fetchClusterKubeconfig(ctx context.Context, state *GlobalState, name string) ([]byte, kubeconfigMetadata, error) {

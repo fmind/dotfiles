@@ -31,6 +31,7 @@ func NewClusterCmd(state *GlobalState) *cli.Command {
 			NewClusterStartCmd(state),
 			NewClusterStopCmd(state),
 			NewClusterStatusCmd(state),
+			NewClusterDiagnoseCmd(state),
 			NewClusterDeleteCmd(state),
 			NewClusterNamespaceCmd(state),
 		},
@@ -384,11 +385,10 @@ func RunClusterNamespaceWithOptions(ctx context.Context, state *GlobalState, nam
 
 // ClusterConfig represents the configuration for local cluster management.
 type ClusterConfig struct {
-	Name       string `yaml:"name"`
-	ConfigPath string `yaml:"config_path"`
-	// Empty derives ~/.kube/dot/<name>.yaml so changing the managed name cannot
-	// accidentally reuse another cluster's credentials.
-	KubeconfigPath string `yaml:"kubeconfig_path"`
+	Name           string                  `yaml:"name"`
+	ConfigPath     string                  `yaml:"config_path"`
+	KubeconfigPath string                  `yaml:"kubeconfig_path"`
+	Diagnostics    ClusterDiagnosticConfig `yaml:"diagnostics"`
 }
 
 func defaultClusterConfig() ClusterConfig {
@@ -396,5 +396,6 @@ func defaultClusterConfig() ClusterConfig {
 		Name:           "local",
 		ConfigPath:     "~/.config/k3d/local.yaml",
 		KubeconfigPath: "",
+		Diagnostics:    ClusterDiagnosticConfig{},
 	}
 }
