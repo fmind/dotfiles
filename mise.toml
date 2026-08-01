@@ -186,8 +186,12 @@ run = [
 
 [tasks.test]
 alias = "t"
-description = "Run bootstrap smoke tests and the dot CLI test suite"
-run = ["bash bootstrap/verified-installers_test.sh", "mise -C dot run test"]
+description = "Run bootstrap, dot CLI, and skill script test suites"
+run = [
+  "bash bootstrap/verified-installers_test.sh",
+  "mise -C dot run test",
+  "python3 -B -m unittest skills/python-stack/scripts/resolve_source_test.py skills/go-stack/scripts/resolve_source_test.py",
+]
 
 [tasks.watch]
 alias = "w"
