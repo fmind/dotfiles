@@ -448,6 +448,7 @@ func TestAgentSessionCommandDispatch(t *testing.T) {
 func TestCommitCommand(t *testing.T) {
 	t.Run("successful commit with cached changes", func(t *testing.T) {
 		var gitCommitCalled int32
+		var scannedPayload string
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
 				return "/bin/" + name, nil
@@ -458,16 +459,21 @@ func TestCommitCommand(t *testing.T) {
 						return "true", nil
 					}
 					if args[0] == "diff" && args[1] == "--cached" {
-						return "some git diff content", nil
+						return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 					}
 				}
 				if name == "/bin/gitleaks" {
+					diffBytes, _ := io.ReadAll(stdin)
+					scannedPayload = string(diffBytes)
 					return "", nil
 				}
 				if name == "/bin/agy" {
 					diffBytes, _ := io.ReadAll(stdin)
-					if string(diffBytes) != "some git diff content" {
+					if !strings.Contains(string(diffBytes), "# Diff summary") || !strings.Contains(string(diffBytes), "diff --git a/file.txt b/file.txt") {
 						return "", fmt.Errorf("expected diff input, got %q", string(diffBytes))
+					}
+					if string(diffBytes) != scannedPayload {
+						return "", errors.New("AI payload differs from scanned payload")
 					}
 					return "feat(ui): add button", nil
 				}
@@ -513,7 +519,7 @@ func TestCommitCommand(t *testing.T) {
 					}
 					if args[0] == "diff" && args[1] == "--cached" {
 						if added {
-							return "unstaged changes content", nil
+							return testDiff("file.go", "@@ -1 +1 @@\n-old\n+new\n"), nil
 						}
 						return "", nil
 					}
@@ -572,7 +578,7 @@ func TestCommitCommand(t *testing.T) {
 						return "true", nil
 					}
 					if args[0] == "diff" && args[1] == "--cached" {
-						return "some git diff content", nil
+						return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 					}
 				}
 				if name == "/bin/gitleaks" {
@@ -630,7 +636,7 @@ func TestCommitCommand(t *testing.T) {
 						return "true", nil
 					}
 					if args[0] == "diff" && args[1] == "--cached" {
-						return "some git diff content", nil
+						return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 					}
 				}
 				if name == "/bin/gitleaks" {
@@ -705,7 +711,7 @@ func TestCommitCommand(t *testing.T) {
 					return "true", nil
 				}
 				if name == "git" && args[0] == "diff" {
-					return "diff containing a secret", nil
+					return testDiff("secret.txt", "@@ -0,0 +1 @@\n+secret\n"), nil
 				}
 				if name == "/bin/gitleaks" {
 					return "", errors.New("secret detected")
@@ -766,7 +772,7 @@ func TestCommitCommand(t *testing.T) {
 						return "true", nil
 					}
 					if args[0] == "diff" {
-						return "some diff content", nil
+						return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 					}
 				}
 				if name == "/bin/gitleaks" {
@@ -800,7 +806,7 @@ func TestCommitCommand(t *testing.T) {
 						return "true", nil
 					}
 					if args[0] == "diff" && args[1] == "--cached" {
-						return "some git diff content", nil
+						return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 					}
 				}
 				if name == "/bin/gitleaks" {
@@ -1190,7 +1196,7 @@ func TestPrCommand(t *testing.T) {
 				}
 				if args[0] == "diff" && strings.HasPrefix(args[1], "main...") {
 					atomic.AddInt32(&gitCalled, 1)
-					return "some diff content", nil
+					return testDiff("file.txt", "@@ -1 +1 @@\n-old\n+new\n"), nil
 				}
 			}
 			if name == "/bin/gitleaks" {
