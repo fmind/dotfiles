@@ -197,6 +197,12 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 			commands: [][]string{{"cluster", "start"}, {"k", "s"}, {"cluster", "stop"}},
 		},
 		{
+			name:     "kubernetes review keeps evidence bounded and read-only",
+			path:     "skills/k8s-review/SKILL.md",
+			required: []string{"explicit or repository-derived", "immediately before each state-changing command", "dot cluster diagnose", "dot.cluster.diagnostics/v1", "deprecated APIs", "security contexts", "scheduling", "autoscaling", "probes", "disruption", "networking", "storage", "upgrade risk", "Static manifest proof", "Runtime behavior", "Proposed optimization", "Acceptance evidence", "tests/behavioral-evaluations.md"},
+			commands: [][]string{{"cluster", "diagnose"}},
+		},
+		{
 			name:    "git publication validates before push",
 			path:    "skills/git-add-commit-push/SKILL.md",
 			ordered: []string{"git status --short", "git commit -m", "git push", "Do not use `--no-verify`"},

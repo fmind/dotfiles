@@ -21,6 +21,7 @@
     "github-triage": ["delta", "gh", "gh-dash", "jq", "lazygit", "nvim"],
     "go-stack": ["go", "mise"],
     "k8s-local": ["docker", "kubectl"],
+    "k8s-review": ["dot", "kubectl", "mise"],
     "lefthook": ["lefthook", "mise"],
     "mermaid": ["mmdc"],
     "mise": ["mise"],
