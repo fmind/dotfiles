@@ -45,9 +45,9 @@ else
   chezmoi init --force --source "${SOURCE_DIR}" "$@"
 fi
 
-# Trust the repository config so it can drive the remaining bootstrap.
-echo "=> Trusting mise config..."
-mise trust -y "${SOURCE_DIR}/mise.toml"
+# Trust every reviewed repository config before a nested task can load it.
+echo "=> Trusting mise configs..."
+"${SOURCE_DIR}/.github/scripts/trust-mise.sh"
 
 # Complete the ordered bootstrap: apply, trust, tools, hooks, editor, and krew.
 echo "=> Completing environment bootstrap..."
