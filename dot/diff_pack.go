@@ -41,21 +41,23 @@ func PackDiff(diff string, maxSize int) (string, error) {
 		selected[i] = make(map[int]bool)
 	}
 
-	payload := renderPackedDiff(diff, files, selected)
-	if len(payload) > maxSize {
-		return "", fmt.Errorf("diff budget %d bytes cannot hold the %d-byte inventory and omission manifest", maxSize, len(payload))
-	}
-
-	for _, candidate := range prioritizedDiffUnits(files) {
-		selected[candidate.file][candidate.unit] = true
-		trial := renderPackedDiff(diff, files, selected)
-		if len(trial) <= maxSize {
-			payload = trial
-			continue
+	candidates := prioritizedDiffUnits(files)
+	payload, err := packWithinBudget(maxSize, len(candidates), func(chosen []bool) []byte {
+		for i := range selected {
+			clear(selected[i])
 		}
-		delete(selected[candidate.file], candidate.unit)
+		for i, include := range chosen {
+			if include {
+				candidate := candidates[i]
+				selected[candidate.file][candidate.unit] = true
+			}
+		}
+		return []byte(renderPackedDiff(diff, files, selected))
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed to pack diff: %w", err)
 	}
-	return payload, nil
+	return string(payload), nil
 }
 
 type diffUnit struct {
