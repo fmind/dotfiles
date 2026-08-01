@@ -26,12 +26,15 @@ git -C "${fixture_root}" add .github/scripts/trust-mise.sh mise.toml dot/mise.to
 export MISE_DATA_DIR="${fixture_root}/mise-data"
 export MISE_CONFIG_DIR="${fixture_root}/mise-config"
 export MISE_CACHE_DIR="${fixture_root}/mise-cache"
+export MISE_STATE_DIR="${fixture_root}/mise-state"
+export MISE_PARANOID=1
 mise -C "${fixture_root}" trust -y mise.toml
 mise -C "${fixture_root}" run trust:repo
 
 for config in mise.toml dot/mise.toml; do
-  trust_state=$(mise trust --show "${fixture_root}/${config}")
-  [[ ${trust_state} == *': trusted' ]] || {
+  config_dir="${fixture_root}/$(dirname -- "${config}")"
+  trust_state=$(mise -C "${config_dir}" trust --show)
+  [[ ${trust_state} == *"${fixture_root}/${config}: trusted"* ]] || {
     printf 'expected trusted config: %s\n' "${config}" >&2
     exit 1
   }
