@@ -20,6 +20,28 @@ type commitIntegrationRunner struct {
 	scanned     string
 }
 
+func isolateGitEnvironment(t *testing.T) {
+	t.Helper()
+	command := exec.Command("git", "rev-parse", "--local-env-vars")
+	output, err := command.Output()
+	if err != nil {
+		t.Fatalf("list repository-local Git environment: %v", err)
+	}
+	for _, name := range strings.Fields(string(output)) {
+		value, existed := os.LookupEnv(name)
+		if err := os.Unsetenv(name); err != nil {
+			t.Fatalf("unset %s: %v", name, err)
+		}
+		t.Cleanup(func() {
+			if existed {
+				_ = os.Setenv(name, value)
+			} else {
+				_ = os.Unsetenv(name)
+			}
+		})
+	}
+}
+
 func (r *commitIntegrationRunner) LookPath(name string) (string, error) {
 	switch name {
 	case "agy", "gitleaks":
@@ -63,6 +85,9 @@ func setupCommitIntegrationRepo(t *testing.T) (*commitIntegrationRunner, string)
 	if _, err := exec.LookPath("git"); err != nil {
 		t.Skip("git is required for integration test")
 	}
+	// Git exports GIT_DIR and related variables to hooks. A fixture that initializes
+	// a foreign repository must not let those variables redirect mutations home.
+	isolateGitEnvironment(t)
 
 	repo := t.TempDir()
 	standard := NewStandardRunner(strings.NewReader(""), io.Discard, io.Discard)
