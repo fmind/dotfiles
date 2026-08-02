@@ -2,6 +2,47 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.9.0] - 2026-08-02
+
+### 🚀 Features
+
+- _(github)_ Add agent-runnable issue queue
+- _(release)_ Gate publication on exact-head CI
+- _(dot)_ Emit bounded and redacted project context
+- _(agent)_ Add cross-agent discovery and hook doctor
+- _(cluster)_ Collect bounded sanitized diagnostics
+- _(security)_ Add scheduled full-history scans
+- _(stacks)_ Resolve exact local dependency source
+- _(skill)_ Add exact-head release audit
+- _(skill)_ Add cross-cutting repository review
+- _(agent)_ Add versioned session query exports
+- _(agent)_ Sync Copilot sessions from personal hook (#69)
+- _(skill)_ Add evidence-first project backlog (#70)
+- _(skill)_ Add bounded Kubernetes review (#71)
+- _(skill)_ Add cooperative issue execution (#72)
+- _(config)_ Update root directories for fmind, fmind-ai, and mlops-courses
+- _(dot)_ Unify agent sources, add configurable bounds, simplify bootstrap
+
+### 🐛 Bug Fixes
+
+- _(verify)_ Probe CLI capabilities instead of shims
+- _(ai)_ Pack diffs with explicit omission evidence
+- _(agent)_ Make session ingestion lineage-safe
+- _(prune)_ Retain raw sessions until verified
+- _(cluster)_ Isolate and verify kubeconfig targets
+- _(bootstrap)_ Verify pinned installers
+- _(bootstrap)_ Trust nested mise configs hermetically
+- _(verify)_ Support Helm 4 capability probe (#73)
+
+### ♻️ Refactor
+
+- _(mise)_ Separate update and convergence phases
+
+### 🧪 Testing
+
+- _(docs)_ Validate agent command contracts
+- _(ci)_ Validate workflows and skill contracts
+
 ## [1.8.0] - 2026-07-31
 
 ### 🚀 Features
