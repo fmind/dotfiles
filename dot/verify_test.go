@@ -187,9 +187,13 @@ func TestInstallChecker(t *testing.T) {
 	checker := &InstallChecker{}
 	const head = "5efbbb4eb501a1b2c3d4e5f60718293a4b5c6d7e"
 
-	// runnerFor wires the three probes the checker makes: chezmoi source-path,
-	// git rev-parse HEAD, and `dot version` on the installed binary.
-	runnerFor := func(version string) *FakeRunner {
+	// runnerFor wires the probes the checker makes: chezmoi source-path, one
+	// `git rev-list -1 <ref> -- <build inputs>` per side, and `dot version` on the
+	// installed binary. The git fake keys off the ref so the HEAD side and the
+	// built-revision side can disagree, which is what staleness actually means.
+	// buildInputCommits maps a queried ref to the newest build-input commit
+	// reachable from it; an absent ref stands for one this checkout cannot resolve.
+	runnerFor := func(version string, buildInputCommits map[string]string) *FakeRunner {
 		return &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
 				if name == "dot" {
@@ -202,7 +206,14 @@ func TestInstallChecker(t *testing.T) {
 				case name == "chezmoi":
 					return "/home/fmind/.local/share/chezmoi\n", nil
 				case name == "git":
-					return head + "\n", nil
+					if len(args) < 3 || args[0] != "rev-list" {
+						return "", errors.New("unexpected git invocation")
+					}
+					commit, ok := buildInputCommits[args[2]]
+					if !ok {
+						return "", errors.New("unknown revision " + args[2])
+					}
+					return commit + "\n", nil
 				case strings.HasSuffix(name, "dot"):
 					return version, nil
 				}
@@ -211,8 +222,12 @@ func TestInstallChecker(t *testing.T) {
 		}
 	}
 
+	// The common case: the newest build-input commit is the same whichever side
+	// asks, because the installed binary was built from current sources.
+	current := map[string]string{"HEAD": head, "5efbbb4eb501": head}
+
 	t.Run("installed binary matches source HEAD", func(t *testing.T) {
-		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (5efbbb4eb501)")), false)
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (5efbbb4eb501)", current)), false)
 		if !passed {
 			t.Error("expected the check to pass when the binary matches HEAD")
 		}
@@ -222,7 +237,9 @@ func TestInstallChecker(t *testing.T) {
 	})
 
 	t.Run("installed binary is stale", func(t *testing.T) {
-		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.0 (56fc23c35a3e)")), false)
+		// The binary was built before the newest change to the sources it compiles from.
+		stale := map[string]string{"HEAD": head, "56fc23c35a3e": "0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c"}
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.0 (56fc23c35a3e)", stale)), false)
 		if passed {
 			t.Error("expected the check to fail when the binary predates HEAD")
 		}
@@ -234,8 +251,36 @@ func TestInstallChecker(t *testing.T) {
 		}
 	})
 
+	t.Run("commit that cannot change the binary is not stale", func(t *testing.T) {
+		// The regression this checker used to have: HEAD moved on (a docs, skill, or
+		// test-only commit), but nothing the binary is compiled from changed, so both
+		// sides still resolve to the same build-input commit and the install is current.
+		unchanged := map[string]string{"HEAD": head, "56fc23c35a3e": head}
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (56fc23c35a3e)", unchanged)), false)
+		if !passed {
+			t.Error("a commit that touches no build input must not report the binary as stale")
+		}
+		if len(res) == 0 || res[0].Status != statusPass {
+			t.Errorf("expected pass result, got %+v", res)
+		}
+	})
+
+	t.Run("unresolvable revision warns rather than failing", func(t *testing.T) {
+		// Only HEAD resolves, so the binary's own revision is unknown to this checkout.
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (deadbeefcafe)", map[string]string{"HEAD": head})), false)
+		if !passed {
+			t.Error("an unresolvable revision is unknowable, not a verified staleness failure")
+		}
+		if len(res) == 0 || res[0].Status != statusWarn {
+			t.Fatalf("expected warn result, got %+v", res)
+		}
+		if !strings.Contains(res[0].Details, "not present in this checkout") {
+			t.Errorf("details = %q, want it to name the unresolvable revision", res[0].Details)
+		}
+	})
+
 	t.Run("matching but dirty build only warns", func(t *testing.T) {
-		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (5efbbb4eb501, dirty)")), false)
+		res, passed := checker.Check(context.Background(), newTestState(runnerFor("dot 1.7.1 (5efbbb4eb501, dirty)", current)), false)
 		if !passed {
 			t.Error("a dirty build still matches HEAD, so it must not fail the suite")
 		}
@@ -245,7 +290,7 @@ func TestInstallChecker(t *testing.T) {
 	})
 
 	t.Run("dot not installed is skipped", func(t *testing.T) {
-		runner := runnerFor("")
+		runner := runnerFor("", current)
 		runner.LookPathFunc = func(string) (string, error) { return "", errors.New("not installed") }
 		res, passed := checker.Check(context.Background(), newTestState(runner), false)
 		if !passed {
@@ -257,7 +302,7 @@ func TestInstallChecker(t *testing.T) {
 	})
 
 	t.Run("non-git source checkout is skipped", func(t *testing.T) {
-		runner := runnerFor("dot 1.7.1 (5efbbb4eb501)")
+		runner := runnerFor("dot 1.7.1 (5efbbb4eb501)", current)
 		runner.RunFunc = func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 			if name == "git" {
 				return "", errors.New("not a git repository")

@@ -39,6 +39,23 @@ pre-commit:
     check:
       priority: 30
       run: mise run check
+post-commit:
+  commands:
+    deploy:
+      # The `dot` on PATH is a chezmoi-deployed copy, so it silently lags the moment
+      # a commit changes what it is built from — and every later check runs *through*
+      # that stale copy. Redeploy here, where the skew is created. Only the binary is
+      # applied: a full apply would also rewrite unrelated, app-managed dotfiles.
+      # Git ignores this hook's exit status, so a failure reports without blocking.
+      run: |
+        git diff-tree --no-commit-id --name-only -r HEAD |
+          grep -E '^dot/(.*\.go|go\.(mod|sum))$' |
+          grep -qv '_test\.go$' || exit 0
+        # --force: the task's mtime check cannot see the VCS stamp, so a binary
+        # built from the same files pre-commit still carries a dirty/old revision.
+        mise run --force build
+        chezmoi apply ~/.local/bin/dot
+
 pre-push:
   commands:
     test:

@@ -17,6 +17,7 @@ Canonical git-hooks setup using **lefthook**. Keep hooks thin by delegating ever
 
 - **pre-commit** (fast): format staged files, then run the static checks and secret scan.
 - **pre-push** (slower): the test suite.
+- **post-commit** (optional): repair state the commit itself invalidated — for a repo that deploys a binary built from its own sources, rebuild and redeploy it here, guarded so it only fires when the commit touched a real build input. Git ignores this hook's exit status, so it reports without ever blocking a commit.
 - **Delegate, don't duplicate**: every command is a thin `mise run <task>`; the command name mirrors the task (`format:go` → `mise run format:go`). Tasks are owned by the language stack ([go-stack](../go-stack/SKILL.md), [python-stack](../python-stack/SKILL.md)) — see the [mise skill](../mise/SKILL.md).
 - **Staged formatters, whole-tree checks**: formatters take `{staged_files}` and restage their fixes (`stage_fixed: true`); `check`/`test` take no files so they always run on the whole tree — "run everything before commit/push".
 - **Clean output**: suppress version headers and successful commands to keep commits quiet and distraction-free.

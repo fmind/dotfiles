@@ -350,6 +350,39 @@ type InstallChecker struct{}
 
 func (c *InstallChecker) Name() string { return "Install Freshness" }
 
+// dotBuildInputs are the repository paths the binary is actually compiled from.
+// Test files and the module's task config are deliberately excluded: they change
+// constantly and cannot alter the shipped binary, so counting them would report a
+// perfectly current install as stale after a test-only or docs-only commit.
+var dotBuildInputs = []string{"dot/*.go", "dot/go.mod", "dot/go.sum", ":!dot/*_test.go"}
+
+// shortCommit abbreviates a commit for display, matching the 12-character form
+// the binary embeds so both sides of a staleness message line up. An empty value
+// means no commit ever touched the build inputs.
+func shortCommit(commit string) string {
+	if commit == "" {
+		return "none"
+	}
+	return commit[:min(len(commit), 12)]
+}
+
+// lastBuildInputCommit returns the newest commit reachable from ref that touched
+// the binary's build inputs.
+//
+// Comparing this value between HEAD and the revision baked into the installed
+// binary answers the question that actually matters — "was this binary built from
+// sources as new as the checkout?" — rather than "has any commit landed since?".
+// Both sides run the same query, so an equality test is enough and no exit-code
+// interpretation is needed.
+func lastBuildInputCommit(ctx context.Context, state *GlobalState, source, ref string) (string, error) {
+	args := append([]string{"rev-list", "-1", ref, "--"}, dotBuildInputs...)
+	out, err := state.Runner.Run(ctx, source, nil, "git", args...)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(out), nil
+}
+
 // installedRevision extracts the short VCS revision and dirty flag from the
 // output of `dot version` (e.g. "dot 1.7.0 (56fc23c35a3e, dirty)").
 func installedRevision(version string) (revision string, dirty, ok bool) {
@@ -376,11 +409,10 @@ func (c *InstallChecker) Check(ctx context.Context, state *GlobalState, _ bool) 
 	}
 	source = strings.TrimSpace(source)
 
-	head, err := state.Runner.Run(ctx, source, nil, "git", "rev-parse", "HEAD")
+	wanted, err := lastBuildInputCommit(ctx, state, source, "HEAD")
 	if err != nil {
 		return []CheckResult{{Name: name, Status: statusSkip, Details: "source checkout is not a git repository"}}, true
 	}
-	head = strings.TrimSpace(head)
 
 	path, err := state.Runner.LookPath("dot")
 	if err != nil {
@@ -399,12 +431,26 @@ func (c *InstallChecker) Check(ctx context.Context, state *GlobalState, _ bool) 
 		return []CheckResult{{Name: name, Status: statusSkip, Details: "installed binary carries no VCS revision"}}, true
 	}
 
-	switch {
-	case !strings.HasPrefix(head, revision):
+	// A revision the checkout cannot resolve is unknowable, not stale: the binary
+	// may predate a rebase, or come from another clone entirely. Say so instead of
+	// asserting a staleness verdict the evidence does not support.
+	built, err := lastBuildInputCommit(ctx, state, source, revision)
+	if err != nil {
 		return []CheckResult{{
 			Name:    name,
-			Status:  statusFail,
-			Details: fmt.Sprintf("STALE: built from %s, source HEAD is %s (run `mise run apply`)", revision, head[:min(len(head), 12)]),
+			Status:  statusWarn,
+			Details: fmt.Sprintf("installed binary revision %s is not present in this checkout", revision),
+		}}, true
+	}
+
+	switch {
+	case built != wanted:
+		return []CheckResult{{
+			Name:   name,
+			Status: statusFail,
+			// Both sides are named because the binary can also be *ahead* of the
+			// checkout (an older commit is checked out), which "outdated" would misstate.
+			Details: fmt.Sprintf("STALE: binary carries dot sources from %s, checkout has %s (run `mise run apply`)", shortCommit(built), shortCommit(wanted)),
 		}}, false
 	case dirty:
 		return []CheckResult{{
@@ -413,7 +459,7 @@ func (c *InstallChecker) Check(ctx context.Context, state *GlobalState, _ bool) 
 			Details: fmt.Sprintf("built from %s with uncommitted changes", revision),
 		}}, true
 	default:
-		return []CheckResult{{Name: name, Status: statusPass, Details: "matches source HEAD (" + revision + ")"}}, true
+		return []CheckResult{{Name: name, Status: statusPass, Details: "built from current dot sources (" + revision + ")"}}, true
 	}
 }
 

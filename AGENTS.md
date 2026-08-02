@@ -125,7 +125,7 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `go.work` — Go workspace file targeting the `dot` CLI package.
 - `go.work.sum` — Go workspace dependency lock file.
 - `install.sh` — Bootstrapping shell script that installs checksum-verified pinned mise, then chezmoi, and applies dotfiles without executing remote responses through a shell.
-- `lefthook.yml` — Lefthook Git hooks manager settings for automated formatting, linting, and testing.
+- `lefthook.yml` — Lefthook Git hooks manager settings: pre-commit formatting/linting, pre-push testing, and a post-commit redeploy of the `dot` binary when a commit changes what it is built from.
 - `LICENSE` — MIT License file governing use of the dotfiles repository.
 - `mise.lock` — Cross-platform lockfile for the repository-scoped mise toolchain.
 - `mise.toml` — Project-scoped task definitions and mise configuration for task runs.
@@ -133,6 +133,6 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `modify_dot_profile` — Partial chezmoi ownership of login-shell mise paths and activation.
 - `README.md` — Human-centric documentation detailing requirements, installation steps, and secrets.
 - `ruff.toml` — Python linter and formatter configuration for Ruff.
-- `run_once_after_install-antigravity-cli.sh.tmpl` — Post-install hook that installs a pinned, checksum-verified Antigravity CLI artifact while preserving a newer installed version.
+- `run_once_after_install-antigravity-cli.sh.tmpl` — Post-install hook that installs the Antigravity CLI from its vendor install script, and exits early when one is already on PATH.
 - `skills/` — Storage directory holding global agent skills symlinked into active agent directories.
 - `trivy.yaml` — Security scanner policy configuration for Trivy vulnerabilities, misconfigurations, and secrets.
