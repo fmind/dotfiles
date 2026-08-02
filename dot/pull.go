@@ -250,7 +250,9 @@ type PullConfig struct {
 func defaultPullConfig() PullConfig {
 	return PullConfig{
 		Directories: []string{
-			"~/internals",
+			"~/fmind",
+			"~/fmind-ai",
+			"~/mlops-courses",
 			"~/externals",
 			"~/externals/workspaces",
 		},

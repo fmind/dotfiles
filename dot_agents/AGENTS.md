@@ -65,5 +65,7 @@
 
 ## Project Root Directories
 
-- **`~/internals`**: Private GitHub repositories (e.g., client projects, proprietary tools).
-- **`~/externals`**: Public GitHub repositories (e.g., open-source libraries, courses).
+- **`~/fmind`**: Personal GitHub repositories owned by `fmind` (e.g., projects, publications).
+- **`~/fmind-ai`**: Organization GitHub repositories owned by `fmind-ai` (e.g., agents, products).
+- **`~/mlops-courses`**: Organization GitHub repositories owned by `mlops-courses` (e.g., courses, training).
+- **`~/externals`**: Third-party GitHub repositories and external tools.

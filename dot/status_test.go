@@ -132,7 +132,7 @@ func TestRenderStatus(t *testing.T) {
 				K3d:    K3dStatus{Installed: true, Running: true, Details: "local 1/1 1/1 true"},
 				Repositories: []RepoStatus{
 					{Name: "dotfiles", ParentBase: "externals", Branch: "main", Dirty: true},
-					{Name: "broken", ParentBase: "internals", Err: errors.New("boom")},
+					{Name: "broken", ParentBase: "fmind", Err: errors.New("boom")},
 				},
 			},
 			contains: []string{
@@ -140,7 +140,7 @@ func TestRenderStatus(t *testing.T) {
 				"Cluster 'local': local 1/1 1/1 true",
 				"externals/dotfiles [main] [dirty]",
 				// A repository that failed to probe must render as "error", never as a blank branch.
-				"internals/broken [error]",
+				"fmind/broken [error]",
 			},
 		},
 	}

@@ -102,6 +102,7 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
 ## 5. CLI & TUI Stack
 
 - **CLI Framework**: Use **urfave/cli/v3** for declarative, callback-driven multi-command CLIs — used by the [cli.go](references/cli.go) starter.
+- **Dual CLI/Library Design**: Design CLIs to double as importable libraries by placing core domain logic and types in the root package (`package <slug>`) and delegating command execution to `cmd/<slug>/main.go`.
 - **TUI**: Use **Bubble Tea** (`charm.land/bubbletea/v2`) and the Charm layout tools (`charm.land/lipgloss/v2`, `charm.land/bubbles/v2`) for rich interactive terminals/forms. Note: the stable v2 modules import from `charm.land`, not `github.com/charmbracelet`.
 - **Completions**: Generate dynamic shell completions from CLI framework native integrations.
 

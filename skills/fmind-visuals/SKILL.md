@@ -11,7 +11,7 @@ metadata:
 
 # Fmind Visual Communication
 
-Create calm, exact, spacious technical visuals that feel native to `www.fmind.dev`. Read `~/internals/publications/BRANDING.md` and `~/internals/publications/IDENTITY.md` when available; the bundled [Fmind theme reference](references/fmind-theme.md) is the portable fallback.
+Create calm, exact, spacious technical visuals that feel native to `www.fmind.dev`. Read `~/fmind/publications/BRANDING.md` and `~/fmind/publications/IDENTITY.md` when available; the bundled [Fmind theme reference](references/fmind-theme.md) is the portable fallback.
 
 ## Canonical Tool Choice
 
@@ -37,7 +37,7 @@ Do not create a custom HTML deck, Typst deck, PowerPoint source, or generated ra
 - Primary accent: `#646CFF`.
 - Border: `#334155`.
 - Voice: calm, exact, pragmatic, technically grounded, and explicit about trade-offs.
-- Use the canonical logo and font files from `~/internals/publications/assets/fmind/`; copy them into the deliverable rather than linking to a private local path.
+- Use the canonical logo and font files from `~/fmind/publications/assets/fmind/`; copy them into the deliverable rather than linking to a private local path.
 - Use the Bleeding Agent palette only when the user explicitly asks for that sub-brand.
 
 ## Slidev Workflow

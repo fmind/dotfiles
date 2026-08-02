@@ -1,6 +1,6 @@
 # Fmind Visual Theme
 
-The canonical live sources are `~/internals/publications/BRANDING.md`, `~/internals/publications/IDENTITY.md`, and [www.fmind.dev](https://www.fmind.dev/). Use this bundled reference when those local files are unavailable.
+The canonical live sources are `~/fmind/publications/BRANDING.md`, `~/fmind/publications/IDENTITY.md`, and [www.fmind.dev](https://www.fmind.dev/). Use this bundled reference when those local files are unavailable.
 
 ## Tokens
 

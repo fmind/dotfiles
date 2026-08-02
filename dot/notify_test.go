@@ -30,7 +30,7 @@ func envMap(values map[string]string) func(string) string {
 
 func TestBuildNotificationIncludesProjectAndPane(t *testing.T) {
 	home := filepath.Join("/home", "fmind")
-	cwd := filepath.Join(home, "internals", "fgentic")
+	cwd := filepath.Join(home, "fmind", "fgentic")
 
 	notification, err := buildNotification("claude", "stop", cwd, home, envMap(map[string]string{
 		"ZELLIJ_SESSION_NAME": "main",
@@ -47,7 +47,7 @@ func TestBuildNotificationIncludesProjectAndPane(t *testing.T) {
 		t.Errorf("headline = %q, want it to mention the finished turn", notification.Headline)
 	}
 	wantDetails := []string{
-		"~" + string(os.PathSeparator) + filepath.Join("internals", "fgentic"),
+		"~" + string(os.PathSeparator) + filepath.Join("fmind", "fgentic"),
 		"zellij main · pane 3",
 	}
 	if len(notification.Details) != len(wantDetails) {
