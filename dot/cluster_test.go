@@ -276,6 +276,46 @@ func TestRunClusterStart_Scenarios(t *testing.T) {
 		}
 	})
 
+	t.Run("k3d missing cluster still reaches creation", func(t *testing.T) {
+		tempDir := t.TempDir()
+		configFile := filepath.Join(tempDir, "k3d.yaml")
+		_ = os.WriteFile(configFile, []byte(""), 0o644)
+
+		clusterName := "regression"
+		runner := &FakeRunner{
+			LookPathFunc: func(name string) (string, error) {
+				return "/usr/bin/" + name, nil
+			},
+			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+				if name == "docker" && args[0] == "info" {
+					return "info", nil
+				}
+				if name == "k3d" && args[0] == "cluster" && args[1] == "list" {
+					// Real k3d exits non-zero for `cluster list <unknown-name>`, so
+					// the existence probe must use the unfiltered list instead.
+					if slices.Contains(args, clusterName) {
+						return "", errors.New("No nodes found for given cluster")
+					}
+					return "other 1/1 1/1 true", nil
+				}
+				return "", nil
+			},
+			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
+				if name == "k3d" && args[0] == "cluster" && args[1] == "create" {
+					return errors.New("create failed")
+				}
+				return nil
+			},
+		}
+		state := newTestState(runner)
+		state.Config.Cluster.Name = clusterName
+		state.Config.Cluster.ConfigPath = configFile
+		err := RunClusterStart(ctx, state)
+		if err == nil || !strings.Contains(err.Error(), "failed to create cluster") {
+			t.Errorf("Expected creation attempt for missing cluster, got %v", err)
+		}
+	})
+
 	t.Run("k3d kubeconfig retrieval fails", func(t *testing.T) {
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {

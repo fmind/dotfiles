@@ -115,7 +115,10 @@ func requireDocker(ctx context.Context, state *GlobalState) error {
 }
 
 func k3dClusterExists(ctx context.Context, state *GlobalState, name string) (bool, error) {
-	listOut, err := state.Runner.Run(ctx, "", nil, "k3d", "cluster", "list", name, "--no-headers")
+	// List every cluster instead of filtering by name: `k3d cluster list <name>`
+	// exits non-zero when the name is unknown, which would make "does not exist"
+	// indistinguishable from a real k3d failure and block first-time creation.
+	listOut, err := state.Runner.Run(ctx, "", nil, "k3d", "cluster", "list", "--no-headers")
 	if err != nil {
 		return false, fmt.Errorf("failed to inspect cluster %q: %w", name, err)
 	}
