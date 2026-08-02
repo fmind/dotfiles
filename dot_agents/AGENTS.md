@@ -48,6 +48,7 @@
 - **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first) for github.com/fmind/\* projects.
 - **Idempotent Operations**: Design scripts, tasks, and state mutations to be safely re-runnable without side effects; keep checks simple and pragmatic without over-engineering one-off actions.
 - **Latest Stable**: Use latest stable releases for new projects/upgrades (no RCs/betas); verify current versions online.
+- **Markdown Code Blocks**: Always specify the language identifier for every Markdown code block.
 - **Markdown Lists**: Use only `1.` for every numbered list item so rendering stays dynamic.
 - **No Absolute Paths**: Never use absolute paths in agent skills or `AGENTS.md`; use relative or `~`-relative paths.
 - **No Attribution**: never make attribution on the code generated (e.g., be mentioned in commit, or co-authored).
