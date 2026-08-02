@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.10.3] - 2026-08-02
+
+### ♻️ Refactor
+
+- _(skills)_ Align skill declarations and update contract tests
+
 ## [1.10.2] - 2026-08-02
 
 ### ♻️ Refactor
