@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.10.2] - 2026-08-02
+
+### ♻️ Refactor
+
+- _(release)_ Simplify release tag workflow and reapply dot binary
+
 ## [1.10.1] - 2026-08-02
 
 ### 🐛 Bug Fixes
