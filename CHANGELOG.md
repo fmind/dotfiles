@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.10.5] - 2026-08-02
+
+### 📚 Documentation
+
+- _(agents)_ Require language identifier for markdown code blocks
+
 ## [1.10.4] - 2026-08-02
 
 ### 🐛 Bug Fixes
