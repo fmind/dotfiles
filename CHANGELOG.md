@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.10.4] - 2026-08-02
+
+### 🐛 Bug Fixes
+
+- _(claude)_ Update model identifier to opus[1m]
+
 ## [1.10.3] - 2026-08-02
 
 ### ♻️ Refactor
