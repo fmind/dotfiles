@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/containerize
   created: 2026-07-04
-  updated: 2026-07-09
+  updated: 2026-08-02
 ---
 
 # Containerize an Application
@@ -15,7 +15,7 @@ Build a small, non-root, reproducible OCI image and verify it before it ships. P
 
 ## Choose an Approach
 
-1. **Go → `ko` (default, no Dockerfile)**: builds a distroless, multi-arch, reproducible image straight from a package path. Add it per project (`go get -tool github.com/google/ko`, then `go tool ko`).
+1. **Go → `ko` (default, no Dockerfile)**: builds a distroless, multi-arch, reproducible image straight from a package path. Pin it per project (`go get -tool github.com/google/ko`, then `go tool ko`) so builds stay reproducible even where a global toolchain already provides `ko`.
    ```bash
    export KO_DOCKER_REPO=registry.localhost:5050/<slug>   # or a real registry
    go tool ko build ./cmd/<slug> --bare --platform=linux/amd64,linux/arm64

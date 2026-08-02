@@ -109,7 +109,9 @@ func requireTools(state *GlobalState, tools ...string) error {
 
 func requireDocker(ctx context.Context, state *GlobalState) error {
 	if _, err := state.Runner.Run(ctx, "", nil, "docker", "info"); err != nil {
-		return errors.New("docker daemon is not running. please start docker")
+		// Keep the probe's own error: a permission-denied socket or a broken
+		// context needs a different fix than a daemon that is simply stopped.
+		return fmt.Errorf("docker daemon is not running or not accessible: %w", err)
 	}
 	return nil
 }

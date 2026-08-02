@@ -129,7 +129,7 @@ func RunCompletionGenerate(ctx context.Context, state *GlobalState) error {
 	// it before the pool exists, or under mu — appending after the workers launch
 	// would race their guarded appends.
 	fishCacheDir := filepath.Join(fishCacheRoot(), "fish")
-	cacheErr := os.MkdirAll(fishCacheDir, 0o700) //nolint:gosec // G301: owner-only cache directory
+	cacheErr := os.MkdirAll(fishCacheDir, 0o700)
 	if cacheErr != nil {
 		_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to create fish cache directory: %v\n", failIcon, cacheErr)
 		genErrors = append(genErrors, fmt.Errorf("failed to create fish cache directory: %w", cacheErr))

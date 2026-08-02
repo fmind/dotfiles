@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -22,6 +23,12 @@ const (
 	releaseCIWorkflow      = "ci.yml"
 	releasePollInterval    = 15 * time.Second
 	releaseGateTimeout     = 20 * time.Minute
+	// Repository-root-relative paths, matching the root-relative records that
+	// `git status --porcelain` emits; file operations join them onto the root
+	// resolved by releaseRoot so the command works from any subdirectory.
+	releaseVersionFile   = "dot/version.go"
+	releaseChangelogFile = "CHANGELOG.md"
+	releaseCliffConfig   = "dot_config/git-cliff/cliff.toml"
 )
 
 var (
@@ -51,7 +58,7 @@ func validateReleaseStatus(status string) error {
 		if strings.ContainsAny(record[:2], "RC") {
 			return fmt.Errorf("release validation does not allow renamed or copied paths: %q", record[3:])
 		}
-		if path := record[3:]; path != "CHANGELOG.md" && path != "dot/version.go" {
+		if path := record[3:]; path != releaseChangelogFile && path != releaseVersionFile {
 			unexpected = append(unexpected, path)
 		}
 	}
@@ -96,13 +103,20 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 		return err
 	}
 	if _, err := state.Runner.Run(ctx, "", nil, "gh", "auth", "status"); err != nil {
-		return errors.New("github CLI is not authenticated; run 'gh auth login' or set GH_TOKEN")
+		// Keep the probe's own error: a network failure or a broken gh install
+		// needs a different fix than a missing login.
+		return fmt.Errorf("github CLI is not authenticated (run 'gh auth login' or set GH_TOKEN): %w", err)
 	}
 	if _, err := state.Runner.LookPath("git-cliff"); err != nil {
 		return errors.New("git-cliff is not installed; run 'mise run tools' or install it via mise")
 	}
 	if _, err := state.Runner.LookPath("mise"); err != nil {
 		return errors.New("mise is not installed; release validation cannot run")
+	}
+
+	root, err := releaseRoot(ctx, state)
+	if err != nil {
+		return err
 	}
 
 	config := state.Config.Release
@@ -121,13 +135,16 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 	if err != nil {
 		return err
 	}
-	preparedTag, prepared := preparedReleaseTag(ctx, state)
+	preparedTag, prepared := preparedReleaseTag(ctx, state, root)
 	if head != upstream {
 		if !prepared {
 			return fmt.Errorf("release branch diverged: HEAD %s does not equal %s/%s %s", head, config.Remote, config.DefaultBranch, upstream)
 		}
 		parent, parentErr := state.Runner.Run(ctx, "", nil, "git", "rev-parse", "HEAD^")
-		if parentErr != nil || strings.TrimSpace(parent) != upstream {
+		if parentErr != nil {
+			return fmt.Errorf("failed to resolve the prepared release commit's parent: %w", parentErr)
+		}
+		if strings.TrimSpace(parent) != upstream {
 			return fmt.Errorf("prepared release commit is not directly ahead of %s/%s", config.Remote, config.DefaultBranch)
 		}
 	}
@@ -141,7 +158,7 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 		return dispatchPreparedRelease(ctx, state, config, head, preparedTag)
 	}
 
-	bumped, current, err := calculateReleaseVersion(ctx, state)
+	bumped, current, err := calculateReleaseVersion(ctx, state, root)
 	if err != nil {
 		return err
 	}
@@ -154,23 +171,23 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 		_, _ = fmt.Fprintln(state.Stdout, "Release canceled.")
 		return nil
 	}
-	snapshot, err := snapshotReleaseFiles()
+	snapshot, err := snapshotReleaseFiles(root)
 	if err != nil {
 		return err
 	}
-	if writeErr := writeReleaseVersion(bumped); writeErr != nil {
+	if writeErr := writeReleaseVersion(root, bumped); writeErr != nil {
 		return snapshot.restore(writeErr)
 	}
-	if _, cliffErr := state.Runner.Run(ctx, "", nil, "git-cliff", "--config", "dot_config/git-cliff/cliff.toml", "--bump", "-o", "CHANGELOG.md"); cliffErr != nil {
-		return snapshot.restore(fmt.Errorf("failed to generate CHANGELOG.md: %w", cliffErr))
+	if _, cliffErr := state.Runner.Run(ctx, root, nil, "git-cliff", "--config", releaseCliffConfig, "--bump", "-o", releaseChangelogFile); cliffErr != nil {
+		return snapshot.restore(fmt.Errorf("failed to generate %s: %w", releaseChangelogFile, cliffErr))
 	}
-	if validationErr := validatePreparedRelease(ctx, state); validationErr != nil {
+	if validationErr := validatePreparedRelease(ctx, state, root); validationErr != nil {
 		return snapshot.restore(validationErr)
 	}
-	if _, stageErr := state.Runner.Run(ctx, "", nil, "git", "add", "CHANGELOG.md", "dot/version.go"); stageErr != nil {
+	if _, stageErr := state.Runner.Run(ctx, root, nil, "git", "add", releaseChangelogFile, releaseVersionFile); stageErr != nil {
 		return rollbackStagedRelease(ctx, state, snapshot, fmt.Errorf("failed to stage release files: %w", stageErr))
 	}
-	if _, commitErr := state.Runner.Run(ctx, "", nil, "git", "commit", "-m", "chore(release): "+bumped); commitErr != nil {
+	if _, commitErr := state.Runner.Run(ctx, root, nil, "git", "commit", "-m", "chore(release): "+bumped); commitErr != nil {
 		return rollbackStagedRelease(ctx, state, snapshot, fmt.Errorf("git commit failed: %w", commitErr))
 	}
 	head, err = state.Runner.Run(ctx, "", nil, "git", "rev-parse", "HEAD")
@@ -185,26 +202,27 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 }
 
 type releaseFileSnapshot struct {
+	root          string
 	version       []byte
 	changelog     []byte
 	versionMode   os.FileMode
 	changelogMode os.FileMode
 }
 
-func snapshotReleaseFiles() (releaseFileSnapshot, error) {
-	version, versionMode, err := snapshotReleaseFile("dot/version.go")
+func snapshotReleaseFiles(root string) (releaseFileSnapshot, error) {
+	version, versionMode, err := snapshotReleaseFile(filepath.Join(root, releaseVersionFile))
 	if err != nil {
 		return releaseFileSnapshot{}, err
 	}
-	changelog, changelogMode, err := snapshotReleaseFile("CHANGELOG.md")
+	changelog, changelogMode, err := snapshotReleaseFile(filepath.Join(root, releaseChangelogFile))
 	if err != nil {
 		return releaseFileSnapshot{}, err
 	}
-	return releaseFileSnapshot{version: version, changelog: changelog, versionMode: versionMode, changelogMode: changelogMode}, nil
+	return releaseFileSnapshot{root: root, version: version, changelog: changelog, versionMode: versionMode, changelogMode: changelogMode}, nil
 }
 
 func snapshotReleaseFile(path string) ([]byte, os.FileMode, error) {
-	content, err := os.ReadFile(path) //nolint:gosec // repository-owned fixed paths
+	content, err := os.ReadFile(path)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to snapshot %s: %w", path, err)
 	}
@@ -217,11 +235,11 @@ func snapshotReleaseFile(path string) ([]byte, os.FileMode, error) {
 
 func (snapshot releaseFileSnapshot) restore(cause error) error {
 	var restoreErrors []error
-	if err := os.WriteFile("dot/version.go", snapshot.version, snapshot.versionMode); err != nil { //nolint:gosec // repository-owned fixed path
-		restoreErrors = append(restoreErrors, fmt.Errorf("failed to restore dot/version.go: %w", err))
+	if err := os.WriteFile(filepath.Join(snapshot.root, releaseVersionFile), snapshot.version, snapshot.versionMode); err != nil {
+		restoreErrors = append(restoreErrors, fmt.Errorf("failed to restore %s: %w", releaseVersionFile, err))
 	}
-	if err := os.WriteFile("CHANGELOG.md", snapshot.changelog, snapshot.changelogMode); err != nil { //nolint:gosec // repository-owned fixed path
-		restoreErrors = append(restoreErrors, fmt.Errorf("failed to restore CHANGELOG.md: %w", err))
+	if err := os.WriteFile(filepath.Join(snapshot.root, releaseChangelogFile), snapshot.changelog, snapshot.changelogMode); err != nil {
+		restoreErrors = append(restoreErrors, fmt.Errorf("failed to restore %s: %w", releaseChangelogFile, err))
 	}
 	return errors.Join(append([]error{cause}, restoreErrors...)...)
 }
@@ -243,6 +261,19 @@ func requireCleanReleaseTree(ctx context.Context, state *GlobalState) error {
 		return errors.New("working directory has uncommitted or staged changes; commit or stash them first")
 	}
 	return nil
+}
+
+// releaseRoot resolves the repository root once so every file operation and
+// cwd-sensitive subprocess anchors to it, wherever the command was invoked.
+func releaseRoot(ctx context.Context, state *GlobalState) (string, error) {
+	root, err := state.Runner.Run(ctx, "", nil, "git", "rev-parse", "--show-toplevel")
+	if err != nil {
+		return "", fmt.Errorf("failed to resolve the repository root: %w", err)
+	}
+	if root = strings.TrimSpace(root); root == "" {
+		return "", errors.New("git returned an empty repository root")
+	}
+	return root, nil
 }
 
 func releaseBranch(ctx context.Context, state *GlobalState) (string, error) {
@@ -268,7 +299,7 @@ func releaseHeads(ctx context.Context, state *GlobalState, config ReleaseConfig)
 	return strings.TrimSpace(head), strings.TrimSpace(upstream), nil
 }
 
-func preparedReleaseTag(ctx context.Context, state *GlobalState) (string, bool) {
+func preparedReleaseTag(ctx context.Context, state *GlobalState, root string) (string, bool) {
 	subject, err := state.Runner.Run(ctx, "", nil, "git", "log", "-1", "--pretty=%s")
 	if err != nil {
 		return "", false
@@ -277,12 +308,12 @@ func preparedReleaseTag(ctx context.Context, state *GlobalState) (string, bool) 
 	if !semverTagPattern.MatchString(tag) {
 		return "", false
 	}
-	version, err := readReleaseVersion()
+	version, err := readReleaseVersion(root)
 	return tag, err == nil && tag == "v"+version
 }
 
-func calculateReleaseVersion(ctx context.Context, state *GlobalState) (string, string, error) {
-	bumped, err := state.Runner.Run(ctx, "", nil, "git-cliff", "--config", "dot_config/git-cliff/cliff.toml", "--bumped-version")
+func calculateReleaseVersion(ctx context.Context, state *GlobalState, root string) (string, string, error) {
+	bumped, err := state.Runner.Run(ctx, root, nil, "git-cliff", "--config", releaseCliffConfig, "--bumped-version")
 	if err != nil {
 		return "", "", fmt.Errorf("failed to calculate next version: %w", err)
 	}
@@ -297,43 +328,44 @@ func calculateReleaseVersion(ctx context.Context, state *GlobalState) (string, s
 	return bumped, strings.TrimSpace(current), nil
 }
 
-func readReleaseVersion() (string, error) {
-	content, err := os.ReadFile("dot/version.go")
+func readReleaseVersion(root string) (string, error) {
+	content, err := os.ReadFile(filepath.Join(root, releaseVersionFile))
 	if err != nil {
-		return "", fmt.Errorf("failed to read version.go: %w", err)
+		return "", fmt.Errorf("failed to read %s: %w", releaseVersionFile, err)
 	}
 	matches := regexp.MustCompile(`(?m)^var Version = "([^"\r\n]*)"$`).FindAllSubmatch(content, -1)
 	if len(matches) != 1 {
-		return "", fmt.Errorf("dot/version.go must contain exactly one expected version assignment; found %d", len(matches))
+		return "", fmt.Errorf("%s must contain exactly one expected version assignment; found %d", releaseVersionFile, len(matches))
 	}
 	return string(matches[0][1]), nil
 }
 
-func writeReleaseVersion(tag string) error {
-	version, err := readReleaseVersion()
+func writeReleaseVersion(root, tag string) error {
+	version, err := readReleaseVersion(root)
 	if err != nil {
 		return err
 	}
-	content, err := os.ReadFile("dot/version.go")
+	path := filepath.Join(root, releaseVersionFile)
+	content, err := os.ReadFile(path)
 	if err != nil {
-		return fmt.Errorf("failed to read version.go: %w", err)
+		return fmt.Errorf("failed to read %s: %w", releaseVersionFile, err)
 	}
 	old := `var Version = "` + version + `"`
 	updated := strings.Replace(string(content), old, `var Version = "`+strings.TrimPrefix(tag, "v")+`"`, 1)
-	if err := os.WriteFile("dot/version.go", []byte(updated), 0o644); err != nil { //nolint:gosec // repository-owned fixed path
-		return fmt.Errorf("failed to write version.go: %w", err)
+	if err := os.WriteFile(path, []byte(updated), 0o644); err != nil { //nolint:gosec // G703: root-joined repository-owned path
+		return fmt.Errorf("failed to write %s: %w", releaseVersionFile, err)
 	}
 	return nil
 }
 
-func validatePreparedRelease(ctx context.Context, state *GlobalState) error {
+func validatePreparedRelease(ctx context.Context, state *GlobalState, root string) error {
 	for _, task := range []string{"format", "check", "test"} {
 		_, _ = fmt.Fprintf(state.Stdout, "Running %s...\n", task)
-		if err := state.Runner.RunInteractive(ctx, "", "mise", "run", task); err != nil {
+		if err := state.Runner.RunInteractive(ctx, root, "mise", "run", task); err != nil {
 			return fmt.Errorf("project %s failed: %w", task, err)
 		}
 	}
-	status, err := state.Runner.Run(ctx, "", nil, "git", "status", "--porcelain=v1", "-z", "--untracked-files=all")
+	status, err := state.Runner.Run(ctx, root, nil, "git", "status", "--porcelain=v1", "-z", "--untracked-files=all")
 	if err != nil {
 		return fmt.Errorf("failed to inspect release changes after validation: %w", err)
 	}
@@ -410,11 +442,15 @@ func RunReleasePublish(ctx context.Context, state *GlobalState, commit string, w
 	if err != nil || strings.TrimSpace(head) != commit {
 		return fmt.Errorf("checked-out HEAD does not equal prepared commit %s", commit)
 	}
+	root, err := releaseRoot(ctx, state)
+	if err != nil {
+		return err
+	}
 	ciURL, err := waitForExactHeadCI(ctx, state, commit, waiter)
 	if err != nil {
 		return err
 	}
-	version, err := readReleaseVersion()
+	version, err := readReleaseVersion(root)
 	if err != nil {
 		return err
 	}

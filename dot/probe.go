@@ -20,7 +20,7 @@ const (
 	// reporting those as broken is worse than waiting. Probes run concurrently and
 	// stay well inside the enclosing suite timeout, so this costs nothing when every
 	// tool is warm. Override per machine with `verify.probe_timeout`.
-	defaultProbeTimeout = 10 * time.Second
+	defaultProbeTimeout = 15 * time.Second
 	defaultOutputLimit  = 4 * 1024
 )
 

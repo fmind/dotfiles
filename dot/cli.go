@@ -81,7 +81,9 @@ func NewApp() *cli.Command {
 				// The `config` group is exempt so its edit/init/validate commands stay reachable
 				// to repair the very file that failed to parse.
 				fatal := !errors.Is(err, os.ErrNotExist)
-				if sub := cmd.Args().First(); sub == "config" || sub == "f" {
+				// Resolve through the command table so a renamed alias cannot
+				// silently detach the exemption from the config group.
+				if sub := cmd.Command(cmd.Args().First()); sub != nil && sub.Name == "config" {
 					fatal = false
 				}
 				if fatal {

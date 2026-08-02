@@ -40,8 +40,8 @@ PATH="${fake_bin}:${PATH}" ${QUEUE} setup fmind/dotfiles
 
 setup_count=$(wc -l <"${QUEUE_TEST_LOG}")
 scoped_count=$(grep -Ec -- '--repo fmind/dotfiles.*--force' "${QUEUE_TEST_LOG}")
-[[ ${setup_count} -eq 8 ]] || fail "repeated setup must provision the same four labels"
-[[ ${scoped_count} -eq 8 ]] || fail "setup must be repository-scoped and idempotent"
+[[ ${setup_count} -eq 18 ]] || fail "repeated setup must provision the same nine labels"
+[[ ${scoped_count} -eq 18 ]] || fail "setup must be repository-scoped and idempotent"
 
 dashboard="${REPO_ROOT}/dot_config/gh-dash/config.yml"
 for qualifier in '-is:blocked' '-label:needs-human' '-label:status/in-progress' '-label:kind/epic'; do

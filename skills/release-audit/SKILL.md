@@ -2,6 +2,11 @@
 name: release-audit
 description: Audit an existing GitHub release without changing it. Use when verifying exact-head CI, local and remote tag identity, public release state, or declared release assets such as checksums, SBOMs, signatures, and attestations; do not use it to publish or repair a release.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/release-audit
+  created: 2026-08-01
+  updated: 2026-08-01
 ---
 
 # Release Audit

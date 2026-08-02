@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dot-cli
   created: 2026-07-31
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Dot CLI

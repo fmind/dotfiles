@@ -96,7 +96,7 @@ func fingerprintBytes(content []byte) string {
 }
 
 func fingerprintFile(path string) (string, error) {
-	file, err := os.Open(path) //nolint:gosec // paths come from the owning agent's configured session store
+	file, err := os.Open(path)
 	if err != nil {
 		return "", fmt.Errorf("failed to fingerprint session source %s: %w", path, err)
 	}
@@ -225,7 +225,7 @@ func validateSessionGeneration(path string, expected sessionManifest) error {
 	if manifest != expected {
 		return errors.New("session manifest did not round-trip")
 	}
-	transcript, err := os.ReadFile(filepath.Join(path, "transcript.jsonl")) //nolint:gosec // path is the private generation created by this process
+	transcript, err := os.ReadFile(filepath.Join(path, "transcript.jsonl"))
 	if err != nil {
 		return err
 	}
@@ -258,7 +258,7 @@ func validateSessionGeneration(path string, expected sessionManifest) error {
 }
 
 func readSessionManifest(path string) (sessionManifest, error) {
-	manifestContent, err := os.ReadFile(filepath.Join(path, "manifest.json")) //nolint:gosec // path is a private generation beneath the versioned store
+	manifestContent, err := os.ReadFile(filepath.Join(path, "manifest.json"))
 	if err != nil {
 		return sessionManifest{}, err
 	}

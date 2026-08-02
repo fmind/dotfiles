@@ -28,7 +28,7 @@ type legacySessionCandidate struct {
 }
 
 func readLegacySession(path, agent, sessionID string) (legacySessionCandidate, error) {
-	file, err := os.Open(path) //nolint:gosec // path is discovered under the private legacy archive
+	file, err := os.Open(path)
 	if err != nil {
 		return legacySessionCandidate{}, err
 	}

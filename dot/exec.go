@@ -68,7 +68,7 @@ func NewStandardRunner(stdin io.Reader, stdout, stderr io.Writer) *StandardRunne
 func (r *StandardRunner) Run(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 	// Trusted call site and single command choke point: name is a constant tool name
 	// and args are built by dot, never shell-interpolated from untrusted input.
-	cmd := exec.CommandContext(ctx, name, args...) //nolint:gosec // G204: args are dot-built, not user shell input
+	cmd := exec.CommandContext(ctx, name, args...)
 	isolateProcessGroup(cmd)
 	cmd.WaitDelay = killGracePeriod
 	if dir != "" {
@@ -98,7 +98,7 @@ func (r *StandardRunner) Run(ctx context.Context, dir string, stdin io.Reader, n
 
 // RunBounded executes a non-interactive diagnostic command while bounding captured output.
 func (r *StandardRunner) RunBounded(ctx context.Context, dir, name string, limit int, args ...string) (string, error) {
-	cmd := exec.CommandContext(ctx, name, args...) //nolint:gosec // registry-defined command and arguments
+	cmd := exec.CommandContext(ctx, name, args...)
 	isolateProcessGroup(cmd)
 	cmd.WaitDelay = killGracePeriod
 	if dir != "" {
@@ -121,7 +121,7 @@ func (r *StandardRunner) RunBounded(ctx context.Context, dir, name string, limit
 func (r *StandardRunner) RunInteractive(ctx context.Context, dir, name string, args ...string) error {
 	// Trusted call site and single command choke point: name is a constant tool name
 	// and args are built by dot, never shell-interpolated from untrusted input.
-	cmd := exec.CommandContext(ctx, name, args...) //nolint:gosec // G204: args are dot-built, not user shell input
+	cmd := exec.CommandContext(ctx, name, args...) //nolint:gosec // G702: name and args come from dot's own registry, not user input
 	if dir != "" {
 		cmd.Dir = dir
 	}

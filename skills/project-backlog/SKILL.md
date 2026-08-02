@@ -2,6 +2,11 @@
 name: project-backlog
 description: Turn an evidence-first repository review into a deduplicated, prioritized, dependency-aware project backlog. Use when auditing a project for actionable improvements, preparing issue drafts, grooming technical debt, or creating GitHub issues from verified findings; default to reviewable drafts and require explicit authorization plus a confirmed repository before any GitHub mutation.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/project-backlog
+  created: 2026-08-01
+  updated: 2026-08-01
 ---
 
 # Project Backlog

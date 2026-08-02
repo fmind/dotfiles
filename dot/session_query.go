@@ -166,7 +166,7 @@ func requireOwnerOnly(path string, entry fs.DirEntry) error {
 }
 
 func loadSessionRecords(path string, includeContent bool) (string, []SessionLogLine, error) {
-	file, err := os.Open(filepath.Join(path, "transcript.jsonl")) //nolint:gosec // generation path is discovered beneath the private store
+	file, err := os.Open(filepath.Join(path, "transcript.jsonl"))
 	if err != nil {
 		return "", nil, err
 	}

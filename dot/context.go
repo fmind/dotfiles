@@ -273,6 +273,9 @@ func collectSkillMetadata(root string, observed time.Time) contextSection {
 		path := filepath.Join("skills", entry.Name(), "SKILL.md")
 		content, readErr := readProjectFile(root, path)
 		if readErr != nil {
+			// Record the omission: an unreadable skill must not let the emitted
+			// context pack claim a completeness it does not have.
+			section.Error = errors.Join(errorFromString(section.Error), fmt.Errorf("%s: %w", path, readErr)).Error()
 			continue
 		}
 		metadata := skillFrontmatter(content)

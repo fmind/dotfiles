@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/python-script
   created: 2026-07-09
-  updated: 2026-07-09
+  updated: 2026-08-02
 ---
 
 # PEP 723 Standalone Python Scripts
@@ -56,4 +56,4 @@ uv run script.py input.txt --verbose
 - **Pin `requires-python`** to the minimum version you need (e.g., `>=3.14`).
 - **Pin dependency lower bounds** (e.g., `rich>=15.0.0`) so the script stays reproducible.
 - **Keep it single-file** — if the script grows beyond ~200 lines or needs multiple modules, switch to a full project via the [python-stack](../python-stack/SKILL.md) skill.
-- **No bare `except`** — always let unexpected errors propagate with context.
+- **No bare `except`** — outside the CLI boundary handler above (which prints the full traceback before exiting non-zero), let unexpected errors propagate.

@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/lefthook
   created: 2026-07-04
-  updated: 2026-07-09
+  updated: 2026-08-02
 ---
 
 # Lefthook Git Hooks Standard

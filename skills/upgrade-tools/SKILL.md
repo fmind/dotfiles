@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/upgrade-tools
   created: 2026-07-05
-  updated: 2026-07-31
+  updated: 2026-08-02
 ---
 
 # Upgrade Tools & Dependencies
@@ -70,7 +70,7 @@ Locate the latest stable digest for your pinned base images (e.g., from [Chaingu
 FROM python:3.14-slim
 ```
 
-Validate by rebuilding the image (`mise run build:image`) and scanning (`mise run check:image` or `trivy image`). See [containerize](../containerize/SKILL.md).
+Validate by rebuilding the image (`mise run build:image`) and scanning (`mise run check:image` when the project defines it, else `trivy image`). See [containerize](../containerize/SKILL.md).
 
 ### GitHub Actions — workflow pins (`.github/workflows/*.yml`)
 

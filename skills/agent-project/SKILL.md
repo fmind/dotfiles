@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-project
   created: 2026-06-23
-  updated: 2026-07-09
+  updated: 2026-08-01
 ---
 
 # Set Up Agents on a Project

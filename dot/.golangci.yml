@@ -25,6 +25,7 @@ linters:
     - errorlint
     - gosec
     - misspell
+    - nolintlint
     - perfsprint
     - prealloc
     - revive
@@ -44,19 +45,25 @@ linters:
       enable-all: true
     errcheck:
       check-type-assertions: true
+      # Blank assignments stay unchecked: `_, _ = fmt.Fprint*` on terminal writers
+      # is idiomatic; deliberate discards elsewhere must carry a why-comment.
       check-blank: false
+    nolintlint:
+      require-explanation: true
+      require-specific: true
     gosec:
       severity: medium
       confidence: medium
+      # Central policy instead of per-line waivers: these classes are inherently
+      # noisy for a dotfiles CLI that execs pinned tools and manages files at
+      # user-chosen paths. nolintlint keeps ad-hoc suppressions from creeping back.
       excludes:
-        - G101
-        - G107
-        - G115
-        - G204
-        - G301
-        - G302
-        - G304
-        - G306
+        - G115 # int -> os.FileMode conversions of validated permission values
+        - G204 # executing dot-built, registry-defined commands is the CLI's purpose
+        - G301 # created directories are deliberately 0755 (or chmod-verified 0700)
+        - G302 # chmod 0700 targets private directories; gosec expects file-grade 0600
+        - G304 # reading user-configured dotfile paths is the CLI's purpose
+        - G306 # completions and configs are written world-readable on purpose
     revive:
       rules:
         - name: exported

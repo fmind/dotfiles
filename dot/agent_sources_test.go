@@ -164,9 +164,9 @@ func TestHookCommandsAreWiredAndResolvable(t *testing.T) {
 	for _, root := range sources {
 		walkErr := filepath.WalkDir(root, func(path string, entry fs.DirEntry, walkErr error) error {
 			if walkErr != nil || entry.IsDir() {
-				return nil //nolint:nilerr // an unreadable managed file is not this test's subject
+				return nil // an unreadable managed file is not this test's subject
 			}
-			content, readErr := os.ReadFile(path) //nolint:gosec // repository-local fixture
+			content, readErr := os.ReadFile(path)
 			if readErr == nil {
 				managed = append(managed, string(content))
 			}

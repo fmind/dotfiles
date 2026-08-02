@@ -106,7 +106,7 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `CHANGELOG.md` — Versioned release history generated from Conventional Commits.
 - `dot/` — Go CLI source package containing the unified `dot` command-line utility.
 - `dot_agents/` — Source folder containing unified global instructions (`AGENTS.md`) and the canonical skills symlink template.
-- `dot_claude/` — Claude Code CLI settings template plus the persona and skills symlinks. `settings.json.tmpl` fully owns `~/.claude/settings.json`: it is a plain file, not a `modify_` template, so `chezmoi apply` resets whatever `/model` and the effort picker last wrote back to the repo defaults (Opus 5 1M, high effort). Change the default here, not at runtime.
+- `dot_claude/` — Claude Code CLI settings template plus the persona and skills symlinks. `settings.json.tmpl` fully owns `~/.claude/settings.json`: it is a plain file, not a `modify_` template, so `chezmoi apply` resets whatever `/model` and the effort picker last wrote back to the repo defaults (Fable 5 1M, xhigh effort). Change the default here, not at runtime.
 - `dot_codex/` — OpenAI Codex CLI partial configuration modifier plus the shared persona symlink into `~/.codex/`; runtime model and trust state are preserved across applies.
 - `dot_config/` — Custom configuration templates deployed to the user's `~/.config/` directory.
 - `dot_copilot/` — GitHub Copilot CLI integration configurations and symlink templates.
@@ -124,7 +124,7 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 - `dprint.json` — Layout settings and format plugins configured for the dprint code formatter.
 - `go.work` — Go workspace file targeting the `dot` CLI package.
 - `go.work.sum` — Go workspace dependency lock file.
-- `install.sh` — Bootstrapping shell script that installs checksum-verified pinned mise, then chezmoi, and applies dotfiles without executing remote responses through a shell.
+- `install.sh` — Bootstrapping shell script that installs mise from its vendor install script, then chezmoi through mise, and completes the ordered bootstrap via `mise run install`.
 - `lefthook.yml` — Lefthook Git hooks manager settings: pre-commit formatting/linting, pre-push testing, and a post-commit redeploy of the `dot` binary when a commit changes what it is built from.
 - `LICENSE` — MIT License file governing use of the dotfiles repository.
 - `mise.lock` — Cross-platform lockfile for the repository-scoped mise toolchain.

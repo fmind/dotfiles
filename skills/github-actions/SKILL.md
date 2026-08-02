@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/github-actions
   created: 2026-07-04
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # GitHub Actions CI/CD Standard
@@ -32,7 +32,7 @@ Canonical CI/CD workflows for GitHub repositories. The CI workflow runs the cano
 
 ## Templates
 
-- **CI**: See [ci.yml](references/ci.yml) which runs `mise run format`, `mise run check` (static checks incl. `check:leaks`), and `mise run test` across the whole tree, then `git diff --exit-code` to fail if formatting or generation left changes. CI stays minimal; the `check:leaks` task covers commit-scope secret scanning.
+- **CI**: See [ci.yml](references/ci.yml) which runs `mise run format`, `mise run check` (static checks incl. `check:leaks`), and `mise run test` across the whole tree, then asserts an empty porcelain status so formatting or generation drift fails the build. CI stays minimal; the `check:leaks` task covers commit-scope secret scanning.
 - **Security**: See [security.yml](references/security.yml), a scheduled/manual companion that rescans the full history and checkout with the same pinned scanners at `fetch-depth: 0`. It reports nothing: a finding or scanner error simply fails the job, which is what the notification is for.
 - **CD**: See [cd.yml](references/cd.yml) which provides commented templates for Go containers (using `ko`), Python packages (using `uv`), and general Docker builds.
 

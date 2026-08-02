@@ -2,6 +2,11 @@
 name: issue-execution
 description: Execute one eligible GitHub issue end to end through cooperative claiming, bounded context, acceptance-driven implementation, repository validation, and an auditable handoff. Use when asked to pick up, implement, finish, or deliver an already-approved issue; reject blocked or human-gated work and never infer authorization to publish, merge, deploy, release, or mutate runtime state.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/issue-execution
+  created: 2026-08-01
+  updated: 2026-08-01
 ---
 
 # Issue Execution

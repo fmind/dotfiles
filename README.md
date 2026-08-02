@@ -15,7 +15,7 @@ Managed with [chezmoi](https://www.chezmoi.io/) (files) and [mise](https://mise.
 - **AI-CLI Integration** — Built-in setups for [OpenAI Codex](https://developers.openai.com/codex/) (`codex`), [Antigravity](https://antigravity.google/) (`agy`), [OpenCode](https://opencode.ai/), [Claude Code](https://claude.com/claude-code), and [GitHub Copilot](https://github.com/features/copilot) (`copilot`), sharing a unified persona (`AGENTS.md`) and skills.
 - **Languages** — Go and Python, with modern toolchains, formatters, linters, and checkers.
 - **Custom `dot` CLI** — A custom Go utility to pull workspace repos, manage local Kubernetes, generate commits, and handle logins. Source in [`dot/`](dot/).
-- **User-space toolchain** — `install.sh` bootstraps mise and chezmoi, while a single mise config (`~/.config/mise/config.toml`) pins and manages the development CLI toolchain without system package managers. Bootstrap downloads use reviewed stable versions and upstream-published checksums instead of executing network responses directly.
+- **User-space toolchain** — `install.sh` bootstraps mise and chezmoi, while a single mise config (`~/.config/mise/config.toml`) pins and manages the development CLI toolchain without system package managers. Every tool past that minimal bootstrap is pinned and lock-verified by mise.
 
 ## Prerequisites
 
@@ -54,7 +54,7 @@ bash ~/.local/share/chezmoi/install.sh
 
 Set `SKIP_GIT_PULL=true` only when intentionally bootstrapping from the existing local checkout without fetching its upstream branch.
 
-The installer is idempotent: it keeps an already-installed `mise` and `chezmoi`, and otherwise fetches each from its vendor's published install script. Every tool after that point is pinned and lock-verified by `mise` itself, so re-running the bootstrap converges to the same state. Linux and macOS are both supported.
+The installer is idempotent: it keeps an already-installed `mise` and `chezmoi`, and otherwise installs mise from its vendor's install script and chezmoi through mise. Every tool after that point is pinned and lock-verified by `mise` itself, so re-running the bootstrap converges to the same state. Linux and macOS are both supported.
 
 ## Credentials
 

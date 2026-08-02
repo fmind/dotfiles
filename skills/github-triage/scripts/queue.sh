@@ -32,10 +32,23 @@ setup_labels() {
     "Cooperative lease: active implementation is in progress" --force
   gh label create "${HUMAN_LABEL}" --repo "${repo}" --color B60205 --description \
     "Blocked on a human decision, credential, approval, or spend" --force
-  gh label create needs-cluster --repo "${repo}" --color 326CE5 --description \
-    "Requires an explicitly authorized live cluster" --force
   gh label create "${EPIC_LABEL}" --repo "${repo}" --color 5319E7 --description \
     "Tracker issue grouping dependent work; not directly runnable" --force
+  # The runnable filter requires exactly one priority/p* and one effort/* label,
+  # so the fixed sets are provisioned here or a fresh repository's queue stays
+  # permanently empty. Only area/* is repository-specific and created at triage.
+  gh label create "priority/p0" --repo "${repo}" --color D93F0B --description \
+    "Now: the active frontier and anything blocking it" --force
+  gh label create "priority/p1" --repo "${repo}" --color FBCA04 --description \
+    "Next: near-term once the p0 frontier clears" --force
+  gh label create "priority/p2" --repo "${repo}" --color C2E0C6 --description \
+    "Later: lower urgency within its track" --force
+  gh label create "effort/s" --repo "${repo}" --color C5DEF5 --description \
+    "Small: one focused, bounded change" --force
+  gh label create "effort/m" --repo "${repo}" --color 84B6EB --description \
+    "Medium: several coordinated changes in one area" --force
+  gh label create "effort/l" --repo "${repo}" --color 3C6EB4 --description \
+    "Large: cross-cutting change; consider splitting first" --force
 }
 
 issue_json() {

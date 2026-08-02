@@ -215,7 +215,7 @@ func checkAgentDiscovery(definition agentDefinition) (string, bool) {
 	canonicalPersona := ExpandPath(sharedPersonaPath)
 	canonicalSkills := ExpandPath(sharedSkillsPath)
 	if definition.PersonaInFile {
-		content, err := os.ReadFile(personaPath) //nolint:gosec // fixed local integration path
+		content, err := os.ReadFile(personaPath)
 		if err != nil || !json.Valid(content) || !strings.Contains(string(content), sharedPersonaPath) {
 			return "persona-broken", false
 		}
@@ -237,7 +237,7 @@ func checkAgentHooks(definition agentDefinition, runnable dotCommandProber) (str
 	if definition.HookPath == "" {
 		return "sync-only", true
 	}
-	content, err := os.ReadFile(ExpandPath(definition.HookPath)) //nolint:gosec // fixed local integration path
+	content, err := os.ReadFile(ExpandPath(definition.HookPath))
 	if err != nil {
 		return "missing", false
 	}
@@ -411,7 +411,7 @@ func inspectLastHookFailure(cfg AgentConfig, home, agent string) (string, bool) 
 		if !entries[index].Type().IsRegular() || !strings.HasSuffix(entries[index].Name(), ".json") {
 			continue
 		}
-		content, readErr := os.ReadFile(filepath.Join(root, entries[index].Name())) //nolint:gosec // owner-only bounded spool
+		content, readErr := os.ReadFile(filepath.Join(root, entries[index].Name()))
 		if readErr != nil {
 			unreadable = true
 			continue

@@ -8,7 +8,6 @@ import (
 	"runtime"
 	"strings"
 	"testing"
-	"time"
 )
 
 func TestOSBrowserWithoutDisplay(t *testing.T) {
@@ -42,9 +41,6 @@ func TestOSBrowserStartsPlatformOpener(t *testing.T) {
 	if err := (OSBrowser{}).Open("https://example.com"); err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	// Open deliberately starts the browser asynchronously; give the tiny test
-	// process time to exit so it cannot leak into the rest of the suite.
-	time.Sleep(10 * time.Millisecond)
 }
 
 func TestPlatformOpener(t *testing.T) {

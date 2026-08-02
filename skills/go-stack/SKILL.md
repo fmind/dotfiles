@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/go-stack
   created: 2026-06-23
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Go Stack Standard (Go 1.26+)
@@ -214,10 +214,10 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
 - **Port Conflicts**: Default address is `:8080`.
 - **Tailwind v4 CLI**: Compiled via the standalone `tailwindcss` CLI executable, provisioned by `mise install` (the `github` backend: `"github:tailwindlabs/tailwindcss"`). Because the reference `mise.toml` sets `run_auto_install = false`, run `mise install` once after `mise trust` — tools are not fetched on demand.
 - **Embedded Asset Updates**: Since assets are embedded via `go:embed`, running `go run` does not hot-reload static assets. Use `air` or rebuild assets to see updates.
-- **Committed Generated Code**: The reference `.gitignore` does not exclude `*_templ.go`, so commit the generated Templ code — `check`/CI compile `server.go` (which imports `templates`) without first running `build:templ` (only `test`/`build` regenerate it). `mise run test`'s `build:templ` keeps it fresh and CI's `git diff --exit-code` catches staleness.
+- **Committed Generated Code**: The reference `.gitignore` does not exclude `*_templ.go`, so commit the generated Templ code — `check`/CI compile `server.go` (which imports `templates`) without first running `build:templ` (only `test`/`build` regenerate it). `mise run test`'s `build:templ` keeps it fresh and CI's clean-tree check (`git status --porcelain`) catches staleness.
 - **Self-Hosted Assets**: Never reference CDNs at runtime; serve all assets locally. `scripts/vendor.go` fetches HTMX/Alpine once, pinned by version **and** sha256 (fails loudly on a hash mismatch), and commits them under `static/vendor/`; `install:vendor` is idempotent (skips when present), so normal installs never touch the network. Bump a version by editing its URL + hash together.
 - **No JS/TS Toolchain**: The GOTH stack is deliberately Node-free — Tailwind is the standalone `tailwindcss` binary, HTMX/Alpine are vendored. Never introduce `npm`/`npx`/`node`.
-- **Container Builds (`ko`)**: `mise run build:image` needs `ko` from the [containerize skill](../containerize/SKILL.md) (`go get -tool github.com/google/ko`); it is not installed by default.
+- **Container Builds (`ko`)**: `mise run build:image` needs `ko` from the [containerize skill](../containerize/SKILL.md) — pin it per project (`go get -tool github.com/google/ko`) so image builds stay reproducible even where a global toolchain already provides `ko`.
 - **ADK Agents**: Require Go 1.25+ and a `GOOGLE_API_KEY` (AI Studio) or Vertex AI ADC. `full.NewLauncher()` is cobra-based and separate from `urfave/cli/v3`.
 
 ## Documentation

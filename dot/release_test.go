@@ -308,6 +308,14 @@ func newPrepareRunner(t *testing.T) *prepareRunner {
 			switch {
 			case command == "git rev-parse --is-inside-work-tree":
 				return "true", nil
+			case command == "git rev-parse --show-toplevel":
+				// The tests chdir into the fixture root before running, so the
+				// working directory is the repository root the code must resolve.
+				root, err := os.Getwd()
+				if err != nil {
+					return "", err
+				}
+				return root, nil
 			case command == "git status --porcelain":
 				if runner.dirty {
 					return " M local", nil
@@ -422,6 +430,14 @@ func newPublishRunner(t *testing.T) *publishRunner {
 			switch {
 			case command == "git rev-parse HEAD":
 				return runner.head, nil
+			case command == "git rev-parse --show-toplevel":
+				// The tests chdir into the fixture root before running, so the
+				// working directory is the repository root the code must resolve.
+				root, err := os.Getwd()
+				if err != nil {
+					return "", err
+				}
+				return root, nil
 			case strings.HasPrefix(command, "gh run list --workflow ci.yml"):
 				return runner.runs, nil
 			case strings.HasPrefix(command, "git ls-remote --tags origin"):

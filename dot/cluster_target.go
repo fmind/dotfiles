@@ -241,7 +241,7 @@ func resolveClusterTarget(ctx context.Context, state *GlobalState, options Clust
 	if info.Mode().Perm()&0o077 != 0 {
 		return clusterTarget{}, fmt.Errorf("isolated kubeconfig permissions are %o, expected owner-only", info.Mode().Perm())
 	}
-	content, err := os.ReadFile(path) //nolint:gosec // owner-only managed kubeconfig; only non-secret metadata is retained
+	content, err := os.ReadFile(path) // owner-only managed kubeconfig; only non-secret metadata is retained
 	if err != nil {
 		return clusterTarget{}, fmt.Errorf("failed to read isolated kubeconfig metadata: %w", err)
 	}

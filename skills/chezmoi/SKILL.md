@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/chezmoi
   created: 2026-07-12
-  updated: 2026-07-12
+  updated: 2026-08-01
 ---
 
 # Chezmoi Dotfiles Standard

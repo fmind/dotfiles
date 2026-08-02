@@ -22,8 +22,10 @@ pre-commit:
       stage_fixed: true
     format:python:
       glob: "**/*.py"
+      # Mirrors ruff.toml: only reference scaffolds with placeholder tokens are
+      # exempt; real skill scripts format like first-party code.
       exclude:
-        - "skills/**/*.py"
+        - "skills/*/references/**/*.py"
         - ".agents/tmp/**/*.py"
       priority: 10
       run: mise run format:python {staged_files}

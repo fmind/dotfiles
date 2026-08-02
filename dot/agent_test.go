@@ -403,7 +403,7 @@ func setupOpenCodeFixture(t *testing.T, home string) {
 		t.Fatalf("create OpenCode data directory: %v", err)
 	}
 	dbPath := filepath.Join(dbDir, "opencode.db")
-	cmd := exec.Command(sqlitePath, "-batch", "-bail", "-init", os.DevNull, dbPath) //nolint:gosec // fixed test binary and temp path
+	cmd := exec.Command(sqlitePath, "-batch", "-bail", "-init", os.DevNull, dbPath)
 	cmd.Stdin = strings.NewReader(opencodeFixtureSQL)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("create OpenCode fixture: %v\n%s", err, output)
@@ -533,7 +533,7 @@ func setupCopilotFixture(t *testing.T, home string) {
 		t.Fatalf("create Copilot data directory: %v", err)
 	}
 	dbPath := filepath.Join(dbDir, "session-store.db")
-	cmd := exec.Command(sqlitePath, "-batch", "-bail", "-init", os.DevNull, dbPath) //nolint:gosec // fixed test binary and temp path
+	cmd := exec.Command(sqlitePath, "-batch", "-bail", "-init", os.DevNull, dbPath)
 	cmd.Stdin = strings.NewReader(copilotFixtureSQL)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("create Copilot fixture: %v\n%s", err, output)

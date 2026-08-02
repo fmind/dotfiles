@@ -609,7 +609,7 @@ func (r *pruneRun) pruneSessions(root string, cutoff time.Time, keep []string) (
 		if r.dryRun {
 			return nil
 		}
-		//nolint:gosec // G122: path is walked from a configured, trusted session store
+		//nolint:gosec // G122: the walked root is the owner-only configured session store, not an attacker-writable path
 		if err := os.Remove(path); err != nil && !errors.Is(err, os.ErrNotExist) {
 			return fmt.Errorf("failed to remove session log %s: %w", path, err)
 		}

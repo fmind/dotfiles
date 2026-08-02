@@ -2,6 +2,11 @@
 name: k8s-review
 description: Review Kubernetes manifests and a specifically verified cluster using bounded, sanitized evidence, then develop evidence-backed optimization hypotheses without changing cluster state. Use for Kubernetes audits, workload health reviews, capacity and scheduling analysis, upgrade-readiness reviews, or optimization assessments; delegate cluster lifecycle and deployment work to k8s-local.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/k8s-review
+  created: 2026-08-01
+  updated: 2026-08-01
 ---
 
 # Kubernetes Review

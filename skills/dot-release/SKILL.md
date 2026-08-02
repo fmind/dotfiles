@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dot-release
   created: 2026-07-08
-  updated: 2026-07-31
+  updated: 2026-08-02
 ---
 
 # Dotfiles Release

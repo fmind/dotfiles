@@ -48,8 +48,15 @@ func (b OSBrowser) Open(url string) error {
 		return err
 	}
 
-	c := exec.Command(cmd, args...) //nolint:gosec // G204: command and args are constructed safely inside Open
-	return c.Start()
+	c := exec.Command(cmd, args...)
+	if err := c.Start(); err != nil {
+		return err
+	}
+	// Reap the opener in the background: without a Wait the short-lived child
+	// would linger as a zombie until dot itself exits. Its exit status carries
+	// no signal — the hand-off to the browser either happened or it did not.
+	go func() { _ = c.Wait() }()
+	return nil
 }
 
 // HasSupport checks if the current environment supports opening a browser.
@@ -95,6 +102,9 @@ func (u *urlOpener) intercept(w io.Writer, p []byte) (int, error) {
 			if endIdx := strings.IndexAny(urlPart, " \t\r\n\"'"); endIdx != -1 {
 				url := urlPart[:endIdx]
 				u.opened = true
+				// Best-effort convenience: the URL was already written through to
+				// the terminal above, so a failed auto-open leaves it visible for
+				// a manual click and must not disturb the wrapped stream.
 				_ = u.browser.Open(url)
 				break
 			}

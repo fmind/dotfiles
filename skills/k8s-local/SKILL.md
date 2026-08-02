@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/k8s-local
   created: 2026-06-23
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Local Kubernetes Cluster Management
@@ -56,7 +56,7 @@ When designing project local environments, choose the appropriate isolation scop
      This is the supported global path because it disables k3d's default kubeconfig update/switch flags and publishes the credentials atomically with owner-only permissions.
    - **Using kind**:
      ```bash
-     kind create cluster --config resources/kind-config.yaml
+     kind create cluster --config ~/.agents/skills/k8s-local/resources/kind-config.yaml
      ```
 1. **Context & Namespace Switching**:
    - Inspect the isolated context without changing the default kubeconfig:

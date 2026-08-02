@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/project-license
   created: 2026-06-23
-  updated: 2026-07-09
+  updated: 2026-07-12
 ---
 
 # Create Project License

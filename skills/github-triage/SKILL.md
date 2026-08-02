@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/github-triage
   created: 2026-08-01
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Triage and Review GitHub Work
@@ -63,10 +63,12 @@ Labels carry the routing signal. Assignees do not — agents open work under a h
 | `priority/p0`        | Now — the active frontier and anything blocking it                               |
 | `priority/p1`        | Next — near-term once the p0 frontier clears                                     |
 | `priority/p2`        | Later — lower urgency within its track                                           |
+| `effort/s`           | Small — one focused, bounded change                                              |
+| `effort/m`           | Medium — several coordinated changes in one area                                 |
+| `effort/l`           | Large — cross-cutting change; consider splitting before implementation           |
 | `kind/epic`          | Milestone tracker issue that groups other issues                                 |
 | `status/in-progress` | Cooperative lease: an agent or human is actively working this issue              |
 | `needs-human`        | Blocked on a decision, account, approval, or spend that an agent cannot make     |
-| `needs-cluster`      | Requires a live cluster; bring one up, capture evidence, tear it down            |
 
 Rules:
 
@@ -82,7 +84,7 @@ Not every repository defines the full taxonomy — the `area/*` sets are per-rep
 
 The queue is a cooperative protocol, not an assignment system. Native GitHub dependencies are authoritative: a blocked issue is never runnable even when its labels otherwise match.
 
-Provision the four shared routing labels idempotently, scoped to the confirmed repository:
+Provision the shared routing labels idempotently, scoped to the confirmed repository — the workflow labels plus the fixed `priority/*` and `effort/*` sets the runnable filter requires; only `area/*` stays repository-specific and is created during triage:
 
 ```bash
 ~/.agents/skills/github-triage/scripts/queue.sh setup <owner>/<repo>

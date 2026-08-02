@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dprint
   created: 2026-06-29
-  updated: 2026-07-09
+  updated: 2026-07-12
 ---
 
 # dprint Formatting Standard
