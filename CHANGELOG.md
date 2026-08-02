@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.10.0] - 2026-08-02
+
+### 🚀 Features
+
+- _(verify)_ Gate install freshness on build inputs and redeploy post-commit
+
+### 🐛 Bug Fixes
+
+- _(cluster)_ Create the local cluster when no k3d cluster exists
+
+### 🧹 Miscellaneous
+
+- _(upgrade)_ Bump global tools and Neovim plugins
+
 ## [1.9.0] - 2026-08-02
 
 ### 🚀 Features
