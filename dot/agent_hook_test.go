@@ -62,7 +62,7 @@ func TestAgentHookSpoolsBoundedOwnerOnlyFailures(t *testing.T) {
 		t.Fatalf("record permissions = %o, want 600", info.Mode().Perm())
 	}
 	records := readHookFailureRecords(t, home)
-	if records[0].Agent != sessionStoreClaude || records[0].Operation != "session" || len(records[0].Detail) > hookFailureDetailLimit {
+	if records[0].Agent != sessionStoreClaude || records[0].Operation != "session" || len(records[0].Detail) > defaultHookFailureDetailLimit {
 		t.Fatalf("unexpected bounded record: %+v", records[0])
 	}
 	content, err := os.ReadFile(filepath.Join(root, entries[0].Name()))
@@ -78,15 +78,15 @@ func TestAgentHookFailureSpoolRetentionAndLinkSafety(t *testing.T) {
 	t.Run("retains newest bounded records", func(t *testing.T) {
 		home := t.TempDir()
 		t.Setenv("HOME", home)
-		for index := range hookFailureLimit + 5 {
-			err := spoolHookFailure(sessionStoreCodex, "session", "sid", errors.New(strings.Repeat("x", hookFailureDetailLimit+index+1)))
+		for index := range defaultHookFailureLimit + 5 {
+			err := spoolHookFailure(defaultAgentConfig(), sessionStoreCodex, "session", "sid", errors.New(strings.Repeat("x", defaultHookFailureDetailLimit+index+1)))
 			if err == nil {
 				t.Fatal("expected original hook failure")
 			}
 		}
 		records := readHookFailureRecords(t, home)
-		if len(records) != hookFailureLimit {
-			t.Fatalf("spool retained %d records, want %d", len(records), hookFailureLimit)
+		if len(records) != defaultHookFailureLimit {
+			t.Fatalf("spool retained %d records, want %d", len(records), defaultHookFailureLimit)
 		}
 	})
 
@@ -104,7 +104,7 @@ func TestAgentHookFailureSpoolRetentionAndLinkSafety(t *testing.T) {
 		if err := os.Symlink(outside, link); err != nil {
 			t.Fatal(err)
 		}
-		err := spoolHookFailure(sessionStoreCodex, "session", "sid", errors.New("failed"))
+		err := spoolHookFailure(defaultAgentConfig(), sessionStoreCodex, "session", "sid", errors.New("failed"))
 		if err == nil || !strings.Contains(err.Error(), "refusing linked hook failure spool") {
 			t.Fatalf("expected linked spool rejection, got %v", err)
 		}
@@ -129,7 +129,7 @@ func TestAgentHookRejectsUnknownAgentAndPreservesFailure(t *testing.T) {
 	if strings.Contains(records[0].Detail, "secret-id") {
 		t.Fatalf("failure detail exposed raw session identity: %+v", records[0])
 	}
-	if detail := boundedHookFailureDetail(errors.New("session secret-id failed"), "secret-id"); strings.Contains(detail, "secret-id") {
+	if detail := boundedHookFailureDetail(errors.New("session secret-id failed"), "secret-id", defaultHookFailureDetailLimit); strings.Contains(detail, "secret-id") {
 		t.Fatalf("bounded failure detail exposed raw session identity: %s", detail)
 	}
 }

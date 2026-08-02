@@ -15,26 +15,29 @@ metadata:
 
 ## Commands
 
-| Command             | Alias | Purpose                                                                            |
-| ------------------- | ----- | ---------------------------------------------------------------------------------- |
-| `dot verify`        | `v`   | Sanity-check environment, tools, secrets, install freshness (`--json`, `--fix`)    |
-| `dot status`        | `s`   | Unified git + docker + k3d summary (`--json`)                                      |
-| `dot pull`          | `p`   | Pull every repo in `~/.config/dot.yaml` concurrently (`--push`)                    |
-| `dot commit`        | `c`   | Write a Conventional Commit from the staged diff via AI                            |
-| `dot pull-request`  | `pr`  | Draft a PR description via AI, then `gh pr create`                                 |
-| `dot release`       | `r`   | Bump version, changelog, tag, publish (see [dot-release](../dot-release/SKILL.md)) |
-| `dot cluster`       | `k`   | Manage and diagnose the verified local k3d cluster                                 |
-| `dot prune`         | `x`   | Reclaim disk from agent session logs and caches (see below)                        |
-| `dot agent doctor`  | —     | Read-only cross-agent discovery, hook, source, and lineage health                  |
-| `dot agent hook`    | —     | Observable session and notification hook boundary with bounded failure spooling    |
-| `dot agent session` | `a s` | Atomically log, sync, and migrate private agent-session lineage (gathers only)     |
-| `dot notify`        | `n`   | Desktop notification for agent hooks or custom alerts                              |
-| `dot chezmoi clean` | `m c` | Delete `$HOME` orphans left by files chezmoi no longer manages                     |
-| `dot config`        | `f`   | `show` / `path` / `init` / `edit` / `validate` `~/.config/dot.yaml`                |
-| `dot login`         | `l`   | OAuth wrappers: `github`, `workspace`, `gcp`, `clasp`                              |
-| `dot setup`         | `u`   | Enable GCP APIs for the active Workspace project                                   |
-| `dot completion`    | `g`   | Regenerate fish completions for `dot` and external tools                           |
-| `dot version`       | `i`   | Version plus the embedded VCS revision                                             |
+| Command             | Alias      | Purpose                                                                            |
+| ------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| `dot verify`        | `v`        | Sanity-check environment, tools, secrets, install freshness (`--json`, `--fix`)    |
+| `dot status`        | `s`        | Unified git + docker + k3d summary (`--json`)                                      |
+| `dot pull`          | `p`        | Pull every repo in `~/.config/dot.yaml` concurrently (`--push`)                    |
+| `dot commit`        | `c`        | Write a Conventional Commit from the staged diff via AI                            |
+| `dot pull-request`  | `pr`       | Draft a PR description via AI, then `gh pr create`                                 |
+| `dot release`       | `r`        | Bump version, changelog, tag, publish (see [dot-release](../dot-release/SKILL.md)) |
+| `dot cluster`       | `k`        | Manage and diagnose the verified local k3d cluster                                 |
+| `dot prune`         | `x`        | Reclaim disk from agent session logs and caches (see below)                        |
+| `dot agent`         | `a`        | Agent integrations: `doctor`, `hook`, `session`                                    |
+| `dot agent doctor`  | `a doctor` | Read-only cross-agent discovery, hook, source, and lineage health                  |
+| `dot agent hook`    | `a hook`   | Observable session and notification hook boundary with bounded failure spooling    |
+| `dot agent session` | `a s`      | Atomically log, sync, and migrate private agent-session lineage (gathers only)     |
+| `dot notify`        | `n`        | Desktop notification for agent hooks or custom alerts                              |
+| `dot chezmoi`       | `m`        | chezmoi configuration management; `clean` is its only subcommand                   |
+| `dot chezmoi clean` | `m c`      | Delete `$HOME` orphans left by files chezmoi no longer manages                     |
+| `dot config`        | `f`        | `show` / `path` / `init` / `edit` / `validate` `~/.config/dot.yaml`                |
+| `dot login`         | `l`        | OAuth wrappers: `github`, `workspace`, `gcp`, `clasp`                              |
+| `dot setup`         | `u`        | Enable GCP APIs for the active Workspace project                                   |
+| `dot completion`    | `g`        | Regenerate fish completions for `dot` and external tools                           |
+| `dot context`       | `t`        | Bounded, redacted project context pack (`--format`, `--bytes`, `--tokens`)         |
+| `dot version`       | `i`        | Version plus the embedded VCS revision                                             |
 
 Global flags: `--config/-c <path>` (or `DOT_CONFIG_PATH`) and `--verbose` (or `DOT_VERBOSE`).
 
@@ -44,9 +47,15 @@ Live hooks and `dot agent session sync` write the same append-only store under `
 
 Run `dot agent session migrate` before relying on the new store for historical evidence. It is a read-only dry run by default, deterministically selects the most complete legacy transcript for every lineage, reports duplicate/partial/skipped/malformed totals, and leaves every legacy file in place. `dot agent session migrate --apply` copies each selection into the versioned store without deleting the old archive.
 
-Agent hook templates invoke `dot agent hook session ...` and `dot agent hook notify ...`. The wrapper preserves the original non-zero exit and writes bounded failure metadata to the owner-only `~/.agents/hook-failures/v1/` spool, capped at 100 records; it stores no transcript body or raw session ID.
+Agent hook templates invoke `dot agent hook session ...` and `dot agent hook notify ...`. The wrapper preserves the original non-zero exit and writes bounded failure metadata to the owner-only `~/.agents/hook-failures/v1/` spool, capped by `agent.hook_failures.limit` (100 records by default); it stores no transcript body or raw session ID.
 
-Use `dot agent doctor` for a read-only cross-agent check of persona and skill discovery, hook commands, local capability probes, source-store presence, latest complete ingestion, latest hook failure, partial state, and archive lag. It never reads transcript bodies or contacts vendor services. Repair is explicit: `dot agent doctor --fix --dry-run` previews the targeted forced chezmoi apply, and `dot agent doctor --fix` performs it.
+Use `dot agent doctor` for a read-only cross-agent check of persona and skill discovery, hook commands, local capability probes, source-store presence, latest complete ingestion, latest hook failure, partial state, and archive lag. It never reads transcript bodies or contacts vendor services. Repair is explicit: `dot agent doctor --fix --dry-run` (`-f -N`) previews the targeted forced chezmoi apply, and `dot agent doctor --fix` performs it.
+
+Hook checks verify both wiring and runnability. `command-mismatch` means the agent's config file no longer references the expected `dot` hook command; `command-unavailable` means it does, but the `dot` on `PATH` cannot run it. The second is the signature of a stale install: chezmoi deploys hook files independently of the binary, so a newly wired hook silently fails on every event until `mise run apply` rebuilds `dot`. `dot verify` reports the same root cause as a STALE install-freshness failure.
+
+## Configuration
+
+`~/.config/dot.yaml` holds every tunable default; `dot config init` scaffolds it and `dot config show` prints the effective merge. Beyond the per-command sections, `agent` controls session ingestion: `agent.sources` maps each agent to its raw transcript root (override when an agent CLI relocates its store), `agent.doctor` bounds the health scan (`stale_lag`, `scan_limit`), and `agent.hook_failures` bounds the owner-only failure spool (`limit`, `detail_limit`). Retention in `prune.agents.sessions` is derived from the same source table, so a relocated store stays covered by both ingestion and pruning. `verify` bounds its own run with `verify.timeout` (one checker suite) and `verify.probe_timeout` (one capability probe) — raise the latter when a slow-starting CLI reports `probe failed: context deadline exceeded` on a cold cache, since `dot agent doctor` probes through the same registry. Durations are written as strings (`30s`, `24h0m0s`); a non-positive value falls back to the built-in default rather than disabling the bound.
 
 ## Prune
 

@@ -62,12 +62,13 @@ func RunPull(ctx context.Context, state *GlobalState, push bool) error {
 	_, _ = fmt.Fprintf(state.Stdout, "%s\n\n", bold(fmt.Sprintf("Scanning and pulling %d repositories...", len(reposToPull))))
 
 	g, groupCtx := errgroup.WithContext(ctx)
-	g.SetLimit(8)
+	g.SetLimit(positiveOr(state.Config.Pull.Concurrency, defaultPullConcurrency))
 
+	timeout := positiveOr(state.Config.Pull.Timeout.Duration(), defaultPullTimeout)
 	results := make([]RepoResult, len(reposToPull))
 	for i, path := range reposToPull {
 		g.Go(func() error {
-			results[i] = pullRepo(groupCtx, state, path, push)
+			results[i] = pullRepo(groupCtx, state, path, push, timeout)
 			return nil
 		})
 	}
@@ -140,14 +141,20 @@ func renderPush(state *GlobalState, res RepoResult) bool {
 	return false
 }
 
-// pullTimeout bounds each repository's fetch/pull so one wedged remote can't hang the whole run.
-const pullTimeout = 2 * time.Minute
+const (
+	// defaultPullTimeout bounds each repository's fetch/pull so one wedged remote
+	// cannot hang the whole run.
+	defaultPullTimeout = 2 * time.Minute
+	// defaultPullConcurrency caps simultaneous repositories, keeping a large
+	// workspace from opening one connection per repo at once.
+	defaultPullConcurrency = 8
+)
 
 // pullRepo checks branch/dirty state, then fetches and pulls a single repository.
 // Repositories without an upstream are skipped rather than reported as failures.
 // When push is true, a clean repository ahead of its upstream is also pushed.
-func pullRepo(ctx context.Context, state *GlobalState, path string, push bool) RepoResult {
-	ctx, cancel := context.WithTimeout(ctx, pullTimeout)
+func pullRepo(ctx context.Context, state *GlobalState, path string, push bool, timeout time.Duration) RepoResult {
+	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
 	res := RepoResult{
@@ -245,6 +252,10 @@ func pushRepo(ctx context.Context, state *GlobalState, path string, res *RepoRes
 // PullConfig represents the configuration for pulling Git repositories.
 type PullConfig struct {
 	Directories []string `yaml:"directories"`
+	// Timeout bounds one repository's fetch/pull; Concurrency caps how many run at
+	// once. Both fall back to the built-in default when absent or non-positive.
+	Timeout     Duration `yaml:"timeout"`
+	Concurrency int      `yaml:"concurrency"`
 }
 
 func defaultPullConfig() PullConfig {
@@ -256,5 +267,7 @@ func defaultPullConfig() PullConfig {
 			"~/externals",
 			"~/externals/workspaces",
 		},
+		Timeout:     Duration(defaultPullTimeout),
+		Concurrency: defaultPullConcurrency,
 	}
 }

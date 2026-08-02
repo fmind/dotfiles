@@ -16,9 +16,9 @@ import (
 )
 
 const (
-	hookFailureStoreVersion = "v1"
-	hookFailureLimit        = 100
-	hookFailureDetailLimit  = 512
+	hookFailureStoreVersion       = "v1"
+	defaultHookFailureLimit       = 100
+	defaultHookFailureDetailLimit = 512
 )
 
 type hookFailureRecord struct {
@@ -77,12 +77,12 @@ func RunAgentHookSession(ctx context.Context, state *GlobalState, agent, session
 	default:
 		err = fmt.Errorf("unknown session hook agent %q", agent)
 	}
-	return spoolHookFailure(agent, "session", sessionID, err)
+	return spoolHookFailure(state.Config.Agent, agent, "session", sessionID, err)
 }
 
 func RunAgentHookNotify(ctx context.Context, state *GlobalState, agent, event string) error {
 	err := RunAgentNotify(ctx, state, agent, event)
-	return spoolHookFailure(agent, "notify:"+event, "", err)
+	return spoolHookFailure(state.Config.Agent, agent, "notify:"+event, "", err)
 }
 
 func hookFailureRoot() (string, error) {
@@ -93,20 +93,20 @@ func hookFailureRoot() (string, error) {
 	return filepath.Join(home, ".agents", "hook-failures", hookFailureStoreVersion), nil
 }
 
-func boundedHookFailureDetail(err error, sessionID string) string {
+func boundedHookFailureDetail(err error, sessionID string, detailLimit int) string {
 	detail := err.Error()
 	if sessionID != "" {
 		detail = strings.ReplaceAll(detail, sessionID, "<session>")
 	}
 	detail = strings.Join(strings.Fields(detail), " ")
-	for len(detail) > hookFailureDetailLimit {
+	for len(detail) > detailLimit {
 		_, size := utf8.DecodeLastRuneInString(detail)
 		detail = detail[:len(detail)-size]
 	}
 	return detail
 }
 
-func spoolHookFailure(agent, operation, sessionID string, hookErr error) error {
+func spoolHookFailure(cfg AgentConfig, agent, operation, sessionID string, hookErr error) error {
 	if hookErr == nil {
 		return nil
 	}
@@ -126,7 +126,7 @@ func spoolHookFailure(agent, operation, sessionID string, hookErr error) error {
 		OccurredAt: time.Now().UTC().Format(time.RFC3339Nano),
 		Agent:      agent,
 		Operation:  operation,
-		Detail:     boundedHookFailureDetail(hookErr, sessionID),
+		Detail:     boundedHookFailureDetail(hookErr, sessionID, cfg.hookFailureDetailLimit()),
 	}
 	if sessionID != "" {
 		record.SessionHash = truncatedDigest(sessionDigest(agent, sessionID))
@@ -139,13 +139,13 @@ func spoolHookFailure(agent, operation, sessionID string, hookErr error) error {
 	if err := writeOwnerOnly(filepath.Join(root, name), append(content, '\n')); err != nil {
 		return errors.Join(hookErr, fmt.Errorf("failed to write hook failure spool: %w", err))
 	}
-	if err := trimHookFailureSpool(root); err != nil {
+	if err := trimHookFailureSpool(root, cfg.hookFailureLimit()); err != nil {
 		return errors.Join(hookErr, err)
 	}
 	return hookErr
 }
 
-func trimHookFailureSpool(path string) error {
+func trimHookFailureSpool(path string, limit int) error {
 	entries, err := os.ReadDir(path)
 	if err != nil {
 		return fmt.Errorf("failed to read hook failure spool: %w", err)
@@ -156,7 +156,7 @@ func trimHookFailureSpool(path string) error {
 			records = append(records, entry)
 		}
 	}
-	if len(records) <= hookFailureLimit {
+	if len(records) <= limit {
 		return nil
 	}
 	root, err := os.OpenRoot(path)
@@ -164,7 +164,7 @@ func trimHookFailureSpool(path string) error {
 		return fmt.Errorf("failed to confine hook failure spool: %w", err)
 	}
 	defer func() { _ = root.Close() }()
-	for _, entry := range records[:len(records)-hookFailureLimit] {
+	for _, entry := range records[:len(records)-limit] {
 		if err := root.Remove(entry.Name()); err != nil && !errors.Is(err, os.ErrNotExist) {
 			return fmt.Errorf("failed to trim hook failure spool: %w", err)
 		}

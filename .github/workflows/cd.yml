@@ -1,4 +1,8 @@
-name: Release
+name: CD
+# Dispatch-only on purpose. `dot release` prepares, validates, and pushes the
+# release commit, then dispatches this workflow with that exact SHA, so it is the
+# single owner of when a release publishes. A `push` trigger would fire a second,
+# redundant run for the same commit alongside the dispatched one.
 on:
   workflow_dispatch:
     inputs:
@@ -10,7 +14,7 @@ permissions:
   actions: read
   contents: write
 concurrency:
-  group: release-${{ inputs.commit }}
+  group: cd-${{ inputs.commit }}
   cancel-in-progress: false
 jobs:
   publish:

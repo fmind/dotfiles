@@ -11,7 +11,7 @@ metadata:
 
 # Dotfiles Release
 
-Run `dot release` (alias `dot r`) to turn Conventional Commits since the last tag into a prepared release commit. The local command fetches `origin`, requires a clean `main` with `HEAD == origin/main`, computes the next semver via `git-cliff`, updates `dot/version.go` and `CHANGELOG.md`, runs the complete local gate, commits, pushes only that commit, and dispatches `.github/workflows/release.yml`. GitHub Actions then waits for the exact release commit's CI run before creating an annotated immutable tag and publishing the release.
+Run `dot release` (alias `dot r`) to turn Conventional Commits since the last tag into a prepared release commit. The local command fetches `origin`, requires a clean `main` with `HEAD == origin/main`, computes the next semver via `git-cliff`, updates `dot/version.go` and `CHANGELOG.md`, runs the complete local gate, commits, pushes only that commit, and dispatches `.github/workflows/cd.yml`. GitHub Actions then waits for the exact release commit's CI run before creating an annotated immutable tag and publishing the release.
 
 ## Preconditions
 

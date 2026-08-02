@@ -21,7 +21,7 @@ func TestCopilotSessionEndTargetedSyncIsIdempotent(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(home, ".copilot"), 0o700); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(copilotDBPath(home), []byte("fixture"), 0o600); err != nil {
+	if err := os.WriteFile(filepath.Join(home, ".copilot", "session-store.db"), []byte("fixture"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 	runner := &FakeRunner{RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
@@ -103,8 +103,8 @@ func TestCopilotHookConfigAndVersionContract(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	integration := agentIntegration{Agent: sessionStoreCopilot, HookPath: "../dot_copilot/hooks/session-log.json", HookCommands: []string{"dot agent hook copilot-session-end"}, HookJSON: true}
-	if status, ok := checkAgentHooks(integration); !ok || status != "healthy" {
+	integration := agentDefinition{Agent: sessionStoreCopilot, HookPath: "../dot_copilot/hooks/session-log.json", HookCommands: []string{"dot agent hook copilot-session-end"}, HookJSON: true}
+	if status, ok := checkAgentHooks(integration, func([]string) bool { return true }); !ok || status != "healthy" {
 		t.Fatalf("managed hook config is unhealthy: %s", status)
 	}
 	unsupported := filepath.Join(t.TempDir(), "hooks.json")
@@ -112,7 +112,7 @@ func TestCopilotHookConfigAndVersionContract(t *testing.T) {
 		t.Fatal(err)
 	}
 	integration.HookPath = unsupported
-	if status, ok := checkAgentHooks(integration); ok || status != "unsupported-version" {
+	if status, ok := checkAgentHooks(integration, func([]string) bool { return true }); ok || status != "unsupported-version" {
 		t.Fatalf("unsupported hook schema was accepted: %s", status)
 	}
 }

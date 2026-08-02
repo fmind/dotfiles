@@ -15,7 +15,12 @@ const (
 	ProbeUnauthenticated = "unauthenticated"
 	ProbeSkipped         = "skipped"
 
-	defaultProbeTimeout = 3 * time.Second
+	// Sized for the slowest CLIs in the registry rather than the fastest: the heavy
+	// SDK wrappers routinely need several seconds to start on a cold page cache, and
+	// reporting those as broken is worse than waiting. Probes run concurrently and
+	// stay well inside the enclosing suite timeout, so this costs nothing when every
+	// tool is warm. Override per machine with `verify.probe_timeout`.
+	defaultProbeTimeout = 10 * time.Second
 	defaultOutputLimit  = 4 * 1024
 )
 
@@ -29,8 +34,18 @@ type CapabilityProbe struct {
 	RequiresAuth bool
 }
 
-// CapabilityProbeRegistry returns a defensive copy of the local, non-network probe registry.
+// CapabilityProbeRegistry returns a defensive copy of the local, non-network probe
+// registry bounded by the built-in default timeout.
 func CapabilityProbeRegistry() map[string]CapabilityProbe {
+	return CapabilityProbeRegistryWithTimeout(defaultProbeTimeout)
+}
+
+// CapabilityProbeRegistryWithTimeout is CapabilityProbeRegistry with a caller-chosen
+// per-probe bound. Some probes are slow to start on a cold cache (interpreted CLIs
+// especially), and a bound tuned for a warm machine reports them broken when they
+// are merely slow — so the bound is a setting rather than a constant.
+func CapabilityProbeRegistryWithTimeout(timeout time.Duration) map[string]CapabilityProbe {
+	timeout = positiveOr(timeout, defaultProbeTimeout)
 	args := map[string][]string{
 		"age": {"--version"}, "agy": {"--help"}, "chezmoi": {"--version"}, "clasp": {"--version"},
 		"claude": {"--version"}, "codex": {"--version"}, "copilot": {"--version"}, "docker": {"--version"},
@@ -47,7 +62,7 @@ func CapabilityProbeRegistry() map[string]CapabilityProbe {
 	for name, probeArgs := range args {
 		registry[name] = CapabilityProbe{
 			Name: name, Command: name, Args: append([]string(nil), probeArgs...),
-			Timeout: defaultProbeTimeout, OutputLimit: defaultOutputLimit,
+			Timeout: timeout, OutputLimit: defaultOutputLimit,
 		}
 	}
 	for _, name := range []string{"clasp", "gcloud", "gh", "gws", "jules"} {

@@ -98,8 +98,9 @@ type contextJSONSection struct {
 
 func NewContextCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
-		Name:  "context",
-		Usage: "Emit a bounded, redacted project context pack",
+		Name:    "context",
+		Aliases: []string{"t"},
+		Usage:   "Emit a bounded, redacted project context pack",
 		Flags: []cli.Flag{
 			&cli.IntFlag{Name: "bytes", Usage: "Maximum output bytes"},
 			&cli.IntFlag{Name: "tokens", Usage: "Approximate token budget (four bytes per token)"},

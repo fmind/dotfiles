@@ -11,7 +11,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
 - **GitHub Access**: use the `gh` CLI for all repository, issue, and PR operations.
 - **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first).
 - **Lint-before-done**: `mise run all` (format + check + test, the same gate CI runs) must pass before reporting a task complete.
-- **Security Evidence**: push CI intentionally scans the latest 10 commits; `.github/workflows/security.yml` is the distinct weekly/manual full-history GitLeaks and full-checkout Trivy boundary. A timeout or missing report is a failed scan, never clean evidence.
+- **Security Evidence**: push CI intentionally scans only the latest 10 commits (`check:leaks`); `.github/workflows/security.yml` is the distinct weekly/manual boundary that rescans the full history and checkout. Any finding, scanner error, or timeout is a failed scan, never clean evidence.
 - **Markdown Lists**: only use `1.` for all numbered list items in markdown files (e.g. `1. first`, `1. second`) to ensure correct dynamic rendering.
 - **No-Hard-Wrap**: every `*.md` keeps each paragraph on a single line.
 - **No-Sudo**: stay user-space; install via `mise`.
@@ -45,9 +45,9 @@ Aliases split into two namespaces so a mistyped letter can never fire the wrong 
 - **Routine update**: `mise run full` (fast standard routine synchronization).
 - **Iterate**: edit source → `mise run apply` (`mise run diff` to preview) → `mise run check` for quick static checks (or `mise run all` for the full CI gate) → `mise run verify` for dotfiles sanity.
 - **Add a tool**: append to `dot_config/mise/config.toml.tmpl` (alphabetical) — use `mise registry` to find tools → `mise run tools` to deploy and install → `mise run lock` to refresh and stage the lockfile.
-- **Upgrade tools**: `mise run update:repo` updates only repository mise pins and `mise.lock` inside an isolated home; review those changes, then run `mise run converge` to install/apply the reviewed source and probe capabilities. `mise run upgrade` remains the compatibility entrypoint that runs both phases in order.
+- **Upgrade tools**: `mise run upgrade` upgrades repository and global tool pins, refreshes lockfiles, and deploys updated tools.
 - **Reclaim disk**: `mise run prune:agents` while local k3d clusters or a warm Go cache still matter; `mise run prune` (`--all=deep`) otherwise.
-- **Release**: `mise run release` fetches and proves `main == origin/main`, validates and pushes only the release commit, then dispatches `.github/workflows/release.yml`; the workflow waits for exact-head CI before creating an immutable annotated tag and publishing the GitHub release.
+- **Release**: `mise run release` fetches and proves `main == origin/main`, validates and pushes only the release commit, then dispatches `.github/workflows/cd.yml`; the workflow waits for exact-head CI before creating an immutable annotated tag and publishing the GitHub release.
 - **Manage skills**: author first-party skills directly under `skills/` and validate with `gh skill publish --dry-run`. No external skill is vendored here; install reviewed upstream ones on demand with `skills add <repo> --all -y` (candidates are listed in the `agent-skills` skill).
 - **Create visuals**: use `fmind-visuals` for the brand contract and routing; Slidev is the only default for new decks, Mermaid is the default for diagrams, LikeC4 remains the architecture-model option, and D2 remains the bespoke composition option.
 - **Custom AI Utilities**: Deployed via `dot_local/bin/` to `~/.local/bin/` (e.g. `dot` CLI) and added to PATH.
@@ -70,7 +70,7 @@ Aliases split into two namespaces so a mistyped letter can never fire the wrong 
   - `dot prune` (alias `x`) — Reclaims disk space from agent session logs and development caches, and owns all session retention (both the raw per-agent stores and `~/.agents/sessions`, each with its own typed `source` and `keep_days` under `prune.agents.sessions`). An aged raw Claude, Codex, or Antigravity transcript is deleted only after its exact lineage, source fingerprint, completeness, high-water mark, and immutable normalized generation are verified; unnormalized, stale, partial, unreadable, interrupted, or ambiguous sources are retained with evidence, and the shared OpenCode/Copilot databases are retained until row-level pruning exists. Targets compose as flags (`--agents`, `--docker`, `--go`, `--python`, `--node`, `--mise`, `--tools`, or `--all`) and each accepts an optional depth (`--docker=system`, `--go=module`, `--all=deep`); every target has a `prune.<target>` config section carrying its default depth and cache paths, `--dry-run` reports each session decision without deleting, and `--days` overrides every configured retention.
   - `dot chezmoi clean` (group alias `m`, subcommand aliases `c`, `cc`) — Scans for previously managed chezmoi files and cleans up unmanaged orphans in home directory.
   - `dot config` (alias `f`) — Inspects, scaffolds, edits, and validates the `~/.config/dot.yaml` configuration file (`show`, `path`, `init`, `edit`, `validate`).
-  - `dot context` — Emits a deterministic project-only context pack as Markdown or versioned JSON, within an explicit byte or approximate token budget; collectors and sensitive path/environment patterns are allowlisted through `context` in `~/.config/dot.yaml`, and the exact final payload is secret-scanned before output.
+  - `dot context` (alias `t`) — Emits a deterministic project-only context pack as Markdown or versioned JSON, within an explicit byte or approximate token budget; collectors and sensitive path/environment patterns are allowlisted through `context` in `~/.config/dot.yaml`, and the exact final payload is secret-scanned before output.
   - `dot version` (alias `i`) — Prints the version enriched with the embedded VCS revision so an installed binary can be matched against the current sources.
 
 ## Agents
@@ -94,12 +94,11 @@ Two assets are authored once and consumed by all agent CLIs through native disco
 
 - `.agents/` — Workspace-scoped state, session records, and scratch scripts for AI agents.
 - `.antigravitycli/` — Workspace-scoped session records, configuration settings, and state for Antigravity CLI.
-- `bootstrap/` — Shared pinned installer metadata, verification helpers, and hermetic Linux/macOS bootstrap smoke tests; ignored by chezmoi deployment and sourced by install entrypoints.
 - `.chezmoi.toml.tmpl` — Template config initialized as the host-specific chezmoi configuration.
 - `.chezmoiignore` — Chezmoi exclude patterns to ignore repository files from deployment.
 - `.claude/` — Workspace-scoped session records and state for the Claude Code CLI.
 - `.gemini/` — Workspace configurations and metadata for the Antigravity CLI.
-- `.github/` — GitHub Actions CI and Dependabot dependency-update configuration.
+- `.github/` — GitHub Actions workflows (`ci.yml` per push/PR, `cd.yml` dispatched by `dot release`, `security.yml` weekly) and Dependabot configuration.
 - `.gitignore` — Git pattern definitions to exclude files from version control.
 - `.gitleaks.toml` — Security configuration and secrets scanner allowlist for GitLeaks.
 - `.stylua.toml` — Two-space StyleLua formatting policy for managed Neovim Lua sources (chezmoi ignores dot-prefixed source files automatically).

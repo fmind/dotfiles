@@ -2,10 +2,8 @@
 {{- /* Run only on supported platforms; the upstream installer covers Linux and macOS. */}}
 {{- if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") }}
 set -euo pipefail
-BOOTSTRAP_SOURCE={{ .chezmoi.sourceDir | quote }}
-# shellcheck source=bootstrap/verified-installers.sh
-. "${BOOTSTRAP_SOURCE}/bootstrap/verified-installers.sh"
-bootstrap_install_antigravity
+command -v agy >/dev/null && exit 0
+curl -fsSL https://antigravity.google/cli/install.sh | bash
 {{- else }}
 exit 0
 {{- end }}

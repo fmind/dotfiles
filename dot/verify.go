@@ -15,6 +15,10 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
+// defaultVerifyTimeout bounds one checker suite so a hung external CLI cannot stall
+// the whole verification run.
+const defaultVerifyTimeout = 30 * time.Second
+
 type VerifyResults struct {
 	EnvVars []CheckResult `json:"env_vars"`
 	Auth    []CheckResult `json:"auth"`
@@ -102,6 +106,7 @@ type Checker interface {
 
 // RunAllChecks runs all sanity check suites concurrently and returns their aggregated results.
 func RunAllChecks(ctx context.Context, state *GlobalState, shouldFix bool) *VerifyResults {
+	timeout := positiveOr(state.Config.Verify.Timeout.Duration(), defaultVerifyTimeout)
 	results := &VerifyResults{Passed: true}
 	var mu sync.Mutex
 	var wg sync.WaitGroup
@@ -155,7 +160,7 @@ func RunAllChecks(ctx context.Context, state *GlobalState, shouldFix bool) *Veri
 			}()
 
 			state.Logger.Debug("Running sanity checker", "checker", item.checker.Name())
-			childCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+			childCtx, cancel := context.WithTimeout(ctx, timeout)
 			defer cancel()
 
 			res, passed := item.checker.Check(childCtx, state, shouldFix)
@@ -448,7 +453,7 @@ func (c *ToolsChecker) Name() string { return "CLI Tools" }
 func (c *ToolsChecker) Check(ctx context.Context, state *GlobalState, shouldFix bool) ([]CheckResult, bool) {
 	registry := c.Registry
 	if registry == nil {
-		registry = CapabilityProbeRegistry()
+		registry = CapabilityProbeRegistryWithTimeout(state.Config.Verify.ProbeTimeout.Duration())
 	}
 	return runToolProbes(ctx, state.Runner, state.Config.Verify.Tools, registry)
 }
@@ -511,6 +516,11 @@ type VerifyConfig struct {
 	EnvVars EnvVarsConfig  `yaml:"env_vars"`
 	Tools   []string       `yaml:"tools"`
 	Secrets []SecretConfig `yaml:"secrets"`
+	// Timeout bounds one checker suite and ProbeTimeout bounds one capability probe
+	// inside it, so a single slow CLI is tuned without loosening the whole suite.
+	// Both fall back to the built-in default when absent or non-positive.
+	Timeout      Duration `yaml:"timeout"`
+	ProbeTimeout Duration `yaml:"probe_timeout"`
 }
 
 // EnvVarsConfig represents the environment variables verification configuration.
@@ -544,5 +554,7 @@ func defaultVerifyConfig() VerifyConfig {
 				RequiredPerm: 0o600,
 			},
 		},
+		Timeout:      Duration(defaultVerifyTimeout),
+		ProbeTimeout: Duration(defaultProbeTimeout),
 	}
 }

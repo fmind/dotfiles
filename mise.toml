@@ -67,7 +67,6 @@ depends = [
   "check:github-queue",
   "check:python",
   "check:shell",
-  "check:trust",
   "check:leaks",
   "check:lua",
   "check:scan",
@@ -96,13 +95,12 @@ description = "Check config/markup formatting (dprint)"
 run = "dprint check"
 
 [tasks."check:docs"]
-alias = "ca"
+alias = "co"
 description = "Validate agent documentation against live commands and paths"
 run = "go test -C dot -run '^TestDocumentationContract$' ./..."
 
 [tasks."check:go"]
 alias = "cg"
-depends = ["trust:repo"]
 description = "Lint and vuln-scan the Go module (dot/)"
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
 
@@ -155,11 +153,6 @@ run = [
   "go test -C dot -run '^(TestSkillContracts|TestHighRiskSkillSmokeContracts)$' ./...",
 ]
 
-[tasks."check:trust"]
-alias = "cr"
-description = "Test clean-clone repository mise trust"
-run = ".github/scripts/trust-mise_test.sh"
-
 [tasks.format]
 alias = "f"
 description = "Format all sources and documents"
@@ -200,7 +193,8 @@ run = "git ls-files '*.sh' | xargs -r shfmt -w -i 2 -s"
 alias = "i"
 description = "Bootstrap a freshly initialized checkout"
 run = [
-  ".github/scripts/trust-mise.sh",
+  "mise trust -y mise.toml",
+  "mise trust -y dot/mise.toml",
   "mise run tools",
   "mise run hooks",
   "mise run vim",
@@ -210,24 +204,15 @@ run = [
 
 [tasks.test]
 alias = "t"
-depends = ["trust:repo"]
-description = "Run bootstrap, dot CLI, and skill script test suites"
+description = "Run the dot CLI test suite (delegates to dot/)"
 run = [
-  "bash bootstrap/update-convergence_test.sh",
-  "bash bootstrap/verified-installers_test.sh",
   "mise -C dot run test",
   "python3 -B -m unittest skills/python-stack/scripts/resolve_source_test.py skills/go-stack/scripts/resolve_source_test.py",
   "python3 -B -m unittest skills/release-audit/scripts/audit_test.py",
 ]
 
-[tasks."trust:repo"]
-description = "Trust every reviewed mise config in this checkout"
-hide = true
-run = ".github/scripts/trust-mise.sh"
-
 [tasks.watch]
 alias = "w"
-depends = ["trust:repo"]
 description = "Re-run the dot CLI test suite on every change"
 run = "mise -C dot run test:watch"
 
@@ -260,8 +245,9 @@ run = ["chezmoi doctor", "mise doctor"]
 
 [tasks.full]
 alias = "mf"
+depends = ["tools"]
 description = "Apply dotfiles and sync global tools"
-run = "mise run converge"
+run = "echo '✓ Dotfiles deployed.'"
 
 [tasks.hooks]
 alias = "mh"
@@ -306,26 +292,39 @@ run = "executable_dot release"
 
 [tasks.tools]
 alias = "mt"
-description = "Compatibility entrypoint for workstation convergence"
-run = "mise run converge"
+description = "Install pinned tools for this repo and the global config"
+run = [
+  "mise install -y",
+  "mise run apply",
+  "mise trust -y ~/.config/mise/config.toml",
+  "mise -C \"$HOME\" install -y",
+  "mise run completions",
+]
 
 [tasks.trust]
 alias = "mtr"
 description = "Trust repo and home mise configs"
-run = [".github/scripts/trust-mise.sh", "mise trust -y ~/.config/mise/config.toml"]
+# Trust is granted per config file, so the nested Go module config is listed
+# explicitly: trusting the root config does not reach it.
+run = [
+  "mise trust -y mise.toml",
+  "mise trust -y dot/mise.toml",
+  "mise trust -y ~/.config/mise/config.toml",
+]
 
 [tasks.upgrade]
 alias = "mu"
-description = "Update repository pins, then converge the workstation"
-run = ["mise run update:repo", "mise run converge"]
-
-[tasks."update:repo"]
-description = "Update repository mise pins and lockfile in an isolated home"
-run = "bootstrap/update-repository.sh"
-
-[tasks.converge]
-description = "Install and apply reviewed source, then verify capabilities"
-run = "bootstrap/converge-workstation.sh"
+description = "Upgrade mise tools to latest versions"
+run = [
+  "mise -C \"$HOME\" upgrade --bump --exclude tree-sitter --exclude github:googleworkspace/cli",
+  "mise upgrade --bump --local",
+  "mise lock --bump --yes",
+  "mise lock --global --bump --yes",
+  "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
+  "nvim --headless '+Lazy! update' +qa",
+  "chezmoi re-add --source \"$PWD\" ~/.config/nvim/lazy-lock.json",
+  "mise run tools",
+]
 
 [tasks.verify]
 alias = "mx"

@@ -182,6 +182,35 @@ func TestContextBudgetValidation(t *testing.T) {
 	}
 }
 
+func TestRedactProjectRootStripsAbsolutePathsFromErrors(t *testing.T) {
+	// Collector errors are the one place a raw absolute path can reach the pack, and
+	// the pack is meant to be shareable — so the project root must never survive.
+	root := filepath.Join("/home", "someone", "work", "project")
+	cases := []struct {
+		name  string
+		value string
+		want  string
+	}{
+		{name: "leaves unrelated text", value: "open go.mod: no such file", want: "open go.mod: no such file"},
+		{name: "redacts native separators", value: "open " + filepath.Join(root, "go.mod") + ": denied", want: "open ." + string(filepath.Separator) + "go.mod: denied"},
+		{name: "redacts every occurrence", value: root + " and " + root, want: ". and ."},
+		// Tool output often reports slash-separated paths regardless of platform, so
+		// both spellings of the root have to be covered.
+		{name: "redacts slash form", value: "open " + filepath.ToSlash(root) + "/go.mod", want: "open ./go.mod"},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase.name, func(t *testing.T) {
+			got := redactProjectRoot(testCase.value, root)
+			if got != testCase.want {
+				t.Fatalf("redactProjectRoot(%q) = %q, want %q", testCase.value, got, testCase.want)
+			}
+			if strings.Contains(got, root) {
+				t.Fatalf("redactProjectRoot leaked the project root: %q", got)
+			}
+		})
+	}
+}
+
 func TestContextCommandFlags(t *testing.T) {
 	root := contextFixture(t)
 	state := contextTestState(root)

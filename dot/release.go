@@ -18,7 +18,7 @@ import (
 const (
 	defaultReleaseRemote   = "origin"
 	defaultReleaseBranch   = "main"
-	defaultReleaseWorkflow = "release.yml"
+	defaultReleaseWorkflow = "cd.yml"
 	releaseCIWorkflow      = "ci.yml"
 	releasePollInterval    = 15 * time.Second
 	releaseGateTimeout     = 20 * time.Minute

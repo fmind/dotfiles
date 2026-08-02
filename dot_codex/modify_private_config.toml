@@ -1,9 +1,9 @@
-{{ $currentConfig := dict -}}
+# chezmoi:modify-template
+{{- $currentConfig := dict -}}
 {{- if ne (trim .chezmoi.stdin) "" -}}
 {{-   $currentConfig = fromToml .chezmoi.stdin -}}
 {{- end -}}
 {{- $managedConfig := fromToml `
-# chezmoi:modify-template
 allow_login_shell = true
 approval_policy = "never"
 background_terminal_max_timeout = 1200000

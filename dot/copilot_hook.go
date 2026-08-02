@@ -77,8 +77,9 @@ func RunCopilotSessionEndHook(ctx context.Context, state *GlobalState) error {
 }
 
 func recordNonBlockingCopilotHookFailure(state *GlobalState, sessionID string, hookErr error) {
-	spooledErr := spoolHookFailure(sessionStoreCopilot, "sessionEnd", sessionID, hookErr)
+	cfg := state.Config.Agent
+	spooledErr := spoolHookFailure(cfg, sessionStoreCopilot, "sessionEnd", sessionID, hookErr)
 	if spooledErr != nil {
-		_, _ = fmt.Fprintf(state.Stderr, "copilot sessionEnd sync failed without blocking the session: %s\n", boundedHookFailureDetail(spooledErr, sessionID))
+		_, _ = fmt.Fprintf(state.Stderr, "copilot sessionEnd sync failed without blocking the session: %s\n", boundedHookFailureDetail(spooledErr, sessionID, cfg.hookFailureDetailLimit()))
 	}
 }

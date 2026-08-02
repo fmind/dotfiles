@@ -300,11 +300,11 @@ func TestDecodeJSONL(t *testing.T) {
 		var warnings bytes.Buffer
 		var seen int
 
-		if err := decodeJSONL(&warnings, file.Name(), file, func(map[string]any) error {
+		if _, err := decodeJSONLWithStats(&warnings, file.Name(), file, func(map[string]any) error {
 			seen++
 			return nil
 		}); err != nil {
-			t.Fatalf("decodeJSONL: %v", err)
+			t.Fatalf("decodeJSONLWithStats: %v", err)
 		}
 		if seen != 2 {
 			t.Errorf("callback ran %d times, want 2", seen)
@@ -319,7 +319,7 @@ func TestDecodeJSONL(t *testing.T) {
 		wantErr := errors.New("stop")
 		var seen int
 
-		err := decodeJSONL(io.Discard, file.Name(), file, func(map[string]any) error {
+		_, err := decodeJSONLWithStats(io.Discard, file.Name(), file, func(map[string]any) error {
 			seen++
 			return wantErr
 		})
@@ -337,7 +337,7 @@ func TestDecodeJSONL(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		err := decodeJSONL(io.Discard, file.Name(), file, func(map[string]any) error { return nil })
+		_, err := decodeJSONLWithStats(io.Discard, file.Name(), file, func(map[string]any) error { return nil })
 		if err == nil || !strings.Contains(err.Error(), file.Name()) {
 			t.Fatalf("expected a read error naming %s, got %v", file.Name(), err)
 		}
@@ -465,7 +465,7 @@ func TestSQLiteBackedCommandsHandleQueryResults(t *testing.T) {
 			rel := dbFor[agent]
 			if rel == nil {
 				home := t.TempDir()
-				rel = strings.Split(strings.TrimPrefix(copilotDBPath(home), home+string(filepath.Separator)), string(filepath.Separator))
+				rel = strings.Split(strings.TrimPrefix(filepath.Join(home, ".copilot", "session-store.db"), home+string(filepath.Separator)), string(filepath.Separator))
 			}
 
 			t.Run("query failure is surfaced", func(t *testing.T) {
@@ -627,7 +627,7 @@ func TestSyncCopilotSessionsFailures(t *testing.T) {
 				},
 			})
 
-			_, err := syncCopilotSessions(context.Background(), state, copilotDBPath(home))
+			_, err := syncCopilotSessions(context.Background(), state, filepath.Join(home, ".copilot", "session-store.db"))
 			if err == nil || !strings.Contains(err.Error(), tc.wantErr) {
 				t.Fatalf("expected an error containing %q, got %v", tc.wantErr, err)
 			}
@@ -655,7 +655,7 @@ func TestSyncCopilotSessionsWritesLogs(t *testing.T) {
 		},
 	})
 
-	count, err := syncCopilotSessions(context.Background(), state, copilotDBPath(home))
+	count, err := syncCopilotSessions(context.Background(), state, filepath.Join(home, ".copilot", "session-store.db"))
 	if err != nil {
 		t.Fatalf("syncCopilotSessions: %v", err)
 	}
@@ -681,8 +681,8 @@ func TestRunAgentSessionSyncRejectsDirectoryDatabases(t *testing.T) {
 		},
 		{
 			name:    "copilot",
-			dbPath:  copilotDBPath,
-			wantMsg: "copilot database path is a directory",
+			dbPath:  func(home string) string { return filepath.Join(home, ".copilot", "session-store.db") },
+			wantMsg: "Copilot database path is a directory",
 		},
 	}
 

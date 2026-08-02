@@ -15,7 +15,58 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-const completionCommandTimeout = 60 * time.Second
+const (
+	defaultCompletionTimeout     = 60 * time.Second
+	defaultCompletionConcurrency = 4
+)
+
+// shellIntegration is a tool whose fish init script is cached wholesale rather than
+// generated as a completion file.
+type shellIntegration struct {
+	tool string
+	file string
+	args []string
+}
+
+var shellIntegrations = []shellIntegration{
+	{tool: "atuin", file: "atuin-init.fish", args: []string{"init", "fish"}},
+	{tool: "carapace", file: "carapace-init.fish", args: []string{"_carapace", "fish"}},
+}
+
+// fishCacheRoot resolves the XDG cache root, falling back to ~/.cache.
+func fishCacheRoot() string {
+	if dir := os.Getenv("XDG_CACHE_HOME"); dir != "" {
+		return dir
+	}
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return filepath.Join(os.Getenv("HOME"), ".cache")
+	}
+	return filepath.Join(home, ".cache")
+}
+
+// writeShellIntegration caches one tool's fish init script. A tool that is not
+// installed is skipped silently: these integrations are optional by design.
+func writeShellIntegration(ctx context.Context, state *GlobalState, integration shellIntegration, cacheDir string, mu *sync.Mutex, genErrors *[]error) {
+	if _, err := state.Runner.LookPath(integration.tool); err != nil {
+		return
+	}
+	out, err := state.Runner.Run(ctx, cacheDir, nil, integration.tool, integration.args...)
+
+	mu.Lock()
+	defer mu.Unlock()
+	if err != nil {
+		_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to generate %s: %v\n", failIcon, integration.file, err)
+		*genErrors = append(*genErrors, fmt.Errorf("failed to generate %s: %w", integration.file, err))
+		return
+	}
+	if err := os.WriteFile(filepath.Join(cacheDir, integration.file), []byte(out), 0o600); err != nil {
+		_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to write %s: %v\n", failIcon, integration.file, err)
+		*genErrors = append(*genErrors, fmt.Errorf("failed to write %s: %w", integration.file, err))
+		return
+	}
+	_, _ = fmt.Fprintf(state.Stdout, "  %s Generated %s\n", passIcon, integration.file)
+}
 
 // NewCompletionCmd constructs the top-level completion command.
 func NewCompletionCmd(state *GlobalState) *cli.Command {
@@ -70,11 +121,22 @@ func RunCompletionGenerate(ctx context.Context, state *GlobalState) error {
 	tools := state.Config.Completions.Tools
 	_, _ = fmt.Fprintf(state.Stdout, "=> Generating Fish Autocompletions for %d tools in %s...\n\n", len(tools), compDir)
 
-	g, groupCtx := errgroup.WithContext(ctx)
-	g.SetLimit(4)
-
 	var mu sync.Mutex // Protect concurrent writes to state.Stdout and genErrors
 	var genErrors []error
+
+	// Prepare the shell-integration cache directory before any worker starts. Every
+	// append to genErrors must happen either here, on the single goroutine that owns
+	// it before the pool exists, or under mu — appending after the workers launch
+	// would race their guarded appends.
+	fishCacheDir := filepath.Join(fishCacheRoot(), "fish")
+	cacheErr := os.MkdirAll(fishCacheDir, 0o700) //nolint:gosec // G301: owner-only cache directory
+	if cacheErr != nil {
+		_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to create fish cache directory: %v\n", failIcon, cacheErr)
+		genErrors = append(genErrors, fmt.Errorf("failed to create fish cache directory: %w", cacheErr))
+	}
+
+	g, groupCtx := errgroup.WithContext(ctx)
+	g.SetLimit(positiveOr(state.Config.Completions.Concurrency, defaultCompletionConcurrency))
 
 	for _, t := range tools {
 		g.Go(func() error {
@@ -82,59 +144,13 @@ func RunCompletionGenerate(ctx context.Context, state *GlobalState) error {
 			return nil
 		})
 	}
-
-	// Generate cached shell integrations for atuin and carapace if installed.
-	cacheDir := os.Getenv("XDG_CACHE_HOME")
-	if cacheDir == "" {
-		cacheDir = filepath.Join(os.Getenv("HOME"), ".cache")
-	}
-	fishCacheDir := filepath.Join(cacheDir, "fish")
-
-	if err := os.MkdirAll(fishCacheDir, 0o700); err != nil { //nolint:gosec // G301, G304, G703
-		_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to create fish cache directory: %v\n", failIcon, err)
-		genErrors = append(genErrors, fmt.Errorf("failed to create fish cache directory: %w", err))
-	} else {
-		g.Go(func() error {
-			if _, err := state.Runner.LookPath("atuin"); err == nil {
-				out, err := state.Runner.Run(groupCtx, fishCacheDir, nil, "atuin", "init", "fish")
-				mu.Lock()
-				defer mu.Unlock()
-				if err != nil {
-					_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to generate atuin-init.fish: %v\n", failIcon, err)
-					genErrors = append(genErrors, fmt.Errorf("failed to generate atuin-init.fish: %w", err))
-				} else {
-					atuinPath := filepath.Join(fishCacheDir, "atuin-init.fish")
-					if err := os.WriteFile(atuinPath, []byte(out), 0o600); err != nil { //nolint:gosec // G304, G703
-						_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to write atuin-init.fish: %v\n", failIcon, err)
-						genErrors = append(genErrors, fmt.Errorf("failed to write atuin-init.fish: %w", err))
-					} else {
-						_, _ = fmt.Fprintf(state.Stdout, "  %s Generated atuin-init.fish\n", passIcon)
-					}
-				}
-			}
-			return nil
-		})
-
-		g.Go(func() error {
-			if _, err := state.Runner.LookPath("carapace"); err == nil {
-				out, err := state.Runner.Run(groupCtx, fishCacheDir, nil, "carapace", "_carapace", "fish")
-				mu.Lock()
-				defer mu.Unlock()
-				if err != nil {
-					_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to generate carapace-init.fish: %v\n", failIcon, err)
-					genErrors = append(genErrors, fmt.Errorf("failed to generate carapace-init.fish: %w", err))
-				} else {
-					carapacePath := filepath.Join(fishCacheDir, "carapace-init.fish")
-					if err := os.WriteFile(carapacePath, []byte(out), 0o600); err != nil { //nolint:gosec // G304, G703
-						_, _ = fmt.Fprintf(state.Stdout, "  %s Failed to write carapace-init.fish: %v\n", failIcon, err)
-						genErrors = append(genErrors, fmt.Errorf("failed to write carapace-init.fish: %w", err))
-					} else {
-						_, _ = fmt.Fprintf(state.Stdout, "  %s Generated carapace-init.fish\n", passIcon)
-					}
-				}
-			}
-			return nil
-		})
+	if cacheErr == nil {
+		for _, integration := range shellIntegrations {
+			g.Go(func() error {
+				writeShellIntegration(groupCtx, state, integration, fishCacheDir, &mu, &genErrors)
+				return nil
+			})
+		}
 	}
 
 	_ = g.Wait()
@@ -221,8 +237,9 @@ func generateToolCompletion(ctx context.Context, state *GlobalState, tool string
 
 	binary, args := GetCompletionCommand(state, tool)
 
+	timeout := positiveOr(state.Config.Completions.Timeout.Duration(), defaultCompletionTimeout)
 	run := func(name string, commandArgs ...string) (string, error) {
-		commandCtx, cancel := context.WithTimeout(ctx, completionCommandTimeout)
+		commandCtx, cancel := context.WithTimeout(ctx, timeout)
 		out, runErr := state.Runner.Run(commandCtx, workDir, nil, name, commandArgs...)
 		cancel()
 		if runErr == nil && strings.TrimSpace(out) == "" {
@@ -269,6 +286,10 @@ type CompletionConfig struct {
 	Path           string                `yaml:"path"`
 	CustomCommands map[string]ToolConfig `yaml:"custom_commands"`
 	Tools          []string              `yaml:"tools"`
+	// Timeout bounds one tool's completion command; Concurrency caps how many run at
+	// once. Both fall back to the built-in default when absent or non-positive.
+	Timeout     Duration `yaml:"timeout"`
+	Concurrency int      `yaml:"concurrency"`
 }
 
 func defaultCompletionConfig() CompletionConfig {
@@ -281,7 +302,9 @@ func defaultCompletionConfig() CompletionConfig {
 			"rg", "ruff", "skaffold", "sqlc", "starship", "step", "stern",
 			"terraform-docs", "trivy", "ty", "uv", "watchexec", "xh", "yq", "zellij",
 		},
-		Path: DefaultCompletionsPath,
+		Path:        DefaultCompletionsPath,
+		Timeout:     Duration(defaultCompletionTimeout),
+		Concurrency: defaultCompletionConcurrency,
 		CustomCommands: map[string]ToolConfig{
 			"ast-grep":  {Args: []string{"completions", "fish"}},
 			"atlas":     {Args: []string{"completion", "fish"}},

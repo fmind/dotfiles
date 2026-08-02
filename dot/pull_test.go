@@ -140,7 +140,7 @@ func TestPullRepo_StatusFailurePreventsPush(t *testing.T) {
 		},
 	}
 
-	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true)
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true, defaultPullTimeout)
 	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to check worktree status") {
 		t.Fatalf("expected worktree status error, got %+v", res)
 	}
@@ -170,7 +170,7 @@ func TestPullRepo_FetchFailureStopsRepository(t *testing.T) {
 		},
 	}
 
-	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true)
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true, defaultPullTimeout)
 	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to fetch repository") {
 		t.Fatalf("expected fetch error, got %+v", res)
 	}
@@ -201,7 +201,7 @@ func TestPullRepo_FetchFailureWithoutUpstreamIsSkipped(t *testing.T) {
 		},
 	}
 
-	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), false)
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), false, defaultPullTimeout)
 	if res.Err != nil || !res.NoUpstream {
 		t.Fatalf("expected no-upstream skip, got %+v", res)
 	}
@@ -231,7 +231,7 @@ func TestPullRepo_AheadFailurePreventsPush(t *testing.T) {
 		},
 	}
 
-	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true)
+	res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), true, defaultPullTimeout)
 	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to determine ahead count") {
 		t.Fatalf("expected ahead-count error, got %+v", res)
 	}
@@ -265,7 +265,7 @@ func TestPullRepo_TimeoutNotNoUpstream(t *testing.T) {
 	}
 	state := newTestState(runner)
 
-	res := pullRepo(ctx, state, repoDir, false)
+	res := pullRepo(ctx, state, repoDir, false, defaultPullTimeout)
 	if res.NoUpstream {
 		t.Error("expected a canceled context to be a failure, not 'no upstream'")
 	}
@@ -541,7 +541,7 @@ func TestPullRepo_LateFailures(t *testing.T) {
 				},
 			}
 
-			res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), false)
+			res := pullRepo(context.Background(), newTestState(runner), t.TempDir(), false, defaultPullTimeout)
 			if res.Err == nil || !strings.Contains(res.Err.Error(), tc.wantMsg) {
 				t.Fatalf("expected an error containing %q, got %+v", tc.wantMsg, res)
 			}
@@ -566,7 +566,7 @@ func TestPullRepo_FetchTimeoutIsReported(t *testing.T) {
 	}
 	defer cancel()
 
-	res := pullRepo(ctx, newTestState(runner), t.TempDir(), false)
+	res := pullRepo(ctx, newTestState(runner), t.TempDir(), false, defaultPullTimeout)
 	if res.Err == nil || !strings.Contains(res.Err.Error(), "fetch timed out") {
 		t.Fatalf("expected a fetch timeout error, got %+v", res)
 	}

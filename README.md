@@ -54,7 +54,7 @@ bash ~/.local/share/chezmoi/install.sh
 
 Set `SKIP_GIT_PULL=true` only when intentionally bootstrapping from the existing local checkout without fetching its upstream branch.
 
-Verified mise and Antigravity artifacts are cached under `~/.cache/dot/bootstrap/<tool>/<version>/`. Re-running the bootstrap uses a checksum-valid cached artifact when offline, keeps an installed version that is at least as new as the reviewed pin, and fails before execution when transport, checksum, archive layout, or reported-version verification fails. Linux x64/arm64 and macOS x64/arm64 are pinned independently.
+The installer is idempotent: it keeps an already-installed `mise` and `chezmoi`, and otherwise fetches each from its vendor's published install script. Every tool after that point is pinned and lock-verified by `mise` itself, so re-running the bootstrap converges to the same state. Linux and macOS are both supported.
 
 ## Credentials
 

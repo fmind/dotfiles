@@ -28,16 +28,17 @@ Canonical CI/CD workflows for GitHub repositories. The CI workflow runs the cano
 
 1. Copy [ci.yml](references/ci.yml) to `.github/workflows/ci.yml`.
 1. Copy [cd.yml](references/cd.yml) to `.github/workflows/cd.yml` and enable/customize the template corresponding to your project's language and deployment target.
+1. Copy [security.yml](references/security.yml) to `.github/workflows/security.yml` for the scheduled full-history scan.
 
 ## Templates
 
 - **CI**: See [ci.yml](references/ci.yml) which runs `mise run format`, `mise run check` (static checks incl. `check:leaks`), and `mise run test` across the whole tree, then `git diff --exit-code` to fail if formatting or generation left changes. CI stays minimal; the `check:leaks` task covers commit-scope secret scanning.
-- **Full-history security**: This repository's `.github/workflows/security.yml` runs weekly and on manual dispatch with `fetch-depth: 0`. It preserves redacted GitLeaks SARIF and an allowlisted Trivy JSON summary as short-lived artifacts, while any finding, scanner error, timeout, or missing sanitized report keeps the job failed.
+- **Security**: See [security.yml](references/security.yml), a scheduled/manual companion that rescans the full history and checkout with the same pinned scanners at `fetch-depth: 0`. It reports nothing: a finding or scanner error simply fails the job, which is what the notification is for.
 - **CD**: See [cd.yml](references/cd.yml) which provides commented templates for Go containers (using `ko`), Python packages (using `uv`), and general Docker builds.
 
 ## Gotchas
 
-- **Separate security cadence**: Keep full-history scanning out of push CI. Use a scheduled/manual workflow with `fetch-depth: 0`, explicit scanner and job timeouts, redacted machine-readable artifacts, and a final step that fails if any scanner did not succeed.
+- **Separate security cadence**: Keep full-history scanning out of push CI — it needs `fetch-depth: 0` and minutes of runtime, which push CI should not pay on every commit. Use a scheduled/manual workflow with a job timeout instead, and let a non-zero scanner exit fail it.
 - **Stable caches**: `jdx/mise-action` caches using `mise.toml`/`mise.lock` — commit `mise.lock` for reproducible caching.
 - **Runtime warning mitigation**: Use current major versions of actions (e.g., `actions/checkout@v7` and `jdx/mise-action@v4`) to stay compliant with GitHub's latest runner runtime deprecations (Node 20+).
 

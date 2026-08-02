@@ -43,7 +43,7 @@ func TestRunReleasePreparesPushesAndDispatchesWithoutPublishing(t *testing.T) {
 	if runner.published || runner.tagged {
 		t.Fatal("local preparation created a tag or GitHub release")
 	}
-	if !strings.Contains(stdout.String(), releaseTestCommit) || !strings.Contains(stdout.String(), "https://github.com/fmind/dotfiles/actions/workflows/release.yml") {
+	if !strings.Contains(stdout.String(), releaseTestCommit) || !strings.Contains(stdout.String(), "https://github.com/fmind/dotfiles/actions/workflows/cd.yml") {
 		t.Fatalf("prepared commit and follow-up URL were not reported:\n%s", stdout.String())
 	}
 }
@@ -353,7 +353,7 @@ func newPrepareRunner(t *testing.T) *prepareRunner {
 				runner.committed = true
 				runner.commits++
 				return "", nil
-			case strings.HasPrefix(command, "gh workflow run release.yml"):
+			case strings.HasPrefix(command, "gh workflow run cd.yml"):
 				runner.dispatches++
 				if runner.dispatches <= runner.dispatchFailures {
 					return "", errors.New("dispatch failed")

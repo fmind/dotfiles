@@ -2,6 +2,7 @@ package dot
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -121,7 +122,15 @@ func findGitRepos(state *GlobalState) []string {
 		absDir := ExpandPath(dir)
 		entries, err := os.ReadDir(absDir)
 		if err != nil {
-			state.Logger.Warn("Skipping directory (could not read)", "path", absDir, "error", err)
+			// A configured root that simply does not exist yet is a normal state: the
+			// defaults name every workspace root, and not all are populated on every
+			// machine. Only a root that exists but cannot be read is worth a warning,
+			// because that one silently hides repositories the user expects to see.
+			if errors.Is(err, os.ErrNotExist) {
+				state.Logger.Debug("Skipping configured root that does not exist", "path", absDir)
+			} else {
+				state.Logger.Warn("Skipping directory (could not read)", "path", absDir, "error", err)
+			}
 			continue
 		}
 		for _, entry := range entries {

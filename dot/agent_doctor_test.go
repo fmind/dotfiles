@@ -173,7 +173,7 @@ func TestAgentDoctorSanitizedFailureFixtures(t *testing.T) {
 			t.Fatal(err)
 		}
 		writeDoctorFile(t, filepath.Join(home, ".claude", "projects", "project", "stale-lineage.jsonl"), "newer raw source")
-		_ = spoolHookFailure(sessionStoreClaude, "session", "stale-lineage", errors.New("sanitized failure"))
+		_ = spoolHookFailure(defaultAgentConfig(), sessionStoreClaude, "session", "stale-lineage", errors.New("sanitized failure"))
 		doctor := doctorResultFor(t, gatherAgentDoctor(context.Background(), state, home, time.Now()), sessionStoreClaude)
 		if doctor.Healthy || doctor.ArchiveLag == "0s" || doctor.LastFailure == "none" {
 			t.Fatalf("unexpected stale result: %+v", doctor)
@@ -185,10 +185,10 @@ func TestAgentDoctorSanitizedFailureFixtures(t *testing.T) {
 }
 
 func TestAgentDoctorRepairIsExplicitAndPreviewable(t *testing.T) {
-	state, _, home := setupHealthyAgentDoctor(t)
+	state, _, _ := setupHealthyAgentDoctor(t)
 	runner := newRecordedRunner(nil)
 	state.Runner = runner
-	if err := repairAgentIntegrations(context.Background(), state, home, true); err != nil {
+	if err := repairAgentIntegrations(context.Background(), state, true); err != nil {
 		t.Fatal(err)
 	}
 	if len(runner.calls) != 1 || !strings.HasPrefix(runner.calls[0], "chezmoi apply --dry-run --force ") {

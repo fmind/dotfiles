@@ -20,6 +20,9 @@ const (
 	// Bump whenever parser behavior can change normalized output for one source.
 	sessionParserVersion = "1"
 	sessionStoreVersion  = "v1"
+	// sessionArchiveRoot is the normalized archive that outlives every raw agent
+	// store; versioned generations live in its sessionStoreVersion subdirectory.
+	sessionArchiveRoot = "~/.agents/sessions"
 )
 
 type sessionCompleteness string

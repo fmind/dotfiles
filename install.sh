@@ -3,10 +3,6 @@ set -euo pipefail
 
 export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/bin:${HOME}/.local/share/mise/shims:${PATH}"
 SOURCE_DIR="${HOME}/.local/share/chezmoi"
-SCRIPT_DIR="$(CDPATH='' cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-
-# shellcheck source=bootstrap/verified-installers.sh
-. "${SCRIPT_DIR}/bootstrap/verified-installers.sh"
 
 # Error trap handler for clean bootstrapping diagnostics
 on_error() {
@@ -23,8 +19,11 @@ on_error() {
 }
 trap 'on_error $LINENO' ERR
 
-# Install or retain a newer mise without executing a remote response.
-bootstrap_install_mise
+# Install mise
+command -v mise >/dev/null || {
+  echo "=> Installing mise..."
+  curl -fsSL https://mise.run | bash
+}
 
 # Install chezmoi
 command -v chezmoi >/dev/null || {
@@ -46,9 +45,12 @@ else
   chezmoi init --force --source "${SOURCE_DIR}" "$@"
 fi
 
-# Trust every reviewed repository config before a nested task can load it.
+# Trust every reviewed config in the checkout before a task can load it. Trust is
+# per file, so the nested Go module config needs its own grant: without it the
+# first `mise -C dot ...` of the bootstrap stops on an untrusted config.
 echo "=> Trusting mise configs..."
-"${SOURCE_DIR}/.github/scripts/trust-mise.sh"
+mise trust -y "${SOURCE_DIR}/mise.toml"
+mise trust -y "${SOURCE_DIR}/dot/mise.toml"
 
 # Complete the ordered bootstrap: apply, trust, tools, hooks, editor, and krew.
 echo "=> Completing environment bootstrap..."

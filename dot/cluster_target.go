@@ -165,7 +165,11 @@ func writeIsolatedKubeconfig(path string, content []byte) error {
 func fetchClusterKubeconfig(ctx context.Context, state *GlobalState, name string) ([]byte, kubeconfigMetadata, error) {
 	output, err := state.Runner.Run(ctx, "", nil, "k3d", "kubeconfig", "get", name)
 	if err != nil {
-		return nil, kubeconfigMetadata{}, fmt.Errorf("failed to get kubeconfig for cluster %q: %w", name, err)
+		// k3d reports an absent and a stopped cluster the same way, through a bare
+		// non-zero exit. That is the ordinary state on a fresh machine, so name it
+		// here: the raw k3d stderr alone reads as a tooling fault rather than as
+		// "there is no cluster yet".
+		return nil, kubeconfigMetadata{}, fmt.Errorf("failed to get kubeconfig for cluster %q (it does not exist or is stopped): %w", name, err)
 	}
 	if strings.TrimSpace(output) == "" {
 		return nil, kubeconfigMetadata{}, fmt.Errorf("k3d returned an empty kubeconfig for cluster %q", name)

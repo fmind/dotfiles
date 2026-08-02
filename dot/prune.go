@@ -85,19 +85,13 @@ type PruneConfig struct {
 func defaultPruneConfig() PruneConfig {
 	return PruneConfig{
 		Agents: PruneAgentsConfig{
-			Sessions: []PruneSessionStore{
-				// Raw per-agent stores: disposable after exact successor verification,
-				// and by far the biggest consumers of disk.
-				{Path: "~/.claude/projects", Source: sessionStoreClaude, KeepDays: 7},
-				{Path: "~/.codex/sessions", Source: sessionStoreCodex, KeepDays: 7},
-				{Path: "~/.gemini/antigravity-cli/brain", Source: sessionStoreAgy, KeepDays: 7},
-				// SQLite stores mix many lineages in one file, so they are inventoried and
-				// retained until a future source-specific compactor can delete rows safely.
-				{Path: "~/.local/share/opencode/opencode.db", Source: sessionStoreOpenCode, KeepDays: 7},
-				{Path: "~/.copilot/session-store.db", Source: sessionStoreCopilot, KeepDays: 7},
-				// The normalized archive the workspace brain reads; kept far longer.
-				{Path: "~/.agents/sessions", Source: sessionStoreArchive, KeepDays: 30},
-			},
+			// Derived from the canonical agent table so retention can never target a
+			// directory ingestion no longer reads. Raw per-agent stores are disposable
+			// after exact successor verification and are by far the biggest consumers of
+			// disk; the SQLite-backed stores mix many lineages in one file, so they are
+			// inventoried and retained until a source-specific compactor can delete rows
+			// safely. The normalized archive is kept far longer than any raw source.
+			Sessions: defaultRawSessionStores(),
 			// Agent long-term memory lives inside the session stores (e.g.
 			// ~/.claude/projects/<project>/memory/*.md). It is hand-curated state, not a
 			// disposable session log, so any path segment named here survives pruning no

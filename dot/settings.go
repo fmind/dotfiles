@@ -8,9 +8,48 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"gopkg.in/yaml.v3"
 )
+
+// Duration wraps time.Duration so configuration values round-trip as readable
+// strings ("30s", "2m"). A plain time.Duration cannot: yaml.v3 parses a duration
+// string on the way in but marshals the field back out as a bare nanosecond
+// integer, which it then refuses to decode into a duration — so `config init`
+// would emit a file that `config validate` rejects.
+type Duration time.Duration
+
+// Duration returns the wrapped standard library duration.
+func (d Duration) Duration() time.Duration { return time.Duration(d) }
+
+func (d Duration) MarshalYAML() (any, error) { return time.Duration(d).String(), nil }
+
+func (d *Duration) UnmarshalYAML(value *yaml.Node) error {
+	var text string
+	if err := value.Decode(&text); err != nil {
+		return fmt.Errorf("duration must be a string such as \"30s\": %w", err)
+	}
+	parsed, err := time.ParseDuration(text)
+	if err != nil {
+		return fmt.Errorf("invalid duration %q: %w", text, err)
+	}
+	if parsed <= 0 {
+		return fmt.Errorf("duration %q must be positive", text)
+	}
+	*d = Duration(parsed)
+	return nil
+}
+
+// positiveOr returns value when it is positive, otherwise fallback. Tunable knobs
+// use it so an absent key transparently means "built-in default" and a hand-edited
+// zero can never disable a timeout or serialize a worker pool.
+func positiveOr[T int | time.Duration](value, fallback T) T {
+	if value > 0 {
+		return value
+	}
+	return fallback
+}
 
 // Config represents the unified configuration structure for the dot CLI.
 type Config struct {
@@ -27,6 +66,7 @@ type Config struct {
 	Release      ReleaseConfig      `yaml:"release"`
 	Commit       CommitConfig       `yaml:"commit"`
 	Context      ContextConfig      `yaml:"context"`
+	Agent        AgentConfig        `yaml:"agent"`
 }
 
 // ExpandPath replaces a leading "~" or "~/" (or "~\") with the user's home directory.
@@ -63,6 +103,7 @@ func DefaultConfig() *Config {
 		Release:      defaultReleaseConfig(),
 		ChezmoiClean: defaultChezmoiCleanConfig(),
 		Prune:        defaultPruneConfig(),
+		Agent:        defaultAgentConfig(),
 	}
 }
 

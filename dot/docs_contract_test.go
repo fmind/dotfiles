@@ -53,6 +53,32 @@ func TestDocumentationContract(t *testing.T) {
 		checkDocumentationFile(t, repo, path, tasks, aliases, commands, checkTasks)
 	}
 	checkLayoutInventory(t, repo)
+	checkCommandInventory(t, repo)
+}
+
+// checkCommandInventory asserts the reverse of checkDocumentationFile: that file
+// only proves every documented command exists, which silently tolerates a shipped
+// command nobody wrote down. Every top-level command must appear in the dot-cli
+// skill, and every one must carry an alias, because that skill promises both.
+func checkCommandInventory(t *testing.T, repo string) {
+	t.Helper()
+	path := filepath.Join(repo, "skills", "dot-cli", "SKILL.md")
+	content, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	documented := string(content)
+	for _, command := range NewApp().Commands {
+		if command.Name == "help" {
+			continue
+		}
+		if !strings.Contains(documented, "`dot "+command.Name+"`") {
+			t.Errorf("command %q is not documented in skills/dot-cli/SKILL.md", command.Name)
+		}
+		if len(command.Aliases) == 0 {
+			t.Errorf("command %q has no alias, but skills/dot-cli/SKILL.md promises one for every command", command.Name)
+		}
+	}
 }
 
 func repositoryRoot(t *testing.T) string {
@@ -81,6 +107,13 @@ func liveMiseTasks(t *testing.T, repo string) (map[string]struct{}, map[string]s
 	for _, task := range metadata {
 		tasks[task.Name] = struct{}{}
 		for _, alias := range task.Aliases {
+			// mise resolves a duplicated alias to a single arbitrary task instead of
+			// erroring, so the shadowed task becomes unreachable from its documented
+			// shortcut. Fail here: every other assertion below reads this map and would
+			// otherwise validate the winner while the loser silently never runs.
+			if owner, taken := aliases[alias]; taken {
+				t.Errorf("alias %q is claimed by both %q and %q; aliases must be unique", alias, owner, task.Name)
+			}
 			aliases[alias] = task.Name
 		}
 	}
