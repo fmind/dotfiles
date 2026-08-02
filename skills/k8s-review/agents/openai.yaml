@@ -1,4 +1,0 @@
-interface:
-  display_name: "Kubernetes Review"
-  short_description: "Bounded Kubernetes review and optimization"
-  default_prompt: "Use $k8s-review to audit these manifests and the explicitly selected cluster without changing state."

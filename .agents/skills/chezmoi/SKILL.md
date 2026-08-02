@@ -4,14 +4,14 @@ description: Canonical chezmoi dotfiles setup — the source-attribute naming gr
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/chezmoi
+  source: github.com/fmind/dotfiles/tree/main/.agents/skills/chezmoi
   created: 2026-07-12
   updated: 2026-08-01
 ---
 
 # Chezmoi Dotfiles Standard
 
-Canonical setup for **chezmoi**, the source-of-truth manager for dotfiles across machines. The source tree (`~/.local/share/chezmoi`) is the only thing you edit; `chezmoi apply` renders it into the home directory. File **names** encode target path, permissions, encryption, and rendering, so the grammar below is the core of the tool. Pins the toolchain via the [mise skill](../mise/SKILL.md) and formats configs via the [dprint skill](../dprint/SKILL.md).
+Canonical setup for **chezmoi**, the source-of-truth manager for dotfiles across machines. The source tree (`~/.local/share/chezmoi`) is the only thing you edit; `chezmoi apply` renders it into the home directory. File **names** encode target path, permissions, encryption, and rendering, so the grammar below is the core of the tool. Pins the toolchain via the [mise skill](../../../skills/mise/SKILL.md) and formats configs via the [dprint skill](../../../skills/dprint/SKILL.md).
 
 ## 1. Source-Attribute Naming Grammar
 
@@ -49,7 +49,7 @@ chezmoi add --encrypt ~/.config/<tool>/secret   # imports + encrypts into the so
 chezmoi edit ~/.config/<tool>/secret            # edits the plaintext, re-encrypts on save
 ```
 
-Never commit or apply a decrypted copy — a `*.age` blob is the only committable form. A leaked secret is compromised even after removal; rotate it (see the [security-scan skill](../security-scan/SKILL.md)). Gate machines without the age key by ignoring key-dependent files in `.chezmoiignore`.
+Never commit or apply a decrypted copy — a `*.age` blob is the only committable form. A leaked secret is compromised even after removal; rotate it (see the [security-scan skill](../../../skills/security-scan/SKILL.md)). Gate machines without the age key by ignoring key-dependent files in `.chezmoiignore`.
 
 ## 4. Workflow (edit source → apply)
 
@@ -60,7 +60,7 @@ Never commit or apply a decrypted copy — a `*.age` blob is the only committabl
 5. **Pull target edits back**: `chezmoi re-add` folds manual changes to a managed file back into the source (e.g. a regenerated lockfile).
 6. **Diagnose**: `chezmoi doctor` (config, encryption, template health); `chezmoi managed` / `chezmoi unmanaged` list coverage; `chezmoi cd` opens a shell in the source root.
 
-In this repo the tasks are wrapped by [mise](../mise/SKILL.md): `mise run apply` (`chezmoi apply --force`), `mise run diff` (preview), `mise run doctor` (`chezmoi doctor` + `mise doctor`), and `dot chezmoi clean` scans for orphaned once-managed files in `$HOME`.
+In this repo the tasks are wrapped by [mise](../../../skills/mise/SKILL.md): `mise run apply` (`chezmoi apply --force`), `mise run diff` (preview), `mise run doctor` (`chezmoi doctor` + `mise doctor`), and `dot chezmoi clean` scans for orphaned once-managed files in `$HOME`.
 
 ## 5. Config Seed & Ignore
 
@@ -79,7 +79,7 @@ In this repo the tasks are wrapped by [mise](../mise/SKILL.md): `mise run apply`
 
 - [chezmoi reference](https://www.chezmoi.io/reference/) · [source-state attributes](https://www.chezmoi.io/reference/source-state-attributes/) · [templating](https://www.chezmoi.io/user-guide/templating/) · [encryption](https://www.chezmoi.io/user-guide/encryption/age/)
 - Companion skills:
-  - [mise](../mise/SKILL.md) — pins `chezmoi` and wraps `apply`/`diff` as tasks.
-  - [dprint](../dprint/SKILL.md) — formats the JSON/TOML/YAML configs chezmoi deploys.
-  - [agent-project](../agent-project/SKILL.md) / [agent-skills](../agent-skills/SKILL.md) — the AGENTS.md + skills layer chezmoi symlinks into each agent CLI.
-  - [security-scan](../security-scan/SKILL.md) — secret scanning around the age-encrypted files.
+  - [mise](../../../skills/mise/SKILL.md) — pins `chezmoi` and wraps `apply`/`diff` as tasks.
+  - [dprint](../../../skills/dprint/SKILL.md) — formats the JSON/TOML/YAML configs chezmoi deploys.
+  - [agent-project](../../../skills/agent-project/SKILL.md) / [agent-skills](../../../skills/agent-skills/SKILL.md) — the AGENTS.md + skills layer chezmoi symlinks into each agent CLI.
+  - [security-scan](../../../skills/security-scan/SKILL.md) — secret scanning around the age-encrypted files.

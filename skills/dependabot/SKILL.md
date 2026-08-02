@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dependabot
   created: 2026-07-14
-  updated: 2026-07-31
+  updated: 2026-08-02
 ---
 
 # Dependabot Dependency Management Standard
@@ -40,6 +40,9 @@ updates:
       actions:
         patterns:
           - "*"
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: gomod
     directory: /dot
     schedule:
@@ -51,6 +54,9 @@ updates:
       go-modules:
         patterns:
           - "*"
+        update-types:
+          - minor
+          - patch
 ```
 
 ## 3. Workflow & Commands
@@ -74,4 +80,4 @@ updates:
 
 - [GitHub Dependabot Documentation](https://docs.github.com/en/code-security/dependabot)
 - [Configuration options for the dependabot.yml file](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
-- [Grouping Dependabot updates](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/grouping-dependabot-updates-into-a-single-pull-request)
+- [Optimizing the creation of pull requests for Dependabot version updates](https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/optimizing-pr-creation-version-updates)

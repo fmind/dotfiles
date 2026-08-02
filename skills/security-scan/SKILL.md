@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/security-scan
   created: 2026-07-04
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Security Scanning
@@ -40,7 +40,7 @@ Scan a repository (and its images) for vulnerabilities, misconfigurations, secre
 
 ## Mise Task Integration
 
-Expose security scans in the project's canonical task vocabulary (`mise.toml`) per the [mise skill](../mise/SKILL.md). `check:leaks` and `check:scan` are the same in every repo; `check:vuln` is the language-native scanner where one exists (`govulncheck`/`pip-audit` — see [go-stack](../go-stack/SKILL.md)/[python-stack](../python-stack/SKILL.md)) and only falls back to `trivy fs` in polyglot or config-only repos with no native scanner:
+Expose security scans in the project's canonical task vocabulary (`mise.toml`) per the [mise skill](../mise/SKILL.md). `check:leaks` (gitleaks) and `check:scan` (`trivy fs`, one pass over vuln/misconfig/secret/license) follow the same pattern in every repo; `check:vuln` is the language-native scanner where one exists (`govulncheck`/`pip-audit` — see [go-stack](../go-stack/SKILL.md)/[python-stack](../python-stack/SKILL.md)) and is omitted entirely in polyglot or config-only repos with no native scanner — `check:scan`'s `trivy fs` already covers vulnerabilities there:
 
 ```toml
 [tasks."check:leaks"]
@@ -49,19 +49,20 @@ description = "Audit codebase for leaked secrets (gitleaks)"
 run = "gitleaks git --verbose" # history scan; `mise run check:leaks --staged` auto-appends --staged for pre-commit scope
 
 [tasks."check:scan"]
-description = "Scan configuration files (IaC, manifests, Dockerfiles) for misconfigurations"
-run = "trivy --config trivy.yaml config ." # mise auto-appends extra path args; do NOT use `${@:-.}` (mise skill: it collapses to `.` and only appends)
+description = "Scan dependencies, IaC, licenses, and secrets (Trivy)"
+run = "trivy --config trivy.yaml fs ." # mise auto-appends extra path args; do NOT use `${@:-.}` (mise skill: it collapses to `.` and only appends); --config is mandatory: an exported TRIVY_CONFIG would otherwise win
 
 [tasks."check:vuln"]
-# Fallback for repos with no native scanner; a Go/Python repo uses govulncheck/pip-audit here instead.
-description = "Scan project files and dependencies for vulnerabilities"
-run = "trivy --config trivy.yaml fs ." # --config is mandatory: an exported TRIVY_CONFIG would otherwise win
+# Native scanner only — a Go/Python repo wires this to govulncheck/pip-audit; omit the task
+# entirely in a polyglot repo with no single native scanner (check:scan's `trivy fs` already covers it).
+description = "Scan project dependencies for vulnerabilities (language-native)"
+run = "go tool govulncheck ./..." # or `uv run pip-audit`
 ```
 
 ## Gotchas
 
 - **Signal over noise**: `ignore-unfixed: true` and `HIGH`/`CRITICAL` keep results actionable; widen severity only for a deliberate audit.
-- **Trivy config resolution**: precedence is `--config` > `TRIVY_CONFIG` > `./trivy.yaml` > built-in defaults — trivy never auto-loads `~/.config/trivy/`. On this machine `dot_config/fish/conf.d/env.fish` exports `TRIVY_CONFIG=~/.config/trivy/trivy.yaml` globally, so **a bare `trivy fs .` silently ignores the project `trivy.yaml`** and scans with the global policy instead. Always pass `--config trivy.yaml` from a repo that ships one (this is why the `check:scan`/`check:vuln` tasks below do). Falling through to built-in defaults is the other failure mode: **all** severities, no `ignore-unfixed`, and the signal-over-noise settings gone. For reproducible local **and** CI scans, commit a project `trivy.yaml` (copy the global one — mirrors [dprint](../dprint/SKILL.md)).
+- **Trivy config resolution**: precedence is `--config` > `TRIVY_CONFIG` > `./trivy.yaml` > built-in defaults — trivy never auto-loads `~/.config/trivy/`. On this machine `dot_config/fish/conf.d/env.fish` exports `TRIVY_CONFIG=~/.config/trivy/trivy.yaml` globally, so **a bare `trivy fs .` silently ignores the project `trivy.yaml`** and scans with the global policy instead. Always pass `--config trivy.yaml` from a repo that ships one (this is why the `check:scan` task above does). Falling through to built-in defaults is the other failure mode: **all** severities, no `ignore-unfixed`, and the signal-over-noise settings gone. For reproducible local **and** CI scans, commit a project `trivy.yaml` (copy the global one — mirrors [dprint](../dprint/SKILL.md)).
 - **Pre-commit gates need `--staged`**: `gitleaks git` scans committed history, so it can **not** block a secret in the commit being made — it isn't in history yet (returns clean). Reserve history mode for CI/on-demand and give the pre-commit hook its own staged scan so incoming secrets are actually gated. In [lefthook](../lefthook/SKILL.md) `pre-commit`, add (with a `priority` after the formatters):
   ```yaml
   check:leaks:
@@ -73,7 +74,7 @@ run = "trivy --config trivy.yaml fs ." # --config is mandatory: an exported TRIV
   - **Trivy**: Add CVEs or paths to `.trivyignore` (one per line, comments prefixed with `#`).
   - **Gitleaks**: Use inline `gitleaks:allow` comments next to false positives, or configure rules/ignores in `.gitleaks.toml` / `.gitleaksignore`.
 - **CI parity**: CI runs `mise run check`, so the `check:leaks` scan runs there too — but a shallow CI checkout limits its git-history scope. For full-history secret + dependency scanning in CI, add a dedicated `security` job (`gitleaks git` + `trivy fs`, `fetch-depth: 0`) and gate on a non-zero exit; otherwise run `mise run check:leaks` and `trivy fs` on demand.
-- **Evidence boundaries**: A green push gate proves only the configured recent-history and checkout checks. The repository's weekly/manual full-history workflow is separate evidence: it checks out all commits, runs `gitleaks git` and repository-configured `trivy fs`, uploads only redacted/allowlisted machine-readable reports, and fails on findings, scanner errors, timeouts, or missing reports. Never describe one boundary as the other.
+- **Evidence boundaries**: A green push gate proves only the configured recent-history and checkout checks. The repository's weekly/manual full-history workflow (`security.yml`, cron + `workflow_dispatch`) is separate evidence: it checks out complete history (`fetch-depth: 0`), runs repository-configured `trivy fs` and `gitleaks git --redact=100`, and fails the job on any finding, scanner error, or timeout — it has no report-upload step, so the workflow run log is the evidence. Never describe one boundary as the other.
 - **Secret rotation**: a leaked secret is compromised even after removal from history — rotate it, don't just delete the commit.
 
 ## Documentation

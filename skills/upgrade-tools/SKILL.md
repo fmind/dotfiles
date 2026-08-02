@@ -104,7 +104,7 @@ Same shape — bump, then re-lock, then validate:
 - [mise: upgrade & lock](https://mise.jdx.dev/cli/upgrade.html)
 - [Go: managing dependencies](https://go.dev/doc/modules/managing-dependencies) · [tool directives](https://go.dev/doc/modules/managing-dependencies#tools)
 - [uv: locking & upgrading](https://docs.astral.sh/uv/concepts/projects/sync/#upgrading-locked-package-versions)
-- [OpenTofu: Provider Dependency Lock File](https://opentofu.org/docs/cli/config/dependency-lock-files/)
+- [OpenTofu: Dependency Lock File](https://opentofu.org/docs/language/files/dependency-lock/)
 - [Docker: Pinning Base Images](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#use-multi-stage-builds)
 - [dprint: config update](https://dprint.dev/cli/#update)
 - [GitHub Actions: using third-party actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions)

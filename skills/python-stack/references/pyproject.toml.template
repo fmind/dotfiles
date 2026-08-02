@@ -9,38 +9,38 @@ license-files = ["LICENSE"]
 authors = [{ name = "<holder>" }]
 dependencies = [
   # Core — used by every project type (CLI, web, agent, library)
-  "pydantic>=2.10.6",
-  "pydantic-settings>=2.7.1",
-  "structlog>=25.1.0",
+  "pydantic>=2.13.4",
+  "pydantic-settings>=2.14.2",
+  "structlog>=26.1.0",
   # Web (Litestar) — remove for CLI, agent, or library projects
   "advanced-alchemy>=1.11.0",
   "alembic>=1.18.5",
   "asyncpg>=0.31.0",
-  "granian[reload]>=1.7.0",
-  "litestar[standard]>=2.23.0",
+  "granian[reload]>=2.7.0",
+  "litestar[standard]>=2.24.0",
   "sqlalchemy>=2.0.51",
 ]
 
 [dependency-groups]
 dev = [
-  "anyio>=4.8.0",
-  "lefthook>=2.1.9",
+  "anyio>=4.14.2",
+  "lefthook>=2.1.10",
   "pdoc>=16.0.0",
-  "pip-audit>=2.7.3",
+  "pip-audit>=2.10.1",
   "pytest-cov>=7.1.0",
-  "pytest-watcher>=0.4.3",
+  "pytest-watcher>=0.6.3",
   "pytest>=9.1.1",
-  "ruff>=0.15.18",
-  "testcontainers[postgres]>=4.14.2",  # web integration tests; drop for non-web projects
-  "ty>=0.0.51,<0.1",  # pre-1.0: pin a compatible range until it stabilizes
+  "ruff>=0.16.1",
+  "testcontainers[postgres]>=4.15.0",  # web integration tests; drop for non-web projects
+  "ty>=0.0.65,<0.1",  # pre-1.0: pin a compatible range until it stabilizes
   "validate-pyproject>=0.25",
 ]
 
 [project.scripts]
-<slug> = "<slug>:main"
+<slug> = "<package>:main"
 
 [build-system]
-requires = ["uv_build>=0.9.0,<0.12"]
+requires = ["uv_build>=0.9.0,<0.13"]
 build-backend = "uv_build"
 
 [tool.ruff]

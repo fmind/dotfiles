@@ -30,10 +30,10 @@ var (
 )
 
 var repositoryCommandFiles = map[string]struct{}{
-	"AGENTS.md":                   {},
-	"skills/chezmoi/SKILL.md":     {},
-	"skills/dot-cli/SKILL.md":     {},
-	"skills/dot-release/SKILL.md": {},
+	"AGENTS.md":                           {},
+	".agents/skills/chezmoi/SKILL.md":     {},
+	"skills/dot-cli/SKILL.md":             {},
+	".agents/skills/dot-release/SKILL.md": {},
 }
 
 var workspaceLayoutPaths = map[string]struct{}{
@@ -147,9 +147,14 @@ func documentationFiles(t *testing.T, repo string) []string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	files := make([]string, 0, 1+len(skills))
+	agentSkills, err := filepath.Glob(filepath.Join(repo, ".agents", "skills", "*", "SKILL.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	files := make([]string, 0, 1+len(skills)+len(agentSkills))
 	files = append(files, filepath.Join(repo, "AGENTS.md"))
-	return append(files, skills...)
+	files = append(files, skills...)
+	return append(files, agentSkills...)
 }
 
 func checkDocumentationFile(t *testing.T, repo, path string, tasks map[string]struct{}, aliases map[string]string, commands map[string]struct{}, checkTasks bool) {

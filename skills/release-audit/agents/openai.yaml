@@ -1,4 +1,0 @@
-interface:
-  display_name: "Release Audit"
-  short_description: "Verify exact-head GitHub release evidence"
-  default_prompt: "Audit this repository release against its declared artifact contract without changing remote or local state."

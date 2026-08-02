@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/python-stack
   created: 2026-06-23
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Python Stack Standard
@@ -43,7 +43,7 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
 
 ## 2. Project Scaffolding Workflow
 
-1. **Information**: Define project `Slug`, `Description`, and `Holder/Year`.
+1. **Information**: Define project `Slug`, `Description`, and `Holder/Year`. Derive `Package` — `Slug` with hyphens replaced by underscores — whenever `Slug` contains a hyphen; `uv init --package` already names the source directory this way, and every Python import path (`[project.scripts]` target, `pdoc`/`granian` module args, test imports) must use `Package`, not the hyphenated `Slug`.
 1. **Python Pinning**: Pin target version (`major.minor` for `[tool.ty.environment].python-version`).
 1. **Bootstrap**: Run in parent directory (for AI agent projects, use the `agents-cli` bootstrap workflow instead of `uv init` — see Section 5), then pin the interpreter (`uv init` writes a `.python-version` for whatever interpreter it resolves, which is often older than `requires-python` and breaks `uv sync`):
    ```bash
@@ -60,7 +60,7 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
    - `LICENSE` from [LICENSE](references/LICENSE)
    - `.gitignore` from [gitignore](references/gitignore)
 1. **Scaffold Directory**:
-   - Write `src/<slug>/__init__.py` — **web**: [init.py](references/init.py) (the Litestar `app`); **library/CLI**: [init-cli.py](references/init-cli.py) (minimal package: `__version__`, env-aware `structlog`, `main()`).
+   - Write `src/<package>/__init__.py` — **web**: [init.py](references/init.py) (the Litestar `app`); **library/CLI**: [init-cli.py](references/init-cli.py) (minimal package: `__version__`, env-aware `structlog`, `main()`).
    - Write `tests/__init__.py` and `tests/test_smoke.py` from [test_smoke.py](references/test_smoke.py). **Web** projects also add `conftest.py` from [conftest.py](references/conftest.py) (Postgres `testcontainers` wiring); library/CLI keep only the `__version__` test.
 1. **Git & Validation**:
    - Run `git init --initial-branch=main`.
@@ -112,7 +112,7 @@ Build GCP-based AI agents with **agents-cli** (https://github.com/google/agents-
    - `app/agent.py` — defines the `root_agent` symbol and its tools. Tools are plain typed functions; ADK infers each JSON schema from the signature and docstring. Keep business logic in the library/modules and call into it from tools.
    - `app/fast_api_app.py` — FastAPI backend server for API interaction.
 1. **Models & Auth**:
-   - Use `gemini-flash-latest` by default — a `-latest` alias that tracks the current flash model (pin a dated model only when you need reproducibility).
+   - Pin the current Flash generation by default (e.g. `gemini-3.6-flash`, matching `agents-cli`'s own scaffold) rather than the `-latest` alias — Vertex AI's `-latest` resolution has documented version-ambiguity and hot-swap quality regressions. Check `agents-cli create --agent adk`'s generated default or the [Gemini models list](https://ai.google.dev/gemini-api/docs/models) and bump to the newest Flash generation when one ships; only pin an exact dated snapshot when you need strict reproducibility.
    - Use Google Application Default Credentials (ADC) for authentication. In local development, run `gcloud auth application-default login`.
    - In `.env`, ensure `GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT=<project_id>`, and `GOOGLE_CLOUD_LOCATION=<region>` (e.g., `europe-west1` or `global`) are set.
 1. **Development Commands**:
@@ -127,6 +127,8 @@ Build GCP-based AI agents with **agents-cli** (https://github.com/google/agents-
 ## Gotchas & Guidelines
 
 - **`uv init` Python Pin**: `uv init` writes a `.python-version` for the interpreter it resolves, which can be older than `requires-python` and breaks `uv sync`. Run `uv python pin <major.minor>` right after bootstrapping.
+- **`Slug` vs `Package` in Import Paths**: When `Slug` contains a hyphen (e.g. `my-cool-app`), substituting it literally into a Python import position — `[project.scripts]`'s right-hand side, `pdoc`/`granian` module arguments, `from <slug> import ...` — produces invalid syntax; `validate-pyproject` (`check:format`) rejects the resulting `pyproject.toml` outright. Use `Package` (underscores) there; `Slug` (hyphens allowed) stays correct for the distribution name, directory arg to `uv init`, Docker tag, and the console-script command itself.
+- **`uv_build` Upper Bound**: Keep `[build-system].requires`'s `uv_build` upper bound at least one minor ahead of the pinned `uv` tool version — `uv sync`/`uv build` warns (and a stricter resolver would fail) when the installed `uv_build` version falls outside the declared range.
 - **`ty` Python Version**: `[tool.ty.environment].python-version` requires `major.minor` format (e.g., `"3.14"`). Do not supply patch versions.
 - **Line Length**: Ruff default line length is 120 characters.
 - **`ty` & SQLAlchemyDTO**: The scaffold ships with no blanket `[tool.ty.rules]` ignores and type-checks clean. `ty` is pre-1.0; if it later flags the generated DTO type forms once you add ORM models, add a single scoped `invalid-type-form = "ignore"` rather than a broad `unresolved-*` ignore that would hide real typos and missing imports.

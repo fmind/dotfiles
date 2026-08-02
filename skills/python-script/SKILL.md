@@ -30,7 +30,7 @@ Base every script on [script.py](references/script.py). Key elements:
    # requires-python = ">=3.14"
    # dependencies = [
    #     "rich>=15.0.0",
-   #     "typer>=0.24.2",
+   #     "typer>=0.27.0",
    # ]
    # ///
    ```

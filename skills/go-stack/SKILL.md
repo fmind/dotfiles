@@ -1,6 +1,6 @@
 ---
 name: go-stack
-description: Canonical Go development stack — tooling, scaffolding, web (GOTH), CLI/TUI, ADK agents, and exact local dependency source review. Use for any Go project, library, or application, including confirmation of selected module APIs from the configured module cache.
+description: Canonical Go development stack — tooling, scaffolding, web (GOTH), CLI/TUI, and ADK agents. Use for any Go project, library, or application.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
@@ -28,21 +28,6 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 - **Diagnostics & Observability**: Standardize on OpenTelemetry (`otel`) for traces — wired for **web and agents only**, not CLIs. The web starter's `SetupOTel` ([telemetry.go](references/telemetry.go)) installs an OTLP/HTTP exporter and wraps the router in `otelhttp` for per-request spans; `OtelHandler` then stamps the active `trace_id`/`span_id` onto every `slog` record. Tracing activates only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set, so local runs stay quiet. ADK agents inherit tracing from the launcher (same OTLP env var, or `--otel_to_cloud` for GCP Cloud Trace). For deep local debugging, `runtime/trace.FlightRecorder` (Go 1.25+) keeps a rolling in-memory trace to dump on error/panic.
 - **Container Awareness**: Go 1.25+ is cgroups/container-aware—`GOMAXPROCS` aligns automatically (do not use `automaxprocs`).
 - **Omit Zero Struct Tags**: Use native `json:",omitzero"` (Go 1.24+) on structs/types (e.g., `time.Time`) instead of `omitempty`.
-
-## Exact Dependency Source Review
-
-Resolve a symbol through the project's selected module graph before proposing a dependency-specific fix:
-
-```bash
-python3 ~/.agents/skills/go-stack/scripts/resolve_source.py <package-import-path> <symbol-or-Receiver.Method> --project <project>
-```
-
-The resolver's offline contract suite is [resolve_source_test.py](scripts/resolve_source_test.py).
-
-- Keep inspection read-only: the resolver forces `GOPROXY=off`, `GOSUMDB=off`, `GOTOOLCHAIN=local`, and `-mod=readonly`, then reads only the package selected by `go list`.
-- Respect `replace` directives and `GOPRIVATE`, and reject missing or stale cache entries, standard-library targets, generated files, escaped module paths, and ambiguous symbols with actionable errors.
-- Do not clean, populate, or repair the module cache during review. Refresh dependencies explicitly outside the inspection flow when resolution reports missing source.
-- Consume the versioned JSON result: `language`, `dependency`, `version`, `source_path`, `defining_file`, `symbol`, bounded `excerpt`, and `provenance`. This shape is compatible with the Python resolver, while Go module semantics remain owned here.
 
 ## 2. Project Scaffolding Workflow
 
@@ -108,11 +93,11 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
 
 ## 6. AI Agent Stack (ADK v2)
 
-- **Framework**: Use the **Agent Development Kit for Go** (`google.golang.org/adk/v2`, Go 1.25+) — the code-first, model-agnostic toolkit optimized for Gemini. Scaffold with the [agent.go](references/agent.go) starter (`go get google.golang.org/adk/v2`).
+- **Framework**: Use the **Agent Development Kit for Go** (`google.golang.org/adk/v2`, Go 1.26+ per its `go.mod`) — the code-first, model-agnostic toolkit optimized for Gemini. Scaffold with the [agent.go](references/agent.go) starter (`go get google.golang.org/adk/v2`).
 - **Agents**: Build with `llmagent.New(llmagent.Config{...})` — set `Name`, `Model`, `Instruction`, and `Tools`; delegate to `SubAgents` for multi-agent trees.
-- **Models & Auth**: `gemini.NewModel(ctx, "gemini-flash-latest", &genai.ClientConfig{...})` (use the `-latest` alias so the model never rots; pin a dated model only when you need reproducibility). The [agent.go](references/agent.go) starter defaults to **Vertex AI with Application Default Credentials** — `Backend: genai.BackendVertexAI` plus `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (parsed fail-fast via `caarlos0/env`), credentials from `gcloud auth application-default login` locally or the attached service account in prod (no key stored). For AI Studio instead, drop the Vertex fields and set `APIKey` from `GOOGLE_API_KEY`. Logging goes through the shared `config` package (env-aware `slog` handler), not `log.Fatalf`.
+- **Models & Auth**: `gemini.NewModel(ctx, "gemini-3.6-flash", &genai.ClientConfig{...})` — pin the current Flash generation rather than the `-latest` alias, which has documented Vertex AI version-ambiguity and hot-swap quality regressions; bump to the newest Flash generation when one ships, and only pin an exact dated snapshot when you need strict reproducibility. The [agent.go](references/agent.go) starter defaults to **Vertex AI with Application Default Credentials** — `Backend: genai.BackendVertexAI` plus `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (parsed fail-fast via `caarlos0/env`), credentials from `gcloud auth application-default login` locally or the attached service account in prod (no key stored). For AI Studio instead, drop the Vertex fields and set `APIKey` from `GOOGLE_API_KEY`. Logging goes through the shared `config` package (env-aware `slog` handler), not `log.Fatalf`.
 - **Tools**: Wrap typed Go functions with `functiontool.New` (generic `[TArgs, TResults]`; `jsonschema` struct tags document fields). Add built-ins from `tool/geminitool` (Google Search) or connect external servers via `tool/mcptoolset` (MCP).
-- **Entry Point**: `full.NewLauncher()` serves the agent through a CLI with two top-level modes — `console` (interactive) and `web` (HTTP server); the `web` mode hosts the `webui` (dev UI), `api` (REST), and `a2a` sublaunchers — no custom wiring. Invoking with an **unrecognized** mode prints the usage and exits non-zero; invoking with **no** arguments defaults to interactive `console` mode. Note: ADK owns this CLI; reserve `urfave/cli/v3` for non-agent tools.
+- **Entry Point**: `full.NewLauncher()` serves the agent through a CLI with two top-level modes — `console` (interactive) and `web` (HTTP server); the `web` mode hosts the `webui` (dev UI), `api` (REST), `a2a`, and Cloud trigger (`pubsub`, `eventarc`) sublaunchers — no custom wiring. Invoking with an **unrecognized** mode prints the usage and exits non-zero; invoking with **no** arguments defaults to interactive `console` mode. Note: ADK owns this CLI; reserve `urfave/cli/v3` for non-agent tools.
 - **Streaming**: Agent runs return `iter.Seq2[*session.Event, error]`; consume with `for event, err := range …` — never collect events into a slice.
 - **Observability**: The launcher wires OpenTelemetry itself — pin `service.name` via `launcher.Config.TelemetryOptions` (`telemetry.WithResource`), then export by setting `OTEL_EXPORTER_OTLP_ENDPOINT` (OTLP) or passing `--otel_to_cloud` (GCP Cloud Trace, reusing the Vertex ADC). ADK emits spans for model and tool calls; no manual `TracerProvider` needed (unlike the web variant).
 
@@ -218,7 +203,8 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
 - **Self-Hosted Assets**: Never reference CDNs at runtime; serve all assets locally. `scripts/vendor.go` fetches HTMX/Alpine once, pinned by version **and** sha256 (fails loudly on a hash mismatch), and commits them under `static/vendor/`; `install:vendor` is idempotent (skips when present), so normal installs never touch the network. Bump a version by editing its URL + hash together.
 - **No JS/TS Toolchain**: The GOTH stack is deliberately Node-free — Tailwind is the standalone `tailwindcss` binary, HTMX/Alpine are vendored. Never introduce `npm`/`npx`/`node`.
 - **Container Builds (`ko`)**: `mise run build:image` needs `ko` from the [containerize skill](../containerize/SKILL.md) — pin it per project (`go get -tool github.com/google/ko`) so image builds stay reproducible even where a global toolchain already provides `ko`.
-- **ADK Agents**: Require Go 1.25+ and a `GOOGLE_API_KEY` (AI Studio) or Vertex AI ADC. `full.NewLauncher()` is cobra-based and separate from `urfave/cli/v3`.
+- **ADK Agents**: Require Go 1.26+ (per the `adk/v2` `go.mod`) and a `GOOGLE_API_KEY` (AI Studio) or Vertex AI ADC. `full.NewLauncher()` parses its own flags (stdlib `flag`, not `urfave/cli/v3`); ADK's separate `adkgo` scaffolding/deploy CLI is cobra-based.
+- **Transitive Vulnerabilities**: `govulncheck` (`check:vuln`) can flag a module you never imported directly — e.g. `google.golang.org/grpc`, pulled in transitively through the OTel/ADK exporters. Fix it by bumping the flagged module directly (`go get -u <module>`; `go mod tidy` afterward), not by adding an explicit `require` pin — a pin only goes stale again and Go's minimal-version-selection already picks it up once bumped.
 
 ## Documentation
 

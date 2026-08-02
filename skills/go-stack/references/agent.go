@@ -68,7 +68,7 @@ func main() {
 		logger.Error("load vertex configuration", "error", err)
 		os.Exit(1)
 	}
-	model, err := gemini.NewModel(ctx, "gemini-flash-latest", &genai.ClientConfig{
+	model, err := gemini.NewModel(ctx, "gemini-3.6-flash", &genai.ClientConfig{
 		Backend:  genai.BackendVertexAI,
 		Project:  vx.Project,
 		Location: vx.Location,

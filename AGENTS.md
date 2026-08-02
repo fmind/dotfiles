@@ -85,7 +85,7 @@ Two assets are authored once and consumed by all agent CLIs:
 
 ## Layout
 
-- `.agents/` — Workspace-scoped state, session records, and scratch scripts for AI agents.
+- `.agents/` — Workspace-scoped state, session records, project skills, and scratch scripts for AI agents.
 - `.antigravitycli/` — Workspace-scoped session records and state for Antigravity CLI.
 - `.chezmoi.toml.tmpl` — Host-specific chezmoi configuration template.
 - `.chezmoiignore` — Chezmoi exclude rules for non-deployed repository files.

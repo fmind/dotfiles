@@ -34,8 +34,8 @@ A change is complete only when, locally, `mise run format` is clean, `mise run c
 
 ## Repository layout
 
-- `src/<slug>/__init__.py` — package entry point: the Litestar `app` (web) or the `root_agent` re-export (agent), plus `__version__`.
-- `src/<slug>/agent.py` — (agent) `root_agent` definition and its typed function tools.
+- `src/<package>/__init__.py` — package entry point: the Litestar `app` (web) or the `root_agent` re-export (agent), plus `__version__`.
+- `src/<package>/agent.py` — (agent) `root_agent` definition and its typed function tools.
 - `tests/` — `pytest` suite: `conftest.py` fixtures (e.g. `testcontainers`) and `test_*.py`.
 - `pyproject.toml` — dependencies and `ruff`/`ty`/`pytest` config; `mise.toml` — task runner and pinned tools; `lefthook.yml` — git hooks; `dprint.json` — config/markup formatter.
 - `.env` / `.env.example` — environment configuration (never commit secrets).

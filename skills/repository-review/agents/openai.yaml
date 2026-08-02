@@ -1,4 +1,0 @@
-interface:
-  display_name: "Repository Review"
-  short_description: "Evidence-first cross-cutting repository review"
-  default_prompt: "Use $repository-review to audit this repository and report ranked findings with honest proof boundaries."

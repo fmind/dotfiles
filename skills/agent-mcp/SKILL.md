@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-mcp
   created: 2026-06-23
-  updated: 2026-07-12
+  updated: 2026-08-02
 ---
 
 # Configure Agent MCP Servers
@@ -104,7 +104,7 @@ claude mcp add server-name --scope project --transport http https://example.com/
 Copilot:
 
 ```bash
-copilot mcp add server-name --url https://example.com/mcp
+copilot mcp add --transport http server-name https://example.com/mcp
 ```
 
 ## Google Cloud Managed MCP

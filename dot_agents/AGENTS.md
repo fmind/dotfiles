@@ -44,7 +44,6 @@
 ## Development Workflow & Safety
 
 - **CLI Automation**: Use `gh` (GitHub), `gws` (Google Workspace), and `gcloud` (Google Cloud) to automate workspace, repository, and cloud tasks.
-- **GitHub Triage & Review**: Use the [github-triage](~/.agents/skills/github-triage/SKILL.md) skill for reviewing pull requests and grooming issues.
 - **Git Commits**: Do NOT commit unless explicitly requested; run validation locally (lefthook, linters, tests) warning-free first. Use Conventional Commits (`feat:`, `fix:`, `refactor:`, `chore:`) — see the conventional-commit skill for the full taxonomy.
 - **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first) for github.com/fmind/\* projects.
 - **Idempotent Operations**: Design scripts, tasks, and state mutations to be safely re-runnable without side effects; keep checks simple and pragmatic without over-engineering one-off actions.

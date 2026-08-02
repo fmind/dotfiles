@@ -89,7 +89,7 @@ run = "uv run pytest --cov --cov-report=term --cov-report=html"
 [tasks.docs]
 alias = "d"
 description = "Generate HTML docs (pdoc)"
-run = "uv run pdoc -o docs <slug>"
+run = "uv run pdoc -o docs <package>"
 
 [tasks.format]
 alias = "f"
@@ -145,4 +145,4 @@ run = "uv sync --upgrade"
 [tasks.watch]
 alias = "w"
 description = "Run the dev server with live reload"
-run = "uv run granian --interface asgi --reload <slug>:app"
+run = "uv run granian --interface asgi --reload <package>:app"

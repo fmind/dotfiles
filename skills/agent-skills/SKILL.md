@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-skills
   created: 2026-06-23
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Install Agent Skills
@@ -63,7 +63,7 @@ Candidates, not installed: this repository vendors no external skill, so every e
 | LikeC4 DSL             | `likec4/likec4`                             |
 | Slidev                 | `slidevjs/slidev`                           |
 
-Mermaid and D2 did not publish official skills when last checked on 2026-07-16, so this repository maintains reviewed first-party `mermaid` and `d2` skills with official documentation references.
+Mermaid and D2 did not publish official skills when last checked on 2026-08-02, so this repository maintains reviewed first-party `mermaid` and `d2` skills with official documentation references.
 
 ## Gotchas
 

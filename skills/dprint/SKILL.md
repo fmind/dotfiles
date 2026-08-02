@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/dprint
   created: 2026-06-29
-  updated: 2026-07-12
+  updated: 2026-08-02
 ---
 
 # dprint Formatting Standard
@@ -15,7 +15,7 @@ Canonical setup for **dprint**, the primary formatter for configuration and mark
 
 ## 1. Configuration Strategy
 
-dprint resolves config from the project directory upward and never auto-loads the home config, so every project needs its own resolvable `dprint.json`/`dprint.jsonc`. In this dotfiles repository, root `dprint.json` is the single canonical config and `dot_config/dprint/symlink_dprint.jsonc.tmpl` deploys `~/.config/dprint/dprint.jsonc` as a symlink to it; do not maintain a second config copy.
+dprint resolves config by searching the current directory upward through ancestors; only when that search finds nothing does it fall back to the global config (if one is set up, e.g. via `DPRINT_CONFIG_DIR`). So every project still needs its own resolvable `dprint.json`/`dprint.jsonc` — otherwise it silently inherits whatever the global fallback happens to contain. In this dotfiles repository, root `dprint.json` is the single canonical config and `dot_config/dprint/symlink_dprint.jsonc.tmpl` deploys `~/.config/dprint/dprint.jsonc` as a symlink to it (the global fallback); do not maintain a second config copy.
 
 1. **Copy (default)**: Copy root `dprint.json` into the project root. This is self-contained, version-pinned, and offline; bump plugin versions per repo.
 1. **Extends (DRY)**: Set `"extends"` to a single source of truth — a local path or a commit-pinned URL, e.g. `"extends": "https://raw.githubusercontent.com/fmind/dotfiles/<commit>/dprint.json"`. Projects inherit and can still override rules or add plugins.

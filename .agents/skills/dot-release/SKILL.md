@@ -4,7 +4,7 @@ description: Prepare, tag, and push a versioned fmind/dotfiles release locally t
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/dot-release
+  source: github.com/fmind/dotfiles/tree/main/.agents/skills/dot-release
   created: 2026-07-08
   updated: 2026-08-02
 ---
@@ -33,5 +33,5 @@ mise run release -- -y
 
 ## See Also
 
-- [release](../release/SKILL.md) — Generic release process template.
-- [conventional-commit](../conventional-commit/SKILL.md) — Commit grammar for changelog bumping.
+- [release](../../../skills/release/SKILL.md) — Generic release process template.
+- [conventional-commit](../../../skills/conventional-commit/SKILL.md) — Commit grammar for changelog bumping.

@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/mise
   created: 2026-07-04
-  updated: 2026-07-31
+  updated: 2026-08-02
 ---
 
 # Mise Standard
@@ -53,7 +53,7 @@ So `format:templ` (you format `.templ` source) and `build:html` (you generate th
 
   Auto-append reaches only the **last** command. Avoid the `{{arg()}}`/`{{option()}}`/`{{flag()}}` Tera helpers (deprecated); if you genuinely need default-_and_-replace, or args in more than one command, use the `usage` field.
 
-- **Dotenv**: auto-load env with `[env]` `_.source = ".env"`.
+- **Dotenv**: auto-load env with `[env]` `_.file = ".env"`.
 
 ## Tool Management
 

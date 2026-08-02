@@ -13,7 +13,7 @@ metadata:
 
 Compose the [repository-review skill](../repository-review/SKILL.md) with the repository's live issue taxonomy. Discovery and drafting are read-only by default; issue creation and native dependency mutation are a separate, explicitly authorized phase.
 
-Agent presentation metadata is kept in [openai.yaml](agents/openai.yaml). Use the complete [draft contract](references/draft-contract.md) and exercise the failure boundaries in the [behavioral evaluations](tests/behavioral-evaluations.md).
+Use the complete [draft contract](references/draft-contract.md) and exercise the failure boundaries in the [behavioral evaluations](tests/behavioral-evaluations.md).
 
 ## Phase 1: Read-only discovery
 

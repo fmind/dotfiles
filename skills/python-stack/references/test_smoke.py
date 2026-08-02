@@ -1,7 +1,7 @@
 import pytest
 from litestar.testing import AsyncTestClient
 
-from <slug> import __version__, app
+from <package> import __version__, app
 
 
 def test_version() -> None:

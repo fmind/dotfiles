@@ -12,7 +12,7 @@ from __future__ import annotations
 import os
 
 import pytest
-from testcontainers.postgres import PostgresContainer
+from testcontainers.community.postgres import PostgresContainer
 
 _postgres = PostgresContainer("postgres:17-alpine", driver="asyncpg")
 

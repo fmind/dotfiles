@@ -48,12 +48,14 @@ Optional tool-specific files:
 ```text
 <repository-root>/
 ├── .agents/
+│   ├── agents/
 │   ├── mcp_config.json
 │   └── settings.json
 ├── .claude/
 │   ├── agents/
 │   └── skills -> ../.agents/skills
 ├── .codex/
+│   ├── agents/
 │   └── config.toml
 ├── .github/
 │   ├── agents/
@@ -70,13 +72,13 @@ Optional tool-specific files:
 
 Custom-agent definitions are not portable across all five CLIs. Keep them in each tool's native location rather than treating `.agents/agents` as a universal format.
 
-| Tool        | Project location                          |
-| ----------- | ----------------------------------------- |
-| Antigravity | `.agents/agents/<name>/agent.md`          |
-| Codex       | `[agents.<name>]` in `.codex/config.toml` |
-| OpenCode    | `.opencode/agents/<name>.md`              |
-| Claude      | `.claude/agents/<name>.md`                |
-| Copilot     | `.github/agents/<name>.agent.md`          |
+| Tool        | Project location                 |
+| ----------- | -------------------------------- |
+| Antigravity | `.agents/agents/<name>/agent.md` |
+| Codex       | `.codex/agents/<name>.toml`      |
+| OpenCode    | `.opencode/agents/<name>.md`     |
+| Claude      | `.claude/agents/<name>.md`       |
+| Copilot     | `.github/agents/<name>.agent.md` |
 
 Give parallel agents independent, bounded tasks and non-overlapping file ownership. The parent agent integrates the work and runs project-wide validation.
 
