@@ -10,7 +10,6 @@
 
 - **Accuracy Over Speed**: Confirm behavior before acting when needed — read the actual source in local caches (`.venv` for Python, `~/go/pkg/mod` for Go) and project files, plus authoritative docs, rather than relying on assumptions or memory.
 - **Challenge, Then Build**: Never code blindly. Analyze from first principles, question assumptions and authority, and propose simpler, safer alternatives — as numbered options on any real architectural or tooling trade-off.
-- **Findings, Then Actions**: Shape substantive answers as an executive summary with bullet points. For instance, **Key findings** (what is true, highest-impact first, each with the file or command that proves it) then **Actions** (what to do, ordered by priority, each starting with a verb). Adapt the executive summary based on the task.
 - **Signal Over Noise**: Cut filler, restatement of the request, and narration of the steps you took. Prefer short headings, tight lists, and bold labels over prose; prefer a table when comparing more than two things.
 - **Verify Against Intent**: Before claiming done, re-read the original request and confirm the change delivers exactly what was asked — don't infer success from a green suite.
 
@@ -45,7 +44,7 @@
 ## Development Workflow & Safety
 
 - **CLI Automation**: Use `gh` (GitHub), `gws` (Google Workspace), and `gcloud` (Google Cloud) to automate workspace, repository, and cloud tasks.
-- **GitHub Triage & Review**: Use the [github-triage](~/.agents/skills/github-triage/SKILL.md) skill for reviewing pull requests and grooming issues — `gh-dash` for the cross-repository queue, `octo.nvim` for line-level review. Route work by label, never by assignee: one or more `area/*`, exactly one `priority/p*`, exactly one `effort/*`, plus `status/in-progress` as a cooperative lease and `needs-human` when blocked on a decision or spend an agent cannot make. Repository-specific routing labels stay documented in that repository's own instructions.
+- **GitHub Triage & Review**: Use the [github-triage](~/.agents/skills/github-triage/SKILL.md) skill for reviewing pull requests and grooming issues.
 - **Git Commits**: Do NOT commit unless explicitly requested; run validation locally (lefthook, linters, tests) warning-free first. Use Conventional Commits (`feat:`, `fix:`, `refactor:`, `chore:`) — see the conventional-commit skill for the full taxonomy.
 - **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first) for github.com/fmind/\* projects.
 - **Idempotent Operations**: Design scripts, tasks, and state mutations to be safely re-runnable without side effects; keep checks simple and pragmatic without over-engineering one-off actions.
@@ -54,7 +53,6 @@
 - **No Absolute Paths**: Never use absolute paths in agent skills or `AGENTS.md`; use relative or `~`-relative paths.
 - **No Attribution**: never make attribution on the code generated (e.g., be mentioned in commit, or co-authored).
 - **Progressive Alignment**: Leave explicit short inline comments explaining the "why" and trade-offs directly at the spot non-obvious choices or decisions are made, capturing rationale for future developers and agents.
-- **Comments Must Not Leak**: Keep every comment self-contained to its own repository — state the general constraint, never the anecdote behind it. If a reader with access to only this repository cannot follow the comment, it is leaking context or is too specific to be useful.
 - **Release & Versioning**: Use the [release](~/.agents/skills/release/SKILL.md) skill to cut tagged semver releases — git-cliff changelog, `v`-prefixed tag, GitHub publish.
 - **Stop Before Irreversible**: Pause and confirm before irreversible or costly actions (data loss, force-push, history rewrite, `destroy`, prod, spend); for low-stakes ambiguity, state your assumption and proceed.
 - **Documentation**: Keep `README.md` (humans) and `AGENTS.md` (agents) clean and current; never write unsolicited summary/report/plan `*.md` files — see the [readme-agents](~/.agents/skills/readme-agents/SKILL.md) skill.
@@ -68,4 +66,3 @@
 - **`~/fmind`**: Personal GitHub repositories owned by `fmind` (e.g., projects, publications).
 - **`~/fmind-ai`**: Organization GitHub repositories owned by `fmind-ai` (e.g., agents, products).
 - **`~/mlops-courses`**: Organization GitHub repositories owned by `mlops-courses` (e.g., courses, training).
-- **`~/externals`**: Third-party GitHub repositories and external tools.

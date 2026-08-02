@@ -23,11 +23,11 @@ slsa = false
 run_auto_install = false
 
 [tools]
-actionlint = "1.7.12"
 "aqua:fish-shell/fish-shell" = "4"
+actionlint = "latest"
 chezmoi = "latest"
 dprint = "latest"
-gh = "2.97.0"
+gh = "latest"
 gitleaks = "latest"
 go = "1.26"
 golangci-lint = "latest"
@@ -64,7 +64,6 @@ depends = [
   "check:dprint",
   "check:docs",
   "check:go",
-  "check:github-queue",
   "check:python",
   "check:shell",
   "check:leaks",
@@ -103,11 +102,6 @@ run = "go test -C dot -run '^TestDocumentationContract$' ./..."
 alias = "cg"
 description = "Lint and vuln-scan the Go module (dot/)"
 run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
-
-[tasks."check:github-queue"]
-alias = "cq"
-description = "Test the agent-runnable GitHub issue queue contract"
-run = "skills/github-triage/tests/queue_test.sh"
 
 [tasks."check:leaks"]
 alias = "cl"
@@ -207,11 +201,7 @@ run = [
 [tasks.test]
 alias = "t"
 description = "Run the dot CLI test suite (delegates to dot/)"
-run = [
-  "mise -C dot run test",
-  "python3 -B -m unittest skills/python-stack/scripts/resolve_source_test.py skills/go-stack/scripts/resolve_source_test.py",
-  "python3 -B -m unittest skills/release-audit/scripts/audit_test.py",
-]
+run = "mise -C dot run test"
 
 [tasks.watch]
 alias = "w"
@@ -234,6 +224,11 @@ alias = "mg"
 depends = ["build"]
 description = "Generate Fish completions for core CLI tools and cached integrations"
 run = "executable_dot completion"
+
+[tasks.deploy]
+alias = "me"
+description = "Redeploy the dot CLI binary"
+run = ["mise run --force build", "chezmoi apply ~/.local/bin/dot"]
 
 [tasks.diff]
 alias = "md"
@@ -280,12 +275,6 @@ depends = ["build"]
 description = "Remove unused tools, containers, and development caches"
 run = "executable_dot prune --all=deep"
 
-[tasks."prune:agents"]
-alias = "mpa"
-depends = ["build"]
-description = "Reclaim agent transcripts and caches while preserving clusters and the Go cache"
-run = "executable_dot prune --agents"
-
 [tasks.release]
 alias = "mr"
 depends = ["build"]
@@ -306,8 +295,6 @@ run = [
 [tasks.trust]
 alias = "mtr"
 description = "Trust repo and home mise configs"
-# Trust is granted per config file, so the nested Go module config is listed
-# explicitly: trusting the root config does not reach it.
 run = [
   "mise trust -y mise.toml",
   "mise trust -y dot/mise.toml",

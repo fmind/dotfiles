@@ -31,6 +31,15 @@ statusMessage = "Syncing Codex session"
 timeout = 30
 type = "command"
 
+[[hooks.SessionEnd]]
+matcher = ""
+
+[[hooks.SessionEnd.hooks]]
+command = "dot agent hook session codex"
+statusMessage = "Syncing Codex session"
+timeout = 30
+type = "command"
+
 [[hooks.Stop]]
 matcher = ""
 

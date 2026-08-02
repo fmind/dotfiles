@@ -1,6 +1,6 @@
 ---
 name: dot-release
-description: Prepare a versioned fmind/dotfiles release locally, then verify the CI-owned exact-head tag and GitHub publication. Use when shipping a new dotfiles version without creating tags or releases from a workstation.
+description: Prepare, tag, and push a versioned fmind/dotfiles release locally to trigger GitHub Actions CD publication.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
@@ -11,7 +11,7 @@ metadata:
 
 # Dotfiles Release
 
-Run `dot release` (alias `dot r`) to turn Conventional Commits since the last tag into a prepared release commit. The local command fetches `origin`, requires a clean `main` with `HEAD == origin/main`, computes the next semver via `git-cliff`, updates `dot/version.go` and `CHANGELOG.md`, runs the complete local gate, commits, pushes only that commit, and dispatches `.github/workflows/cd.yml`. GitHub Actions then waits for the exact release commit's CI run before creating an annotated immutable tag and publishing the release.
+Run `dot release` (alias `dot r`) to turn Conventional Commits since the last tag into a release commit and tag. The local command fetches `origin`, requires a clean `main` with `HEAD == origin/main`, computes the next semver via `git-cliff`, updates `dot/version.go` and `CHANGELOG.md`, runs the complete local gate (`format`, `check`, `test`), creates the commit and annotated tag, pushes `main` and `refs/tags/v*` to `origin`, and automatically reapplies the updated local `dot` binary. GitHub Actions (`cd.yml`) triggers on tag push to create the GitHub release.
 
 ## Preconditions
 
@@ -28,9 +28,8 @@ mise run release -- -y
 
 ## Gotchas
 
-- Lint or test failures during `mise run check` abort the release before any commit is made.
-- A push or workflow-dispatch interruption is resumable: rerun the same command and it reuses the prepared release commit instead of bumping again.
-- Never create or move the tag manually. Follow the reported workflow URL, then verify the exact commit, annotated tag, and public GitHub release after the workflow succeeds.
+- Lint or test failures during local gate abort the release before any commit or tag is created.
+- Pushing a release tag automatically triggers the `.github/workflows/cd.yml` workflow on GitHub Actions to publish the release.
 
 ## See Also
 

@@ -116,36 +116,16 @@ url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-x86_64-
 url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/487376855"
 
 [[tools.atlas]]
-version = "1.2.0"
+version = "1.3.0"
 backend = "aqua:ariga/atlas"
 
-[tools.atlas."platforms.linux-arm64"]
-checksum = "sha256:b76308f558d50d006add507f3ab86afc1147644519dd327f7f5fac6d02d4f595"
-url = "https://release.ariga.io/atlas/atlas-linux-arm64-v1.2.0"
-
-[tools.atlas."platforms.linux-arm64-musl"]
-checksum = "sha256:b76308f558d50d006add507f3ab86afc1147644519dd327f7f5fac6d02d4f595"
-url = "https://release.ariga.io/atlas/atlas-linux-arm64-v1.2.0"
-
 [tools.atlas."platforms.linux-x64"]
-checksum = "sha256:c12b889e3349f0e5610aec32fe327e5a6911a0e472754a0c381c30c7c0630e88"
-url = "https://release.ariga.io/atlas/atlas-linux-amd64-v1.2.0"
-
-[tools.atlas."platforms.linux-x64-musl"]
-checksum = "sha256:c12b889e3349f0e5610aec32fe327e5a6911a0e472754a0c381c30c7c0630e88"
-url = "https://release.ariga.io/atlas/atlas-linux-amd64-v1.2.0"
+checksum = "sha256:cfc773e5b4e845bc01d680390c174648938a7f88bf30e5a2c83ae85217c21587"
+url = "https://release.ariga.io/atlas/atlas-linux-amd64-v1.3.0"
 
 [tools.atlas."platforms.macos-arm64"]
-checksum = "sha256:c0d8443a603991c337341a303abf3812cb9f12d74d0ec0d585245735f18c1224"
-url = "https://release.ariga.io/atlas/atlas-darwin-arm64-v1.2.0"
-
-[tools.atlas."platforms.macos-x64"]
-checksum = "sha256:47f98e6f0d6a203f6c84e643f1ad99519fa8c2b5b59c177af3c449bd3ae0bb5a"
-url = "https://release.ariga.io/atlas/atlas-darwin-amd64-v1.2.0"
-
-[tools.atlas."platforms.windows-x64"]
-checksum = "sha256:5dbf3e7ec63306bce97904c6ad6ecb82633f0299b98c73987607204d551a80b1"
-url = "https://release.ariga.io/atlas/atlas-windows-amd64-v1.2.0.exe"
+checksum = "sha256:47aaf7c295c7569c7eecfcbc53f02de862846ce1fbef16f1bd8ae98b03c3c68f"
+url = "https://release.ariga.io/atlas/atlas-darwin-arm64-v1.3.0"
 
 [[tools.atuin]]
 version = "18.18.1"

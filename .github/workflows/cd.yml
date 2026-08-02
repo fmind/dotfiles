@@ -1,41 +1,25 @@
 name: CD
-# Dispatch-only on purpose. `dot release` prepares, validates, and pushes the
-# release commit, then dispatches this workflow with that exact SHA, so it is the
-# single owner of when a release publishes. A `push` trigger would fire a second,
-# redundant run for the same commit alongside the dispatched one.
+# Triggered when an annotated release tag (v*) is pushed to origin.
 on:
-  workflow_dispatch:
-    inputs:
-      commit:
-        description: Full release commit SHA prepared on main
-        required: true
-        type: string
+  push:
+    tags:
+      - "v*"
 permissions:
-  actions: read
   contents: write
 concurrency:
-  group: cd-${{ inputs.commit }}
+  group: cd-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   publish:
-    name: Gate, tag, and publish
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    name: Publish GitHub release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Checkout prepared commit
+      - name: Checkout tagged commit
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          ref: ${{ inputs.commit }}
-      - name: Install toolchain
-        uses: jdx/mise-action@v4
-        with:
-          cache: true
-      - name: Configure annotated tag identity
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      - name: Publish after exact-head CI
+      - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: go run ./dot/cmd/dot release publish --commit '${{ inputs.commit }}'
+        run: gh release create '${{ github.ref_name }}' --verify-tag --generate-notes --title '${{ github.ref_name }}'

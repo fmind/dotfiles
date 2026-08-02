@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-project
   created: 2026-06-23
-  updated: 2026-08-01
+  updated: 2026-08-02
 ---
 
 # Set Up Agents on a Project
@@ -17,10 +17,10 @@ Create the portable instruction and skill layer once, then add only the tool-spe
 
 1. **Create the Shared Layer**:
    ```bash
-   mkdir -p .agents/skills
+   mkdir -p .agents/skills .agents/prompts
    touch AGENTS.md
    ```
-   Start `AGENTS.md` from the minimal [project template](templates/AGENTS.md), then put project-wide rules there and reusable project skills in `.agents/skills/<name>/SKILL.md`.
+   Start `AGENTS.md` from the minimal [project template](templates/AGENTS.md), then put project-wide rules there, store reusable project skills in `.agents/skills/<name>/SKILL.md`, and keep prompt files in `.agents/prompts/` (globally gitignored by default).
 1. **Add Tool-Specific Files Only When Needed**:
    - **Antigravity**: use `.agents/settings.json` for workspace settings and `.agents/mcp_config.json` for MCP. It respects `.gitignore`; do not invent an `.antigravityignore`.
    - **Codex**: use `.codex/config.toml` for trusted project overrides and MCP. Codex reads `AGENTS.md` and `.agents/skills` natively.
@@ -37,6 +37,7 @@ Create the portable instruction and skill layer once, then add only the tool-spe
 <repository-root>/
 ├── AGENTS.md
 └── .agents/
+    ├── prompts/
     └── skills/
         └── <name>/
             └── SKILL.md

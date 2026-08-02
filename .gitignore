@@ -6,8 +6,6 @@
 .opencode/
 .ruff_cache/
 .venv/
-# Skill test tasks run python with -B, but a direct `python3 skills/.../x.py`
-# still writes bytecode next to the source, where it would ship with the skill.
 __pycache__/
 dot_local/bin/executable_dot
 skills/local-*

@@ -116,7 +116,6 @@ Inside the dotfiles repo, prefer the `mise run` wrappers: they depend on `build`
 
 ```bash
 mise run prune               # dot prune --all=deep
-mise run prune --agents      # session logs and caches, keeping k3d and the Go cache
 mise run verify              # dot verify
 mise run release -- -y       # dot release, non-interactive
 ```

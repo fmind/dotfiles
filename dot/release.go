@@ -3,7 +3,6 @@ package dot
 import (
 	"bufio"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -31,10 +30,7 @@ const (
 	releaseCliffConfig   = "dot_config/git-cliff/cliff.toml"
 )
 
-var (
-	semverTagPattern  = regexp.MustCompile(`^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$`)
-	fullCommitPattern = regexp.MustCompile(`^[0-9a-f]{40}$`)
-)
+var semverTagPattern = regexp.MustCompile(`^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$`)
 
 type ReleaseConfig struct {
 	Remote        string `yaml:"remote"`
@@ -72,29 +68,17 @@ func NewReleaseCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
 		Name:    "release",
 		Aliases: []string{"r"},
-		Usage:   "Prepare and dispatch an exact-head GitHub release",
+		Usage:   "Prepare, tag, and push a release commit to trigger CD publication",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: "yes", Aliases: []string{"y"}, Usage: "Automatic yes to the release preparation prompt"},
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			return RunRelease(ctx, state, cmd.Bool("yes"))
 		},
-		Commands: []*cli.Command{
-			{
-				Name:   "publish",
-				Usage:  "Gate and publish a prepared commit from GitHub Actions",
-				Hidden: true,
-				Flags:  []cli.Flag{&cli.StringFlag{Name: "commit", Required: true}},
-				Action: func(ctx context.Context, cmd *cli.Command) error {
-					return RunReleasePublish(ctx, state, cmd.String("commit"), realReleaseWaiter{})
-				},
-			},
-		},
 	}
 }
 
-// RunRelease prepares and pushes one release commit, then dispatches the workflow.
-// Tags and GitHub releases are deliberately absent from this local mutation path.
+// RunRelease prepares, tags, and pushes a release commit and tag to trigger CD publication.
 func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 	if err := IsInsideWorkTree(ctx, state); err != nil {
 		return err
@@ -155,7 +139,12 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 				return pushErr
 			}
 		}
-		return dispatchPreparedRelease(ctx, state, config, head, preparedTag)
+		if pushTagErr := pushReleaseTag(ctx, state, config, preparedTag, head); pushTagErr != nil {
+			return pushTagErr
+		}
+		reapplyDotBinary(ctx, state, root)
+		_, _ = fmt.Fprintf(state.Stdout, "%s Prepared and tagged %s at %s.\n", passIcon, preparedTag, head)
+		return nil
 	}
 
 	bumped, current, err := calculateReleaseVersion(ctx, state, root)
@@ -167,7 +156,7 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 		return nil
 	}
 	_, _ = fmt.Fprintf(state.Stdout, "Current version: %s\nNext version:    %s\n", yellow(current), green(bumped))
-	if !force && !confirmRelease(state.Stdin, state.Stdout, fmt.Sprintf("Prepare %s for CI-owned publication? [y/N]: ", bumped)) {
+	if !force && !confirmRelease(state.Stdin, state.Stdout, fmt.Sprintf("Prepare and tag %s for publication? [y/N]: ", bumped)) {
 		_, _ = fmt.Fprintln(state.Stdout, "Release canceled.")
 		return nil
 	}
@@ -198,7 +187,12 @@ func RunRelease(ctx context.Context, state *GlobalState, force bool) error {
 	if err := pushPreparedCommit(ctx, state, config, head); err != nil {
 		return err
 	}
-	return dispatchPreparedRelease(ctx, state, config, head, bumped)
+	if err := pushReleaseTag(ctx, state, config, bumped, head); err != nil {
+		return err
+	}
+	reapplyDotBinary(ctx, state, root)
+	_, _ = fmt.Fprintf(state.Stdout, "%s Released and tagged %s at %s.\n", passIcon, bumped, head)
+	return nil
 }
 
 type releaseFileSnapshot struct {
@@ -387,195 +381,33 @@ func pushPreparedCommit(ctx context.Context, state *GlobalState, config ReleaseC
 	}
 }
 
-func dispatchPreparedRelease(ctx context.Context, state *GlobalState, config ReleaseConfig, commit, tag string) error {
-	output, err := state.Runner.Run(ctx, "", nil, "gh", "workflow", "run", config.Workflow, "--ref", config.DefaultBranch, "-f", "commit="+commit)
-	if err != nil {
-		return fmt.Errorf("prepared commit %s was pushed but release workflow dispatch failed: %w", commit, err)
-	}
-	url := strings.TrimSpace(output)
-	if url == "" {
-		repoURL, viewErr := state.Runner.Run(ctx, "", nil, "gh", "repo", "view", "--json", "url", "--jq", ".url")
-		if viewErr == nil {
-			url = strings.TrimSpace(repoURL) + "/actions/workflows/" + config.Workflow
+func pushReleaseTag(ctx context.Context, state *GlobalState, config ReleaseConfig, tag, commit string) error {
+	refspec := "refs/tags/" + tag
+	if _, err := state.Runner.Run(ctx, "", nil, "git", "rev-parse", refspec); err != nil {
+		if _, tagErr := state.Runner.Run(ctx, "", nil, "git", "tag", "-a", tag, "-m", tag, commit); tagErr != nil {
+			return fmt.Errorf("failed to create tag %s: %w", tag, tagErr)
 		}
 	}
-	_, _ = fmt.Fprintf(state.Stdout, "%s Prepared %s at %s. CI-owned publication: %s\n", passIcon, tag, commit, url)
-	return nil
-}
-
-type releaseWaiter interface {
-	Wait(context.Context, time.Duration) error
-	Now() time.Time
-}
-
-type realReleaseWaiter struct{}
-
-func (realReleaseWaiter) Wait(ctx context.Context, duration time.Duration) error {
-	timer := time.NewTimer(duration)
-	defer timer.Stop()
-	select {
-	case <-ctx.Done():
-		return ctx.Err()
-	case <-timer.C:
+	if err := state.Runner.RunInteractive(ctx, "", "git", "push", config.Remote, refspec); err == nil {
 		return nil
-	}
-}
-
-func (realReleaseWaiter) Now() time.Time { return time.Now() }
-
-type releaseWorkflowRun struct {
-	Status     string `json:"status"`
-	Conclusion string `json:"conclusion"`
-	HeadSHA    string `json:"headSha"`
-	URL        string `json:"url"`
-	DatabaseID int64  `json:"databaseId"`
-}
-
-func RunReleasePublish(ctx context.Context, state *GlobalState, commit string, waiter releaseWaiter) error {
-	if os.Getenv("GITHUB_ACTIONS") != "true" {
-		return errors.New("release publication is restricted to GitHub Actions")
-	}
-	if !fullCommitPattern.MatchString(commit) {
-		return fmt.Errorf("invalid release commit %q", commit)
-	}
-	head, err := state.Runner.Run(ctx, "", nil, "git", "rev-parse", "HEAD")
-	if err != nil || strings.TrimSpace(head) != commit {
-		return fmt.Errorf("checked-out HEAD does not equal prepared commit %s", commit)
-	}
-	root, err := releaseRoot(ctx, state)
-	if err != nil {
-		return err
-	}
-	ciURL, err := waitForExactHeadCI(ctx, state, commit, waiter)
-	if err != nil {
-		return err
-	}
-	version, err := readReleaseVersion(root)
-	if err != nil {
-		return err
-	}
-	tag := "v" + version
-	if !semverTagPattern.MatchString(tag) {
-		return fmt.Errorf("prepared version %q is not semantic", tag)
-	}
-	if tagErr := ensureImmutableTag(ctx, state, state.Config.Release.Remote, tag, commit); tagErr != nil {
-		return tagErr
-	}
-	releaseURL, err := ensureGitHubRelease(ctx, state, tag)
-	if err != nil {
-		return err
-	}
-	_, _ = fmt.Fprintf(state.Stdout, "%s Published %s from exact-head CI %s: %s\n", passIcon, tag, ciURL, releaseURL)
-	return nil
-}
-
-func waitForExactHeadCI(ctx context.Context, state *GlobalState, commit string, waiter releaseWaiter) (string, error) {
-	deadline := waiter.Now().Add(releaseGateTimeout)
-	for {
-		raw, err := state.Runner.Run(ctx, "", nil, "gh", "run", "list", "--workflow", releaseCIWorkflow, "--commit", commit, "--event", "push", "--limit", "2", "--json", "databaseId,status,conclusion,url,headSha")
-		if err != nil {
-			return "", fmt.Errorf("failed to resolve exact-head CI: %w", err)
-		}
-		var runs []releaseWorkflowRun
-		if err := json.Unmarshal([]byte(raw), &runs); err != nil {
-			return "", fmt.Errorf("invalid exact-head CI response: %w", err)
-		}
-		if len(runs) > 1 {
-			return "", fmt.Errorf("ambiguous exact-head CI: found %d runs for %s", len(runs), commit)
-		}
-		if len(runs) == 1 {
-			run := runs[0]
-			if run.HeadSHA != commit {
-				return "", fmt.Errorf("exact-head CI returned mismatched commit %s", run.HeadSHA)
-			}
-			if run.Status == "completed" {
-				if run.Conclusion != "success" {
-					return "", fmt.Errorf("exact-head CI %d concluded %s", run.DatabaseID, run.Conclusion)
-				}
-				return run.URL, nil
+	} else {
+		if _, fetchErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "fetch", "--tags", config.Remote); fetchErr == nil {
+			remoteTag, resolveErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "rev-parse", refspec)
+			if resolveErr == nil && strings.TrimSpace(remoteTag) == commit {
+				return nil
 			}
 		}
-		if !waiter.Now().Before(deadline) {
-			return "", fmt.Errorf("timed out waiting for exact-head CI for %s", commit)
-		}
-		if err := waiter.Wait(ctx, releasePollInterval); err != nil {
-			return "", fmt.Errorf("waiting for exact-head CI: %w", err)
-		}
+		return fmt.Errorf("failed to push tag %s to %s: %w", tag, config.Remote, err)
 	}
 }
 
-func remoteAnnotatedTag(ctx context.Context, state *GlobalState, remote, tag string) (string, bool, error) {
-	output, err := state.Runner.Run(ctx, "", nil, "git", "ls-remote", "--tags", remote, "refs/tags/"+tag, "refs/tags/"+tag+"^{}")
-	if err != nil {
-		return "", false, fmt.Errorf("failed to inspect remote tag %s: %w", tag, err)
-	}
-	if strings.TrimSpace(output) == "" {
-		return "", false, nil
-	}
-	var direct, peeled string
-	for line := range strings.Lines(output) {
-		fields := strings.Fields(line)
-		if len(fields) != 2 {
-			return "", false, fmt.Errorf("malformed remote tag response for %s", tag)
-		}
-		if strings.HasSuffix(fields[1], "^{}") {
-			peeled = fields[0]
-		} else {
-			direct = fields[0]
+func reapplyDotBinary(ctx context.Context, state *GlobalState, root string) {
+	if _, err := state.Runner.Run(ctx, root, nil, "mise", "run", "--force", "build"); err == nil {
+		home, err := os.UserHomeDir()
+		if err == nil {
+			_, _ = state.Runner.Run(ctx, root, nil, "chezmoi", "apply", "--force", filepath.Join(home, ".local", "bin", "dot"))
 		}
 	}
-	if direct == "" || peeled == "" {
-		return "", true, fmt.Errorf("remote tag %s exists but is not annotated", tag)
-	}
-	return peeled, true, nil
-}
-
-func ensureImmutableTag(ctx context.Context, state *GlobalState, remote, tag, commit string) error {
-	peeled, exists, err := remoteAnnotatedTag(ctx, state, remote, tag)
-	if err != nil {
-		return err
-	}
-	if exists {
-		if peeled != commit {
-			return fmt.Errorf("immutable tag %s already targets %s, not %s", tag, peeled, commit)
-		}
-		return nil
-	}
-	if _, err := state.Runner.Run(ctx, "", nil, "git", "tag", "-a", tag, "-m", tag, commit); err != nil {
-		return fmt.Errorf("failed to create annotated tag %s: %w", tag, err)
-	}
-	if err := state.Runner.RunInteractive(ctx, "", "git", "push", remote, "refs/tags/"+tag); err == nil {
-		verifiedCommit, verifiedExists, inspectErr := remoteAnnotatedTag(ctx, state, remote, tag)
-		if inspectErr != nil || !verifiedExists || verifiedCommit != commit {
-			return fmt.Errorf("published tag %s failed immutable readback verification", tag)
-		}
-		return nil
-	}
-	peeled, exists, inspectErr := remoteAnnotatedTag(context.WithoutCancel(ctx), state, remote, tag)
-	if inspectErr == nil && exists && peeled == commit {
-		return nil
-	}
-	return fmt.Errorf("failed to publish immutable tag %s", tag)
-}
-
-func ensureGitHubRelease(ctx context.Context, state *GlobalState, tag string) (string, error) {
-	view := func() (string, error) {
-		return state.Runner.Run(ctx, "", nil, "gh", "release", "view", tag, "--json", "url", "--jq", ".url")
-	}
-	if url, err := view(); err == nil {
-		return strings.TrimSpace(url), nil
-	}
-	if err := state.Runner.RunInteractive(ctx, "", "gh", "release", "create", tag, "--verify-tag", "--generate-notes", "--title", tag); err != nil {
-		if url, viewErr := view(); viewErr == nil {
-			return strings.TrimSpace(url), nil
-		}
-		return "", fmt.Errorf("failed to publish GitHub release %s: %w", tag, err)
-	}
-	url, err := view()
-	if err != nil {
-		return "", fmt.Errorf("release %s was created but its URL is unavailable: %w", tag, err)
-	}
-	return strings.TrimSpace(url), nil
 }
 
 func confirmRelease(stdin io.Reader, stdout io.Writer, msg string) bool {

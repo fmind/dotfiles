@@ -14,7 +14,6 @@ if status is-interactive
     abbr -a f fd
     # g:git
     abbr -a g git
-    # gd:gh-dash
     abbr -a gd gh-dash
     # go:go
     abbr -a gob "go build"

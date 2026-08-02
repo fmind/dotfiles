@@ -6,133 +6,126 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
 
 ## House rules
 
-- **Chezmoi Force**: always use `chezmoi apply --force` when applying changes in automation/scripts to prevent getting blocked by interactive prompts when target files have changed.
-- **Edit-source**: change files in this chezmoi source (`~/.local/share/chezmoi/...`), never their deployed copies under `~/.gemini` or `~/.config`.
-- **GitHub Access**: use the `gh` CLI for all repository, issue, and PR operations.
-- **Git Push to Main**: it is allowed to commit and push directly to the `main` branch (no need to create a feature branch first).
+- **Chezmoi Force**: Always use `chezmoi apply --force` in scripts/automation to prevent interactive prompt blocks.
+- **Edit-source**: Change files in chezmoi source (`~/.local/share/chezmoi/...`), never deployed copies under `~/.gemini` or `~/.config`.
+- **GitHub Access**: Use `gh` CLI for repository, issue, and PR operations.
+- **Git Push to Main**: Direct commit/push to `main` branch is permitted (no feature branch required).
 - **Lint-before-done**: `mise run all` (format + check + test, the same gate CI runs) must pass before reporting a task complete.
-- **Security Evidence**: push CI intentionally scans only the latest 10 commits (`check:leaks`); `.github/workflows/security.yml` is the distinct weekly/manual boundary that rescans the full history and checkout. Any finding, scanner error, or timeout is a failed scan, never clean evidence.
-- **Markdown Lists**: only use `1.` for all numbered list items in markdown files (e.g. `1. first`, `1. second`) to ensure correct dynamic rendering.
-- **No-Hard-Wrap**: every `*.md` keeps each paragraph on a single line.
-- **No-Sudo**: stay user-space; install via `mise`.
-- **README Scope**: only keep setup-related instructions (installation, ssh, API, credentials, auth) in `README.md` and avoid describing repository tasks, shortcuts, aliases, or workflows.
+- **Markdown Lists**: Only use `1.` for all numbered list items in markdown files to ensure correct dynamic rendering.
+- **No-Hard-Wrap**: Every `*.md` keeps each paragraph on a single line.
+- **No-Sudo**: Stay user-space; install via `mise`.
+- **README Scope**: Keep setup/auth instructions in `README.md`; exclude repository tasks, aliases, and workflows.
 - **Secrets**: `*.age` files are encrypted; never modify or commit decrypted versions.
-- **Theme**: **Tokyo Night (Moon)** is the default across every tool that supports theming (small tools that only inherit terminal ANSI colors are left to the terminal).
-- **Vim mode**: enable in every TUI that supports it.
+- **Theme**: **Tokyo Night (Moon)** is default across every tool that supports theming.
+- **Vim mode**: Enable in every TUI that supports it.
 
 ## Conventions
 
 - `dot_foo` → `~/.foo`. Never write a literal leading dot in source paths.
 - `<name>.tmpl` → Go-template; branch on `.chezmoi.os` / `.chezmoi.arch`.
-- `modify_*` containing `chezmoi:modify-template` → partial file ownership with the existing target in `.chezmoi.stdin`; these files must not use a `.tmpl` suffix.
+- `modify_*` containing `chezmoi:modify-template` → partial file ownership via `.chezmoi.stdin`; omit `.tmpl` suffix.
 - `symlink_<name>.tmpl` → symlink target written verbatim into the link.
-- `private_*` → mode 0600. `executable_*` → mode 0755. `*.age` → encrypted.
-- `run_once_after_*.sh` → executed by `chezmoi apply` once per unique content hash; use it for one-shot install/bootstrap steps.
-- `run_onchange_after_*.sh` → executed by `chezmoi apply` after files are written, only when the script's content changes.
-- `.chezmoiignore` keeps repo-only files (the `/dot` Go CLI, `/skills`, `/AGENTS.md`, `README.md`, `LICENSE`, `CHANGELOG.md`, `install.sh`, `mise.toml`/`mise.lock`, `lefthook.yml`, `dprint.json`, `ruff.toml`, `trivy.yaml`, and `go.work`/`go.work.sum`) out of `apply`, plus the Ghostty `.desktop` file on non-Linux hosts and `secrets.fish` when the age key is absent.
-- `.chezmoi.toml.tmpl` seeds the per-machine chezmoi config (git identity, age recipient, editor/cd/diff/merge commands) on `chezmoi init`.
+- `private_*` (mode 0600), `executable_*` (mode 0755), `*.age` (encrypted).
+- `run_once_after_*.sh` → executed by `chezmoi apply` once per content hash.
+- `run_onchange_after_*.sh` → executed by `chezmoi apply` when content changes.
+- `.chezmoiignore` keeps non-deployed repository files out of `apply`.
+- `.chezmoi.toml.tmpl` seeds per-machine chezmoi config (git identity, age recipient, editor).
 
 ## Workflows
 
-Tasks run via `mise run <task>`. **Do not use `mr`** — it is a fish abbreviation defined under `status is-interactive`, so it expands only at a human prompt and is an unknown command in every script, hook, and agent shell.
+Tasks run via `mise run <task>`. **Do not use `mr`** — it is an interactive-only fish abbreviation.
 
 Aliases split into two namespaces so a mistyped letter can never fire the wrong kind of task:
 
 - **Common tasks** take the canonical one-letter alias from the mise skill: `a` all, `b` build, `c` check, `f` format, `i` install, `t` test, `w` watch (plus `c*`/`f*` for subtasks, e.g. `cg` check:go, `fd` format:dprint).
-- **Project management** tasks take an `m`-prefixed alias: `ma` apply, `md` diff, `mf` full, `mg` completions, `mh` hooks, `mk` lock, `mo` doctor, `mp` prune, `mr` release, `mt` tools, `mtr` trust, `mu` upgrade, `mv` vim, `mw` krew, `mx` verify.
+- **Project management** tasks take an `m`-prefixed alias: `ma` apply, `md` diff, `me` deploy, `mf` full, `mg` completions, `mh` hooks, `mk` lock, `mo` doctor, `mp` prune, `mr` release, `mt` tools, `mtr` trust, `mu` upgrade, `mv` vim, `mw` krew, `mx` verify.
+
+Key routines:
 
 - **First-time setup**: `mise run install` (trust → tools → hooks → vim → krew).
-- **Routine update**: `mise run full` (fast standard routine synchronization).
-- **Iterate**: edit source → `mise run apply` (`mise run diff` to preview) → `mise run check` for quick static checks (or `mise run all` for the full CI gate) → `mise run verify` for dotfiles sanity.
-- **Add a tool**: append to `dot_config/mise/config.toml.tmpl` (alphabetical) — use `mise registry` to find tools → `mise run tools` to deploy and install → `mise run lock` to refresh and stage the lockfile.
-- **Upgrade tools**: `mise run upgrade` upgrades repository and global tool pins, refreshes lockfiles, and deploys updated tools.
-- **Reclaim disk**: `mise run prune:agents` while local k3d clusters or a warm Go cache still matter; `mise run prune` (`--all=deep`) otherwise.
-- **Release**: `mise run release` fetches and proves `main == origin/main`, validates and pushes only the release commit, then dispatches `.github/workflows/cd.yml`; the workflow waits for exact-head CI before creating an immutable annotated tag and publishing the GitHub release.
-- **Manage skills**: author first-party skills directly under `skills/` and validate with `gh skill publish --dry-run`. No external skill is vendored here; install reviewed upstream ones on demand with `skills add <repo> --all -y` (candidates are listed in the `agent-skills` skill).
-- **Create visuals**: use `fmind-visuals` for the brand contract and routing; Slidev is the only default for new decks, Mermaid is the default for diagrams, LikeC4 remains the architecture-model option, and D2 remains the bespoke composition option.
-- **Custom AI Utilities**: Deployed via `dot_local/bin/` to `~/.local/bin/` (e.g. `dot` CLI) and added to PATH.
+- **Routine update**: `mise run full` (synchronize environment).
+- **Iterate**: Edit source → `mise run apply` (`mise run diff` to preview) → `mise run check` (or `mise run all`) → `mise run verify`.
+- **Add tool**: Append to `dot_config/mise/config.toml.tmpl` → `mise run tools` → `mise run lock`.
+- **Upgrade tools**: `mise run upgrade` (upgrades tool pins and lockfiles).
+- **Reclaim disk**: `mise run prune` (reclaim development caches and agent transcripts).
+- **Release**: `mise run release` (runs validation, tags, pushes `main` and tag).
+- **Manage skills**: Author directly under `skills/`; validate with `gh skill publish --dry-run`.
+- **Create visuals**: Use `fmind-visuals` skill (Slidev for decks, Mermaid for diagrams).
 
-> If `mise` itself fails with `command not found` in an agent shell, the harness captured mise's shell function without `__MISE_EXE`; call `~/.local/bin/mise` directly.
+> Note: If `mise` fails with `command not found` in an agent shell, call `~/.local/bin/mise` directly.
 
-- The unified `dot` CLI command-line utility (source in `dot/`) is compiled to `~/.local/bin/dot` and provides the following subcommands:
-  - `dot verify` (alias `v`) — Runs sanity checks on system environments, CLI tool installations, secret configurations, and install freshness (the deployed binary against the source checkout's `HEAD`).
-  - `dot pull` (alias `p`) — Concurrently pulls all active development Git repositories defined in `~/.config/dot.yaml`; `--push`/`-P` also pushes clean repositories that are ahead of their upstream.
-  - `dot commit` (alias `c`) — Automatically generates and applies a Conventional Commit message from current git diffs via `agy`.
-  - `dot cluster` (alias `k`) — Creates, starts, stops, inspects, or diagnoses the shared local k3d Kubernetes cluster through an owner-only per-cluster kubeconfig under `~/.kube/dot/<name>.yaml`. Every kubectl call receives explicit `--kubeconfig` and `--context` arguments; lifecycle and namespace mutations print and immediately re-verify the cluster, context, namespace, and stable ownership fingerprint without reading credentials or changing the default kubeconfig. `dot cluster diagnose` writes a local owner-only, versioned JSON evidence bundle from a bounded read-only allowlist, preserves sanitized partial errors, and never uploads it. Use the global `--context` flag only for an intentional renamed-context override.
-  - `dot login` (alias `l`) — Interactive OAuth login wrapper command targeting `github` (via `gh`), `workspace` (via `gws`), `gcp` (via `gcloud` user and Application Default Credentials), or `clasp` (via `clasp login`).
-  - `dot setup` (alias `u`) — Custom setup wrapper to enable APIs on the active GCP Google Workspace project.
-  - `dot completion` (alias `g`) — Automatically generates fish autocompletions for dot itself and external CLI tools.
-  - `dot pull-request` (alias `pr`) — Generates a structured pull request description via AI and triggers `gh pr create`.
-  - `dot release` (alias `r`) — Prepares and pushes a release commit from an exact `main == origin/main` state, then dispatches CI-owned immutable tagging and publication.
-  - `dot status` (alias `s`) — Provides a unified summary status of local development Git repositories, active docker containers, and local k3d Kubernetes configurations; supports `--json`/`-j` for scripting.
-  - `dot agent` (alias `a`) — Normalizes agent session transcripts into an append-only, versioned lineage store under `~/.agents/sessions/v1/`. Each owner-only generation carries a manifest and is atomically published by `(agent, session_id, source fingerprint, parser version)`, so live hooks and `sync` converge without overwriting evidence. `dot agent session list`, `show`, and `export` query owner-only metadata by agent, project/CWD, date, or identity; prompts and responses require explicit `--content`, while exports use stable `json`/`ndjson` schemas and support explicit `--redact-content`. This read contract stays local and private; future context or knowledge consumers must opt in to content access rather than treating the archive as ambient context. `agy`, `claude`, and `codex` are wired to each tool's `Stop` hook, and `opencode` fires from its `session.idle` plugin. Copilot's personal `sessionEnd` hook passes only documented lifecycle metadata to `dot agent hook copilot-session-end`, which performs a non-blocking targeted read from `~/.copilot/session-store.db`; `dot agent session sync` remains the idempotent full backfill. Hook templates route through `dot agent hook`, which preserves non-zero failures in an owner-only 100-record metadata spool without recording transcript bodies or raw session IDs. `dot agent doctor` is read-only by default and checks every agent's persona, skills, hooks, local capability probes, source store, last complete ingestion, last hook failure, and archive lag; `--fix --dry-run` previews a targeted `chezmoi apply --force`, while `--fix` performs it. `dot agent session migrate` previews the most-complete legacy transcript selection by default; `--apply` copies those selections into the versioned store while preserving every legacy file. The session command only gathers: deleting expired session logs belongs to `dot prune --agents`.
-  - `dot notify` (alias `n`) — Sends an OS-independent desktop notification for agent hook events (`<agent> <stop|needs-input>`) or custom alerts (`<summary> [headline] [details...]`), naming the project and zellij pane to return to so background agents announce themselves instead of waiting to be checked; Claude, Codex, and Antigravity fire it from their `Stop` hooks when a turn is finished, and Claude also fires `needs-input` from `Notification` so a blocked agent surfaces instead of idling.
-  - `dot prune` (alias `x`) — Reclaims disk space from agent session logs and development caches, and owns all session retention (both the raw per-agent stores and `~/.agents/sessions`, each with its own typed `source` and `keep_days` under `prune.agents.sessions`). An aged raw Claude, Codex, or Antigravity transcript is deleted only after its exact lineage, source fingerprint, completeness, high-water mark, and immutable normalized generation are verified; unnormalized, stale, partial, unreadable, interrupted, or ambiguous sources are retained with evidence, and the shared OpenCode/Copilot databases are retained until row-level pruning exists. Targets compose as flags (`--agents`, `--docker`, `--go`, `--python`, `--node`, `--mise`, `--tools`, or `--all`) and each accepts an optional depth (`--docker=system`, `--go=module`, `--all=deep`); every target has a `prune.<target>` config section carrying its default depth and cache paths, `--dry-run` reports each session decision without deleting, and `--days` overrides every configured retention.
-  - `dot chezmoi clean` (group alias `m`, subcommand aliases `c`, `cc`) — Scans for previously managed chezmoi files and cleans up unmanaged orphans in home directory.
-  - `dot config` (alias `f`) — Inspects, scaffolds, edits, and validates the `~/.config/dot.yaml` configuration file (`show`, `path`, `init`, `edit`, `validate`).
-  - `dot context` (alias `t`) — Emits a deterministic project-only context pack as Markdown or versioned JSON, within an explicit byte or approximate token budget; collectors and sensitive path/environment patterns are allowlisted through `context` in `~/.config/dot.yaml`, and the exact final payload is secret-scanned before output.
-  - `dot version` (alias `i`) — Prints the version enriched with the embedded VCS revision so an installed binary can be matched against the current sources.
+The unified `dot` CLI command-line utility (source in `dot/`) is compiled to `~/.local/bin/dot`. Detailed CLI configuration and subcommand flags are documented in [`skills/dot-cli/SKILL.md`](skills/dot-cli/SKILL.md).
+
+- `dot verify` (alias `v`) — Sanity checks on environment, tools, secrets, and install freshness (`HEAD`).
+- `dot pull` (alias `p`) — Pull development repositories in `~/.config/dot.yaml` (`--push` to push).
+- `dot commit` (alias `c`) — Generate Conventional Commit from git diff via AI (`agy`).
+- `dot cluster` (alias `k`) — Manage local k3d Kubernetes cluster and output diagnostic evidence bundles.
+- `dot login` (alias `l`) — OAuth login wrapper for `github`, `workspace`, `gcp`, or `clasp`.
+- `dot setup` (alias `u`) — Enable GCP APIs on active Google Workspace project.
+- `dot completion` (alias `g`) — Generate fish autocompletions.
+- `dot pull-request` (alias `pr`) — Generate PR description via AI and trigger `gh pr create`.
+- `dot release` (alias `r`) — Prepare, tag, and push release commit/tag (`main == origin/main`).
+- `dot status` (alias `s`) — Unified summary of git repos, docker containers, and k3d cluster (`--json`).
+- `dot agent` (alias `a`) — Normalize session transcripts into `~/.agents/sessions/v1/`, run `doctor`, `hook`, `session`.
+- `dot notify` (alias `n`) — Desktop notification for agent hook events or custom alerts.
+- `dot prune` (alias `x`) — Reclaim disk space from agent transcripts and build/tool caches.
+- `dot chezmoi clean` (alias `m c`) — Scan and clean unmanaged home directory orphan files.
+- `dot config` (alias `f`) — Inspect, scaffold, edit, and validate `~/.config/dot.yaml`.
+- `dot context` (alias `t`) — Emit bounded, secret-scanned project context pack (Markdown or JSON).
+- `dot version` (alias `i`) — Print binary version enriched with embedded VCS revision.
 
 ## Agents
 
-Two assets are authored once and consumed by all agent CLIs through native discovery, symlinks, or deterministic synchronization:
+Two assets are authored once and consumed by all agent CLIs:
 
-- **Persona** — `dot_agents/AGENTS.md` deploys to `~/.agents/AGENTS.md`.
-  - Codex consumes it via a symlink at `~/.codex/AGENTS.md` pointing to `~/.agents/AGENTS.md`.
-  - Antigravity consumes it via a symlink at `~/.gemini/GEMINI.md` pointing to `~/.agents/AGENTS.md`.
-  - OpenCode consumes it via the `instructions` option in `opencode.json` pointing to `~/.agents/AGENTS.md`.
-  - Claude consumes it via a symlink at `~/.claude/CLAUDE.md` pointing to `~/.agents/AGENTS.md`.
-  - Copilot consumes it via a symlink at `~/.copilot/copilot-instructions.md` pointing to `~/.agents/AGENTS.md`.
-- **Skills** — `skills/` (at the root of this repository) is the canonical home and is symlinked to `~/.agents/skills/` via a chezmoi symlink template.
-  - Codex, OpenCode, and GitHub Copilot CLI discover `~/.agents/skills/<name>/SKILL.md` natively.
-  - Claude consumes the canonical directory through `dot_claude/symlink_skills.tmpl`, which deploys `~/.claude/skills` as a symlink to `~/.agents/skills`.
-  - Antigravity products discover shared global skills from `~/.gemini/config/skills` via a symlink template.
+- **Persona** — `dot_agents/AGENTS.md` deploys to `~/.agents/AGENTS.md` (symlinked by Codex, Antigravity, OpenCode, Claude, Copilot).
+- **Skills** — `skills/` is symlinked to `~/.agents/skills/` (consumed by all agent CLIs).
 
 **Rule: every global skill lives in `skills/`.**
 
 ## Layout
 
 - `.agents/` — Workspace-scoped state, session records, and scratch scripts for AI agents.
-- `.antigravitycli/` — Workspace-scoped session records, configuration settings, and state for Antigravity CLI.
-- `.chezmoi.toml.tmpl` — Template config initialized as the host-specific chezmoi configuration.
-- `.chezmoiignore` — Chezmoi exclude patterns to ignore repository files from deployment.
-- `.claude/` — Workspace-scoped session records and state for the Claude Code CLI.
-- `.gemini/` — Workspace configurations and metadata for the Antigravity CLI.
-- `.github/` — GitHub Actions workflows (`ci.yml` per push/PR, `cd.yml` dispatched by `dot release`, `security.yml` weekly) and Dependabot configuration.
-- `.gitignore` — Git pattern definitions to exclude files from version control.
+- `.antigravitycli/` — Workspace-scoped session records and state for Antigravity CLI.
+- `.chezmoi.toml.tmpl` — Host-specific chezmoi configuration template.
+- `.chezmoiignore` — Chezmoi exclude rules for non-deployed repository files.
+- `.claude/` — Workspace-scoped session records and state for Claude Code CLI.
+- `.gemini/` — Workspace configurations and metadata for Antigravity CLI.
+- `.github/` — GitHub Actions workflows (`ci.yml`, `cd.yml`, `security.yml`) and Dependabot config.
+- `.gitignore` — Git exclusion rules.
 - `.gitleaks.toml` — Security configuration and secrets scanner allowlist for GitLeaks.
-- `.stylua.toml` — Two-space StyleLua formatting policy for managed Neovim Lua sources (chezmoi ignores dot-prefixed source files automatically).
-- `AGENTS.md` (this file) — Repository guide, conventions, and instruction guidelines for AI agents.
+- `.stylua.toml` — StyleLua formatting policy for managed Neovim Lua sources.
+- `AGENTS.md` (this file) — Repository guide, conventions, and layout for AI agents.
 - `CHANGELOG.md` — Versioned release history generated from Conventional Commits.
 - `dot/` — Go CLI source package containing the unified `dot` command-line utility.
-- `dot_agents/` — Source folder containing unified global instructions (`AGENTS.md`) and the canonical skills symlink template.
-- `dot_claude/` — Claude Code CLI settings template plus the persona and skills symlinks. `settings.json.tmpl` fully owns `~/.claude/settings.json`: it is a plain file, not a `modify_` template, so `chezmoi apply` resets whatever `/model` and the effort picker last wrote back to the repo defaults (Fable 5 1M, xhigh effort). Change the default here, not at runtime.
-- `dot_codex/` — OpenAI Codex CLI partial configuration modifier plus the shared persona symlink into `~/.codex/`; runtime model and trust state are preserved across applies.
-- `dot_config/` — Custom configuration templates deployed to the user's `~/.config/` directory.
+- `dot_agents/` — Source folder containing unified global instructions (`AGENTS.md`) and skills symlink template.
+- `dot_claude/` — Claude Code CLI settings template and persona/skills symlinks.
+- `dot_codex/` — OpenAI Codex CLI partial configuration modifier and persona symlink.
+- `dot_config/` — Custom configuration templates deployed to `~/.config/`.
 - `dot_copilot/` — GitHub Copilot CLI integration configurations and symlink templates.
 - `dot_duckdbrc` — DuckDB CLI settings deployed to `~/.duckdbrc`.
 - `dot_gemini/` — Antigravity CLI config settings and symlinks deployed to `~/.gemini/`.
 - `dot_gitconfig.tmpl` — Global Git configuration template deployed to `~/.gitconfig`.
-- `dot_inputrc` — GNU Readline configurations deployed to `~/.inputrc` for prompt styling.
-- `dot_kube/` — kubectl settings deployed to `~/.kube/` (`kuberc` defaults and kubecolor `color.yaml`).
-- `dot_local/` — Executables, application configurations, and helpers deployed to `~/.local/`.
+- `dot_inputrc` — Readline prompt styling configurations deployed to `~/.inputrc`.
+- `dot_kube/` — kubectl settings deployed to `~/.kube/`.
+- `dot_local/` — Executables and application configurations deployed to `~/.local/`.
 - `dot_npmrc` — npm configuration deployed to `~/.npmrc`.
-- `dot_skaffold/` — Skaffold settings deployed to `~/.skaffold/` for local Kubernetes development.
+- `dot_skaffold/` — Skaffold settings deployed to `~/.skaffold/`.
 - `dot_sqliterc` — SQLite interactive shell settings deployed to `~/.sqliterc`.
-- `dot_terraform.d/` — Terraform/OpenTofu CLI data deployed to `~/.terraform.d/` (provider plugin cache).
-- `dot_terraformrc` — Terraform/OpenTofu CLI configuration deployed to `~/.terraformrc`.
-- `dprint.json` — Layout settings and format plugins configured for the dprint code formatter.
+- `dot_terraform.d/` — Terraform provider plugin cache deployed to `~/.terraform.d/`.
+- `dot_terraformrc` — Terraform CLI configuration deployed to `~/.terraformrc`.
+- `dprint.json` — Layout settings and format plugins for dprint code formatter.
 - `go.work` — Go workspace file targeting the `dot` CLI package.
-- `go.work.sum` — Go workspace dependency lock file.
-- `install.sh` — Bootstrapping shell script that installs mise from its vendor install script, then chezmoi through mise, and completes the ordered bootstrap via `mise run install`.
-- `lefthook.yml` — Lefthook Git hooks manager settings: pre-commit formatting/linting, pre-push testing, and a post-commit redeploy of the `dot` binary when a commit changes what it is built from.
-- `LICENSE` — MIT License file governing use of the dotfiles repository.
-- `mise.lock` — Cross-platform lockfile for the repository-scoped mise toolchain.
-- `mise.toml` — Project-scoped task definitions and mise configuration for task runs.
-- `modify_dot_bashrc` — Partial chezmoi ownership of Bash interactive-shell mise activation.
-- `modify_dot_profile` — Partial chezmoi ownership of login-shell mise paths and activation.
-- `README.md` — Human-centric documentation detailing requirements, installation steps, and secrets.
+- `go.work.sum` — Go workspace dependency checksum file.
+- `install.sh` — Bootstrapping shell script installing mise and chezmoi.
+- `lefthook.yml` — Lefthook Git hooks manager settings (pre-commit, pre-push, post-commit).
+- `LICENSE` — MIT License file.
+- `mise.lock` — Cross-platform lockfile for repository-scoped mise toolchain.
+- `mise.toml` — Project-scoped task definitions and toolchain configuration.
+- `modify_dot_bashrc` — Partial chezmoi ownership for Bash interactive shell mise activation.
+- `modify_dot_profile` — Partial chezmoi ownership for login shell environment and mise activation.
+- `README.md` — Human-centric documentation detailing requirements, installation, and setup.
 - `ruff.toml` — Python linter and formatter configuration for Ruff.
-- `run_once_after_install-antigravity-cli.sh.tmpl` — Post-install hook that installs the Antigravity CLI from its vendor install script, and exits early when one is already on PATH.
-- `skills/` — Storage directory holding global agent skills symlinked into active agent directories.
-- `trivy.yaml` — Security scanner policy configuration for Trivy vulnerabilities, misconfigurations, and secrets.
+- `run_once_after_install-antigravity-cli.sh.tmpl` — Post-install hook for Antigravity CLI.
+- `skills/` — Storage directory holding global agent skills symlinked to `~/.agents/skills/`.
+- `trivy.yaml` — Security scanner policy configuration for Trivy.

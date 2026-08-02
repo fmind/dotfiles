@@ -9,6 +9,20 @@
     ]
   },
   "session-log": {
+    "PreCompact": [
+      {
+        "type": "command",
+        "command": "dot agent hook session agy",
+        "timeout": 30
+      }
+    ],
+    "SessionEnd": [
+      {
+        "type": "command",
+        "command": "dot agent hook session agy",
+        "timeout": 30
+      }
+    ],
     "Stop": [
       {
         "type": "command",

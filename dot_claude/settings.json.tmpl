@@ -13,7 +13,7 @@
   "awaySummaryEnabled": true,
   "cleanupPeriodDays": 30,
   "editorMode": "vim",
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "env": {
     "BASH_DEFAULT_TIMEOUT_MS": "300000",
     "BASH_MAX_TIMEOUT_MS": "1800000",
@@ -91,12 +91,11 @@
       }
     ]
   },
-  "model": "claude-fable-5[1m]",
+  "model": "claude-opus[1m]",
   "permissions": {
     "additionalDirectories": [
       "{{ .chezmoi.homeDir }}/.agents",
       "{{ .chezmoi.homeDir }}/.local/share/chezmoi",
-      "{{ .chezmoi.homeDir }}/externals",
       "{{ .chezmoi.homeDir }}/fmind",
       "{{ .chezmoi.homeDir }}/fmind-ai",
       "{{ .chezmoi.homeDir }}/mlops-courses"

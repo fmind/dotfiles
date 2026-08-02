@@ -1,90 +1,38 @@
 # yaml-language-server: $schema=https://gh-dash.dev/schema.json
 
-# Sections are a triage funnel, ordered by "how much does this need a human".
-# Every filter is scoped by identity (@me) rather than by owner or org so that
-# new repositories and new orgs appear without editing this file. Agents open
-# most of these pull requests, so the question is never "which repository" but
-# "which of these is blocked on me".
-prSections:
-  - title: Needs review
-    filters: >-
-      is:open draft:false review:none involves:@me
-  - title: CI red
-    filters: >-
-      is:open draft:false status:failure involves:@me
-  - title: Changes requested
-    filters: >-
-      is:open draft:false review:changes_requested involves:@me
-  - title: Ready to merge
-    filters: >-
-      is:open draft:false status:success review:approved involves:@me
-  - title: Requested from me
-    filters: >-
-      is:open review-requested:@me
-  - title: Drafts
-    filters: >-
-      is:open draft:true involves:@me
-
-issuesSections:
-  # Issues are routed by label, not by assignee: agents open work under a human
-  # account, so `assignee` carries almost no signal while the label taxonomy
-  # carries all of it. `needs-human` and `status/in-progress` are the two labels
-  # that gate agent autonomy — the first blocks on a decision only a human can
-  # make, the second is a cooperative lease saying the issue is already owned.
-  - title: Needs human
-    filters: >-
-      is:open involves:@me label:needs-human
-  - title: Blocked
-    filters: >-
-      is:open involves:@me is:blocked -label:needs-human
-  - title: Claimed
-    filters: >-
-      is:open involves:@me -is:blocked -label:needs-human label:status/in-progress
-  - title: Runnable p0
-    filters: >-
-      is:open involves:@me -is:blocked -label:needs-human -label:status/in-progress -label:kind/epic label:priority/p0
-  - title: Runnable p1
-    filters: >-
-      is:open involves:@me -is:blocked -label:needs-human -label:status/in-progress -label:kind/epic label:priority/p1
-  - title: Untriaged
-    filters: >-
-      is:open involves:@me -is:blocked -label:needs-human -label:status/in-progress -label:kind/epic -label:priority/p0 -label:priority/p1 -label:priority/p2
-
-notificationsSections:
-  # Notification filters are client-side and use `reason:`, not the `is:` search
-  # qualifiers that the pull request and issue sections above use.
-  - title: Unread
-    filters: >-
-      is:unread
-  - title: Participating
-    filters: >-
-      reason:participating
-  - title: Review requested
-    filters: >-
-      reason:review-requested
-
 defaults:
-  view: prs
-  prsLimit: 30
-  issuesLimit: 30
-  notificationsLimit: 30
-  # Agents push continuously, so a shorter interval than the 30 minute default
-  # keeps the queue honest without hitting the search rate limit.
   refetchIntervalMinutes: 10
-  # Empty on purpose: forces a real approval comment instead of a reflex "LGTM".
   prApproveComment: ""
-  preview:
-    open: true
-    position: auto
-    width: 0.5
-
+pager:
+  diff: delta
+repoPaths:
+  "*/*": "~/*/*"
+prSections:
+  - title: Needs Review
+    filters: "is:open review-requested:@me"
+  - title: CI Red
+    filters: "is:open author:@me status:failure"
+  - title: Changes Requested
+    filters: "is:open author:@me review:changes_requested"
+  - title: Ready to Merge
+    filters: "is:open author:@me review:approved status:success"
+  - title: Involved
+    filters: "is:open involves:@me -author:@me"
+  - title: Drafts
+    filters: "is:open author:@me draft:true"
+issuesSections:
+  - title: Assigned
+    filters: "is:open assignee:@me"
+  - title: Needs Human
+    filters: "is:open label:needs-human"
+  - title: Untriaged
+    filters: "is:open -label:priority/p0 -label:priority/p1 -label:priority/p2"
+  - title: In Progress
+    filters: "is:open label:status/in-progress"
+  - title: Involved
+    filters: "is:open involves:@me"
 keybindings:
   prs:
-    # Review happens over the API in octo.nvim, so no local clone is required —
-    # which matters because most agent pull requests live in repositories that
-    # were never cloned. `C` (built-in checkout) stays for the ones that are.
-    # The URL form is passed because octo resolves owner, repo, and number from
-    # it in one argument, with no ordering to get wrong.
     - key: E
       name: review in octo
       command: >-
@@ -93,14 +41,20 @@ keybindings:
       name: full diff
       command: >-
         gh pr diff --repo {{.RepoName}} {{.PrNumber}} | delta --paging=always
-    # `O` for "open locally" — `L` is the built-in label key and must stay free,
-    # because labels carry the routing signal for this workflow.
     - key: O
       name: lazygit
       command: >-
-        cd {{.RepoPath}} && lazygit
+        test -n "{{.RepoPath}}" && cd {{.RepoPath}} && lazygit
   issues:
     - key: E
       name: open in octo
       command: >-
         nvim "+Octo https://github.com/{{.RepoName}}/issues/{{.IssueNumber}}"
+theme:
+  colors:
+    primary: "#7aa2f7"
+    secondary: "#bb9af7"
+    faint: "#565f89"
+    warning: "#e0af68"
+    error: "#f7768e"
+    success: "#9ece6a"

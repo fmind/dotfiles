@@ -9,7 +9,6 @@ import (
 	"slices"
 	"strings"
 	"testing"
-	"time"
 )
 
 const (
@@ -19,15 +18,15 @@ const (
 
 func TestReleaseCommandContract(t *testing.T) {
 	cmd := NewReleaseCmd(newTestState(&FakeRunner{}))
-	if !slices.Contains(cmd.Aliases, "r") || cmd.Usage != "Prepare and dispatch an exact-head GitHub release" {
+	if !slices.Contains(cmd.Aliases, "r") || cmd.Usage != "Prepare, tag, and push a release commit to trigger CD publication" {
 		t.Fatalf("unexpected release command: %+v", cmd)
 	}
-	if len(cmd.Commands) != 1 || cmd.Commands[0].Name != "publish" || !cmd.Commands[0].Hidden {
-		t.Fatalf("workflow-only publish subcommand is unavailable: %+v", cmd.Commands)
+	if len(cmd.Commands) != 0 {
+		t.Fatalf("unexpected subcommands: %+v", cmd.Commands)
 	}
 }
 
-func TestRunReleasePreparesPushesAndDispatchesWithoutPublishing(t *testing.T) {
+func TestRunReleasePreparesPushesAndTags(t *testing.T) {
 	t.Chdir(releaseFixture(t, "1.1.1"))
 	runner := newPrepareRunner(t)
 	state := newTestState(runner.fake)
@@ -37,14 +36,11 @@ func TestRunReleasePreparesPushesAndDispatchesWithoutPublishing(t *testing.T) {
 	if err := RunRelease(context.Background(), state, true); err != nil {
 		t.Fatal(err)
 	}
-	if !runner.committed || !runner.pushed || runner.dispatches != 1 {
-		t.Fatalf("release was not prepared exactly once: %+v", runner)
+	if !runner.committed || !runner.pushed || !runner.tagPushed {
+		t.Fatalf("release was not prepared, pushed, and tagged: %+v", runner)
 	}
-	if runner.published || runner.tagged {
-		t.Fatal("local preparation created a tag or GitHub release")
-	}
-	if !strings.Contains(stdout.String(), releaseTestCommit) || !strings.Contains(stdout.String(), "https://github.com/fmind/dotfiles/actions/workflows/cd.yml") {
-		t.Fatalf("prepared commit and follow-up URL were not reported:\n%s", stdout.String())
+	if !strings.Contains(stdout.String(), releaseTestCommit) || !strings.Contains(stdout.String(), "Released and tagged v1.2.0") {
+		t.Fatalf("release output missing:\n%s", stdout.String())
 	}
 }
 
@@ -67,33 +63,10 @@ func TestRunReleaseRequiresExactConfiguredBranch(t *testing.T) {
 			if err == nil || !strings.Contains(err.Error(), test.wantError) {
 				t.Fatalf("expected %q, got %v", test.wantError, err)
 			}
-			if runner.committed || runner.pushed || runner.dispatches > 0 {
+			if runner.committed || runner.pushed || runner.tagPushed {
 				t.Fatal("failed precondition allowed release mutation")
 			}
 		})
-	}
-}
-
-func TestRunReleaseResumesPartialPushAndDispatch(t *testing.T) {
-	t.Chdir(releaseFixture(t, "1.1.1"))
-	runner := newPrepareRunner(t)
-	runner.pushReturnsError = true
-	runner.pushReachedRemote = true
-	runner.dispatchFailures = 1
-	state := newTestState(runner.fake)
-
-	firstErr := RunRelease(context.Background(), state, true)
-	if firstErr == nil || !strings.Contains(firstErr.Error(), "workflow dispatch failed") {
-		t.Fatalf("expected first dispatch failure, got %v", firstErr)
-	}
-	if !runner.committed || !runner.pushed || runner.dispatches != 1 {
-		t.Fatalf("partial push was not reconciled: %+v", runner)
-	}
-	if err := RunRelease(context.Background(), state, true); err != nil {
-		t.Fatalf("retry failed: %v", err)
-	}
-	if runner.commits != 1 || runner.dispatches != 2 || runner.tagged || runner.published {
-		t.Fatalf("retry repeated mutation or published locally: %+v", runner)
 	}
 }
 
@@ -109,7 +82,7 @@ func TestRunReleaseResumesLocalPreparedCommitAfterPushFailure(t *testing.T) {
 	if err := RunRelease(context.Background(), state, true); err != nil {
 		t.Fatal(err)
 	}
-	if runner.commits != 0 || !runner.pushed || runner.dispatches != 1 {
+	if runner.commits != 0 || !runner.pushed || !runner.tagPushed {
 		t.Fatalf("prepared commit was not resumed safely: %+v", runner)
 	}
 }
@@ -145,7 +118,7 @@ func TestRunReleaseValidationAndCancellation(t *testing.T) {
 		if err := RunRelease(context.Background(), state, false); err != nil {
 			t.Fatal(err)
 		}
-		if runner.committed || runner.pushed || runner.dispatches > 0 {
+		if runner.committed || runner.pushed || runner.tagPushed {
 			t.Fatal("canceled preparation mutated the release")
 		}
 	})
@@ -176,96 +149,6 @@ func TestValidateReleaseStatus(t *testing.T) {
 	}
 }
 
-func TestRunReleasePublishGatesTagsAndPublishes(t *testing.T) {
-	t.Setenv("GITHUB_ACTIONS", "true")
-	t.Chdir(releaseFixture(t, "1.2.0"))
-	runner := newPublishRunner(t)
-	state := newTestState(runner.fake)
-	var stdout strings.Builder
-	state.Stdout = &stdout
-
-	if err := RunReleasePublish(context.Background(), state, releaseTestCommit, &fakeReleaseWaiter{}); err != nil {
-		t.Fatal(err)
-	}
-	if runner.tagCreates != 1 || runner.tagPushes != 1 || runner.releaseCreates != 1 {
-		t.Fatalf("publication did not create exactly one tag and release: %+v", runner)
-	}
-	if !strings.Contains(stdout.String(), runner.ciURL) || !strings.Contains(stdout.String(), runner.releaseURL) {
-		t.Fatalf("publication evidence missing:\n%s", stdout.String())
-	}
-
-	if err := RunReleasePublish(context.Background(), state, releaseTestCommit, &fakeReleaseWaiter{}); err != nil {
-		t.Fatalf("idempotent retry failed: %v", err)
-	}
-	if runner.tagCreates != 1 || runner.tagPushes != 1 || runner.releaseCreates != 1 {
-		t.Fatalf("retry recreated immutable state: %+v", runner)
-	}
-}
-
-func TestRunReleasePublishRejectsFailedAmbiguousAndTimedOutCI(t *testing.T) {
-	t.Setenv("GITHUB_ACTIONS", "true")
-	t.Chdir(releaseFixture(t, "1.2.0"))
-	for _, test := range []struct {
-		name      string
-		runs      string
-		waiter    *fakeReleaseWaiter
-		wantError string
-	}{
-		{name: "failure", runs: ciRuns("failure"), waiter: &fakeReleaseWaiter{}, wantError: "concluded failure"},
-		{name: "canceled", runs: ciRuns("cancel" + "led"), waiter: &fakeReleaseWaiter{}, wantError: "concluded cancel" + "led"},
-		{name: "ambiguous", runs: duplicateCIRuns(), waiter: &fakeReleaseWaiter{}, wantError: "ambiguous exact-head CI"},
-		{name: "timeout", runs: "[]", waiter: &fakeReleaseWaiter{step: releaseGateTimeout}, wantError: "timed out waiting"},
-	} {
-		t.Run(test.name, func(t *testing.T) {
-			runner := newPublishRunner(t)
-			runner.runs = test.runs
-			err := RunReleasePublish(context.Background(), newTestState(runner.fake), releaseTestCommit, test.waiter)
-			if err == nil || !strings.Contains(err.Error(), test.wantError) {
-				t.Fatalf("expected %q, got %v", test.wantError, err)
-			}
-			if runner.tagCreates > 0 || runner.releaseCreates > 0 {
-				t.Fatal("failed CI allowed publication")
-			}
-		})
-	}
-}
-
-func TestRunReleasePublishRejectsMovedOrLightweightTag(t *testing.T) {
-	t.Setenv("GITHUB_ACTIONS", "true")
-	t.Chdir(releaseFixture(t, "1.2.0"))
-	for _, test := range []struct {
-		name      string
-		remoteTag string
-		wantError string
-	}{
-		{name: "moved", remoteTag: annotatedTag("v1.2.0", releaseTestParent), wantError: "already targets"},
-		{name: "lightweight", remoteTag: releaseTestCommit + "\trefs/tags/v1.2.0\n", wantError: "not annotated"},
-	} {
-		t.Run(test.name, func(t *testing.T) {
-			runner := newPublishRunner(t)
-			runner.remoteTag = test.remoteTag
-			err := RunReleasePublish(context.Background(), newTestState(runner.fake), releaseTestCommit, &fakeReleaseWaiter{})
-			if err == nil || !strings.Contains(err.Error(), test.wantError) {
-				t.Fatalf("expected %q, got %v", test.wantError, err)
-			}
-		})
-	}
-}
-
-func TestRunReleasePublishRequiresActionsAndExactCheckout(t *testing.T) {
-	t.Setenv("GITHUB_ACTIONS", "false")
-	t.Chdir(releaseFixture(t, "1.2.0"))
-	runner := newPublishRunner(t)
-	if err := RunReleasePublish(context.Background(), newTestState(runner.fake), releaseTestCommit, &fakeReleaseWaiter{}); err == nil || !strings.Contains(err.Error(), "restricted to GitHub Actions") {
-		t.Fatalf("local publication was not rejected: %v", err)
-	}
-	t.Setenv("GITHUB_ACTIONS", "true")
-	runner.head = releaseTestParent
-	if err := RunReleasePublish(context.Background(), newTestState(runner.fake), releaseTestCommit, &fakeReleaseWaiter{}); err == nil || !strings.Contains(err.Error(), "does not equal") {
-		t.Fatalf("mismatched checkout was not rejected: %v", err)
-	}
-}
-
 func TestConfirmRelease(t *testing.T) {
 	for _, test := range []struct {
 		answer string
@@ -287,15 +170,12 @@ type prepareRunner struct {
 	prepared          bool
 	committed         bool
 	pushed            bool
-	published         bool
-	tagged            bool
+	tagPushed         bool
 	pushReturnsError  bool
 	pushReachedRemote bool
 	testFailure       bool
 	commitFailure     bool
-	dispatchFailures  int
 	commits           int
-	dispatches        int
 	resets            int
 }
 
@@ -309,8 +189,6 @@ func newPrepareRunner(t *testing.T) *prepareRunner {
 			case command == "git rev-parse --is-inside-work-tree":
 				return "true", nil
 			case command == "git rev-parse --show-toplevel":
-				// The tests chdir into the fixture root before running, so the
-				// working directory is the repository root the code must resolve.
 				root, err := os.Getwd()
 				if err != nil {
 					return "", err
@@ -361,21 +239,20 @@ func newPrepareRunner(t *testing.T) *prepareRunner {
 				runner.committed = true
 				runner.commits++
 				return "", nil
-			case strings.HasPrefix(command, "gh workflow run cd.yml"):
-				runner.dispatches++
-				if runner.dispatches <= runner.dispatchFailures {
-					return "", errors.New("dispatch failed")
-				}
-				return "", nil
-			case command == "gh repo view --json url --jq .url":
-				return "https://github.com/fmind/dotfiles", nil
 			case command == "git reset --mixed HEAD":
 				runner.resets++
 				return "", nil
-			case strings.Contains(command, "git tag"):
-				runner.tagged = true
-			case strings.Contains(command, "gh release"):
-				runner.published = true
+			case strings.HasPrefix(command, "git rev-parse refs/tags/"):
+				if runner.tagPushed {
+					return releaseTestCommit, nil
+				}
+				return "", errors.New("not found")
+			case strings.HasPrefix(command, "git tag -a"):
+				return "", nil
+			case strings.HasPrefix(command, "mise run --force build"):
+				return "", nil
+			case strings.HasPrefix(command, "chezmoi apply"):
+				return "", nil
 			}
 			return "", nil
 		},
@@ -395,99 +272,15 @@ func newPrepareRunner(t *testing.T) *prepareRunner {
 				runner.upstream = releaseTestCommit
 				return nil
 			}
-			if strings.HasPrefix(command, "git tag") {
-				runner.tagged = true
-			}
-			if strings.HasPrefix(command, "gh release") {
-				runner.published = true
+			if strings.HasPrefix(command, "git push origin refs/tags/") {
+				runner.tagPushed = true
+				return nil
 			}
 			return nil
 		},
 	}
 	return runner
 }
-
-type publishRunner struct {
-	fake           *FakeRunner
-	head           string
-	runs           string
-	remoteTag      string
-	ciURL          string
-	releaseURL     string
-	releaseExists  bool
-	tagCreates     int
-	tagPushes      int
-	releaseCreates int
-}
-
-func newPublishRunner(t *testing.T) *publishRunner {
-	t.Helper()
-	runner := &publishRunner{head: releaseTestCommit, ciURL: "https://github.com/fmind/dotfiles/actions/runs/1", releaseURL: "https://github.com/fmind/dotfiles/releases/tag/v1.2.0"}
-	runner.runs = ciRuns("success")
-	runner.fake = &FakeRunner{
-		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
-			command := name + " " + strings.Join(args, " ")
-			switch {
-			case command == "git rev-parse HEAD":
-				return runner.head, nil
-			case command == "git rev-parse --show-toplevel":
-				// The tests chdir into the fixture root before running, so the
-				// working directory is the repository root the code must resolve.
-				root, err := os.Getwd()
-				if err != nil {
-					return "", err
-				}
-				return root, nil
-			case strings.HasPrefix(command, "gh run list --workflow ci.yml"):
-				return runner.runs, nil
-			case strings.HasPrefix(command, "git ls-remote --tags origin"):
-				return runner.remoteTag, nil
-			case command == "git tag -a v1.2.0 -m v1.2.0 "+releaseTestCommit:
-				runner.tagCreates++
-				return "", nil
-			case command == "gh release view v1.2.0 --json url --jq .url":
-				if runner.releaseExists {
-					return runner.releaseURL, nil
-				}
-				return "", errors.New("not found")
-			default:
-				return "", errors.New("unexpected command: " + command)
-			}
-		},
-		RunInteractiveFunc: func(_ context.Context, _, name string, args ...string) error {
-			command := name + " " + strings.Join(args, " ")
-			switch command {
-			case "git push origin refs/tags/v1.2.0":
-				runner.tagPushes++
-				runner.remoteTag = annotatedTag("v1.2.0", releaseTestCommit)
-				return nil
-			case "gh release create v1.2.0 --verify-tag --generate-notes --title v1.2.0":
-				runner.releaseCreates++
-				runner.releaseExists = true
-				return nil
-			default:
-				return errors.New("unexpected interactive command: " + command)
-			}
-		},
-	}
-	return runner
-}
-
-type fakeReleaseWaiter struct {
-	now  time.Time
-	step time.Duration
-}
-
-func (waiter *fakeReleaseWaiter) Wait(context.Context, time.Duration) error {
-	step := waiter.step
-	if step == 0 {
-		step = releasePollInterval
-	}
-	waiter.now = waiter.now.Add(step)
-	return nil
-}
-
-func (waiter *fakeReleaseWaiter) Now() time.Time { return waiter.now }
 
 func releaseFixture(t *testing.T, version string) string {
 	t.Helper()
@@ -503,17 +296,4 @@ func releaseFixture(t *testing.T, version string) string {
 		t.Fatal(err)
 	}
 	return root
-}
-
-func ciRuns(conclusion string) string {
-	return `[{"databaseId":1,"status":"completed","conclusion":"` + conclusion + `","headSha":"` + releaseTestCommit + `","url":"https://github.com/fmind/dotfiles/actions/runs/1"}]`
-}
-
-func duplicateCIRuns() string {
-	run := strings.TrimSuffix(strings.TrimPrefix(ciRuns("success"), "["), "]")
-	return "[" + run + "," + run + "]"
-}
-
-func annotatedTag(tag, commit string) string {
-	return strings.Repeat("c", 40) + "\trefs/tags/" + tag + "\n" + commit + "\trefs/tags/" + tag + "^{}\n"
 }
