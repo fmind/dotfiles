@@ -15,43 +15,18 @@ url = "https://github.com/FiloSottile/age/releases/download/v1.3.1/age-v1.3.1-da
 url_api = "https://api.github.com/repos/FiloSottile/age/releases/assets/333752669"
 
 [[tools.air]]
-version = "1.67.3"
+version = "1.67.4"
 backend = "aqua:air-verse/air"
 
-[tools.air."platforms.linux-arm64"]
-checksum = "sha256:890664bc7693bdadf7bd17d73fc46487ff724af563f5737985cb9a535e592d4e"
-url = "https://github.com/air-verse/air/releases/download/v1.67.3/air_1.67.3_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/air-verse/air/releases/assets/490154557"
-
-[tools.air."platforms.linux-arm64-musl"]
-checksum = "sha256:890664bc7693bdadf7bd17d73fc46487ff724af563f5737985cb9a535e592d4e"
-url = "https://github.com/air-verse/air/releases/download/v1.67.3/air_1.67.3_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/air-verse/air/releases/assets/490154557"
-
 [tools.air."platforms.linux-x64"]
-checksum = "sha256:19ba4bef212e1df6b67515ddb2cb47024ca2613751b7b85cbe9039093830919f"
-url = "https://github.com/air-verse/air/releases/download/v1.67.3/air_1.67.3_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/air-verse/air/releases/assets/490154536"
-
-[tools.air."platforms.linux-x64-musl"]
-checksum = "sha256:19ba4bef212e1df6b67515ddb2cb47024ca2613751b7b85cbe9039093830919f"
-url = "https://github.com/air-verse/air/releases/download/v1.67.3/air_1.67.3_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/air-verse/air/releases/assets/490154536"
+checksum = "sha256:c8cc405210e557e2681275688ce700441eac53db9fb42bb58764874ee9aa783d"
+url = "https://github.com/air-verse/air/releases/download/v1.67.4/air_1.67.4_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/air-verse/air/releases/assets/497980662"
 
 [tools.air."platforms.macos-arm64"]
-checksum = "sha256:88561f78c1cad6c5350c04ca5fb6906b75755317c04011e609271b7ef090e959"
-url = "https://github.com/air-verse/air/releases/download/v1.67.3/air_1.67.3_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/air-verse/air/releases/assets/490154535"
-
-[tools.air."platforms.macos-x64"]
-checksum = "sha256:467d642598d630f7276f9d025c4aec331b2f2993bf042623a5af347011c02b20"
-url = "https://github.com/air-verse/air/releases/download/v1.67.3/air_1.67.3_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/air-verse/air/releases/assets/490154533"
-
-[tools.air."platforms.windows-x64"]
-checksum = "sha256:150ab78cf4a48f46ca845660b41a913b0bae94572c061ea5dbe75cd745849a5a"
-url = "https://github.com/air-verse/air/releases/download/v1.67.3/air_1.67.3_windows_amd64.tar.gz"
-url_api = "https://api.github.com/repos/air-verse/air/releases/assets/490154560"
+checksum = "sha256:377e3f6ad87dc27a1fe665a78229c619188cf70d05ddc24d62ba065ee0824934"
+url = "https://github.com/air-verse/air/releases/download/v1.67.4/air_1.67.4_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/air-verse/air/releases/assets/497980659"
 
 [[tools."aqua:dlvhdr/gh-dash"]]
 version = "4.25.2"
@@ -861,43 +836,18 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.9.3/flux_2.9.3_windo
 url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/487338178"
 
 [[tools.fzf]]
-version = "0.74.1"
+version = "0.74.2"
 backend = "aqua:junegunn/fzf"
 
-[tools.fzf."platforms.linux-arm64"]
-checksum = "sha256:f22204dd1a091d43e102268d062fd53b47133c8d8581671ee5eb225b75e31183"
-url = "https://github.com/junegunn/fzf/releases/download/v0.74.1/fzf-0.74.1-linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/481468085"
-
-[tools.fzf."platforms.linux-arm64-musl"]
-checksum = "sha256:f22204dd1a091d43e102268d062fd53b47133c8d8581671ee5eb225b75e31183"
-url = "https://github.com/junegunn/fzf/releases/download/v0.74.1/fzf-0.74.1-linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/481468085"
-
 [tools.fzf."platforms.linux-x64"]
-checksum = "sha256:df53438be5f51e151bb4044d78fda72bdfe209e3ecd2baecae48e8dea370c81b"
-url = "https://github.com/junegunn/fzf/releases/download/v0.74.1/fzf-0.74.1-linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/481468039"
-
-[tools.fzf."platforms.linux-x64-musl"]
-checksum = "sha256:df53438be5f51e151bb4044d78fda72bdfe209e3ecd2baecae48e8dea370c81b"
-url = "https://github.com/junegunn/fzf/releases/download/v0.74.1/fzf-0.74.1-linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/481468039"
+checksum = "sha256:b3648f48675612b69ee35371cf6dc99ca96d767e89b912d079080916ac8ba8bd"
+url = "https://github.com/junegunn/fzf/releases/download/v0.74.2/fzf-0.74.2-linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/497342478"
 
 [tools.fzf."platforms.macos-arm64"]
-checksum = "sha256:849d1d33b050f04dd6b765665e417da151b0e4654dbed8f55c60fd8e23f3ba20"
-url = "https://github.com/junegunn/fzf/releases/download/v0.74.1/fzf-0.74.1-darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/481468061"
-
-[tools.fzf."platforms.macos-x64"]
-checksum = "sha256:642f29fb2800690385efb176a209b14d9f593795f0f70ee12c919ee15472e439"
-url = "https://github.com/junegunn/fzf/releases/download/v0.74.1/fzf-0.74.1-darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/481468093"
-
-[tools.fzf."platforms.windows-x64"]
-checksum = "sha256:d83a94a68a9203f6366754123c0e4d7a61e16be18a5d845f4838664b330c4f5f"
-url = "https://github.com/junegunn/fzf/releases/download/v0.74.1/fzf-0.74.1-windows_amd64.zip"
-url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/481468090"
+checksum = "sha256:d60ddb36356566ac69bae7c3504e888916cf747c9ad2132141c09229b1e28dee"
+url = "https://github.com/junegunn/fzf/releases/download/v0.74.2/fzf-0.74.2-darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/junegunn/fzf/releases/assets/497342630"
 
 [[tools.gcloud]]
 version = "578.0.0"
@@ -1274,18 +1224,18 @@ checksum = "sha256:048ecf5ad3160f83d918f9fe945238d2132b079640f7b106175331c25f242
 url = "https://get.helm.sh/helm-v4.2.3-darwin-arm64.tar.gz"
 
 [[tools.helmfile]]
-version = "1.7.1"
+version = "1.7.2"
 backend = "aqua:helmfile/helmfile"
 
 [tools.helmfile."platforms.linux-x64"]
-checksum = "sha256:d84a8e5ffdbfd66f1bfb4b11967b9d2981d8515c7d6e312ee0cd89b613c8b352"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.7.1/helmfile_1.7.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/480462741"
+checksum = "sha256:7f09def5bfc6ebd33cbfded74c19f4e58757b0f44887902663d5dc67ac640ff5"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.7.2/helmfile_1.7.2_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/496820912"
 
 [tools.helmfile."platforms.macos-arm64"]
-checksum = "sha256:96588f4f413ef5d4a3709013a52de73b41a845e6cf83c7ba9bab3266c8225730"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.7.1/helmfile_1.7.1_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/480462768"
+checksum = "sha256:261dd252976b9edc8eac4a9a351869c1e9699ab5c8815f31cb0c6c1354920306"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.7.2/helmfile_1.7.2_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/496820914"
 
 [[tools.hyperfine]]
 version = "1.20.0"
@@ -1922,38 +1872,18 @@ version = "4.4.1"
 backend = "asdf:make"
 
 [[tools.mirrord]]
-version = "3.242.0"
+version = "3.243.0"
 backend = "aqua:metalbear-co/mirrord"
 
-[tools.mirrord."platforms.linux-arm64"]
-checksum = "sha256:bae58109bb07be48a1dbd269929f9c02e5a85c8a58c58f0ece32a7ee10ff88ba"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.242.0/mirrord_linux_aarch64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/495476962"
-
-[tools.mirrord."platforms.linux-arm64-musl"]
-checksum = "sha256:bae58109bb07be48a1dbd269929f9c02e5a85c8a58c58f0ece32a7ee10ff88ba"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.242.0/mirrord_linux_aarch64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/495476962"
-
 [tools.mirrord."platforms.linux-x64"]
-checksum = "sha256:5237e61d2cfd9e6699035f2daeb2856cb99e00583c52f1db4945fe93f7e0409a"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.242.0/mirrord_linux_x86_64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/495476955"
-
-[tools.mirrord."platforms.linux-x64-musl"]
-checksum = "sha256:5237e61d2cfd9e6699035f2daeb2856cb99e00583c52f1db4945fe93f7e0409a"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.242.0/mirrord_linux_x86_64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/495476955"
+checksum = "sha256:022b41c8edef8cf8db4b186102817ea017cd740f70ec7c8cd3313a493c413011"
+url = "https://github.com/metalbear-co/mirrord/releases/download/3.243.0/mirrord_linux_x86_64.zip"
+url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/497321879"
 
 [tools.mirrord."platforms.macos-arm64"]
-checksum = "sha256:1adc1ac774c08f77913f4ff7758b933139e11d7587d34959028c7a780b7782f8"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.242.0/mirrord_mac_universal.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/495476952"
-
-[tools.mirrord."platforms.macos-x64"]
-checksum = "sha256:1adc1ac774c08f77913f4ff7758b933139e11d7587d34959028c7a780b7782f8"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.242.0/mirrord_mac_universal.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/495476952"
+checksum = "sha256:ec100d9c5521b6dea923c0218dce48fa2365a1693041a9ab064334c2dbf27f9a"
+url = "https://github.com/metalbear-co/mirrord/releases/download/3.243.0/mirrord_mac_universal.zip"
+url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/497321872"
 
 [[tools.neovim]]
 version = "0.12.4"
@@ -2048,43 +1978,18 @@ version = "1.5.21"
 backend = "npm:skills"
 
 [[tools.opencode]]
-version = "1.18.10"
+version = "1.18.11"
 backend = "aqua:anomalyco/opencode"
 
-[tools.opencode."platforms.linux-arm64"]
-checksum = "sha256:41ae3041e91b894e4c0dc06a73a9a2796254bf390ffb99626a43af5e2912d170"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/495455828"
-
-[tools.opencode."platforms.linux-arm64-musl"]
-checksum = "sha256:cc5f2670b4ba833cccc4b6c532adcffba8731bbe21c697c6b0309c359ac38366"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/495455772"
-
 [tools.opencode."platforms.linux-x64"]
-checksum = "sha256:6b1113da704253fb4da12b41e4236acecb9f2b62949c945f6eeacaa15111b976"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/495455789"
-
-[tools.opencode."platforms.linux-x64-musl"]
-checksum = "sha256:9ba337873804891254d4dad37cb4cc06465006ddeebb1c1f55f2eedb1e775f7e"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/495455846"
+checksum = "sha256:a4dffcc00a5a93256c6bd06aa0c984320528f564db52a1f4becd5c7de9fb59a1"
+url = "https://github.com/anomalyco/opencode/releases/download/v1.18.11/opencode-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/497843338"
 
 [tools.opencode."platforms.macos-arm64"]
-checksum = "sha256:641fe2e65e42db76c2d32db5f85573c3682a8c72f82d01568a922a8feccc4658"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-darwin-arm64.zip"
-url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/495455691"
-
-[tools.opencode."platforms.macos-x64"]
-checksum = "sha256:b2d9e161b3c6f398ab8a21a129455550c7b79b68579bb542dbc986f10b084ae4"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-darwin-x64.zip"
-url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/495455685"
-
-[tools.opencode."platforms.windows-x64"]
-checksum = "sha256:b1d85ce5211bfefbc2b4940a19e1639fc75cb87ff82eb79806ffb84b01dd1482"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-windows-x64.zip"
-url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/495459170"
+checksum = "sha256:188ff6a716bcd40e33ac62f17f4aec9bd760164fa6a2cde66f779a5db4abc7ce"
+url = "https://github.com/anomalyco/opencode/releases/download/v1.18.11/opencode-darwin-arm64.zip"
+url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/497843327"
 
 [[tools.opentofu]]
 version = "1.12.5"
@@ -2727,7 +2632,7 @@ url = "https://github.com/xo/usql/releases/download/v0.21.4/usql-0.21.4-windows-
 url_api = "https://api.github.com/repos/xo/usql/releases/assets/381966155"
 
 [[tools.uv]]
-version = "0.12.0"
+version = "0.12.1"
 backend = "asdf:uv"
 
 [[tools.vault]]

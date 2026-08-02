@@ -167,7 +167,9 @@ depends = [
 [tasks."format:dprint"]
 alias = "fd"
 description = "Format JSON, Markdown, TOML, YAML with dprint"
-run = "dprint fmt"
+# --allow-no-files: the pre-commit hook passes staged paths, and a commit that
+# stages only files dprint cannot claim (lockfiles) must not fail the hook.
+run = "dprint fmt --allow-no-files"
 
 [tasks."format:go"]
 alias = "fg"
