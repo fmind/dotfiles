@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install toolchain
-        uses: jdx/mise-action@v4
+        uses: jdx/mise-action@v4.2.3
         with:
           cache: true
       - name: Trust repository
