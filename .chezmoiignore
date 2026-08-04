@@ -1,19 +1,19 @@
-/.agents
-/AGENTS.md
-/CHANGELOG.md
-/LICENSE
-/README.md
-/dot
-/dprint.json
-/go.work
-/go.work.sum
-/install.sh
-/lefthook.yml
-/mise.lock
-/mise.toml
-/ruff.toml
-/skills
-/trivy.yaml
+.agents
+AGENTS.md
+CHANGELOG.md
+LICENSE
+README.md
+dot
+dprint.json
+go.work
+go.work.sum
+install.sh
+lefthook.yml
+mise.lock
+mise.toml
+ruff.toml
+skills
+trivy.yaml
 
 {{- if ne .chezmoi.os "linux" }}
 .local/share/applications/com.mitchellh.ghostty.desktop
