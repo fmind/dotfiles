@@ -50,6 +50,7 @@ run = ["mise run format", "mise run check", "mise run test"]
 
 [tasks.build]
 alias = "b"
+dir = "{{cwd}}"
 description = "Build the dot CLI binary"
 run = "go build -C dot -o ../dot_local/bin/executable_dot ./cmd/dot"
 sources = ["dot/go.mod", "dot/go.sum", "dot/**/*.go"]
@@ -215,15 +216,17 @@ run = "mise -C dot run test:watch"
 
 [tasks.apply]
 alias = "ma"
+dir = "{{cwd}}"
 depends = ["build"]
 description = "Apply dotfiles with chezmoi"
 run = "chezmoi apply --force"
 
 [tasks.completions]
 alias = "mg"
+dir = "{{cwd}}"
 depends = ["build"]
 description = "Generate Fish completions for core CLI tools and cached integrations"
-run = "executable_dot completion"
+run = "./dot_local/bin/executable_dot completion"
 
 [tasks.deploy]
 alias = "me"
@@ -271,18 +274,21 @@ run = [
 
 [tasks.prune]
 alias = "mp"
+dir = "{{cwd}}"
 depends = ["build"]
 description = "Remove unused tools, containers, and development caches"
-run = "executable_dot prune --all=deep"
+run = "./dot_local/bin/executable_dot prune --all=deep"
 
 [tasks.release]
 alias = "mr"
+dir = "{{cwd}}"
 depends = ["build"]
 description = "Prepare and dispatch an exact-head GitHub release"
-run = "executable_dot release"
+run = "./dot_local/bin/executable_dot release"
 
 [tasks.tools]
 alias = "mt"
+dir = "{{cwd}}"
 description = "Install pinned tools for this repo and the global config"
 run = [
   "mise install -y",
@@ -317,9 +323,10 @@ run = [
 
 [tasks.verify]
 alias = "mx"
+dir = "{{cwd}}"
 depends = ["build"]
 description = "Run the dotfiles sanity check suite"
-run = "executable_dot verify"
+run = "./dot_local/bin/executable_dot verify"
 
 [tasks.vim]
 alias = "mv"
