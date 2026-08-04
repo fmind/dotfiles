@@ -54,7 +54,7 @@ trivy = "latest"
 [tasks.all]
 alias = "a"
 description = "Run the full CI gate locally (format, check, test)"
-run = ["mise run format", "mise run check", "mise run test"]
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
 
 [tasks.build]
 alias = "b"
