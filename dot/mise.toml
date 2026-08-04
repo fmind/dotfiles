@@ -1,6 +1,11 @@
 [env]
 APP_NAME = "dot"
 
+[task_config]
+# Same guard as the repo root config: every task here uses module-relative paths,
+# so pin them to this file's directory rather than an inherited project root.
+dir = "{{config_root}}"
+
 [tasks.all]
 alias = "a"
 description = "Format, check, test, and build the project"
