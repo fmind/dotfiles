@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.10.7] - 2026-08-04
+
+### 🐛 Bug Fixes
+
+- _(chezmoi)_ Drop leading slashes rejected by chezmoi 2.72
+- _(mise)_ Authenticate GitHub API with the gh CLI token
+
+### 🧹 Miscellaneous
+
+- _(mise)_ Build in the all gate and refresh lockfiles
+- _(nvim)_ Refresh LazyVim plugin lockfile
+
 ## [1.10.6] - 2026-08-04
 
 ### 🐛 Bug Fixes
