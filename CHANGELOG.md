@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.10.6] - 2026-08-04
+
+### 🐛 Bug Fixes
+
+- _(mise)_ Align task execution directories and binary paths (#74)
+- _(mise)_ Pin task directories to config_root instead of cwd
+
 ## [1.10.5] - 2026-08-02
 
 ### 📚 Documentation
