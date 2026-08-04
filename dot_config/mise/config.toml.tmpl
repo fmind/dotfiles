@@ -11,6 +11,12 @@ aqua.github_attestations = false
 aqua.minisign = false
 aqua.slsa = false
 env_cache = true
+# `gh` stores its token in the system keyring, so mise's default gh_cli_tokens
+# fallback (which parses ~/.config/gh/hosts.yml) finds nothing and hits the GitHub
+# API unauthenticated: 60 req/h, which `mise upgrade` blows through in 429 storms.
+# Shelling out to `gh auth token` keeps the token out of the dotfiles and out of the
+# process environment, at the cost of one `gh` invocation per token lookup.
+github.credential_command = "gh auth token"
 github.github_attestations = false
 github.slsa = false
 github_attestations = false
