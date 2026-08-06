@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.11.0] - 2026-08-06
+
+### 🚀 Features
+
+- _(tools)_ Add slack-cli
+
 ## [1.10.7] - 2026-08-04
 
 ### 🐛 Bug Fixes
