@@ -19,7 +19,10 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create '${{ github.ref_name }}' --verify-tag --generate-notes --title '${{ github.ref_name }}'
+        # $GITHUB_REF_NAME comes from the runner env: expanding ${{ github.ref_name }}
+        # inline would let a crafted tag inject shell code (zizmor: template-injection).
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes --title "$GITHUB_REF_NAME"

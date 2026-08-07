@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/readme-agents
   created: 2026-06-23
-  updated: 2026-07-12
+  updated: 2026-08-07
 ---
 
 # Sync README and AGENTS Files
@@ -27,6 +27,7 @@ Refresh `AGENTS.md` and `README.md` to accurately reflect the repository's state
 1. Update README.md:
    - Ensure purpose, prerequisites, and usage examples are current.
    - Remove stale instructions.
+1. Validate: run `lychee README.md AGENTS.md` so refreshed links are proven live, not assumed.
 
 ## Gotchas
 

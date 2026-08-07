@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/mise
   created: 2026-07-04
-  updated: 2026-08-02
+  updated: 2026-08-07
 ---
 
 # Mise Standard
@@ -33,7 +33,7 @@ Language stacks ship concrete `mise.toml` files — see [go-stack](../go-stack/r
 Split a task into `<task>:<x>` subtasks when you want to run one piece on its own. Each family keys `<x>` off a **different noun**, because each answers a different question:
 
 - **`format:<input>`** — key off the _source you format_ (the file family): `format:go`, `format:python`, `format:templ`, `format:shell`. Fall back to the **tool name** only when the domain has no single language noun: `format:dprint` (JSON/Markdown/TOML/YAML).
-- **`check:<concern>`** — key off the _property verified_, tool-agnostic and **identical across languages** so `mise run check:lint` means the same everywhere: `check:format`, `check:lint`, `check:types`, `check:vuln`, `check:leaks` (secret/credential scan, e.g. `gitleaks`), `check:scan` (IaC/config misconfig, e.g. `trivy config`). Use one name per concern — dependency-vulnerability scanning is always `check:vuln` (never `check:audit`), whether it runs `govulncheck` or `pip-audit`; secret scanning is always `check:leaks`; misconfiguration scanning is `check:scan`, distinct from `check:vuln`.
+- **`check:<concern>`** — key off the _property verified_, tool-agnostic and **identical across languages** so `mise run check:lint` means the same everywhere: `check:format`, `check:lint`, `check:types`, `check:vuln`, `check:leaks` (secret/credential scan, e.g. `gitleaks`), `check:scan` (IaC/config misconfig, e.g. `trivy config`), `check:actions` (GitHub Actions workflow lint + audit: `actionlint` + `zizmor` — see [github-actions](../github-actions/SKILL.md)). Use one name per concern — dependency-vulnerability scanning is always `check:vuln` (never `check:audit`), whether it runs `govulncheck` or `pip-audit`; secret scanning is always `check:leaks`; misconfiguration scanning is `check:scan`, distinct from `check:vuln`.
 - **`build:<output>`** — key off the _artifact produced_: `build:go` (binary), `build:css`, `build:html` (generated Templ→Go).
 
 So `format:templ` (you format `.templ` source) and `build:html` (you generate the HTML-rendering Go) coexist for the same tech — the noun differs because the question differs. In a **polyglot repo** where a concern repeats across languages (a dotfiles root linting Go + Python + Shell), subdivide _that_ concern by **language** (`check:go`, `check:python`, `check:shell`), each bundling its language's concerns — but a genuinely shared concern keeps its cross-language name (`check:format` for the one dprint config/markup check).

@@ -26,8 +26,13 @@ func NewAppHandler(logger *slog.Logger, env config.Environment) http.Handler {
 
 	mux := http.NewServeMux()
 
-	// Serve embedded static files directly
-	mux.Handle("/static/", http.FileServer(http.FS(staticFS)))
+	// Serve embedded static files with immutable caching: templates reference
+	// assets via AssetPath (?v=<hash>), so any content change yields a new URL.
+	staticFiles := http.FileServer(http.FS(staticFS))
+	mux.Handle("GET /static/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+		staticFiles.ServeHTTP(w, r)
+	}))
 
 	// Demo user model to show everything-in-the-same-file paradigm
 	demoUser := templates.User{

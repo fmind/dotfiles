@@ -1,0 +1,84 @@
+[settings.task]
+run_auto_install = false
+
+[tools]
+dprint = "latest"
+gitleaks = "latest"
+lefthook = "latest"
+opentofu = "latest"
+terraform-docs = "latest"
+tflint = "latest"
+trivy = "latest"
+
+[tasks.build]
+alias = "b"
+description = "Produce an executable plan artifact (review, then apply manually)"
+run = ["mkdir -p tmp", "tofu plan -out=tmp/plan.tfplan"]
+
+[tasks."build:docs"]
+alias = "bd"
+description = "Inject module documentation into README.md (terraform-docs)"
+run = "terraform-docs ."
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = [
+  "check:format",
+  "check:leaks",
+  "check:lint",
+  "check:scan",
+  "check:validate",
+]
+
+[tasks."check:format"]
+alias = "cf"
+description = "Check HCL and config formatting (tofu fmt + dprint)"
+run = ["tofu fmt -check -recursive", "dprint check"]
+
+[tasks."check:leaks"]
+alias = "cs"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+
+[tasks."check:lint"]
+alias = "cl"
+description = "Lint HCL with provider-aware rules (tflint)"
+run = "tflint --recursive"
+
+[tasks."check:scan"]
+alias = "cn"
+description = "Scan IaC for misconfigurations (trivy)"
+run = "trivy config --exit-code 1 ."
+
+[tasks."check:validate"]
+alias = "cv"
+description = "Validate configuration syntax and internal consistency"
+run = "tofu validate"
+
+[tasks.format]
+alias = "f"
+description = "Format HCL and configuration files"
+run = ["tofu fmt -recursive", "dprint fmt"]
+
+[tasks.install]
+alias = "i"
+description = "Install providers, lint rulesets, and git hooks"
+depends = ["install:hooks", "install:init", "install:lint"]
+
+[tasks."install:hooks"]
+description = "Install Git hooks using Lefthook"
+run = "lefthook install"
+
+[tasks."install:init"]
+description = "Download providers and initialize the backend (tofu init)"
+run = "tofu init"
+
+[tasks."install:lint"]
+description = "Install tflint plugin rulesets pinned in .tflint.hcl"
+run = "tflint --init"
+
+[tasks.test]
+alias = "t"
+description = "Run native OpenTofu tests (tests/*.tftest.hcl)"
+run = "tofu test"

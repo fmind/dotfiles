@@ -5,6 +5,7 @@ APP_NAME = "<slug>"
 run_auto_install = false
 
 [tools]
+air = "latest"
 dprint = "latest"
 gitleaks = "latest"
 go = "latest"
@@ -24,6 +25,7 @@ alias = "b"
 description = "Compile production binary"
 depends = ["build:go"]
 
+# On-demand: needs `ko` from the containerize skill (`go get -tool github.com/google/ko`).
 [tasks."build:image"]
 description = "Build production OCI image (ko)"
 depends = ["build:templ", "build:css"]
@@ -144,7 +146,7 @@ depends = ["watch:css", "watch:air"]
 
 [tasks."watch:air"]
 hide = true
-run = "go tool air"
+run = "air"
 
 [tasks."watch:css"]
 hide = true

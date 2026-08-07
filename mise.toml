@@ -46,6 +46,7 @@ shellcheck = "latest"
 shfmt = "latest"
 stylua = "latest"
 trivy = "latest"
+zizmor = "latest"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Common tasks — the canonical vocabulary that agents, git hooks, and CI reuse.
@@ -82,8 +83,8 @@ depends = [
 
 [tasks."check:actions"]
 alias = "ca"
-description = "Validate GitHub Actions workflows (actionlint)"
-run = "actionlint"
+description = "Validate GitHub Actions workflows (actionlint for correctness, zizmor for security)"
+run = ["actionlint", "zizmor .github/workflows/"]
 
 [tasks."check:chezmoi"]
 alias = "cc"
@@ -150,8 +151,13 @@ done
 [tasks."check:skills"]
 alias = "ck"
 description = "Validate first-party skill packages and offline contracts"
+# Scoped to skills/: from the repo root, `gh skill publish` never validates
+# .agents/skills/ anyway — it only warns that the directory looks like an agent's
+# installed-skills cache and should be gitignored. Those two skills are
+# first-party and deliberately tracked, so point the publisher at the directory
+# it actually publishes. The Go contract test below still covers .agents/skills/.
 run = [
-  "gh skill publish --dry-run",
+  "gh skill publish --dry-run skills",
   "go test -C dot -run '^(TestSkillContracts|TestHighRiskSkillSmokeContracts)$' ./...",
 ]
 

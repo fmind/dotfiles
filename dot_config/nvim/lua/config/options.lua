@@ -15,6 +15,17 @@ opt.clipboard:append("unnamedplus")
 
 -- Prefer xclip on Linux/ChromeOS to avoid wl-clipboard hanging in Wayland containers
 if vim.fn.executable("xclip") == 1 then
+  -- xclip exits non-zero with "Error: target STRING not available" whenever a selection
+  -- has no owner or holds non-text data, which Neovim surfaces as a clipboard error on
+  -- every paste. Read through a Lua function so an unavailable selection is simply an
+  -- empty register instead of an error message.
+  local function paste(selection)
+    return function()
+      local lines = vim.fn.systemlist({ "xclip", "-selection", selection, "-o" })
+      return vim.v.shell_error == 0 and lines or {}
+    end
+  end
+
   vim.g.clipboard = {
     name = "xclip",
     copy = {
@@ -22,8 +33,8 @@ if vim.fn.executable("xclip") == 1 then
       ["*"] = "xclip -selection primary",
     },
     paste = {
-      ["+"] = "xclip -selection clipboard -o",
-      ["*"] = "xclip -selection primary -o",
+      ["+"] = paste("clipboard"),
+      ["*"] = paste("primary"),
     },
     cache_enabled = 1,
   }

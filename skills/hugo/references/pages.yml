@@ -1,0 +1,55 @@
+name: Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+# Default to read-only; only the deploy job widens what it actually needs.
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: false # let a running deploy finish before starting the next
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      HUGO_ENVIRONMENT: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # full history so enableGitInfo renders last-modified dates
+          persist-credentials: false # the build never pushes; deploy authenticates via OIDC
+      - name: Install tools using mise
+        uses: jdx/mise-action@v4
+        with:
+          cache: true
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v6
+      - name: Build the site
+        # Same task as local builds; only the base URL comes from the Pages setup.
+        # Passed through env, not expanded inline: GitHub substitutes ${{ }} before
+        # the shell sees the script, so an inline expansion is a code-injection path.
+        env:
+          PAGES_BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: mise run build -- --baseURL "$PAGES_BASE_URL/"
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    needs: build
+    permissions:
+      pages: write # publish the uploaded artifact to GitHub Pages
+      id-token: write # mint the OIDC token deploy-pages exchanges
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

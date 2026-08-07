@@ -1,0 +1,3 @@
+# Compiled artifacts (rebuilt by `mise run build`)
+dist/
+tmp/

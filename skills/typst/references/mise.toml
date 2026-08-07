@@ -1,0 +1,56 @@
+[settings.task]
+run_auto_install = false
+
+[tools]
+dprint = "latest"
+gitleaks = "latest"
+lefthook = "latest"
+typst = "latest"
+typstyle = "latest"
+
+[tasks.build]
+alias = "b"
+description = "Compile the document to a distributable PDF"
+sources = ["*.typ", "assets/**/*", "fonts/**/*"]
+outputs = ["dist/main.pdf"]
+run = ["mkdir -p dist", "typst compile main.typ dist/main.pdf"]
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = ["check:doc", "check:format", "check:leaks"]
+
+[tasks."check:doc"]
+alias = "cv"
+description = "Compile to a scratch PDF so document errors fail fast"
+run = ["mkdir -p tmp", "typst compile main.typ tmp/check.pdf"]
+
+[tasks."check:format"]
+alias = "cf"
+description = "Check Typst and config formatting (typstyle + dprint)"
+run = ["typstyle --check .", "dprint check"]
+
+[tasks."check:leaks"]
+alias = "cs"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+
+[tasks.format]
+alias = "f"
+description = "Format Typst sources and configuration"
+run = ["typstyle -i .", "dprint fmt"]
+
+[tasks.install]
+alias = "i"
+description = "Install Git hooks using Lefthook"
+run = "lefthook install"
+
+[tasks.test]
+alias = "t"
+description = "Compile-verify the document (pre-push gate)"
+depends = ["check:doc"]
+
+[tasks.watch]
+alias = "w"
+description = "Recompile the PDF on every change (live preview)"
+run = ["mkdir -p dist", "typst watch main.typ dist/main.pdf"]

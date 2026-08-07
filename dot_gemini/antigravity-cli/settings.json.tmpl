@@ -2,6 +2,7 @@
   "allowNonWorkspaceAccess": true,
   "artifactReviewPolicy": "agent-decides",
   "colorScheme": "dark",
+  "editorMode": "vim",
 {{- $gcp_project := env "ANTIGRAVITY_CLOUD_PROJECT" -}}
 {{- if $gcp_project }}
   "gcp": {
@@ -16,5 +17,6 @@
   "toolPermission": "always-proceed",
   "trustedWorkspaces": [
     "{{ .chezmoi.homeDir }}"
-  ]
+  ],
+  "vimInsertFirst": true
 }

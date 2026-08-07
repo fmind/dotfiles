@@ -1,0 +1,40 @@
+# Cloud Run continuous deployment — append this job to the cd.yml from the
+# github-actions skill. Auth is keyless: Workload Identity Federation exchanges
+# the GitHub OIDC token for the deployer service account, no stored JSON keys.
+name: CD
+on:
+  push:
+    tags: ["v*"]
+# Default to read-only; the deploy job widens only what it actually needs.
+permissions:
+  contents: read
+jobs:
+  deploy-cloud-run:
+    if: ${{ vars.ENABLE_DEPLOY_CLOUDRUN == 'true' }} # repo/org variable opt-in
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write # mint the OIDC token consumed by google-github-actions/auth
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false # GCP auth is keyless OIDC; git stays read-only
+      - uses: jdx/mise-action@v4
+        with:
+          cache: false # a poisoned tool cache must never reach a released image
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+      - name: Build and push image (ko)
+        id: image
+        env:
+          KO_DOCKER_REPO: ${{ vars.GCP_ARTIFACT_REPO }}
+        # ko prints the pushed digest reference on the last stdout line.
+        run: echo "ref=$(mise run build:image | tail -n 1)" >> "$GITHUB_OUTPUT"
+      - uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          service: ${{ vars.CLOUDRUN_SERVICE }}
+          region: ${{ vars.GCP_REGION }}
+          image: ${{ steps.image.outputs.ref }}

@@ -1,0 +1,10 @@
+# Encryption policy: which files sops encrypts and for whom.
+# Recipients are age PUBLIC keys — safe to commit; private keys never enter git.
+creation_rules:
+  # Kubernetes secrets: encrypt only the sensitive payload so manifests stay diffable.
+  - path_regex: k8s/.*\.enc\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqql4y5xw
+  # Everything else named *.enc.*: encrypt every value (keys stay readable).
+  - path_regex: .*\.enc\.(yaml|json|env)$
+    age: age1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqql4y5xw

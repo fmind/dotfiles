@@ -1,0 +1,14 @@
+# Provider binaries and module cache (re-created by `tofu init`)
+.terraform/
+# State never belongs in git: it stores every attribute, secrets included
+*.tfstate
+*.tfstate.*
+# Plan artifacts and scratch output
+tmp/
+*.tfplan
+# Variable files often hold credentials; commit only encrypted or example files
+*.tfvars
+*.tfvars.json
+!*.example.tfvars
+crash.log
+crash.*.log

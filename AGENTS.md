@@ -49,7 +49,7 @@ Key routines:
 - **Upgrade tools**: `mise run upgrade` (upgrades tool pins and lockfiles).
 - **Reclaim disk**: `mise run prune` (reclaim development caches and agent transcripts).
 - **Release**: `mise run release` (runs validation, tags, pushes `main` and tag).
-- **Manage skills**: Author directly under `skills/`; validate with `gh skill publish --dry-run`.
+- **Manage skills**: Author global skills directly under `skills/` (repo-scoped ones under `.agents/skills/`); validate with `gh skill publish --dry-run skills`.
 - **Create visuals**: Use `fmind-visuals` skill (Slidev for decks, Mermaid for diagrams).
 
 > Note: If `mise` fails with `command not found` in an agent shell, call `~/.local/bin/mise` directly.
@@ -91,7 +91,7 @@ Two assets are authored once and consumed by all agent CLIs:
 - `.chezmoiignore` — Chezmoi exclude rules for non-deployed repository files.
 - `.claude/` — Workspace-scoped session records and state for Claude Code CLI.
 - `.gemini/` — Workspace configurations and metadata for Antigravity CLI.
-- `.github/` — GitHub Actions workflows (`ci.yml`, `cd.yml`, `security.yml`) and Dependabot config.
+- `.github/` — GitHub Actions workflows (`ci.yml`, `cd.yml`, `security.yml`), the `zizmor.yml` audit policy, and Dependabot config.
 - `.gitignore` — Git exclusion rules.
 - `.gitleaks.toml` — Security configuration and secrets scanner allowlist for GitLeaks.
 - `.stylua.toml` — StyleLua formatting policy for managed Neovim Lua sources.

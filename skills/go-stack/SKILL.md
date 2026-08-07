@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/go-stack
   created: 2026-06-23
-  updated: 2026-08-02
+  updated: 2026-08-07
 ---
 
 # Go Stack Standard (Go 1.26+)
@@ -16,10 +16,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 ## 1. Core & Quality Stack
 
 - **Go Version**: Target latest stable (Go 1.26+). Adopt current idioms mechanically — run `go fix ./...` (modernizers) and `gofumpt` rather than hand-porting.
-- **Dependency & Tooling**: Manage heavy CLI tools (`golangci-lint`, `lefthook`, `gotestsum`) via `mise.toml` ([mise.toml](references/mise.toml)) to prevent `go.mod` dependency bloat and compile errors. Use native `tool` directive in `go.mod` (Go 1.24+) only for code generators and small utilities (`templ`, `goimports`, `gofumpt`, `govulncheck`). Run via `go tool <name>`.
-- **Project Tools**:
-  - **Via `mise.toml`**: `golangci-lint` (v2+), `lefthook`, `gotestsum`.
-  - **Via `go.mod`**: `templ`, `sqlc`, `gomodifytags`, `impl`, `goimports`, `gofumpt`, `govulncheck`.
+- **Dependency & Tooling**: Manage heavy standalone CLI tools via `mise.toml` ([mise.toml](references/mise.toml)) — `golangci-lint` (v2+), `lefthook`, `gotestsum`, `air` (web live reload) — to prevent `go.mod` dependency bloat and compile errors. Reserve the native `tool` directive in `go.mod` (Go 1.24+) for code generators and small Go-native utilities invoked as `go tool <name>` — `templ`, `goimports`, `gofumpt`, `govulncheck` (plus `sqlc`, `gomodifytags`, `impl` on demand).
 - **Task Runner & Hooks**: Use `mise.toml` ([mise.toml](references/mise.toml)) for commands (`install`, `format`, `check`, `test`, `build`, `watch`) per the [mise skill](../mise/SKILL.md). Use `lefthook` ([lefthook.yml](references/lefthook.yml)) for pre-commit (format → `check:leaks --staged` → check) and pre-push (test) per the [lefthook skill](../lefthook/SKILL.md). Order the hook commands with explicit `priority` (formatters low, `check` high) so formatters restage before `check` reads the files — lefthook sorts alphabetically otherwise.
 - **Linting & Formatting**: Clean markdown/JSON/YAML with `dprint` using the configuration maintained by the [dprint skill](../dprint/SKILL.md). Format Go files with `goimports`/`gofumpt`. Enforce zero-warning rule with `golangci-lint` ([golangci.yml](references/golangci.yml)).
 - **Testing**: Standard library `testing` (starters stay dependency-free); reach for `stretchr/testify` when you want richer assertions. Run with `gotestsum`.
@@ -32,11 +29,10 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 ## 2. Project Scaffolding Workflow
 
 1. **Information**: Define project `Slug`, `Import Path` (e.g. `github.com/username/slug`), and `Holder/Year`.
-1. **Go Pinning**: Pin target version in `go.mod`.
-1. **Bootstrap**: Run `go mod init <import_path>` in the project root.
+1. **Bootstrap**: Run `go mod init <import_path>` in the project root — it records the active toolchain version in `go.mod` (keep it at the latest stable per §1).
 1. **Config Initialization**: Copy and customize configurations. Pick the task runner and hooks by project type — no manual trimming:
    - **Web**: `mise.toml` ([mise.toml](references/mise.toml)) + `lefthook.yml` ([lefthook.yml](references/lefthook.yml)) — the full set, with templ/Tailwind/vendor/watch tasks.
-   - **CLI/agent**: `mise-cli.toml` ([mise-cli.toml](references/mise-cli.toml)) + `lefthook-cli.yml` ([lefthook-cli.yml](references/lefthook-cli.yml)), saved as `mise.toml`/`lefthook.yml` — same task vocabulary, no web-only tasks or the `tailwindcss` tool.
+   - **CLI/agent**: `mise-cli.toml` ([mise-cli.toml](references/mise-cli.toml)) + `lefthook-cli.yml` ([lefthook-cli.yml](references/lefthook-cli.yml)), saved as `mise.toml`/`lefthook.yml` — same task vocabulary, no web-only tasks or the `tailwindcss`/`air` tools.
    - `.golangci.yml` ([golangci.yml](references/golangci.yml)) — replace `<import_path>` in `goimports.local-prefixes`, and mirror the same value in the `format:go` task's `goimports -local` flag so `format` and `check` agree on one style.
    - `dprint.json` (setup as instructed in the [dprint skill](../dprint/SKILL.md))
    - `.air.toml` ([air.toml](references/air.toml)) (web only)
@@ -59,8 +55,8 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
      mise run check
      mise run test
      ```
-     On a fresh repo, `check:leaks` prints a benign `no commits yet` and exits 0 — it has no history to scan until the first commit below.
-   - Initialize workspace agent context via the [agent-project skill](../agent-project/SKILL.md), but **keep the Go-specific [AGENTS.md](references/AGENTS.md) copied in step 4** — skip agent-project's generic AGENTS.md template so it does not overwrite the stack file.
+     On a fresh repo, `check:leaks` prints a benign `no commits yet` and exits 0 — it has no history to scan until the first commit below. Fresh ADK agents usually fail `check:vuln` immediately on a transitive module (e.g. `grpc` via the ADK/OTel exporters) — apply the Transitive Vulnerabilities gotcha fix (`go get -u <module>`), then re-run.
+   - Initialize workspace agent context via the [agent-project skill](../agent-project/SKILL.md), but **keep the Go-specific [AGENTS.md](references/AGENTS.md) copied during Config Initialization** — skip agent-project's generic AGENTS.md template so it does not overwrite the stack file.
    - Create `README.md` (humans) and keep it in sync with `AGENTS.md` via the [readme-agents skill](../readme-agents/SKILL.md); the layouts (§8) list it but no reference template ships one.
    - Commit changes: `git add . && git commit -m "chore: initial commit"`.
 
@@ -198,7 +194,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 - **Go Tool Directive**: Go 1.24+ project tools declared in `go.mod` require direct `go tool` invocations. Keep heavyweight standalone tools such as `golangci-lint` and `gotestsum` in `mise.toml`; reserve the `tool` directive for code generators and small Go-native utilities that need module-level reproducibility.
 - **Port Conflicts**: Default address is `:8080`.
 - **Tailwind v4 CLI**: Compiled via the standalone `tailwindcss` CLI executable, provisioned by `mise install` (the `github` backend: `"github:tailwindlabs/tailwindcss"`). Because the reference `mise.toml` sets `run_auto_install = false`, run `mise install` once after `mise trust` — tools are not fetched on demand.
-- **Embedded Asset Updates**: Since assets are embedded via `go:embed`, running `go run` does not hot-reload static assets. Use `air` or rebuild assets to see updates.
+- **Embedded Asset Updates**: Since assets are embedded via `go:embed`, running `go run` does not hot-reload static assets. Use `mise run watch` (`air` + Tailwind watch, both mise-provisioned) or rebuild to see updates.
 - **Committed Generated Code**: The reference `.gitignore` does not exclude `*_templ.go`, so commit the generated Templ code — `check`/CI compile `server.go` (which imports `templates`) without first running `build:templ` (only `test`/`build` regenerate it). `mise run test`'s `build:templ` keeps it fresh and CI's clean-tree check (`git status --porcelain`) catches staleness.
 - **Self-Hosted Assets**: Never reference CDNs at runtime; serve all assets locally. `scripts/vendor.go` fetches HTMX/Alpine once, pinned by version **and** sha256 (fails loudly on a hash mismatch), and commits them under `static/vendor/`; `install:vendor` is idempotent (skips when present), so normal installs never touch the network. Bump a version by editing its URL + hash together.
 - **No JS/TS Toolchain**: The GOTH stack is deliberately Node-free — Tailwind is the standalone `tailwindcss` binary, HTMX/Alpine are vendored. Never introduce `npm`/`npx`/`node`.
@@ -215,6 +211,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 - [Tailwind CSS v4](https://tailwindcss.com)
 - [ADK for Go](https://google.github.io/adk-docs/get-started/go/) — Agent Development Kit (agents).
 - Companion skills:
+  - [hugo](../hugo/SKILL.md) — documentation and static sites (Hugo + Hextra); Go web _apps_ stay on GOTH (§4).
   - [github-actions](../github-actions/SKILL.md) — CI that runs these same `mise run` gates.
   - [security-scan](../security-scan/SKILL.md) — audit dependencies, secrets, and licenses.
   - [containerize](../containerize/SKILL.md) — package the binary into a minimal, signed image.

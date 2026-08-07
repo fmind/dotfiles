@@ -1,0 +1,61 @@
+baseURL: <base_url>
+locale: en-us
+title: <title>
+
+# Fail builds on missing pages/refs instead of silently emitting broken links.
+refLinksErrorLevel: ERROR
+
+enableGitInfo: true # last-modified dates from git (Hextra shows them in the footer)
+
+module:
+  hugoVersion:
+    extended: true
+    min: "0.164.0"
+  imports:
+    - path: github.com/imfing/hextra
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true # allow inline HTML in Markdown (required by some Hextra shortcodes)
+    extensions:
+      passthrough: # hand LaTeX through to KaTeX untouched (enable math per page)
+        enable: true
+        delimiters:
+          block: [['\[', '\]'], ["$$", "$$"]]
+          inline: [['\(', '\)']]
+  highlight:
+    noClasses: false # use CSS classes so Hextra's dark/light themes style code blocks
+
+menu:
+  main:
+    - name: Documentation
+      pageRef: /docs
+      weight: 1
+    - name: Search
+      weight: 2
+      params:
+        type: search
+    - name: GitHub
+      weight: 3
+      url: <repo_url>
+      params:
+        icon: github
+
+params:
+  navbar:
+    displayTitle: true
+    displayLogo: false
+  theme:
+    default: system # light, dark, or follow the visitor's OS
+    displayToggle: true
+  page:
+    width: normal
+  footer:
+    displayCopyright: true
+  editURL:
+    enable: true
+    base: <repo_url>/edit/main
+  search:
+    enable: true
+    type: flexsearch # client-side search, no external service

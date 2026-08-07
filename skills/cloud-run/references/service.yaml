@@ -1,0 +1,40 @@
+# Declarative Cloud Run service: apply with
+#   gcloud run services replace service.yaml --region=<region>
+# Prefer this over imperative flags once a service has more than a couple of
+# settings — the file is reviewable and diffs in pull requests.
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: <slug>
+  labels:
+    cloud.googleapis.com/location: <region>
+spec:
+  template:
+    metadata:
+      annotations:
+        # Scale to zero by default; raise minScale for latency-sensitive services.
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "3"
+    spec:
+      # Dedicated least-privilege runtime identity — never the default compute SA.
+      serviceAccountName: <slug>-runtime@<project>.iam.gserviceaccount.com
+      containerConcurrency: 80
+      timeoutSeconds: 30
+      containers:
+        # Digest, not tag: deploys stay immutable and rollbacks exact.
+        - image: <region>-docker.pkg.dev/<project>/<slug>/<slug>@sha256:<digest>
+          ports:
+            - containerPort: 8080
+          env:
+            - name: LOG_LEVEL
+              value: info
+            # Runtime secrets come from Secret Manager, never from the image.
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-key
+                  key: latest
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi

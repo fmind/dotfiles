@@ -1,0 +1,79 @@
+[settings.task]
+run_auto_install = false
+
+[tools]
+dprint = "latest"
+gitleaks = "latest"
+go = "latest"
+lefthook = "latest"
+lychee = "latest"
+# Hugo extended edition (required by Hextra); the aqua/asdf backends ship the standard build.
+"ubi:gohugoio/hugo" = { version = "latest", matching = "extended" }
+
+[tasks.build]
+alias = "b"
+description = "Build the production site (minified, garbage-collected)"
+sources = ["hugo.yaml", "content/**/*", "assets/**/*", "layouts/**/*", "static/**/*"]
+outputs = ["public/index.html"]
+run = "hugo build --gc --minify"
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = ["check:format", "check:leaks", "check:site"]
+
+[tasks."check:format"]
+alias = "cf"
+description = "Check content/config formatting (dprint)"
+run = "dprint check"
+
+[tasks."check:leaks"]
+alias = "cs"
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+
+[tasks."check:site"]
+alias = "cv"
+description = "Build with warnings promoted to errors (fail-fast)"
+# Git info is display metadata, not content: skipping it keeps this check green on
+# fresh repos (no commits yet) where reading the git log warns and would panic.
+env = { HUGO_ENABLEGITINFO = "false" }
+run = "hugo build --destination tmp/check --logLevel warn --panicOnWarning --printPathWarnings"
+
+[tasks.clean]
+alias = "n"
+description = "Remove build artifacts and generated resources"
+run = "rm -rf public/ tmp/ resources/_gen/ .hugo_build.lock"
+
+[tasks.format]
+alias = "f"
+description = "Format content and configuration (dprint)"
+run = "dprint fmt"
+
+[tasks.install]
+alias = "i"
+description = "Install development dependencies"
+depends = ["install:hooks", "install:mod"]
+
+[tasks."install:hooks"]
+description = "Install Git hooks using Lefthook"
+run = "lefthook install"
+
+[tasks."install:mod"]
+description = "Download Hugo modules (theme) pinned by go.mod/go.sum"
+run = "hugo mod get"
+
+[tasks.test]
+alias = "t"
+description = "Build the site and verify all internal links (lychee)"
+# Check a root-URL build: subpath deployments (GitHub project pages) emit
+# /<repo>/-prefixed links that --root-dir cannot resolve against public/.
+run = [
+  "hugo build --destination tmp/test --baseURL http://localhost/ --quiet",
+  "lychee --offline --root-dir {{cwd}}/tmp/test --no-progress 'tmp/test/**/*.html'",
+]
+
+[tasks.watch]
+alias = "w"
+description = "Serve the site with live reload"
+run = "hugo server --buildDrafts --noHTTPCache --disableFastRender"
