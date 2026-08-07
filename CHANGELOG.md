@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.11.1] - 2026-08-07
+
+### 📚 Documentation
+
+- _(agents)_ Update global instructions and chezmoiignore
+
 ## [1.11.0] - 2026-08-06
 
 ### 🚀 Features
