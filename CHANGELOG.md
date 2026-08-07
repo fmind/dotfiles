@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.12.0] - 2026-08-07
+
+### 🚀 Features
+
+- _(skills)_ Add skills for cloud-run, hugo, sops-secrets, terraform-stack, and typst
+
 ## [1.11.1] - 2026-08-07
 
 ### 📚 Documentation
