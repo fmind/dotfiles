@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.12.1] - 2026-08-07
+
+### 🐛 Bug Fixes
+
+- _(dot)_ Remove just from completions
+
 ## [1.12.0] - 2026-08-07
 
 ### 🚀 Features
