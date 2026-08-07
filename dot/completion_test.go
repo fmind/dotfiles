@@ -32,7 +32,6 @@ func TestGetCompletionCommand(t *testing.T) {
 		{"bat", "bat", []string{"--completion", "fish"}},
 		{"carapace", "carapace", []string{"_carapace", "fish"}},
 		{"delta", "delta", []string{"--generate-completion", "fish"}},
-		{"just", "just", []string{"--completions", "fish"}},
 		{"rg", "rg", []string{"--generate", "complete-fish"}},
 		{"ruff", "ruff", []string{"generate-shell-completion", "fish"}},
 		{"starship", "starship", []string{"completions", "fish"}},

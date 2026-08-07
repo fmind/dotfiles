@@ -297,7 +297,7 @@ func defaultCompletionConfig() CompletionConfig {
 		Tools: []string{
 			"ast-grep", "atlas", "atuin", "bat", "carapace", "chezmoi", "codex", "cosign", "delta", "dive",
 			"dlv", "doggo", "dprint", "dyff", "flux", "gh", "git-lfs", "gitleaks", "golangci-lint", "goreleaser",
-			"helm", "helmfile", "jules", "just", "k3d", "k9s", "kind", "ko", "kube-linter", "kubecolor",
+			"helm", "helmfile", "jules", "k3d", "k9s", "kind", "ko", "kube-linter", "kubecolor",
 			"kubectl", "kustomize", "lazygit", "lefthook", "mirrord", "mise", "opencode", "pluto",
 			"rg", "ruff", "skaffold", "sqlc", "starship", "step", "stern",
 			"terraform-docs", "trivy", "ty", "uv", "watchexec", "xh", "yq", "zellij",
@@ -319,7 +319,6 @@ func defaultCompletionConfig() CompletionConfig {
 			"dprint":    {Args: []string{"completions", "fish"}},
 			"gh":        {Args: []string{"completion", "-s", "fish"}},
 			"git-lfs":   {Binary: "git", Args: []string{"lfs", "completion", "fish"}},
-			"just":      {Args: []string{"--completions", "fish"}},
 			"lazygit":   {Args: []string{"completion", "fish"}},
 			"mirrord":   {Args: []string{"completions", "fish"}},
 			"rg":        {Args: []string{"--generate", "complete-fish"}},
