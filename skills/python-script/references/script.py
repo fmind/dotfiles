@@ -13,7 +13,7 @@ from typing import Annotated
 import typer
 from rich.console import Console
 
-app = typer.Typer(add_completion=False, rich_markup_mode="rich")
+app = typer.Typer(add_completion=False, pretty_exceptions_show_locals=False, rich_markup_mode="rich")
 err = Console(stderr=True)  # stderr: logs and errors
 out = Console()  # stdout: results
 
@@ -32,7 +32,8 @@ def main(
         # ... do the real work here ...
         out.print(f"[green]✓[/green] Successfully processed {input_file}")
     except Exception:
-        err.print_exception(show_locals=True)
+        # Tracebacks are useful at this boundary, but locals can contain secrets.
+        err.print_exception(show_locals=False)
         raise typer.Exit(code=1) from None
 
 

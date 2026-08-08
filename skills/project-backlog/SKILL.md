@@ -1,6 +1,6 @@
 ---
 name: project-backlog
-description: Turn an evidence-first repository review into a deduplicated, prioritized, dependency-aware project backlog. Use when auditing a project for actionable improvements, preparing issue drafts, grooming technical debt, or creating GitHub issues from verified findings; default to reviewable drafts and require explicit authorization plus a confirmed repository before any GitHub mutation.
+description: Turn repository-review evidence into a deduplicated, prioritized, dependency-aware backlog. Use for improvement audits, issue drafts, or technical debt; require authorization and a confirmed repo before GitHub mutation.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
@@ -12,6 +12,8 @@ metadata:
 # Project Backlog
 
 Compose the [repository-review skill](../repository-review/SKILL.md) with the repository's live issue taxonomy. Discovery and drafting are read-only by default; issue creation and native dependency mutation are a separate, explicitly authorized phase.
+
+Local repository discovery requires `git`; live issue reads and authorized writes require `gh`.
 
 Use the complete [draft contract](references/draft-contract.md) and exercise the failure boundaries in the [behavioral evaluations](tests/behavioral-evaluations.md).
 
@@ -29,7 +31,7 @@ Use the complete [draft contract](references/draft-contract.md) and exercise the
 
 ## Phase 2: Authorized creation
 
-1. Require an explicit instruction to create the reviewed draft set and reconfirm the exact `owner/repo`. Authorization to review, draft, implement code, or create a pull request is not authorization to create backlog issues.
+1. Require an explicit instruction to create the reviewed draft set and reconfirm the exact `owner/repo`; this confirmed repository is the only mutation target. Authorization to review, draft, implement code, or create a pull request is not authorization to create backlog issues.
 1. Refresh repository visibility, labels, matching open and closed issues, and native dependencies immediately before mutation. Stop if the drafts became stale or the required `area/*`, single `priority/p*`, and single `effort/*` labels do not exist.
 1. Write each issue body to a temporary file and create issues in deterministic draft order with `gh issue create --repo <owner/repo> --title ... --body-file ... --label ...`. Record draft ID, issue number, node ID, and URL after each success.
 1. Create no dependency edges until every issue node exists. If issue creation is partial, stop without deleting successful issues, report created, failed, and unattempted drafts, and leave the graph unapplied.

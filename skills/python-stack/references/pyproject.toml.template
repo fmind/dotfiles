@@ -8,12 +8,11 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "<holder>" }]
 dependencies = [
-  # Core — used by every project type (CLI, web, agent, library)
+  # Application defaults — remove dependencies the selected profile does not import.
   "pydantic>=2.13.4",
   "pydantic-settings>=2.14.2",
   "structlog>=26.1.0",
   # Web (Litestar) — remove for CLI, agent, or library projects
-  "advanced-alchemy>=1.11.0",
   "alembic>=1.18.5",
   "asyncpg>=0.31.0",
   "granian[reload]>=2.7.0",
@@ -37,6 +36,7 @@ dev = [
 ]
 
 [project.scripts]
+# Web and CLI profiles only. Library projects remove this table.
 <slug> = "<package>:main"
 
 [build-system]
@@ -103,13 +103,14 @@ ignore = [
 [tool.ty.environment]
 python-version = "<latest_stable_version_major_minor>"
 
-# No blanket [tool.ty.rules] ignores — the scaffold type-checks clean. If ty
-# (pre-1.0) flags the generated SQLAlchemyDTO type forms once you add ORM models,
-# add a narrowly-scoped `[tool.ty.rules]` with `invalid-type-form = "ignore"`.
+# No blanket [tool.ty.rules] ignores. Fix diagnostics at their source and use
+# only an evidenced, narrow line-level suppression for an upstream typing defect.
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["-ra", "--strict-config", "--strict-markers"]
+filterwarnings = ["error"]
+markers = ["integration: requires local Docker and disposable external services"]
 pythonpath = ["."]
 xfail_strict = true
 

@@ -7,6 +7,7 @@ import argparse
 import ast
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from urllib.parse import unquote, urlparse
@@ -20,7 +21,9 @@ class ResolutionError(RuntimeError):
 
 
 def normalized(name: str) -> str:
-    return name.lower().replace("-", "_").replace(".", "_")
+    # Distribution names treat every run of '-', '_' and '.' as equivalent.
+    # Underscores also produce the conventional import-module default.
+    return re.sub(r"[-_.]+", "_", name).lower()
 
 
 def selected_environment(project: Path, explicit: str | None) -> Path:
@@ -151,11 +154,6 @@ def defining_source(root: Path, symbol: str) -> tuple[Path, ast.AST, list[str]]:
     return matches[0]
 
 
-def generated(path: Path, lines: list[str]) -> bool:
-    marker = "\n".join(lines[:5]).lower()
-    return "generated" in marker and ("do not edit" in marker or "do not modify" in marker)
-
-
 def resolve(args: argparse.Namespace) -> dict[str, object]:
     project = Path(args.project).resolve()
     environment = selected_environment(project, args.environment)
@@ -163,8 +161,6 @@ def resolve(args: argparse.Namespace) -> dict[str, object]:
     dist_info, metadata = distribution_metadata(site, args.distribution)
     root, editable = source_root(site, dist_info, args.module)
     path, node, lines = defining_source(root, args.symbol)
-    if generated(path, lines):
-        raise ResolutionError(f"{path} is generated source; inspect its generator or upstream source instead")
     start = node.lineno
     natural_end = getattr(node, "end_lineno", start)
     end = min(natural_end, start + MAX_EXCERPT_LINES - 1)

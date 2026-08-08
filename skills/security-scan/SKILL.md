@@ -1,6 +1,6 @@
 ---
 name: security-scan
-description: Scan a repo with Trivy (deps, IaC, secrets, licenses, images) and gitleaks (git history), then triage findings. Use for a full-repo security audit beyond the stack's native checks.
+description: Run approved offline Trivy or gitleaks scans on a checkout for vulnerabilities, dependencies, IaC, secret history, licenses, images, and config; triage findings. Use for full-repo scans, not threat modeling.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)

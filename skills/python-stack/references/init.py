@@ -2,16 +2,21 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+from typing import Literal
+
 import structlog
-from advanced_alchemy.extensions.litestar import SQLAlchemyAsyncConfig, SQLAlchemyPlugin
+from granian import Granian
+from granian.constants import Interfaces
 from litestar import Litestar, Response, get
 from litestar.config.cors import CORSConfig
-from litestar.di import NamedDependency
-from pydantic import SecretStr
+from litestar.di import NamedDependency, Provide
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 __version__ = "0.1.0"
 
@@ -19,8 +24,9 @@ __version__ = "0.1.0"
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    database_url: SecretStr = SecretStr("postgresql+asyncpg://postgres:postgres@localhost:5432/<slug>")
-    environment: str = "development"
+    database_url: SecretStr
+    cors_origins: list[str] = Field(default_factory=list)
+    environment: Literal["development", "test", "production"] = "development"
     host: str = "127.0.0.1"
     port: int = 8000
 
@@ -42,43 +48,71 @@ structlog.configure(
 logger = structlog.get_logger()
 
 
-class Base(DeclarativeBase):
-    pass
-
-
-db_config = SQLAlchemyAsyncConfig(
-    connection_string=settings.database_url.get_secret_value(),
-    metadata=Base.metadata,
-    create_all=False,  # schema is managed by Alembic; flip to True only for throwaway/smoke runs
-)
-db_plugin = SQLAlchemyPlugin(config=db_config)
-
-
 @get("/health")
-async def health_check(db_session: NamedDependency[AsyncSession]) -> Response[dict[str, str]]:
-    """Verify database connectivity and application health."""
+async def health_check() -> dict[str, str]:
+    """Report process liveness without touching external dependencies."""
+    return {"status": "healthy"}
+
+
+async def check_readiness(db_session: AsyncSession) -> Response[dict[str, str]]:
+    """Report whether the database dependency can serve traffic."""
     try:
         await db_session.execute(text("SELECT 1"))
-        return Response({"status": "healthy", "database": "connected"}, status_code=200)
-    except Exception as e:
-        logger.error("Health check database error", error=str(e))
-        return Response({"status": "unhealthy", "database": "disconnected"}, status_code=500)
+        return Response({"status": "ready", "database": "connected"}, status_code=200)
+    except SQLAlchemyError:
+        logger.exception("Readiness check database error")
+        return Response({"status": "not_ready", "database": "disconnected"}, status_code=503)
 
 
-app = Litestar(
-    plugins=[db_plugin],
-    route_handlers=[health_check],
-    cors_config=CORSConfig(allow_origins=["*"]),
-)
+@get("/ready")
+async def readiness_check(db_session: NamedDependency[AsyncSession]) -> Response[dict[str, str]]:
+    """Expose the dependency readiness check through HTTP."""
+    return await check_readiness(db_session)
+
+
+def create_app(config: Settings) -> Litestar:
+    """Build an application whose database resources follow its lifespan."""
+    engine = create_async_engine(config.database_url.get_secret_value())
+    session_factory = async_sessionmaker(engine, expire_on_commit=False)
+
+    async def provide_db_session() -> AsyncIterator[AsyncSession]:
+        async with session_factory() as session:
+            yield session
+
+    @asynccontextmanager
+    async def database_lifespan(_: Litestar) -> AsyncIterator[None]:
+        try:
+            yield
+        finally:
+            await engine.dispose()
+
+    return Litestar(
+        route_handlers=[health_check, readiness_check],
+        dependencies={"db_session": Provide(provide_db_session)},
+        cors_config=CORSConfig(allow_origins=config.cors_origins),
+        lifespan=[database_lifespan],
+    )
+
+
+app = create_app(settings)
+
+
+def create_server(config: Settings) -> Granian:
+    """Configure Granian without starting a worker process."""
+    # The import package is the ASGI target; the distribution/command may contain hyphens.
+    target = f"{__name__}:app"
+
+    return Granian(
+        target,
+        interface=Interfaces.ASGI,
+        port=config.port,
+        address=config.host,
+        reload=config.environment == "development",
+    )
 
 
 def main() -> None:
     """Entrypoint invoked by the `<slug>` console script or `uv run`."""
-    from granian import Granian
-    from granian.constants import Interfaces
-
-    # Auto-detect context for hot-reloading imports
-    target = f"{__name__}:app"
 
     logger.info(
         "Starting <slug> web server",
@@ -87,14 +121,7 @@ def main() -> None:
         environment=settings.environment,
     )
 
-    server = Granian(
-        target,
-        interface=Interfaces.ASGI,
-        port=settings.port,
-        address=settings.host,
-        reload=settings.environment == "development",
-    )
-    server.serve()
+    create_server(settings).serve()
 
 
 if __name__ == "__main__":

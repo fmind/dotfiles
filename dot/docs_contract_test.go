@@ -8,7 +8,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
-	"runtime"
 	"slices"
 	"strings"
 	"testing"
@@ -56,6 +55,22 @@ func TestDocumentationContract(t *testing.T) {
 	checkCommandInventory(t, repo)
 }
 
+func TestCIUsesCanonicalGate(t *testing.T) {
+	repo := repositoryRoot(t)
+	for _, relativePath := range []string{
+		".github/workflows/ci.yml",
+		"skills/github-actions/references/ci.yml",
+	} {
+		content, err := os.ReadFile(filepath.Join(repo, relativePath))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(string(content), "run: mise run all") {
+			t.Errorf("%s: CI must delegate to the canonical `mise run all` gate", relativePath)
+		}
+	}
+}
+
 // checkCommandInventory asserts the reverse of checkDocumentationFile: that file
 // only proves every documented command exists, which silently tolerates a shipped
 // command nobody wrote down. Every top-level command must appear in the dot-cli
@@ -83,11 +98,7 @@ func checkCommandInventory(t *testing.T, repo string) {
 
 func repositoryRoot(t *testing.T) string {
 	t.Helper()
-	_, source, _, ok := runtime.Caller(0)
-	if !ok {
-		t.Fatal("resolve contract test source")
-	}
-	return filepath.Clean(filepath.Join(filepath.Dir(source), ".."))
+	return skillRepositoryRoot(t)
 }
 
 func liveMiseTasks(t *testing.T, repo string) (map[string]struct{}, map[string]string) {

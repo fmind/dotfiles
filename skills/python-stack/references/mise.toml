@@ -16,16 +16,6 @@ run = ["mise run format", "mise run check", "mise run test", "mise run build"]
 
 [tasks.build]
 alias = "b"
-description = "Build project artifacts"
-depends = ["build:python"]
-
-# On-demand: needs a Dockerfile from the containerize skill. Add "build:image"
-# to the `build` task's depends once the image is part of the deliverable.
-[tasks."build:image"]
-description = "Build production OCI image (Docker)"
-run = "docker build -t <slug>:latest ."
-
-[tasks."build:python"]
 description = "Build Python distribution artifacts"
 run = "uv build"
 
@@ -42,10 +32,10 @@ depends = [
 
 [tasks."check:format"]
 alias = "cf"
-description = "Check formatting and config validity"
+description = "Check formatting, project metadata, and lockfile"
 run = [
   "uv run validate-pyproject pyproject.toml",
-  "uv run ruff format --check .",
+  "uv run ruff format --check",
   "dprint check",
   "uv lock --check",
 ]
@@ -53,14 +43,12 @@ run = [
 [tasks."check:leaks"]
 alias = "cs"
 description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+run = "gitleaks dir --verbose ."
 
 [tasks."check:lint"]
 alias = "cl"
 description = "Lint Python sources (ruff)"
-run = """
-uv run ruff check --force-exclude .
-"""
+run = "uv run ruff check"
 
 [tasks."check:types"]
 alias = "ct"
@@ -70,7 +58,7 @@ run = "uv run ty check"
 [tasks."check:vuln"]
 alias = "cv"
 description = "Scan dependencies for vulnerabilities (pip-audit)"
-run = "uv run pip-audit"
+run = "uv run pip-audit --skip-editable --cache-dir .cache/pip-audit"
 
 [tasks.clean]
 alias = "n"
@@ -78,13 +66,14 @@ description = "Remove build artifacts and coverage files"
 run = [
   "find . -type f -name '*.py[co]' -delete",
   "find . -type d -name __pycache__ -exec rm -rf {} +",
-  "rm -rf .pytest_cache .ruff_cache .coverage htmlcov dist docs",
+  "rm -rf .cache .pytest_cache .ruff_cache .coverage htmlcov dist docs",
 ]
 
 [tasks.coverage]
 alias = "v"
-description = "View test coverage report"
-run = "uv run pytest --cov --cov-report=term --cov-report=html"
+description = "Write an HTML coverage report"
+depends = ["test"]
+run = "uv run coverage html"
 
 [tasks.docs]
 alias = "d"
@@ -94,7 +83,7 @@ run = "uv run pdoc -o docs <package>"
 [tasks.format]
 alias = "f"
 description = "Format all sources and documents"
-run = ["mise run format:python", "mise run format:dprint"]
+depends = ["format:dprint", "format:python"]
 
 [tasks."format:dprint"]
 description = "Format JSON, Markdown, TOML, YAML with dprint"
@@ -102,23 +91,15 @@ run = "dprint fmt"
 
 [tasks."format:python"]
 description = "Format Python sources and imports (ruff)"
-run = """
-uv run ruff check --select=I --fix --force-exclude . && uv run ruff format --force-exclude .
-"""
+run = [
+  "uv run ruff check --select=I --fix --force-exclude",
+  "uv run ruff format --force-exclude",
+]
 
 [tasks.install]
 alias = "i"
 description = "Install development dependencies"
-depends = ["install:hooks"]
-
-[tasks."install:hooks"]
-description = "Install Git hooks using Lefthook"
-depends = ["install:python"]
-run = "uv run lefthook install"
-
-[tasks."install:python"]
-description = "Sync Python dependencies (uv)"
-run = "uv sync"
+run = ["uv sync", "uv run lefthook install"]
 
 [tasks.publish]
 alias = "p"
@@ -127,13 +108,18 @@ run = "uv publish"
 
 [tasks.test]
 alias = "t"
-description = "Run the test suite (pytest)"
-run = "uv run pytest"
+description = "Run offline tests with the coverage gate"
+run = 'uv run pytest -m "not integration" --cov --cov-fail-under=85'
+
+[tasks."test:integration"]
+alias = "ti"
+description = "Run opt-in Docker-backed integration tests"
+run = "uv run pytest -m integration"
 
 [tasks."test:watch"]
 alias = "tw"
-description = "Run the test suite in watch mode"
-run = "uv run pytest-watcher ."
+description = "Run offline tests in watch mode"
+run = 'uv run pytest-watcher . -m "not integration"'
 
 [tasks.upgrade]
 alias = "u"
@@ -141,7 +127,7 @@ description = "Upgrade dependencies to latest compatible versions"
 run = "uv sync --upgrade"
 
 # Web form (granian). CLI/library projects: replace with `uv run <slug>`;
-# agent projects: `agents-cli playground`.
+# agent projects: `uvx google-agents-cli playground`.
 [tasks.watch]
 alias = "w"
 description = "Run the dev server with live reload"

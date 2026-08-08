@@ -56,8 +56,8 @@ chpwd_only = true
 "pipx:kaggle" = "latest" # Kaggle dataset and competition CLI
 "pipx:litert-lm" = "latest" # LiteRT (TensorFlow Lite) LLM runtime utilities
 "pipx:ptpython" = "latest" # Interactive Python REPL with autocomplete
-# Hugo extended edition (required by the Hextra theme); the aqua/asdf backends ship the standard build.
-"ubi:gohugoio/hugo" = { version = "latest", matching = "extended" } # Static site generator for docs and websites
+# The dedicated registry entry selects Hugo Extended on every supported platform.
+hugo-extended = "latest" # Static site generator for docs and websites
 actionlint = "latest" # Correctness linter for GitHub Actions workflows
 age = "latest" # Simple and secure file encryption tool
 air = "latest" # Live reloading utility for Go apps

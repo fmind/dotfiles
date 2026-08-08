@@ -4,6 +4,8 @@ go 1.26.5
 
 require (
 	github.com/urfave/cli/v3 v3.10.1
+	github.com/yuin/goldmark v1.8.5
+	golang.org/x/net v0.57.0
 	golang.org/x/sync v0.22.0
 	golang.org/x/term v0.45.0
 	gopkg.in/yaml.v3 v3.0.1

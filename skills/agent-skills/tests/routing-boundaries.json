@@ -1,0 +1,1571 @@
+{
+  "version": 1,
+  "created": "2026-08-08",
+  "purpose": "Transparent regression probes for lexical routing boundaries across global and repository-scoped skills.",
+  "construction": "The original corpus was independently authored before the 2026-08-08 router hardening without copying lifecycle-evaluations.json wording. New-skill boundary probes are added when ownership changes. After adoption every case is a development regression, not a blind or behavioral evaluation.",
+  "proof_boundary": "Routable cases test deterministic ranking against the complete stored names and descriptions. They do not prove that a host includes every skill, preserves full descriptions within its metadata budget, abstains correctly, selects semantically, follows pressure contracts, or uses tools safely; those boundaries require actual-host discovery and separate behavioral evaluation.",
+  "cases": [
+    {
+      "id": "life-01",
+      "categories": [
+        "lifecycle",
+        "colloquial"
+      ],
+      "prompt": "Give this patch a hard once-over and call out only merge-blocking bugs you can prove.",
+      "expected": [
+        "code-review"
+      ],
+      "primary": "code-review",
+      "top_k": 3
+    },
+    {
+      "id": "life-02",
+      "categories": [
+        "lifecycle",
+        "colloquial",
+        "founder"
+      ],
+      "prompt": "I have a half-baked SaaS notion; poke holes in the problem and find the tiniest demand test before I build anything.",
+      "expected": [
+        "founder-discovery"
+      ],
+      "primary": "founder-discovery",
+      "top_k": 3
+    },
+    {
+      "id": "life-03",
+      "categories": [
+        "lifecycle",
+        "engineering"
+      ],
+      "prompt": "The requirements are settled; map the codebase changes into ordered slices, dependencies, verification, and rollback steps.",
+      "expected": [
+        "implementation-plan"
+      ],
+      "primary": "implementation-plan",
+      "top_k": 3
+    },
+    {
+      "id": "life-04",
+      "categories": [
+        "lifecycle",
+        "colloquial",
+        "security",
+        "deploy"
+      ],
+      "prompt": "Prod is on fire and customers cannot sign in; establish command, contain harm, preserve evidence, and verify service restoration.",
+      "expected": [
+        "incident-response"
+      ],
+      "primary": "incident-response",
+      "top_k": 3
+    },
+    {
+      "id": "life-05",
+      "categories": [
+        "lifecycle",
+        "engineering"
+      ],
+      "prompt": "Work through the approved build plan slice by slice, checking each increment and stopping at the publication boundary.",
+      "expected": [
+        "plan-execution"
+      ],
+      "primary": "plan-execution",
+      "top_k": 3
+    },
+    {
+      "id": "life-06",
+      "categories": [
+        "lifecycle",
+        "colloquial",
+        "founder",
+        "engineering"
+      ],
+      "prompt": "Before anyone starts, tear this roadmap apart: surface fatal assumptions, missing dependencies, and cheaper corrections.",
+      "expected": [
+        "plan-review"
+      ],
+      "primary": "plan-review",
+      "top_k": 3
+    },
+    {
+      "id": "life-07",
+      "categories": [
+        "lifecycle",
+        "design"
+      ],
+      "prompt": "Assess the checkout flow on phone and desktop, including copy, focus order, empty states, errors, and recovery affordances.",
+      "expected": [
+        "product-design-review"
+      ],
+      "primary": "product-design-review",
+      "top_k": 3
+    },
+    {
+      "id": "life-08",
+      "categories": [
+        "lifecycle",
+        "founder",
+        "deploy"
+      ],
+      "prompt": "Shape a staged beta rollout: audience, message, onboarding, channels, success bars, support owner, and pause conditions.",
+      "expected": [
+        "product-launch"
+      ],
+      "primary": "product-launch",
+      "top_k": 3
+    },
+    {
+      "id": "life-09",
+      "categories": [
+        "lifecycle",
+        "founder"
+      ],
+      "prompt": "Compare last month's cohort outcome with our original bet and choose whether the next move is iterate, pivot, or kill it.",
+      "expected": [
+        "product-learning"
+      ],
+      "primary": "product-learning",
+      "top_k": 3
+    },
+    {
+      "id": "life-10",
+      "categories": [
+        "lifecycle",
+        "founder"
+      ],
+      "prompt": "Turn the agreed user need into a compact PRD with scope, observable rules, edge cases, and acceptance examples.",
+      "expected": [
+        "product-spec"
+      ],
+      "primary": "product-spec",
+      "top_k": 3
+    },
+    {
+      "id": "life-11",
+      "categories": [
+        "lifecycle",
+        "deploy",
+        "engineering"
+      ],
+      "prompt": "Tell me whether this exact artifact is fit to go live, checking monitoring, capacity, migration safety, rollback, and recovery drills.",
+      "expected": [
+        "production-readiness"
+      ],
+      "primary": "production-readiness",
+      "top_k": 3
+    },
+    {
+      "id": "life-12",
+      "categories": [
+        "lifecycle",
+        "engineering"
+      ],
+      "prompt": "Build a test campaign around the riskiest journeys, spanning component, contract, browser, a11y, load, and manual checks.",
+      "expected": [
+        "quality-assurance"
+      ],
+      "primary": "quality-assurance",
+      "top_k": 3
+    },
+    {
+      "id": "life-13",
+      "categories": [
+        "lifecycle",
+        "security"
+      ],
+      "prompt": "Without executing it, inspect this downloaded agent extension for sneaky hooks, symlink escapes, token exfiltration, and provenance gaps.",
+      "expected": [
+        "skill-security-review"
+      ],
+      "primary": "skill-security-review",
+      "top_k": 3
+    },
+    {
+      "id": "life-14",
+      "categories": [
+        "lifecycle",
+        "colloquial",
+        "engineering"
+      ],
+      "prompt": "This flaky build is baffling me; get a reliable repro, narrow the fault, and explain why it spreads before touching the fix.",
+      "expected": [
+        "systematic-debugging"
+      ],
+      "primary": "systematic-debugging",
+      "top_k": 3
+    },
+    {
+      "id": "life-15",
+      "categories": [
+        "lifecycle",
+        "engineering"
+      ],
+      "prompt": "Check the installed library source and current vendor docs, then compare two approaches and cite the evidence behind the recommendation.",
+      "expected": [
+        "technical-research"
+      ],
+      "primary": "technical-research",
+      "top_k": 3
+    },
+    {
+      "id": "life-16",
+      "categories": [
+        "lifecycle",
+        "engineering"
+      ],
+      "prompt": "For this confirmed bug, prove the gap with a regression test, make the smallest correction, then clean up while staying green.",
+      "expected": [
+        "test-driven-development"
+      ],
+      "primary": "test-driven-development",
+      "top_k": 3
+    },
+    {
+      "id": "life-17",
+      "categories": [
+        "lifecycle",
+        "security",
+        "engineering"
+      ],
+      "prompt": "Map who could attack this OAuth service, what crosses each trust boundary, plausible abuse paths, mitigations, and leftover risk.",
+      "expected": [
+        "threat-model"
+      ],
+      "primary": "threat-model",
+      "top_k": 3
+    },
+    {
+      "id": "life-18",
+      "categories": [
+        "lifecycle",
+        "engineering",
+        "history"
+      ],
+      "prompt": "Before removing this old compatibility branch, recover the introducing change, later reverts, rename lineage, stated rationale, and co-changing tests from Git.",
+      "expected": [
+        "repository-history"
+      ],
+      "primary": "repository-history",
+      "top_k": 3
+    },
+    {
+      "id": "life-19",
+      "categories": [
+        "lifecycle",
+        "engineering",
+        "agent"
+      ],
+      "prompt": "Rebuild this production agent's instruction stack: resolve layer precedence, bound dynamic context, define tool side effects and a typed response, then freeze a candidate for evaluation.",
+      "expected": [
+        "prompt-design"
+      ],
+      "primary": "prompt-design",
+      "top_k": 3
+    },
+    {
+      "id": "neighbor-01",
+      "categories": [
+        "neighbor",
+        "engineering"
+      ],
+      "prompt": "The defect is already isolated and reproducible; now implement the correction under a regression test.",
+      "expected": [
+        "test-driven-development"
+      ],
+      "primary": "test-driven-development",
+      "top_k": 3,
+      "forbidden": [
+        "systematic-debugging"
+      ]
+    },
+    {
+      "id": "neighbor-02",
+      "categories": [
+        "neighbor",
+        "engineering"
+      ],
+      "prompt": "Do not write code yet; turn the signed-off requirements into an ordered engineering work map.",
+      "expected": [
+        "implementation-plan"
+      ],
+      "primary": "implementation-plan",
+      "top_k": 3,
+      "forbidden": [
+        "plan-execution"
+      ]
+    },
+    {
+      "id": "neighbor-03",
+      "categories": [
+        "neighbor",
+        "engineering"
+      ],
+      "prompt": "Planning is finished and authorized; carry out the remaining listed slices against the current checkout.",
+      "expected": [
+        "plan-execution"
+      ],
+      "primary": "plan-execution",
+      "top_k": 3,
+      "forbidden": [
+        "implementation-plan"
+      ]
+    },
+    {
+      "id": "neighbor-04",
+      "categories": [
+        "neighbor",
+        "founder"
+      ],
+      "prompt": "Customer interviews established the need; document the feature contract instead of reopening whether the company should exist.",
+      "expected": [
+        "product-spec"
+      ],
+      "primary": "product-spec",
+      "top_k": 3,
+      "forbidden": [
+        "founder-discovery"
+      ]
+    },
+    {
+      "id": "neighbor-05",
+      "categories": [
+        "neighbor",
+        "founder"
+      ],
+      "prompt": "There is no validated problem yet, so challenge the concept rather than drafting requirements.",
+      "expected": [
+        "founder-discovery"
+      ],
+      "primary": "founder-discovery",
+      "top_k": 3,
+      "forbidden": [
+        "product-spec"
+      ]
+    },
+    {
+      "id": "neighbor-06",
+      "categories": [
+        "neighbor",
+        "founder"
+      ],
+      "prompt": "The experiment has ended; interpret retention evidence against the predeclared threshold, not a future campaign calendar.",
+      "expected": [
+        "product-learning"
+      ],
+      "primary": "product-learning",
+      "top_k": 3,
+      "forbidden": [
+        "product-launch"
+      ]
+    },
+    {
+      "id": "neighbor-07",
+      "categories": [
+        "neighbor",
+        "founder"
+      ],
+      "prompt": "We have not launched yet; prepare the audience and rollout sequence instead of claiming lessons from nonexistent results.",
+      "expected": [
+        "product-launch"
+      ],
+      "primary": "product-launch",
+      "top_k": 3,
+      "forbidden": [
+        "product-learning"
+      ]
+    },
+    {
+      "id": "neighbor-08",
+      "categories": [
+        "neighbor",
+        "deploy"
+      ],
+      "prompt": "No outage is happening; evaluate this release candidate's operability before anyone promotes it.",
+      "expected": [
+        "production-readiness"
+      ],
+      "primary": "production-readiness",
+      "top_k": 3,
+      "forbidden": [
+        "incident-response"
+      ]
+    },
+    {
+      "id": "neighbor-09",
+      "categories": [
+        "neighbor",
+        "deploy",
+        "colloquial"
+      ],
+      "prompt": "This is not a rehearsal: the live API is timing out for everyone right now, so run the response.",
+      "expected": [
+        "incident-response"
+      ],
+      "primary": "incident-response",
+      "top_k": 3,
+      "forbidden": [
+        "production-readiness"
+      ]
+    },
+    {
+      "id": "neighbor-10",
+      "categories": [
+        "neighbor",
+        "security"
+      ],
+      "prompt": "Reason about attack paths from the architecture; do not run repository scanners or probe any endpoint.",
+      "expected": [
+        "threat-model"
+      ],
+      "primary": "threat-model",
+      "top_k": 3,
+      "forbidden": [
+        "security-scan"
+      ]
+    },
+    {
+      "id": "neighbor-11",
+      "categories": [
+        "neighbor",
+        "security"
+      ],
+      "prompt": "Run the approved offline vulnerability and secret-history tools on this checkout; no design workshop is needed.",
+      "expected": [
+        "security-scan"
+      ],
+      "primary": "security-scan",
+      "top_k": 3,
+      "forbidden": [
+        "threat-model"
+      ]
+    },
+    {
+      "id": "neighbor-12",
+      "categories": [
+        "neighbor",
+        "security"
+      ],
+      "prompt": "The extension package was already reviewed and accepted; install it at workspace scope and verify discovery.",
+      "expected": [
+        "agent-skills"
+      ],
+      "primary": "agent-skills",
+      "top_k": 3,
+      "forbidden": [
+        "skill-security-review"
+      ]
+    },
+    {
+      "id": "neighbor-13",
+      "categories": [
+        "neighbor",
+        "security"
+      ],
+      "prompt": "Treat the unknown extension as hostile and inspect its entire bundle before any installer runs.",
+      "expected": [
+        "skill-security-review"
+      ],
+      "primary": "skill-security-review",
+      "top_k": 3,
+      "forbidden": [
+        "agent-skills"
+      ]
+    },
+    {
+      "id": "neighbor-14",
+      "categories": [
+        "neighbor",
+        "design",
+        "engineering"
+      ],
+      "prompt": "Critique the interaction and visual hierarchy; do not execute a browser conformance test matrix.",
+      "expected": [
+        "product-design-review"
+      ],
+      "primary": "product-design-review",
+      "top_k": 3,
+      "forbidden": [
+        "quality-assurance"
+      ]
+    },
+    {
+      "id": "neighbor-15",
+      "categories": [
+        "neighbor",
+        "design",
+        "engineering"
+      ],
+      "prompt": "The design direction is settled; exercise the journeys and record browser and accessibility evidence.",
+      "expected": [
+        "quality-assurance"
+      ],
+      "primary": "quality-assurance",
+      "top_k": 3,
+      "forbidden": [
+        "product-design-review"
+      ]
+    },
+    {
+      "id": "neighbor-16",
+      "categories": [
+        "neighbor",
+        "engineering",
+        "agent"
+      ],
+      "prompt": "The agent prompt candidate is frozen; stop rewriting it and compare it with the baseline across repeated trials and a sealed holdout.",
+      "expected": [
+        "agent-evaluation"
+      ],
+      "primary": "agent-evaluation",
+      "top_k": 3,
+      "forbidden": [
+        "prompt-design"
+      ]
+    },
+    {
+      "id": "neighbor-17",
+      "categories": [
+        "neighbor",
+        "engineering",
+        "agent"
+      ],
+      "prompt": "No candidate exists yet; map the actual context assembly and author the minimal versioned prompt and tool contract before running evaluations.",
+      "expected": [
+        "prompt-design"
+      ],
+      "primary": "prompt-design",
+      "top_k": 3,
+      "forbidden": [
+        "agent-evaluation"
+      ]
+    },
+    {
+      "id": "neighbor-18",
+      "categories": [
+        "neighbor",
+        "engineering",
+        "history"
+      ],
+      "prompt": "There is no observed failure to reproduce; explain why this tracked guard exists by tracing commits, reverts, moves, and associated review rationale.",
+      "expected": [
+        "repository-history"
+      ],
+      "primary": "repository-history",
+      "top_k": 3,
+      "forbidden": [
+        "systematic-debugging"
+      ]
+    },
+    {
+      "id": "explicit-01",
+      "categories": [
+        "explicit-name"
+      ],
+      "prompt": "Use the systematic-debugging skill on the failing command.",
+      "expected": [
+        "systematic-debugging"
+      ],
+      "primary": "systematic-debugging",
+      "top_k": 1
+    },
+    {
+      "id": "explicit-02",
+      "categories": [
+        "explicit-name",
+        "security"
+      ],
+      "prompt": "Invoke threat-model for this design.",
+      "expected": [
+        "threat-model"
+      ],
+      "primary": "threat-model",
+      "top_k": 1
+    },
+    {
+      "id": "explicit-03",
+      "categories": [
+        "explicit-name",
+        "founder"
+      ],
+      "prompt": "Please apply founder-discovery here.",
+      "expected": [
+        "founder-discovery"
+      ],
+      "primary": "founder-discovery",
+      "top_k": 1
+    },
+    {
+      "id": "explicit-04",
+      "categories": [
+        "explicit-name",
+        "deploy"
+      ],
+      "prompt": "Run production-readiness, nothing else.",
+      "expected": [
+        "production-readiness"
+      ],
+      "primary": "production-readiness",
+      "top_k": 1
+    },
+    {
+      "id": "explicit-05",
+      "categories": [
+        "explicit-name",
+        "engineering"
+      ],
+      "prompt": "Use test-driven-development for the change.",
+      "expected": [
+        "test-driven-development"
+      ],
+      "primary": "test-driven-development",
+      "top_k": 1
+    },
+    {
+      "id": "explicit-06",
+      "categories": [
+        "explicit-name",
+        "negation",
+        "security"
+      ],
+      "prompt": "Do not use threat-model; use security-scan on the repository instead.",
+      "expected": [
+        "security-scan"
+      ],
+      "primary": "security-scan",
+      "top_k": 1,
+      "forbidden": [
+        "threat-model"
+      ]
+    },
+    {
+      "id": "explicit-07",
+      "categories": [
+        "explicit-name",
+        "negation",
+        "engineering"
+      ],
+      "prompt": "Skip implementation-plan and execute plan-execution now.",
+      "expected": [
+        "plan-execution"
+      ],
+      "primary": "plan-execution",
+      "top_k": 1,
+      "forbidden": [
+        "implementation-plan"
+      ]
+    },
+    {
+      "id": "explicit-08",
+      "categories": [
+        "explicit-name",
+        "negation",
+        "founder"
+      ],
+      "prompt": "No product-launch work; use product-learning on the completed trial.",
+      "expected": [
+        "product-learning"
+      ],
+      "primary": "product-learning",
+      "top_k": 1,
+      "forbidden": [
+        "product-launch"
+      ]
+    },
+    {
+      "id": "explicit-09",
+      "categories": [
+        "explicit-name",
+        "multi-intent",
+        "engineering"
+      ],
+      "prompt": "Use technical-research first and implementation-plan after the API choice is settled.",
+      "expected": [
+        "technical-research",
+        "implementation-plan"
+      ],
+      "primary": "technical-research",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "explicit-10",
+      "categories": [
+        "explicit-name",
+        "multi-intent",
+        "security"
+      ],
+      "prompt": "Apply skill-security-review before agent-skills installs the package.",
+      "expected": [
+        "skill-security-review",
+        "agent-skills"
+      ],
+      "primary": "skill-security-review",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-01",
+      "categories": [
+        "multi-intent",
+        "founder",
+        "engineering"
+      ],
+      "prompt": "Challenge whether the idea deserves an MVP, then draft a feature contract only if the evidence clears the decision bar.",
+      "expected": [
+        "founder-discovery",
+        "product-spec"
+      ],
+      "primary": "founder-discovery",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-02",
+      "categories": [
+        "multi-intent",
+        "engineering",
+        "security"
+      ],
+      "prompt": "Investigate why auth fails, then model the trust-boundary weakness revealed by the root cause.",
+      "expected": [
+        "systematic-debugging",
+        "threat-model"
+      ],
+      "primary": "systematic-debugging",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-03",
+      "categories": [
+        "multi-intent",
+        "deploy",
+        "engineering"
+      ],
+      "prompt": "Exercise the release's risky journeys and then decide whether the exact build is safe to promote.",
+      "expected": [
+        "quality-assurance",
+        "production-readiness"
+      ],
+      "primary": "quality-assurance",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-04",
+      "categories": [
+        "multi-intent",
+        "founder",
+        "deploy"
+      ],
+      "prompt": "Check operational fitness first, then design a limited customer rollout with support and halt thresholds.",
+      "expected": [
+        "production-readiness",
+        "product-launch"
+      ],
+      "primary": "production-readiness",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-05",
+      "categories": [
+        "multi-intent",
+        "founder"
+      ],
+      "prompt": "Review the launch strategy for bad assumptions, then rewrite only the decision-changing parts of the rollout plan.",
+      "expected": [
+        "plan-review",
+        "product-launch"
+      ],
+      "primary": "plan-review",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-06",
+      "categories": [
+        "multi-intent",
+        "engineering"
+      ],
+      "prompt": "Inspect the branch for defects and, separately, build a broader browser and resilience validation campaign.",
+      "expected": [
+        "code-review",
+        "quality-assurance"
+      ],
+      "primary": "code-review",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-07",
+      "categories": [
+        "multi-intent",
+        "security",
+        "deploy"
+      ],
+      "prompt": "During the live breach, coordinate containment now and capture a later architecture attack-path review as follow-up work.",
+      "expected": [
+        "incident-response",
+        "threat-model"
+      ],
+      "primary": "incident-response",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-08",
+      "categories": [
+        "multi-intent",
+        "security",
+        "engineering"
+      ],
+      "prompt": "Audit the third-party skill without running it, and if accepted, document the subsequent workspace installation procedure.",
+      "expected": [
+        "skill-security-review",
+        "agent-skills"
+      ],
+      "primary": "skill-security-review",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-09",
+      "categories": [
+        "multi-intent",
+        "engineering"
+      ],
+      "prompt": "Verify the framework API from installed source, then turn the chosen approach into ordered repository work.",
+      "expected": [
+        "technical-research",
+        "implementation-plan"
+      ],
+      "primary": "technical-research",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-10",
+      "categories": [
+        "multi-intent",
+        "design",
+        "engineering"
+      ],
+      "prompt": "Critique the mobile error flow, then test the agreed corrections across browser, keyboard, and screen-reader boundaries.",
+      "expected": [
+        "product-design-review",
+        "quality-assurance"
+      ],
+      "primary": "product-design-review",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "multi-11",
+      "categories": [
+        "multi-intent",
+        "engineering",
+        "agent"
+      ],
+      "prompt": "Design a frozen production prompt candidate with explicit tool contracts, then evaluate it against the baseline over repeated paired trials.",
+      "expected": [
+        "prompt-design",
+        "agent-evaluation"
+      ],
+      "primary": "prompt-design",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "legacy-01",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Wire a remote Model Context Protocol endpoint into Codex at user scope while keeping the bearer token out of config.",
+      "expected": [
+        "agent-mcp"
+      ],
+      "primary": "agent-mcp",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-02",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Set up shared project instructions across the five coding agents but leave each tool's native settings where it expects them.",
+      "expected": [
+        "agent-project"
+      ],
+      "primary": "agent-project",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-03",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Add a reviewed local Agent Skill to this workspace with the skills command and confirm every supported CLI sees it.",
+      "expected": [
+        "agent-skills"
+      ],
+      "primary": "agent-skills",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-04",
+      "categories": [
+        "pre-17",
+        "deploy"
+      ],
+      "prompt": "Ship this containerized service to Google Cloud's serverless runtime using Artifact Registry and keyless CI identity.",
+      "expected": [
+        "cloud-run"
+      ],
+      "primary": "cloud-run",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-05",
+      "categories": [
+        "pre-17",
+        "deploy",
+        "security"
+      ],
+      "prompt": "Package the Go binary as a tiny nonroot OCI image, produce its SBOM, scan it, and sign the digest.",
+      "expected": [
+        "containerize"
+      ],
+      "primary": "containerize",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-06",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Create the typed Conventional Commits message for what is already staged and make that commit.",
+      "expected": [
+        "conventional-commit"
+      ],
+      "primary": "conventional-commit",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-07",
+      "categories": [
+        "pre-17",
+        "design"
+      ],
+      "prompt": "Turn this bespoke architecture composition into a themed D2 source and export it.",
+      "expected": [
+        "d2"
+      ],
+      "primary": "d2",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-08",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Configure GitHub's dependency update bot for the ecosystems in this repository and validate the mapping.",
+      "expected": [
+        "dependabot"
+      ],
+      "primary": "dependabot",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-09",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Use the dot command to collect environment verification and local cluster diagnostics.",
+      "expected": [
+        "dot-cli"
+      ],
+      "primary": "dot-cli",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-10",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Make JSON, TOML, YAML, and Markdown formatting consistent with the repository's canonical formatter.",
+      "expected": [
+        "dprint"
+      ],
+      "primary": "dprint",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-11",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Start this work on a new branch named with the repository's conventional type and slug pattern.",
+      "expected": [
+        "feature-branch"
+      ],
+      "primary": "feature-branch",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-12",
+      "categories": [
+        "pre-17",
+        "design"
+      ],
+      "prompt": "Apply the house visual identity to an article architecture graphic and choose the appropriate diagram tool.",
+      "expected": [
+        "fmind-visuals"
+      ],
+      "primary": "fmind-visuals",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-13",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Stage every intended change, generate the commit, heal hook failures, and push the branch end to end.",
+      "expected": [
+        "git-add-commit-push"
+      ],
+      "primary": "git-add-commit-push",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-14",
+      "categories": [
+        "pre-17",
+        "engineering",
+        "deploy"
+      ],
+      "prompt": "Edit the repository workflow so CI calls the same mise format, check, and test jobs as local hooks.",
+      "expected": [
+        "github-actions"
+      ],
+      "primary": "github-actions",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-15",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Open a pull request for this branch with a concise What, Why, How, and test plan.",
+      "expected": [
+        "github-pull-request"
+      ],
+      "primary": "github-pull-request",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-16",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Derive and update this GitHub project's description, homepage, topics, and solo-maintainer settings.",
+      "expected": [
+        "github-repository"
+      ],
+      "primary": "github-repository",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-17",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Build a new Go CLI using the repository's standard language tooling and package layout.",
+      "expected": [
+        "go-stack"
+      ],
+      "primary": "go-stack",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-18",
+      "categories": [
+        "pre-17",
+        "engineering",
+        "deploy"
+      ],
+      "prompt": "Create a Hextra documentation site with Hugo modules and publish it through GitHub Pages.",
+      "expected": [
+        "hugo"
+      ],
+      "primary": "hugo",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-19",
+      "categories": [
+        "pre-17",
+        "engineering",
+        "deploy"
+      ],
+      "prompt": "Spin up a disposable k3d environment and install the chart with kubectl and Helm for local debugging.",
+      "expected": [
+        "k8s-local"
+      ],
+      "primary": "k8s-local",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-20",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Configure pre-commit and pre-push hooks that delegate formatting, checks, and tests to mise.",
+      "expected": [
+        "lefthook"
+      ],
+      "primary": "lefthook",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-21",
+      "categories": [
+        "pre-17",
+        "design"
+      ],
+      "prompt": "Express this sequence diagram in Mermaid, validate the syntax, and embed it in GitHub documentation.",
+      "expected": [
+        "mermaid"
+      ],
+      "primary": "mermaid",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-22",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Pin the toolchain and expose install, format, check, test, build, and watch through mise tasks.",
+      "expected": [
+        "mise"
+      ],
+      "primary": "mise",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-23",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Turn the audit findings into deduplicated, ordered issue drafts with dependencies and explicit human gates.",
+      "expected": [
+        "project-backlog"
+      ],
+      "primary": "project-backlog",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-24",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Choose the correct license for this repository, generate the file, and align the package manifest.",
+      "expected": [
+        "project-license"
+      ],
+      "primary": "project-license",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-25",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Write a one-file Python utility with inline PEP 723 metadata that runs through uv.",
+      "expected": [
+        "python-script"
+      ],
+      "primary": "python-script",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-26",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Scaffold a typed Python application with uv, Ruff, ty, pytest, and the standard project layout.",
+      "expected": [
+        "python-stack"
+      ],
+      "primary": "python-stack",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-27",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Bring README and AGENTS back in sync with the commands, directories, and usage the codebase actually exposes.",
+      "expected": [
+        "readme-agents"
+      ],
+      "primary": "readme-agents",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-28",
+      "categories": [
+        "pre-17",
+        "deploy"
+      ],
+      "prompt": "Bump the semantic version, refresh the changelog, create the v-prefixed tag, and publish the GitHub release.",
+      "expected": [
+        "release"
+      ],
+      "primary": "release",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-29",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Audit the whole codebase across architecture, source, tests, automation, docs, generated files, and release state, without fixing it.",
+      "expected": [
+        "repository-review"
+      ],
+      "primary": "repository-review",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-30",
+      "categories": [
+        "pre-17",
+        "security"
+      ],
+      "prompt": "Run Trivy over dependencies and IaC plus gitleaks over history, then triage the concrete findings.",
+      "expected": [
+        "security-scan"
+      ],
+      "primary": "security-scan",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-31",
+      "categories": [
+        "pre-17",
+        "security",
+        "deploy"
+      ],
+      "prompt": "Store the service credentials as age-encrypted sops data and decrypt them only in memory at runtime.",
+      "expected": [
+        "sops-secrets"
+      ],
+      "primary": "sops-secrets",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-32",
+      "categories": [
+        "pre-17",
+        "engineering",
+        "deploy"
+      ],
+      "prompt": "Author this infrastructure with OpenTofu, tflint, native plan tests, terraform-docs, and GCS state.",
+      "expected": [
+        "terraform-stack"
+      ],
+      "primary": "terraform-stack",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-33",
+      "categories": [
+        "pre-17",
+        "design"
+      ],
+      "prompt": "Typeset this standalone technical report in Typst and provide a live PDF preview workflow.",
+      "expected": [
+        "typst"
+      ],
+      "primary": "typst",
+      "top_k": 3
+    },
+    {
+      "id": "legacy-34",
+      "categories": [
+        "pre-17",
+        "engineering"
+      ],
+      "prompt": "Raise every pinned dependency and developer tool to current stable versions one ecosystem at a time, validating after each group.",
+      "expected": [
+        "upgrade-tools"
+      ],
+      "primary": "upgrade-tools",
+      "top_k": 3
+    },
+    {
+      "id": "repo-01",
+      "categories": [
+        "repo-scoped",
+        "engineering"
+      ],
+      "prompt": "Add a managed shell file using chezmoi source naming and preview the source-to-home diff before applying it.",
+      "expected": [
+        "chezmoi"
+      ],
+      "primary": "chezmoi",
+      "top_k": 3
+    },
+    {
+      "id": "repo-02",
+      "categories": [
+        "repo-scoped",
+        "deploy"
+      ],
+      "prompt": "Prepare and push the next versioned dotfiles tag so the publication workflow starts.",
+      "expected": [
+        "dot-release"
+      ],
+      "primary": "dot-release",
+      "top_k": 3
+    },
+    {
+      "id": "eval-01",
+      "categories": [
+        "agent-evaluation",
+        "stochastic",
+        "engineering"
+      ],
+      "prompt": "Compare two prompt candidates over repeated trials with a frozen baseline, sealed decision set, trace assertions, and cost guardrails.",
+      "expected": [
+        "agent-evaluation"
+      ],
+      "primary": "agent-evaluation",
+      "top_k": 3,
+      "forbidden": [
+        "quality-assurance"
+      ]
+    },
+    {
+      "id": "eval-02",
+      "categories": [
+        "agent-evaluation",
+        "rag",
+        "stochastic"
+      ],
+      "prompt": "Prove whether the retrieval change improves grounded answers without masking variance, corpus leakage, or tool-call regressions.",
+      "expected": [
+        "agent-evaluation"
+      ],
+      "primary": "agent-evaluation",
+      "top_k": 3
+    },
+    {
+      "id": "eval-03",
+      "categories": [
+        "agent-evaluation",
+        "stochastic",
+        "safety"
+      ],
+      "prompt": "Calibrate graders on labeled edge cases, retain every failed run, and report pass-to-the-k reliability for this tool agent.",
+      "expected": [
+        "agent-evaluation"
+      ],
+      "primary": "agent-evaluation",
+      "top_k": 3
+    },
+    {
+      "id": "eval-04",
+      "categories": [
+        "neighbor",
+        "quality-assurance",
+        "deterministic"
+      ],
+      "prompt": "Exercise deterministic checkout journeys in real browsers across accessibility, performance, resilience, and manual evidence.",
+      "expected": [
+        "quality-assurance"
+      ],
+      "primary": "quality-assurance",
+      "top_k": 3,
+      "forbidden": [
+        "agent-evaluation"
+      ]
+    },
+    {
+      "id": "eval-05",
+      "categories": [
+        "neighbor",
+        "agent-skills",
+        "deterministic"
+      ],
+      "prompt": "Check Agent Skill metadata, resource containment, required tools, and lexical trigger fixtures before publishing the package.",
+      "expected": [
+        "agent-skills"
+      ],
+      "primary": "agent-skills",
+      "top_k": 3,
+      "forbidden": [
+        "agent-evaluation"
+      ]
+    },
+    {
+      "id": "eval-06",
+      "categories": [
+        "neighbor",
+        "product-learning",
+        "founder"
+      ],
+      "prompt": "The agent experiment is complete; interpret adoption and retention evidence against the original product hypothesis and choose iterate, pivot, or stop.",
+      "expected": [
+        "product-learning"
+      ],
+      "primary": "product-learning",
+      "top_k": 3,
+      "forbidden": [
+        "agent-evaluation"
+      ]
+    },
+    {
+      "id": "eval-07",
+      "categories": [
+        "explicit-name",
+        "agent-evaluation"
+      ],
+      "prompt": "Use agent-evaluation to compare the frozen assistant candidate with its baseline.",
+      "expected": [
+        "agent-evaluation"
+      ],
+      "primary": "agent-evaluation",
+      "top_k": 1
+    },
+    {
+      "id": "eval-08",
+      "categories": [
+        "multi-intent",
+        "agent-evaluation",
+        "production"
+      ],
+      "prompt": "Measure the stochastic agent candidate against the baseline, then audit whether the exact winning build is operable and safe to release.",
+      "expected": [
+        "agent-evaluation",
+        "production-readiness"
+      ],
+      "primary": "agent-evaluation",
+      "top_k": 3,
+      "require_all_top_k": 5
+    },
+    {
+      "id": "none-01",
+      "categories": [
+        "no-route",
+        "colloquial"
+      ],
+      "prompt": "What's a good dinner idea for tonight?",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-02",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Translate this sentence into French: the train arrives at noon.",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-03",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "What is seven times nine?",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-04",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Rewrite my sentence so it sounds warmer.",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-05",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Summarize the paragraph I pasted without changing its claims.",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-06",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Remind me what we discussed yesterday.",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-07",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Give me three names for a black cat.",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-08",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Explain why the sky looks blue to a child.",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-09",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Convert 18 degrees Celsius to Fahrenheit.",
+      "expected": [],
+      "route": false
+    },
+    {
+      "id": "none-10",
+      "categories": [
+        "no-route"
+      ],
+      "prompt": "Make this list alphabetical.",
+      "expected": [],
+      "route": false
+    }
+  ]
+}

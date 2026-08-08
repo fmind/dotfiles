@@ -49,7 +49,7 @@ run = "tflint --recursive"
 [tasks."check:scan"]
 alias = "cn"
 description = "Scan IaC for misconfigurations (trivy)"
-run = "trivy config --exit-code 1 ."
+run = "trivy config --exit-code 1 --tf-vars terraform.example.tfvars ."
 
 [tasks."check:validate"]
 alias = "cv"

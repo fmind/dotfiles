@@ -1,17 +1,7 @@
-import pytest
-from litestar.testing import AsyncTestClient
-
-from <package> import __version__, app
+from <package> import __main__ as module_entrypoint
+from <package> import __version__
 
 
 def test_version() -> None:
     assert __version__
-
-
-@pytest.mark.anyio
-async def test_health_check() -> None:
-    # Runs against a real Postgres container (see conftest.py); /health does SELECT 1.
-    async with AsyncTestClient(app=app) as client:
-        response = await client.get("/health")
-        assert response.status_code == 200
-        assert response.json() == {"status": "healthy", "database": "connected"}
+    assert module_entrypoint.main

@@ -35,11 +35,7 @@ jobs:
           cache: true
       - name: Trust repository
         run: mise trust -y mise.toml && mise trust -y dot/mise.toml
-      - name: Run formatters
-        run: mise run format
-      - name: Run checkers
-        run: mise run check
-      - name: Run testers
-        run: mise run test
+      - name: Run canonical gate
+        run: mise run all
       - name: Verify clean tree
         run: test -z "$(git status --porcelain)"

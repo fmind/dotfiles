@@ -1,6 +1,6 @@
 ---
 name: repository-review
-description: Perform an evidence-first, cross-cutting repository review across architecture, source, tests, tooling, security, CI/CD, documentation, generated state, releases, and authorized runtime behavior. Use for repository audits, full reviews, readiness assessments, technical-debt reviews, or any request that needs ranked findings and honest proof boundaries without implementing fixes or creating backlog items.
+description: Audit a whole repository across architecture, source, tests, tooling, security, CI/CD, docs, and releases. Use for cross-cutting audits, readiness, or technical-debt reviews needing ranked findings and proof boundaries.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
@@ -23,7 +23,7 @@ Review the whole delivery system, preserve user work, and report only what the a
 ## Review workflow
 
 1. **Establish the candidate**: Decide whether the evidence concerns committed `HEAD`, the dirty working candidate, or both. Name that boundary in the report.
-1. **Preserve the worktree**: Use read-only diffs first. If a coherent clean-tree gate can modify files, materialize the intended candidate in an isolated temporary worktree only when temporary local file and Git-metadata changes are authorized, validate the exact paths and Git state before use, and run the mutating gate only there. If the caller forbids even temporary state, skip that gate and report it as not checked. Verify the original index and worktree snapshot after cleanup.
+1. **Preserve the worktree**: Use read-only diffs first. Before any full gate, inspect the full gate's task definition and working-tree state. If it runs whole-tree write-formatters and unrelated or user changes are present, validate the exact candidate in an isolated temporary worktree only when temporary local file and Git-metadata changes are authorized, or run equivalent non-mutating checks; never reformat unrelated work. If the caller forbids even temporary state, skip that gate and report it as not checked. Verify the original index and worktree snapshot after cleanup.
 1. **Map the system**: Inspect manifests, entry points, package boundaries, task definitions, hooks, workflows, deployment/release automation, user and agent documentation, generated files, and relevant runtime configuration. Read [the review matrix](references/review-matrix.md) for coverage and evidence expectations.
 1. **Route native checks**: Use the repository's pinned `mise run` tasks and the applicable language stack skills. Use focused subtasks (`mise run check`, targeted `check:*`/`test`) only for iteration; use `mise run all` for the complete local candidate when safe and proportionate. Invoke the security-scan skill only when the request calls for a full security boundary beyond native checks.
 1. **Inspect live evidence read-only**: Compare the exact `HEAD` SHA with CI checks, deployments, tags, releases, or runtime observations only when those systems are authorized and reachable. A historical or different-head green result is stale evidence.

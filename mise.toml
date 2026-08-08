@@ -37,10 +37,11 @@ chezmoi = "latest"
 dprint = "latest"
 gh = "latest"
 gitleaks = "latest"
-go = "1.26"
+go = "latest"
 golangci-lint = "latest"
 gotestsum = "latest"
 lefthook = "latest"
+python = "latest"
 ruff = "latest"
 shellcheck = "latest"
 shfmt = "latest"
@@ -54,7 +55,7 @@ zizmor = "latest"
 
 [tasks.all]
 alias = "a"
-description = "Run the full CI gate locally (format, check, test)"
+description = "Run the full CI gate locally (format, check, test, build)"
 run = ["mise run format", "mise run check", "mise run test", "mise run build"]
 
 [tasks.build]
@@ -83,8 +84,8 @@ depends = [
 
 [tasks."check:actions"]
 alias = "ca"
-description = "Validate GitHub Actions workflows (actionlint for correctness, zizmor for security)"
-run = ["actionlint", "zizmor .github/workflows/"]
+description = "Validate GitHub Actions workflows"
+run = ["actionlint", "zizmor --offline .github/workflows/"]
 
 [tasks."check:chezmoi"]
 alias = "cc"
@@ -105,7 +106,7 @@ run = "dprint check"
 [tasks."check:docs"]
 alias = "co"
 description = "Validate agent documentation against live commands and paths"
-run = "go test -C dot -run '^TestDocumentationContract$' ./..."
+run = "go test -C dot -run '^TestDocumentationContract$' ."
 
 [tasks."check:go"]
 alias = "cg"
@@ -131,7 +132,7 @@ run = "ruff check"
 [tasks."check:scan"]
 alias = "ct"
 description = "Scan dependencies, IaC, licenses, and secrets (Trivy)"
-run = "trivy --config trivy.yaml fs ."
+run = "trivy --config trivy.yaml fs --tf-vars skills/terraform-stack/references/terraform.example.tfvars ."
 
 [tasks."check:shell"]
 alias = "cs"
@@ -150,16 +151,14 @@ done
 
 [tasks."check:skills"]
 alias = "ck"
-description = "Validate first-party skill packages and offline contracts"
+description = "Validate first-party skill publisher compatibility"
 # Scoped to skills/: from the repo root, `gh skill publish` never validates
 # .agents/skills/ anyway — it only warns that the directory looks like an agent's
 # installed-skills cache and should be gitignored. Those two skills are
 # first-party and deliberately tracked, so point the publisher at the directory
-# it actually publishes. The Go contract test below still covers .agents/skills/.
-run = [
-  "gh skill publish --dry-run skills",
-  "go test -C dot -run '^(TestSkillContracts|TestHighRiskSkillSmokeContracts)$' ./...",
-]
+# it actually publishes. Repository-owned contract and routing tests live under
+# the canonical test task so `mise run all` executes them exactly once.
+run = "gh skill publish --dry-run skills"
 
 [tasks.format]
 alias = "f"
@@ -214,8 +213,16 @@ run = [
 
 [tasks.test]
 alias = "t"
-description = "Run the dot CLI test suite (delegates to dot/)"
-run = "mise -C dot run test"
+description = "Run the Go and Python test suites"
+# The python-stack resolver ships its own offline contract suite; it has no
+# project of its own, so the repository gate is the only place that can run it.
+# Plain stdlib unittest discovery keeps it free of a virtualenv and of uv, and
+# `-B` keeps __pycache__ out of the skill package — the skill contract rejects
+# generated state, and CI asserts a clean tree after the gate.
+run = [
+  "mise -C dot run test",
+  "python -B -m unittest discover --start-directory skills/python-stack/scripts --pattern '*_test.py'",
+]
 
 [tasks.watch]
 alias = "w"

@@ -1,29 +1,18 @@
-"""Shared pytest fixtures and integration-test wiring.
-
-A real PostgreSQL container (matching the app's async driver) backs the tests, per
-the "integration over mocks" standard. `pytest_configure` starts it and exports
-`DATABASE_URL` *before* any test module imports the app, so `Settings()` binds to
-the container; `pytest_unconfigure` tears it down. For suites with many DB-free
-tests, gate this behind a marker so the container only starts when needed.
-"""
+"""Opt-in integration-test fixtures."""
 
 from __future__ import annotations
 
-import os
+from collections.abc import Iterator
 
 import pytest
 from testcontainers.community.postgres import PostgresContainer
 
-_postgres = PostgresContainer("postgres:17-alpine", driver="asyncpg")
 
-
-def pytest_configure() -> None:
-    _postgres.start()
-    os.environ["DATABASE_URL"] = _postgres.get_connection_url()
-
-
-def pytest_unconfigure() -> None:
-    _postgres.stop()
+@pytest.fixture(scope="session")
+def postgres_database_url() -> Iterator[str]:
+    """Start PostgreSQL only for tests that request this fixture."""
+    with PostgresContainer("postgres:17-alpine", driver="asyncpg") as postgres:
+        yield postgres.get_connection_url()
 
 
 @pytest.fixture

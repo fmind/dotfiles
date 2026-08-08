@@ -1,5 +1,6 @@
 *.py[co]
 .coverage
+.cache/
 .env
 .pytest_cache/
 .ruff_cache/

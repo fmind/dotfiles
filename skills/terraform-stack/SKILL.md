@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/terraform-stack
   created: 2026-08-07
-  updated: 2026-08-07
+  updated: 2026-08-08
 ---
 
 # Terraform / OpenTofu Stack Standard (OpenTofu 1.12+)
@@ -32,6 +32,7 @@ Canonical guidelines for infrastructure as code with **OpenTofu** (the open-sour
 1. **Scaffold Sources** (flat root module — no `modules/` tree until a unit is reused):
    - `versions.tf` ([versions.tf](references/versions.tf)) — version constraints, provider pins, and the commented GCS backend + encryption blocks.
    - `main.tf` ([main.tf](references/main.tf)), `variables.tf` ([variables.tf](references/variables.tf)) (typed, validated inputs), `outputs.tf` ([outputs.tf](references/outputs.tf)).
+   - `terraform.example.tfvars` ([terraform.example.tfvars](references/terraform.example.tfvars)) — non-secret example and static-scan values; replace the project ID before planning.
    - `tests/main.tftest.hcl` ([main.tftest.hcl](references/main.tftest.hcl)) — plan-only native tests.
 1. **Git & Validation**: `git init --initial-branch=main`, then `mise run install`, `format`, `check`, `test` — all green without any cloud access, because the backend ships commented and tests run in plan mode. Commit `.terraform.lock.hcl` (provider pins); on multi-platform teams run `tofu providers lock -platform=linux_amd64 -platform=darwin_arm64` so the lockfile carries hashes for both.
 1. **Backend Promotion**: Once real state exists, create the versioned GCS bucket (commands inline in [versions.tf](references/versions.tf)), uncomment the `backend "gcs"` block, and re-run `mise run install` — `tofu init` migrates local state after an explicit prompt.

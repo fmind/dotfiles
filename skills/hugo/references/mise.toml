@@ -7,8 +7,8 @@ gitleaks = "latest"
 go = "latest"
 lefthook = "latest"
 lychee = "latest"
-# Hugo extended edition (required by Hextra); the aqua/asdf backends ship the standard build.
-"ubi:gohugoio/hugo" = { version = "latest", matching = "extended" }
+# The dedicated registry entry selects Hugo Extended on every supported platform.
+hugo-extended = "latest"
 
 [tasks.build]
 alias = "b"

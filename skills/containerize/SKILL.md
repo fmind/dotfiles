@@ -20,7 +20,7 @@ Build a small, non-root, reproducible OCI image and verify it before it ships. P
    export KO_DOCKER_REPO=registry.localhost:5050/<slug>   # or a real registry
    go tool ko build ./cmd/<slug> --bare --platform=linux/amd64,linux/arm64
    ```
-1. **Python (or any other language) → multi-stage Dockerfile** on a distroless or minimal base (optimized with `uv`). Copy and customize:
+1. **Python (or any other language) → multi-stage Dockerfile** on a distroless or minimal base (optimized with `uv`). Copy and customize the image digests and the `<slug>` console-script entry point:
    - [Dockerfile](references/Dockerfile)
    - [.dockerignore](references/.dockerignore)
 
@@ -76,7 +76,7 @@ docker push registry.localhost:5050/<slug>:<tag>   # ko pushes automatically
 
 ## Gotchas
 
-- **Non-root + minimal**: the `ko` base (`chainguard/static`) has no shell or package manager — debug with `kubectl debug` ephemeral containers, not by adding a shell. `python:*-slim` (the [Dockerfile](references/Dockerfile) reference) is non-root but still Debian-based with a shell and `apt-get`; swap in a shell-less final stage (e.g. `gcr.io/distroless/python3-debian13` or a Chainguard Python image) only once the copied `.venv` is verified compatible.
+- **Non-root + minimal**: the `ko` base (`chainguard/static`) has no shell or package manager — debug with `kubectl debug` ephemeral containers, not by adding a shell. `python:*-slim` (the [Dockerfile](references/Dockerfile) reference) is non-root but still Debian-based with a shell and `apt-get`; the template removes the unused runtime `pip`, refresh its exact release digest during upgrades, and swap in a shell-less final stage (e.g. `gcr.io/distroless/python3-debian13` or a Chainguard Python image) only once the copied `.venv` is verified compatible.
 - **Use `.dockerignore`**: Always exclude development artifacts, local virtual environments, and secrets to speed up builds and prevent credential leakage (see [.dockerignore](references/.dockerignore)).
 - **Static binaries**: `CGO_ENABLED=0` for `distroless/static`; use `distroless/base` only when cgo is required.
 - **Digests over tags in manifests**: reference images by digest in Kubernetes so deploys are immutable.

@@ -15,7 +15,7 @@ Canonical guidelines for static sites with **Hugo extended** and the **Hextra** 
 
 ## 1. Core Stack
 
-- **Hugo Extended**: Required by Hextra. Install via mise's `ubi` backend with `matching = "extended"` ([mise.toml](references/mise.toml)) — the `aqua`/`asdf` backends ship the **standard** build (no `+extended` in `hugo version`), which fails Hextra's `module.hugoVersion` check.
+- **Hugo Extended**: Required by Hextra. Install with mise's dedicated `hugo-extended` registry entry ([mise.toml](references/mise.toml)); `hugo version` must include `+extended`, or Hextra's `module.hugoVersion` check fails.
 - **Theme via Hugo Modules**: Import `github.com/imfing/hextra` as a Hugo Module — no git submodules, no vendored theme. Modules ride on Go (provisioned by mise): the theme version is pinned in `go.mod`/`go.sum`, fetched by `hugo mod get`, upgraded by `hugo mod get -u`.
 - **Hextra Feature Set** (all self-hosted, zero CDN references in the output): FlexSearch client-side search, dark/light/system theme toggle, Mermaid diagrams, **server-side KaTeX** (math renders at build time into fingerprinted, integrity-hashed assets), callout/card/tab shortcodes, per-page edit links, git-based last-modified dates.
 - **Task Runner & Hooks**: `mise.toml` ([mise.toml](references/mise.toml)) exposes the canonical vocabulary per the [mise skill](../mise/SKILL.md) — `install`, `format` (dprint), `check` (dprint + gitleaks + strict build), `test` (root-URL build + lychee offline link check), `build` (`--gc --minify`), `watch` (live-reload server). `lefthook.yml` ([lefthook.yml](references/lefthook.yml)) wires pre-commit (format → leaks → check) and pre-push (test) per the [lefthook skill](../lefthook/SKILL.md).
@@ -31,7 +31,7 @@ Canonical guidelines for static sites with **Hugo extended** and the **Hextra** 
    - `dprint.json` (setup per the [dprint skill](../dprint/SKILL.md)), `.gitignore` ([gitignore](references/gitignore)), `LICENSE` per the [project-license skill](../project-license/SKILL.md).
 1. **Scaffold Content**:
    - Landing page `content/_index.md` from [index.md](references/index.md) (Hextra hero layout).
-   - Docs section `content/docs/_index.md` from [docs-index.md](references/docs-index.md) and a first page from [docs-page.md](references/docs-page.md) (shows callouts, Mermaid, and per-page math).
+   - Docs section `content/docs/_index.md` from [docs-index.md](templates/docs-index.md) and a first page from [docs-page.md](templates/docs-page.md) (shows callouts, Mermaid, and per-page math).
 1. **Git & Validation**:
    - Run `git init --initial-branch=main`, then the verification sequence: `mise run install`, `format`, `check`, `test` (`check:leaks` prints a benign `no commits yet` on fresh repos).
    - Smoke-test locally with `mise run watch`, then commit: `git add . && git commit -m "chore: initial site"`.
@@ -70,7 +70,7 @@ Hugo also scaffolds `archetypes/`, `assets/`, `data/`, `i18n/`, `layouts/`, `sta
 
 ## 5. Gotchas & Guidelines
 
-- **Extended vs Standard**: `mise install` must yield `hugo vX.Y.Z…+extended` — if `+extended` is missing, the tool came from the wrong backend; use the `ubi:gohugoio/hugo` entry with `matching = "extended"`.
+- **Extended vs Standard**: `mise install` must yield `hugo vX.Y.Z…+extended` — if `+extended` is missing, use the `hugo-extended` entry rather than the standard `hugo` entry.
 - **Fresh-Repo Git Info**: `enableGitInfo` warns (and `--panicOnWarning` panics) until the first commit exists. `check:site` therefore disables it via `HUGO_ENABLEGITINFO=false` — git dates are display metadata, not content under check. The production `build` keeps it on; its fresh-repo warning disappears after the initial commit.
 - **CI Needs Full History**: `enableGitInfo` reads per-file commit dates — the Pages workflow checks out with `fetch-depth: 0`; a shallow clone silently yields wrong last-modified dates.
 - **dprint vs Shortcodes**: dprint's Markdown formatter joins adjacent lines, collapsing multi-line shortcode blocks (`{{< cards >}} … {{< /cards >}}`) onto one line. Harmless — Hugo parses them either way — but expect the reflow on `format`.

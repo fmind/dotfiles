@@ -10,7 +10,7 @@ User-facing install and usage docs live in `README.md`; this file is for agents 
 - **Edit-source**: Change files in chezmoi source (`~/.local/share/chezmoi/...`), never deployed copies under `~/.gemini` or `~/.config`.
 - **GitHub Access**: Use `gh` CLI for repository, issue, and PR operations.
 - **Git Push to Main**: Direct commit/push to `main` branch is permitted (no feature branch required).
-- **Lint-before-done**: `mise run all` (format + check + test, the same gate CI runs) must pass before reporting a task complete.
+- **Lint-before-done**: `mise run all` (format + check + test + build, the same gate CI runs) must pass before reporting a task complete.
 - **Markdown Lists**: Only use `1.` for all numbered list items in markdown files to ensure correct dynamic rendering.
 - **No-Hard-Wrap**: Every `*.md` keeps each paragraph on a single line.
 - **No-Sudo**: Stay user-space; install via `mise`.

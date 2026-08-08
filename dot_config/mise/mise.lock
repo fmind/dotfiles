@@ -169,44 +169,19 @@ checksum = "sha256:523ec47019ea54639eab8a015ebb2ed23f4979c3b5c0bb89f65094e0caa19
 url = "https://github.com/slackapi/slack-cli/releases/download/v4.6.0/slack_cli_4.6.0_windows_64-bit.zip"
 url_api = "https://api.github.com/repos/slackapi/slack-cli/releases/assets/494958770"
 
-[[tools."aqua:sqlc-dev/sqlc"]]
-version = "1.31.1"
-backend = "aqua:sqlc-dev/sqlc"
-
-[tools."aqua:sqlc-dev/sqlc"."platforms.linux-x64"]
-url = "https://downloads.sqlc.dev/sqlc_1.31.1_linux_amd64.tar.gz"
-
-[tools."aqua:sqlc-dev/sqlc"."platforms.macos-arm64"]
-url = "https://downloads.sqlc.dev/sqlc_1.31.1_darwin_arm64.tar.gz"
-
 [[tools.ast-grep]]
-version = "0.45.0"
+version = "0.45.1"
 backend = "aqua:ast-grep/ast-grep"
 
-[tools.ast-grep."platforms.linux-arm64"]
-checksum = "sha256:62b60892dafacfa76d6de87157659f880bbf85ff38bdab52db12f1f14ec60f94"
-url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-aarch64-unknown-linux-gnu.zip"
-url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/487374979"
-
 [tools.ast-grep."platforms.linux-x64"]
-checksum = "sha256:78931ae35ebac33d9a72b3aecea3e3d62d6e5b0b718ac8bbedfbe69d68421e41"
-url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-x86_64-unknown-linux-gnu.zip"
-url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/487374029"
+checksum = "sha256:76fb6555be6734fb5057dba8d2fb756430f374bb9e1af694cf1ce00e13238d63"
+url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.1/app-x86_64-unknown-linux-gnu.zip"
+url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/505305291"
 
 [tools.ast-grep."platforms.macos-arm64"]
-checksum = "sha256:ec2e3680f4f84c68b48420bcca01d21389787c7318b52083dde6f46ac12ad946"
-url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-aarch64-apple-darwin.zip"
-url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/487376083"
-
-[tools.ast-grep."platforms.macos-x64"]
-checksum = "sha256:78d0d9db2f4dfd964fd313e70e92571c6d4204243ad8f3d0abbb2ffc56e45fc6"
-url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-x86_64-apple-darwin.zip"
-url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/487375810"
-
-[tools.ast-grep."platforms.windows-x64"]
-checksum = "sha256:a1b5b7c06994992755d4cd0b9cf10c2f4a6e7b4a82d2810edee5985a59f67ac5"
-url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/487376855"
+checksum = "sha256:6c761afbdc072a7a9006d0dc5c49b3247fef195b8bebe675b4aa385ff872d9c3"
+url = "https://github.com/ast-grep/ast-grep/releases/download/0.45.1/app-aarch64-apple-darwin.zip"
+url_api = "https://api.github.com/repos/ast-grep/ast-grep/releases/assets/505305714"
 
 [[tools.atlas]]
 version = "1.3.0"
@@ -431,14 +406,15 @@ url = "https://github.com/twpayne/chezmoi/releases/download/v2.72.0/chezmoi_2.72
 url_api = "https://api.github.com/repos/twpayne/chezmoi/releases/assets/499173933"
 
 [[tools.claude]]
-version = "2.1.224"
+version = "2.1.226"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-x64"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.224/linux-x64/claude"
+checksum = "blake3:569cfc5e62d18983edb31e4366bb0c3ee3865396fb785e178da92f36412cdc76"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.226/linux-x64/claude"
 
 [tools.claude."platforms.macos-arm64"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.224/darwin-arm64/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.226/darwin-arm64/claude"
 
 [[tools.codex]]
 version = "0.147.0"
@@ -1282,6 +1258,20 @@ checksum = "sha256:b69933ab364b010c320d1c858265d1845735784d8b317211e046cf74e22c6
 url = "https://github.com/helmfile/helmfile/releases/download/v1.7.3/helmfile_1.7.3_darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/501926219"
 
+[[tools.hugo-extended]]
+version = "0.164.0"
+backend = "aqua:gohugoio/hugo/hugo-extended"
+
+[tools.hugo-extended."platforms.linux-x64"]
+checksum = "sha256:fea17b8c076f950bb2e9f9486667bdaa29422883888d509d63931c73e8a9b3a4"
+url = "https://github.com/gohugoio/hugo/releases/download/v0.164.0/hugo_extended_0.164.0_linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/468320235"
+
+[tools.hugo-extended."platforms.macos-arm64"]
+checksum = "sha256:618491f40cbb36a9f55d4da761c55d89f79312130f926ff7f3e1dfa83ca15eb0"
+url = "https://github.com/gohugoio/hugo/releases/download/v0.164.0/hugo_extended_0.164.0_darwin-universal.pkg"
+url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/468320276"
+
 [[tools.hyperfine]]
 version = "1.20.0"
 backend = "aqua:sharkdp/hyperfine"
@@ -1853,38 +1843,18 @@ version = "4.4.1"
 backend = "asdf:make"
 
 [[tools.mirrord]]
-version = "3.244.1"
+version = "3.245.0"
 backend = "aqua:metalbear-co/mirrord"
 
-[tools.mirrord."platforms.linux-arm64"]
-checksum = "sha256:f807c8e70134e4fe4867200c67d7e0413c966442aace274d4f7b6bea476adc71"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.244.1/mirrord_linux_aarch64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/499285647"
-
-[tools.mirrord."platforms.linux-arm64-musl"]
-checksum = "sha256:f807c8e70134e4fe4867200c67d7e0413c966442aace274d4f7b6bea476adc71"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.244.1/mirrord_linux_aarch64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/499285647"
-
 [tools.mirrord."platforms.linux-x64"]
-checksum = "sha256:203dca252f32b6885c5c73ca26563d45a81464bb75b8c172cac8e029d0bdd029"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.244.1/mirrord_linux_x86_64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/499285638"
-
-[tools.mirrord."platforms.linux-x64-musl"]
-checksum = "sha256:203dca252f32b6885c5c73ca26563d45a81464bb75b8c172cac8e029d0bdd029"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.244.1/mirrord_linux_x86_64.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/499285638"
+checksum = "sha256:ad725c2a0086382b993cce72d3a8a5884f8269e3bb71589185d0b521590fb096"
+url = "https://github.com/metalbear-co/mirrord/releases/download/3.245.0/mirrord_linux_x86_64.zip"
+url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/505235367"
 
 [tools.mirrord."platforms.macos-arm64"]
-checksum = "sha256:2b0144d5d8ca1b0fd182bf1da12ea78ebfae376c488dfe12fd7773c0846abac6"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.244.1/mirrord_mac_universal.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/499285635"
-
-[tools.mirrord."platforms.macos-x64"]
-checksum = "sha256:2b0144d5d8ca1b0fd182bf1da12ea78ebfae376c488dfe12fd7773c0846abac6"
-url = "https://github.com/metalbear-co/mirrord/releases/download/3.244.1/mirrord_mac_universal.zip"
-url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/499285635"
+checksum = "sha256:9bc33c44c8e28be53e602ba4b85f0067d7b51b2667c7caf92be6d5487b6c2b13"
+url = "https://github.com/metalbear-co/mirrord/releases/download/3.245.0/mirrord_mac_universal.zip"
+url_api = "https://api.github.com/repos/metalbear-co/mirrord/releases/assets/505235358"
 
 [[tools.neovim]]
 version = "0.12.4"
@@ -2145,43 +2115,18 @@ url = "https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-15
 url_api = "https://api.github.com/repos/BurntSushi/ripgrep/releases/assets/478118851"
 
 [[tools.ruff]]
-version = "0.16.1"
+version = "0.16.2"
 backend = "aqua:astral-sh/ruff"
 
-[tools.ruff."platforms.linux-arm64"]
-checksum = "sha256:5929d9f37fc518a3825f33a76ad8092c0555ca045ca1dbf5e680038a402c840c"
-url = "https://github.com/astral-sh/ruff/releases/download/0.16.1/ruff-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/495779006"
-
-[tools.ruff."platforms.linux-arm64-musl"]
-checksum = "sha256:5929d9f37fc518a3825f33a76ad8092c0555ca045ca1dbf5e680038a402c840c"
-url = "https://github.com/astral-sh/ruff/releases/download/0.16.1/ruff-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/495779006"
-
 [tools.ruff."platforms.linux-x64"]
-checksum = "sha256:23469683052cd2db1589f15032dd1751b2a3f212062e9fc901b0776d25fb36bc"
-url = "https://github.com/astral-sh/ruff/releases/download/0.16.1/ruff-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/495779139"
-
-[tools.ruff."platforms.linux-x64-musl"]
-checksum = "sha256:23469683052cd2db1589f15032dd1751b2a3f212062e9fc901b0776d25fb36bc"
-url = "https://github.com/astral-sh/ruff/releases/download/0.16.1/ruff-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/495779139"
+checksum = "sha256:df690c6a80a7c41b6f1154dd0b5dfc152a209cafa06ffd3d4ff30f9751f4965c"
+url = "https://github.com/astral-sh/ruff/releases/download/0.16.2/ruff-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/505191732"
 
 [tools.ruff."platforms.macos-arm64"]
-checksum = "sha256:a8df4e8e9f22e3b0ae0b9f165ddaafb7e34df692197a6c1a361e7426f90681d5"
-url = "https://github.com/astral-sh/ruff/releases/download/0.16.1/ruff-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/495778992"
-
-[tools.ruff."platforms.macos-x64"]
-checksum = "sha256:00396fb9db4cb04e07ad277e6b10d845e6767f0a2aae67e1a57aa65fa01334f0"
-url = "https://github.com/astral-sh/ruff/releases/download/0.16.1/ruff-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/495779121"
-
-[tools.ruff."platforms.windows-x64"]
-checksum = "sha256:f37898d133acba7df8cbd130abc3b58b98243d7f3ab751087193dde8887955c4"
-url = "https://github.com/astral-sh/ruff/releases/download/0.16.1/ruff-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/495779128"
+checksum = "sha256:fbf6cbc23d254b0bc03a6fb2b1b04efb917fe5ce068d027e735ce7ed65b9bed6"
+url = "https://github.com/astral-sh/ruff/releases/download/0.16.2/ruff-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/ruff/releases/assets/505191610"
 
 [[tools.shellcheck]]
 version = "0.11.0"
@@ -2628,13 +2573,6 @@ url_api = "https://api.github.com/repos/typstyle-rs/typstyle/releases/assets/498
 checksum = "sha256:f97b74f3a3dfb43ece4e627753d2dae703af2b77f114fb0f1e766f7f1bad5fa1"
 url = "https://github.com/typstyle-rs/typstyle/releases/download/v0.15.1/typstyle-aarch64-apple-darwin"
 url_api = "https://api.github.com/repos/typstyle-rs/typstyle/releases/assets/498613003"
-
-[[tools."ubi:gohugoio/hugo"]]
-version = "0.164.0"
-backend = "ubi:gohugoio/hugo"
-
-[tools."ubi:gohugoio/hugo".options]
-matching = "extended"
 
 [[tools.usql]]
 version = "0.21.4"

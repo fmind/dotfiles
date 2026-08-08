@@ -1,6 +1,6 @@
 ---
 name: python-stack
-description: Canonical Python development stack — uv, Ruff, ty, pytest, scaffolding, Litestar web, Typer scripts, AI agents, and exact local dependency source review. Use for any Python project, library, CLI, or agent, including confirmation of installed dependency APIs without importing their code.
+description: Canonical Python stack with uv, Ruff, ty, pytest, Litestar, Typer, and dependency source. Use for Python projects, libraries, CLIs, agents, packaging, tests, typing, linting, or verifying APIs without importing them.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
@@ -21,14 +21,14 @@ Canonical guidelines for Python development, scaffolding, CLI scripts, web appli
 - **Linting & Formatting**: Use **Ruff** (`ruff check --fix` and `ruff format`) for Python; enforce zero warnings/errors and ban print statements (`T201`). Clean config/markup (JSON, Markdown, TOML, YAML) with `dprint` using the configuration maintained by the [dprint skill](../dprint/SKILL.md).
 - **Type Checking**: Use `ty` wrapper (`ty check`) for strict static typing. Use modern type annotations (e.g., `list[str]`, `X | Y`). Note: `ty` is pre-1.0 (fast-moving); keep it as a local check and pin a compatible range until it reaches a stable release.
 - **Git Hooks**: Use `lefthook` ([lefthook.yml](references/lefthook.yml)) for pre-commit (format, check) and pre-push (test). See the [lefthook skill](../lefthook/SKILL.md).
-- **Testing**: Use `pytest` in `tests/` with `anyio` (async testing) and `coverage`. Back web integration tests with a real Postgres via `testcontainers` (no mocks) — see [conftest.py](references/conftest.py).
+- **Testing**: Use `pytest` in `tests/` with `anyio` and an 85% branch-coverage gate. Keep the default suite offline; web integration tests opt into a real disposable Postgres via [conftest.py](references/conftest.py) and [test_integration.py](references/test_integration.py).
 - **Security**: Scan dependencies for known vulnerabilities with `pip-audit` (`uv run pip-audit`), wired into `mise run check` as `check:vuln`.
 - **Validation & Config**: Use `Pydantic` (v2+) & `Pydantic Settings` (`BaseSettings`). Keep configs in typed Python files (e.g., `config.py`); restrict YAML to cross-language needs.
 - **Logging**: Use `structlog`. Local: `ConsoleRenderer`. Production: `JSONRenderer`. Route standard library logs (SQLAlchemy, HTTPX) through `structlog` for uniform JSON outputs.
 
 ## Exact Dependency Source Review
 
-Resolve a symbol from the uv-selected environment before proposing a dependency-specific fix:
+Resolve a symbol from the uv-selected environment with [resolve_source.py](scripts/resolve_source.py) before proposing a dependency-specific fix:
 
 ```bash
 python3 ~/.agents/skills/python-stack/scripts/resolve_source.py <distribution> <symbol> --project <project> [--module <import-module>]
@@ -37,7 +37,7 @@ python3 ~/.agents/skills/python-stack/scripts/resolve_source.py <distribution> <
 The resolver's offline contract suite is [resolve_source_test.py](scripts/resolve_source_test.py).
 
 - Keep inspection read-only: the resolver parses `*.dist-info` metadata and Python ASTs without importing or executing dependency code.
-- Treat an ambiguous environment, duplicate installed version, missing or stale source, generated file, or ambiguous symbol as an actionable error. Pass `--environment` only after confirming the intended uv environment.
+- Treat an ambiguous environment, duplicate installed version, missing or stale source, or ambiguous symbol as an actionable error. Installed generated Python remains valid runtime evidence; inspect it read-only like other installed source. Pass `--environment` only after confirming the intended uv environment.
 - Editable installs resolve through their local `direct_url.json`; normal installs remain confined to the selected environment's `site-packages`.
 - Consume the versioned JSON result: `language`, `dependency`, `version`, `source_path`, `defining_file`, `symbol`, bounded `excerpt`, and `provenance`. This shape is compatible with the Go resolver, while environment semantics remain owned here.
 
@@ -51,7 +51,7 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
    cd <slug> && uv python pin <major.minor>  # align .python-version with requires-python
    ```
 1. **Config Initialization**: Copy and customize:
-   - `pyproject.toml` from [pyproject.toml.template](references/pyproject.toml.template) — `dependencies` are grouped **Core** (every project type) and **Web (Litestar)**; delete the Web block and `testcontainers` for library/CLI/agent projects.
+   - `pyproject.toml` from [pyproject.toml.template](references/pyproject.toml.template), then apply exactly one runtime profile. **Web** keeps the application and Web dependency blocks. **CLI: add `typer`** with `uv add typer`, remove the Web block and `testcontainers`, and keep `[project.scripts]`. **Library: remove `[project.scripts]`**, remove all unused application/Web dependencies and `testcontainers`, and start with no runtime dependencies unless its API needs them. Agent projects use their generated manifest instead.
    - `mise.toml` from [mise.toml](references/mise.toml) — for non-web projects, swap the web-only `watch` task (see its inline comment).
    - `lefthook.yml` from [lefthook.yml](references/lefthook.yml)
    - `dprint.json` (setup as instructed in the [dprint skill](../dprint/SKILL.md))
@@ -60,8 +60,9 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
    - `LICENSE` from [LICENSE](references/LICENSE)
    - `.gitignore` from [gitignore](references/gitignore)
 1. **Scaffold Directory**:
-   - Write `src/<package>/__init__.py` — **web**: [init.py](references/init.py) (the Litestar `app`); **library/CLI**: [init-cli.py](references/init-cli.py) (minimal package: `__version__`, env-aware `structlog`, `main()`).
-   - Write `tests/__init__.py` and `tests/test_smoke.py` from [test_smoke.py](references/test_smoke.py). **Web** projects also add `conftest.py` from [conftest.py](references/conftest.py) (Postgres `testcontainers` wiring); library/CLI keep only the `__version__` test.
+   - Write `src/<package>/__init__.py` from the selected profile: **web** [init.py](references/init.py), **CLI** [init-cli.py](references/init-cli.py), or **library** [init-library.py](references/init-library.py).
+   - Web and CLI projects write `src/<package>/__main__.py` from [main.py](references/main.py), so `python -m <package>` and containers target the import package rather than a possibly hyphenated distribution name. Libraries omit it.
+   - Write `tests/__init__.py` and the selected tests: **web** uses [test_smoke.py](references/test_smoke.py), [test_web.py](references/test_web.py), [test_integration.py](references/test_integration.py), and root [conftest.py](references/conftest.py); **CLI** uses `test_smoke.py` plus [test_cli.py](references/test_cli.py); **library** uses [test_library.py](references/test_library.py). Only `mise run test:integration` starts Postgres.
 1. **Git & Validation**:
    - Run `git init --initial-branch=main`.
    - Run verification sequence (`install` already runs `uv sync`):
@@ -71,17 +72,22 @@ The resolver's offline contract suite is [resolve_source_test.py](scripts/resolv
      mise run check
      mise run test
      ```
-     On a fresh repo, `check:leaks` prints a benign `no commits yet` and exits 0 — nothing to scan until the first commit below.
+     `check:leaks` scans the working tree, including a fresh repository with no Git history.
    - Review and commit: `git add . && git commit -m "chore: initial commit"`.
 
 ## 3. Standalone Script Template
 
 For standalone single-file CLI scripts with PEP 723 inline dependencies, use the [python-script](../python-script/SKILL.md) skill.
 
+### Data, ML, and Notebook Extensions
+
+Data, ML, and notebooks are extension profiles, not bundled base dependencies. Start with the library profile, keep reusable logic in `src/` with deterministic tests, and add only the workload boundary with `uv add`: Polars/PyArrow/DuckDB for analytical data, scikit-learn or a hardware-appropriate PyTorch/JAX install for ML, and JupyterLab or Marimo for notebooks. Follow vendor installation guidance for accelerator-specific wheels, put interactive tools in a dependency group, and commit the application lockfile; do not make every Python project pay their dependency, platform, and security cost.
+
 ## 4. Web Stack & Serving Standard
 
 1. **Web Framework**: Use `Litestar`.
-1. **Database & ORM**: PostgreSQL via `asyncpg`. Use `SQLAlchemy` (v2) with `advanced-alchemy`. Manage migrations with `Alembic`. Leverage Litestar's `SQLAlchemyDTO` to auto-generate request/response serialization schemas directly from models.
+1. **Database & ORM**: PostgreSQL via `asyncpg`, direct SQLAlchemy 2 async sessions injected with Litestar `Provide`, and Alembic migrations. Keep the session factory behind the application factory so unit tests remain offline and every application lifespan disposes its engine.
+1. **Health Endpoints**: Keep `/health` dependency-free for process liveness. Use `/ready` for a database `SELECT 1`; return 503 on `SQLAlchemyError` so orchestration stops routing traffic while dependencies are unavailable.
 1. **HTTP Client**: Use `httpx` (`AsyncClient` preferred).
 1. **Static Assets (Self-Hosted)**:
    - Serve all CSS/JS/fonts locally from `/static/` (avoid external CDNs).
@@ -116,22 +122,23 @@ Build GCP-based AI agents with **agents-cli** (https://github.com/google/agents-
    - Use Google Application Default Credentials (ADC) for authentication. In local development, run `gcloud auth application-default login`.
    - In `.env`, ensure `GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT=<project_id>`, and `GOOGLE_CLOUD_LOCATION=<region>` (e.g., `europe-west1` or `global`) are set.
 1. **Development Commands**:
-   - Setup project: `uvx google-agents-cli setup`
-   - Install dependencies: `agents-cli install`
-   - Start local playground with live reload: `agents-cli playground`
-   - Run tests: `uv run pytest tests/unit tests/integration`
-   - Evaluate agent: `agents-cli eval generate` followed by `agents-cli eval grade`
-   - Deploy agent: `agents-cli deploy`
-1. **Testing**: Import `root_agent` and assert its wiring (name, model, tools), and exercise tool functions directly — no API key, no mocks, and no web `conftest.py`/Postgres.
+   - Install dependencies: `uvx google-agents-cli install --locked`
+   - Start local playground with live reload: `uvx google-agents-cli playground`
+   - Run the default offline suite: `uv run pytest tests/unit`
+   - With explicit approval for credentials, model usage, and cost, run generated live integration tests: `uv run pytest tests/integration`
+   - With the same explicit approval, evaluate: `uvx google-agents-cli eval generate` followed by `uvx google-agents-cli eval grade`
+   - Deploy only after explicit approval: `uvx google-agents-cli deploy`
+1. **Post-generation normalization**: The generator owns its supported Python range, which can lag the latest interpreter. Preserve that compatible range, replace its dummy unit test, remove generated blanket `[tool.ty.rules]` suppressions, and fix each remaining diagnostic at the source or with the narrowest evidenced line-level exception.
+1. **Offline Testing**: Import `root_agent`, assert its wiring (name, model, tools), and exercise tool functions directly. Keep this default path free of API keys, live model calls, Postgres, and web fixtures; generated `tests/integration` exercises the provider and is approval-gated.
 
 ## Gotchas & Guidelines
 
 - **`uv init` Python Pin**: `uv init` writes a `.python-version` for the interpreter it resolves, which can be older than `requires-python` and breaks `uv sync`. Run `uv python pin <major.minor>` right after bootstrapping.
-- **`Slug` vs `Package` in Import Paths**: When `Slug` contains a hyphen (e.g. `my-cool-app`), substituting it literally into a Python import position — `[project.scripts]`'s right-hand side, `pdoc`/`granian` module arguments, `from <slug> import ...` — produces invalid syntax; `validate-pyproject` (`check:format`) rejects the resulting `pyproject.toml` outright. Use `Package` (underscores) there; `Slug` (hyphens allowed) stays correct for the distribution name, directory arg to `uv init`, Docker tag, and the console-script command itself.
+- **`Slug` vs `Package` in Import Paths**: When `Slug` contains a hyphen (e.g. `my-cool-app`), substituting it literally into a Python import position — `[project.scripts]`'s right-hand side, `pdoc`/`granian` module arguments, imports, or `python -m` — fails. Use `Package` (underscores) there; `Slug` stays correct for the distribution name, directory, Docker tag, and installed console-script command.
 - **`uv_build` Upper Bound**: Keep `[build-system].requires`'s `uv_build` upper bound at least one minor ahead of the pinned `uv` tool version — `uv sync`/`uv build` warns (and a stricter resolver would fail) when the installed `uv_build` version falls outside the declared range.
 - **`ty` Python Version**: `[tool.ty.environment].python-version` requires `major.minor` format (e.g., `"3.14"`). Do not supply patch versions.
 - **Line Length**: Ruff default line length is 120 characters.
-- **`ty` & SQLAlchemyDTO**: The scaffold ships with no blanket `[tool.ty.rules]` ignores and type-checks clean. `ty` is pre-1.0; if it later flags the generated DTO type forms once you add ORM models, add a single scoped `invalid-type-form = "ignore"` rather than a broad `unresolved-*` ignore that would hide real typos and missing imports.
+- **`ty` Scope**: The scaffold ships with no blanket `[tool.ty.rules]` ignores. Because `ty` is pre-1.0, pin its compatible range and use only evidenced, narrow suppressions; never carry a generator's blanket unresolved or invalid-type ignores forward.
 - **Granian Interface**: Pass the `Interfaces.ASGI` enum (`from granian.constants import Interfaces`), not the `"asgi"` string, so `ty` stays clean without an ignore.
 - **CDN Restrictions**: Never reference external CDNs; serve all assets locally.
 - **Mise Dotenv**: `mise` auto-loads `.env` if configured via `_.source = ".env"`.
