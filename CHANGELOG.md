@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.13.0] - 2026-08-08
+
+### 🚀 Features
+
+- _(skills)_ Add twenty skills and tighten the repository gate
+
 ## [1.12.1] - 2026-08-07
 
 ### 🐛 Bug Fixes
