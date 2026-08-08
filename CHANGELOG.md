@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.13.1] - 2026-08-08
+
+### 🐛 Bug Fixes
+
+- _(dot)_ Compare evaluated paths in the skill resource containment check
+
 ## [1.13.0] - 2026-08-08
 
 ### 🚀 Features
