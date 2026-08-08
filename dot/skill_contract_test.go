@@ -720,6 +720,50 @@ func TestSkillContractResolvesNestedMarkdownLinksFromSkillRoot(t *testing.T) {
 	}
 }
 
+// A checkout is often reached through a symlinked path: macOS puts temporary
+// directories behind /var -> /private/var, and a home directory can itself be a
+// link. Containment must then compare two evaluated paths, or every in-package
+// resource looks like an escape — which is exactly how this suite failed on
+// macOS while passing on Linux.
+func TestSkillContractAcceptsSymlinkedRepositoryRoot(t *testing.T) {
+	repo := t.TempDir()
+	skillDirectory, _ := writeSkillContractFixture(t, repo, "Read [the guide](references/guide.md).")
+	referencesDirectory := filepath.Join(skillDirectory, "references")
+	if err := os.MkdirAll(referencesDirectory, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(referencesDirectory, "guide.md"), []byte("# Guide\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	linkedRepo := filepath.Join(t.TempDir(), "linked-repo")
+	if err := os.Symlink(repo, linkedRepo); err != nil {
+		t.Skipf("symlinks unavailable: %v", err)
+	}
+	linkedSkill := filepath.Join(linkedRepo, "skills", "fixture", "SKILL.md")
+
+	if findings := skillContractFindings(linkedRepo, linkedSkill, nil); len(findings) != 0 {
+		t.Fatalf("skill reached through a symlinked repository root produced findings: %v", findings)
+	}
+}
+
+// Companion to the test above: evaluating the root must not turn the containment
+// check into a rubber stamp. A resource that truly leaves the repository through
+// a linked directory still has to be reported.
+func TestSkillContractRejectsResourceEscapingThroughLinkedDirectory(t *testing.T) {
+	repo := t.TempDir()
+	skillDirectory, skillFile := writeSkillContractFixture(t, repo, "Read [the guide](references/guide.md).")
+	outside := t.TempDir()
+	if err := os.WriteFile(filepath.Join(outside, "guide.md"), []byte("# Guide\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(outside, filepath.Join(skillDirectory, "references")); err != nil {
+		t.Skipf("symlinks unavailable: %v", err)
+	}
+
+	assertSkillFinding(t, skillContractFindings(repo, skillFile, nil), "resolves outside the repository")
+}
+
 func TestSkillContractRejectsResourceDirectoryRelativeMarkdownLink(t *testing.T) {
 	repo := t.TempDir()
 	skillDirectory, skillFile := writeSkillContractFixture(t, repo, "Read [the guide](references/guide.md) and [the detail](references/detail.md).")
@@ -1543,6 +1587,14 @@ func validateSkillLinks(repo, skillRoot, sourceFile, content string, requireExis
 	if err != nil {
 		return []string{fmt.Sprintf("%s: parse Markdown links: %v", skillRelativePath(repo, sourceFile), err)}
 	}
+	// The symlink check below compares an evaluated resource with this root, so the
+	// root has to be evaluated too: a checkout reached through a link (macOS keeps
+	// temporary directories behind /var -> /private/var) would otherwise make every
+	// in-package resource look like an escape.
+	evaluatedRepo, evalErr := filepath.EvalSymlinks(repo)
+	if evalErr != nil {
+		return []string{fmt.Sprintf("%s: resolve repository root: %v", repo, evalErr)}
+	}
 	for _, target := range targets {
 		if target == "" || strings.HasPrefix(target, "#") {
 			continue
@@ -1596,7 +1648,7 @@ func validateSkillLinks(repo, skillRoot, sourceFile, content string, requireExis
 			continue
 		}
 		evaluated, err := filepath.EvalSymlinks(resolved)
-		if err != nil || !pathWithin(repo, evaluated) {
+		if err != nil || !pathWithin(evaluatedRepo, evaluated) {
 			findings = append(findings, fmt.Sprintf("%s: referenced resource %q resolves outside the repository", skillRelativePath(repo, sourceFile), target))
 		}
 	}
