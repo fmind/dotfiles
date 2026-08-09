@@ -9,11 +9,13 @@ nodes:
         nodeRegistration:
           kubeletExtraArgs:
             node-labels: "ingress-ready=true"
+    # Same host ports as the k3d config, so swapping engines does not move the URLs
+    # you have already bookmarked or wired into a project.
     extraPortMappings:
       - containerPort: 80
-        hostPort: 8080
+        hostPort: 8042
         protocol: TCP
       - containerPort: 443
-        hostPort: 8443
+        hostPort: 8043
         protocol: TCP
   - role: worker

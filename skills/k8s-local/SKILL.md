@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/k8s-local
   created: 2026-06-23
-  updated: 2026-08-02
+  updated: 2026-08-09
 ---
 
 # Local Kubernetes Cluster Management
@@ -31,7 +31,7 @@ When designing project local environments, choose the appropriate isolation scop
 
 - **Cloud Agnostic**: Local clusters must mirror production API interfaces. Avoid vendor-specific or platform-specific configurations unless mapping local routes.
 - **Engine Choice (Hybrid Pattern)**: Match the engine to the workflow. Use `k3d` for interactive developer loops (fast startup, built-in Traefik ingress, and registry integration). Use `kind` for automated/disposable integration tests to validate vanilla, upstream-conformant Kubernetes API and security compliance.
-- **Local Registry Dev Loop**: Push locally built Docker images to the local registry at `registry.localhost:5050` or load them directly into the cluster engine nodes. (The registry container is named `registry.localhost`, so the same `registry.localhost:5050` reference resolves for both host push and in-cluster pull via the k3s containerd mirror.)
+- **Local Registry Dev Loop**: Push locally built Docker images to the local registry at `registry.localhost:5050` or load them directly into the cluster engine nodes. In-cluster pulls resolve that reference through the k3s containerd mirror, but a host-side `docker push` to the same name is rejected as insecure until the daemon is configured — see the Registry Push Name gotcha.
 - **Declarative Operations**: Manage all workloads using declarative configurations (Helm, Helmfile, Skaffold, Kustomize) rather than raw imperatives.
 
 ## AI Agent Instructions
@@ -141,6 +141,8 @@ When designing project local environments, choose the appropriate isolation scop
 
 ## Gotchas
 
-1. **Port Conflict**: Host ports `8080` (HTTP Ingress), `8443` (HTTPS Ingress), `6443` (API Server), and `5050` (Local Registry) must not be occupied by other local services.
+1. **Port Conflict**: Host ports `8042` (HTTP Ingress), `8043` (HTTPS Ingress), `6443` (API Server), and `5050` (Local Registry) must not be occupied by other local services. The ingress pair deliberately avoids `8080`/`8443`: those are the first ports a local web server or another project's cluster claims, and k3d only discovers the clash after it has partly created the cluster, then rolls the whole thing back.
 1. **Image Pull Policies**: Kubernetes defaults to pulling images if the tag is `latest`. Sideloaded or locally published images must use a specific tag, and the manifest must set `imagePullPolicy: IfNotPresent` or `Never`.
 1. **Ingress Controllers**: `k3d` has Traefik enabled by default. `kind` requires applying an ingress controller manually (e.g. Nginx Ingress Controller).
+1. **Registry Push Name**: the cluster pulls `registry.localhost:5050/...` because k3d writes that mirror into containerd, but the Docker daemon rejects a push to the same name with `server gave HTTP response to HTTPS client` — the registry speaks plain HTTP and `registry.localhost` is not covered by the daemon's default insecure ranges. Pushing to `localhost:5050/...` reaches the same registry container and works, but any image a manifest must pull has to be _named_ `registry.localhost:5050/...`. To use one name for both, add `{"insecure-registries": ["registry.localhost:5050"]}` to `/etc/docker/daemon.json` and restart the daemon.
+1. **DiskPressure**: the kubelet reserves 10% of the filesystem by default. A local cluster shares the workstation disk, so an ordinarily full machine taints the node `NoSchedule` and even Traefik stays `Pending` while the node still reports `Ready`. The k3d config here overrides `eviction-hard` with an absolute reserve; check `kubectl get node -o jsonpath='{.spec.taints}'` first whenever pods will not schedule.

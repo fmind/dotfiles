@@ -7,11 +7,15 @@ agents: 0
 kubeAPI:
   hostIP: "127.0.0.1"
   hostPort: "6443"
+# Deliberately off the common 8080/8443 pair: those are the first ports any local web
+# server, container, or another project's k3d/kind cluster grabs, and a collision makes
+# `dot cluster start` fail after it has already created half the cluster. 8042/8043 are
+# unclaimed by convention, so this cluster can coexist with a per-project one.
 ports:
-  - port: 127.0.0.1:8080:80
+  - port: 127.0.0.1:8042:80
     nodeFilters:
       - loadbalancer
-  - port: 127.0.0.1:8443:443
+  - port: 127.0.0.1:8043:443
     nodeFilters:
       - loadbalancer
 options:
@@ -24,6 +28,15 @@ options:
         nodeFilters:
           - server:*
       - arg: --kubelet-arg=feature-gates=KubeletInUserNamespace=true
+        nodeFilters:
+          - server:*
+      # The kubelet default reserves 10% of the filesystem, and this cluster shares the
+      # workstation disk rather than owning one: on a 100 GB dev disk that reserve is
+      # ~10 GB, so an ordinarily full laptop taints the node with DiskPressure and even
+      # Traefik cannot schedule — the cluster comes up "Ready" but runs nothing. An
+      # absolute reserve keeps the protection meaningful without scaling into the
+      # tens of gigabytes. Raise it if you actually run disk-hungry workloads here.
+      - arg: --kubelet-arg=eviction-hard=nodefs.available<2Gi,imagefs.available<2Gi
         nodeFilters:
           - server:*
 registries:
