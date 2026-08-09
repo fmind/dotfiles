@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.14.0] - 2026-08-09
+
+### 🚀 Features
+
+- _(skills)_ Merge the product lifecycle into product-loop and rename code-review to diff-review
+
+### 🐛 Bug Fixes
+
+- _(dot)_ Stop verify from reporting healthy tools as broken
+- _(k8s-local)_ Move ingress off 8080/8443 and stop DiskPressure from blocking scheduling
+
 ## [1.13.1] - 2026-08-08
 
 ### 🐛 Bug Fixes
