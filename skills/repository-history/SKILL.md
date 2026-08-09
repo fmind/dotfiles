@@ -2,6 +2,11 @@
 name: repository-history
 description: Reconstruct why tracked code exists from read-only Git history. Trace files, symbols, or lines through introducing commits or pull requests, rationale, reverts, renames, authorship, co-change clues, and issues.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/repository-history
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Repository History
@@ -12,7 +17,7 @@ Recover historical constraints without inventing intent or blaming people. Produ
 
 - Use this skill when the question is why a tracked file, symbol, line range, workaround, guard, migration, or compatibility behavior exists and how it changed.
 - Use [systematic-debugging](../systematic-debugging/SKILL.md) when the primary task is to reproduce and localize a current failure. History may supply a comparator after reproduction.
-- Use [code-review](../code-review/SKILL.md) for defects in an exact diff, [repository-review](../repository-review/SKILL.md) for a cross-cutting audit, and [technical-research](../technical-research/SKILL.md) for current external facts or API behavior.
+- Use [diff-review](../diff-review/SKILL.md) for defects in an exact diff, [repository-review](../repository-review/SKILL.md) for a cross-cutting audit, and [technical-research](../technical-research/SKILL.md) for current external facts or API behavior.
 
 ## Authority and Evidence Boundary
 

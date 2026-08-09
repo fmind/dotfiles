@@ -2,6 +2,11 @@
 name: implementation-plan
 description: Turn accepted requirements into ordered dependency-aware slices and a repository-grounded implementation plan. Use before editing when work spans systems, has migration or rollout risk, needs architecture choices, or should be split.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/implementation-plan
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Implementation Plan

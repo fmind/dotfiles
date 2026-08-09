@@ -2,6 +2,11 @@
 name: prompt-design
 description: "Design production LLM or agent prompt stacks: instructions, tool contracts, examples, outputs, and runtime context. Use for precedence, conflicts, dynamic or untrusted context; prove behavior with agent-evaluation."
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/prompt-design
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Prompt Design
@@ -11,7 +16,7 @@ Turn a behavioral contract into the smallest production prompt stack that can ex
 ## Ownership
 
 - Use this skill for the instructions and context assembly shipped inside an LLM, RAG, or tool-using application: system and developer prompts, tool descriptions, examples, output schemas, memory summaries, and retrieved-context wrappers.
-- Use [product-spec](../product-spec/SKILL.md) first when the desired product behavior is unsettled, [technical-research](../technical-research/SKILL.md) for current provider or model semantics, and [threat-model](../threat-model/SKILL.md) when sensitive data or untrusted content crosses a trust boundary.
+- Use [product-loop](../product-loop/SKILL.md) first when the desired product behavior is unsettled, [technical-research](../technical-research/SKILL.md) for current provider or model semantics, and [threat-model](../threat-model/SKILL.md) when sensitive data or untrusted content crosses a trust boundary.
 - Use [agent-skills](../agent-skills/SKILL.md) to author a reusable `SKILL.md` package. Use [agent-project](../agent-project/SKILL.md) for repository-level agent instructions and configuration.
 - Use [agent-evaluation](../agent-evaluation/SKILL.md) to compare the frozen candidate against a baseline with repeated model runs. Prompt design prepares evidence and hypotheses; it does not prove behavior.
 

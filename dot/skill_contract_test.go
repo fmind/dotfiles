@@ -2461,7 +2461,7 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 		},
 		{
 			name:     "product spec scales compact output without dropping invariants",
-			path:     "skills/product-spec/SKILL.md",
+			path:     "skills/product-loop/SKILL.md",
 			required: []string{"compact, low-risk", "combine or omit immaterial sections", "Always retain the decision summary", "acceptance and edge cases", "data and trust boundaries", "open decisions"},
 		},
 		{

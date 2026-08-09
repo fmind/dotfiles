@@ -1,10 +1,15 @@
 ---
-name: code-review
-description: Inspect changed code in an exact diff, patch, branch, PR, or candidate for correctness defects. Use for pre-merge or self-review, spec compliance, test gaps, and regression risk before broader QA, not whole-repo audit.
+name: diff-review
+description: Inspect changed code in an exact diff, patch, branch, PR, or candidate for correctness defects. Use for pre-merge or self-review, spec compliance, test gaps, and regression risk — not whole-repo audit, release go/no-go, or plan review.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/diff-review
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
-# Code Review
+# Diff Review
 
 Find defects that would justify changing the candidate, with enough evidence for the author to reproduce and fix them.
 

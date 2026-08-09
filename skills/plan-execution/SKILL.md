@@ -2,6 +2,11 @@
 name: plan-execution
 description: Execute an accepted implementation plan in bounded, verified slices. Use to coordinate multiple agents and shared-file ownership, resume planned work, or finish scoped tasks without crossing commit, push, deploy, or publication boundaries.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/plan-execution
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Plan Execution
@@ -24,7 +29,7 @@ Turn an accepted plan into reviewable evidence while preserving the user's work 
 1. **Establish red evidence:** Use [test-driven-development](../test-driven-development/SKILL.md) for behavior changes or create a characterization test when changing legacy behavior. For non-code changes, define the failing contract or validation signal first.
 1. **Implement minimally:** Use the applicable language, infrastructure, site, or document skill. Touch only files traceable to the current slice and explain non-obvious trade-offs at the decision point.
 1. **Verify the slice:** Run the focused test, formatter, static checks, and any bounded runtime/manual check promised by the plan. Read the full output and fix root causes.
-1. **Review the delta:** Compare the actual diff with the intended slice. Remove only artifacts introduced by this work, confirm no requirement drift, and use [code-review](../code-review/SKILL.md) for risky changes.
+1. **Review the delta:** Compare the actual diff with the intended slice. Remove only artifacts introduced by this work, confirm no requirement drift, and use [diff-review](../diff-review/SKILL.md) for risky changes.
 1. **Checkpoint honestly:** Mark the slice complete only with fresh evidence. Record partial results, deviations, and residual gaps before moving on.
 1. **Protect unrelated work:** Before any full gate, inspect the full gate's task definition and working-tree state. If it runs whole-tree write-formatters and unrelated or user changes are present, validate the exact candidate in an isolated temporary worktree or run equivalent non-mutating checks; never reformat unrelated work.
 1. **Run the whole contract:** Test changed behavior first, then run the repository-owned full gate, normally `mise run all`. Keep local, exact-head CI, runtime, deployed, and published evidence separate.

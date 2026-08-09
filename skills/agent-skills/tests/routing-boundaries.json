@@ -13,9 +13,9 @@
       ],
       "prompt": "Give this patch a hard once-over and call out only merge-blocking bugs you can prove.",
       "expected": [
-        "code-review"
+        "diff-review"
       ],
-      "primary": "code-review",
+      "primary": "diff-review",
       "top_k": 3
     },
     {
@@ -27,9 +27,9 @@
       ],
       "prompt": "I have a half-baked SaaS notion; poke holes in the problem and find the tiniest demand test before I build anything.",
       "expected": [
-        "founder-discovery"
+        "product-loop"
       ],
-      "primary": "founder-discovery",
+      "primary": "product-loop",
       "top_k": 3
     },
     {
@@ -110,9 +110,9 @@
       ],
       "prompt": "Shape a staged beta rollout: audience, message, onboarding, channels, success bars, support owner, and pause conditions.",
       "expected": [
-        "product-launch"
+        "product-loop"
       ],
-      "primary": "product-launch",
+      "primary": "product-loop",
       "top_k": 3
     },
     {
@@ -123,9 +123,9 @@
       ],
       "prompt": "Compare last month's cohort outcome with our original bet and choose whether the next move is iterate, pivot, or kill it.",
       "expected": [
-        "product-learning"
+        "product-loop"
       ],
-      "primary": "product-learning",
+      "primary": "product-loop",
       "top_k": 3
     },
     {
@@ -136,9 +136,9 @@
       ],
       "prompt": "Turn the agreed user need into a compact PRD with scope, observable rules, edge cases, and acceptance examples.",
       "expected": [
-        "product-spec"
+        "product-loop"
       ],
-      "primary": "product-spec",
+      "primary": "product-loop",
       "top_k": 3
     },
     {
@@ -309,70 +309,6 @@
       "top_k": 3,
       "forbidden": [
         "implementation-plan"
-      ]
-    },
-    {
-      "id": "neighbor-04",
-      "categories": [
-        "neighbor",
-        "founder"
-      ],
-      "prompt": "Customer interviews established the need; document the feature contract instead of reopening whether the company should exist.",
-      "expected": [
-        "product-spec"
-      ],
-      "primary": "product-spec",
-      "top_k": 3,
-      "forbidden": [
-        "founder-discovery"
-      ]
-    },
-    {
-      "id": "neighbor-05",
-      "categories": [
-        "neighbor",
-        "founder"
-      ],
-      "prompt": "There is no validated problem yet, so challenge the concept rather than drafting requirements.",
-      "expected": [
-        "founder-discovery"
-      ],
-      "primary": "founder-discovery",
-      "top_k": 3,
-      "forbidden": [
-        "product-spec"
-      ]
-    },
-    {
-      "id": "neighbor-06",
-      "categories": [
-        "neighbor",
-        "founder"
-      ],
-      "prompt": "The experiment has ended; interpret retention evidence against the predeclared threshold, not a future campaign calendar.",
-      "expected": [
-        "product-learning"
-      ],
-      "primary": "product-learning",
-      "top_k": 3,
-      "forbidden": [
-        "product-launch"
-      ]
-    },
-    {
-      "id": "neighbor-07",
-      "categories": [
-        "neighbor",
-        "founder"
-      ],
-      "prompt": "We have not launched yet; prepare the audience and rollout sequence instead of claiming lessons from nonexistent results.",
-      "expected": [
-        "product-launch"
-      ],
-      "primary": "product-launch",
-      "top_k": 3,
-      "forbidden": [
-        "product-learning"
       ]
     },
     {
@@ -588,11 +524,11 @@
         "explicit-name",
         "founder"
       ],
-      "prompt": "Please apply founder-discovery here.",
+      "prompt": "Please apply product-loop here.",
       "expected": [
-        "founder-discovery"
+        "product-loop"
       ],
-      "primary": "founder-discovery",
+      "primary": "product-loop",
       "top_k": 1
     },
     {
@@ -662,14 +598,14 @@
         "negation",
         "founder"
       ],
-      "prompt": "No product-launch work; use product-learning on the completed trial.",
+      "prompt": "No product-loop planning; use diff-review on the pull request.",
       "expected": [
-        "product-learning"
+        "diff-review"
       ],
-      "primary": "product-learning",
+      "primary": "diff-review",
       "top_k": 1,
       "forbidden": [
-        "product-launch"
+        "product-loop"
       ]
     },
     {
@@ -711,12 +647,12 @@
         "founder",
         "engineering"
       ],
-      "prompt": "Challenge whether the idea deserves an MVP, then draft a feature contract only if the evidence clears the decision bar.",
+      "prompt": "Challenge whether the idea deserves an MVP, then map the accepted work into ordered repository slices only if the evidence clears the decision bar.",
       "expected": [
-        "founder-discovery",
-        "product-spec"
+        "product-loop",
+        "implementation-plan"
       ],
-      "primary": "founder-discovery",
+      "primary": "product-loop",
       "top_k": 3,
       "require_all_top_k": 5
     },
@@ -762,7 +698,7 @@
       "prompt": "Check operational fitness first, then design a limited customer rollout with support and halt thresholds.",
       "expected": [
         "production-readiness",
-        "product-launch"
+        "product-loop"
       ],
       "primary": "production-readiness",
       "top_k": 3,
@@ -777,7 +713,7 @@
       "prompt": "Review the launch strategy for bad assumptions, then rewrite only the decision-changing parts of the rollout plan.",
       "expected": [
         "plan-review",
-        "product-launch"
+        "product-loop"
       ],
       "primary": "plan-review",
       "top_k": 3,
@@ -791,10 +727,10 @@
       ],
       "prompt": "Inspect the branch for defects and, separately, build a broader browser and resilience validation campaign.",
       "expected": [
-        "code-review",
+        "diff-review",
         "quality-assurance"
       ],
-      "primary": "code-review",
+      "primary": "diff-review",
       "top_k": 3,
       "require_all_top_k": 5
     },
@@ -1434,14 +1370,14 @@
       "id": "eval-06",
       "categories": [
         "neighbor",
-        "product-learning",
+        "product-loop",
         "founder"
       ],
       "prompt": "The agent experiment is complete; interpret adoption and retention evidence against the original product hypothesis and choose iterate, pivot, or stop.",
       "expected": [
-        "product-learning"
+        "product-loop"
       ],
-      "primary": "product-learning",
+      "primary": "product-loop",
       "top_k": 3,
       "forbidden": [
         "agent-evaluation"

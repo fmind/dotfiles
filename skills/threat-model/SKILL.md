@@ -2,6 +2,11 @@
 name: threat-model
 description: "Model attack paths beyond scanners: assets, actors, trust boundaries, data flows, abuse cases, controls, and residual risk. Use for auth, sensitive data, AI agents, integrations, APIs, infrastructure, or public exposure."
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/threat-model
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Threat Model

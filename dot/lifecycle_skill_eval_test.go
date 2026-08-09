@@ -29,16 +29,13 @@ const (
 var (
 	lifecycleSkillNames = []string{
 		"agent-evaluation",
-		"code-review",
-		"founder-discovery",
+		"diff-review",
 		"implementation-plan",
 		"incident-response",
 		"plan-execution",
 		"plan-review",
 		"product-design-review",
-		"product-launch",
-		"product-learning",
-		"product-spec",
+		"product-loop",
 		"production-readiness",
 		"prompt-design",
 		"quality-assurance",
@@ -201,7 +198,7 @@ func TestLifecycleSkillCatalogAndExplicitRouting(t *testing.T) {
 	}
 
 	router := newLifecycleRouter(descriptions)
-	for _, name := range []string{"founder-discovery", "systematic-debugging", "test-driven-development"} {
+	for _, name := range []string{"product-loop", "systematic-debugging", "test-driven-development"} {
 		routes := router.rank("Use $" + name + " for this request.")
 		if routes[0].Name != name || !routes[0].Explicit {
 			t.Errorf("explicit invocation %q ranked behind %q; leaders: %s", name, routes[0].Name, formatLifecycleRoutes(routes))
@@ -212,7 +209,7 @@ func TestLifecycleSkillCatalogAndExplicitRouting(t *testing.T) {
 		prompt string
 		want   string
 	}{
-		{name: "plain invocation", prompt: "Please apply founder-discovery here.", want: "founder-discovery"},
+		{name: "plain invocation", prompt: "Please apply product-loop here.", want: "product-loop"},
 		{name: "negated neighbor", prompt: "Do not use threat-model; use security-scan on the repository instead.", want: "security-scan"},
 		{name: "ordered invocation", prompt: "Apply skill-security-review before agent-skills installs the package.", want: "skill-security-review"},
 	} {
@@ -533,17 +530,12 @@ func TestLifecycleSkillStaticSafetyCopyContracts(t *testing.T) {
 			"Freeze the decision rule before the sealed holdout",
 			"Never weaken a safety guardrail",
 		},
-		"code-review": {
+		"diff-review": {
 			"Review only by default",
 			"Preserve staged, unstaged, and untracked work",
 			"Do not manufacture findings",
 			"Classify it as **keep**",
 			"never stage, revert, discard, or rewrite the candidate",
-		},
-		"founder-discovery": {
-			"Separate observations, supplied evidence, inferences, and assumptions",
-			"Do not contact customers",
-			"without explicit authorization",
 		},
 		"implementation-plan": {
 			"Planning is read-only by default",
@@ -571,22 +563,23 @@ func TestLifecycleSkillStaticSafetyCopyContracts(t *testing.T) {
 			"A static happy-path screenshot is insufficient",
 			"one coherent fix pass when authorized",
 		},
-		"product-launch": {
-			"a launch plan does not authorize publication",
-			"Do not invent quotes",
-			"rollback thresholds",
-		},
-		"product-learning": {
-			"Never fabricate analytics",
-			"stars are not customer-value evidence",
+		// The four product-phase skills merged into product-loop on 2026-08-09.
+		// Every safety phrase they each carried is still required here, so the
+		// merge cannot quietly drop an authority boundary.
+		"product-loop": {
+			"Separate observations, supplied evidence, inferences, and assumptions",
+			"Do not contact customers",
 			"without explicit authorization",
-		},
-		"product-spec": {
 			"Default to a reviewable draft",
 			"Do not edit files",
 			"Do not invent analytics",
 			"Use a requirements echo only when",
 			"label user statements, evidence, inference, and proposals separately",
+			"a launch plan does not authorize publication",
+			"Do not invent quotes",
+			"rollback thresholds",
+			"Never fabricate analytics",
+			"stars are not customer-value evidence",
 		},
 		"production-readiness": {
 			"it does not deploy, migrate, publish, or mutate production",

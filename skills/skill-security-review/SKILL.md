@@ -2,6 +2,11 @@
 name: skill-security-review
 description: Audit third-party Agent Skills/extensions for supply-chain security without running them before install/trust. Inspect scripts, hooks, MCP/plugins, hidden instructions, symlinks, credential/network flows, and provenance/licenses.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/skill-security-review
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Skill Security Review

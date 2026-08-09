@@ -1,7 +1,12 @@
 ---
 name: production-readiness
-description: Audit operational fitness, safety, and operability of an exact service/agent/build/infrastructure candidate. Check go/no-go, rollback, migrations, observability, recovery, capacity, and local/CI/runtime/deployed/release proof.
+description: Audit operational fitness, safety, and operability of an exact service/agent/build/infrastructure candidate. Check go/no-go, rollback, migrations, observability, recovery, and deployed proof. Not for diff defects or repo-wide audits.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/production-readiness
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Production Readiness
@@ -46,7 +51,7 @@ For every material gate report:
 
 Lead with blockers, then conditional gaps, verified gates, rollback plan, proof ceiling, and recommendation. Name any action that requires credentials, production access, external coordination, spend, or human approval rather than performing it implicitly.
 
-Use [quality-assurance](../quality-assurance/SKILL.md) for the test campaign, [incident-response](../incident-response/SKILL.md) during an active outage, and [product-launch](../product-launch/SKILL.md) for audience, positioning, channels, and public rollout.
+Use [quality-assurance](../quality-assurance/SKILL.md) for the test campaign, [incident-response](../incident-response/SKILL.md) during an active outage, and [product-loop](../product-loop/SKILL.md) for audience, positioning, channels, and public rollout.
 
 ## Sources
 

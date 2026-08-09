@@ -2,6 +2,11 @@
 name: agent-evaluation
 description: Evaluate stochastic LLM/RAG/model/retrieval/tool agents in trials. Compare baseline/candidate on development/sealed holdouts with calibrated deterministic/model/trace graders; measure reliability, variance, leakage, safety, and cost.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/agent-evaluation
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Agent Evaluation

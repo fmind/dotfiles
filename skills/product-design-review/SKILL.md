@@ -2,6 +2,11 @@
 name: product-design-review
 description: Critique customer interface flows using interaction, visual, responsive, keyboard and screen-reader accessibility, content, and runtime evidence. Use for UX audits, design reviews, UI polish, onboarding, empty states, or redesign.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/product-design-review
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Product Design Review

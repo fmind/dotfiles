@@ -1,7 +1,12 @@
 ---
 name: quality-assurance
-description: Design and execute risk-based test campaigns and exercise risky feature or release journeys; identify what remains unproved across unit, integration, E2E, browser, accessibility, performance, resilience, and manual tests.
+description: Design and execute risk-based test campaigns and exercise risky feature journeys; identify what remains unproved across unit, integration, E2E, browser, accessibility, performance, resilience, and manual tests. Not a diff review.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/quality-assurance
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Quality Assurance

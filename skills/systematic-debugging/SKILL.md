@@ -2,6 +2,11 @@
 name: systematic-debugging
 description: Diagnose unknown-cause bugs, test/build or auth failures, flakes, and runtime performance regressions. Investigate, reduce, localize, falsify hypotheses, and explain root cause before implementation.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/systematic-debugging
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Systematic Debugging

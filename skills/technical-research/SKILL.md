@@ -2,6 +2,11 @@
 name: technical-research
 description: Verify unfamiliar framework APIs and architectures from exact local dependency source and current primary docs. Compare installed packages, specs, and versions before choosing an approach; return a recommendation with proof boundaries.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/technical-research
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Technical Research

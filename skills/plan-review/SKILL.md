@@ -1,7 +1,12 @@
 ---
 name: plan-review
-description: Red-team a product, architecture, implementation, migration, or launch plan before execution. Use for pre-mortems, strategy or scope challenge, and independent testing of assumptions, dependencies, and failure modes.
+description: Red-team a product, architecture, implementation, migration, or launch plan before execution. Use for pre-mortems, strategy or scope challenge, and independent testing of assumptions, dependencies, and failure modes — not code.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/plan-review
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Plan Review
@@ -50,7 +55,7 @@ Lead with the verdict, then provide:
 - **Revised critical path** only when revisions were requested
 - **Residual risks and owner decisions**
 
-For a full repository audit, use [repository-review](../repository-review/SKILL.md). For diff-level implementation findings, use [code-review](../code-review/SKILL.md).
+For a full repository audit, use [repository-review](../repository-review/SKILL.md). For diff-level implementation findings, use [diff-review](../diff-review/SKILL.md).
 
 ## Sources
 

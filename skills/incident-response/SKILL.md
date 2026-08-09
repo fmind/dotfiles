@@ -2,6 +2,11 @@
 name: incident-response
 description: Coordinate a live outage, breach, or degradation affecting users. Establish incident command; triage, contain harm, bound blast radius, preserve evidence, communicate, roll back, and verify restoration.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/incident-response
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Incident Response
@@ -27,7 +32,7 @@ Protect users, reduce harm, preserve evidence, and restore a known-safe state. A
 1. **Verify recovery:** Confirm critical user journeys, error and saturation signals, data correctness, queued work, security posture, and absence of continued spread. A quiet alert alone is not recovery.
 1. **Communicate:** Issue concise updates with impact, current state, actions, next checkpoint, and known unknowns. Do not promise recovery times or send external communications without the appropriate owner.
 1. **Close carefully:** End active response only after sustained recovery, cleanup ownership, evidence retention, residual-risk review, and handoff. Keep temporary safeguards until their removal has a named test and owner.
-1. **Learn afterward:** Schedule a blameless review with [product-learning](../product-learning/SKILL.md), causal analysis, control gaps, concrete owners, and verification dates. Do not write a polished narrative that outruns the evidence.
+1. **Learn afterward:** Schedule a blameless review with [product-loop](../product-loop/SKILL.md), causal analysis, control gaps, concrete owners, and verification dates. Do not write a polished narrative that outruns the evidence.
 
 ## Incident Record
 

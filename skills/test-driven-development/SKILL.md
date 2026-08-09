@@ -2,6 +2,11 @@
 name: test-driven-development
 description: Implement an isolated bug fix or behavior change with an honest red-green-refactor cycle. Use when a regression test should fail before the correction, or when tested logic, refactors, or seams must prove correctness.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dotfiles/tree/main/skills/test-driven-development
+  created: 2026-08-08
+  updated: 2026-08-09
 ---
 
 # Test-Driven Development

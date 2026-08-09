@@ -1,12 +1,12 @@
 ---
 name: repository-review
-description: Audit a whole repository across architecture, source, tests, tooling, security, CI/CD, docs, and releases. Use for cross-cutting audits, readiness, or technical-debt reviews needing ranked findings and proof boundaries.
+description: Audit a whole repository across architecture, source, tests, tooling, security, CI/CD, docs, and releases. Use for cross-cutting audits, readiness, or technical-debt reviews with ranked findings — not one diff or release candidate.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/repository-review
   created: 2026-08-01
-  updated: 2026-08-02
+  updated: 2026-08-09
 ---
 
 # Repository Review
