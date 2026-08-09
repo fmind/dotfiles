@@ -30,15 +30,6 @@ options:
       - arg: --kubelet-arg=feature-gates=KubeletInUserNamespace=true
         nodeFilters:
           - server:*
-      # The kubelet default reserves 10% of the filesystem, and this cluster shares the
-      # workstation disk rather than owning one: on a 100 GB dev disk that reserve is
-      # ~10 GB, so an ordinarily full laptop taints the node with DiskPressure and even
-      # Traefik cannot schedule — the cluster comes up "Ready" but runs nothing. An
-      # absolute reserve keeps the protection meaningful without scaling into the
-      # tens of gigabytes. Raise it if you actually run disk-hungry workloads here.
-      - arg: --kubelet-arg=eviction-hard=nodefs.available<2Gi,imagefs.available<2Gi
-        nodeFilters:
-          - server:*
 registries:
   create:
     name: registry.localhost
