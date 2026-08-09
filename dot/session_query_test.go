@@ -277,3 +277,39 @@ func TestRunAgentSessionListRendersMetadataWithinRange(t *testing.T) {
 		t.Fatalf("listing leaked transcript content: %s", rendered)
 	}
 }
+
+// TestAmbiguousSessionErrorGuidance pins that the ambiguity error only recommends a
+// flag that can actually narrow the result. Generations of one session all share an
+// agent, so recommending --agent there sends the caller round a loop that cannot end.
+func TestAmbiguousSessionErrorGuidance(t *testing.T) {
+	sameAgent := []SessionSummary{
+		{Agent: "codex", SessionID: "s1", GenerationID: "gen-aaa"},
+		{Agent: "codex", SessionID: "s1", GenerationID: "gen-bbb"},
+		{Agent: "codex", SessionID: "s1", GenerationID: "gen-ccc"},
+		{Agent: "codex", SessionID: "s1", GenerationID: "gen-ddd"},
+	}
+	got := ambiguousSessionError(sameAgent).Error()
+	if strings.Contains(got, "--agent") {
+		t.Errorf("single-agent ambiguity recommended --agent, which cannot disambiguate: %q", got)
+	}
+	for _, want := range []string{"4 generations", "gen-aaa", "gen-bbb", "gen-ccc", "(1 more)"} {
+		if !strings.Contains(got, want) {
+			t.Errorf("message %q missing %q", got, want)
+		}
+	}
+	if strings.Contains(got, "gen-ddd") {
+		t.Errorf("message listed more than %d samples: %q", ambiguousSessionErrorSamples, got)
+	}
+
+	crossAgent := []SessionSummary{
+		{Agent: "codex", SessionID: "s1", GenerationID: "gen-aaa"},
+		{Agent: "claude", SessionID: "s1", GenerationID: "gen-bbb"},
+	}
+	got = ambiguousSessionError(crossAgent).Error()
+	if !strings.Contains(got, "--agent") {
+		t.Errorf("cross-agent ambiguity should recommend --agent: %q", got)
+	}
+	if !strings.Contains(got, "claude, codex") {
+		t.Errorf("cross-agent message should name the agents in sorted order: %q", got)
+	}
+}

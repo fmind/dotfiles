@@ -104,6 +104,15 @@ type Checker interface {
 	Check(ctx context.Context, state *GlobalState, shouldFix bool) ([]CheckResult, bool)
 }
 
+// suiteTimeouter lets a checker whose own work is internally bounded widen the flat
+// suite deadline to something that can actually contain it. Without it a checker that
+// queues N inner operations of up to ProbeTimeout each inherits a deadline sized for a
+// single external command, and the outer deadline fires first — reporting healthy work
+// as "context deadline exceeded" purely because it was still waiting in the queue.
+type suiteTimeouter interface {
+	SuiteTimeout(state *GlobalState) time.Duration
+}
+
 // RunAllChecks runs all sanity check suites concurrently and returns their aggregated results.
 func RunAllChecks(ctx context.Context, state *GlobalState, shouldFix bool) *VerifyResults {
 	timeout := positiveOr(state.Config.Verify.Timeout.Duration(), defaultVerifyTimeout)
@@ -160,7 +169,11 @@ func RunAllChecks(ctx context.Context, state *GlobalState, shouldFix bool) *Veri
 			}()
 
 			state.Logger.Debug("Running sanity checker", "checker", item.checker.Name())
-			childCtx, cancel := context.WithTimeout(ctx, timeout)
+			suiteTimeout := timeout
+			if hinter, ok := item.checker.(suiteTimeouter); ok {
+				suiteTimeout = positiveOr(hinter.SuiteTimeout(state), timeout)
+			}
+			childCtx, cancel := context.WithTimeout(ctx, suiteTimeout)
 			defer cancel()
 
 			res, passed := item.checker.Check(childCtx, state, shouldFix)
@@ -249,9 +262,19 @@ func (c *AuthChecker) Check(ctx context.Context, state *GlobalState, shouldFix b
 			}
 
 			_, err = state.Runner.Run(ctx, "", nil, task.cmdName, task.args...)
-			if err == nil {
+			switch {
+			case err == nil:
 				results[i] = CheckResult{Name: task.label, Status: statusPass, Condition: ProbeHealthy, Path: path, Details: "authenticated"}
-			} else {
+			case ctx.Err() != nil:
+				// The suite deadline fired while this command was still running, so the
+				// tool's auth state was never determined. Calling that "NOT authenticated"
+				// is a claim the check never established, and it sends the user through an
+				// interactive re-login that fixes nothing — report the timeout instead.
+				results[i] = CheckResult{Name: task.label, Status: statusFail, Condition: ProbeBroken, Path: path, Details: "auth check timed out; state unknown"}
+				mu.Lock()
+				passed = false
+				mu.Unlock()
+			default:
 				results[i] = CheckResult{Name: task.label, Status: statusFail, Condition: ProbeUnauthenticated, Path: path, Details: "NOT authenticated"}
 				mu.Lock()
 				passed = false
@@ -496,12 +519,24 @@ type ToolsChecker struct {
 
 func (c *ToolsChecker) Name() string { return "CLI Tools" }
 
+// SuiteTimeout sizes this suite from the work it actually queues: the probes run
+// `probe_concurrency` at a time, so the last batch can only start after the earlier
+// ones drain, and the worst case is one full ProbeTimeout per batch. The flat suite
+// timeout is sized for checkers that run a single command and would otherwise cut the
+// queue short. Healthy runs never wait this long — probes return as soon as they finish.
+func (c *ToolsChecker) SuiteTimeout(state *GlobalState) time.Duration {
+	probeTimeout := positiveOr(state.Config.Verify.ProbeTimeout.Duration(), defaultProbeTimeout)
+	concurrency := positiveOr(state.Config.Verify.ProbeConcurrency, defaultProbeConcurrency)
+	batches := (len(state.Config.Verify.Tools) + concurrency - 1) / concurrency
+	return time.Duration(max(batches, 1)) * probeTimeout
+}
+
 func (c *ToolsChecker) Check(ctx context.Context, state *GlobalState, shouldFix bool) ([]CheckResult, bool) {
 	registry := c.Registry
 	if registry == nil {
 		registry = CapabilityProbeRegistryWithTimeout(state.Config.Verify.ProbeTimeout.Duration())
 	}
-	return runToolProbes(ctx, state.Runner, state.Config.Verify.Tools, registry)
+	return runToolProbes(ctx, state.Runner, state.Config.Verify.Tools, registry, state.Config.Verify.ProbeConcurrency)
 }
 
 // PrintHumanResults outputs the verification results in a user-friendly console format.
@@ -564,9 +599,12 @@ type VerifyConfig struct {
 	Secrets []SecretConfig `yaml:"secrets"`
 	// Timeout bounds one checker suite and ProbeTimeout bounds one capability probe
 	// inside it, so a single slow CLI is tuned without loosening the whole suite.
-	// Both fall back to the built-in default when absent or non-positive.
-	Timeout      Duration `yaml:"timeout"`
-	ProbeTimeout Duration `yaml:"probe_timeout"`
+	// ProbeConcurrency caps how many probes run at once; without it the probes
+	// contend for CPU and blow their own ProbeTimeout on a machine that is fine.
+	// All three fall back to the built-in default when absent or non-positive.
+	Timeout          Duration `yaml:"timeout"`
+	ProbeTimeout     Duration `yaml:"probe_timeout"`
+	ProbeConcurrency int      `yaml:"probe_concurrency"`
 }
 
 // EnvVarsConfig represents the environment variables verification configuration.
@@ -600,7 +638,8 @@ func defaultVerifyConfig() VerifyConfig {
 				RequiredPerm: 0o600,
 			},
 		},
-		Timeout:      Duration(defaultVerifyTimeout),
-		ProbeTimeout: Duration(defaultProbeTimeout),
+		Timeout:          Duration(defaultVerifyTimeout),
+		ProbeTimeout:     Duration(defaultProbeTimeout),
+		ProbeConcurrency: defaultProbeConcurrency,
 	}
 }

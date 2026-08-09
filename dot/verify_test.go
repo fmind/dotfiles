@@ -709,3 +709,53 @@ func TestVerifyCmd_Errors(t *testing.T) {
 		}
 	})
 }
+
+// TestAuthCheckerSeparatesTimeoutFromUnauthenticated pins that a check which never
+// completed is not reported as an authentication verdict. Collapsing both into "NOT
+// authenticated" told the user to re-run an interactive OAuth login for a tool that
+// was in fact authenticated and merely slow.
+func TestAuthCheckerSeparatesTimeoutFromUnauthenticated(t *testing.T) {
+	runner := &FakeRunner{
+		LookPathFunc: func(name string) (string, error) { return "/bin/" + name, nil },
+		RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
+			// gws is authenticated but slow enough to outlive the suite deadline;
+			// gcloud answers immediately and is genuinely logged out.
+			if name == "gws" {
+				<-ctx.Done()
+				return "", ctx.Err()
+			}
+			if name == "gcloud" {
+				return "", errors.New("exit status 1")
+			}
+			return "ok", nil
+		},
+	}
+
+	state := newTestState(runner)
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)
+	defer cancel()
+
+	checker := &AuthChecker{}
+	results, passed := checker.Check(ctx, state, false)
+	if passed {
+		t.Error("expected the auth suite to fail")
+	}
+
+	byName := make(map[string]CheckResult, len(results))
+	for _, result := range results {
+		byName[result.Name] = result
+	}
+
+	gws := byName["gws"]
+	if gws.Condition == ProbeUnauthenticated {
+		t.Errorf("timed-out check reported as an auth verdict: %+v", gws)
+	}
+	if gws.Condition != ProbeBroken || !strings.Contains(gws.Details, "timed out") {
+		t.Errorf("gws = %+v, want a timeout report", gws)
+	}
+
+	// A real non-zero exit must still read as unauthenticated.
+	if gcloud := byName["gcloud"]; gcloud.Condition != ProbeUnauthenticated {
+		t.Errorf("gcloud = %+v, want %q", gcloud, ProbeUnauthenticated)
+	}
+}

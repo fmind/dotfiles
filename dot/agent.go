@@ -470,6 +470,18 @@ func RunAgentSessionLogAgy(ctx context.Context, state *GlobalState, sessionID, c
 		}
 	}
 
+	fingerprint, stored, isStored, err := fingerprintStoredTranscript("agy", sessionID, transcriptPath)
+	if err != nil {
+		return err
+	}
+	if isStored {
+		reportStoredGeneration(state.Stderr, stored)
+		if identity.FromHook() {
+			return writeAntigravityStopDecision(state.Stdout)
+		}
+		return nil
+	}
+
 	file, err := os.Open(transcriptPath)
 	if err != nil {
 		return err
@@ -514,10 +526,6 @@ func RunAgentSessionLogAgy(ctx context.Context, state *GlobalState, sessionID, c
 		return decodeErr
 	}
 
-	fingerprint, err := fingerprintFile(transcriptPath)
-	if err != nil {
-		return err
-	}
 	if _, err := writeSessionLogs(ctx, state, "agy", sessionID, logs, sessionSource{Type: "antigravity-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)}); err != nil {
 		return err
 	}
@@ -621,6 +629,15 @@ func RunAgentSessionLogClaude(ctx context.Context, state *GlobalState, sessionID
 		}
 	}
 
+	fingerprint, stored, isStored, err := fingerprintStoredTranscript("claude", sessionID, sessionFile)
+	if err != nil {
+		return err
+	}
+	if isStored {
+		reportStoredGeneration(state.Stderr, stored)
+		return nil
+	}
+
 	file, err := os.Open(sessionFile)
 	if err != nil {
 		return err
@@ -690,10 +707,6 @@ func RunAgentSessionLogClaude(ctx context.Context, state *GlobalState, sessionID
 		return decodeErr
 	}
 
-	fingerprint, err := fingerprintFile(sessionFile)
-	if err != nil {
-		return err
-	}
 	_, err = writeSessionLogs(ctx, state, "claude", sessionID, logs, sessionSource{Type: "claude-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
 	return err
 }
@@ -731,6 +744,15 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 			return fmt.Errorf("session file not found for codex session %s", sessionID)
 		}
 		transcriptPath = found
+	}
+
+	fingerprint, stored, isStored, err := fingerprintStoredTranscript("codex", sessionID, transcriptPath)
+	if err != nil {
+		return err
+	}
+	if isStored {
+		reportStoredGeneration(state.Stderr, stored)
+		return nil
 	}
 
 	file, err := os.Open(transcriptPath)
@@ -797,10 +819,6 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 		return decodeErr
 	}
 
-	fingerprint, err := fingerprintFile(transcriptPath)
-	if err != nil {
-		return err
-	}
 	_, err = writeSessionLogs(ctx, state, "codex", sessionID, logs, sessionSource{Type: "codex-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
 	return err
 }

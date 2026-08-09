@@ -280,6 +280,57 @@ func validateExistingSessionGeneration(path string, expected sessionManifest) er
 	return validateSessionGeneration(path, manifest)
 }
 
+// storedGeneration returns the manifest of the generation a file-backed source would
+// produce, when that generation is already stored intact.
+//
+// This is the whole identity function evaluated in a cheaper order. A generation's path
+// is sessionLineageID(agent, sessionID)/sessionGenerationID(parserVersion, fingerprint),
+// and the fingerprint is a plain hash of the source bytes — so nothing about the
+// decision needs the transcript to be parsed. `dot agent session sync` re-offers every
+// historical session on every run, and without this each one paid a full JSONL decode of
+// the source plus a second decode of the stored copy only to conclude "duplicate".
+//
+// The deep round-trip check still runs on the ingest path, where a generation is
+// actually written. Here the check is limited to the manifest's immutable identity: it
+// is enough to reject a mismatched or garbled directory, and anything it rejects simply
+// falls through to the full path rather than being trusted.
+func storedGeneration(agent, sessionID, sourceFingerprint string) (sessionManifest, bool) {
+	if sourceFingerprint == "" {
+		return sessionManifest{}, false
+	}
+	root, err := sessionStoreRoot()
+	if err != nil {
+		return sessionManifest{}, false
+	}
+	lineageID := sessionLineageID(agent, sessionID)
+	manifest, err := readSessionManifest(filepath.Join(root, agent, lineageID, sessionGenerationID(sourceFingerprint)))
+	if err != nil {
+		return sessionManifest{}, false
+	}
+	matches := manifest.SchemaVersion == sessionSchemaVersion &&
+		manifest.ParserVersion == sessionParserVersion &&
+		manifest.Agent == agent &&
+		manifest.SessionID == sessionID &&
+		manifest.LineageID == lineageID &&
+		manifest.SourceFingerprint == sourceFingerprint
+	if !matches {
+		return sessionManifest{}, false
+	}
+	return manifest, true
+}
+
+// fingerprintStoredTranscript hashes a file-backed source and reports whether its
+// generation is already stored. The fingerprint is returned either way so the caller
+// reuses it for the ingest instead of hashing the file twice.
+func fingerprintStoredTranscript(agent, sessionID, path string) (string, sessionManifest, bool, error) {
+	fingerprint, err := fingerprintFile(path)
+	if err != nil {
+		return "", sessionManifest{}, false, err
+	}
+	manifest, stored := storedGeneration(agent, sessionID, fingerprint)
+	return fingerprint, manifest, stored, nil
+}
+
 func ingestSession(ctx context.Context, agent, sessionID string, logs []SessionLogLine, source sessionSource) (sessionIngestionResult, error) {
 	lineageID := sessionLineageID(agent, sessionID)
 	result := sessionIngestionResult{LineageID: lineageID}
@@ -406,6 +457,18 @@ func ingestSession(ctx context.Context, agent, sessionID string, logs []SessionL
 	}
 	result.Status = sessionIngested
 	return result, nil
+}
+
+// reportStoredGeneration emits the same duplicate line the full ingest path would have
+// emitted, reusing the stored manifest's own counts so the fast path is invisible in
+// the output rather than reporting zeros it never parsed.
+func reportStoredGeneration(output io.Writer, manifest sessionManifest) {
+	reportSessionIngestion(output, sessionIngestionResult{
+		Status:       sessionDuplicate,
+		LineageID:    manifest.LineageID,
+		GenerationID: sessionGenerationID(manifest.SourceFingerprint),
+		Manifest:     manifest,
+	})
 }
 
 func reportSessionIngestion(output io.Writer, result sessionIngestionResult) {

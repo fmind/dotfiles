@@ -52,21 +52,25 @@ func positiveOr[T int | time.Duration](value, fallback T) T {
 }
 
 // Config represents the unified configuration structure for the dot CLI.
+//
+// Field order is chosen by govet's fieldalignment, not by theme: every section carries
+// explicit yaml tags, so the order is free to satisfy the linter and reads as arbitrary
+// on purpose. Adding a section means re-running `mise run check` and taking its ordering.
 type Config struct {
-	Cluster      ClusterConfig      `yaml:"cluster"`
+	Release      ReleaseConfig      `yaml:"release"`
 	AI           AIConfig           `yaml:"ai"`
-	Verify       VerifyConfig       `yaml:"verify"`
+	Prune        PruneConfig        `yaml:"prune"`
+	Cluster      ClusterConfig      `yaml:"cluster"`
 	Login        LoginConfig        `yaml:"login"`
 	PR           PRConfig           `yaml:"pr"`
-	Completions  CompletionConfig   `yaml:"completions"`
 	ChezmoiClean ChezmoiCleanConfig `yaml:"chezmoi_clean"`
-	Pull         PullConfig         `yaml:"pull"`
 	Setup        SetupConfig        `yaml:"setup"`
-	Prune        PruneConfig        `yaml:"prune"`
-	Release      ReleaseConfig      `yaml:"release"`
-	Commit       CommitConfig       `yaml:"commit"`
 	Context      ContextConfig      `yaml:"context"`
+	Commit       CommitConfig       `yaml:"commit"`
+	Completions  CompletionConfig   `yaml:"completions"`
+	Pull         PullConfig         `yaml:"pull"`
 	Agent        AgentConfig        `yaml:"agent"`
+	Verify       VerifyConfig       `yaml:"verify"`
 }
 
 // ExpandPath replaces a leading "~" or "~/" (or "~\") with the user's home directory.

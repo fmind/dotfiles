@@ -178,3 +178,88 @@ func writeLegacyLogs(t *testing.T, path string, logs []SessionLogLine) {
 		t.Fatal(err)
 	}
 }
+
+// TestStoredGenerationMatchesIngestedIdentity pins the fast path `dot agent session
+// sync` relies on: the generation identity is fully determined by the source
+// fingerprint, so an already-ingested source must be recognizable without re-parsing
+// its transcript, and anything that is not a byte-identical match must miss.
+func TestStoredGenerationMatchesIngestedIdentity(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	const agent = "claude"
+	const sessionID = "session-fast-path"
+	fingerprint := strings.Repeat("b", 64)
+	logs := []SessionLogLine{{TS: "2026-08-01T12:00:00Z", Agent: agent, SID: sessionID, Role: "user", Content: "hello"}}
+
+	if _, ok := storedGeneration(agent, sessionID, fingerprint); ok {
+		t.Fatal("reported a stored generation before anything was ingested")
+	}
+
+	result, err := ingestSession(context.Background(), agent, sessionID, logs, sessionSource{Type: "claude-jsonl", Fingerprint: fingerprint})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Status != sessionIngested {
+		t.Fatalf("status = %q, want %q", result.Status, sessionIngested)
+	}
+
+	manifest, ok := storedGeneration(agent, sessionID, fingerprint)
+	if !ok {
+		t.Fatal("ingested generation was not recognized by the fast path")
+	}
+	if manifest.RecordCount != len(logs) || manifest.LineageID != result.LineageID {
+		t.Errorf("manifest = %+v, want record_count=%d lineage=%s", manifest, len(logs), result.LineageID)
+	}
+
+	// Each component of the identity must be load-bearing: a different source, session,
+	// or agent is a different generation and has to fall through to the full ingest.
+	for name, probe := range map[string][3]string{
+		"different fingerprint": {agent, sessionID, strings.Repeat("c", 64)},
+		"different session":     {agent, "other-session", fingerprint},
+		"different agent":       {"codex", sessionID, fingerprint},
+		"empty fingerprint":     {agent, sessionID, ""},
+	} {
+		if _, ok := storedGeneration(probe[0], probe[1], probe[2]); ok {
+			t.Errorf("%s: fast path claimed a stored generation", name)
+		}
+	}
+}
+
+// TestStoredGenerationRejectsTamperedManifest ensures the cheap check still refuses a
+// generation whose manifest no longer matches its own path, so corruption falls through
+// to the full ingest rather than being silently accepted as already done.
+func TestStoredGenerationRejectsTamperedManifest(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	const agent = "codex"
+	const sessionID = "session-tampered"
+	fingerprint := strings.Repeat("d", 64)
+	logs := []SessionLogLine{{TS: "2026-08-01T12:00:00Z", Agent: agent, SID: sessionID, Role: "user", Content: "hello"}}
+	if _, err := ingestSession(context.Background(), agent, sessionID, logs, sessionSource{Type: "codex-jsonl", Fingerprint: fingerprint}); err != nil {
+		t.Fatal(err)
+	}
+
+	root, err := sessionStoreRoot()
+	if err != nil {
+		t.Fatal(err)
+	}
+	dir := filepath.Join(root, agent, sessionLineageID(agent, sessionID), sessionGenerationID(fingerprint))
+	manifest, err := readSessionManifest(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	manifest.SourceFingerprint = strings.Repeat("e", 64)
+	content, err := json.MarshalIndent(manifest, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "manifest.json"), append(content, '\n'), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, ok := storedGeneration(agent, sessionID, fingerprint); ok {
+		t.Error("fast path accepted a generation whose manifest contradicts its path")
+	}
+}

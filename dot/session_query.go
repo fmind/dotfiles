@@ -330,9 +330,46 @@ func RunAgentSessionShow(_ context.Context, state *GlobalState, query SessionQue
 		return errors.New("session not found")
 	}
 	if len(summaries) > 1 {
-		return errors.New("session identity is ambiguous; add --agent or use a generation identity")
+		return ambiguousSessionError(summaries)
 	}
 	return writeSessionJSON(state.Stdout, summaries[0])
+}
+
+// ambiguousSessionErrorSamples caps how many generation identities the ambiguity
+// error prints, so one long-lived session cannot bury the instruction in hashes.
+const ambiguousSessionErrorSamples = 3
+
+// ambiguousSessionError explains what would actually narrow this result. Suggesting
+// --agent unconditionally is wrong whenever the matches are generations of one
+// session: they all share an agent, so the flag the message asks for cannot change
+// the outcome. Offer the agent filter only when the candidates really do span agents,
+// and otherwise name the generation identities the caller can pick from.
+func ambiguousSessionError(summaries []SessionSummary) error {
+	agents := make([]string, 0, len(summaries))
+	for _, summary := range summaries {
+		if !slices.Contains(agents, summary.Agent) {
+			agents = append(agents, summary.Agent)
+		}
+	}
+	if len(agents) > 1 {
+		slices.Sort(agents)
+		return fmt.Errorf("session identity is ambiguous: %d matches across agents %s; add --agent or use a generation identity",
+			len(summaries), strings.Join(agents, ", "))
+	}
+
+	// Newest first, matching how list presents them, so the samples are the ones a
+	// caller is most likely to want.
+	generations := make([]string, 0, len(summaries))
+	for _, summary := range summaries {
+		generations = append(generations, summary.GenerationID)
+	}
+	shown := min(len(generations), ambiguousSessionErrorSamples)
+	suffix := ""
+	if len(generations) > shown {
+		suffix = fmt.Sprintf(" (%d more)", len(generations)-shown)
+	}
+	return fmt.Errorf("session identity is ambiguous: %d generations of this %s session; pass --session with a generation identity, e.g. %s%s",
+		len(summaries), agents[0], strings.Join(generations[:shown], ", "), suffix)
 }
 
 func RunAgentSessionExport(_ context.Context, state *GlobalState, query SessionQuery, format string, includeContent, redactContent bool) error {

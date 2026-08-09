@@ -138,7 +138,7 @@ func gatherAgentDoctor(ctx context.Context, state *GlobalState, home string, now
 				hooks, hooksOK = "notification-unavailable", false
 			}
 		}
-		probeResults, probesOK := runToolProbes(ctx, state.Runner, probeNames, registry)
+		probeResults, probesOK := runToolProbes(ctx, state.Runner, probeNames, registry, state.Config.Verify.ProbeConcurrency)
 		tools := summarizeDoctorProbes(probeResults)
 		source, sourceTime, sourcePresent, sourceOK, sourceOmitted := inspectAgentSource(cfg, definition)
 		lineage := inspectAgentLineage(cfg, home, definition.Agent)

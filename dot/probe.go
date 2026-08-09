@@ -6,6 +6,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"golang.org/x/sync/errgroup"
 )
 
 const (
@@ -15,13 +17,22 @@ const (
 	ProbeUnauthenticated = "unauthenticated"
 	ProbeSkipped         = "skipped"
 
-	// Sized for the slowest CLIs in the registry rather than the fastest: the heavy
-	// SDK wrappers routinely need several seconds to start on a cold page cache, and
-	// reporting those as broken is worse than waiting. Probes run concurrently and
-	// stay well inside the enclosing suite timeout, so this costs nothing when every
-	// tool is warm. Override per machine with `verify.probe_timeout`.
-	defaultProbeTimeout = 15 * time.Second
+	// Sized for the slowest CLIs in the registry rather than the fastest, and measured
+	// under concurrency rather than idle: the interpreted wrappers (clasp on Node,
+	// gcloud on Python) load large bundles from disk and degrade superlinearly when
+	// probes overlap — 5s idle, 20-35s alongside seven peers. This bound exists to
+	// catch a *hung* tool, not to benchmark start-up, and a healthy probe returns the
+	// moment it finishes, so a generous bound is only ever paid on a genuine hang.
+	// Override per machine with `verify.probe_timeout`.
+	defaultProbeTimeout = 45 * time.Second
 	defaultOutputLimit  = 4 * 1024
+
+	// defaultProbeConcurrency caps simultaneous probes. Unbounded fan-out is what
+	// makes the per-probe timeout above lie: the registry holds ~30 tools, several of
+	// them interpreted CLIs that each start a Node or Python runtime, and starting
+	// them all at once multiplies a 1-7s cold start several-fold through CPU and page-
+	// cache contention — reporting healthy tools as broken. Matches pull's default.
+	defaultProbeConcurrency = 8
 )
 
 // CapabilityProbe is the stable contract shared by verify and agent-specific health checks.
@@ -97,14 +108,21 @@ func probeFailureDetails(err error, limit int) string {
 	return truncateProbeOutput("probe failed: "+details, limit)
 }
 
-func runToolProbes(ctx context.Context, runner Runner, names []string, registry map[string]CapabilityProbe) ([]CheckResult, bool) {
+// runToolProbes probes every named tool, running at most `limit` probes at once.
+// A non-positive limit falls back to defaultProbeConcurrency; the bound is what keeps
+// each probe's timeout meaningful, so there is deliberately no unbounded mode.
+func runToolProbes(ctx context.Context, runner Runner, names []string, registry map[string]CapabilityProbe, limit int) ([]CheckResult, bool) {
 	results := make([]CheckResult, len(names))
 	passed := true
 	var mu sync.Mutex
-	var wg sync.WaitGroup
+
+	// Plain errgroup rather than WithContext: a broken probe is a reported result, not
+	// a group error, so one slow tool must never cancel the probes still queued behind it.
+	var group errgroup.Group
+	group.SetLimit(positiveOr(limit, defaultProbeConcurrency))
 
 	for i, name := range names {
-		wg.Go(func() {
+		group.Go(func() error {
 			defer func() {
 				if recovered := recover(); recovered != nil {
 					results[i] = CheckResult{Name: name, Status: statusFail, Condition: ProbeBroken, Details: fmt.Sprintf("probe panicked: %v", recovered)}
@@ -116,7 +134,7 @@ func runToolProbes(ctx context.Context, runner Runner, names []string, registry 
 			probe, ok := registry[name]
 			if !ok {
 				results[i] = CheckResult{Name: name, Status: statusSkip, Condition: ProbeSkipped, Details: "no capability probe registered"}
-				return
+				return nil
 			}
 
 			path, err := runner.LookPath(probe.Command)
@@ -125,7 +143,7 @@ func runToolProbes(ctx context.Context, runner Runner, names []string, registry 
 				mu.Lock()
 				passed = false
 				mu.Unlock()
-				return
+				return nil
 			}
 
 			probe.Command = path
@@ -137,11 +155,13 @@ func runToolProbes(ctx context.Context, runner Runner, names []string, registry 
 				mu.Lock()
 				passed = false
 				mu.Unlock()
-				return
+				return nil
 			}
 			results[i] = CheckResult{Name: name, Status: statusPass, Condition: ProbeHealthy, Path: path, Details: "capability probe passed"}
+			return nil
 		})
 	}
-	wg.Wait()
+	// The group func never returns an error; Wait is only the barrier.
+	_ = group.Wait()
 	return results, passed
 }
