@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.14.1] - 2026-08-09
+
+### 🐛 Bug Fixes
+
+- _(k3d)_ Remove custom eviction hard kubelet argument
+
 ## [1.14.0] - 2026-08-09
 
 ### 🚀 Features
