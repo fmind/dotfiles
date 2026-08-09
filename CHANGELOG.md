@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.15.0] - 2026-08-09
+
+### 🚀 Features
+
+- _(dot,nvim)_ Add completion tools and fix likec4 loading
+
 ## [1.14.1] - 2026-08-09
 
 ### 🐛 Bug Fixes
