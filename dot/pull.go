@@ -264,8 +264,6 @@ func defaultPullConfig() PullConfig {
 			"~/fmind",
 			"~/fmind-ai",
 			"~/mlops-courses",
-			"~/externals",
-			"~/externals/workspaces",
 		},
 		Timeout:     Duration(defaultPullTimeout),
 		Concurrency: defaultPullConcurrency,
