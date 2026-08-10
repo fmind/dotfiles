@@ -55,13 +55,16 @@ func TestNewAgentCmd(t *testing.T) {
 		alias string
 		found bool
 	}{
-		"agy":      {alias: "", found: false},
-		"claude":   {alias: "", found: false},
-		"codex":    {alias: "", found: false},
-		"opencode": {alias: "", found: false},
-		"copilot":  {alias: "", found: false},
+		"list":     {alias: "l", found: false},
+		"show":     {alias: "w", found: false},
+		"export":   {alias: "e", found: false},
+		"agy":      {alias: "a", found: false},
+		"claude":   {alias: "c", found: false},
+		"codex":    {alias: "x", found: false},
+		"opencode": {alias: "o", found: false},
+		"copilot":  {alias: "p", found: false},
 		"sync":     {alias: "s", found: false},
-		"migrate":  {alias: "", found: false},
+		"migrate":  {alias: "m", found: false},
 	}
 
 	for _, sub := range sessionCmd.Commands {

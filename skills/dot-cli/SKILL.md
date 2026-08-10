@@ -52,9 +52,9 @@ Runs target-based cleanup using rules defined in `~/.config/dot.yaml`. Nothing i
 
 Ingests and verifies cross-agent transcripts in `~/.agents/sessions/v1/`.
 
-- `dot agent doctor` (`a doctor`): Check persona, hooks, skills, and store health. Use `--fix` (`-f`) to trigger a targeted chezmoi repair on hook mismatches.
-- `dot agent session sync`: Ingest and validate agent transcripts into the append-only store.
-- `dot agent session migrate`: Migrate legacy agent sessions into the versioned store (`--apply` to execute).
+- `dot agent doctor` (`a d`): Check persona, hooks, skills, and store health. Use `--fix` (`-f`) to trigger a targeted chezmoi repair on hook mismatches.
+- `dot agent session sync` (`a s s`): Ingest and validate agent transcripts into the append-only store.
+- `dot agent session migrate` (`a s m`): Migrate legacy agent sessions into the versioned store (`--apply` to execute).
 
 ### Cluster Diagnostics (`dot cluster` / `k`)
 

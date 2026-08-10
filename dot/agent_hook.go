@@ -31,18 +31,21 @@ type hookFailureRecord struct {
 
 func NewAgentHookCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
-		Name:  "hook",
-		Usage: "Run an observable agent hook and spool bounded failure metadata",
+		Name:    "hook",
+		Aliases: []string{"h"},
+		Usage:   "Run an observable agent hook and spool bounded failure metadata",
 		Commands: []*cli.Command{
 			{
-				Name:  "copilot-session-end",
-				Usage: "Use Copilot sessionEnd metadata to trigger non-blocking targeted sync",
+				Name:    "copilot-session-end",
+				Aliases: []string{"c"},
+				Usage:   "Use Copilot sessionEnd metadata to trigger non-blocking targeted sync",
 				Action: func(ctx context.Context, _ *cli.Command) error {
 					return RunCopilotSessionEndHook(ctx, state)
 				},
 			},
 			{
 				Name:      "session",
+				Aliases:   []string{"s"},
 				Usage:     "Run a session-ingestion hook",
 				ArgsUsage: "<agent> [session-id] [cwd]",
 				Action: func(ctx context.Context, cmd *cli.Command) error {
@@ -51,6 +54,7 @@ func NewAgentHookCmd(state *GlobalState) *cli.Command {
 			},
 			{
 				Name:      "notify",
+				Aliases:   []string{"n"},
 				Usage:     "Run an agent notification hook",
 				ArgsUsage: "<agent> <event>",
 				Action: func(ctx context.Context, cmd *cli.Command) error {

@@ -49,8 +49,9 @@ type agentLineageSummary struct {
 
 func NewAgentDoctorCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
-		Name:  "doctor",
-		Usage: "Check cross-agent discovery, hooks, sources, and ingestion health",
+		Name:    "doctor",
+		Aliases: []string{"d"},
+		Usage:   "Check cross-agent discovery, hooks, sources, and ingestion health",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: "fix", Aliases: []string{"f"}, Usage: "Apply the managed agent integration targets with chezmoi"},
 			&cli.BoolFlag{Name: "dry-run", Aliases: []string{"N"}, Usage: "Preview --fix without changing deployed files"},

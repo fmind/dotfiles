@@ -16,7 +16,7 @@ import (
 func NewPrCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
 		Name:    "pull-request",
-		Aliases: []string{"pr"},
+		Aliases: []string{"pr", "b"},
 		Usage:   "Generate a GitHub Pull Request description from git diff using AI, and invoke gh pr create",
 		Flags: []cli.Flag{
 			&cli.StringFlag{

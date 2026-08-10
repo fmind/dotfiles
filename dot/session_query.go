@@ -51,9 +51,10 @@ type SessionExport struct {
 
 func NewAgentSessionListCmd(state *GlobalState) *cli.Command {
 	return &cli.Command{
-		Name:  "list",
-		Usage: "List normalized session metadata",
-		Flags: sessionQueryFlags(),
+		Name:    "list",
+		Aliases: []string{"l"},
+		Usage:   "List normalized session metadata",
+		Flags:   sessionQueryFlags(),
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			query, err := sessionQueryFromCommand(cmd)
 			if err != nil {
@@ -67,9 +68,10 @@ func NewAgentSessionListCmd(state *GlobalState) *cli.Command {
 func NewAgentSessionShowCmd(state *GlobalState) *cli.Command {
 	flags := append(sessionQueryFlags(), &cli.BoolFlag{Name: "content", Usage: "Include prompt and response content"})
 	return &cli.Command{
-		Name:  "show",
-		Usage: "Show one session generation by session or lineage identity",
-		Flags: flags,
+		Name:    "show",
+		Aliases: []string{"w"},
+		Usage:   "Show one session generation by session or lineage identity",
+		Flags:   flags,
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			query, err := sessionQueryFromCommand(cmd)
 			if err != nil {
@@ -93,9 +95,10 @@ func NewAgentSessionExportCmd(state *GlobalState) *cli.Command {
 		&cli.BoolFlag{Name: "redact-content", Usage: "Include records with content replaced by [redacted]"},
 	)
 	return &cli.Command{
-		Name:  "export",
-		Usage: "Export sessions with a stable versioned schema",
-		Flags: flags,
+		Name:    "export",
+		Aliases: []string{"e"},
+		Usage:   "Export sessions with a stable versioned schema",
+		Flags:   flags,
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			query, err := sessionQueryFromCommand(cmd)
 			if err != nil {

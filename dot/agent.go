@@ -128,8 +128,13 @@ func NewAgentSessionCmd(state *GlobalState) *cli.Command {
 		if !ok {
 			continue
 		}
+		var aliases []string
+		if definition.Alias != "" {
+			aliases = []string{definition.Alias}
+		}
 		commands = append(commands, &cli.Command{
 			Name:      definition.Agent,
+			Aliases:   aliases,
 			Usage:     entry.Usage,
 			ArgsUsage: "[SESSION-ID] [CWD]",
 			Action: func(ctx context.Context, cmd *cli.Command) error {
@@ -144,8 +149,9 @@ func NewAgentSessionCmd(state *GlobalState) *cli.Command {
 		Commands: append(commands,
 			NewAgentSessionSyncCmd(state),
 			&cli.Command{
-				Name:  "migrate",
-				Usage: "Select the most complete legacy transcript per lineage without deleting evidence",
+				Name:    "migrate",
+				Aliases: []string{"m"},
+				Usage:   "Select the most complete legacy transcript per lineage without deleting evidence",
 				Flags: []cli.Flag{
 					&cli.BoolFlag{Name: "apply", Usage: "Write selected transcripts to the versioned store (default is dry-run)"},
 				},

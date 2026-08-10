@@ -31,6 +31,8 @@ const (
 type agentDefinition struct {
 	// Agent is the canonical short name used in stores, flags, and hook arguments.
 	Agent string
+	// Alias is the 1-letter shortcut for subcommand invocation under agent session.
+	Alias string
 	// Source is the ~-relative root of the agent's raw transcript store: a directory
 	// for the file-based agents, a database file for the SQLite-backed ones.
 	Source string
@@ -60,6 +62,7 @@ func agentDefinitions() []agentDefinition {
 	return []agentDefinition{
 		{
 			Agent:         sessionStoreAgy,
+			Alias:         "a",
 			Source:        "~/.gemini/antigravity-cli/brain",
 			PersonaPath:   "~/.gemini/GEMINI.md",
 			SkillsPath:    "~/.gemini/config/skills",
@@ -71,6 +74,7 @@ func agentDefinitions() []agentDefinition {
 		},
 		{
 			Agent:         sessionStoreClaude,
+			Alias:         "c",
 			Source:        "~/.claude/projects",
 			PersonaPath:   "~/.claude/CLAUDE.md",
 			SkillsPath:    "~/.claude/skills",
@@ -82,6 +86,7 @@ func agentDefinitions() []agentDefinition {
 		},
 		{
 			Agent:         sessionStoreCodex,
+			Alias:         "x",
 			Source:        "~/.codex/sessions",
 			PersonaPath:   "~/.codex/AGENTS.md",
 			HookPath:      "~/.codex/config.toml",
@@ -91,6 +96,7 @@ func agentDefinitions() []agentDefinition {
 		},
 		{
 			Agent:         sessionStoreOpenCode,
+			Alias:         "o",
 			Source:        "~/.local/share/opencode/opencode.db",
 			PersonaPath:   "~/.config/opencode/opencode.json",
 			HookPath:      "~/.config/opencode/plugins/session-log.ts",
@@ -100,6 +106,7 @@ func agentDefinitions() []agentDefinition {
 		},
 		{
 			Agent:        sessionStoreCopilot,
+			Alias:        "p",
 			Source:       "~/.copilot/session-store.db",
 			PersonaPath:  "~/.copilot/copilot-instructions.md",
 			HookPath:     "~/.copilot/hooks/session-log.json",

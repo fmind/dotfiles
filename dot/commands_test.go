@@ -1376,3 +1376,60 @@ func TestGatherStatus(t *testing.T) {
 		t.Errorf("Unexpected repository status: %+v", repo)
 	}
 }
+
+func TestOneLetterPathToEveryCommand(t *testing.T) {
+	app := NewApp()
+
+	var validate func(parentPath string, cmd *cli.Command)
+	validate = func(parentPath string, cmd *cli.Command) {
+		if strings.HasPrefix(cmd.Name, "_") || cmd.Name == "help" {
+			return
+		}
+
+		currentPath := strings.TrimSpace(parentPath + " " + cmd.Name)
+
+		hasOneLetter := len(cmd.Name) == 1
+		if !hasOneLetter {
+			for _, alias := range cmd.Aliases {
+				if len(alias) == 1 {
+					hasOneLetter = true
+					break
+				}
+			}
+		}
+
+		if !hasOneLetter {
+			t.Errorf("command %q (path %q) has no 1-letter name or alias; every command must be reachable via a 1-letter path", cmd.Name, currentPath)
+		}
+
+		seenOneLetters := make(map[string]string)
+		for _, sub := range cmd.Commands {
+			if strings.HasPrefix(sub.Name, "_") || sub.Name == "help" {
+				continue
+			}
+			var subOneLetter string
+			if len(sub.Name) == 1 {
+				subOneLetter = sub.Name
+			} else {
+				for _, alias := range sub.Aliases {
+					if len(alias) == 1 {
+						subOneLetter = alias
+						break
+					}
+				}
+			}
+			if subOneLetter != "" {
+				if prev, exists := seenOneLetters[subOneLetter]; exists {
+					t.Errorf("subcommand %q under %q reuses 1-letter alias/name %q (already used by %q)", sub.Name, currentPath, subOneLetter, prev)
+				} else {
+					seenOneLetters[subOneLetter] = sub.Name
+				}
+			}
+			validate(currentPath, sub)
+		}
+	}
+
+	for _, cmd := range app.Commands {
+		validate("dot", cmd)
+	}
+}
