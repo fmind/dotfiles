@@ -1962,45 +1962,6 @@ checksum = "sha256:fc8ccb4126737aae85cc9fbc6f95b161bf8bbb676bf02d4bb6196ec02c709
 url = "https://github.com/hatoo/oha/releases/download/v1.15.0/oha-macos-amd64"
 url_api = "https://api.github.com/repos/hatoo/oha/releases/assets/473313931"
 
-[[tools.ollama]]
-version = "0.32.6"
-backend = "aqua:ollama/ollama"
-
-[tools.ollama."platforms.linux-arm64"]
-checksum = "sha256:18fecc359b9366a8462e664d9eccf11e8405e5101fe968ee141689106eea0bd2"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.6/ollama-linux-arm64.tar.zst"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/502957823"
-
-[tools.ollama."platforms.linux-arm64-musl"]
-checksum = "sha256:18fecc359b9366a8462e664d9eccf11e8405e5101fe968ee141689106eea0bd2"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.6/ollama-linux-arm64.tar.zst"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/502957823"
-
-[tools.ollama."platforms.linux-x64"]
-checksum = "sha256:dec2fa50d24e6868ca3c4c977d69d059399372105f951a9acc320a5a79aadcfc"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.6/ollama-linux-amd64.tar.zst"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/502957772"
-
-[tools.ollama."platforms.linux-x64-musl"]
-checksum = "sha256:dec2fa50d24e6868ca3c4c977d69d059399372105f951a9acc320a5a79aadcfc"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.6/ollama-linux-amd64.tar.zst"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/502957772"
-
-[tools.ollama."platforms.macos-arm64"]
-checksum = "sha256:c256147703b0b24a9871ec9f94fc108f18cf87ff043aebd6f7e4a95fcfb4f042"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.6/ollama-darwin.tgz"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/502957737"
-
-[tools.ollama."platforms.macos-x64"]
-checksum = "sha256:c256147703b0b24a9871ec9f94fc108f18cf87ff043aebd6f7e4a95fcfb4f042"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.6/ollama-darwin.tgz"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/502957737"
-
-[tools.ollama."platforms.windows-x64"]
-checksum = "sha256:756dd7e41fbde34b8869bd7106d626d913a566cce4d0a95a61aa0579f455ddbc"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.6/ollama-windows-amd64.zip"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/502957702"
-
 [[tools.opencode]]
 version = "1.18.15"
 backend = "aqua:anomalyco/opencode"
@@ -2093,12 +2054,12 @@ version = "3.14.7"
 backend = "core:python"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:a3a4e4b81b138960c7c546694df8a77578c0b6aa46d47e96f49b9e10e8f860c9"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260805/cpython-3.14.7+20260805-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:a2478d654ed51d443bae21ec20ad927f116b4f5aae4094ab74918a6aa38f0575"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260807/cpython-3.14.7+20260807-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:abbf6e8530a283ed795fa91fd6bcf4501e2b1fa287b2cb1c15b70d3028f3a7c9"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260805/cpython-3.14.7+20260805-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:532645be202d3df8510ab318ca5faed92060a694c8327144e14fa81f31af0f6d"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260807/cpython-3.14.7+20260807-aarch64-apple-darwin-install_only_stripped.tar.gz"
 
 [[tools.ripgrep]]
 version = "15.2.0"
