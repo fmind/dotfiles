@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.15.2] - 2026-08-10
+
+### ♻️ Refactor
+
+- _(dot)_ Remove externals pull dirs and update agent clean prefixes
+
 ## [1.15.1] - 2026-08-10
 
 ### 🧹 Miscellaneous
