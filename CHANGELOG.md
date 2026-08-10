@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.16.0] - 2026-08-10
+
+### 🚀 Features
+
+- _(dot)_ Add 1-letter path aliases for agent and query commands
+
 ## [1.15.2] - 2026-08-10
 
 ### ♻️ Refactor
