@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.15.1] - 2026-08-10
+
+### 🧹 Miscellaneous
+
+- _(mise)_ Remove ollama
+
 ## [1.15.0] - 2026-08-09
 
 ### 🚀 Features
