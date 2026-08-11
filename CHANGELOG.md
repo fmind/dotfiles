@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.17.0] - 2026-08-11
+
+### 🚀 Features
+
+- _(skills)_ Add handover skill and GOTH asset bundling
+
 ## [1.16.0] - 2026-08-10
 
 ### 🚀 Features
