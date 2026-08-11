@@ -41,4 +41,5 @@ A change is complete only when, locally, `mise run format` is clean, `mise run c
 - `mise.toml` — task runner and pinned toolchain; `lefthook.yml` — git hooks.
 - `.golangci.yml` — linter and formatter config; `dprint.json` — config/markup formatter.
 - `.env` / `.env.example` — environment configuration (never commit secrets).
-- (web) `server.go`, `middleware.go`, `telemetry.go`, `templates/`, `static/`, `.air.toml`.
+- (web) `server.go`, `middleware.go`, `telemetry.go`, `templates/`, `.air.toml`.
+- (web) `assets/` — authored CSS and JS sources; edit these. `static/` — generated bundles and pinned vendor libraries, embedded into the binary via `go:embed`; never edit by hand.

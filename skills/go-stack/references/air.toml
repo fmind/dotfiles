@@ -5,7 +5,11 @@ tmp_dir = "tmp"
 cmd = "go tool templ generate && go build -o ./tmp/main ./cmd/<slug>"
 bin = "./tmp/main"
 delay = 1000
-exclude_dir = ["tmp", "vendor"]
-include_ext = ["go", "css", "templ"]
+# assets/ is excluded because the tailwindcss and esbuild watchers already own it:
+# a source edit there rewrites static/css/dist.css or static/js/dist.js, and *that*
+# write is what has to rebuild the binary (the outputs are embedded via go:embed).
+# Watching both would rebuild twice per edit, the first time against a stale bundle.
+exclude_dir = ["assets", "tmp", "vendor"]
+include_ext = ["go", "css", "js", "templ"]
 exclude_regex = ["_test.go", "_templ.go"]
 stop_on_error = true

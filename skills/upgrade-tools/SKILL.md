@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/upgrade-tools
   created: 2026-07-05
-  updated: 2026-08-02
+  updated: 2026-08-11
 ---
 
 # Upgrade Tools & Dependencies
@@ -21,6 +21,17 @@ Bump every pinned tool and dependency in a repository to its **latest stable** v
 - **Validate, don't trust**: an upgrade isn't done until `mise run check` and `mise run test` pass. A green pre-existing baseline makes regressions obvious.
 - **Respect semver majors**: `go get -u` / `uv lock --upgrade` stay within declared majors; a major bump is a deliberate, separately-reviewed change.
 
+## Order of Operations
+
+Ecosystems are not independent, so sequence matters. Run only the sections a repository actually has, in this order, validating between each:
+
+1. **mise first.** It provisions the toolchain every later step runs — bumping `go`, `uv`, `tofu`, or `dprint` after using the old binaries means re-validating everything.
+1. **Language dependencies next** (Go, Python, Rust, Node), because they determine whether the new toolchain compiles the project at all.
+1. **Infrastructure and images after that** (OpenTofu, Dockerfile bases), which consume the language artifacts.
+1. **CI and formatter config last** (GitHub Actions, dprint), the outermost layer and the least likely to cascade.
+
+Stop at the first ecosystem that fails and fix it before continuing. Bumping the remaining ecosystems on top of a broken one is what turns a ten-minute upgrade into an afternoon of bisecting.
+
 ## Per-Manifest Playbook
 
 ### mise — tool versions (`mise.toml`, `mise.lock`)
@@ -33,6 +44,8 @@ mise lock             # refresh the lockfile to match installed versions
 ```
 
 This repo orchestrates home + repo configs in one task — see the top-level `mise run upgrade` (bumps `~/.config/mise` and the repo, re-locks, applies, reinstalls). Commit the updated `dot_config/mise/mise.lock`.
+
+`mise upgrade --bump` covers every backend in one pass — registry short names plus `aqua:`, `github:`, `go:`, `npm:`, and `pipx:` entries. Tools pinned there need no separate ecosystem step; a `npm:` or `go:` tool in `mise.toml` is a mise pin, not a project dependency. Re-pin anything deliberately held back (a comment above the pin should say why, as with a parser ABI or a broken upstream asset) instead of letting `--bump` carry it forward silently.
 
 ### Go — modules & tools (`go.mod`, `go.sum`)
 
@@ -52,6 +65,17 @@ uv sync                         # install the upgraded set
 ```
 
 Raise `requires-python` and dependency floors only when you rely on a newer feature; keep pre-1.0 tools range-pinned. To bump constraints inside `pyproject.toml`, run `uv add <package>@latest` or update the dependency array manually. Validate with `mise run check` + `mise run test`. See [python-stack](../python-stack/SKILL.md).
+
+### Hugo — theme & site modules (`go.mod`, `go.sum`)
+
+Hugo Modules ride on the Go module system, so a Hextra or theme bump is a Go module bump:
+
+```sh
+hugo mod get -u ./...           # bump every imported module (theme, mounts) to latest
+hugo mod tidy                   # prune modules the site no longer imports
+```
+
+Bump the `hugo-extended` pin in `mise.toml` in the same pass — a new theme release often requires a newer Hugo. Validate with `hugo --gc --minify` (or `mise run build`) and check rendered links with `lychee`. See [hugo](../hugo/SKILL.md).
 
 ### OpenTofu / Terraform — providers & modules (`.terraform.lock.hcl`)
 
@@ -107,4 +131,5 @@ Same shape — bump, then re-lock, then validate:
 - [OpenTofu: Dependency Lock File](https://opentofu.org/docs/language/files/dependency-lock/)
 - [Docker: Pinning Base Images](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#use-multi-stage-builds)
 - [dprint: config update](https://dprint.dev/cli/#update)
+- [Hugo Modules](https://gohugo.io/hugo-modules/)
 - [GitHub Actions: using third-party actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions)

@@ -39,6 +39,10 @@ templ Layout(title string, body templ.Component) {
 			<title>{ title }</title>
 			<!-- Hypermedia & Interactivity (HTMX & Alpine.js) served locally -->
 			<script src={ AssetPath("/static/vendor/htmx.min.js") } nonce={ GetNonce(ctx) }></script>
+			<!-- First-party bundle (esbuild). Deferred scripts run in document order, so
+			     keeping this above Alpine is what lets its alpine:init listener register
+			     components before Alpine boots. Swapping the two tags breaks them. -->
+			<script defer src={ AssetPath("/static/js/dist.js") } nonce={ GetNonce(ctx) }></script>
 			<script defer src={ AssetPath("/static/vendor/alpine.min.js") } nonce={ GetNonce(ctx) }></script>
 			<link href={ AssetPath("/static/css/dist.css") } rel="stylesheet"/>
 		</head>

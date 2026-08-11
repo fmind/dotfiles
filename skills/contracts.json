@@ -22,6 +22,7 @@
     "github-pull-request": ["gh", "git"],
     "github-repository": ["gh"],
     "go-stack": ["go", "mise"],
+    "handover": ["git"],
     "hugo": ["hugo", "lychee", "mise"],
     "implementation-plan": [],
     "incident-response": [],

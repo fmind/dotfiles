@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/go-stack
   created: 2026-06-23
-  updated: 2026-08-08
+  updated: 2026-08-11
 ---
 
 # Go Stack Standard (Go 1.26+)
@@ -16,7 +16,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 ## 1. Core & Quality Stack
 
 - **Go Version**: Target latest stable (Go 1.26+). Adopt current idioms mechanically — run `go fix ./...` (modernizers) and `gofumpt` rather than hand-porting.
-- **Dependency & Tooling**: Manage heavy standalone CLI tools via `mise.toml` ([mise.toml](references/mise.toml)) — `golangci-lint` (v2+), `lefthook`, `gotestsum`, `air` (web live reload) — to prevent `go.mod` dependency bloat and compile errors. Reserve the native `tool` directive in `go.mod` (Go 1.24+) for code generators and small Go-native utilities invoked as `go tool <name>` — `templ`, `goimports`, `gofumpt`, `govulncheck` (plus `sqlc`, `gomodifytags`, `impl` on demand).
+- **Dependency & Tooling**: Manage heavy standalone CLI tools via `mise.toml` ([mise.toml](references/mise.toml)) — `golangci-lint` (v2+), `lefthook`, `gotestsum`, `air` (web live reload), `esbuild` (web asset bundling) — to prevent `go.mod` dependency bloat and compile errors. Reserve the native `tool` directive in `go.mod` (Go 1.24+) for code generators and small Go-native utilities invoked as `go tool <name>` — `templ`, `goimports`, `gofumpt`, `govulncheck` (plus `sqlc`, `gomodifytags`, `impl` on demand).
 - **Task Runner & Hooks**: Use `mise.toml` ([mise.toml](references/mise.toml)) for commands (`install`, `format`, `check`, `test`, `build`, `watch`) per the [mise skill](../mise/SKILL.md). Use `lefthook` ([lefthook.yml](references/lefthook.yml)) for pre-commit (format → `check:leaks --staged` → check) and pre-push (test) per the [lefthook skill](../lefthook/SKILL.md). Order the hook commands with explicit `priority` (formatters low, `check` high) so formatters restage before `check` reads the files — lefthook sorts alphabetically otherwise.
 - **Linting & Formatting**: Clean markdown/JSON/YAML with `dprint` using the configuration maintained by the [dprint skill](../dprint/SKILL.md). Format Go files with `goimports`/`gofumpt`. Enforce zero-warning rule with `golangci-lint` ([golangci.yml](references/golangci.yml)).
 - **Testing**: Standard library `testing` (starters stay dependency-free); reach for `stretchr/testify` when you want richer assertions. Run with `gotestsum`.
@@ -45,7 +45,8 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
    - Write the typed config package `config/config.go` using [config.go](references/config.go) (`go mod tidy` pulls in `caarlos0/env`). CLI/agent projects may drop the web-only `Port` field; the [agent.go](references/agent.go) starter reads Vertex `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (auth via ADC — `gcloud auth application-default login`), already listed in `.env.example`.
    - For web:
      - Copy web server components: `server.go` ([server.go](references/server.go)), `server_test.go` ([server_test.go](references/server_test.go)), `middleware.go` ([middleware.go](references/middleware.go)), and `telemetry.go` ([telemetry.go](references/telemetry.go)).
-     - Copy templates ([layout.templ](references/layout.templ), [home.templ](references/home.templ)), stylesheet ([styles.css](references/styles.css)), and run `go run scripts/vendor.go` (using [vendor.go](references/vendor.go)) to self-host assets.
+     - Copy templates ([layout.templ](references/layout.templ), [home.templ](references/home.templ)) and the authored assets: `assets/css/styles.css` ([styles.css](references/styles.css)), `assets/js/app.js` ([app.js](references/app.js)), and `assets/js/components/user-card.js` ([user-card.js](references/user-card.js)).
+     - Run `go run scripts/vendor.go` (using [vendor.go](references/vendor.go)) to self-host the pinned third-party libraries into `static/vendor/`.
 1. **Git & Validation**:
    - Run `git init --initial-branch=main`.
    - Run verification sequence:
@@ -72,11 +73,14 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 
 - **Router**: Use `http.ServeMux` for native path-value routing (Go 1.22+). For middleware-heavy applications, use `go-chi/chi/v5`.
 - **Type-Safe REST**: Use **Huma** (`github.com/danielgtaylor/huma/v2`) to build APIs with automatic OpenAPI 3.1 & JSON Schema validation.
-- **UI Components (GOTH)**: Co-locate CSS/Alpine.js with `Templ`. Pass server-side structures to client-side components using JSON serialization.
+- **UI Components (GOTH)**: Co-locate one-off markup, styling, and state with `Templ`. Pass server-side structures to client-side components using JSON serialization. Promote an Alpine component out of the template and into an `assets/js/components/<name>.js` module once it grows methods or gets reused — see [home.templ](references/home.templ) for both forms side by side.
 - **Tailwind CSS v4**: CSS-First configuration compiled via the standalone `tailwindcss` binary managed by `mise` (no Node.js/JavaScript dependencies).
+- **JavaScript Bundling (esbuild)**: Bundle and minify first-party browser JavaScript with [esbuild](https://esbuild.github.io/) — one entry point (`assets/js/app.js`, see [app.js](references/app.js)) whose import graph is compiled into a single minified `static/js/dist.js`. esbuild is itself a Go program, so `mise` builds it through the `go` backend and the stack stays Node-free.
+- **Source/Output Split (`assets/` vs `static/`)**: `server.go` embeds the entire `static/` tree, so everything under it ships inside the binary. Authored sources therefore live in `assets/` (`assets/css/styles.css`, `assets/js/**`) and only build output plus pinned vendor libraries live in `static/`. The compiler never sees unminified sources, and the binary never carries them.
 - **Static Assets (Self-Hosted)**:
-  - Serve all assets (HTMX, Alpine, CSS) locally from `/static/` (embedded via `go:embed`).
+  - Serve all assets (HTMX, Alpine, CSS, first-party JS) locally from `/static/` (embedded via `go:embed`).
   - Cache-bust via in-memory content hash (`?v=hash`) and set long-term cache headers.
+  - The result is a genuinely single-file deployment: `mise run build` produces one binary with every stylesheet, script, and vendor library inside it — no sidecar asset directory, no CDN, no runtime fetch.
 - **Production HTTP**: Configure explicit `http.Server` timeouts (`ReadTimeout`, `WriteTimeout`, `IdleTimeout`).
 - **Tracing**: Call `SetupOTel(ctx, serviceName)` in `main` and defer its shutdown; `NewAppHandler` wraps the router in `otelhttp` so each request is a span and logs carry its `trace_id` (see §1 Diagnostics). Requires `go.opentelemetry.io/otel/{sdk,exporters/otlp/otlptrace/otlptracehttp}` and `contrib/instrumentation/net/http/otelhttp` — pulled in by `go mod tidy`.
 
@@ -155,12 +159,20 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 ├── middleware.go           // Standard HTTP middlewares
 ├── telemetry.go            // OpenTelemetry setup (SetupOTel) + slog trace correlation
 ├── README.md
+├── assets/                     // Authored sources — never embedded
+│   ├── css/
+│   │   └── styles.css          // Tailwind entry point
+│   └── js/
+│       ├── app.js              // esbuild entry point
+│       └── components/
+│           └── user-card.js    // One Alpine component per module
 ├── scripts/
 │   └── vendor.go
-├── static/
+├── static/                     // Build output + vendor — embedded via go:embed
 │   ├── css/
-│   │   ├── styles.css
-│   │   └── dist.css
+│   │   └── dist.css            // tailwindcss --minify
+│   ├── js/
+│   │   └── dist.js             // esbuild --bundle --minify
 │   └── vendor/
 │       ├── htmx.min.js
 │       └── alpine.min.js
@@ -194,10 +206,11 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 - **Go Tool Directive**: Go 1.24+ project tools declared in `go.mod` require direct `go tool` invocations. Keep heavyweight standalone tools such as `golangci-lint` and `gotestsum` in `mise.toml`; reserve the `tool` directive for code generators and small Go-native utilities that need module-level reproducibility.
 - **Port Conflicts**: Default address is `:8080`.
 - **Tailwind v4 CLI**: Compiled via the standalone `tailwindcss` CLI executable, provisioned by `mise install` (the `github` backend: `"github:tailwindlabs/tailwindcss"`). Because the reference `mise.toml` sets `run_auto_install = false`, run `mise install` once after `mise trust` — tools are not fetched on demand.
-- **Embedded Asset Updates**: Since assets are embedded via `go:embed`, running `go run` does not hot-reload static assets. Use `mise run watch` (`air` + Tailwind watch, both mise-provisioned) or rebuild to see updates.
-- **Committed Generated Code**: The reference `.gitignore` does not exclude `*_templ.go`, so commit the generated Templ code — `check`/CI compile `server.go` (which imports `templates`) without first running `build:templ` (only `test`/`build` regenerate it). `mise run test`'s `build:templ` keeps it fresh and CI's clean-tree check (`git status --porcelain`) catches staleness.
+- **Embedded Asset Updates**: Since assets are embedded via `go:embed`, running `go run` does not hot-reload static assets. Use `mise run watch` (`air` + Tailwind watch + esbuild watch, all mise-provisioned) or rebuild to see updates. `.air.toml` excludes `assets/` on purpose: the two asset watchers own that tree, and their writes into `static/` are what trigger air's rebuild. Watching both directories rebuilds twice per edit, the first time against a stale bundle.
+- **Committed Generated Code**: The reference `.gitignore` does not exclude `*_templ.go`, `static/css/dist.css`, or `static/js/dist.js`, so commit all three — `check`/CI compile `server.go` (which imports `templates` and embeds `static`) without first running the generators (only `test`/`build` regenerate them). `mise run test`'s `build:templ` keeps the Go code fresh and CI's clean-tree check (`git status --porcelain`) catches staleness in any of them. Deterministic output makes this safe: esbuild and Tailwind emit byte-identical bundles for identical sources, so a committed artifact only changes when a source does.
 - **Self-Hosted Assets**: Never reference CDNs at runtime; serve all assets locally. `scripts/vendor.go` fetches HTMX/Alpine once, pinned by version **and** sha256 (fails loudly on a hash mismatch), and commits them under `static/vendor/`; `install:vendor` is idempotent (skips when present), so normal installs never touch the network. Bump a version by editing its URL + hash together.
-- **No JS/TS Toolchain**: The GOTH stack is deliberately Node-free — Tailwind is the standalone `tailwindcss` binary, HTMX/Alpine are vendored. Never introduce `npm`/`npx`/`node`.
+- **No Node Toolchain**: The GOTH stack is deliberately Node-free — Tailwind is the standalone `tailwindcss` binary, `esbuild` is built from Go source by the `go` backend, and HTMX/Alpine are vendored as pinned files. Writing plain ES modules under `assets/js/` is expected; introducing `npm`/`npx`/`node`, a `package.json`, or an npm dependency is not. A browser library you actually need goes through `scripts/vendor.go` (pinned URL + sha256), not a package manager.
+- **Alpine Component Registration Order**: `Alpine.data()` registrations run on the `alpine:init` event, which fires when Alpine boots. Deferred scripts execute in document order, so [layout.templ](references/layout.templ) loads `static/js/dist.js` _before_ `static/vendor/alpine.min.js`. Reorder those two tags and every module-defined component silently fails to resolve — Alpine reports an undefined `x-data` expression, not a load-order error.
 - **Container Builds (`ko`)**: `mise run build:image` needs `ko` from the [containerize skill](../containerize/SKILL.md) — pin it per project (`go get -tool github.com/google/ko`) so image builds stay reproducible even where a global toolchain already provides `ko`.
 - **ADK Agents**: Require Go 1.26+ (per the `adk/v2` `go.mod`) and a `GOOGLE_API_KEY` (AI Studio) or Vertex AI ADC. `full.NewLauncher()` parses its own flags (stdlib `flag`, not `urfave/cli/v3`); ADK's separate `adkgo` scaffolding/deploy CLI is cobra-based.
 - **Transitive Vulnerabilities**: `govulncheck` (`check:vuln`) can flag a module you never imported directly — e.g. `google.golang.org/grpc`, pulled in transitively through the OTel/ADK exporters. Fix it by bumping the flagged module directly (`go get -u <module>`; `go mod tidy` afterward), not by adding an explicit `require` pin — a pin only goes stale again and Go's minimal-version-selection already picks it up once bumped.
@@ -209,6 +222,7 @@ Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI
 - [HTMX Documentation](https://htmx.org)
 - [Alpine.js Documentation](https://alpinejs.dev)
 - [Tailwind CSS v4](https://tailwindcss.com)
+- [esbuild Documentation](https://esbuild.github.io/) — [CLI flags](https://esbuild.github.io/api/#cli-parameters) for the bundling options used in `build:js`.
 - [ADK for Go](https://google.github.io/adk-docs/get-started/go/) — Agent Development Kit (agents).
 - Companion skills:
   - [hugo](../hugo/SKILL.md) — documentation and static sites (Hugo + Hextra); Go web _apps_ stay on GOTH (§4).

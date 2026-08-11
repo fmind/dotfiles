@@ -12,6 +12,9 @@ go = "latest"
 golangci-lint = "latest"
 gotestsum = "latest"
 lefthook = "latest"
+# esbuild is a Go program, so the go backend builds the real binary from source —
+# the npm package is only a distribution wrapper. The stack stays Node-free.
+"go:github.com/evanw/esbuild/cmd/esbuild" = "latest"
 # Tailwind v4 standalone CLI (web projects only)
 "github:tailwindlabs/tailwindcss" = "latest"
 
@@ -28,18 +31,27 @@ depends = ["build:go"]
 # On-demand: needs `ko` from the containerize skill (`go get -tool github.com/google/ko`).
 [tasks."build:image"]
 description = "Build production OCI image (ko)"
-depends = ["build:templ", "build:css"]
+depends = ["build:templ", "build:css", "build:js"]
 run = "go tool ko build ./cmd/$APP_NAME --bare"
 
 [tasks."build:css"]
 description = "Compile and minify Tailwind CSS"
-sources = ["static/css/styles.css", "**/*.go", "**/*.templ"]
+sources = ["assets/css/styles.css", "**/*.go", "**/*.templ"]
 outputs = ["static/css/dist.css"]
-run = "tailwindcss -i static/css/styles.css -o static/css/dist.css --minify"
+run = "tailwindcss -i assets/css/styles.css -o static/css/dist.css --minify"
+
+[tasks."build:js"]
+description = "Bundle and minify browser JavaScript (esbuild)"
+# One entry point, one output: esbuild follows the import graph from app.js, so
+# adding a module under assets/js/ needs no task change. IIFE (not ESM) keeps the
+# bundle loadable from a plain nonce'd <script> tag with no CORS or MIME setup.
+sources = ["assets/js/**/*.js"]
+outputs = ["static/js/dist.js"]
+run = "esbuild assets/js/app.js --bundle --minify --format=iife --target=es2022 --outfile=static/js/dist.js"
 
 [tasks."build:go"]
 description = "Compile production Go binary"
-depends = ["build:templ", "build:css"]
+depends = ["build:templ", "build:css", "build:js"]
 sources = ["go.mod", "go.sum", "**/*.go"]
 outputs = ["bin/{{env.APP_NAME}}"]
 run = "go build -o bin/$APP_NAME ./cmd/$APP_NAME"
@@ -78,7 +90,7 @@ run = "go tool govulncheck ./..."
 [tasks.clean]
 alias = "n"
 description = "Remove build artifacts and coverage files"
-run = "rm -rf bin/ coverage.out tmp/ static/css/dist.css"
+run = "rm -rf bin/ coverage.out tmp/ static/css/dist.css static/js/dist.js"
 
 [tasks.coverage]
 alias = "v"
@@ -142,7 +154,7 @@ run = "gotestsum --watch --format pkgname -- -race -coverprofile=coverage.out ./
 [tasks.watch]
 alias = "w"
 description = "Run the dev server with live reload"
-depends = ["watch:css", "watch:air"]
+depends = ["watch:css", "watch:js", "watch:air"]
 
 [tasks."watch:air"]
 hide = true
@@ -150,4 +162,10 @@ run = "air"
 
 [tasks."watch:css"]
 hide = true
-run = "tailwindcss -i static/css/styles.css -o static/css/dist.css --watch"
+run = "tailwindcss -i assets/css/styles.css -o static/css/dist.css --watch"
+
+# Rewrites static/js/dist.js on every change under assets/js/, which air sees as
+# an embedded-asset change and rebuilds the binary for (see .air.toml).
+[tasks."watch:js"]
+hide = true
+run = "esbuild assets/js/app.js --bundle --minify --format=iife --target=es2022 --outfile=static/js/dist.js --watch"

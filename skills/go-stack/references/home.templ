@@ -7,21 +7,31 @@ type User struct {
 }
 
 templ UserCard(user User) {
-	<!-- "Everything in the Same File" UI Component Paradigm -->
-	<!-- Pass Go models directly to Alpine.js via JSONString attribute serialization -->
+	<!-- Behaviour lives in assets/js/components/user-card.js and reaches the browser -->
+	<!-- through the esbuild bundle; the server passes the Go model into it by name. -->
+	<!-- Inline x-data is still right for one-off state (see Home below) — reach for a -->
+	<!-- module once a component has methods, or the same logic appears twice. -->
 	<div
-		x-data={ templ.JSONString(user) }
+		x-data={ "userCard(" + templ.JSONString(user) + ")" }
 		class="p-6 bg-zinc-900/60 border border-zinc-800 rounded-xl space-y-2"
 	>
-		<h3 class="text-lg font-bold text-zinc-100" x-text="name"></h3>
-		<p class="text-sm text-zinc-400" x-text="email"></p>
-		<!-- Execute inline functions using typesafe server values via JSFuncCall -->
-		<button
-			@click={ templ.JSFuncCall("console.log", "Initiated view for user ID: ", user.ID) }
-			class="mt-4 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition"
-		>
-			Audit Details (Console)
-		</button>
+		<h3 class="text-lg font-bold text-zinc-100" x-text="user.name"></h3>
+		<p class="text-sm text-zinc-400" x-text="user.email"></p>
+		<p class="text-xs text-zinc-500 font-mono" x-show="expanded" x-text="user.id"></p>
+		<div class="mt-4 flex gap-2">
+			<button
+				@click="toggle()"
+				class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 text-xs font-semibold rounded-lg transition"
+				x-text="expanded ? 'Hide ID' : 'Show ID'"
+			></button>
+			<!-- Execute inline functions using typesafe server values via JSFuncCall -->
+			<button
+				@click={ templ.JSFuncCall("console.log", "Initiated view for user ID: ", user.ID) }
+				class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition"
+			>
+				Audit Details (Console)
+			</button>
+		</div>
 	</div>
 }
 
