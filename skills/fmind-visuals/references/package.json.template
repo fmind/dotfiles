@@ -11,14 +11,14 @@
     "export": "slidev export"
   },
   "dependencies": {
-    "@slidev/cli": "^52.18.0",
+    "@slidev/cli": "^52.19.0",
     "@slidev/theme-default": "^0.25.0",
-    "vue": "^3.5.40"
+    "vue": "^3.5.41"
   },
   "devDependencies": {
-    "playwright-chromium": "^1.61.1"
+    "playwright-chromium": "^1.62.1"
   },
   "overrides": {
-    "dompurify": "^3.4.12"
+    "dompurify": "^3.4.13"
   }
 }

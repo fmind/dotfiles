@@ -10,14 +10,14 @@ authors = [{ name = "<holder>" }]
 dependencies = [
   # Application defaults — remove dependencies the selected profile does not import.
   "pydantic>=2.13.4",
-  "pydantic-settings>=2.14.2",
+  "pydantic-settings>=2.15.0",
   "structlog>=26.1.0",
   # Web (Litestar) — remove for CLI, agent, or library projects
-  "alembic>=1.18.5",
+  "alembic>=1.19.1",
   "asyncpg>=0.31.0",
-  "granian[reload]>=2.7.0",
+  "granian[reload]>=2.8.1",
   "litestar[standard]>=2.24.0",
-  "sqlalchemy>=2.0.51",
+  "sqlalchemy>=2.0.52",
 ]
 
 [dependency-groups]
@@ -29,9 +29,9 @@ dev = [
   "pytest-cov>=7.1.0",
   "pytest-watcher>=0.6.3",
   "pytest>=9.1.1",
-  "ruff>=0.16.1",
+  "ruff>=0.16.2",
   "testcontainers[postgres]>=4.15.0",  # web integration tests; drop for non-web projects
-  "ty>=0.0.65,<0.1",  # pre-1.0: pin a compatible range until it stabilizes
+  "ty>=0.0.70,<0.1",  # pre-1.0: pin a compatible range until it stabilizes
   "validate-pyproject>=0.25",
 ]
 
