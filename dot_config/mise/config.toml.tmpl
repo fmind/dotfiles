@@ -123,7 +123,11 @@ mirrord = "latest" # Connects local processes directly to Kubernetes
 neovim = "latest" # Extensible Vim-based text editor
 node = "lts" # Node.js JavaScript runtime
 oha = "latest" # HTTP load generator with live TUI (hyperfine for endpoints)
+{{- if eq .chezmoi.os "darwin" }}
+"asdf:virtualstaticvoid/asdf-ollama" = "latest" # Local open-weight model runtime (ASDF backend avoids macOS pax header tar error)
+{{- else }}
 ollama = "latest" # Local open-weight model runtime serving the account-free agent path
+{{- end }}
 opencode = "latest" # OpenCode AI agent CLI tool
 opentofu = "latest" # OpenTofu infrastructure as code CLI (open-source Terraform fork, default)
 pluto = "latest" # Detects deprecated Kubernetes API versions
