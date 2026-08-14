@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.17.1] - 2026-08-14
+
+### 🐛 Bug Fixes
+
+- _(mise)_ Use asdf backend for ollama on macOS (#76)
+
 ## [1.17.0] - 2026-08-11
 
 ### 🚀 Features
