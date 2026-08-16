@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.18.1] - 2026-08-16
+
+### 🐛 Bug Fixes
+
+- _(chezmoi)_ Prune stale agent config keys and pin compat sessions
+
 ## [1.18.0] - 2026-08-16
 
 ### 🚀 Features
