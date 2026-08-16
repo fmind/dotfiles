@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.18.3] - 2026-08-16
+
+### 📚 Documentation
+
+- _(fish)_ Drop the GROK_WEB_FETCH rationale comment
+
 ## [1.18.2] - 2026-08-16
 
 ### 🐛 Bug Fixes
