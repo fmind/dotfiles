@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.18.0] - 2026-08-16
+
+### 🚀 Features
+
+- _(grok)_ Integrate Grok Build CLI as a first-class agent
+
 ## [1.17.1] - 2026-08-14
 
 ### 🐛 Bug Fixes
