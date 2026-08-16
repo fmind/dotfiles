@@ -38,10 +38,11 @@ permission_mode = "always-approve"
 render_mermaid = "on"
 screen_mode = "fullscreen"
 show_timeline = false
-# simple_mode is the prompt editor and vim_mode is scrollback navigation. The prompt
-# stays on readline (Grok's vim editing is flagged experimental upstream); scrollback
-# keeps the vim keys used everywhere else.
-simple_mode = true
+# simple_mode is the prompt editor and vim_mode is scrollback navigation, and both are on
+# vim here so Grok matches Claude Code (editorMode), Codex (vim_mode_default), and readline
+# (dot_inputrc). Grok flags prompt vim editing as experimental: an empty prompt starts in
+# normal mode with focus on the scrollback, so "i" is what begins typing.
+simple_mode = false
 theme = "groknight"
 vim_mode = true
 voice_stt_language = "fr"
