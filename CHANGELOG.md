@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.18.2] - 2026-08-16
+
+### 🐛 Bug Fixes
+
+- _(grok)_ Correct the lock note now that mise checksums grok
+
 ## [1.18.1] - 2026-08-16
 
 ### 🐛 Bug Fixes
