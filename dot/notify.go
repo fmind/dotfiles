@@ -40,6 +40,7 @@ var notifyAgents = map[string]string{
 	"claude":      "Claude Code",
 	"codex":       "Codex",
 	"copilot":     "Copilot",
+	"grok":        "Grok Build",
 	"opencode":    "OpenCode",
 }
 

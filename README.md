@@ -12,7 +12,7 @@ Managed with [chezmoi](https://www.chezmoi.io/) (files) and [mise](https://mise.
 - **Shell** — [Fish](https://fishshell.com/) with [Starship](https://starship.rs/) prompt, [Atuin](https://atuin.sh/) history, [zoxide](https://github.com/ajeetdsouza/zoxide), and [fzf](https://github.com/junegunn/fzf).
 - **Editor** — [Neovim](https://neovim.io/) powered by [LazyVim](https://www.lazyvim.org/).
 - **Terminal** — [Ghostty](https://ghostty.org/) (GPU-accelerated) and [Zellij](https://zellij.dev/) workspace multiplexer.
-- **AI-CLI Integration** — Built-in setups for [OpenAI Codex](https://developers.openai.com/codex/) (`codex`), [Antigravity](https://antigravity.google/) (`agy`), [OpenCode](https://opencode.ai/), [Claude Code](https://claude.com/claude-code), and [GitHub Copilot](https://github.com/features/copilot) (`copilot`), sharing a unified persona (`AGENTS.md`) and skills.
+- **AI-CLI Integration** — Built-in setups for [OpenAI Codex](https://developers.openai.com/codex/) (`codex`), [Antigravity](https://antigravity.google/) (`agy`), [OpenCode](https://opencode.ai/), [Claude Code](https://claude.com/claude-code), [GitHub Copilot](https://github.com/features/copilot) (`copilot`), and [Grok Build](https://x.ai/build) (`grok`), sharing a unified persona (`AGENTS.md`) and skills.
 - **Agent Skills** — A library of 52 reusable [Agent Skills](https://agentskills.io) in [`skills/`](skills/), shared by every AI CLI above.
 - **Languages & Stacks** — Go and Python as the core languages, plus OpenTofu/Terraform for infrastructure, [Typst](https://typst.app/) for documents, and [Hugo](https://gohugo.io/) for sites — each with a pinned toolchain, formatter, linter, and test gate.
 - **Custom `dot` CLI** — A custom Go utility to pull workspace repos, manage local Kubernetes, generate commits, and handle logins. Source in [`dot/`](dot/).
@@ -109,6 +109,7 @@ Logins and session tokens initialized on demand or configured via local/workspac
 - **OpenAI Codex CLI**: `codex login` (or authenticate on-demand during use)
 - **Claude Code**: start `claude`, then run `/login` when authentication is required
 - **GitHub Copilot CLI**: start `copilot`, then run `/login` when authentication is required
+- **Grok Build CLI**: `grok login` (or set `XAI_API_KEY` for headless runs)
 - **Jules CLI**: `jules auth login`
 - **Workspace MCP Integrations**: Define PATs/tokens on-demand for workspace configurations:
   - `AIRTABLE_PAT` (Airtable)

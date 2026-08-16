@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -260,6 +261,17 @@ func TestHookInputPreservesSnakeCasePayload(t *testing.T) {
 	}
 }
 
+func TestHookInputNormalizesGrokCamelCasePayload(t *testing.T) {
+	var input HookInput
+	payload := []byte(`{"hookEventName":"stop","sessionId":"grok-123","cwd":"/workspace","workspaceRoot":"/workspace","stopHookActive":true}`)
+	if err := json.Unmarshal(payload, &input); err != nil {
+		t.Fatalf("unmarshal grok hook payload: %v", err)
+	}
+	if input.SessionID != "grok-123" || input.CWD != "/workspace" || !input.StopHookActive {
+		t.Errorf("grok hook payload not normalized: %+v", input)
+	}
+}
+
 func TestRunAgentSessionLogClaude(t *testing.T) {
 	tempDir := t.TempDir()
 	t.Setenv("HOME", tempDir)
@@ -322,6 +334,145 @@ func TestRunAgentSessionLogClaude(t *testing.T) {
 	}
 	if secondLine.Role != "assistant" || secondLine.Content != "hello back" || secondLine.CWD != cwd || secondLine.Model != "claude-3-5-sonnet" {
 		t.Errorf("unexpected second line: %+v", secondLine)
+	}
+}
+
+// grokUpdateLines is one Grok session: a prompt, reasoning that must not be
+// archived, an answer streamed as two chunks, and the turn-completion event.
+var grokUpdateLines = []string{
+	`{"timestamp":1786710429,"method":"session/update","params":{"sessionId":"01a0003d-822f-7032-a5cb-e9badb3abbbd","update":{"sessionUpdate":"user_message_chunk","content":{"type":"text","text":"hello grok"},"_meta":{"modelId":"grok-4.6"}},"_meta":{"eventId":"e-2"}}}`,
+	`{"timestamp":1786710433,"method":"session/update","params":{"sessionId":"01a0003d-822f-7032-a5cb-e9badb3abbbd","update":{"sessionUpdate":"agent_thought_chunk","content":{"type":"text","text":"secret reasoning"}},"_meta":{"promptId":"p-1"}}}`,
+	`{"timestamp":1786710434,"method":"session/update","params":{"sessionId":"01a0003d-822f-7032-a5cb-e9badb3abbbd","update":{"sessionUpdate":"agent_message_chunk","content":{"type":"text","text":"hello "}},"_meta":{"promptId":"p-1"}}}`,
+	`{"timestamp":1786710435,"method":"session/update","params":{"sessionId":"01a0003d-822f-7032-a5cb-e9badb3abbbd","update":{"sessionUpdate":"agent_message_chunk","content":{"type":"text","text":"back"}},"_meta":{"promptId":"p-1"}}}`,
+	`{"timestamp":1786710435,"method":"_x.ai/session/update","params":{"sessionId":"01a0003d-822f-7032-a5cb-e9badb3abbbd","update":{"sessionUpdate":"turn_completed","stop_reason":"end_turn"}}}`,
+}
+
+// writeGrokSession lays out one session the way Grok does: a percent-encoded working
+// directory, then the session ID, then the update stream.
+func writeGrokSession(t *testing.T, home, cwd, sessionID string) {
+	t.Helper()
+	sessionDir := filepath.Join(home, ".grok", "sessions", grokSessionDirectory(cwd), sessionID)
+	if err := os.MkdirAll(sessionDir, 0o700); err != nil {
+		t.Fatalf("failed to create grok session dir: %v", err)
+	}
+	content := strings.Join(grokUpdateLines, "\n")
+	if err := os.WriteFile(filepath.Join(sessionDir, grokTranscriptName), []byte(content), 0o600); err != nil {
+		t.Fatalf("failed to write grok session file: %v", err)
+	}
+}
+
+// readArchivedSessionLines returns the single archived transcript's decoded lines.
+func readArchivedSessionLines(t *testing.T, home string) []SessionLogLine {
+	t.Helper()
+	var logFiles []string
+	_ = filepath.WalkDir(filepath.Join(home, ".agents", "sessions"), func(path string, entry fs.DirEntry, err error) error {
+		if err == nil && !entry.IsDir() && strings.HasSuffix(entry.Name(), ".jsonl") {
+			logFiles = append(logFiles, path)
+		}
+		return nil
+	})
+	if len(logFiles) != 1 {
+		t.Fatalf("expected exactly 1 log file, found %d", len(logFiles))
+	}
+	content, err := os.ReadFile(logFiles[0])
+	if err != nil {
+		t.Fatalf("failed to read archived session: %v", err)
+	}
+	raws := strings.Split(strings.TrimSpace(string(content)), "\n")
+	lines := make([]SessionLogLine, 0, len(raws))
+	for _, raw := range raws {
+		var line SessionLogLine
+		if err := json.Unmarshal([]byte(raw), &line); err != nil {
+			t.Fatalf("failed to decode archived line: %v", err)
+		}
+		lines = append(lines, line)
+	}
+	return lines
+}
+
+func TestRunAgentSessionLogGrok(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	sessionID := "01a0003d-822f-7032-a5cb-e9badb3abbbd"
+	cwd := "/workspace/test"
+	writeGrokSession(t, home, cwd, sessionID)
+
+	if err := RunAgentSessionLogGrok(context.Background(), newTestState(&FakeRunner{}), sessionID, cwd); err != nil {
+		t.Fatalf("RunAgentSessionLogGrok failed: %v", err)
+	}
+
+	lines := readArchivedSessionLines(t, home)
+	if len(lines) != 2 {
+		t.Fatalf("expected exactly 2 log lines, got %d: %+v", len(lines), lines)
+	}
+	if lines[0].Role != "user" || lines[0].Content != "hello grok" || lines[0].CWD != cwd || lines[0].Model != "grok-4.6" {
+		t.Errorf("unexpected user line: %+v", lines[0])
+	}
+	// The two assistant chunks are one message, and the reasoning between them is
+	// machinery that must never reach the archive.
+	if lines[1].Role != "assistant" || lines[1].Content != "hello back" || lines[1].Model != "grok-4.6" {
+		t.Errorf("unexpected assistant line: %+v", lines[1])
+	}
+	if lines[0].TS != "2026-08-14T12:27:09Z" {
+		t.Errorf("unexpected timestamp: %q", lines[0].TS)
+	}
+	for _, line := range lines {
+		if strings.Contains(line.Content, "secret reasoning") {
+			t.Errorf("thought chunk leaked into the archive: %+v", line)
+		}
+	}
+}
+
+func TestRunAgentSessionLogGrokRecoversCWDFromStoreLayout(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	sessionID := "01a0003d-822f-7032-a5cb-e9badb3abbbd"
+	cwd := "/workspace/test"
+	writeGrokSession(t, home, cwd, sessionID)
+
+	// `dot agent session sync` has no hook payload, so the working directory has to
+	// come back out of the percent-encoded directory name.
+	if err := RunAgentSessionLogGrok(context.Background(), newTestState(&FakeRunner{}), sessionID, ""); err != nil {
+		t.Fatalf("RunAgentSessionLogGrok failed: %v", err)
+	}
+
+	lines := readArchivedSessionLines(t, home)
+	if len(lines) == 0 || lines[0].CWD != cwd {
+		t.Errorf("working directory not recovered from store layout: %+v", lines)
+	}
+}
+
+func TestRunAgentSessionLogGrokFindsRelocatedSession(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	sessionID := "01a0003d-822f-7032-a5cb-e9badb3abbbd"
+	writeGrokSession(t, home, "/workspace/elsewhere", sessionID)
+
+	// A session resumed from another directory is not under the CWD-derived path, so
+	// ingestion must fall back to scanning the store.
+	if err := RunAgentSessionLogGrok(context.Background(), newTestState(&FakeRunner{}), sessionID, "/workspace/test"); err != nil {
+		t.Fatalf("RunAgentSessionLogGrok failed: %v", err)
+	}
+
+	if lines := readArchivedSessionLines(t, home); len(lines) != 2 {
+		t.Errorf("expected the relocated session to be ingested, got %+v", lines)
+	}
+}
+
+func TestRawSessionIdentityGrokNamesTheDirectory(t *testing.T) {
+	root := filepath.Join("/store", "grok")
+	sessionDir := filepath.Join(root, "%2Fworkspace", "01a0003d-822f-7032-a5cb-e9badb3abbbd")
+
+	sessionID, recognized := rawSessionIdentity(root, filepath.Join(sessionDir, grokTranscriptName), sessionStoreGrok)
+	if !recognized || sessionID != "01a0003d-822f-7032-a5cb-e9badb3abbbd" {
+		t.Errorf("update stream not recognized: %q %v", sessionID, recognized)
+	}
+	// Retention must not treat the sibling streams as transcripts of their own.
+	if _, recognized := rawSessionIdentity(root, filepath.Join(sessionDir, "chat_history.jsonl"), sessionStoreGrok); recognized {
+		t.Error("chat_history.jsonl must not be recognized as a Grok transcript")
 	}
 }
 

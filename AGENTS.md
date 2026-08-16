@@ -78,7 +78,7 @@ The unified `dot` CLI command-line utility (source in `dot/`) is compiled to `~/
 
 Two assets are authored once and consumed by all agent CLIs:
 
-- **Persona** — `dot_agents/AGENTS.md` deploys to `~/.agents/AGENTS.md` (symlinked by Codex, Antigravity, OpenCode, Claude, Copilot).
+- **Persona** — `dot_agents/AGENTS.md` deploys to `~/.agents/AGENTS.md` (symlinked by Codex, Antigravity, OpenCode, Claude, Copilot, Grok).
 - **Skills** — `skills/` is symlinked to `~/.agents/skills/` (consumed by all agent CLIs).
 
 **Rule: every global skill lives in `skills/`.**
@@ -106,6 +106,7 @@ Two assets are authored once and consumed by all agent CLIs:
 - `dot_duckdbrc` — DuckDB CLI settings deployed to `~/.duckdbrc`.
 - `dot_gemini/` — Antigravity CLI config settings and symlinks deployed to `~/.gemini/`.
 - `dot_gitconfig.tmpl` — Global Git configuration template deployed to `~/.gitconfig`.
+- `dot_grok/` — Grok Build CLI partial configuration modifier, LSP servers, hooks, and persona/skills symlinks.
 - `dot_inputrc` — Readline prompt styling configurations deployed to `~/.inputrc`.
 - `dot_kube/` — kubectl settings deployed to `~/.kube/`.
 - `dot_local/` — Executables and application configurations deployed to `~/.local/`.

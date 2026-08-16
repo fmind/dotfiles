@@ -628,7 +628,7 @@ func defaultVerifyConfig() VerifyConfig {
 		// Keep in sync with the toolchain `mise run check` needs: gitleaks and
 		// trivy gate every commit, so a missing one fails the hook, not the scan.
 		Tools: []string{
-			"age", "agy", "chezmoi", "clasp", "claude", "codex", "copilot", "docker", "dprint", "gcloud", "gh", "git", "git-cliff", "gitleaks", "go", "gws",
+			"age", "agy", "chezmoi", "clasp", "claude", "codex", "copilot", "docker", "dprint", "gcloud", "gh", "git", "git-cliff", "gitleaks", "go", "grok", "gws",
 			"helm", "helmfile", "jules", "k3d", "k9s", "kubectl", "lefthook", "mise", "nvim",
 			"opencode", "python", "skaffold", "sqlite3", "trivy", "uv",
 		},

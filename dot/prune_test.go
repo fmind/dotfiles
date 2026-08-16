@@ -859,6 +859,7 @@ func TestDefaultPruneConfig(t *testing.T) {
 		"~/.claude/projects":                  {Source: sessionStoreClaude, KeepDays: 7},
 		"~/.codex/sessions":                   {Source: sessionStoreCodex, KeepDays: 7},
 		"~/.gemini/antigravity-cli/brain":     {Source: sessionStoreAgy, KeepDays: 7},
+		"~/.grok/sessions":                    {Source: sessionStoreGrok, KeepDays: 7},
 		"~/.local/share/opencode/opencode.db": {Source: sessionStoreOpenCode, KeepDays: 7},
 		"~/.copilot/session-store.db":         {Source: sessionStoreCopilot, KeepDays: 7},
 		// The normalized archive outlives the raw session logs it was distilled from.

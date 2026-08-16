@@ -74,6 +74,8 @@ func RunAgentHookSession(ctx context.Context, state *GlobalState, agent, session
 		err = RunAgentSessionLogClaude(ctx, state, sessionID, cwd)
 	case sessionStoreCodex:
 		err = RunAgentSessionLogCodex(ctx, state, sessionID, cwd)
+	case sessionStoreGrok:
+		err = RunAgentSessionLogGrok(ctx, state, sessionID, cwd)
 	case sessionStoreOpenCode:
 		err = RunAgentSessionLogOpencode(ctx, state, sessionID, cwd)
 	case sessionStoreCopilot:

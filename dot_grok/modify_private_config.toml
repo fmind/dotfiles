@@ -1,0 +1,97 @@
+# chezmoi:modify-template
+{{- $currentConfig := dict -}}
+{{- if ne (trim .chezmoi.stdin) "" -}}
+{{-   $currentConfig = fromToml .chezmoi.stdin -}}
+{{- end -}}
+{{- $managedConfig := fromToml `
+[cli]
+# mise pins grok and mise.lock records its digest, so a self-replacing binary would
+# silently break that pin: upgrades go through "mise run upgrade" instead.
+auto_update = false
+
+[features]
+# feedback is a separate sink from telemetry, so silencing one leaves the other on.
+# Matches Claude Code (feedbackSurveyRate = 0) and Codex (otel exporters = "none").
+feedback = false
+# lsp_tools exposes the "lsp" tool; ~/.grok/lsp.json declares the servers it drives.
+lsp_tools = true
+telemetry = false
+# Opt-in: compaction prefires a second pass, so a long session keeps more context.
+two_pass_compaction = true
+
+# Cross-session memory is experimental and off by default. Enabling it here matches the
+# memory already on for Claude Code (autoMemoryEnabled) and Codex ([features] memories).
+# Keyword recall (FTS5) works unauthenticated; vector recall adds an embedding call.
+[memory]
+enabled = true
+
+[models]
+# Only the effort is pinned. Grok's own default model already tracks the newest release,
+# so pinning "default" here would freeze this machine on today's model instead.
+default_reasoning_effort = "xhigh"
+
+[ui]
+compact_mode = true
+fork_secondary_model = "grok-4.5"
+max_thoughts_width = 120
+permission_mode = "always-approve"
+render_mermaid = "on"
+screen_mode = "fullscreen"
+show_timeline = false
+# simple_mode is the prompt editor and vim_mode is scrollback navigation. The prompt
+# stays on readline (Grok's vim editing is flagged experimental upstream); scrollback
+# keeps the vim keys used everywhere else.
+simple_mode = true
+theme = "groknight"
+vim_mode = true
+voice_stt_language = "fr"
+yolo = false
+
+# Grok's 120s bash timeout kills a "mise run test" long before it finishes, and its 64 KiB
+# output cap truncates the failure that matters. Both are raised to the budget Claude Code
+# already runs on (BASH_DEFAULT_TIMEOUT_MS = 300000).
+[toolset.bash]
+output_byte_limit = 131072
+timeout_secs = 300.0
+
+# Grok's own documentation states both true and false as the default for this key, so it
+# is pinned rather than inherited. False keeps gitignored-but-wanted files readable:
+# the built dot binary, skills/local-*, and every other ignored path in this checkout.
+[tools]
+respect_gitignore = false
+
+# web_fetch is enabled through GROK_WEB_FETCH in the fish environment. Off-allowlist
+# domains normally prompt, and always-approve answers those prompts, so the SSRF guard
+# is what actually bounds the tool: loopback stays unreachable, and private, link-local,
+# and cloud-metadata addresses stay blocked whatever this is set to.
+[toolset.web_fetch]
+allow_local = false
+
+# Grok reaches the shared persona and skills through its own ~/.grok symlinks, so every
+# vendor-compatibility *scan* is off. Left on (the default), Grok would load
+# ~/.agents/AGENTS.md a second time via ~/.claude/CLAUDE.md, and would run Claude Code's
+# hooks inside a Grok turn: desktop alerts labelled "Claude Code", and a
+# "dot agent hook session claude" that cannot resolve a Grok session ID.
+# Permission *rules* are deliberately not part of this: they have no compat toggle, so
+# Grok keeps reading ~/.claude/settings.json and inherits its bypassPermissions default.
+[compat.claude]
+agents = false
+hooks = false
+mcps = false
+rules = false
+skills = false
+
+[compat.cursor]
+agents = false
+hooks = false
+mcps = false
+rules = false
+skills = false
+
+` -}}
+{{- $desiredConfig := mergeOverwrite (dict) (deepCopy $currentConfig) $managedConfig -}}
+{{- if and (ne (trim .chezmoi.stdin) "") (deepEqual $currentConfig $desiredConfig) -}}
+{{ .chezmoi.stdin -}}
+{{- else -}}
+{{ $desiredConfig | toToml -}}
+{{- end -}}

@@ -32,6 +32,7 @@ const (
 	sessionStoreAgy      = "agy"
 	sessionStoreClaude   = "claude"
 	sessionStoreCodex    = "codex"
+	sessionStoreGrok     = "grok"
 	sessionStoreOpenCode = "opencode"
 	sessionStoreCopilot  = "copilot"
 )

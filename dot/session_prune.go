@@ -64,6 +64,14 @@ func rawSessionIdentity(root, path, source string) (string, bool) {
 		}
 		sessionID := extractCodexSessionID(strings.TrimSuffix(name, ".jsonl"))
 		return sessionID, isValidSessionID(sessionID)
+	case sessionStoreGrok:
+		// Grok names the session directory rather than the transcript, so identity
+		// comes from the parent and every sibling stream is rejected by name.
+		if name != grokTranscriptName {
+			return "", false
+		}
+		sessionID := filepath.Base(filepath.Dir(path))
+		return sessionID, isValidSessionID(sessionID)
 	case sessionStoreAgy:
 		if name != "transcript.jsonl" && name != "transcript_full.jsonl" {
 			return "", false

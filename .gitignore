@@ -4,6 +4,7 @@
 .claude/
 .codex/
 .gemini/
+.grok/
 .opencode/
 .ruff_cache/
 .venv/

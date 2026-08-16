@@ -95,6 +95,20 @@ func agentDefinitions() []agentDefinition {
 			Notifications: true,
 		},
 		{
+			Agent:       sessionStoreGrok,
+			Alias:       "g",
+			Source:      "~/.grok/sessions",
+			PersonaPath: "~/.grok/AGENTS.md",
+			SkillsPath:  "~/.grok/skills",
+			// Grok loads every JSON file under ~/.grok/hooks, so one file carries both
+			// surfaces and `dot agent doctor` can verify the whole wiring in one read.
+			HookPath:      "~/.grok/hooks/hooks.json",
+			HookCommands:  []string{"dot agent hook session grok", "dot agent hook notify grok stop"},
+			ProbeNames:    []string{"dot", "grok"},
+			HookJSON:      true,
+			Notifications: true,
+		},
+		{
 			Agent:         sessionStoreOpenCode,
 			Alias:         "o",
 			Source:        "~/.local/share/opencode/opencode.db",

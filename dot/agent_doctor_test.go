@@ -47,11 +47,14 @@ func setupHealthyAgentDoctor(t *testing.T) (*GlobalState, *strings.Builder, stri
 	writeDoctorLink(t, filepath.Join(home, ".claude", "CLAUDE.md"), persona)
 	writeDoctorLink(t, filepath.Join(home, ".claude", "skills"), skills)
 	writeDoctorLink(t, filepath.Join(home, ".codex", "AGENTS.md"), persona)
+	writeDoctorLink(t, filepath.Join(home, ".grok", "AGENTS.md"), persona)
+	writeDoctorLink(t, filepath.Join(home, ".grok", "skills"), skills)
 	writeDoctorLink(t, filepath.Join(home, ".copilot", "copilot-instructions.md"), persona)
 
 	writeDoctorFile(t, filepath.Join(home, ".gemini", "config", "hooks.json"), `{"hooks":["dot agent hook session agy","dot agent hook notify agy stop"]}`)
 	writeDoctorFile(t, filepath.Join(home, ".claude", "settings.json"), `{"hooks":["dot agent hook session claude","dot agent hook notify claude stop"]}`)
 	writeDoctorFile(t, filepath.Join(home, ".codex", "config.toml"), "command = \"dot agent hook session codex\"\ncommand = \"dot agent hook notify codex stop\"\n")
+	writeDoctorFile(t, filepath.Join(home, ".grok", "hooks", "hooks.json"), `{"hooks":["dot agent hook session grok","dot agent hook notify grok stop"]}`)
 	writeDoctorFile(t, filepath.Join(home, ".config", "opencode", "opencode.json"), `{"instructions":["~/.agents/AGENTS.md"]}`)
 	writeDoctorFile(t, filepath.Join(home, ".config", "opencode", "plugins", "session-log.ts"), "dot agent hook session opencode")
 	writeDoctorFile(t, filepath.Join(home, ".copilot", "hooks", "session-log.json"), `{"version":1,"hooks":{"sessionEnd":[{"bash":"dot agent hook copilot-session-end"}]}}`)
@@ -59,6 +62,7 @@ func setupHealthyAgentDoctor(t *testing.T) (*GlobalState, *strings.Builder, stri
 		filepath.Join(home, ".gemini", "antigravity-cli", "brain", ".keep"),
 		filepath.Join(home, ".claude", "projects", ".keep"),
 		filepath.Join(home, ".codex", "sessions", ".keep"),
+		filepath.Join(home, ".grok", "sessions", ".keep"),
 		filepath.Join(home, ".local", "share", "opencode", "opencode.db"),
 		filepath.Join(home, ".copilot", "session-store.db"),
 	} {
@@ -92,7 +96,7 @@ func TestAgentDoctorHealthyReadOnlyReport(t *testing.T) {
 		t.Fatalf("RunAgentDoctor returned an error: %v\n%s", err, output.String())
 	}
 	report := output.String()
-	for _, agent := range []string{sessionStoreAgy, sessionStoreClaude, sessionStoreCodex, sessionStoreOpenCode, sessionStoreCopilot} {
+	for _, agent := range []string{sessionStoreAgy, sessionStoreClaude, sessionStoreCodex, sessionStoreGrok, sessionStoreOpenCode, sessionStoreCopilot} {
 		if !strings.Contains(report, passIcon+" "+agent+":") {
 			t.Fatalf("missing healthy %s report: %s", agent, report)
 		}

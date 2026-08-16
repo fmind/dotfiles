@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -26,17 +27,22 @@ type HookInput struct {
 }
 
 // UnmarshalJSON normalizes the snake_case Claude/Codex hook payload and the
-// camelCase Antigravity payload into one canonical HookInput.
+// camelCase Antigravity and Grok payloads into one canonical HookInput.
 func (h *HookInput) UnmarshalJSON(data []byte) error {
 	var raw struct {
 		SessionID                 string   `json:"session_id"`
 		ConversationID            string   `json:"conversationId"`
+		GrokSessionID             string   `json:"sessionId"`
 		CWD                       string   `json:"cwd"`
 		TranscriptPath            string   `json:"transcript_path"`
 		AntigravityTranscriptPath string   `json:"transcriptPath"`
 		WorkspacePaths            []string `json:"workspacePaths"`
 		StopHookActive            bool     `json:"stop_hook_active"`
-		FullyIdle                 bool     `json:"fullyIdle"`
+		// Grok emits the whole envelope in camelCase, so the Claude-compatible
+		// stop guard only fires if its spelling is accepted too; without it a
+		// hook-continued turn notifies twice.
+		GrokStopHookActive bool `json:"stopHookActive"`
+		FullyIdle          bool `json:"fullyIdle"`
 	}
 	if err := json.Unmarshal(data, &raw); err != nil {
 		return err
@@ -45,6 +51,9 @@ func (h *HookInput) UnmarshalJSON(data []byte) error {
 	h.SessionID = raw.SessionID
 	if h.SessionID == "" {
 		h.SessionID = raw.ConversationID
+	}
+	if h.SessionID == "" {
+		h.SessionID = raw.GrokSessionID
 	}
 	h.CWD = raw.CWD
 	if h.CWD == "" {
@@ -59,7 +68,7 @@ func (h *HookInput) UnmarshalJSON(data []byte) error {
 	if h.TranscriptPath == "" {
 		h.TranscriptPath = raw.AntigravityTranscriptPath
 	}
-	h.StopHookActive = raw.StopHookActive
+	h.StopHookActive = raw.StopHookActive || raw.GrokStopHookActive
 	h.FullyIdle = raw.FullyIdle
 	return nil
 }
@@ -100,14 +109,15 @@ type agentSessionEntry struct {
 	Usage string
 }
 
-// agentSessionLoggers maps each agent to its ingestion entry. Keeping the five
-// agents in a table rather than five near-identical command literals means a new
-// agent is one entry, not a copy.
+// agentSessionLoggers maps each agent to its ingestion entry. Keeping the agents in
+// a table rather than in near-identical command literals means a new agent is one
+// entry, not a copy.
 func agentSessionLoggers() map[string]agentSessionEntry {
 	return map[string]agentSessionEntry{
 		sessionStoreAgy:      {RunAgentSessionLogAgy, "Process session end hook for Antigravity (agy)"},
 		sessionStoreClaude:   {RunAgentSessionLogClaude, "Process session end/stop hook for Claude Code"},
 		sessionStoreCodex:    {RunAgentSessionLogCodex, "Process session hook for OpenAI Codex"},
+		sessionStoreGrok:     {RunAgentSessionLogGrok, "Process session hook for Grok Build"},
 		sessionStoreOpenCode: {RunAgentSessionLogOpencode, "Process session hook for OpenCode"},
 		sessionStoreCopilot:  {RunAgentSessionLogCopilot, "Process a GitHub Copilot CLI session from its session store"},
 	}
@@ -827,6 +837,196 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 
 	_, err = writeSessionLogs(ctx, state, "codex", sessionID, logs, sessionSource{Type: "codex-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
 	return err
+}
+
+// grokTranscriptName is the ACP session-update stream Grok treats as the
+// authoritative conversation log; the sibling chat_history.jsonl is the raw model
+// wire format and carries the system prompt, which the archive must not keep.
+const grokTranscriptName = "updates.jsonl"
+
+// grokUpdateRoles maps the session-update kinds that carry conversation text to
+// canonical roles. Everything else in the stream — reasoning, tool calls, hook runs,
+// plan revisions — is machinery rather than the conversation.
+var grokUpdateRoles = map[string]string{
+	"user_message_chunk":  "user",
+	"agent_message_chunk": "assistant",
+}
+
+// grokSessionDirectory encodes a working directory the way Grok names its
+// per-project session folder: every path separator becomes %2F.
+func grokSessionDirectory(cwd string) string {
+	return url.PathEscape(cwd)
+}
+
+// grokCWDFromPath recovers the working directory a transcript belongs to from the
+// encoded first path segment. Subagent transcripts nest further down, so the segment
+// is taken relative to the store root rather than from the parent directories.
+func grokCWDFromPath(root, path string) string {
+	relative, err := filepath.Rel(root, path)
+	if err != nil {
+		return ""
+	}
+	parts := strings.Split(relative, string(filepath.Separator))
+	if len(parts) < 2 {
+		return ""
+	}
+	decoded, err := url.PathUnescape(parts[0])
+	if err != nil {
+		return ""
+	}
+	return decoded
+}
+
+// grokTimestamp renders the Unix-second stamp on every session update. A missing or
+// non-positive stamp stays empty so normalized output never invents a time.
+func grokTimestamp(value any) string {
+	seconds, ok := value.(float64)
+	if !ok || seconds <= 0 {
+		return ""
+	}
+	return time.Unix(int64(seconds), 0).UTC().Format(time.RFC3339)
+}
+
+// grokMessage accumulates the chunks of one streamed message. Grok emits text a
+// fragment at a time, so a message only exists once its run of chunks ends.
+type grokMessage struct {
+	Role     string
+	PromptID string
+	TS       string
+	Model    string
+	Parts    []string
+}
+
+// RunAgentSessionLogGrok reads a Grok Build session update stream and processes the session.
+func RunAgentSessionLogGrok(ctx context.Context, state *GlobalState, sessionID, cwd string) error {
+	identity, halt, err := resolveHookIdentity(state, sessionID, cwd, false)
+	if err != nil {
+		return err
+	}
+	if halt {
+		return nil
+	}
+	sessionID, cwd = identity.Session, identity.CWD
+
+	sessionsDir, err := state.Config.Agent.SourceRoot(sessionStoreGrok)
+	if err != nil {
+		return err
+	}
+
+	transcriptPath, err := hookTranscriptPath(identity, "grok")
+	if err != nil {
+		return err
+	}
+	if transcriptPath == "" {
+		transcriptPath, err = findGrokTranscript(sessionsDir, sessionID, cwd)
+		if err != nil {
+			return err
+		}
+	}
+	if cwd == "" {
+		cwd = resolveCWD(grokCWDFromPath(sessionsDir, transcriptPath))
+	}
+
+	fingerprint, stored, isStored, err := fingerprintStoredTranscript("grok", sessionID, transcriptPath)
+	if err != nil {
+		return err
+	}
+	if isStored {
+		reportStoredGeneration(state.Stderr, stored)
+		return nil
+	}
+
+	file, err := os.Open(transcriptPath)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = file.Close() }()
+
+	var logs []SessionLogLine
+	var current grokMessage
+	activeModel := ""
+	flush := func() {
+		content := strings.Join(current.Parts, "")
+		if current.Role == "" || strings.TrimSpace(content) == "" {
+			current = grokMessage{}
+			return
+		}
+		logs = append(logs, SessionLogLine{
+			TS:      current.TS,
+			Agent:   "grok",
+			SID:     sessionID,
+			Role:    current.Role,
+			Content: content,
+			CWD:     cwd,
+			Model:   current.Model,
+		})
+		current = grokMessage{}
+	}
+
+	decodeStats, decodeErr := decodeJSONLWithStats(state.Stderr, transcriptPath, file, func(raw map[string]any) error {
+		params := mapValue(raw["params"])
+		update := mapValue(params["update"])
+		if update == nil {
+			return nil
+		}
+		// The prompt's model is announced on the user chunk that opens the turn, so it
+		// stays active for the assistant chunks that answer it.
+		if model := stringValue(mapValue(update["_meta"])["modelId"]); model != "" {
+			activeModel = model
+		}
+
+		role, carriesText := grokUpdateRoles[stringValue(update["sessionUpdate"])]
+		if !carriesText {
+			return nil
+		}
+		text := stringValue(mapValue(update["content"])["text"])
+		if text == "" {
+			return nil
+		}
+
+		// One message is the run of chunks sharing a role and a prompt; either changing
+		// means the previous message is complete.
+		promptID := stringValue(mapValue(params["_meta"])["promptId"])
+		if current.Role != role || current.PromptID != promptID {
+			flush()
+			current = grokMessage{Role: role, PromptID: promptID, TS: grokTimestamp(raw["timestamp"]), Model: activeModel}
+		}
+		current.Parts = append(current.Parts, text)
+		return nil
+	})
+	if decodeErr != nil {
+		return decodeErr
+	}
+	flush()
+
+	_, err = writeSessionLogs(ctx, state, "grok", sessionID, logs, sessionSource{Type: "grok-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
+	return err
+}
+
+// findGrokTranscript locates one session's update stream. The CWD-derived path is
+// exact when the session ran where the hook says it did; the scan below covers a
+// session resumed from another directory or started in a worktree.
+func findGrokTranscript(sessionsDir, sessionID, cwd string) (string, error) {
+	if cwd != "" {
+		candidate := filepath.Join(sessionsDir, grokSessionDirectory(cwd), sessionID, grokTranscriptName)
+		_, statErr := os.Stat(candidate)
+		if statErr == nil {
+			return candidate, nil
+		}
+		if !errors.Is(statErr, os.ErrNotExist) {
+			return "", fmt.Errorf("failed to inspect expected Grok transcript %s: %w", candidate, statErr)
+		}
+	}
+	found, findErr := findSessionFile(sessionsDir, func(path string, entry fs.DirEntry) bool {
+		return entry.Name() == grokTranscriptName && filepath.Base(filepath.Dir(path)) == sessionID
+	})
+	if findErr != nil {
+		return "", fmt.Errorf("failed to search Grok transcripts in %s: %w", sessionsDir, findErr)
+	}
+	if found == "" {
+		return "", fmt.Errorf("session file not found for grok session %s", sessionID)
+	}
+	return found, nil
 }
 
 // OpencodeData represents the nested structure inside message.data for OpenCode.

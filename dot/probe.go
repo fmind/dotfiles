@@ -61,7 +61,7 @@ func CapabilityProbeRegistryWithTimeout(timeout time.Duration) map[string]Capabi
 		"age": {"--version"}, "agy": {"--help"}, "chezmoi": {"--version"}, "clasp": {"--version"},
 		"claude": {"--version"}, "codex": {"--version"}, "copilot": {"--version"}, "docker": {"--version"},
 		"dprint": {"--version"}, "gcloud": {"--version"}, "gh": {"--version"}, "git": {"--version"},
-		"git-cliff": {"--version"}, "gitleaks": {"version"}, "go": {"version"}, "gws": {"--version"},
+		"git-cliff": {"--version"}, "gitleaks": {"version"}, "go": {"version"}, "grok": {"--version"}, "gws": {"--version"},
 		"gdbus": {"help"}, "helm": {"version", "--short"}, "helmfile": {"--version"}, "jules": {"--version"}, "k3d": {"version"},
 		"k9s": {"version", "--short"}, "kubectl": {"version", "--client"}, "lefthook": {"version"}, "mise": {"--version"},
 		"notify-send": {"--help"}, "nvim": {"--version"}, "opencode": {"--version"}, "osascript": {"-e", "return \"ok\""}, "python": {"--version"}, "skaffold": {"version"},

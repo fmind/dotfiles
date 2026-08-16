@@ -71,9 +71,11 @@ func syncAgySessions(ctx context.Context, state, sourceState *GlobalState, root 
 }
 
 // syncTranscriptSessions walks a JSONL transcript tree, ingesting every file whose
-// name yields a session ID. The discovered path is handed to the per-agent logger as
-// a synthetic hook payload so it never has to rediscover the file.
-func syncTranscriptSessions(ctx context.Context, sourceState *GlobalState, root, label string, sessionIDOf func(name string) string, log agentSessionLogger) (int, error) {
+// path yields a session ID. The discovered path is handed to the per-agent logger as
+// a synthetic hook payload so it never has to rediscover the file. The whole path is
+// passed because not every agent names its transcript after the session: Grok names
+// the containing directory instead.
+func syncTranscriptSessions(ctx context.Context, sourceState *GlobalState, root, label string, sessionIDOf func(path string) string, log agentSessionLogger) (int, error) {
 	count := 0
 	walkErr := filepath.WalkDir(root, func(path string, entry fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
@@ -82,7 +84,7 @@ func syncTranscriptSessions(ctx context.Context, sourceState *GlobalState, root,
 		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".jsonl") {
 			return nil
 		}
-		sessionID := sessionIDOf(entry.Name())
+		sessionID := sessionIDOf(path)
 		if sessionID == "" {
 			return nil
 		}
@@ -160,7 +162,8 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 		return err
 	}
 	if present {
-		count, syncErr := syncTranscriptSessions(ctx, &noStdinState, claudeRoot, "Claude", func(name string) string {
+		count, syncErr := syncTranscriptSessions(ctx, &noStdinState, claudeRoot, "Claude", func(path string) string {
+			name := filepath.Base(path)
 			// memory.jsonl is hand-curated long-term memory, not a session transcript.
 			if name == "memory.jsonl" {
 				return ""
@@ -182,13 +185,36 @@ func RunAgentSessionSync(ctx context.Context, state *GlobalState) error {
 		return err
 	}
 	if present {
-		count, syncErr := syncTranscriptSessions(ctx, &noStdinState, codexRoot, "Codex", func(name string) string {
-			return extractCodexSessionID(strings.TrimSuffix(name, ".jsonl"))
+		count, syncErr := syncTranscriptSessions(ctx, &noStdinState, codexRoot, "Codex", func(path string) string {
+			return extractCodexSessionID(strings.TrimSuffix(filepath.Base(path), ".jsonl"))
 		}, RunAgentSessionLogCodex)
 		if syncErr != nil {
 			return syncErr
 		}
 		record(sessionStoreCodex, syncOutcome{verb: "checked", count: count})
+	}
+
+	grokRoot, err := cfg.SourceRoot(sessionStoreGrok)
+	if err != nil {
+		return err
+	}
+	present, err = sourceDirectoryExists(grokRoot, "Grok")
+	if err != nil {
+		return err
+	}
+	if present {
+		count, syncErr := syncTranscriptSessions(ctx, &noStdinState, grokRoot, "Grok", func(path string) string {
+			// Grok names the session directory, not the transcript, so every sibling
+			// stream (chat history, events, rewind points) is skipped by name.
+			if filepath.Base(path) != grokTranscriptName {
+				return ""
+			}
+			return filepath.Base(filepath.Dir(path))
+		}, RunAgentSessionLogGrok)
+		if syncErr != nil {
+			return syncErr
+		}
+		record(sessionStoreGrok, syncOutcome{verb: "checked", count: count})
 	}
 
 	opencodeDB, err := cfg.SourceRoot(sessionStoreOpenCode)
