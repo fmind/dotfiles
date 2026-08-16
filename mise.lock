@@ -143,12 +143,12 @@ version = "3.14.7"
 backend = "core:python"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:a2478d654ed51d443bae21ec20ad927f116b4f5aae4094ab74918a6aa38f0575"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260807/cpython-3.14.7+20260807-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:cefba034445d2875408d1fd4d5700ae6731563aeb54dcb39fd8164ab5c457533"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260814/cpython-3.14.7+20260814-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:532645be202d3df8510ab318ca5faed92060a694c8327144e14fa81f31af0f6d"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260807/cpython-3.14.7+20260807-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:423717c485b9ee7822590b9d973c1b5fb2cda0fe43448ab82a3d44f823bd329c"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260814/cpython-3.14.7+20260814-aarch64-apple-darwin-install_only_stripped.tar.gz"
 
 [[tools.ruff]]
 version = "0.16.3"
@@ -207,18 +207,18 @@ url = "https://github.com/JohnnyMorganz/StyLua/releases/download/v2.5.2/stylua-m
 url_api = "https://api.github.com/repos/JohnnyMorganz/StyLua/releases/assets/421901102"
 
 [[tools.trivy]]
-version = "0.73.0"
+version = "0.74.0"
 backend = "aqua:aquasecurity/trivy"
 
 [tools.trivy."platforms.linux-x64"]
-checksum = "sha256:2edd39da482bb4e9831962487b68f68e3928ec3137794757f54d00383d79547b"
-url = "https://github.com/aquasecurity/trivy/releases/download/v0.73.0/trivy_0.73.0_Linux-64bit.tar.gz"
-url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/499939909"
+checksum = "sha256:2ae6fe3ee734b7fdf11335663e18c75ea12dccc76062f09f164a3b0f8be4371a"
+url = "https://github.com/aquasecurity/trivy/releases/download/v0.74.0/trivy_0.74.0_Linux-64bit.tar.gz"
+url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/514339431"
 
 [tools.trivy."platforms.macos-arm64"]
-checksum = "sha256:80cc25faaf6378e37701202d0b4f9f43d9e413d198d594ba60fdf559fe44a683"
-url = "https://github.com/aquasecurity/trivy/releases/download/v0.73.0/trivy_0.73.0_macOS-ARM64.tar.gz"
-url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/499939985"
+checksum = "sha256:1caada5e0e2091909357c7525d3aa76f4b660b13821bc143b190c7483e31cc11"
+url = "https://github.com/aquasecurity/trivy/releases/download/v0.74.0/trivy_0.74.0_macOS-ARM64.tar.gz"
+url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/514339464"
 
 [[tools.zizmor]]
 version = "1.29.0"
