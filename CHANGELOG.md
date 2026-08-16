@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.19.0] - 2026-08-16
+
+### 🚀 Features
+
+- _(grok)_ Enable vim editing in the prompt
+
 ## [1.18.3] - 2026-08-16
 
 ### 📚 Documentation
