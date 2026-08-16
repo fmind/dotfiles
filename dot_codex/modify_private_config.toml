@@ -1,8 +1,4 @@
 # chezmoi:modify-template
-{{- $currentConfig := dict -}}
-{{- if ne (trim .chezmoi.stdin) "" -}}
-{{-   $currentConfig = fromToml .chezmoi.stdin -}}
-{{- end -}}
 {{- $managedConfig := fromToml `
 allow_login_shell = true
 approval_policy = "never"
@@ -70,9 +66,10 @@ web_search = { context_size = "high" }
 ` -}}
 {{- $_ := set $managedConfig "log_dir" (joinPath .chezmoi.homeDir ".codex/log") -}}
 {{- $_ = set $managedConfig "sqlite_home" (joinPath .chezmoi.homeDir ".codex/sqlite") -}}
-{{- $desiredConfig := mergeOverwrite (dict "personality" "pragmatic") (deepCopy $currentConfig) $managedConfig -}}
-{{- if and (ne (trim .chezmoi.stdin) "") (deepEqual $currentConfig $desiredConfig) -}}
-{{ .chezmoi.stdin -}}
-{{- else -}}
-{{ $desiredConfig | toToml -}}
-{{- end -}}
+{{- /* personality is a default rather than a managed key: it seeds a fresh config, then
+       stays whatever /personality last set it to. */ -}}
+{{- includeTemplate "toml-merge.tmpl" (dict
+      "stdin" .chezmoi.stdin
+      "managed" $managedConfig
+      "defaults" (dict "personality" "pragmatic")
+      "prune" list) -}}

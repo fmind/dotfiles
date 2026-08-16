@@ -1,12 +1,9 @@
 # chezmoi:modify-template
-{{- $currentConfig := dict -}}
-{{- if ne (trim .chezmoi.stdin) "" -}}
-{{-   $currentConfig = fromToml .chezmoi.stdin -}}
-{{- end -}}
 {{- $managedConfig := fromToml `
 [cli]
-# mise pins grok and mise.lock records its digest, so a self-replacing binary would
-# silently break that pin: upgrades go through "mise run upgrade" instead.
+# mise pins grok to an exact version, so a self-replacing binary would drift off that pin
+# and be swapped back on the next "mise install": upgrades go through "mise run upgrade"
+# instead. The http backend locks the version and URL only, with no checksum to verify.
 auto_update = false
 
 [features]
@@ -26,14 +23,17 @@ two_pass_compaction = true
 enabled = true
 
 [models]
-# Only the effort is pinned. Grok's own default model already tracks the newest release,
-# so pinning "default" here would freeze this machine on today's model instead.
+# Only the effort is pinned, and "default" is pruned below rather than left alone: Grok
+# persists whatever /model selects into this file, so leaving it would freeze the machine
+# on today's model instead of following Grok's own default as it tracks each new release.
 default_reasoning_effort = "xhigh"
 
 [ui]
 compact_mode = true
 fork_secondary_model = "grok-4.5"
 max_thoughts_width = 120
+# The config surface for always-approve. The [ui] yolo bool is a second, redundant spelling
+# of the same behaviour, so it is left out rather than pinned to a contradicting value.
 permission_mode = "always-approve"
 render_mermaid = "on"
 screen_mode = "fullscreen"
@@ -45,11 +45,10 @@ simple_mode = true
 theme = "groknight"
 vim_mode = true
 voice_stt_language = "fr"
-yolo = false
 
-# Grok's 120s bash timeout kills a "mise run test" long before it finishes, and its 64 KiB
-# output cap truncates the failure that matters. Both are raised to the budget Claude Code
-# already runs on (BASH_DEFAULT_TIMEOUT_MS = 300000).
+# Grok's bash defaults truncate a "mise run test" run twice over: the 120s timeout kills it
+# long before it finishes, and the 20 KB output cap cuts off the failure that matters. Both
+# are raised to the budget Claude Code already runs on (BASH_DEFAULT_TIMEOUT_MS = 300000).
 [toolset.bash]
 output_byte_limit = 131072
 timeout_secs = 300.0
@@ -72,26 +71,39 @@ allow_local = false
 # ~/.agents/AGENTS.md a second time via ~/.claude/CLAUDE.md, and would run Claude Code's
 # hooks inside a Grok turn: desktop alerts labelled "Claude Code", and a
 # "dot agent hook session claude" that cannot resolve a Grok session ID.
-# Permission *rules* are deliberately not part of this: they have no compat toggle, so
-# Grok keeps reading ~/.claude/settings.json and inherits its bypassPermissions default.
+# The "sessions" cell is staged upstream with no scanner behind it yet; pinning it now
+# stops foreign-session discovery from switching itself on the day a consumer ships.
+# Claude Code's *permission* rules are a different surface from compat.claude.rules (which
+# only governs ~/.claude/rules/ scanning), and they have no compat toggle at all: Grok
+# keeps reading ~/.claude/settings.json and inherits its bypassPermissions default.
 [compat.claude]
 agents = false
 hooks = false
 mcps = false
 rules = false
+sessions = false
 skills = false
+
+# Codex's other cells are reserved and inert upstream, so "sessions" is the only one to pin.
+[compat.codex]
+sessions = false
 
 [compat.cursor]
 agents = false
 hooks = false
 mcps = false
 rules = false
+sessions = false
 skills = false
 
 ` -}}
-{{- $desiredConfig := mergeOverwrite (dict) (deepCopy $currentConfig) $managedConfig -}}
-{{- if and (ne (trim .chezmoi.stdin) "") (deepEqual $currentConfig $desiredConfig) -}}
-{{ .chezmoi.stdin -}}
-{{- else -}}
-{{ $desiredConfig | toToml -}}
-{{- end -}}
+{{- /* Dropping a key from the managed block above only stops managing it -- the merge would
+       still carry whatever Grok last wrote. These three have to be pruned to actually go:
+       privacy, which Grok wrote and a later version dropped, so "grok inspect" now reports
+       it as an unrecognized config key; models.default, per the [models] note; and ui.yolo,
+       the redundant second spelling of permission_mode. */ -}}
+{{- includeTemplate "toml-merge.tmpl" (dict
+      "stdin" .chezmoi.stdin
+      "managed" $managedConfig
+      "defaults" dict
+      "prune" (list "models.default" "privacy" "ui.yolo")) -}}

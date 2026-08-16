@@ -89,6 +89,7 @@ Two assets are authored once and consumed by all agent CLIs:
 - `.antigravitycli/` — Workspace-scoped session records and state for Antigravity CLI.
 - `.chezmoi.toml.tmpl` — Host-specific chezmoi configuration template.
 - `.chezmoiignore` — Chezmoi exclude rules for non-deployed repository files.
+- `.chezmoitemplates/` — Shared template partials pulled in by `modify_` scripts via `includeTemplate`.
 - `.claude/` — Workspace-scoped session records and state for Claude Code CLI.
 - `.gemini/` — Workspace configurations and metadata for Antigravity CLI.
 - `.github/` — GitHub Actions workflows (`ci.yml`, `cd.yml`, `security.yml`), the `zizmor.yml` audit policy, and Dependabot config.

@@ -1,0 +1,37 @@
+{{- /*
+  Merge a managed TOML block into a config file that the tool itself also writes to.
+
+  Params -- all required, since chezmoi renders with missingkey=error and a caller that
+  omits one should fail loudly rather than silently merge an empty value:
+
+    stdin    current content of the target (.chezmoi.stdin in a modify_ template)
+    managed  keys this repo owns; they always overwrite whatever the target holds
+    defaults keys seeded on first write only, then left for the tool to change
+    prune    keys to delete outright, "table" or "table.key", for settings the tool
+             persists but that we want to fall back to its built-in default
+
+  Callers must pull this in with includeTemplate rather than a template action: on
+  chezmoi 2.72.0 the .chezmoitemplates namespace is not reachable from the template set
+  of a modify_ script, and a template action there fails with "template not defined".
+*/ -}}
+{{- $stdin := trim .stdin -}}
+{{- $current := dict -}}
+{{- if ne $stdin "" }}{{ $current = fromToml $stdin }}{{ end -}}
+{{- /* deepCopy is load-bearing: mergeOverwrite splices nested maps into the destination by
+       reference, so without the copy the managed merge would also mutate $current and the
+       deepEqual guard below could never fire -- the target would never be updated. */ -}}
+{{- $desired := mergeOverwrite (deepCopy .defaults) (deepCopy $current) .managed -}}
+{{- range .prune -}}
+{{-   $path := splitList "." . -}}
+{{-   $table := $desired -}}
+{{-   if gt (len $path) 1 }}{{ $table = index $desired (first $path) }}{{ end -}}
+{{- /* A missing parent table yields nil, so an already-absent key prunes to a no-op. */ -}}
+{{-   if kindIs "map" $table }}{{ $_ := unset $table (last $path) }}{{ end -}}
+{{- end -}}
+{{- /* Rewrite only on drift, so an already-converged target keeps the comments, key order,
+       and indentation the tool wrote for itself. */ -}}
+{{- if and (ne $stdin "") (deepEqual $current $desired) -}}
+{{ .stdin -}}
+{{- else -}}
+{{ $desired | toToml -}}
+{{- end -}}
