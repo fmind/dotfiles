@@ -663,7 +663,7 @@ func pruneAgentSessions(_ context.Context, run *pruneRun, _ string) error {
 		cutoff := now.AddDate(0, 0, -days)
 		var files int
 		var total int64
-		if source == sessionStoreAgy || source == sessionStoreClaude || source == sessionStoreCodex || source == sessionStoreOpenCode || source == sessionStoreCopilot {
+		if source == sessionStoreAgy || source == sessionStoreClaude || source == sessionStoreCodex || source == sessionStoreGrok || source == sessionStoreOpenCode || source == sessionStoreCopilot {
 			files, total, err = run.pruneRawSessions(path, source, cutoff, now, cfg.Keep)
 		} else {
 			files, total, err = run.pruneSessions(path, cutoff, cfg.Keep)

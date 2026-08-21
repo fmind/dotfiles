@@ -18,6 +18,8 @@ func rawSessionTestPath(home, source, sessionID string) string {
 		return filepath.Join(home, ".codex", "sessions", "2026", "07", "31", "rollout-2026-07-31T12-00-00-"+sessionID+".jsonl")
 	case sessionStoreAgy:
 		return filepath.Join(home, ".gemini", "antigravity-cli", "brain", sessionID, ".system_generated", "logs", "transcript.jsonl")
+	case sessionStoreGrok:
+		return filepath.Join(home, ".grok", "sessions", sessionID, grokTranscriptName)
 	default:
 		return ""
 	}
@@ -31,6 +33,8 @@ func rawSessionTestRoot(home, source string) string {
 		return filepath.Join(home, ".codex", "sessions")
 	case sessionStoreAgy:
 		return filepath.Join(home, ".gemini", "antigravity-cli", "brain")
+	case sessionStoreGrok:
+		return filepath.Join(home, ".grok", "sessions")
 	default:
 		return ""
 	}
@@ -53,7 +57,7 @@ func copySessionGeneration(t *testing.T, source, target string) {
 }
 
 func TestPruneRawSessionsRequiresVerifiedSuccessor(t *testing.T) {
-	for _, source := range []string{sessionStoreClaude, sessionStoreCodex, sessionStoreAgy} {
+	for _, source := range []string{sessionStoreClaude, sessionStoreCodex, sessionStoreAgy, sessionStoreGrok} {
 		t.Run(source, func(t *testing.T) {
 			state, out, home := newPruneTestState(t, &FakeRunner{})
 			sessionID := source + "-verified"

@@ -31,6 +31,8 @@ func sessionStoreSource(store PruneSessionStore) string {
 		return sessionStoreCodex
 	case strings.HasSuffix(path, "/.gemini/antigravity-cli/brain"):
 		return sessionStoreAgy
+	case strings.HasSuffix(path, "/.grok/sessions"):
+		return sessionStoreGrok
 	case strings.HasSuffix(path, "/.local/share/opencode/opencode.db"):
 		return sessionStoreOpenCode
 	case strings.HasSuffix(path, "/.copilot/session-store.db"):
@@ -42,7 +44,7 @@ func sessionStoreSource(store PruneSessionStore) string {
 
 func isKnownSessionStoreSource(source string) bool {
 	switch source {
-	case sessionStoreArchive, sessionStoreAgy, sessionStoreClaude, sessionStoreCodex, sessionStoreOpenCode, sessionStoreCopilot:
+	case sessionStoreArchive, sessionStoreAgy, sessionStoreClaude, sessionStoreCodex, sessionStoreGrok, sessionStoreOpenCode, sessionStoreCopilot:
 		return true
 	default:
 		return false

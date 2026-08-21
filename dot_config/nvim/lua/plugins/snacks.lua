@@ -3,7 +3,10 @@ return {
     "folke/snacks.nvim",
     opts = {
       scroll = { enabled = false },
-      image = { enabled = false },
+      -- Inline images in the buffer. Ghostty speaks the kitty graphics
+      -- protocol, and PNG needs no `magick`, so article diagrams render where
+      -- their ![...](diagrams/*.png) reference sits.
+      image = { enabled = true },
       picker = {
         sources = {
           files = {
