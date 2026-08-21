@@ -1,10 +1,9 @@
 # chezmoi:modify-template
 {{- $managedConfig := fromToml `
 [cli]
-# mise pins grok to an exact version, and mise.lock now carries a blake3 checksum for the
-# platform it was locked on, so a self-replacing binary would drift off both and be swapped
-# back on the next "mise install": upgrades go through "mise run upgrade" instead.
-auto_update = false
+# Grok automatically checks and updates itself in the background to the latest
+# version without manual version pinning in dotfiles.
+auto_update = true
 
 [features]
 # feedback is a separate sink from telemetry, so silencing one leaves the other on.

@@ -129,5 +129,6 @@ Two assets are authored once and consumed by all agent CLIs:
 - `README.md` — Human-centric documentation detailing requirements, installation, and setup.
 - `ruff.toml` — Python linter and formatter configuration for Ruff.
 - `run_once_after_install-antigravity-cli.sh.tmpl` — Post-install hook for Antigravity CLI.
+- `run_once_after_install-grok.sh.tmpl` — Post-install hook for Grok Build CLI.
 - `skills/` — Storage directory holding global agent skills symlinked to `~/.agents/skills/`.
 - `trivy.yaml` — Security scanner policy configuration for Trivy.
