@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.20.0] - 2026-08-21
+
+### 🚀 Features
+
+- _(grok)_ Enable native auto-update and bootstrap hook (#79)
+- _(nvim)_ Enable inline buffer image previews in snacks.nvim
+
 ## [1.19.0] - 2026-08-16
 
 ### 🚀 Features
