@@ -1307,17 +1307,6 @@ checksum = "sha256:fd5a6dc69e46a0970593e70d85a7e75f16714e9c61d6d72ccc324eb82df5b
 url = "https://github.com/gotestyourself/gotestsum/releases/download/v1.13.0/gotestsum_1.13.0_windows_amd64.tar.gz"
 url_api = "https://api.github.com/repos/gotestyourself/gotestsum/releases/assets/291996823"
 
-[[tools.grok]]
-version = "1.0.4"
-backend = "http:grok"
-
-[tools.grok."platforms.linux-x64"]
-checksum = "blake3:84983a4fdf8f6c9a7a9ed0be1ff02896dab5a1aa68ddbd616fb38fe6c0b0e960"
-url = "https://storage.googleapis.com/grok-build-public-artifacts/cli/grok-1.0.4-linux-x86_64"
-
-[tools.grok."platforms.macos-arm64"]
-url = "https://storage.googleapis.com/grok-build-public-artifacts/cli/grok-1.0.4-macos-aarch64"
-
 [[tools.hadolint]]
 version = "2.15.1"
 backend = "aqua:hadolint/hadolint"

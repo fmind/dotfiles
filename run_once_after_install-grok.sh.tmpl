@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+{{- /* Run only on supported platforms; the upstream installer covers Linux and macOS. */}}
+{{- if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") }}
+set -euo pipefail
+if ! command -v grok >/dev/null 2>&1 && [ ! -x "${HOME}/.grok/bin/grok" ]; then
+  curl -fsSL https://storage.googleapis.com/grok-build-public-artifacts/cli/install.sh | bash
+fi
+if [ -x "${HOME}/.grok/bin/grok" ]; then
+  mkdir -p "${HOME}/.local/bin"
+  ln -sf "${HOME}/.grok/bin/grok" "${HOME}/.local/bin/grok"
+  ln -sf "${HOME}/.grok/bin/agent" "${HOME}/.local/bin/agent"
+fi
+{{- else }}
+exit 0
+{{- end }}
