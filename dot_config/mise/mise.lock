@@ -169,6 +169,20 @@ checksum = "sha256:523ec47019ea54639eab8a015ebb2ed23f4979c3b5c0bb89f65094e0caa19
 url = "https://github.com/slackapi/slack-cli/releases/download/v4.6.0/slack_cli_4.6.0_windows_64-bit.zip"
 url_api = "https://api.github.com/repos/slackapi/slack-cli/releases/assets/494958770"
 
+[[tools."aqua:x.ai/cli/grok"]]
+version = "1.0.8"
+backend = "aqua:x.ai/cli/grok"
+
+[tools."aqua:x.ai/cli/grok"."platforms.linux-x64"]
+url = "https://storage.googleapis.com/grok-build-public-artifacts/cli/grok-1.0.8-linux-x86_64"
+
+[tools."aqua:x.ai/cli/grok"."platforms.macos-arm64"]
+url = "https://storage.googleapis.com/grok-build-public-artifacts/cli/grok-1.0.8-macos-aarch64"
+
+[[tools."asdf:virtualstaticvoid/asdf-ollama"]]
+version = "0.32.9"
+backend = "asdf:virtualstaticvoid/asdf-ollama"
+
 [[tools.ast-grep]]
 version = "0.45.1"
 backend = "aqua:ast-grep/ast-grep"
@@ -525,8 +539,8 @@ url_api = "https://api.github.com/repos/terrastruct/d2/releases/assets/284023126
 
 [tools.d2."platforms.linux-x64"]
 checksum = "sha256:eb172adf59f38d1e5a70ab177591356754ffaf9bebb84e0ca8b767dfb421dad7"
-url = "https://github.com/d2lang/d2/releases/download/v0.7.1/d2-v0.7.1-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/d2lang/d2/releases/assets/284023615"
+url = "https://github.com/terrastruct/d2/releases/download/v0.7.1/d2-v0.7.1-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/terrastruct/d2/releases/assets/284023615"
 
 [tools.d2."platforms.linux-x64-musl"]
 checksum = "sha256:eb172adf59f38d1e5a70ab177591356754ffaf9bebb84e0ca8b767dfb421dad7"
@@ -535,8 +549,8 @@ url_api = "https://api.github.com/repos/terrastruct/d2/releases/assets/284023615
 
 [tools.d2."platforms.macos-arm64"]
 checksum = "sha256:80de85f3b0ac7d9569acac0780ed65dd994ea78969b6b230c58bbb2c6113465b"
-url = "https://github.com/d2lang/d2/releases/download/v0.7.1/d2-v0.7.1-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/d2lang/d2/releases/assets/284023623"
+url = "https://github.com/terrastruct/d2/releases/download/v0.7.1/d2-v0.7.1-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/terrastruct/d2/releases/assets/284023623"
 
 [tools.d2."platforms.macos-x64"]
 checksum = "sha256:b0178e8fdae72194d5a23aa6effd323378cc58ccd3b08d175ab80371c14e106f"
@@ -1067,6 +1081,14 @@ url_api = "https://api.github.com/repos/git-lfs/git-lfs/releases/assets/30526268
 version = "0.22.4"
 backend = "github:googleworkspace/cli"
 
+[tools."github:googleworkspace/cli".options]
+asset_pattern = "*aarch64-apple-darwin*"
+
+[tools."github:googleworkspace/cli"."platforms.macos-arm64"]
+checksum = "sha256:ad15056fb71e6dc7524f1e5c2f1abf8a3969c59b4a481bd793cd0e35afcb5409"
+url = "https://github.com/googleworkspace/cli/releases/download/v0.22.4/google-workspace-cli-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/googleworkspace/cli/releases/assets/385687580"
+
 [tools."github:googleworkspace/cli"."platforms.windows-x64"]
 checksum = "sha256:36008372bd3a96969c16f210dbc4d02336c8fadd6e9a396ec136bbc4e88b1a74"
 url = "https://github.com/googleworkspace/cli/releases/download/v0.22.4/google-workspace-cli-x86_64-pc-windows-msvc.zip"
@@ -1083,23 +1105,6 @@ asset_pattern = "*x86_64-unknown-linux-musl*"
 checksum = "sha256:4cc776909c8d4a1b2733f2cc38002eb5e6bf175fd84c89adc6bc7f42c8eb3d83"
 url = "https://github.com/googleworkspace/cli/releases/download/v0.22.4/google-workspace-cli-x86_64-unknown-linux-musl.tar.gz"
 url_api = "https://api.github.com/repos/googleworkspace/cli/releases/assets/385687597"
-
-[tools."github:googleworkspace/cli"."platforms.linux-x64-musl"]
-checksum = "sha256:4cc776909c8d4a1b2733f2cc38002eb5e6bf175fd84c89adc6bc7f42c8eb3d83"
-url = "https://github.com/googleworkspace/cli/releases/download/v0.22.4/google-workspace-cli-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/googleworkspace/cli/releases/assets/385687597"
-
-[[tools."github:googleworkspace/cli"]]
-version = "0.22.4"
-backend = "github:googleworkspace/cli"
-
-[tools."github:googleworkspace/cli".options]
-asset_pattern = "*aarch64-apple-darwin*"
-
-[tools."github:googleworkspace/cli"."platforms.macos-arm64"]
-checksum = "sha256:ad15056fb71e6dc7524f1e5c2f1abf8a3969c59b4a481bd793cd0e35afcb5409"
-url = "https://github.com/googleworkspace/cli/releases/download/v0.22.4/google-workspace-cli-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/googleworkspace/cli/releases/assets/385687580"
 
 [[tools.gitleaks]]
 version = "8.30.1"
@@ -1306,17 +1311,6 @@ url_api = "https://api.github.com/repos/gotestyourself/gotestsum/releases/assets
 checksum = "sha256:fd5a6dc69e46a0970593e70d85a7e75f16714e9c61d6d72ccc324eb82df5bb8a"
 url = "https://github.com/gotestyourself/gotestsum/releases/download/v1.13.0/gotestsum_1.13.0_windows_amd64.tar.gz"
 url_api = "https://api.github.com/repos/gotestyourself/gotestsum/releases/assets/291996823"
-
-[[tools.grok]]
-version = "1.0.4"
-backend = "http:grok"
-
-[tools.grok."platforms.linux-x64"]
-checksum = "blake3:84983a4fdf8f6c9a7a9ed0be1ff02896dab5a1aa68ddbd616fb38fe6c0b0e960"
-url = "https://storage.googleapis.com/grok-build-public-artifacts/cli/grok-1.0.4-linux-x86_64"
-
-[tools.grok."platforms.macos-arm64"]
-url = "https://storage.googleapis.com/grok-build-public-artifacts/cli/grok-1.0.4-macos-aarch64"
 
 [[tools.hadolint]]
 version = "2.15.1"
@@ -2132,20 +2126,6 @@ checksum = "sha256:cfd51293ba621eea0616848a78caf360855859364d2ea8e23df515d791c91
 url = "https://github.com/hatoo/oha/releases/download/v1.15.0/oha-windows-amd64.exe"
 url_api = "https://api.github.com/repos/hatoo/oha/releases/assets/473314023"
 
-[[tools.ollama]]
-version = "0.32.13"
-backend = "aqua:ollama/ollama"
-
-[tools.ollama."platforms.linux-x64"]
-checksum = "sha256:0fd1dece38a1c6242e8013ce20b597345c5de072ae6b320160edb0e729ef1de1"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.13/ollama-linux-amd64.tar.zst"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/514796034"
-
-[tools.ollama."platforms.macos-arm64"]
-checksum = "sha256:71efd44f3b5f2019f42bae17ae58eb3de8bd25ce3ca3bc89aea58e53e5d091d1"
-url = "https://github.com/ollama/ollama/releases/download/v0.32.13/ollama-darwin.tgz"
-url_api = "https://api.github.com/repos/ollama/ollama/releases/assets/514795982"
-
 [[tools.opencode]]
 version = "1.18.18"
 backend = "aqua:anomalyco/opencode"
@@ -2954,9 +2934,9 @@ url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_linux_amd64"
 url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/440146735"
 
 [tools.yq."platforms.macos-arm64"]
-checksum = "sha256:877de31753a4dd2401aa048937aa9a7fc4d5f6ce858cf31508c5802954297213"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_darwin_arm64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/440146762"
+checksum = "sha256:b4ba1ecce3c47f00803f4f964de38394326c7a32eb6540616e04fb2935a0f08d"
+url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_darwin_amd64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/440146744"
 
 [tools.yq."platforms.macos-x64"]
 checksum = "sha256:b4ba1ecce3c47f00803f4f964de38394326c7a32eb6540616e04fb2935a0f08d"

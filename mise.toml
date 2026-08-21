@@ -326,10 +326,10 @@ run = [
 alias = "mu"
 description = "Upgrade mise tools to latest versions"
 run = [
-  "mise -C \"$HOME\" upgrade --bump --exclude tree-sitter --exclude github:googleworkspace/cli",
+  "mise -C \"$HOME\" upgrade --bump --exclude tree-sitter --exclude github:googleworkspace/cli --exclude aqua:x.ai/cli/grok",
   "mise upgrade --bump --local",
-  "mise lock --bump --yes",
-  "mise lock --global --bump --yes",
+  "mise lock --yes",
+  "mise lock --global --yes",
   "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
   "nvim --headless '+Lazy! update' +qa",
   "chezmoi re-add --source \"$PWD\" ~/.config/nvim/lazy-lock.json",

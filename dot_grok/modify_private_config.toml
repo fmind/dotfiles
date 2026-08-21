@@ -1,9 +1,8 @@
 # chezmoi:modify-template
 {{- $managedConfig := fromToml `
 [cli]
-# mise pins grok to an exact version, and mise.lock now carries a blake3 checksum for the
-# platform it was locked on, so a self-replacing binary would drift off both and be swapped
-# back on the next "mise install": upgrades go through "mise run upgrade" instead.
+# mise pins grok to an exact version in mise.lock, so a self-replacing binary would drift off
+# that pin and be swapped back on the next "mise install": upgrades go through "mise run upgrade" instead.
 auto_update = false
 
 [features]
