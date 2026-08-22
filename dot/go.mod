@@ -3,7 +3,7 @@ module dot
 go 1.26.5
 
 require (
-	github.com/urfave/cli/v3 v3.10.1
+	github.com/urfave/cli/v3 v3.11.0
 	github.com/yuin/goldmark v1.8.5
 	golang.org/x/net v0.58.0
 	golang.org/x/sync v0.22.0
@@ -16,9 +16,9 @@ require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	golang.org/x/mod v0.40.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
-	golang.org/x/telemetry v0.0.0-20260811182544-a038080d80e5 // indirect
+	golang.org/x/telemetry v0.0.0-20260820143203-7221e139e8d6 // indirect
 	golang.org/x/tools v0.49.0 // indirect
-	golang.org/x/vuln v1.6.0 // indirect
+	golang.org/x/vuln v1.7.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	mvdan.cc/gofumpt v0.11.0 // indirect
 )
