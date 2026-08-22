@@ -8,7 +8,7 @@ import (
 
 	"github.com/caarlos0/env/v11"
 	"go.opentelemetry.io/otel/sdk/resource"
-	semconv "go.opentelemetry.io/otel/semconv/v1.41.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.43.0"
 	"google.golang.org/genai"
 
 	"google.golang.org/adk/v2/agent"
@@ -68,7 +68,7 @@ func main() {
 		logger.Error("load vertex configuration", "error", err)
 		os.Exit(1)
 	}
-	model, err := gemini.NewModel(ctx, "gemini-3.6-flash", &genai.ClientConfig{
+	model, err := gemini.NewModel(ctx, "gemini-3.7-flash", &genai.ClientConfig{
 		Backend:  genai.BackendVertexAI,
 		Project:  vx.Project,
 		Location: vx.Location,

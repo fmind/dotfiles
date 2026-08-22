@@ -118,7 +118,7 @@ Build GCP-based AI agents with **agents-cli** (https://github.com/google/agents-
    - `app/agent.py` — defines the `root_agent` symbol and its tools. Tools are plain typed functions; ADK infers each JSON schema from the signature and docstring. Keep business logic in the library/modules and call into it from tools.
    - `app/fast_api_app.py` — FastAPI backend server for API interaction.
 1. **Models & Auth**:
-   - Pin the current Flash generation by default (e.g. `gemini-3.6-flash`, matching `agents-cli`'s own scaffold) rather than the `-latest` alias — Vertex AI's `-latest` resolution has documented version-ambiguity and hot-swap quality regressions. Check `agents-cli create --agent adk`'s generated default or the [Gemini models list](https://ai.google.dev/gemini-api/docs/models) and bump to the newest Flash generation when one ships; only pin an exact dated snapshot when you need strict reproducibility.
+   - Pin the current Flash generation by default (e.g. `gemini-3.7-flash`, matching `agents-cli`'s own scaffold) rather than the `-latest` alias — Vertex AI's `-latest` resolution has documented version-ambiguity and hot-swap quality regressions. Check `agents-cli create --agent adk`'s generated default or the [Gemini models list](https://ai.google.dev/gemini-api/docs/models) and bump to the newest Flash generation when one ships; only pin an exact dated snapshot when you need strict reproducibility.
    - Use Google Application Default Credentials (ADC) for authentication. In local development, run `gcloud auth application-default login`.
    - In `.env`, ensure `GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT=<project_id>`, and `GOOGLE_CLOUD_LOCATION=<region>` (e.g., `europe-west1` or `global`) are set.
 1. **Development Commands**:

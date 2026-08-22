@@ -28,7 +28,7 @@ Canonical guidelines for standalone documents with **Typst** — the modern type
 
 ## 3. Authoring Standard
 
-- **Packages**: import from Typst Universe with a pinned version — `#import "@preview/cetz:0.4.2"` — the compiler downloads and caches them; there is no lockfile, so the pin in the import _is_ the pin.
+- **Packages**: import from Typst Universe with a pinned version — `#import "@preview/cetz:0.5.2"` — the compiler downloads and caches them; there is no lockfile, so the pin in the import _is_ the pin.
 - **Templates over copy-paste**: recurring document styles (letterhead, report, CV) belong in a local `template.typ` imported by each document — one styling source, per the DRY principle.
 - **Bibliography**: `#bibliography("refs.bib")` reads BibTeX directly, or Hayagriva YAML for new work; cite with `@key`.
 - **Fonts**: Typst bundles Libertinus; for brand fonts, vendor the files under `fonts/` and compile with `--font-path fonts` (add the flag in [mise.toml](references/mise.toml)) so builds stay reproducible across machines — `typst fonts` lists what is visible.

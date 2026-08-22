@@ -23,7 +23,7 @@ dprint resolves config by searching the current directory upward through ancesto
 ## 2. Usage
 
 - `dprint fmt` — format in place; the pre-commit hook calls the `format:dprint` task with `{staged_files}`.
-- `dprint check` — verify formatting, non-zero exit on diff; wired into `check` as `check:format`.
+- `dprint check` — verify formatting, non-zero exit on diff; wired into `check` as `check:dprint`.
 - `dprint add <plugin>` — add and pin a new plugin version.
 
 ## 3. Gotchas & Guidelines
