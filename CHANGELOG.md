@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.21.0] - 2026-08-22
+
+### 🚀 Features
+
+- _(skills)_ Add full-review skill for repo health audits
+
+### 🐛 Bug Fixes
+
+- _(grok)_ Require the exact install path for the bootstrap idempotency check
+- _(agent)_ Prune Grok's chat_history.jsonl sibling with its transcript
+- _(skills)_ Correct stale version pins and a renamed task reference
+
 ## [1.20.0] - 2026-08-21
 
 ### 🚀 Features
