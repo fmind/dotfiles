@@ -2,7 +2,7 @@
 {{- /* Run only on supported platforms; the upstream installer covers Linux and macOS. */}}
 {{- if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") }}
 set -euo pipefail
-if ! command -v grok >/dev/null 2>&1 && [ ! -x "${HOME}/.grok/bin/grok" ]; then
+if [ ! -x "${HOME}/.grok/bin/grok" ]; then
   curl -fsSL https://storage.googleapis.com/grok-build-public-artifacts/cli/install.sh | bash
 fi
 if [ -x "${HOME}/.grok/bin/grok" ]; then
