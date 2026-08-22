@@ -17,6 +17,7 @@
     "dprint": ["dprint"],
     "feature-branch": ["git"],
     "fmind-visuals": ["skills"],
+    "full-review": ["dot", "mise"],
     "git-add-commit-push": ["git", "mise"],
     "github-actions": ["actionlint", "mise", "zizmor"],
     "github-pull-request": ["gh", "git"],
