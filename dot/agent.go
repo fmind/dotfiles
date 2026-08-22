@@ -840,9 +840,14 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 }
 
 // grokTranscriptName is the ACP session-update stream Grok treats as the
-// authoritative conversation log; the sibling chat_history.jsonl is the raw model
-// wire format and carries the system prompt, which the archive must not keep.
+// authoritative conversation log; the sibling grokChatHistoryName file is the raw
+// model wire format and carries the system prompt, which the archive must not keep.
 const grokTranscriptName = "updates.jsonl"
+
+// grokChatHistoryName is Grok's raw model wire-format sibling to grokTranscriptName.
+// pruneRawSessions disposes of it alongside its sibling once that one is verified,
+// since it carries no identity of its own.
+const grokChatHistoryName = "chat_history.jsonl"
 
 // grokUpdateRoles maps the session-update kinds that carry conversation text to
 // canonical roles. Everything else in the stream — reasoning, tool calls, hook runs,

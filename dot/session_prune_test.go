@@ -95,6 +95,25 @@ func TestPruneRawSessionsRequiresVerifiedSuccessor(t *testing.T) {
 	}
 }
 
+func TestPruneRawSessionsRemovesGrokChatHistorySibling(t *testing.T) {
+	state, _, home := newPruneTestState(t, &FakeRunner{})
+	sessionID := "grok-sibling"
+	raw := rawSessionTestPath(home, sessionStoreGrok, sessionID)
+	writeAged(t, raw, "raw transcript", 30*24*time.Hour)
+	sibling := filepath.Join(filepath.Dir(raw), grokChatHistoryName)
+	writeAged(t, sibling, "raw wire format carrying the system prompt", 30*24*time.Hour)
+	writeCompleteSessionSuccessor(t, sessionStoreGrok, sessionID, raw)
+
+	state.Config.Prune.Agents.Sessions = []PruneSessionStore{{Path: rawSessionTestRoot(home, sessionStoreGrok), Source: sessionStoreGrok, KeepDays: 7}}
+	if err := RunPrune(context.Background(), state, PruneOptions{Targets: map[string]string{"agents": levelSessions}, Days: 7}); err != nil {
+		t.Fatalf("RunPrune returned an error: %v", err)
+	}
+
+	requireGone(t, raw)
+	requireGone(t, sibling)
+	requireGone(t, filepath.Dir(raw))
+}
+
 func TestPruneRawSessionsRetainsUnverifiedSources(t *testing.T) {
 	tests := []struct {
 		setup  func(t *testing.T, home, raw, sessionID string)

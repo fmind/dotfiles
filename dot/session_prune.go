@@ -174,6 +174,20 @@ func findCompleteSessionSuccessor(agent, sessionID, sourceFingerprint string) (s
 	}
 }
 
+// grokChatHistorySibling reports the sibling grokChatHistoryName file next to a
+// verified Grok updates.jsonl, so it can be measured and removed alongside it.
+func grokChatHistorySibling(root *os.Root, source, relative string) (string, int64, bool) {
+	if source != sessionStoreGrok {
+		return "", 0, false
+	}
+	siblingRelative := filepath.Join(filepath.Dir(relative), grokChatHistoryName)
+	info, err := root.Lstat(siblingRelative)
+	if err != nil || info.Mode()&os.ModeType != 0 {
+		return "", 0, false
+	}
+	return siblingRelative, info.Size(), true
+}
+
 func sessionFileAge(now time.Time, info fs.FileInfo) time.Duration {
 	age := now.Sub(info.ModTime())
 	if age < 0 {
@@ -245,6 +259,11 @@ func (r *pruneRun) pruneRawSessions(root, source string, cutoff, now time.Time, 
 		if relativeErr != nil || relative == "." || strings.HasPrefix(relative, ".."+string(filepath.Separator)) {
 			return fmt.Errorf("session source escaped configured root: %s", path)
 		}
+		if source == sessionStoreGrok && entry.Name() == grokChatHistoryName {
+			// Carries no identity of its own; its disposal is decided alongside its
+			// sibling updates.jsonl below, not flagged here as unrecognized.
+			return nil
+		}
 		info, infoErr := rootHandle.Lstat(relative)
 		if errors.Is(infoErr, os.ErrNotExist) {
 			return nil
@@ -297,6 +316,11 @@ func (r *pruneRun) pruneRawSessions(root, source string, cutoff, now time.Time, 
 		r.reportSessionDecision("delete", source, truncatedDigest(lineageID), age, info.Size(), evidence.Reason, evidence.Evidence)
 		files++
 		total += info.Size()
+		siblingRelative, siblingSize, hasSibling := grokChatHistorySibling(rootHandle, source, relative)
+		if hasSibling {
+			files++
+			total += siblingSize
+		}
 		if r.dryRun {
 			return nil
 		}
@@ -304,6 +328,11 @@ func (r *pruneRun) pruneRawSessions(root, source string, cutoff, now time.Time, 
 		// source beneath the validated root reaches this mutation.
 		if removeErr := rootHandle.Remove(relative); removeErr != nil && !errors.Is(removeErr, os.ErrNotExist) {
 			return fmt.Errorf("failed to remove verified raw session source: %w", removeErr)
+		}
+		if hasSibling {
+			if removeErr := rootHandle.Remove(siblingRelative); removeErr != nil && !errors.Is(removeErr, os.ErrNotExist) {
+				return fmt.Errorf("failed to remove grok raw wire-format sibling: %w", removeErr)
+			}
 		}
 		return nil
 	})
