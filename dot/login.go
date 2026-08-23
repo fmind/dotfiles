@@ -188,12 +188,18 @@ func defaultLoginConfig() LoginConfig {
 			"https://www.googleapis.com/auth/cloud-platform",
 			"https://www.googleapis.com/auth/calendar",
 			"https://www.googleapis.com/auth/contacts",
+			// otherContacts.list is gated on its OWN scope: `contacts` does not cover it, and
+			// the People API answers 403 without this one. It is what makes everyone you have
+			// mailed but never saved reachable.
+			"https://www.googleapis.com/auth/contacts.other.readonly",
 			"https://www.googleapis.com/auth/directory.readonly",
 			"https://www.googleapis.com/auth/documents",
 			"https://www.googleapis.com/auth/drive",
 			"https://www.googleapis.com/auth/forms.body",
 			"https://www.googleapis.com/auth/forms.responses.readonly",
 			"https://www.googleapis.com/auth/gmail.modify",
+			// Keep serves Workspace accounts only and no gws service preset requests it.
+			"https://www.googleapis.com/auth/keep.readonly",
 			"https://www.googleapis.com/auth/meetings.space.created",
 			"https://www.googleapis.com/auth/meetings.space.readonly",
 			"https://www.googleapis.com/auth/meetings.space.settings",
