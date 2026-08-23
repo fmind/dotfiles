@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.22.1] - 2026-08-23
+
+### 🐛 Bug Fixes
+
+- _(dot)_ Drop keep scope and extend session retention
+
 ## [1.22.0] - 2026-08-23
 
 ### 🚀 Features
