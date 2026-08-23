@@ -16,11 +16,24 @@ const (
 
 const (
 	// defaultRawSessionKeepDays bounds a raw agent transcript store. Raw stores are
-	// disposable once ingestion has produced a verified successor.
-	defaultRawSessionKeepDays = 7
+	// disposable once ingestion has produced a verified successor — nothing here is
+	// deleted on age alone, only on age AND a complete copy in the archive.
+	//
+	// Raised from 7 to 30 on 2026-08-23. The fkf base's `agent-sessions` source reads
+	// these directories directly, so at 7 days it could not be backfilled a week back
+	// and reported nothing rather than reporting a gap. Thirty days costs on the order
+	// of 100 MB, which is noise next to what a Docker cache holds.
+	defaultRawSessionKeepDays = 30
 	// defaultArchiveKeepDays bounds the normalized archive, which is the evidence the
 	// workspace brain reads long after every raw source is gone.
-	defaultArchiveKeepDays = 30
+	//
+	// Raised from 30 to 365 on 2026-08-23. This store is the ONLY durable copy of agent
+	// history: the fkf base's `agent-prompts` source reads ~/.agents/sessions/v1 and
+	// nothing else keeps a transcript once the raw store expires. A 30-day bound would
+	// have capped that corpus at 30 days permanently — it deletes nothing today only
+	// because the store itself is younger than 30 days. There is no keep-forever value:
+	// 0 means delete everything, so a long finite bound is the honest way to say "keep".
+	defaultArchiveKeepDays = 365
 )
 
 // agentDefinition is the single description of one agent CLI integration: where it

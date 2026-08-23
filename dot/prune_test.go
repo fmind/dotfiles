@@ -856,14 +856,15 @@ func TestDefaultPruneConfig(t *testing.T) {
 	cfg := state.Config.Prune
 
 	want := map[string]PruneSessionStore{
-		"~/.claude/projects":                  {Source: sessionStoreClaude, KeepDays: 7},
-		"~/.codex/sessions":                   {Source: sessionStoreCodex, KeepDays: 7},
-		"~/.gemini/antigravity-cli/brain":     {Source: sessionStoreAgy, KeepDays: 7},
-		"~/.grok/sessions":                    {Source: sessionStoreGrok, KeepDays: 7},
-		"~/.local/share/opencode/opencode.db": {Source: sessionStoreOpenCode, KeepDays: 7},
-		"~/.copilot/session-store.db":         {Source: sessionStoreCopilot, KeepDays: 7},
-		// The normalized archive outlives the raw session logs it was distilled from.
-		"~/.agents/sessions": {Source: sessionStoreArchive, KeepDays: 30},
+		"~/.claude/projects":                  {Source: sessionStoreClaude, KeepDays: 30},
+		"~/.codex/sessions":                   {Source: sessionStoreCodex, KeepDays: 30},
+		"~/.gemini/antigravity-cli/brain":     {Source: sessionStoreAgy, KeepDays: 30},
+		"~/.grok/sessions":                    {Source: sessionStoreGrok, KeepDays: 30},
+		"~/.local/share/opencode/opencode.db": {Source: sessionStoreOpenCode, KeepDays: 30},
+		"~/.copilot/session-store.db":         {Source: sessionStoreCopilot, KeepDays: 30},
+		// The normalized archive outlives the raw session logs it was distilled from,
+		// and is the only durable copy once they expire.
+		"~/.agents/sessions": {Source: sessionStoreArchive, KeepDays: 365},
 	}
 	if len(cfg.Agents.Sessions) != len(want) {
 		t.Fatalf("expected %d session stores, got %v", len(want), cfg.Agents.Sessions)

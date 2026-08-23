@@ -198,8 +198,12 @@ func defaultLoginConfig() LoginConfig {
 			"https://www.googleapis.com/auth/forms.body",
 			"https://www.googleapis.com/auth/forms.responses.readonly",
 			"https://www.googleapis.com/auth/gmail.modify",
-			// Keep serves Workspace accounts only and no gws service preset requests it.
-			"https://www.googleapis.com/auth/keep.readonly",
+			// Google Keep is deliberately absent and should stay that way. Its API offers only
+			// domain-wide-delegation authorization — no ordinary per-user consent path — so
+			// Google rejects keep.readonly with `Error 400: invalid_scope` for a Desktop
+			// client, before the consent screen renders. Adding it back is not free: --scopes
+			// is all-or-nothing, so one ungrantable scope fails the whole login and silently
+			// drops every other capability with it.
 			"https://www.googleapis.com/auth/meetings.space.created",
 			"https://www.googleapis.com/auth/meetings.space.readonly",
 			"https://www.googleapis.com/auth/meetings.space.settings",
