@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.22.0] - 2026-08-23
+
+### 🚀 Features
+
+- _(mise)_ Add acli tool and update lockfiles
+- _(dot)_ Add contacts.other and keep scopes to default workspace login
+
 ## [1.21.0] - 2026-08-22
 
 ### 🚀 Features
