@@ -1,8 +1,8 @@
 disableStartupPopups: true
 git:
   diffContextSize: 7
-  pagers:
-    - pager: delta --paging=never
+  diffRenderers:
+    - command: delta --paging=never
       colorArg: always
 gui:
   expandFocusedSidePanel: true
