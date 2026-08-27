@@ -1,12 +1,11 @@
 {
+  "askUser": false,
   "banner": "never",
+  "effortLevel": "xhigh",
   "experimental": true,
   "includeCoAuthoredBy": false,
+  "model": "auto",
   "mouse": true,
-  "permissions": {
-    "disableBypassPermissionsMode": "disable"
-  },
-  "remote": "off",
   "remoteExport": false,
-  "theme": "auto"
+  "theme": "github"
 }
