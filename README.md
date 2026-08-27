@@ -69,6 +69,7 @@ API keys and credentials are split between two Fish configuration files:
    - `KAGGLE_API_TOKEN` (Kaggle API)
    - `STITCH_ACCESS_TOKEN` (Stitch MCP)
    - `STUDIO_API_KEY` (Gemini API)
+   - `UV_PUBLISH_TOKEN` (PyPI package publishing token)
 
    To decrypt it on apply, provision your private age key:
 
