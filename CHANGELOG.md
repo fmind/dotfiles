@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.23.0] - 2026-08-27
+
+### 🚀 Features
+
+- _(config)_ Update lazygit, copilot, and fish environment (#80)
+- _(secrets)_ Add UV_PUBLISH_TOKEN for package publishing
+
 ## [1.22.1] - 2026-08-23
 
 ### 🐛 Bug Fixes
