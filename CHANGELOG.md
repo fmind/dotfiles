@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.24.0] - 2026-08-29
+
+### 🚀 Features
+
+- _(mise)_ Add fgraph tool
+
 ## [1.23.0] - 2026-08-27
 
 ### 🚀 Features
