@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.25.0] - 2026-08-30
+
+### 🚀 Features
+
+- _(skills)_ Expand workflows and release verification
+
 ## [1.24.0] - 2026-08-29
 
 ### 🚀 Features
