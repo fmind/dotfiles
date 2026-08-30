@@ -65,7 +65,6 @@ age = "latest" # Simple and secure file encryption tool
 air = "latest" # Live reloading utility for Go apps
 ast-grep = "latest" # Code structural search, lint, and rewrite tool
 atlas = "latest" # Database schema migration management tool
-atuin = "latest" # Magical shell history replacement database
 bat = "latest" # Cat clone with syntax highlighting and git integration
 bottom = "latest" # Graphical system and process monitor for terminal
 carapace = "latest" # Multi-shell command argument completion generator
@@ -165,6 +164,16 @@ yq = "latest" # Command-line YAML, XML, and TOML processor
 zellij = "latest" # Terminal multiplexer and workspace built in Rust
 zizmor = "latest" # Security auditor for GitHub Actions workflows
 zoxide = "latest" # Smarter cd command that learns directories
+
+[tools."github:atuinsh/atuin"]
+# Upstream Linux glibc releases require GLIBC 2.38+; use musl assets for compatibility across Linux distributions.
+version = "latest" # Magical shell history replacement database
+
+[tools."github:atuinsh/atuin".platforms]
+linux-x64 = { asset_pattern = "*x86_64-unknown-linux-musl*" }
+linux-arm64 = { asset_pattern = "*aarch64-unknown-linux-musl*" }
+macos-x64 = { asset_pattern = "*x86_64-apple-darwin*" }
+macos-arm64 = { asset_pattern = "*aarch64-apple-darwin*" }
 
 [tools."github:googleworkspace/cli"]
 # v0.22.5's musl-labeled x64 asset is glibc-linked and requires GLIBC 2.39.
