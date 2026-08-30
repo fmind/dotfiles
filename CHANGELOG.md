@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.25.1] - 2026-08-30
+
+### 🐛 Bug Fixes
+
+- _(mise)_ Use musl assets for atuin and update tool locks
+
 ## [1.25.0] - 2026-08-30
 
 ### 🚀 Features
