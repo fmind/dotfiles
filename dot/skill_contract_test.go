@@ -2429,7 +2429,7 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 		{
 			name:     "release gates publication",
 			path:     "skills/release/SKILL.md",
-			ordered:  []string{"Clean working tree", "git tag -a", "git push --follow-tags", "gh release create"},
+			ordered:  []string{"Clean working tree", "git tag -a", "git push --atomic", "gh release create \"$tag\""},
 			commands: [][]string{{"release"}, {"r"}},
 		},
 		{

@@ -1,12 +1,12 @@
 ---
 name: security-scan
-description: Run approved offline Trivy or gitleaks scans on a checkout for vulnerabilities, dependencies, IaC, secret history, licenses, images, and config; triage findings. Use for full-repo scans, not threat modeling.
+description: Scan repositories with Trivy and gitleaks for vulnerabilities, IaC, secrets, licenses, images, and git history; triage concrete findings.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/security-scan
   created: 2026-07-04
-  updated: 2026-08-02
+  updated: 2026-08-30
 ---
 
 # Security Scanning

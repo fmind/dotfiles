@@ -1,12 +1,12 @@
 ---
 name: go-stack
-description: Canonical Go development stack for structuring and building projects with standard tooling, scaffolding, packages, CLIs/TUIs, web (GOTH), and ADK agents. Use for any Go project, library, or application.
+description: Build Go projects, libraries, CLIs, TUIs, web apps, or ADK agents with the standard package layout and pinned tooling.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/go-stack
   created: 2026-06-23
-  updated: 2026-08-11
+  updated: 2026-08-30
 ---
 
 # Go Stack Standard (Go 1.26+)

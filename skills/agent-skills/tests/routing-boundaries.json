@@ -1413,6 +1413,127 @@
       "require_all_top_k": 5
     },
     {
+      "id": "new-01",
+      "categories": [
+        "boundary",
+        "cli"
+      ],
+      "prompt": "Before any Go implementation, specify sync's flags and env precedence, stdout versus stderr, stable JSON, exit codes, SIGINT behavior, non-TTY use, and completions.",
+      "expected": [
+        "cli-contracts"
+      ],
+      "primary": "cli-contracts",
+      "top_k": 3,
+      "forbidden": [
+        "go-stack",
+        "systematic-debugging"
+      ]
+    },
+    {
+      "id": "new-02",
+      "categories": [
+        "boundary",
+        "course"
+      ],
+      "prompt": "Turn these tested examples into a progressive learner journey with prerequisites, observable outcomes, guided practice, an independent lab, accessibility checks, and course release acceptance; do not redesign the docs site.",
+      "expected": [
+        "course-development"
+      ],
+      "primary": "course-development",
+      "top_k": 3,
+      "forbidden": [
+        "hugo",
+        "technical-publishing"
+      ]
+    },
+    {
+      "id": "new-03",
+      "categories": [
+        "boundary",
+        "github"
+      ],
+      "prompt": "Using gh, inspect issue #42 and its duplicates, then make the authorized label and acceptance-criteria update and reread GitHub to verify it; do not implement the issue or open a PR.",
+      "expected": [
+        "github-issues"
+      ],
+      "primary": "github-issues",
+      "top_k": 3,
+      "forbidden": [
+        "project-backlog",
+        "plan-execution",
+        "github-pull-request"
+      ]
+    },
+    {
+      "id": "new-04",
+      "categories": [
+        "boundary",
+        "cloud"
+      ],
+      "prompt": "With gcloud, pin the account, configuration, project, and billing context, diagnose a missing API and IAM permission from bounded logs, and propose the narrow fix; do not deploy Cloud Run or edit IaC.",
+      "expected": [
+        "google-cloud-operations"
+      ],
+      "primary": "google-cloud-operations",
+      "top_k": 3,
+      "forbidden": [
+        "cloud-run",
+        "terraform-stack"
+      ]
+    },
+    {
+      "id": "new-05",
+      "categories": [
+        "boundary",
+        "workspace"
+      ],
+      "prompt": "Using gws rather than a connected Drive app, confirm an isolated profile and scopes, inspect live Drive and Calendar schemas, perform the authorized bounded cross-service update, and read it back.",
+      "expected": [
+        "google-workspace-cli"
+      ],
+      "primary": "google-workspace-cli",
+      "top_k": 3,
+      "forbidden": [
+        "dot-cli"
+      ]
+    },
+    {
+      "id": "new-06",
+      "categories": [
+        "boundary",
+        "publishing"
+      ],
+      "prompt": "Carry this sourced article from its canonical Markdown through render and export to the authorized public surface, then verify canonical metadata and links; this is not a software release or standalone report.",
+      "expected": [
+        "technical-publishing"
+      ],
+      "primary": "technical-publishing",
+      "top_k": 3,
+      "forbidden": [
+        "hugo",
+        "release",
+        "typst"
+      ]
+    },
+    {
+      "id": "new-07",
+      "categories": [
+        "boundary",
+        "release",
+        "post-publication"
+      ],
+      "prompt": "The v1.4.0 GitHub release is already public. Reconcile its remote annotated tag, exact commit, immutable release metadata, exact-head CI, downloaded archive checksums, and GitHub release attestations without creating or moving anything.",
+      "expected": [
+        "release"
+      ],
+      "primary": "release",
+      "top_k": 1,
+      "forbidden": [
+        "containerize",
+        "production-readiness"
+      ]
+    },
+    {
       "id": "none-01",
       "categories": [
         "no-route",

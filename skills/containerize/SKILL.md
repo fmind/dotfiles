@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/containerize
   created: 2026-07-04
-  updated: 2026-08-02
+  updated: 2026-08-30
 ---
 
 # Containerize an Application
@@ -34,17 +34,22 @@ Build a small, non-root, reproducible OCI image and verify it before it ships. P
 
 ## Verify Before Ship
 
+1. **Resolve the immutable digest** emitted by the registry after the push. Use that digest for every scan, signature, SBOM, and deployment reference; never sign a mutable tag.
 1. **Scan** the built image (fail on HIGH/CRITICAL — see [security-scan](../security-scan/SKILL.md)):
    ```bash
-   trivy image <registry>/<slug>:<tag>
+   trivy --config trivy.yaml image <registry>/<slug>@<digest>
    ```
-1. **Sign** keyless with Sigstore (OIDC, no long-lived keys):
+1. **Sign and verify** keyless with Sigstore (OIDC, no long-lived keys). Verification must bind the certificate to the expected workflow identity and OIDC issuer:
    ```bash
    cosign sign --yes <registry>/<slug>@<digest> # --yes is mandatory: cosign prompts by default and hangs any CI job or agent session
+   cosign verify \
+     --certificate-identity '<expected-certificate-identity>' \
+     --certificate-oidc-issuer '<expected-oidc-issuer>' \
+     <registry>/<slug>@<digest>
    ```
-1. **SBOM** for provenance:
+1. **SBOM** for a portable component inventory:
    ```bash
-   trivy image --format cyclonedx -o sbom.json <registry>/<slug>:<tag>
+   trivy --config trivy.yaml image --format cyclonedx -o sbom.json <registry>/<slug>@<digest>
    ```
 
 ## Mise Task Integration
@@ -59,7 +64,7 @@ run = "go tool ko build ./cmd/<slug> --bare" # For Go
 
 [tasks."check:image"]
 description = "Scan container image for vulnerabilities"
-run = "trivy image <registry>/<slug>:<tag>"
+run = "trivy --config trivy.yaml image <registry>/<slug>@<digest>"
 
 [tasks."check:dockerfile"]
 description = "Lint Dockerfile (hadolint)"
@@ -80,6 +85,8 @@ docker push registry.localhost:5050/<slug>:<tag>   # ko pushes automatically
 - **Use `.dockerignore`**: Always exclude development artifacts, local virtual environments, and secrets to speed up builds and prevent credential leakage (see [.dockerignore](references/.dockerignore)).
 - **Static binaries**: `CGO_ENABLED=0` for `distroless/static`; use `distroless/base` only when cgo is required.
 - **Digests over tags in manifests**: reference images by digest in Kubernetes so deploys are immutable.
+- **Verification policy is part of the release contract**: pin both the certificate identity and OIDC issuer. For GitHub Actions the issuer is `https://token.actions.githubusercontent.com`; other signing identities use their documented issuer. A valid signature from an unexpected workflow is not acceptable provenance.
+- **Registry writes are external mutations**: pushing or signing an image requires authority for the exact registry and digest. A local packaging request does not authorize those writes.
 
 ## Documentation
 

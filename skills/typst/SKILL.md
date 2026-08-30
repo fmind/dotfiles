@@ -1,12 +1,12 @@
 ---
 name: typst
-description: Canonical Typst stack for standalone documents — papers, reports, letters, CVs — with typstyle formatting, mise tasks, and live PDF preview. Use for any document that would otherwise reach for LaTeX or Word.
+description: Create standalone reports, papers, letters, or CVs with Typst, typstyle, mise tasks, and live PDF preview.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/typst
   created: 2026-08-07
-  updated: 2026-08-07
+  updated: 2026-08-30
 ---
 
 # Typst Document Standard (Typst 0.15+)

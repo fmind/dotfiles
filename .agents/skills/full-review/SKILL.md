@@ -1,12 +1,12 @@
 ---
 name: full-review
-description: Run this dotfiles repo's non-destructive health check — every mise task and dot CLI command still work, pinned tools/dependencies are current, and AGENTS.md/README.md/skills/ match the live repo. Use for a periodic whole-repo review.
+description: Run this dotfiles repo's non-destructive health check across mise, dot, dependencies, docs, and skills.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/.agents/skills/full-review
   created: 2026-08-22
-  updated: 2026-08-22
+  updated: 2026-08-30
 ---
 
 # Full Repository Review

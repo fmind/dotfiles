@@ -1,12 +1,12 @@
 ---
 name: cloud-run
-description: Deploy container apps to Google Cloud Run — ko or Dockerfile images to Artifact Registry, keyless CI via Workload Identity Federation, Secret Manager wiring. Use when shipping a service, web app, or ADK agent to GCP.
+description: Deploy container services to Google Cloud Run with Artifact Registry, keyless CI identity, Secret Manager, ko, or Dockerfiles.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/cloud-run
   created: 2026-08-07
-  updated: 2026-08-07
+  updated: 2026-08-30
 ---
 
 # Cloud Run Deployment Standard

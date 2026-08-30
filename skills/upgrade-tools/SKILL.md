@@ -1,12 +1,12 @@
 ---
 name: upgrade-tools
-description: Upgrade every pinned tool and dependency (mise, go.mod, pyproject.toml, GitHub Actions, dprint, ...) to latest stable, one ecosystem at a time with validation. Use when bumping a repo's toolchain or dependencies.
+description: Upgrade pinned tools and dependencies to latest stable one ecosystem at a time, validating mise, language, action, and formatter changes.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/upgrade-tools
   created: 2026-07-05
-  updated: 2026-08-11
+  updated: 2026-08-30
 ---
 
 # Upgrade Tools & Dependencies

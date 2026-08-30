@@ -1,12 +1,12 @@
 ---
 name: python-stack
-description: Canonical Python stack with uv, Ruff, ty, pytest, Litestar, Typer, and dependency source. Use for Python projects, libraries, CLIs, agents, packaging, tests, typing, linting, or verifying APIs without importing them.
+description: Build typed Python projects with uv, Ruff, ty, pytest, Litestar, and Typer. Use for packages, CLIs, web apps, tests, typing, or API verification.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/python-stack
   created: 2026-06-23
-  updated: 2026-08-02
+  updated: 2026-08-30
 ---
 
 # Python Stack Standard

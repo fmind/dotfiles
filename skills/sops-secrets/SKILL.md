@@ -1,12 +1,12 @@
 ---
 name: sops-secrets
-description: Manage repository secrets with sops + age — encrypted files committed to git, memory-only decryption via exec-env, Flux and OpenTofu integration. Use whenever a project needs secrets in version control or at runtime.
+description: "Manage secrets with sops and age: commit encrypted files, decrypt only in memory, and wire Flux or OpenTofu runtimes."
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/sops-secrets
   created: 2026-08-07
-  updated: 2026-08-07
+  updated: 2026-08-30
 ---
 
 # Secrets Standard (sops 3.13+ / age)

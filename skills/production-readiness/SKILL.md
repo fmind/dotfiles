@@ -1,12 +1,12 @@
 ---
 name: production-readiness
-description: Audit operational fitness, safety, and operability of an exact service/agent/build/infrastructure candidate. Check go/no-go, rollback, migrations, observability, recovery, and deployed proof. Not for diff defects or repo-wide audits.
+description: "Audit production operability and operational fitness: go/no-go, rollback, migrations, observability, recovery, support and halt thresholds; separate local, exact-head CI, runtime, deployed, and public release proof."
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/production-readiness
   created: 2026-08-08
-  updated: 2026-08-09
+  updated: 2026-08-30
 ---
 
 # Production Readiness

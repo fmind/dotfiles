@@ -1,12 +1,12 @@
 ---
 name: agent-skills
-description: Author, validate, publish, or install Agent Skill packages. Use for SKILL.md frontmatter, metadata, scripts, references, discovery paths, CLI checks, and reviewed installs; route third-party trust to skill-security-review.
+description: Author, validate, publish, or install Agent Skill packages; manage SKILL.md metadata, resources, discovery, CLI checks, and reviewed trust.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/agent-skills
   created: 2026-06-23
-  updated: 2026-08-08
+  updated: 2026-08-30
 ---
 
 # Agent Skills

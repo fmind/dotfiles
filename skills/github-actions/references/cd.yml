@@ -13,7 +13,6 @@ jobs:
     if: ${{ vars.ENABLE_DEPLOY_GO == 'true' }} # set repo/org variable ENABLE_DEPLOY_GO=true to enable
     permissions:
       contents: read
-      id-token: write # required for keyless signing via OIDC
       packages: write # required to push to GitHub Container Registry (GHCR)
     steps:
       - name: Checkout repository
@@ -43,10 +42,8 @@ jobs:
           mise run build:image \
             --platform=linux/amd64,linux/arm64 \
             --tags=latest,"$GITHUB_REF_NAME"
-      # Optional: Sign the image with cosign (requires cosign to be managed in mise.toml)
-      # - name: Sign the published image
-      #   run: |
-      #     mise exec -- cosign sign --yes "$IMAGE_REPOSITORY:$GITHUB_REF_NAME"
+      # To add keyless signing, implement the digest-bound containerize workflow
+      # and grant id-token: write only to the job that performs that step.
   # Option 2: Python Package (build and publish package to PyPI)
   deploy-python-pypi:
     runs-on: ubuntu-latest
@@ -78,7 +75,6 @@ jobs:
     if: ${{ vars.ENABLE_DEPLOY_CONTAINER == 'true' }} # set repo/org variable ENABLE_DEPLOY_CONTAINER=true to enable
     permissions:
       contents: read
-      id-token: write # required for keyless signing via OIDC
       packages: write # required to push to GitHub Container Registry (GHCR)
     steps:
       - name: Checkout repository
@@ -112,7 +108,5 @@ jobs:
             ${{ env.IMAGE_REPOSITORY }}:latest
             ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}
           # Recommended: Use distroless/Chainguard base image and multi-stage Dockerfile
-      # Optional: Sign the image with cosign (requires cosign to be managed in mise.toml)
-      # - name: Sign the published image
-      #   run: |
-      #     mise exec -- cosign sign --yes "$IMAGE_REPOSITORY:$GITHUB_REF_NAME"
+      # To add keyless signing, implement the digest-bound containerize workflow
+      # and grant id-token: write only to the job that performs that step.

@@ -27,4 +27,4 @@ jobs:
       - name: Scan complete Git history
         run: gitleaks git --redact=100 --verbose
       - name: Scan full checkout
-        run: trivy fs .
+        run: trivy --config trivy.yaml fs .

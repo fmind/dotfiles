@@ -1,12 +1,12 @@
 ---
 name: chezmoi
-description: Canonical chezmoi dotfiles setup — the source-attribute naming grammar, Go templates, age-encrypted secrets, and the edit-source then apply/diff workflow. Use when adding, editing, or debugging a managed dotfile.
+description: "Manage chezmoi dotfiles: source naming, Go templates, age-encrypted secrets, and the edit-source then apply/diff workflow."
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/.agents/skills/chezmoi
   created: 2026-07-12
-  updated: 2026-08-01
+  updated: 2026-08-30
 ---
 
 # Chezmoi Dotfiles Standard

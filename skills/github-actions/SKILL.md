@@ -1,12 +1,12 @@
 ---
 name: github-actions
-description: Canonical GitHub Actions CI/CD that runs the same repository `mise run all` format, check, test, and build gate as local hooks, plus CD deploy templates. Use when setting up or editing repository workflows.
+description: Configure GitHub Actions CI/CD so workflows run the same mise format, check, test, and build gate as local hooks; lint with actionlint and Zizmor; use keyless deploy templates.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dotfiles/tree/main/skills/github-actions
   created: 2026-07-04
-  updated: 2026-08-08
+  updated: 2026-08-30
 ---
 
 # GitHub Actions CI/CD Standard
@@ -29,7 +29,7 @@ Canonical CI/CD workflows for GitHub repositories. The CI workflow delegates to 
 
 1. Copy [ci.yml](references/ci.yml) to `.github/workflows/ci.yml`.
 1. Copy [cd.yml](references/cd.yml) to `.github/workflows/cd.yml` and enable/customize the template corresponding to your project's language and deployment target.
-1. Copy [security.yml](references/security.yml) to `.github/workflows/security.yml` for the scheduled full-history scan.
+1. Copy [security.yml](references/security.yml) to `.github/workflows/security.yml` for the scheduled full-history scan and commit the project `trivy.yaml` defined by [security-scan](../security-scan/SKILL.md).
 1. Copy [zizmor.yml](references/zizmor.yml) to `.github/zizmor.yml`, pin `actionlint` and `zizmor` in `mise.toml` `[tools]`, and expose a `check:actions` task running `actionlint` then `zizmor --offline .github/workflows/`.
 
 ## Templates
