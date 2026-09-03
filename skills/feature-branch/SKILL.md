@@ -1,46 +1,52 @@
 ---
 name: feature-branch
-description: Create and switch to a new git branch with conventional `<type>/<slug>` naming. Use when starting a piece of work that needs its own branch off main.
+description: Create and switch to a new git branch with conventional <type>/<slug> naming. Use when starting work that needs its own branch off main.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/feature-branch
-  created: 2026-06-23
-  updated: 2026-07-12
+  source: github.com/fmind/dot/tree/main/skills/feature-branch
+  created: "2026-06-23"
+  updated: "2026-09-03"
 ---
 
-# Create Feature Branch
+# Feature Branch
 
-Create and switch to a new feature branch for the work the user described.
+Create and switch to a `<type>/<slug>` branch off `main` for the work the user described; [conventional-commit](../conventional-commit/SKILL.md) owns the commits that follow.
 
 ## Workflow
 
-1. If the user has not described the intended work (description, issue reference, or desired branch name), ask and stop.
-1. Inspect the working tree:
-   - `git branch --show-current` — current branch.
-   - `git status --short` — uncommitted changes.
-1. Derive a branch name in the form `<type>/<slug>` where:
-   - `<type>` is one of `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `ci`.
-   - `<slug>` is kebab-case, lowercase, ASCII, under 50 characters, with no trailing punctuation.
-1. If the user's input already looks like a valid branch name, reuse it as-is.
-1. If the current branch is not `main` (or the repo's default branch), warn briefly and ask before branching off it.
-1. If the working tree has uncommitted changes, surface them and ask before continuing — the new branch will carry them.
-1. Run `git switch -c <branch>` to create and check out the branch. **Do not push.** If it fails because the branch already exists, stop and report it.
-1. After success, print only these two lines:
+1. **Ask when the work is undescribed**: without a description, an issue reference, or a desired branch name, ask and stop.
+1. **Inspect the tree**:
 
-```text
-Branch: <branch>
-From: <parent-branch>
-```
+   ```bash
+   git branch --show-current   # current branch
+   git status --short          # uncommitted changes
+   ```
+
+1. **Derive the name** as `<type>/<slug>`:
+   - `<type>`: a commit type from [conventional-commit](../conventional-commit/SKILL.md), usually `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, or `ci`.
+   - `<slug>`: lowercase ASCII kebab-case, under 50 characters, no trailing punctuation.
+1. **Reuse a valid name**: when the user's input already is a valid branch name, use it as is.
+1. **Confirm the base**: off a branch other than `main` (or the default branch), warn and ask first.
+1. **Confirm a dirty tree**: uncommitted changes move with the new branch; surface them and ask before continuing.
+1. **Create and switch**; if the branch already exists, stop and report it:
+
+   ```bash
+   git switch -c <branch>
+   ```
+
+1. **Report** only these two lines after success:
+
+   ```text
+   Branch: <branch>
+   From: <parent-branch>
+   ```
 
 ## Gotchas
 
-- Keep the final response plain text and compact.
-- Never `git push` from this skill.
+- **No push**: the branch stays local; [github-pull-request](../github-pull-request/SKILL.md) pushes it with `-u` when the PR is opened.
 
 ## Documentation
 
-- [Conventional Branch Specification](https://conventionalbranch.org/) — `<type>/<description>` branch naming.
-- Companion skills:
-  - [conventional-commit](../conventional-commit/SKILL.md) — Commit changes.
-  - [github-pull-request](../github-pull-request/SKILL.md) — Open pull requests.
+- [Conventional Branch](https://conventionalbranch.org/)
+- Companion skills: [conventional-commit](../conventional-commit/SKILL.md) (commit on the branch), [github-pull-request](../github-pull-request/SKILL.md) (open the PR).

@@ -69,8 +69,8 @@ depends = ["check:lint", "check:vuln", "check:format", "check:leaks"]
 
 [tasks."check:leaks"]
 alias = "cs"
-description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+description = "Audit recent commits for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
 
 [tasks."check:format"]
 alias = "cf"

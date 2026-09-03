@@ -1,63 +1,52 @@
 ---
 name: full-review
-description: Run this dotfiles repo's non-destructive health check across mise, dot, dependencies, docs, and skills.
+description: "Run this repository's read-only health pass: mise gate, dot CLI smoke test, tool currency, README drift. Use when asked to review or check the dot repository."
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/.agents/skills/full-review
-  created: 2026-08-22
-  updated: 2026-08-30
+  source: github.com/fmind/dot/tree/main/.agents/skills/full-review
+  created: "2026-08-22"
+  updated: "2026-09-03"
 ---
 
-# Full Repository Review
+# Full Review
 
-Confirm this dotfiles repo is healthy end to end: the local gate is green, `dot` works, every pinned tool/dependency is current, and `AGENTS.md`/`README.md`/`skills/` still describe the live repo. Every step below is read-only or idempotent — no `chezmoi apply`, no `mise upgrade`, no `mise run release`, no `mise run prune`.
+Confirm the dot repository is healthy end to end: the gate is green, `dot` works, pinned tools are current, and `AGENTS.md`, `README.md`, and the skills describe the live repository. Every step is read-only or idempotent (no `chezmoi apply`, `mise upgrade`, `mise run release`, or `mise run prune`); [project-health](../../../skills/project-health/SKILL.md) is the fixing pass for any repository.
 
-## 1. Validate the gate
+## Workflow
 
-```bash
-mise run check   # check:actions, check:chezmoi, check:dprint, check:docs, check:go, check:leaks, check:lua, check:python, check:scan, check:shell, check:skills
-mise run test     # Go (dot/) + Python (skills/python-stack) suites
-mise run build    # compiles the dot binary
-```
+1. **Validate the gate**: `mise run check`, `mise run test`, and `mise run build`.
+1. **Confirm the dot CLI**:
 
-`check:docs` and `check:skills` already assert consistency between the documentation and the live CLI (mise tasks, `dot` commands, the `AGENTS.md` layout inventory, every `SKILL.md` under `skills/` and `.agents/skills/`) — a green `check:docs` proves that layer; don't hand-re-audit it.
+   ```bash
+   dot verify        # environment, tools, secrets, install freshness
+   dot --help        # every command carries an alias, matching skills/dot-cli/SKILL.md
+   dot status        # git, docker, k3d smoke test
+   mise run doctor   # chezmoi doctor + mise doctor
+   mise run diff     # pending chezmoi diff, read-only
+   ```
 
-## 2. Confirm the dot CLI
+   A `dot verify` failure is a repository bug only when local state (an unauthenticated CLI, a missing optional secret) does not explain it.
+1. **Check tool and dependency currency**, report only:
 
-```bash
-dot verify        # sanity checks: environment, tools, secrets, install freshness
-dot --help        # every subcommand needs an alias, matching skills/dot-cli/SKILL.md
-dot status        # git/docker/k3d smoke test
-mise run doctor    # chezmoi doctor + mise doctor
-mise run diff      # pending chezmoi diff, read-only
-```
+   ```bash
+   mise outdated              # repository-scoped tools
+   mise -C "$HOME" outdated   # global tool list
+   mise --version             # warns when mise itself is behind
+   go -C dot list -m -u all   # Go module updates
+   ```
 
-Only treat a `dot verify` failure as a repo bug when it is not explained by local environment state (an unauthenticated CLI, a missing optional secret) — those are sandbox facts, not defects.
+   `mise outdated` sees only mise pins; also scan action versions in `.github/workflows/*.yml`, plugin versions in `dprint.json`, and exact-version pins in `dot_config/mise/config.toml.tmpl`. Hand anything stale to [upgrade-tools](../../../skills/upgrade-tools/SKILL.md).
+1. **Check README drift**: `README.md` is outside the docs contract; cross-check its skill count, prerequisites, install steps, and environment variables, and hand drift to [readme-agents](../../../skills/readme-agents/SKILL.md).
+1. **Report**: every failure, staleness, or drift grouped by the step that surfaced it; fix small root-cause findings directly and route upgrades or doc rewrites to the skills above.
 
-## 3. Check tool and dependency currency (report, don't bump)
+## Gotchas
 
-```bash
-mise outdated                 # repo-scoped tools
-mise -C "$HOME" outdated      # global tool list
-mise --version                # warns here when mise itself is behind: `mise self-update`
-go -C dot list -m -u all      # Go module updates
-```
+- **Docs contract is in the gate**: `check:docs` and `check:skills` prove `AGENTS.md`, every `SKILL.md`, and their `mise run` and `dot` references against the live CLI; do not re-audit that layer by hand.
+- **Complete means green**: report the review complete only when steps 1 and 2 pass.
 
-`mise outdated` only covers mise-managed pins. Also scan what it can't see: action versions in `.github/workflows/*.yml`, plugin versions in `dprint.json`, and any exact-version (not `"latest"`) tool pin in `dot_config/mise/config.toml.tmpl`. If something is genuinely stale, don't bump it here — hand off to [upgrade-tools](../../../skills/upgrade-tools/SKILL.md), one ecosystem at a time, validating after each.
+## Documentation
 
-## 4. Check documentation and skills for drift
-
-Step 1's `check:docs` already proves `AGENTS.md` and every skill's `mise run`/`dot` references against the live CLI. The one gap it leaves: `README.md` isn't part of that contract. Read it and cross-check its skill count, prerequisites, install steps, and documented environment variables against the actual repository state. If either file has drifted, hand off to [readme-agents](../../../skills/readme-agents/SKILL.md).
-
-## 5. Report
-
-List every failure, staleness, or drift found, grouped by the step that surfaced it. Fix small, root-cause findings directly; route larger fix efforts (a real upgrade, a doc rewrite) to the dedicated skill named above instead of doing that work inline. Only report the review complete once steps 1 and 2 are green.
-
-## See Also
-
-- [mise](../../../skills/mise/SKILL.md) — the task vocabulary this review runs.
-- [dot-cli](../../../skills/dot-cli/SKILL.md) — `dot` subcommand reference.
-- [upgrade-tools](../../../skills/upgrade-tools/SKILL.md) — bump anything found stale in step 3.
-- [readme-agents](../../../skills/readme-agents/SKILL.md) — fix any `AGENTS.md`/`README.md` drift found in step 4.
-- [repository-review](../../../skills/repository-review/SKILL.md) — a deeper cross-cutting audit when this quick pass isn't enough.
+- [mise tasks](https://mise.jdx.dev/tasks/) — the task vocabulary this review runs.
+- Companion skills: [project-health](../../../skills/project-health/SKILL.md) (fix in place), [dot-cli](../../../skills/dot-cli/SKILL.md) (command reference).
+- Hand-offs: [upgrade-tools](../../../skills/upgrade-tools/SKILL.md) (stale pins), [readme-agents](../../../skills/readme-agents/SKILL.md) (doc drift), [repository-review](../../../skills/repository-review/SKILL.md) (deeper audit).

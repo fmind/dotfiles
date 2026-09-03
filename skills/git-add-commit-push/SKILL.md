@@ -1,62 +1,52 @@
 ---
 name: git-add-commit-push
-description: Stage, commit (Conventional Commits), and push in one flow, auto-healing lefthook pre-commit and pre-push failures. Use when committing and pushing work end-to-end.
+description: Stage, commit (Conventional Commits), and push in one flow, healing lefthook pre-commit and pre-push failures. Use when committing and pushing work end-to-end.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/git-add-commit-push
-  created: 2026-06-23
-  updated: 2026-07-31
+  source: github.com/fmind/dot/tree/main/skills/git-add-commit-push
+  created: "2026-06-23"
+  updated: "2026-09-03"
 ---
 
 # Git Add, Commit, and Push
 
-Wraps the commit-subject rules from `conventional-commit`, then stages, commits, and pushes — auto-healing lefthook pre-commit/pre-push failures along the way.
+Stage, commit, and push in one flow, healing lefthook pre-commit and pre-push failures on the way; [conventional-commit](../conventional-commit/SKILL.md) owns the subject grammar.
 
 ## Workflow
 
-1. **Check Working Directory & Staging State**:
-   - Run `git branch --show-current` and record it — committing and pushing directly to `main`/`master` is allowed and is the normal flow. Branch first via the [feature-branch](../feature-branch/SKILL.md) skill only when the user asked for a PR flow, or when the push is later rejected by branch protection.
-   - Check if there are staged changes: `git diff --cached --name-only`.
-   - If nothing is staged, check if there are unstaged changes: `git status --short`.
-   - If there are unstaged changes, stage them using `git add` to prepare for commit.
-   - If the working tree is completely clean and nothing is staged, say so and stop.
+1. **Pick the branch**: `git branch --show-current`. Direct commits to `main` are the rule for `github.com/fmind/*`; elsewhere, or for a requested PR flow, branch first with [feature-branch](../feature-branch/SKILL.md).
+1. **Stage**: `git diff --cached --name-only` shows what is staged; if nothing is, `git status --short` shows the unstaged changes to add with `git add`. A clean tree ends the flow: say so and stop.
+1. **Write the subject** with the [conventional-commit](../conventional-commit/SKILL.md) rules, but do not run its commit step: this skill commits and heals hook failures itself.
+1. **Commit and heal pre-commit**:
 
-1. **Generate Commit Message**:
-   - Craft the commit subject using the naming rules from the [conventional-commit](../conventional-commit/SKILL.md) skill (`<type>(<scope>): <description>`, imperative mood, under 72 chars). Do NOT run its commit/stop-on-failure steps — this skill performs the commit and auto-heals hook failures below.
+   ```bash
+   git commit -m "<subject>"
+   ```
 
-1. **Commit Stage (Pre-Commit Hook Auto-Healing)**:
-   - Run `git commit -m "<subject>"` to commit the staged changes.
-   - If the commit fails (pre-commit hook failure):
-     - Read the hook output carefully to diagnose the issues.
-     - **Formatting/Linting**: Run the project's `mise run format` and `mise run check` tasks.
-     - **Type checking / Tests**: Run type verification checks or compiler checks to resolve error states.
-     - Once the issues are resolved, stage the affected files (`git add`) and retry the commit with the same message.
-     - Repeat this troubleshooting loop until the commit succeeds, or report the blocker if manual intervention is required.
+   On a hook failure, read its output, run `mise run format` and `mise run check`, fix type or compile errors, `git add` the touched files, and retry with the same subject until it passes or a blocker needs the user.
+1. **Push and heal pre-push**:
 
-1. **Push Stage (Pre-Push Hook Auto-Healing)**:
-   - Identify the current branch using `git branch --show-current`.
-   - Run `git push` (remote tracking is set up automatically via `push.autoSetupRemote`).
-   - If the push fails due to a pre-push hook failure (the `test` hook running `mise run test` — `pytest`/`gotestsum`):
-     - Read the test runner output to identify the failing tests.
-     - Debug and fix the bugs in the code or tests.
-     - Stage the fixes (`git add`), amend the commit (`git commit --amend --no-edit`), and retry the push.
-     - Repeat until the push succeeds, or report the remaining failures if manual intervention is required.
+   ```bash
+   git push -u origin "$(git branch --show-current)"
+   ```
 
-1. **Output**:
-   - After a successful push, print the final status in a compact format:
+   On a `mise run test` failure, read the runner output, fix the code or tests, `git add` the fix, fold it in with `git commit --amend --no-edit`, and retry until the push passes or a blocker needs the user.
+1. **Report** after a successful push:
 
-     ```text
-     Subject: <subject>
-     Commit: <hash>
-     Status: Pushed to origin/<branch>
-     ```
+   ```text
+   Subject: <subject>
+   Commit: <hash>
+   Status: Pushed to origin/<branch>
+   ```
 
 ## Gotchas
 
-- Ensure all git hook failures are fully diagnosed and resolved natively. Do not use `--no-verify` or bypass hooks unless explicitly requested by the user.
-- Keep the commit history clean by using `git commit --amend` to combine hook fixes into the main commit before pushing.
+- **Hooks are the gate**: Do not use `--no-verify` or bypass hooks unless the user explicitly asks; diagnose and fix the failure instead.
+- **One commit per push**: amend hook fixes into the pending commit before pushing; never amend a commit that already reached the remote.
+- **Rejected push**: branch protection on `main` means the repository wants a PR flow; switch to [feature-branch](../feature-branch/SKILL.md) and [github-pull-request](../github-pull-request/SKILL.md).
 
 ## Documentation
 
-- [conventional-commit](../conventional-commit/SKILL.md) — commit subject naming rules.
+- [lefthook](../lefthook/SKILL.md) — the pre-commit and pre-push hooks this flow heals.
+- Companion skills: [conventional-commit](../conventional-commit/SKILL.md) (subject rules), [feature-branch](../feature-branch/SKILL.md) (branch first), [github-pull-request](../github-pull-request/SKILL.md) (PR flow).

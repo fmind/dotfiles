@@ -1,66 +1,333 @@
 {
   "version": 1,
   "skills": {
+    "acli": [
+      "acli"
+    ],
     "agent-evaluation": [],
-    "agent-mcp": [],
+    "agent-mcp": [
+      "agy",
+      "claude",
+      "codex",
+      "copilot",
+      "grok",
+      "opencode"
+    ],
     "agent-project": [],
-    "agent-skills": ["skills"],
-    "chezmoi": ["chezmoi"],
+    "agent-skills": [
+      "skills"
+    ],
+    "angular": [
+      "knip",
+      "ng",
+      "pnpm",
+      "skills"
+    ],
+    "ast-grep": [
+      "ast-grep"
+    ],
+    "atlas": [
+      "atlas",
+      "sqlc"
+    ],
+    "benchmark": [
+      "hyperfine",
+      "oha"
+    ],
+    "chezmoi": [
+      "chezmoi"
+    ],
     "cli-contracts": [],
-    "cloud-run": ["gcloud", "ko"],
-    "containerize": ["cosign", "docker", "trivy"],
-    "conventional-commit": ["git"],
+    "cloud-run": [
+      "gcloud",
+      "ko"
+    ],
+    "colab": [
+      "colab"
+    ],
+    "containerize": [
+      "cosign",
+      "docker",
+      "trivy"
+    ],
+    "conventional-commit": [
+      "git"
+    ],
+    "cosign": [
+      "cosign"
+    ],
     "course-development": [],
-    "d2": ["d2"],
-    "dependabot": ["git", "mise"],
+    "d2": [
+      "d2"
+    ],
+    "dependabot": [
+      "gh",
+      "mise",
+      "zizmor"
+    ],
     "diff-review": [],
-    "dot-cli": ["dot", "mise"],
-    "dot-release": ["dot", "gh"],
-    "dprint": ["dprint"],
-    "feature-branch": ["git"],
-    "fmind-visuals": ["skills"],
-    "full-review": ["dot", "mise"],
-    "git-add-commit-push": ["git", "mise"],
-    "github-actions": ["actionlint", "mise", "zizmor"],
-    "github-issues": ["gh", "git"],
-    "github-pull-request": ["gh", "git"],
-    "github-repository": ["gh"],
-    "go-stack": ["go", "mise"],
-    "google-cloud-operations": ["gcloud"],
-    "google-workspace-cli": ["gws"],
-    "handover": ["git"],
-    "hugo": ["hugo", "lychee", "mise"],
+    "dot-cli": [
+      "dot",
+      "mise"
+    ],
+    "dot-release": [
+      "dot",
+      "gh"
+    ],
+    "dprint": [
+      "dprint"
+    ],
+    "duckdb": [
+      "duckdb",
+      "sqlite3"
+    ],
+    "feature-branch": [
+      "git"
+    ],
+    "firebase": [
+      "firebase",
+      "skills"
+    ],
+    "fkf-learn": [
+      "fkf"
+    ],
+    "fkf-use": [
+      "fkf"
+    ],
+    "fmind-visuals": [
+      "skills"
+    ],
+    "full-review": [
+      "dot",
+      "mise"
+    ],
+    "gcloud": [
+      "gcloud"
+    ],
+    "genkit": [
+      "genkit",
+      "skills"
+    ],
+    "git-add-commit-push": [
+      "git",
+      "mise"
+    ],
+    "github-actions": [
+      "actionlint",
+      "mise",
+      "zizmor"
+    ],
+    "github-agentic-workflow": [
+      "gh",
+      "git"
+    ],
+    "github-issues": [
+      "gh",
+      "git"
+    ],
+    "github-pull-request": [
+      "gh",
+      "git"
+    ],
+    "github-repository": [
+      "gh"
+    ],
+    "gitleaks": [
+      "gitleaks"
+    ],
+    "go-stack": [
+      "go",
+      "mise"
+    ],
+    "google-adk": [
+      "skills",
+      "uv"
+    ],
+    "google-ads": [
+      "skills"
+    ],
+    "google-analytics": [
+      "skills"
+    ],
+    "google-cloud": [
+      "skills"
+    ],
+    "google-developer": [
+      "skills"
+    ],
+    "goreleaser": [
+      "goreleaser",
+      "git-cliff",
+      "gh",
+      "cosign"
+    ],
+    "gws": [
+      "gws"
+    ],
+    "handover": [
+      "git"
+    ],
+    "hf": [
+      "hf"
+    ],
+    "hugo": [
+      "hugo",
+      "lychee",
+      "mise"
+    ],
     "implementation-plan": [],
+    "improve-docs": [
+      "lychee"
+    ],
     "incident-response": [],
-    "k8s-local": ["docker", "kubectl"],
-    "lefthook": ["lefthook", "mise"],
-    "mermaid": ["mmdc"],
-    "mise": ["mise"],
-    "plan-execution": ["mise"],
+    "k8s-local": [
+      "docker",
+      "kubectl"
+    ],
+    "kaggle": [
+      "kaggle"
+    ],
+    "lefthook": [
+      "lefthook",
+      "mise"
+    ],
+    "mcp-server": [
+      "go",
+      "uv",
+      "pnpm",
+      "npx"
+    ],
+    "mermaid": [
+      "mmdc"
+    ],
+    "mise": [
+      "mise"
+    ],
+    "new-project": [
+      "gh",
+      "mise"
+    ],
+    "observability": [
+      "gcloud"
+    ],
+    "opengrep": [
+      "opengrep"
+    ],
+    "plan-execution": [
+      "mise"
+    ],
     "plan-review": [],
+    "playwright": [
+      "playwright"
+    ],
     "product-design-review": [],
     "product-loop": [],
-    "production-readiness": ["mise"],
-    "project-backlog": ["gh", "git"],
-    "project-license": ["git"],
+    "production-readiness": [
+      "mise"
+    ],
+    "project-backlog": [
+      "gh",
+      "git"
+    ],
+    "project-health": [
+      "mise"
+    ],
+    "project-license": [
+      "git"
+    ],
     "prompt-design": [],
-    "python-script": ["uv"],
-    "python-stack": ["ruff", "uv"],
-    "quality-assurance": ["mise"],
-    "readme-agents": ["lychee"],
-    "release": ["gh", "git", "git-cliff", "mise"],
-    "repository-history": ["git"],
-    "repository-review": ["git", "mise"],
-    "security-scan": ["gitleaks", "trivy"],
-    "skill-security-review": [],
-    "sops-secrets": ["age", "sops"],
+    "python-script": [
+      "uv"
+    ],
+    "python-stack": [
+      "ruff",
+      "uv"
+    ],
+    "quality-assurance": [
+      "mise"
+    ],
+    "readme-agents": [
+      "lychee"
+    ],
+    "reclaim-disk": [
+      "dot"
+    ],
+    "reduce-complexity": [
+      "mise"
+    ],
+    "release": [
+      "gh",
+      "git",
+      "git-cliff",
+      "mise"
+    ],
+    "repository-history": [
+      "gh",
+      "git"
+    ],
+    "repository-review": [
+      "git",
+      "mise"
+    ],
+    "resolve-conflicts": [
+      "git",
+      "mise"
+    ],
+    "secure": [
+      "gitleaks",
+      "opengrep",
+      "trivy"
+    ],
+    "skill-security-review": [
+      "gitleaks",
+      "opengrep",
+      "rg",
+      "trivy"
+    ],
+    "skillify": [
+      "skills"
+    ],
+    "sops-secrets": [
+      "age",
+      "sops"
+    ],
     "systematic-debugging": [],
     "technical-publishing": [],
     "technical-research": [],
-    "terraform-stack": ["mise", "terraform-docs", "tflint", "tofu", "trivy"],
-    "test-driven-development": ["mise"],
+    "terraform-stack": [
+      "mise",
+      "skills",
+      "terraform-docs",
+      "tflint",
+      "tofu",
+      "trivy"
+    ],
+    "test-driven-development": [
+      "mise"
+    ],
     "threat-model": [],
-    "typst": ["mise", "typst", "typstyle"],
-    "upgrade-tools": ["mise"]
+    "trivy": [
+      "trivy"
+    ],
+    "typescript-stack": [
+      "biome",
+      "knip",
+      "mise",
+      "node",
+      "pnpm",
+      "tsc",
+      "tsx"
+    ],
+    "typst": [
+      "mise",
+      "typst",
+      "typstyle"
+    ],
+    "upgrade-tools": [
+      "mise"
+    ],
+    "zizmor": [
+      "zizmor"
+    ]
   }
 }

@@ -1,6 +1,7 @@
 package dot
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -415,6 +416,12 @@ func inspectLastHookFailure(cfg AgentConfig, home, agent string) (string, bool) 
 		content, readErr := os.ReadFile(filepath.Join(root, entries[index].Name()))
 		if readErr != nil {
 			unreadable = true
+			continue
+		}
+		// An empty file is a spool write that was interrupted before its record
+		// landed; it carries no failure to report, so it must not poison the
+		// whole window as "unreadable".
+		if len(bytes.TrimSpace(content)) == 0 {
 			continue
 		}
 		var record hookFailureRecord

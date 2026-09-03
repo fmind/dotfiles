@@ -8,6 +8,11 @@ lefthook = "latest"
 typst = "latest"
 typstyle = "latest"
 
+[tasks.all]
+alias = "a"
+description = "Run the full gate (format, check, test, build)"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
 [tasks.build]
 alias = "b"
 description = "Compile the document to a distributable PDF"
@@ -32,13 +37,23 @@ run = ["typstyle --check .", "dprint check"]
 
 [tasks."check:leaks"]
 alias = "cs"
-description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+description = "Audit recent commits for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
 
 [tasks.format]
 alias = "f"
 description = "Format Typst sources and configuration"
-run = ["typstyle -i .", "dprint fmt"]
+depends = ["format:typst", "format:dprint"]
+
+[tasks."format:dprint"]
+description = "Format JSON, Markdown, TOML, YAML with dprint"
+run = "dprint fmt"
+
+# Split from format:dprint so a commit touching only .typ files never hands dprint
+# an empty file list (it exits 14 with "No files found").
+[tasks."format:typst"]
+description = "Format Typst sources in place (typstyle)"
+run = "typstyle -i ."
 
 [tasks.install]
 alias = "i"

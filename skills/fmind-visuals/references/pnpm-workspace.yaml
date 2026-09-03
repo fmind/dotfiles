@@ -1,0 +1,8 @@
+# pnpm ignores dependency build scripts until they are allowed; playwright-chromium
+# must run its postinstall to download the browser that `slidev export` drives.
+allowBuilds:
+  playwright-chromium: true
+# Monaco (pulled in by Slidev) pins a vulnerable DOMPurify release; keep the override
+# until `pnpm audit` is clean without it.
+overrides:
+  dompurify: ^3.4.13

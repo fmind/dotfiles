@@ -32,9 +32,7 @@ Name excluded mutations, proof levels, complexity, spend, and runtime scope.
 
 Add routing metadata outside the body:
 
-- One or more existing `area/*` labels.
-- Exactly one existing `priority/p0`, `priority/p1`, or `priority/p2` label.
-- Exactly one existing `effort/s`, `effort/m`, or `effort/l` label.
+- Existing `area/*`, one `priority/*`, and one `effort/*` label when the repository defines them; otherwise propose the labels in the draft.
 - Native dependency edges: `blocked-by` and `blocking`, each targeting a draft ID or existing issue number.
 - Deduplication record: matching open and closed issue numbers, the material distinction, and retain or reject decision.
 - Evidence class: `verified-finding` or `trend-opportunity`; a retained opportunity must include current project-fit evidence.
@@ -58,14 +56,3 @@ gh api graphql \
 ```
 
 Before every mutation or retry, query `blockedBy` and `blocking`, skip existing edges, and retain a deterministic receipt. After mutation, read both directions back from GitHub and compare them with the reviewed draft graph.
-
-## Partial mutation receipt
-
-Never erase partial state. Report four lists separately:
-
-1. Created and verified issues.
-1. Failed and unattempted drafts.
-1. Successfully verified dependency edges.
-1. Failed and unattempted edges.
-
-Name the exact retry boundary and reconfirm authorization before resuming after material draft or repository changes.

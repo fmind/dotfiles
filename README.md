@@ -1,4 +1,4 @@
-# Dotfiles
+# Dot
 
 My personal dotfiles for **AI-driven, CLI-first** development on Linux and Mac OS. Declarative, reproducible, and fast.
 
@@ -13,9 +13,9 @@ Managed with [chezmoi](https://www.chezmoi.io/) (files) and [mise](https://mise.
 - **Editor** — [Neovim](https://neovim.io/) powered by [LazyVim](https://www.lazyvim.org/).
 - **Terminal** — [Ghostty](https://ghostty.org/) (GPU-accelerated) and [Zellij](https://zellij.dev/) workspace multiplexer.
 - **AI-CLI Integration** — Built-in setups for [OpenAI Codex](https://developers.openai.com/codex/) (`codex`), [Antigravity](https://antigravity.google/) (`agy`), [OpenCode](https://opencode.ai/), [Claude Code](https://claude.com/claude-code), [GitHub Copilot](https://github.com/features/copilot) (`copilot`), and [Grok Build](https://x.ai/build) (`grok`), sharing a unified persona (`AGENTS.md`) and skills.
-- **Agent Skills** — A library of 58 reusable [Agent Skills](https://agentskills.io) in [`skills/`](skills/), shared by every AI CLI above.
-- **Languages & Stacks** — Go and Python as the core languages, plus OpenTofu/Terraform for infrastructure, [Typst](https://typst.app/) for documents, and [Hugo](https://gohugo.io/) for sites — each with a pinned toolchain, formatter, linter, and test gate.
-- **Custom `dot` CLI** — A custom Go utility to pull workspace repos, manage local Kubernetes, generate commits, and handle logins. Source in [`dot/`](dot/).
+- **Agent Skills** — A library of 94 reusable [Agent Skills](https://agentskills.io) in [`skills/`](skills/), shared by every AI CLI above.
+- **Languages & Stacks** — Go and Python as the core languages, TypeScript with [Angular](https://angular.dev/) and [Firebase](https://firebase.google.com/) for web apps, [Google ADK](https://google.github.io/adk-docs/) for agents, plus OpenTofu/Terraform for infrastructure, [Typst](https://typst.app/) for documents, and [Hugo](https://gohugo.io/) for sites — each with a pinned toolchain, formatter, linter, and test gate.
+- **Custom `dot` CLI** — A custom Go utility to pull workspace repos, manage the optional local Kubernetes cluster, generate commits, and handle logins. Source in [`dot/`](dot/).
 - **User-space toolchain** — `install.sh` bootstraps mise and chezmoi, while a single mise config (`~/.config/mise/config.toml`) pins and manages the development CLI toolchain without system package managers. Every tool past that minimal bootstrap is pinned and lock-verified by mise.
 
 ## Prerequisites
@@ -30,7 +30,7 @@ sudo apt install -y git curl libatomic1 build-essential gnome-keyring
 xcode-select --install
 ```
 
-Install a Docker-compatible engine if you plan to use the local k3d cluster.
+Install a Docker-compatible engine if you plan to build container images. Kubernetes tooling (kubectl, k3d, helm, ...) is commented out in the mise config because Cloud Run is the default deploy target; uncomment it when a project needs a local cluster.
 
 [Ghostty](https://ghostty.org/docs/install/binary) and [FiraCode Nerd Font Mono](https://www.nerdfonts.com/font-downloads) are recommended host integrations for the configured terminal experience; they are not installed by mise.
 
@@ -47,7 +47,7 @@ ssh-keygen -t ed25519 -a 100 -C "your_email@example.com"
 
 ```bash
 # 1. Clone into the chezmoi source directory
-git clone https://github.com/fmind/dotfiles.git ~/.local/share/chezmoi
+git clone https://github.com/fmind/dot.git ~/.local/share/chezmoi
 
 # 2. Run the installer (mise → chezmoi → apply → tools and integrations)
 bash ~/.local/share/chezmoi/install.sh
@@ -80,7 +80,7 @@ API keys and credentials are split between two Fish configuration files:
    ```
 
    > [!NOTE]
-   > If the private key file is not present, `secrets.fish` is automatically ignored during `chezmoi apply` via `.chezmoiignore`. This allows you to bootstrap and run the dotfiles without decrypting fmind's personal secrets.
+   > If the private key file is not present, `secrets.fish` is automatically ignored during `chezmoi apply` via `.chezmoiignore`. This allows you to bootstrap and run `dot` without decrypting fmind's personal secrets.
 
    > [!WARNING]
    > **Back up `~/.config/chezmoi/key.txt`.** It is **not** managed by chezmoi. If lost, encrypted repo files are unrecoverable.

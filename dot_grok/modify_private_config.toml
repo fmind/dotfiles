@@ -97,6 +97,8 @@ sessions = false
 skills = false
 
 ` -}}
+{{- $base := env "FKF_BASE" | default (joinPath .chezmoi.homeDir "fmind/brain") -}}
+{{- $_ := set $managedConfig "mcp_servers" (dict "fkf" (dict "command" "fkf" "args" (list "mcp" "serve" "--base" $base) "enabled" true)) -}}
 {{- /* Dropping a key from the managed block above only stops managing it -- the merge would
        still carry whatever Grok last wrote. These three have to be pruned to actually go:
        privacy, which Grok wrote and a later version dropped, so "grok inspect" now reports

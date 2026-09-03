@@ -2,6 +2,7 @@ package dot
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"io"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"slices"
@@ -175,6 +177,9 @@ func discoverSkillFiles(repo string) ([]string, []string) {
 				return walkErr
 			}
 			if entry.Type()&os.ModeSymlink != 0 {
+				if isForeignSkillRoot(repo, path) {
+					return nil
+				}
 				findings = append(findings, skillRelativePath(repo, path)+": symbolic link is not allowed in first-party skill discovery")
 				return nil
 			}
@@ -199,6 +204,26 @@ func discoverSkillFiles(repo string) ([]string, []string) {
 	sort.Strings(skillFiles)
 	sort.Strings(findings)
 	return skillFiles, findings
+}
+
+// isForeignSkillRoot reports whether path is a top-level skill directory that a
+// third-party installer linked into the catalog. ~/.agents/skills is this very
+// directory, so tools such as fkf drop symlinks here; they are gitignored, not
+// first-party, and must neither fail the gate nor count against the catalog.
+// A symlink git tracks (or any deeper symlink) stays a finding: that is the
+// repository-escape case the discovery rule exists for.
+func isForeignSkillRoot(repo, path string) bool {
+	relative := skillRelativePath(repo, path)
+	parts := strings.Split(relative, "/")
+	isRoot := (len(parts) == 2 && parts[0] == "skills") || (len(parts) == 3 && parts[0] == ".agents" && parts[1] == "skills")
+	if !isRoot {
+		return false
+	}
+	cmd := exec.CommandContext(context.Background(), "git", "-C", repo, "ls-files", "--error-unmatch", "--", relative)
+	var exitErr *exec.ExitError
+	// Exit code 1 means "not tracked"; anything else (128: not a git repository)
+	// keeps the conservative rejection.
+	return errors.As(cmd.Run(), &exitErr) && exitErr.ExitCode() == 1
 }
 
 func TestSkillContractRejectsUnsafePackageState(t *testing.T) {
@@ -2394,12 +2419,9 @@ func TestSkillContractFullGateInstructionsPreserveDirtyWorktrees(t *testing.T) {
 	if len(findings) != 0 {
 		t.Fatalf("discover skills: %v", findings)
 	}
-	required := []string{
-		"inspect the full gate's task definition and working-tree state",
-		"whole-tree write-formatters",
-		"isolated temporary worktree",
-		"never reformat unrelated work",
-	}
+	// The mise skill owns the dirty-tree rule for the full gate; every other
+	// skill that invokes the gate must either link it or carry the one-line
+	// safeguard itself, so an agent never write-formats unrelated work.
 	for _, skillFile := range skillFiles {
 		data, err := readSkillParsedFile(skillFile)
 		if err != nil {
@@ -2409,10 +2431,14 @@ func TestSkillContractFullGateInstructionsPreserveDirtyWorktrees(t *testing.T) {
 		if !strings.Contains(content, "`mise run all`") {
 			continue
 		}
-		for _, phrase := range required {
-			if !strings.Contains(content, phrase) {
-				t.Errorf("%s: full-gate instruction is missing dirty-worktree safeguard %q", skillRelativePath(repo, skillFile), phrase)
+		if filepath.Base(filepath.Dir(skillFile)) == "mise" {
+			if !strings.Contains(content, "temporary `git worktree`") {
+				t.Errorf("%s: the mise skill must own the dirty-tree safeguard for `mise run all`", skillRelativePath(repo, skillFile))
 			}
+			continue
+		}
+		if !strings.Contains(content, "temporary `git worktree`") && !strings.Contains(content, "../mise/skill.md") {
+			t.Errorf("%s: full-gate instruction must link the mise skill or state the temporary `git worktree` safeguard", skillRelativePath(repo, skillFile))
 		}
 	}
 }
@@ -2446,17 +2472,17 @@ func TestHighRiskSkillSmokeContracts(t *testing.T) {
 		{
 			name:     "repository review preserves proof boundaries",
 			path:     "skills/repository-review/SKILL.md",
-			required: []string{"staged, unstaged, and untracked", "isolated temporary worktree", "mise run all", "source-ready", "local-green", "exact-head-CI", "runtime-proven", "deployed", "release-published", "Key findings", "Actions"},
+			required: []string{"staged, unstaged, and untracked", "mise run all", "proof ladder", "production-readiness", "P0", "Key findings", "Actions"},
 		},
 		{
 			name:     "project backlog separates drafts from mutation",
 			path:     "skills/project-backlog/SKILL.md",
-			required: []string{"read-only", "explicitly authorizes", "open and closed", "verified finding", "trend opportunity", "confirmed repository", "private", "unavailable", "Unauthorized writes", "partial issue creation", "addBlockedBy", "Mutation receipt", "tests/behavioral-evaluations.md"},
+			required: []string{"read-only", "explicitly authorizes", "open and closed", "verified finding", "trend opportunity", "confirmed repository", "private", "unavailable", "Unauthorized writes", "partial issue creation", "addBlockedBy", "Mutation receipt", "github-issues"},
 		},
 		{
 			name:     "agent skills covers lifecycle and publication authority",
 			path:     "skills/agent-skills/SKILL.md",
-			required: []string{"# Agent Skills", "## Author", "## Validate", "## Publish", "## Install", "<candidate-root>/<slug>/SKILL.md", "gh skill publish --dry-run <candidate-root>", "gh skill publish <candidate-root> --tag <vX.Y.Z>", "exact reviewed local snapshot", "explicit publication authorization", "Publication receipt", "source-ready"},
+			required: []string{"# Agent Skills", "## Author", "## Validate", "## Publish", "## Install", "<candidate-root>/<slug>/SKILL.md", "gh skill publish --dry-run <candidate-root>", "gh skill publish <candidate-root> --tag <vX.Y.Z>", "explicit publication authorization"},
 			ordered:  []string{"## Author", "## Validate", "## Publish", "## Install"},
 		},
 		{
@@ -2525,4 +2551,42 @@ func hasCommandPath(root *cli.Command, path []string) bool {
 		current = found
 	}
 	return true
+}
+
+func TestSkillContractSkipsUntrackedForeignSkillRoots(t *testing.T) {
+	repo := t.TempDir()
+	for _, args := range [][]string{{"init", "-q"}, {"config", "user.email", "test@example.com"}, {"config", "user.name", "Test"}} {
+		cmd := exec.CommandContext(context.Background(), "git", append([]string{"-C", repo}, args...)...)
+		if output, err := cmd.CombinedOutput(); err != nil {
+			t.Fatalf("git %v: %v: %s", args, err, output)
+		}
+	}
+	_, skillFile := writeSkillContractFixture(t, repo, "Read nothing.")
+	foreign := filepath.Join(t.TempDir(), "foreign")
+	if err := os.MkdirAll(foreign, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(foreign, "SKILL.md"), []byte("---\nname: foreign\ndescription: Foreign install. Use never.\n---\n\n# Foreign\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	// An installer such as fkf links its skill into the catalog directory: the
+	// link is untracked, so discovery must skip it rather than fail the gate.
+	if err := os.Symlink(foreign, filepath.Join(repo, "skills", "foreign")); err != nil {
+		t.Fatal(err)
+	}
+	skillFiles, findings := discoverSkillFiles(repo)
+	if len(findings) != 0 {
+		t.Fatalf("untracked foreign symlink produced findings: %v", findings)
+	}
+	if len(skillFiles) != 1 || skillFiles[0] != skillFile {
+		t.Fatalf("discovered %v, want only %s", skillFiles, skillFile)
+	}
+	// Once git tracks the link it is first-party state and the rejection returns.
+	cmd := exec.CommandContext(context.Background(), "git", "-C", repo, "add", "-f", "skills/foreign")
+	if output, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("git add: %v: %s", err, output)
+	}
+	if _, findings := discoverSkillFiles(repo); len(findings) != 1 || !strings.Contains(findings[0], "symbolic link") {
+		t.Fatalf("tracked symlink must be rejected, got %v", findings)
+	}
 }

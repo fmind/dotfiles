@@ -295,11 +295,13 @@ type CompletionConfig struct {
 func defaultCompletionConfig() CompletionConfig {
 	return CompletionConfig{
 		Tools: []string{
-			"ast-grep", "atlas", "atuin", "bat", "carapace", "chezmoi", "codex", "cosign", "delta", "dive",
-			"dlv", "doggo", "dprint", "dyff", "fd", "flux", "gh", "git-lfs", "gitleaks", "golangci-lint", "goreleaser",
-			"helm", "helmfile", "hugo", "jules", "k3d", "k9s", "kind", "ko", "kube-linter", "kubecolor",
-			"kubectl", "kustomize", "lazygit", "lefthook", "mirrord", "mise", "opencode", "pluto",
-			"rg", "ruff", "skaffold", "sqlc", "starship", "step", "stern",
+			// Kubernetes tools (kubectl, helm, k3d, ...) are opt-in in the mise config,
+			// so they are not listed here: a shim without a configured version fails
+			// the whole completions task instead of being skipped.
+			"ast-grep", "atlas", "atuin", "bat", "carapace", "chezmoi", "codex", "cosign", "delta",
+			"dlv", "doggo", "dprint", "dyff", "fd", "gh", "git-lfs", "gitleaks", "golangci-lint", "goreleaser",
+			"hugo", "jules", "ko", "lazygit", "lefthook", "mise", "opencode",
+			"rg", "ruff", "sqlc", "starship",
 			"terraform-docs", "trivy", "ty", "typst", "uv", "watchexec", "xh", "yq", "zellij",
 		},
 		Path:        DefaultCompletionsPath,
@@ -313,7 +315,6 @@ func defaultCompletionConfig() CompletionConfig {
 			"carapace":  {Args: []string{"_carapace", "fish"}},
 			"codex":     {Args: []string{"completion", "fish"}},
 			"delta":     {Args: []string{"--generate-completion", "fish"}},
-			"dive":      {Args: []string{"completion", "fish"}},
 			"dlv":       {Args: []string{"completion", "fish"}},
 			"doggo":     {Args: []string{"completions", "fish"}},
 			"dprint":    {Args: []string{"completions", "fish"}},
@@ -321,11 +322,9 @@ func defaultCompletionConfig() CompletionConfig {
 			"gh":        {Args: []string{"completion", "-s", "fish"}},
 			"git-lfs":   {Binary: "git", Args: []string{"lfs", "completion", "fish"}},
 			"lazygit":   {Args: []string{"completion", "fish"}},
-			"mirrord":   {Args: []string{"completions", "fish"}},
 			"rg":        {Args: []string{"--generate", "complete-fish"}},
 			"ruff":      {Args: []string{"generate-shell-completion", "fish"}},
 			"starship":  {Args: []string{"completions", "fish"}},
-			"stern":     {Args: []string{"--completion", "fish"}},
 			"ty":        {Args: []string{"generate-shell-completion", "fish"}},
 			"typst":     {Args: []string{"completions", "fish"}},
 			"uv":        {Args: []string{"generate-shell-completion", "fish"}},

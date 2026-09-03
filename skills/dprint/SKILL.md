@@ -1,37 +1,52 @@
 ---
 name: dprint
-description: Canonical dprint setup — the standard formatter for config and markup files (JSON, Markdown, TOML, YAML). Use when configuring or running formatting for these file types.
+description: Canonical dprint setup, the standard formatter for JSON, Markdown, TOML, and YAML. Use when configuring or running formatting for these file types.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/dprint
-  created: 2026-06-29
-  updated: 2026-08-02
+  source: github.com/fmind/dot/tree/main/skills/dprint
+  created: "2026-06-29"
+  updated: "2026-09-03"
 ---
 
-# dprint Formatting Standard
+# dprint
 
-Canonical setup for **dprint**, the primary formatter for configuration and markup languages (JSON, Markdown, TOML, YAML). dprint formats only — linting lives in the language stacks ([go-stack](../go-stack/SKILL.md), [python-stack](../python-stack/SKILL.md)).
+The formatter for configuration and markup files (JSON, Markdown, TOML, YAML); dprint formats only, linting lives in the language stacks ([go-stack](../go-stack/SKILL.md), [python-stack](../python-stack/SKILL.md), [typescript-stack](../typescript-stack/SKILL.md)).
 
-## 1. Configuration Strategy
+## Configuration
 
-dprint resolves config by searching the current directory upward through ancestors; only when that search finds nothing does it fall back to the global config (if one is set up, e.g. via `DPRINT_CONFIG_DIR`). So every project still needs its own resolvable `dprint.json`/`dprint.jsonc` — otherwise it silently inherits whatever the global fallback happens to contain. In this dotfiles repository, root `dprint.json` is the single canonical config and `dot_config/dprint/symlink_dprint.jsonc.tmpl` deploys `~/.config/dprint/dprint.jsonc` as a symlink to it (the global fallback); do not maintain a second config copy.
+dprint searches the current directory upward for `dprint.json` or `dprint.jsonc` and falls back to the global config (`DPRINT_CONFIG_DIR`) only when nothing is found, so every project needs its own resolvable config or it silently inherits whatever the global one contains.
 
-1. **Copy (default)**: Copy root `dprint.json` into the project root. This is self-contained, version-pinned, and offline; bump plugin versions per repo.
-1. **Extends (DRY)**: Set `"extends"` to a single source of truth — a local path or a commit-pinned URL, e.g. `"extends": "https://raw.githubusercontent.com/fmind/dotfiles/<commit>/dprint.json"`. Projects inherit and can still override rules or add plugins.
+1. **Copy (default)**: copy a known-good `dprint.json` into the project root; it is self-contained, version-pinned, and offline. Bump plugin versions per repository.
+1. **Extends (DRY)**: set `"extends"` to a single source of truth, a local path or a commit-pinned URL such as `"https://raw.githubusercontent.com/fmind/dot/<commit>/dprint.json"`; override rules or add plugins locally.
 
-## 2. Usage
+## Commands
 
-- `dprint fmt` — format in place; the pre-commit hook calls the `format:dprint` task with `{staged_files}`.
-- `dprint check` — verify formatting, non-zero exit on diff; wired into `check` as `check:dprint`.
-- `dprint add <plugin>` — add and pin a new plugin version.
+```bash
+dprint fmt --allow-no-files   # format:dprint — the hook appends {staged_files}; the flag keeps an empty list from exiting 14
+dprint check                  # check:format — non-zero exit on drift
+dprint add <plugin>           # add and pin a plugin version
+```
 
-## 3. Gotchas & Guidelines
+## Mise Tasks
 
-- **Precedence**: The order of plugins in the `plugins` array defines precedence. Ensure generic formatting plugins do not overshadow specialized ones.
-- **Embedded Code Blocks**: The Markdown plugin formats fenced code blocks (e.g., JSON, TOML) only when both the Markdown plugin and the respective language plugins are loaded.
+```toml
+[tasks."format:dprint"]
+description = "Format JSON, Markdown, TOML, YAML (dprint)"
+run = "dprint fmt --allow-no-files" # mise appends the hook's {staged_files}
+
+[tasks."check:format"]
+description = "Check config and markup formatting (dprint)"
+run = "dprint check"
+```
+
+## Gotchas
+
+- **Plugin order is precedence**: the `plugins` array order decides which plugin claims a file; keep specialized plugins before generic ones.
+- **Embedded code blocks**: the Markdown plugin formats fenced JSON, TOML, and YAML only when those plugins are loaded too.
+- **Staged vs whole-tree**: `format:dprint` takes `{staged_files}` from the hook and restages fixes; `check:format` always runs on the whole tree.
 
 ## Documentation
 
-- [dprint Documentation](https://dprint.dev)
-- [dprint Configuration Guide](https://dprint.dev/config/)
+- [dprint](https://dprint.dev) · [Configuration](https://dprint.dev/config/) · [CLI](https://dprint.dev/cli/)
+- Companion skills: [mise](../mise/SKILL.md) (task vocabulary), [lefthook](../lefthook/SKILL.md) (the pre-commit hook that calls `format:dprint`).

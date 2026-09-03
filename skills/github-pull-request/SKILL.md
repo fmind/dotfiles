@@ -1,37 +1,35 @@
 ---
 name: github-pull-request
-description: Create or update a GitHub pull request with a structured What / Why / How / Test-plan body. Use when opening or updating a PR for the current branch.
+description: Create or update a GitHub pull request with a structured What, Why, How, and Test-plan body. Use when opening or updating a PR for the current branch.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/github-pull-request
-  created: 2026-06-23
-  updated: 2026-07-12
+  source: github.com/fmind/dot/tree/main/skills/github-pull-request
+  created: "2026-06-23"
+  updated: "2026-09-03"
 ---
 
-# Create GitHub Pull Request
+# GitHub Pull Request
 
-Create or update a GitHub pull request for the current branch against `main`.
-
-## Context Gathering
-
-Gather context before drafting:
-
-- `git fetch origin main` — refresh `origin/main` so the ranges below are accurate.
-- `git config --get remote.origin.url` — origin URL.
-- `git branch --show-current` — current branch.
-- `git status --short` — working tree state.
-- `gh pr view --json number,state,url` — detect an existing PR for this branch (exits non-zero / empty when none, keying the create-vs-edit choice).
-- `git log --reverse --oneline origin/main..HEAD` — commits since `main`.
-- `git diff --stat --find-renames origin/main...HEAD` — diff stats.
-- `git diff --name-only --find-renames origin/main...HEAD` — changed files.
+Create or update the pull request for the current branch against `main` with a What, Why, How, and Test plan body; [feature-branch](../feature-branch/SKILL.md) owns branch creation and [conventional-commit](../conventional-commit/SKILL.md) the commits on it.
 
 ## Workflow
 
-1. If the current branch is `main`, stop and say a PR must come from a feature branch.
-1. Inspect changed files as needed so the PR matches the actual work, not just the commit subjects.
-1. Write a clear PR title in imperative mood, **under 72 characters**.
-1. Write a Markdown body with these sections:
+1. **Stop on `main`**: a PR must come from a feature branch.
+1. **Gather context** so the PR reflects the actual work, not only the commit subjects:
+
+   ```bash
+   git fetch origin main                                   # refresh origin/main for the ranges below
+   git branch --show-current                               # current branch
+   git status --short                                      # working tree state
+   gh pr view --json number,state,url                      # existing PR for this branch (non-zero exit when none)
+   git log --reverse --oneline origin/main..HEAD           # commits since main
+   git diff --stat --find-renames origin/main...HEAD       # diff stats
+   git diff --name-only --find-renames origin/main...HEAD  # changed files
+   ```
+
+1. **Write the title** in imperative mood, under 72 characters.
+1. **Write the body** into a temporary file (never inline shell quoting) with these sections:
 
    ```markdown
    ## What
@@ -43,29 +41,26 @@ Gather context before drafting:
    ## Test plan
    ```
 
-1. Push the current branch to `origin` with upstream if needed (`git push -u origin <branch>`).
-1. If a PR already exists for this branch, update it:
+1. **Push the branch** with an upstream when it has none: `git push -u origin "$(git branch --show-current)"`.
+1. **Create or update** depending on step 2:
 
    ```bash
-   gh pr edit --base main --title "<title>" --body-file <tmpfile>
+   gh pr edit --base main --title "<title>" --body-file <tmpfile>     # a PR exists
+   gh pr create --base main --title "<title>" --body-file <tmpfile>   # no PR yet
    ```
 
-1. Otherwise create it:
+1. **Report** the PR URL, the final title, and the final body; if `origin/main` or GitHub auth is unavailable, explain the blocker and stop.
 
-   ```bash
-   gh pr create --base main --title "<title>" --body-file <tmpfile>
-   ```
+## Official Skills
 
-1. Use a temporary file for the PR body instead of inline shell quoting.
-1. After success, print the PR URL, the final title, and the final body.
-1. If `origin/main` or GitHub auth is unavailable, explain the blocker briefly and stop.
+Upstream: `cli/cli`. List the current release, then install what the task needs at project scope after reviewing the snapshot (see [agent-skills](../agent-skills/SKILL.md)):
 
-## Gotchas
-
-- Keep the final response compact.
-- Never force-push to `main`.
+```bash
+gh skill preview cli/cli gh
+gh skill install cli/cli gh
+```
 
 ## Documentation
 
-- [feature-branch](../feature-branch/SKILL.md) — branch creation upstream of the PR.
-- [conventional-commit](../conventional-commit/SKILL.md) — commit cadence on the branch.
+- [gh pr manual](https://cli.github.com/manual/gh_pr)
+- Companion skills: [feature-branch](../feature-branch/SKILL.md) (branch first), [conventional-commit](../conventional-commit/SKILL.md) (commit cadence), [github-issues](../github-issues/SKILL.md) (the issue the PR closes).

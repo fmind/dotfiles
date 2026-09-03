@@ -1,0 +1,15 @@
+{
+  // Emit-only profile: the root config keeps `noEmit` so tests and *.config.ts stay type-checked
+  // without ever landing in dist/.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
+}

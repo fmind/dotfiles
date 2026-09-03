@@ -1,74 +1,58 @@
 ---
 name: dot-cli
-description: Use the dot CLI (fmind/dotfiles) to verify the environment, pull repos, manage the local k3d cluster, log agent sessions, and prune caches. Use when running or scripting any dot command.
+description: Use the dot CLI (fmind/dot) to verify the environment, pull repos, manage the local k3d cluster, log agent sessions, and prune caches. Use for any dot command.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/dot-cli
-  created: 2026-07-31
-  updated: 2026-08-02
+  source: github.com/fmind/dot/tree/main/skills/dot-cli
+  created: "2026-07-31"
+  updated: "2026-09-03"
 ---
 
 # Dot CLI
 
-`dot` is the unified CLI of `fmind/dotfiles` (source in `dot/`, built to `~/.local/bin/dot`). All subcommands have single-letter aliases. Use `dot <command> --help` for precise flag usage.
+`dot` is the unified CLI of `fmind/dot`, built to `~/.local/bin/dot`. Every command has a one-letter alias (`pull-request` also answers to `pr`); `dot <command> --help` gives the exact flags.
 
 ## Commands
 
-| Command             | Alias | Purpose                                                                                                   |
-| ------------------- | ----- | --------------------------------------------------------------------------------------------------------- |
-| `dot verify`        | `v`   | Sanity-check environment, tools, secrets, and install freshness (`--json`, `--fix`)                       |
-| `dot status`        | `s`   | Unified git, docker, and k3d status summary (`--json`)                                                    |
-| `dot pull`          | `p`   | Pull repos declared in `~/.config/dot.yaml` (`--push` to push)                                            |
-| `dot commit`        | `c`   | Generate Conventional Commit via AI (`agy`) from staged changes                                           |
-| `dot pull-request`  | `pr`  | Draft PR description via AI and invoke `gh pr create`                                                     |
-| `dot release`       | `r`   | Prepare, tag, and publish dotfiles release (see [dot-release](../../.agents/skills/dot-release/SKILL.md)) |
-| `dot cluster`       | `k`   | Manage local k3d cluster and gather diagnostic evidence                                                   |
-| `dot prune`         | `x`   | Reclaim disk space from agent session logs and dev/tool caches                                            |
-| `dot agent`         | `a`   | Agent session management (`doctor`, `hook`, `session`)                                                    |
-| `dot notify`        | `n`   | Trigger desktop notifications for agent hooks or alerts                                                   |
-| `dot chezmoi`       | `m`   | chezmoi configuration management (`clean` subcommand)                                                     |
-| `dot chezmoi clean` | `m c` | Find and delete `$HOME` orphan files unmanaged by chezmoi                                                 |
-| `dot config`        | `f`   | Scaffold (`init`), edit, show, and validate `~/.config/dot.yaml`                                          |
-| `dot login`         | `l`   | OAuth login wrapper (`github`, `workspace`, `gcp`, `clasp`)                                               |
-| `dot setup`         | `u`   | Enable GCP APIs on active Workspace project                                                               |
-| `dot completion`    | `g`   | Generate fish autocompletions for `dot` and tools                                                         |
-| `dot context`       | `t`   | Export bounded, secret-scanned project context pack                                                       |
-| `dot version`       | `i`   | Print binary version and VCS revision                                                                     |
+| Command            | Alias     | Purpose                                                                                                                   |
+| ------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `dot verify`       | `v`       | Sanity checks on environment, tools, secrets, and install freshness (`--json`, `--fix`)                                   |
+| `dot status`       | `s`       | Unified git, docker, and k3d status summary (`--json`)                                                                    |
+| `dot pull`         | `p`       | Concurrently pull the repositories listed in `~/.config/dot.yaml` (`--push` also pushes clean repos)                      |
+| `dot commit`       | `c`       | AI Conventional Commit from the staged diff; runs `git add -A` first when nothing is staged (`--type`, `--scope`)         |
+| `dot pull-request` | `pr`, `b` | AI PR description then `gh pr create` (`--base`, `--title`, `--draft`, `--label`, `--reviewer`, `--assignee`)             |
+| `dot release`      | `r`       | Prepare, tag, and push a dot release (`--yes`); see `.agents/skills/dot-release` inside the dot repository                |
+| `dot cluster`      | `k`       | Local k3d cluster: `start` (`s`), `stop` (`x`), `status` (`t`), `diagnose` (`g`), `delete --yes` (`d`), `namespace` (`n`) |
+| `dot prune`        | `x`       | Reclaim disk space from agent session logs and caches; the flow lives in [reclaim-disk](../reclaim-disk/SKILL.md)         |
+| `dot agent`        | `a`       | Agent integrations: `doctor` (`d`), `hook` (`h`), `session` (`s`)                                                         |
+| `dot notify`       | `n`       | Desktop notification: `dot notify <agent> <event>` for hooks, `dot notify <summary> [headline] [details...]` for alerts   |
+| `dot chezmoi`      | `m`       | `clean` (`c`) finds and deletes `$HOME` orphans once managed by chezmoi (`--yes`, `--interactive`)                        |
+| `dot config`       | `f`       | `~/.config/dot.yaml`: `show` (`s`), `path` (`p`), `init` (`i`), `edit` (`e`), `validate` (`v`)                            |
+| `dot login`        | `l`       | OAuth login wrappers: `github` (`g`), `workspace` (`w`), `gcp` (`c`), `clasp` (`a`)                                       |
+| `dot setup`        | `u`       | `workspace` (`w`) enables GCP APIs on a project and links it to `gws`: `dot setup workspace [PROJECT_ID]`                 |
+| `dot completion`   | `g`       | Generate fish completions for `dot` and external CLIs                                                                     |
+| `dot context`      | `t`       | Bounded, redacted project context pack (`--bytes`, `--tokens`, `--format json`)                                           |
+| `dot version`      | `i`       | Print the version and embedded build metadata                                                                             |
 
 Global flags: `--config/-c <path>` (or `DOT_CONFIG_PATH`) and `--verbose` (or `DOT_VERBOSE`).
 
-## Core Workflows
+## Workflow
 
-### Disk Pruning (`dot prune` / `x`)
-
-Runs target-based cleanup using rules defined in `~/.config/dot.yaml`. Nothing is deleted unless targets are specified or `--all` is used.
-
-- Basic usage: `dot prune -a -g -m` (prune agent session logs, Go cache, and mise cache).
-- Deep pruning: `dot prune --all=deep` or `dot prune --docker=system` (includes containers, networks, dangling images).
-- Safety: Agent long-term memory (`memory/`, `MEMORY.md`) is never pruned. Use `--dry-run` to preview deletions.
-
-### Agent Management (`dot agent` / `a`)
-
-Ingests and verifies cross-agent transcripts in `~/.agents/sessions/v1/`.
-
-- `dot agent doctor` (`a d`): Check persona, hooks, skills, and store health. Use `--fix` (`-f`) to trigger a targeted chezmoi repair on hook mismatches.
-- `dot agent session sync` (`a s s`): Ingest and validate agent transcripts into the append-only store.
-- `dot agent session migrate` (`a s m`): Migrate legacy agent sessions into the versioned store (`--apply` to execute).
-
-### Cluster Diagnostics (`dot cluster` / `k`)
-
-- `dot cluster diagnose`: Export sanitized, owner-only diagnostic manifest to `~/.local/state/dot/diagnostics/`. Redacts secrets automatically.
-- Example: `dot cluster diagnose --namespace app --output ./app-diagnostics.json --since 20m`.
+1. **Health**: `dot verify`, then `dot agent doctor` for persona, hooks, skills, and session-store health (`--fix` reapplies the managed integration targets with chezmoi, `--dry-run` previews).
+1. **Sessions**: `dot agent session sync` ingests new transcripts from every agent into `~/.agents/sessions/v1/`; `list`, `show`, and `export` read the store.
+1. **Legacy sessions**: `dot agent session migrate` dry-runs the selection of the most complete transcript per lineage; `--apply` writes it.
+1. **Cluster**: `dot cluster start`, then `dot cluster diagnose --namespace <ns> --output <file> --since 20m` for a sanitized evidence bundle, and `dot cluster stop` when done; see [k8s-local](../k8s-local/SKILL.md).
+1. **Disk**: `dot prune --dry-run --all=deep` to preview, then prune per [reclaim-disk](../reclaim-disk/SKILL.md); long-term agent memory (`memory/`, `MEMORY.md`) is never pruned.
+1. **Rebuild after source edits**: inside the dot repository, `mise run deploy` rebuilds the binary and reapplies it to `~/.local/bin/dot`.
 
 ## Gotchas
 
-- **Source edits**: Always rebuild with `mise run build` (or `mise run apply`) after modifying files under `dot/`.
-- **K3d cluster**: `--docker=system` during `dot prune` deletes stopped k3d clusters. Keep the k3d cluster stopped when inactive (`dot cluster stop`).
-- **Hook stale install**: If `dot agent doctor` reports `command-unavailable`, run `mise run apply` to sync the compiled binary with newly deployed chezmoi hooks.
+- **Stale binary**: when `dot agent doctor` reports `command-unavailable`, run `mise run deploy` inside the dot repository to sync the binary with the deployed hooks.
+- **`dot commit` stages everything**: with nothing staged it runs `git add -A` before generating the message; stage selectively first when the tree holds unrelated changes.
+- **Cluster resting state**: keep the k3d cluster stopped when inactive (`dot cluster stop`); `dot cluster delete --yes` removes it without a prompt.
 
-## See Also
+## Documentation
 
-- [dot-release](../../.agents/skills/dot-release/SKILL.md) — Cutting a dotfiles release.
-- [chezmoi](../../.agents/skills/chezmoi/SKILL.md) — Source naming, templates, and the edit-then-apply loop.
-- [k8s-local](../k8s-local/SKILL.md) — Working inside the shared local cluster.
+- [fmind/dot](https://github.com/fmind/dot) — source, README, and the repository-scoped skills (`.agents/skills/dot-release`, `.agents/skills/chezmoi`).
+- Companion skills: [reclaim-disk](../reclaim-disk/SKILL.md) (prune flow), [k8s-local](../k8s-local/SKILL.md) (cluster inside a project), [mise](../mise/SKILL.md) (`mise run deploy`).

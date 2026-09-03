@@ -11,7 +11,7 @@ from testcontainers.community.postgres import PostgresContainer
 @pytest.fixture(scope="session")
 def postgres_database_url() -> Iterator[str]:
     """Start PostgreSQL only for tests that request this fixture."""
-    with PostgresContainer("postgres:17-alpine", driver="asyncpg") as postgres:
+    with PostgresContainer("postgres:18-alpine", driver="asyncpg") as postgres:
         yield postgres.get_connection_url()
 
 

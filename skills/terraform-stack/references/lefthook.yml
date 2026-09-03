@@ -1,10 +1,15 @@
 pre-commit:
   parallel: false
   commands:
-    format:
-      glob: "*.{tf,hcl,json,md,toml,yaml,yml}"
+    format:dprint:
+      glob: "*.{json,md,toml,yaml,yml}"
       priority: 10
-      run: mise run format {staged_files}
+      run: mise run format:dprint {staged_files}
+      stage_fixed: true
+    format:tofu:
+      glob: "*.{tf,tfvars,tftest.hcl}"
+      priority: 10
+      run: mise run format:tofu {staged_files}
       stage_fixed: true
     check:leaks:
       priority: 20

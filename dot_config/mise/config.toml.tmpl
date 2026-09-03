@@ -1,8 +1,10 @@
 [settings]
 # Signature/provenance verification (cosign, minisign, SLSA, GitHub attestations)
 # is deliberately off across every backend, and releases are installed the day they
-# ship. The trade-off: mise.lock pins each tool to a digest so a *re-install* is
-# reproducible, but the first fetch of a new version is unverified. Upstream
+# ship. The trade-off: mise.lock records a digest only for the aqua/github/http
+# backends, so a *re-install* of those is reproducible -- the `go:`, `npm:` and `pipx:`
+# entries (plus registry tools such as gcloud, make, neovim, sqlc, sqlite and uv) pin a
+# version but no digest, and the first fetch of any new version is unverified. Upstream
 # attestation coverage is too patchy to gate routine upgrades on, and this is a
 # single-user workstation. Raise minimum_release_age (e.g. "3d") to trade upgrade
 # latency for a window in which a compromised release gets pulled.
@@ -32,30 +34,34 @@ chpwd_only = true
 # Not in the mise registry short-name list, so the aqua backend is named explicitly.
 "aqua:dlvhdr/gh-dash" = "latest" # TUI dashboard for GitHub PRs, issues, and notifications
 "aqua:fish-shell/fish-shell" = "4" # Friendly interactive shell (Fish)
-"aqua:slackapi/slack-cli" = "latest" # Command-line tool to build, manage, and run Slack apps
+"aqua:github/copilot-cli" = "latest" # GitHub Copilot terminal-based AI coding agent CLI
+# "aqua:slackapi/slack-cli" = "latest" # Slack app builder; needs a workspace where you can install apps
+"github:fmind/fkf" = "latest" # Fmind Knowledge Framework (fkf)
 "go:github.com/evanw/esbuild/cmd/esbuild" = "latest" # JavaScript/CSS bundler and minifier (GOTH assets)
-"go:github.com/fatih/gomodifytags" = "latest" # Go tool to modify struct field tags
 "go:github.com/fmind/fgraph/go/cmd/fgraph" = "latest" # Portable temporal Facts Graph CLI
 "go:github.com/go-delve/delve/cmd/dlv" = "latest" # Go debugger (Delve)
+"go:golang.org/x/pkgsite/cmd/pkgsite" = "latest" # Local godoc server for module documentation (fish `gop`)
 "go:golang.org/x/tools/cmd/goimports" = "latest" # Format and fix import statements in Go
 "go:golang.org/x/tools/gopls" = "latest" # Official Go language server (LSP)
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest" # Scans Go code for known vulnerabilities
-# "npm:@angular/cli" = "latest" # Angular web framework CLI
-"npm:@github/copilot" = "latest" # GitHub Copilot terminal-based AI coding agent CLI
+"npm:@angular/cli" = "latest" # Angular web framework CLI (typescript-stack / angular skills)
 "npm:@google/clasp" = "latest" # Google Apps Script projects development tool
-"npm:@likec4/lsp" = "latest" # Language server for LikeC4 diagrams
 "npm:@mermaid-js/mermaid-cli" = { version = "latest", allow_builds = ["puppeteer"] } # Allow Puppeteer to install the headless browser used for rendering
 "npm:@slidev/cli" = { version = "latest", trust_policy_excludes = ["cytoscape@3.34.1"] } # Markdown and Vue presentation framework for developer slides
-# "npm:genkit-cli" = "latest" # Firebase Genkit CLI tool for AI/LLM workflows
+"npm:genkit-cli" = "latest" # Firebase Genkit CLI (dev UI, flows) for AI/LLM workflows
+"npm:knip" = "latest" # Find unused TypeScript files, exports, and dependencies
 "npm:lighthouse" = "latest" # Web page audit tool for performance and SEO
 "npm:likec4" = "latest" # CLI for LikeC4 architecture-as-code diagramming tool
 "npm:pnpm" = "latest" # Fast Node.js package manager
 "npm:skills" = "latest" # Agent Skills CLI manager
 "npm:tsx" = "latest" # Run TypeScript files directly with Node
 "npm:typescript" = "latest" # TypeScript language compiler
-"pipx:google-colab-cli" = "latest" # CLI client for Google Colab
+# Pinned dep: google-colab-cli requires jupyter-kernel-client unpinned, but 1.0.0 renamed
+# KernelClient -> JupyterKernelClient, which breaks every session (verified 2026-09-02).
+"pipx:google-colab-cli" = { version = "latest", uvx_args = "--with jupyter-kernel-client==0.15.0" } # CLI client for Google Colab
 "pipx:huggingface_hub" = "latest" # Hugging Face Hub CLI client
 "pipx:kaggle" = "latest" # Kaggle dataset and competition CLI
+"pipx:pip-audit" = "latest" # Scans Python dependencies for known vulnerabilities (check:vuln)
 "pipx:ptpython" = "latest" # Interactive Python REPL with autocomplete
 # The dedicated registry entry selects Hugo Extended on every supported platform.
 hugo-extended = "latest" # Static site generator for docs and websites
@@ -66,6 +72,7 @@ air = "latest" # Live reloading utility for Go apps
 ast-grep = "latest" # Code structural search, lint, and rewrite tool
 atlas = "latest" # Database schema migration management tool
 bat = "latest" # Cat clone with syntax highlighting and git integration
+biome = "latest" # Formatter and linter for JavaScript/TypeScript/JSON (typescript-stack)
 bottom = "latest" # Graphical system and process monitor for terminal
 carapace = "latest" # Multi-shell command argument completion generator
 chezmoi = "latest" # Dotfiles manager across diverse machines
@@ -75,7 +82,6 @@ cosign = "latest" # Sign and verify container images and attestations (Sigstore)
 d2 = "latest" # Text-to-diagram language for bespoke standalone compositions
 delta = "latest" # Syntax-highlighter for git, diff, and grep output
 doggo = "latest" # Command-line DNS client supporting modern protocols
-dive = "latest" # Docker image explorer and optimization tool
 dprint = "latest" # Pluggable and ultra-fast code formatter
 duckdb = "latest" # Embedded SQL analytical database management system
 duf = "latest" # Disk usage utility with clean tabular layout
@@ -83,8 +89,11 @@ dust = "latest" # Rust-based disk usage analyzer
 dyff = "latest" # Semantic diff for YAML/JSON (Kubernetes-aware)
 fastfetch = "latest" # Active, customizable system info fetching tool
 fd = "latest" # Simple, fast replacement for the find command
-# firebase = "latest" # Firebase command-line tools
-flux2 = "latest" # GitOps operator and toolkit CLI for Kubernetes
+firebase = "latest" # Firebase CLI (emulators, hosting, Firestore rules, functions)
+# Kubernetes tooling is opt-in: Cloud Run is the default deploy target (see the
+# cloud-run skill). Uncomment these lines or pin them in a project mise.toml when a
+# repository really needs a local cluster (see the k8s-local skill).
+# flux2 = "latest" # GitOps operator and toolkit CLI for Kubernetes
 fzf = "latest" # Interactive general-purpose fuzzy finder
 gcloud = "latest" # Google Cloud SDK command-line utility
 gh = "latest" # GitHub official command-line tool
@@ -97,59 +106,60 @@ golangci-lint = "latest" # Fast Go linting runner
 goreleaser = "latest" # Deliver Go binaries as fast and easily as possible
 gotestsum = "latest" # Go test runner with summary and watcher
 hadolint = "latest" # Dockerfile linter written in Haskell
-helm = "latest" # Package manager for Kubernetes charts (tracks latest; v4 adopted 2026-08)
-helmfile = "latest" # Declarative spec runner for Helm charts
+# helm = "latest" # Package manager for Kubernetes charts
+# helmfile = "latest" # Declarative spec runner for Helm charts
 hyperfine = "latest" # Command-line benchmarking utility
 jq = "latest" # Command-line JSON processor
 jules = "latest" # Google autonomous AI coding agent CLI
-k3d = "latest" # Run lightweight k3s Kubernetes clusters in Docker
-k9s = "latest" # Terminal UI for viewing Kubernetes clusters
-kind = "latest" # Kubernetes IN Docker cluster manager
+# k3d = "latest" # Run lightweight k3s Kubernetes clusters in Docker
+# k9s = "latest" # Terminal UI for viewing Kubernetes clusters
+# kind = "latest" # Kubernetes IN Docker cluster manager
 ko = "latest" # Fast container image builder for Go apps
-krew = "latest" # Plugin manager for kubectl
-kube-linter = "latest" # Static analysis linter for Kubernetes YAML/Helm
-kubecolor = "latest" # Colorizes kubectl command output
-kubeconform = "latest" # Kubernetes manifest schema validator
-kubectl = "latest" # Command-line tool to control Kubernetes clusters
-kubectx = "latest" # Fast switcher between Kubernetes cluster contexts
-kubens = "latest" # Switch between Kubernetes namespaces
-kustomize = "latest" # Customizes raw Kubernetes YAML configurations
+# krew = "latest" # Plugin manager for kubectl
+# kube-linter = "latest" # Static analysis linter for Kubernetes YAML/Helm
+# kubecolor = "latest" # Colorizes kubectl command output
+# kubeconform = "latest" # Kubernetes manifest schema validator
+# kubectl = "latest" # Command-line tool to control Kubernetes clusters
+# kubectx = "latest" # Fast switcher between Kubernetes cluster contexts
+# kubens = "latest" # Switch between Kubernetes namespaces
+# kustomize = "latest" # Customizes raw Kubernetes YAML configurations
 lazydocker = "latest" # Terminal UI for managing Docker containers
 lazygit = "latest" # Terminal UI for Git commands
 lefthook = "latest" # Fast and powerful Git hooks runner
 lsd = "latest" # Modern, feature-rich replacement for ls
 lychee = "latest" # Fast link checker for Markdown, HTML, and websites
 make = "latest" # GNU Make build automation tool
-mirrord = "latest" # Connects local processes directly to Kubernetes
+# mirrord = "latest" # Connects local processes directly to Kubernetes
 neovim = "latest" # Extensible Vim-based text editor
 node = "lts" # Node.js JavaScript runtime
 oha = "latest" # HTTP load generator with live TUI (hyperfine for endpoints)
-{{- if eq .chezmoi.os "darwin" }}
-"asdf:virtualstaticvoid/asdf-ollama" = "latest" # Local open-weight model runtime (ASDF backend avoids macOS pax header tar error)
-{{- else }}
-ollama = "latest" # Local open-weight model runtime serving the account-free agent path
-{{- end }}
 opencode = "latest" # OpenCode AI agent CLI tool
+opengrep = "latest" # Semantic SAST with cross-function taint analysis (check:sast)
 opentofu = "latest" # OpenTofu infrastructure as code CLI (open-source Terraform fork, default)
-pluto = "latest" # Detects deprecated Kubernetes API versions
+playwright = "latest" # Browser automation and e2e test runner CLI (codegen, browser install)
+# pluto = "latest" # Detects deprecated Kubernetes API versions
 python = "latest" # Python programming language interpreter
 ripgrep = "latest" # Blazing-fast grep alternative
 ruff = "latest" # High-performance Python linter and formatter
 shellcheck = "latest" # Static analysis tool for shell scripts
 shfmt = "latest" # Parser, formatter, and interpreter for shell code
-skaffold = "latest" # Continuous local Kubernetes development workflow tool
+# skaffold = "latest" # Continuous local Kubernetes development workflow tool
 sops = "latest" # Mozilla secrets editor (encrypts YAML/JSON/etc)
 sqlc = "latest" # Compiles SQL queries to type-safe Go code
 sqlite = "latest" # Lightweight SQL database engine CLI
 starship = "latest" # Minimal and customizable cross-shell prompt
-step = "latest" # Tool for automating PKI and certificate management
-stern = "latest" # Multi-pod and multi-container log tailing for Kubernetes
+# step = "latest" # Tool for automating PKI and certificate management (unused)
+# stern = "latest" # Multi-pod and multi-container log tailing for Kubernetes
 stylua = "latest" # Opinionated Lua formatter
 terraform = "latest" # HashiCorp Terraform infrastructure as code CLI
 terraform-docs = "latest" # Generate documentation from Terraform modules
 tflint = "latest" # Terraform code linter
-# Pinned: newer tree-sitter releases break LazyVim's nvim-treesitter parser ABI.
-tree-sitter = "0.25.10"
+# Pinned at the last release this host can execute: every tree-sitter >= 0.26.0 binary
+# is linked against GLIBC 2.39 and upstream publishes no musl asset, so 0.26.1, 0.26.13
+# and 0.27.0 all abort with "GLIBC_2.39 not found" on Debian 12's glibc 2.36 (retested
+# 2026-09-02). 0.25.10 is also the newest 0.25.x, so this pin is the ceiling, not a
+# deferral -- revisit only after the host glibc moves.
+tree-sitter = "0.25.10" # Parser generator CLI backing nvim-treesitter
 trivy = "latest" # Security vulnerability and secret scanner
 ty = "latest" # Astral's high-performance Python type checker
 typst = "latest" # Modern typesetting system for standalone documents (replaces LaTeX)
@@ -157,6 +167,7 @@ typstyle = "latest" # Formatter for Typst sources
 uv = "latest" # Astral's high-performance Python package installer
 usage = "latest" # Specification and completion tool for CLIs (powers mise completions)
 vault = "latest" # HashiCorp Vault secrets management CLI
+vhs = "latest" # Records a terminal session to GIF from a .tape script
 watchexec = "latest" # Runs commands in response to file modifications
 xh = "latest" # Fast, friendly tool for sending HTTP requests
 yazi = "latest" # Blazing-fast terminal file manager in Rust
@@ -176,13 +187,25 @@ macos-x64 = { asset_pattern = "*x86_64-apple-darwin*" }
 macos-arm64 = { asset_pattern = "*aarch64-apple-darwin*" }
 
 [tools."github:googleworkspace/cli"]
-# v0.22.5's musl-labeled x64 asset is glibc-linked and requires GLIBC 2.39.
-# Keep every platform on the last verified portable release so the shared lockfile
-# cannot resolve Linux back to the broken version through a newer macOS entry.
-version = "0.22.4" # Google Workspace CLI (gws)
+# Retested 2026-09-02: the earlier "0.22.5 needs GLIBC 2.39" pin does not reproduce.
+# That asset is static-pie with no INTERP segment and zero GLIBC_ symbols, and runs on
+# this host's glibc 2.36. The platform patterns below stay, since upstream ships glibc
+# and musl x64 tarballs side by side and the musl one is the portable choice.
+version = "latest" # Google Workspace CLI (gws)
 
 [tools."github:googleworkspace/cli".platforms]
 linux-x64 = { asset_pattern = "*x86_64-unknown-linux-musl*" }
 linux-arm64 = { asset_pattern = "*aarch64-unknown-linux-musl*" }
 macos-x64 = { asset_pattern = "*x86_64-apple-darwin*" }
 macos-arm64 = { asset_pattern = "*aarch64-apple-darwin*" }
+
+[tools."github:tailwindlabs/tailwindcss"]
+# Upstream ships glibc and musl assets side by side on Linux; name them explicitly so a
+# rename upstream cannot silently flip which one is selected.
+version = "latest" # Standalone Tailwind CSS v4 compiler (GOTH assets, no Node.js)
+
+[tools."github:tailwindlabs/tailwindcss".platforms]
+linux-x64 = { asset_pattern = "tailwindcss-linux-x64-musl" }
+linux-arm64 = { asset_pattern = "tailwindcss-linux-arm64-musl" }
+macos-x64 = { asset_pattern = "tailwindcss-macos-x64" }
+macos-arm64 = { asset_pattern = "tailwindcss-macos-arm64" }

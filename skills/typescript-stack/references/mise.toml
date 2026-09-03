@@ -1,0 +1,81 @@
+[tools]
+dprint = "latest"
+gitleaks = "latest"
+lefthook = "latest"
+node = "lts"
+pnpm = "latest"
+
+[settings.task]
+run_auto_install = false
+
+[tasks.all]
+alias = "a"
+description = "Run the full gate (format, check, test, build)"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
+[tasks.install]
+alias = "i"
+description = "Install dependencies and git hooks"
+run = ["pnpm install --frozen-lockfile", "lefthook install"]
+
+[tasks.format]
+alias = "f"
+description = "Format sources, config, and markup"
+depends = ["format:biome", "format:dprint"]
+
+[tasks."format:biome"]
+description = "Format, sort imports, and apply safe lint fixes (Biome)"
+run = "pnpm exec biome check --write --no-errors-on-unmatched" # the hook appends {staged_files}
+
+[tasks."format:dprint"]
+description = "Format Markdown, TOML, YAML (dprint)"
+run = "dprint fmt --allow-no-files"
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = ["check:format", "check:lint", "check:types", "check:deps", "check:vuln", "check:leaks"]
+
+[tasks."check:format"]
+description = "Check formatting (Biome + dprint)"
+run = ["pnpm exec biome format --no-errors-on-unmatched", "dprint check"]
+
+[tasks."check:lint"]
+description = "Lint sources and cross-file imports (Biome)"
+run = "pnpm exec biome lint --no-errors-on-unmatched"
+
+[tasks."check:types"]
+description = "Type-check sources, tests, and configs (tsc)"
+run = "pnpm exec tsc --noEmit"
+
+[tasks."check:deps"]
+description = "Find unused files, exports, and dependencies (Knip)"
+run = "pnpm exec knip"
+
+[tasks."check:vuln"]
+description = "Audit dependencies for known vulnerabilities (pnpm)"
+run = "pnpm audit --audit-level high"
+
+[tasks."check:leaks"]
+description = "Audit recent commits for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
+
+# Published packages only: validates exports, files, and types against the packed tarball.
+[tasks."check:pkg"]
+description = "Lint the publishable package surface (publint)"
+run = "pnpm exec publint"
+
+[tasks.test]
+alias = "t"
+description = "Run unit tests once with coverage (Vitest)"
+run = "pnpm exec vitest run --coverage"
+
+[tasks.build]
+alias = "b"
+description = "Emit JavaScript and declarations into dist/"
+run = ["rm -rf dist", "pnpm exec tsc --project tsconfig.build.json"]
+
+[tasks.watch]
+alias = "w"
+description = "Re-run tests on change (Vitest watch)"
+run = "pnpm exec vitest"

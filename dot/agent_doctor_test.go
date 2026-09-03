@@ -202,3 +202,28 @@ func TestAgentDoctorRepairIsExplicitAndPreviewable(t *testing.T) {
 		t.Fatalf("expected explicit --fix requirement, got %v", err)
 	}
 }
+
+func TestInspectLastHookFailureSkipsEmptySpoolFiles(t *testing.T) {
+	home := t.TempDir()
+	root := filepath.Join(home, ".agents", "hook-failures", hookFailureStoreVersion)
+	if err := os.MkdirAll(root, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	// A zero-byte record is an interrupted spool write, not corruption: the
+	// doctor must keep reading older records instead of reporting "unreadable".
+	if err := os.WriteFile(filepath.Join(root, "20260902T000000000000000Z-empty.json"), nil, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	record := `{"occurred_at":"2026-09-01T00:00:00Z","agent":"claude","operation":"session","detail":"boom"}` + "\n"
+	if err := os.WriteFile(filepath.Join(root, "20260901T000000000000000Z-record.json"), []byte(record), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	status, ok := inspectLastHookFailure(AgentConfig{}, home, sessionStoreClaude)
+	if !ok || status != "2026-09-01T00:00:00Z:session" {
+		t.Fatalf("inspectLastHookFailure = %q, %v; want the older record and ok", status, ok)
+	}
+	status, ok = inspectLastHookFailure(AgentConfig{}, home, sessionStoreCodex)
+	if !ok || status != "none" {
+		t.Fatalf("inspectLastHookFailure for another agent = %q, %v; want none, ok", status, ok)
+	}
+}

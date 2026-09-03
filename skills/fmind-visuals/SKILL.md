@@ -1,17 +1,17 @@
 ---
 name: fmind-visuals
-description: Apply the Fmind visual identity and route slide or diagram work to Slidev, Mermaid, LikeC4, or D2. Use for Fmind talks, decks, article diagrams, architecture visuals, and www.fmind.dev assets.
+description: Apply the Fmind visual identity and route slide or diagram work to Slidev, Mermaid, LikeC4, or D2. Use for Fmind talks, decks, article diagrams, site assets.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/fmind-visuals
-  created: 2026-07-16
-  updated: 2026-08-02
+  source: github.com/fmind/dot/tree/main/skills/fmind-visuals
+  created: "2026-07-16"
+  updated: "2026-09-03"
 ---
 
 # Fmind Visual Communication
 
-Create calm, exact, spacious technical visuals that feel native to `www.fmind.dev`. Read `~/fmind/publications/BRANDING.md` and `~/fmind/publications/IDENTITY.md` when available; the bundled [Fmind theme reference](references/fmind-theme.md) is the portable fallback.
+Create calm, exact, spacious technical visuals that feel native to `www.fmind.dev`. The bundled [Fmind theme reference](references/fmind-theme.md) and [diagram template](references/diagram.d2) define the brand tokens, palette, and diagram classes; article production itself belongs to [technical-publishing](../technical-publishing/SKILL.md).
 
 ## Canonical Tool Choice
 
@@ -19,14 +19,15 @@ Create calm, exact, spacious technical visuals that feel native to `www.fmind.de
 | ----------------------------------------------------------- | ------------------------------ | --------------------------------------------------------- |
 | Slides, talks, workshops, LinkedIn documents                | [Slidev](https://sli.dev)      | Default for every new deck                                |
 | Flow, sequence, state, class, ER, compact technical diagram | [Mermaid](../mermaid/SKILL.md) | Default for every new diagram                             |
+| Fmind article diagram                                       | [D2](../d2/SKILL.md)           | Import [diagram.d2](references/diagram.d2), light surface |
 | Durable architecture model with multiple generated views    | [LikeC4](https://likec4.dev/)  | Use when the model, not one image, is the source of truth |
 | Existing D2 source or bespoke standalone composition        | [D2](../d2/SKILL.md)           | Specialist fallback                                       |
-
-Slidev and LikeC4 publish their own upstream skills; this repository does not vendor them. Install either on demand with the [agent-skills](../agent-skills/SKILL.md) workflow when a task needs the full DSL or CLI detail.
 
 Do not create a custom HTML deck, Typst deck, PowerPoint source, or generated raster diagram unless the user explicitly requests that format or an existing project requires it.
 
 ## Brand Contract
+
+The dark tokens below apply to decks and site assets; an Fmind article diagram draws on a light surface with the classes of [diagram.d2](references/diagram.d2) instead, because the site toggles between light and dark themes.
 
 - Heading font: Outfit Variable.
 - Body font: Inter Variable.
@@ -37,18 +38,18 @@ Do not create a custom HTML deck, Typst deck, PowerPoint source, or generated ra
 - Primary accent: `#646CFF`.
 - Border: `#334155`.
 - Voice: calm, exact, pragmatic, technically grounded, and explicit about trade-offs.
-- Use the canonical logo and font files from `~/fmind/publications/assets/fmind/`; copy them into the deliverable rather than linking to a private local path.
+- Use canonical font files (Outfit Variable, Inter Variable); copy them into the deliverable rather than linking to an external path.
 - Use the Bleeding Agent palette only when the user explicitly asks for that sub-brand.
 
-## Slidev Workflow
+## Workflow
 
-1. Install the upstream Slidev skill when the deck needs its detail (`skills add slidevjs/slidev --all -y`), then use the current official docs for any unstable feature.
-1. Scaffold with the project's package manager and keep Slidev, Vue, the default theme, and `playwright-chromium` as project-local dependencies for reproducibility.
-1. Start from [package.json.template](references/package.json.template), [slides.md](references/slides.md), and [style.css](references/style.css), then copy the canonical logo and WOFF2 fonts into `public/brand/`.
-1. Keep the starter's DOMPurify override until Monaco no longer pins a vulnerable release; verify any removal with `npm audit`.
-1. Keep one claim, mechanism, decision, or artifact per slide. Split dense content instead of shrinking type.
-1. Embed Mermaid directly for ordinary diagrams. Use exported LikeC4 or D2 SVGs only when their specialist boundary applies.
-1. Run the deck, build it, and export the required review artifact:
+### Decks
+
+1. **Scaffold with pnpm**: keep Slidev, Vue, the default theme, and `playwright-chromium` project-local; start from [package.json.template](references/package.json.template), [pnpm-workspace.yaml](references/pnpm-workspace.yaml), [slides.md](references/slides.md), and [style.css](references/style.css), then copy the logo and WOFF2 fonts into `public/brand/`.
+1. **Keep the DOMPurify override**: until Monaco no longer pins a vulnerable release; verify any removal with `pnpm audit`.
+1. **One idea per slide**: one claim, mechanism, decision, or artifact; split dense content instead of shrinking type.
+1. **Embed diagrams**: Mermaid directly for ordinary diagrams; exported LikeC4 or D2 SVGs only when their specialist boundary applies.
+1. **Run, build, export**:
 
    ```bash
    slidev slides.md
@@ -56,29 +57,32 @@ Do not create a custom HTML deck, Typst deck, PowerPoint source, or generated ra
    slidev export slides.md
    ```
 
-1. Prefer Slidev's browser exporter for review PNGs or PPTX; keep CLI PDF export for automation and install `playwright-chromium` locally.
-1. Inspect browser, projector-sized, and exported views. Interactive success does not prove PDF or PNG correctness.
+1. **Inspect every view**: browser, projector-sized, and exported; prefer Slidev's browser exporter for review PNGs or PPTX and keep CLI PDF export for automation.
 
-## Diagram Workflow
+### Diagrams
 
-1. Start with [Mermaid](../mermaid/SKILL.md) and its portable Fmind frontmatter.
-1. Keep editable source beside exports and near the prose or deck that owns the claim.
-1. Prefer native Mermaid embedding in GitHub and Slidev. Export SVG only for destinations that cannot render Mermaid.
-1. Use LikeC4 or D2 only when their model or composition advantages outweigh the loss of direct Markdown rendering.
+1. **Start with Mermaid**: apply the portable Fmind frontmatter from [fmind-theme](references/fmind-theme.md); use [d2](../d2/SKILL.md) or LikeC4 only when their composition or model advantages outweigh the loss of direct Markdown rendering.
+1. **Keep source beside exports**: near the prose or deck that owns the claim; export SVG only for destinations that cannot render Mermaid.
 
-## Definition of Done
+## Gotchas
 
-- The visual has one clear thesis and no decorative nodes or slides.
-- Source terminology, metrics, and boundaries are evidence-backed.
-- Fmind colors, fonts, logo, spacing, and domain are consistent.
-- Text remains legible on a laptop, projector, mobile preview, and exported page.
-- Diagrams have a prose equivalent or alt text for accessibility.
-- Editable sources and the requested exports both validate.
+- **Interactive success is not export success**: inspect the PDF or PNG; fixed bounds clip late-loading fonts.
+- **Decoration**: every node and slide carries one evidence-backed thesis; remove decorative nodes, gradients, and generic AI imagery.
+- **Accessibility**: diagrams need a prose equivalent or alt text; text stays legible on a laptop, projector, mobile preview, and exported page.
+- **Private paths**: copy brand assets into the deliverable; never link local workspace paths from a published artifact.
 
-## Current References
+## Official Skills
 
-- [Fmind website](https://www.fmind.dev/)
-- [Slidev documentation](https://sli.dev)
-- [Mermaid documentation](https://mermaid.js.org/)
-- [LikeC4 documentation](https://likec4.dev/)
-- [D2 documentation](https://d2lang.com/)
+Upstream: `slidevjs/slidev` (decks) and `likec4/likec4` (architecture models). List the current release, then install what the task needs at project scope after reviewing the snapshot (see [agent-skills](../agent-skills/SKILL.md)):
+
+```bash
+skills add slidevjs/slidev --list
+skills add slidevjs/slidev --skill <name> -y
+skills add likec4/likec4 --list
+skills add likec4/likec4 --skill <name> -y
+```
+
+## Documentation
+
+- [Fmind website](https://www.fmind.dev/) · [Slidev](https://sli.dev) · [Mermaid](https://mermaid.js.org/) · [LikeC4](https://likec4.dev/) · [D2](https://d2lang.com/)
+- Companion skills: [mermaid](../mermaid/SKILL.md) (default diagrams), [d2](../d2/SKILL.md) (specialist diagrams), [technical-publishing](../technical-publishing/SKILL.md) (Fmind articles), [agent-skills](../agent-skills/SKILL.md) (upstream skill install).

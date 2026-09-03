@@ -30,8 +30,8 @@ if status is-interactive
     # i:agy
     abbr -a i agy
     abbr -a iq "agy --prompt"
-    # j:just
-    abbr -a j just
+    # j:fkf
+    abbr -a j fkf
     # k:kubectl/kubecolor
     if command -q kubecolor
         function kubectl
@@ -70,9 +70,12 @@ if status is-interactive
     abbr -a mr "mise run"
     # n:npm
     abbr -a n npm
-    # o:opencode
-    abbr -a o opencode
-    abbr -a oq "opencode --prompt"
+    # o:code
+    abbr -a oa agy
+    abbr -a oc claude
+    abbr -a og grok
+    abbr -a ot copilot
+    abbr -a ox codex
     # p:python
     abbr -a p python3
     abbr -a pt ptpython

@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    // Node-native ESM: `nodenext` is the only module mode whose resolution matches the runtime.
+    "module": "nodenext",
+    "target": "esnext",
+    "lib": ["esnext"],
+    "types": ["node"], // TypeScript 7 defaults `types` to [], so ambient @types must be listed.
+    // This config only type-checks (editors and `check:types` use it); tsconfig.build.json emits.
+    "noEmit": true,
+    // Keep the sources runnable by `node src/main.ts`: no enums, namespaces, or parameter properties.
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    // Imports carry the real `.ts` extension; `rewriteRelativeImportExtensions` emits `.js`.
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    // `strict` is on by default in TypeScript 7; these are the checks it still leaves off.
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true
+  },
+  "include": ["src", "*.config.ts"]
+}

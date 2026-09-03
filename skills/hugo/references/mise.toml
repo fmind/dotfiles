@@ -10,6 +10,11 @@ lychee = "latest"
 # The dedicated registry entry selects Hugo Extended on every supported platform.
 hugo-extended = "latest"
 
+[tasks.all]
+alias = "a"
+description = "Run the full gate (format, check, test, build)"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
 [tasks.build]
 alias = "b"
 description = "Build the production site (minified, garbage-collected)"
@@ -29,8 +34,8 @@ run = "dprint check"
 
 [tasks."check:leaks"]
 alias = "cs"
-description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
+description = "Audit recent commits for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
 
 [tasks."check:site"]
 alias = "cv"

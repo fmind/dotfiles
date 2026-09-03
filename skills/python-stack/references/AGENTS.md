@@ -14,7 +14,7 @@ All work goes through `mise` (see `mise.toml`); git hooks and CI call the same t
 
 - Install: `mise run install` — sync the virtualenv (`uv sync`) and install git hooks.
 - Format: `mise run format` — `ruff` (import sort + format) and `dprint`.
-- Check: `mise run check` — `ruff` lint, `ty` types, `pip-audit`, `dprint check`, `gitleaks`, `pyproject` validation.
+- Check: `mise run check` — `ruff` lint, `ty` types, `uv audit`, `dprint check`, `gitleaks`, `pyproject` validation.
 - Test: `mise run test` — offline `pytest` suite with an 85% branch-coverage gate.
 - Integration: `mise run test:integration` — explicitly starts disposable external services such as Postgres through Docker.
 - Build: `mise run build` — `uv build` (wheel + sdist).

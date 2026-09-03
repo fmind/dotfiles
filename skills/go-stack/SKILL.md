@@ -1,232 +1,110 @@
 ---
 name: go-stack
-description: Build Go projects, libraries, CLIs, TUIs, web apps, or ADK agents with the standard package layout and pinned tooling.
+description: Build Go projects, libraries, CLIs, TUIs, GOTH web apps, or ADK agents with the standard package layout and pinned tooling. Use for any Go work.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/go-stack
-  created: 2026-06-23
-  updated: 2026-08-30
+  source: github.com/fmind/dot/tree/main/skills/go-stack
+  created: "2026-06-23"
+  updated: "2026-09-03"
 ---
 
-# Go Stack Standard (Go 1.26+)
+# Go Stack Standard
 
-Canonical guidelines for Go development: project scaffolding, libraries, CLI/TUI tools, web apps (GOTH), and ADK agents.
+Canonical Go development: scaffolding, libraries, CLI/TUI tools, GOTH web apps, and the Go API side of ADK agents. The agent workflow belongs to [google-adk](../google-adk/SKILL.md); content sites belong to [hugo](../hugo/SKILL.md).
 
 ## 1. Core & Quality Stack
 
-- **Go Version**: Target latest stable (Go 1.26+). Adopt current idioms mechanically — run `go fix ./...` (modernizers) and `gofumpt` rather than hand-porting.
-- **Dependency & Tooling**: Manage heavy standalone CLI tools via `mise.toml` ([mise.toml](references/mise.toml)) — `golangci-lint` (v2+), `lefthook`, `gotestsum`, `air` (web live reload), `esbuild` (web asset bundling) — to prevent `go.mod` dependency bloat and compile errors. Reserve the native `tool` directive in `go.mod` (Go 1.24+) for code generators and small Go-native utilities invoked as `go tool <name>` — `templ`, `goimports`, `gofumpt`, `govulncheck` (plus `sqlc`, `gomodifytags`, `impl` on demand).
-- **Task Runner & Hooks**: Use `mise.toml` ([mise.toml](references/mise.toml)) for commands (`install`, `format`, `check`, `test`, `build`, `watch`) per the [mise skill](../mise/SKILL.md). Use `lefthook` ([lefthook.yml](references/lefthook.yml)) for pre-commit (format → `check:leaks --staged` → check) and pre-push (test) per the [lefthook skill](../lefthook/SKILL.md). Order the hook commands with explicit `priority` (formatters low, `check` high) so formatters restage before `check` reads the files — lefthook sorts alphabetically otherwise.
-- **Linting & Formatting**: Clean markdown/JSON/YAML with `dprint` using the configuration maintained by the [dprint skill](../dprint/SKILL.md). Format Go files with `goimports`/`gofumpt`. Enforce zero-warning rule with `golangci-lint` ([golangci.yml](references/golangci.yml)).
-- **Testing**: Standard library `testing` (starters stay dependency-free); reach for `stretchr/testify` when you want richer assertions. Run with `gotestsum`.
-  - Use `testing/synctest` (Go 1.25+) for deterministic concurrent testing (virtualized clocks).
-- **Logging**: Use standard `log/slog`. Local: `slog.TextHandler` (or `charmbracelet/log`) with dynamic `slog.LevelVar`. Production: `slog.JSONHandler` with OpenTelemetry span/trace context propagation.
-- **Diagnostics & Observability**: Standardize on OpenTelemetry (`otel`) for traces — wired for **web and agents only**, not CLIs. The web starter's `SetupOTel` ([telemetry.go](references/telemetry.go)) installs an OTLP/HTTP exporter and wraps the router in `otelhttp` for per-request spans; `OtelHandler` then stamps the active `trace_id`/`span_id` onto every `slog` record. Tracing activates only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set, so local runs stay quiet. ADK agents inherit tracing from the launcher (same OTLP env var, or `--otel_to_cloud` for GCP Cloud Trace). For deep local debugging, `runtime/trace.FlightRecorder` (Go 1.25+) keeps a rolling in-memory trace to dump on error/panic.
-- **Container Awareness**: Go 1.25+ is cgroups/container-aware—`GOMAXPROCS` aligns automatically (do not use `automaxprocs`).
-- **Omit Zero Struct Tags**: Use native `json:",omitzero"` (Go 1.24+) on structs/types (e.g., `time.Time`) instead of `omitempty`.
+- **Go version**: target latest stable; adopt current idioms mechanically with `go fix ./...` and `gofumpt` rather than hand-porting.
+- **Tooling split**: standalone CLIs (`golangci-lint`, `gotestsum`, `air`, `esbuild`) come from `mise.toml`; `tool` directives in `go.mod` hold `templ`, `goimports`, `gofumpt`, and `govulncheck`, run as `go tool <name>`.
+- **Tasks and hooks**: [mise.toml](references/mise.toml) (web) or [mise-cli.toml](references/mise-cli.toml) (CLI/agent) per [mise](../mise/SKILL.md); [lefthook.yml](references/lefthook.yml) or [lefthook-cli.yml](references/lefthook-cli.yml) per [lefthook](../lefthook/SKILL.md).
+- **Linting and formatting**: `goimports` + `gofumpt` format Go; `golangci-lint` ([golangci.yml](references/golangci.yml)) enforces zero warnings; `dprint` keeps config and markup per [dprint](../dprint/SKILL.md).
+- **Testing**: standard `testing` (starters stay dependency-free), `stretchr/testify` when richer assertions pay off, run through `gotestsum`.
+- **Logging**: `log/slog` — `TextHandler` locally with a dynamic `slog.LevelVar`, `JSONHandler` in production with trace context.
+- **Observability**: OpenTelemetry for web and agents only; `SetupOTel` ([telemetry.go](references/telemetry.go)) exports OTLP and stamps trace ids on logs when `OTEL_EXPORTER_OTLP_ENDPOINT` is set — see [observability](../observability/SKILL.md).
+- **Security checks**: `govulncheck` is `check:vuln` and `gitleaks` is `check:leaks`; SAST is opt-in per [opengrep](../opengrep/SKILL.md).
+- **Runtime defaults**: Go is container-aware (no `automaxprocs`); use `json:",omitzero"` instead of `omitempty`.
 
 ## 2. Project Scaffolding Workflow
 
-1. **Information**: Define project `Slug`, `Import Path` (e.g. `github.com/username/slug`), and `Holder/Year`.
-1. **Bootstrap**: Run `go mod init <import_path>` in the project root — it records the active toolchain version in `go.mod` (keep it at the latest stable per §1).
-1. **Config Initialization**: Copy and customize configurations. Pick the task runner and hooks by project type — no manual trimming:
-   - **Web**: `mise.toml` ([mise.toml](references/mise.toml)) + `lefthook.yml` ([lefthook.yml](references/lefthook.yml)) — the full set, with templ/Tailwind/vendor/watch tasks.
-   - **CLI/agent**: `mise-cli.toml` ([mise-cli.toml](references/mise-cli.toml)) + `lefthook-cli.yml` ([lefthook-cli.yml](references/lefthook-cli.yml)), saved as `mise.toml`/`lefthook.yml` — same task vocabulary, no web-only tasks or the `tailwindcss`/`air` tools.
-   - `.golangci.yml` ([golangci.yml](references/golangci.yml)) — replace `<import_path>` in `goimports.local-prefixes`, and mirror the same value in the `format:go` task's `goimports -local` flag so `format` and `check` agree on one style.
-   - `dprint.json` (setup as instructed in the [dprint skill](../dprint/SKILL.md))
-   - `.air.toml` ([air.toml](references/air.toml)) (web only)
-   - `.env`/`.env.example` ([env.example](references/env.example)) — one universal file; uncomment the vars your project type uses. `LICENSE` ([LICENSE](references/LICENSE)) and `.gitignore` ([gitignore](references/gitignore)).
-   - `AGENTS.md` ([AGENTS.md](references/AGENTS.md)) — Go-specific agent context. For CLI/agent, delete the lines marked web (the `(web)` layout entry and the `watch` command).
-   - Run `mise trust`, then `mise install` to provision the mise-managed toolchain (`run_auto_install = false` means tools are not fetched on demand). Then add the Go tool dependencies: `go get -tool golang.org/x/tools/cmd/goimports mvdan.cc/gofumpt golang.org/x/vuln/cmd/govulncheck` (**web** projects also need the templ generator: `go get -tool github.com/a-h/templ/cmd/templ`).
-1. **Scaffold Sources**:
-   - Write entry point `cmd/<slug>/main.go` using reference template [main.go](references/main.go) (web), [cli.go](references/cli.go) (CLI), or [agent.go](references/agent.go) (ADK agent — also run `go get google.golang.org/adk/v2`).
-   - Write core library files `<slug>.go` using [lib.go](references/lib.go) and `<slug>_test.go` using [lib_test.go](references/lib_test.go).
-   - Write the typed config package `config/config.go` using [config.go](references/config.go) (`go mod tidy` pulls in `caarlos0/env`). CLI/agent projects may drop the web-only `Port` field; the [agent.go](references/agent.go) starter reads Vertex `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (auth via ADC — `gcloud auth application-default login`), already listed in `.env.example`.
-   - For web:
-     - Copy web server components: `server.go` ([server.go](references/server.go)), `server_test.go` ([server_test.go](references/server_test.go)), `middleware.go` ([middleware.go](references/middleware.go)), and `telemetry.go` ([telemetry.go](references/telemetry.go)).
-     - Copy templates ([layout.templ](references/layout.templ), [home.templ](references/home.templ)) and the authored assets: `assets/css/styles.css` ([styles.css](references/styles.css)), `assets/js/app.js` ([app.js](references/app.js)), and `assets/js/components/user-card.js` ([user-card.js](references/user-card.js)).
-     - Run `go run scripts/vendor.go` (using [vendor.go](references/vendor.go)) to self-host the pinned third-party libraries into `static/vendor/`.
-1. **Git & Validation**:
-   - Run `git init --initial-branch=main`.
-   - Run verification sequence:
-     ```bash
-     mise run install
-     mise run format
-     mise run check
-     mise run test
-     ```
-     On a fresh repo, `check:leaks` prints a benign `no commits yet` and exits 0 — it has no history to scan until the first commit below. Fresh ADK agents usually fail `check:vuln` immediately on a transitive module (e.g. `grpc` via the ADK/OTel exporters) — apply the Transitive Vulnerabilities gotcha fix (`go get -u <module>`), then re-run.
-   - Initialize workspace agent context via the [agent-project skill](../agent-project/SKILL.md), but **keep the Go-specific [AGENTS.md](references/AGENTS.md) copied during Config Initialization** — skip agent-project's generic AGENTS.md template so it does not overwrite the stack file.
-   - Create `README.md` (humans) and keep it in sync with `AGENTS.md` via the [readme-agents skill](../readme-agents/SKILL.md); the layouts (§8) list it but no reference template ships one.
-   - Commit changes: `git add . && git commit -m "chore: initial commit"`.
+1. **Information**: define `Slug`, `Import Path` (e.g. `github.com/username/slug`), and `Holder/Year`.
+1. **Bootstrap**: `go mod init <import_path>` records the active toolchain version in `go.mod`.
+1. **Tasks and hooks by project type**, saved as `mise.toml` and `lefthook.yml`:
+   - Web: [mise.toml](references/mise.toml) + [lefthook.yml](references/lefthook.yml) (templ, Tailwind, vendor, and watch tasks).
+   - CLI/agent: [mise-cli.toml](references/mise-cli.toml) + [lefthook-cli.yml](references/lefthook-cli.yml) (same vocabulary, no web tasks).
+1. **Config files**:
+   - `.golangci.yml` from [golangci.yml](references/golangci.yml) — replace `<import_path>` there and in the `format:go` task so `format` and `check` agree.
+   - `dprint.json` per [dprint](../dprint/SKILL.md); `.air.toml` from [air.toml](references/air.toml) (web only).
+   - `.env.example` from [env.example](references/env.example) (uncomment what the project type uses), `.gitignore` from [gitignore](references/gitignore).
+   - `AGENTS.md` from [AGENTS.md](references/AGENTS.md) (drop the `(web)` lines for CLI/agent); `LICENSE` per [project-license](../project-license/SKILL.md).
+1. **Toolchain**: `mise trust && mise install`, then `go get -tool golang.org/x/tools/cmd/goimports mvdan.cc/gofumpt golang.org/x/vuln/cmd/govulncheck` (web adds `github.com/a-h/templ/cmd/templ`).
+1. **Sources**:
+   - `cmd/<slug>/main.go` from [main.go](references/main.go) (web), [cli.go](references/cli.go) (CLI), or [agent.go](references/agent.go) (agent, plus `go get google.golang.org/adk/v2`).
+   - `<slug>.go` from [lib.go](references/lib.go) with [lib_test.go](references/lib_test.go); `config/config.go` from [config.go](references/config.go) (CLI/agent may drop `Port`).
+   - Web: [server.go](references/server.go), [server_test.go](references/server_test.go), [middleware.go](references/middleware.go), [telemetry.go](references/telemetry.go).
+   - Web templates and assets: [layout.templ](references/layout.templ), [home.templ](references/home.templ), [styles.css](references/styles.css), [app.js](references/app.js), [user-card.js](references/user-card.js).
+   - Web vendoring: `scripts/vendor.go` from [vendor.go](references/vendor.go), run once by `install:vendor`.
+1. **Validate**: `git init --initial-branch=main`, then `mise run install`, `mise run format`, `mise run check`, `mise run test`; `check:leaks` prints `no commits yet` until the first commit.
+1. **Finish**: keep this stack's `AGENTS.md` when running [agent-project](../agent-project/SKILL.md), write `README.md` per [readme-agents](../readme-agents/SKILL.md), then `git add . && git commit -m "chore: initial commit"`.
 
-## 3. Database & Persistence Stack
+## 3. Database & Persistence
 
-- **ORM Rejection**: Write raw SQL and generate type-safe structures using `sqlc`.
-- **Postgres Driver**: Use `jackc/pgx/v5` and `jackc/pgx/v5/pgxpool` with explicit pool bounds and connection timeouts.
-- **Schema Management**: Use `Atlas` for declarative schema linting and migrations.
-- **Versioned Migrations**: Use `goose` (`github.com/pressly/goose/v3`) for versioned SQL- or Go-based database migrations.
-- **High-Availability**: Deploy PostgreSQL using the **CloudNativePG** operator on Kubernetes.
+- **SQL first**: raw SQL with `sqlc`-generated types over `jackc/pgx/v5` (`pgxpool` with explicit bounds and timeouts); schema linting and migrations per [atlas](../atlas/SKILL.md), or `goose` for versioned SQL migrations.
 
-## 4. Web Stack & Serving Standard
+## 4. Web Stack (GOTH)
 
-- **Router**: Use `http.ServeMux` for native path-value routing (Go 1.22+). For middleware-heavy applications, use `go-chi/chi/v5`.
-- **Type-Safe REST**: Use **Huma** (`github.com/danielgtaylor/huma/v2`) to build APIs with automatic OpenAPI 3.1 & JSON Schema validation.
-- **UI Components (GOTH)**: Co-locate one-off markup, styling, and state with `Templ`. Pass server-side structures to client-side components using JSON serialization. Promote an Alpine component out of the template and into an `assets/js/components/<name>.js` module once it grows methods or gets reused — see [home.templ](references/home.templ) for both forms side by side.
-- **Tailwind CSS v4**: CSS-First configuration compiled via the standalone `tailwindcss` binary managed by `mise` (no Node.js/JavaScript dependencies).
-- **JavaScript Bundling (esbuild)**: Bundle and minify first-party browser JavaScript with [esbuild](https://esbuild.github.io/) — one entry point (`assets/js/app.js`, see [app.js](references/app.js)) whose import graph is compiled into a single minified `static/js/dist.js`. esbuild is itself a Go program, so `mise` builds it through the `go` backend and the stack stays Node-free. This step earns its place only once there **is** a module graph: a site whose entire client side is a couple of inline nonce-authorized snippets should keep them inline and skip the bundler, since externalizing them buys a render-blocking request in exchange for a kilobyte. Record that decision in the project's `AGENTS.md` so it is not re-litigated.
-- **Source/Output Split (`assets/` vs `static/`)**: `server.go` embeds the entire `static/` tree, so everything under it ships inside the binary. Authored sources therefore live in `assets/` (`assets/css/styles.css`, `assets/js/**`) and only build output plus pinned vendor libraries live in `static/`. The compiler never sees unminified sources, and the binary never carries them. The failure mode is quiet: a Tailwind entry point left in `static/css/` is embedded and served at its own URL, so production hands out the authored source to anyone who asks — audit with `grep -a` on the built binary, not by reading the embed directive.
-- **Static Assets (Self-Hosted)**:
-  - Serve all assets (HTMX, Alpine, CSS, first-party JS) locally from `/static/` (embedded via `go:embed`).
-  - Cache-bust via in-memory content hash (`?v=hash`) and set long-term cache headers.
-  - The result is a genuinely single-file deployment: `mise run build` produces one binary with every stylesheet, script, and vendor library inside it — no sidecar asset directory, no CDN, no runtime fetch.
-- **Production HTTP**: Configure explicit `http.Server` timeouts (`ReadTimeout`, `WriteTimeout`, `IdleTimeout`).
-- **Tracing**: Call `SetupOTel(ctx, serviceName)` in `main` and defer its shutdown; `NewAppHandler` wraps the router in `otelhttp` so each request is a span and logs carry its `trace_id` (see §1 Diagnostics). Requires `go.opentelemetry.io/otel/{sdk,exporters/otlp/otlptrace/otlptracehttp}` and `contrib/instrumentation/net/http/otelhttp` — pulled in by `go mod tidy`.
+- **Router**: `http.ServeMux` path-value routing; `go-chi/chi/v5` when middleware stacks grow.
+- **Type-safe REST**: Huma (`github.com/danielgtaylor/huma/v2`) for OpenAPI 3.1 and JSON Schema validation.
+- **UI components**: Templ co-locates markup, styling, and state; an Alpine component moves to `assets/js/components/<name>.js` once it grows methods or is reused ([home.templ](references/home.templ) shows both).
+- **Tailwind CSS v4**: CSS-first config compiled by the standalone `tailwindcss` binary from mise; no Node toolchain.
+- **JavaScript**: `esbuild` bundles `assets/js/app.js` into `static/js/dist.js`; skip the bundler while the client side is a couple of inline snippets, and record that decision in `AGENTS.md`.
+- **`assets/` vs `static/`**: authored sources live in `assets/`; only build output and vendored libraries live in `static/`, which `server.go` embeds whole — a source left in `static/` ships in the binary.
+- **Self-hosted assets**: HTMX, Alpine, CSS, and JS are served from embedded `/static/` with content-hash cache busting; one binary, no CDN, no runtime fetch.
+- **Production HTTP**: explicit `http.Server` timeouts; `SetupOTel` in `main` and `NewAppHandler` wrapping the router in `otelhttp` (see §1).
 
-## 5. CLI & TUI Stack
+## 5. CLI & TUI
 
-- **CLI Framework**: Use **urfave/cli/v3** for declarative, callback-driven multi-command CLIs — used by the [cli.go](references/cli.go) starter.
-- **Dual CLI/Library Design**: Design CLIs to double as importable libraries by placing core domain logic and types in the root package (`package <slug>`) and delegating command execution to `cmd/<slug>/main.go`.
-- **TUI**: Use **Bubble Tea** (`charm.land/bubbletea/v2`) and the Charm layout tools (`charm.land/lipgloss/v2`, `charm.land/bubbles/v2`) for rich interactive terminals/forms. Note: the stable v2 modules import from `charm.land`, not `github.com/charmbracelet`.
-- **Completions**: Generate dynamic shell completions from CLI framework native integrations.
+- **Framework**: `urfave/cli/v3` ([cli.go](references/cli.go)); flags, streams, exit codes, and completions follow [cli-contracts](../cli-contracts/SKILL.md).
+- **Dual CLI/library**: domain logic and types in the root package, command wiring in `cmd/<slug>/main.go`.
+- **TUI**: Bubble Tea and the Charm layout tools import from `charm.land/{bubbletea,lipgloss,bubbles}/v2`, not `github.com/charmbracelet`.
 
-## 6. AI Agent Stack (ADK v2)
+## 6. ADK Agents (Go API)
 
-- **Framework**: Use the **Agent Development Kit for Go** (`google.golang.org/adk/v2`, Go 1.26+ per its `go.mod`) — the code-first, model-agnostic toolkit optimized for Gemini. Scaffold with the [agent.go](references/agent.go) starter (`go get google.golang.org/adk/v2`).
-- **Agents**: Build with `llmagent.New(llmagent.Config{...})` — set `Name`, `Model`, `Instruction`, and `Tools`; delegate to `SubAgents` for multi-agent trees.
-- **Models & Auth**: `gemini.NewModel(ctx, "gemini-3.7-flash", &genai.ClientConfig{...})` — pin the current Flash generation rather than the `-latest` alias, which has documented Vertex AI version-ambiguity and hot-swap quality regressions; bump to the newest Flash generation when one ships, and only pin an exact dated snapshot when you need strict reproducibility. The [agent.go](references/agent.go) starter defaults to **Vertex AI with Application Default Credentials** — `Backend: genai.BackendVertexAI` plus `GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` (parsed fail-fast via `caarlos0/env`), credentials from `gcloud auth application-default login` locally or the attached service account in prod (no key stored). For AI Studio instead, drop the Vertex fields and set `APIKey` from `GOOGLE_API_KEY`. Logging goes through the shared `config` package (env-aware `slog` handler), not `log.Fatalf`.
-- **Tools**: Wrap typed Go functions with `functiontool.New` (generic `[TArgs, TResults]`; `jsonschema` struct tags document fields). Add built-ins from `tool/geminitool` (Google Search) or connect external servers via `tool/mcptoolset` (MCP).
-- **Entry Point**: `full.NewLauncher()` serves the agent through a CLI with two top-level modes — `console` (interactive) and `web` (HTTP server); the `web` mode hosts the `webui` (dev UI), `api` (REST), `a2a`, and Cloud trigger (`pubsub`, `eventarc`) sublaunchers — no custom wiring. Invoking with an **unrecognized** mode prints the usage and exits non-zero; invoking with **no** arguments defaults to interactive `console` mode. Note: ADK owns this CLI; reserve `urfave/cli/v3` for non-agent tools.
-- **Streaming**: Agent runs return `iter.Seq2[*session.Event, error]`; consume with `for event, err := range …` — never collect events into a slice.
-- **Observability**: The launcher wires OpenTelemetry itself — pin `service.name` via `launcher.Config.TelemetryOptions` (`telemetry.WithResource`), then export by setting `OTEL_EXPORTER_OTLP_ENDPOINT` (OTLP) or passing `--otel_to_cloud` (GCP Cloud Trace, reusing the Vertex ADC). ADK emits spans for model and tool calls; no manual `TracerProvider` needed (unlike the web variant).
+The agent workflow, `agents-cli`, model-pin rationale, and deployment live in [google-adk](../google-adk/SKILL.md); this section keeps the Go API notes behind the [agent.go](references/agent.go) starter.
 
-## 7. Configuration Standard
+- **Module**: `google.golang.org/adk/v2` (requires Go 1.26+); read its API from `~/go/pkg/mod`, not memory.
+- **Agents and tools**: `llmagent.New(llmagent.Config{...})` (`SubAgents` for trees); `functiontool.New` wraps typed functions with `jsonschema` tags; `tool/geminitool` and `tool/mcptoolset` add built-ins and MCP.
+- **Model and auth**: `gemini.NewModel` on the Gemini Enterprise Agent Platform (formerly Vertex AI) with ADC (`GOOGLE_CLOUD_PROJECT`/`GOOGLE_CLOUD_LOCATION` parsed by `caarlos0/env`); the pinned model name lives in the starter.
+- **Entry point**: `full.NewLauncher()` owns the CLI (`console` and `web` modes; `web` hosts `webui`, `api`, `a2a`, and Cloud triggers) and parses its own flags, so keep `urfave/cli/v3` for non-agent tools.
+- **Streaming and tracing**: consume runs with `for event, err := range …` (`iter.Seq2`); the launcher wires OpenTelemetry itself (`OTEL_EXPORTER_OTLP_ENDPOINT` or `--otel_to_cloud`).
 
-- **Environment-First**: Use environment variables for all configuration (Twelve-Factor App).
-- **Strong Typing**: Parse configs into a typed `Config` struct in a dedicated `config` package — see [config.go](references/config.go) for the starter's `Config`, `Load()`, and env-aware `NewHandler` (drives the log level/format and, for web, the listen port and HSTS). Model the environment as a typed enum so `"development"`/`"production"` never appear as literals at call sites.
-- **Parsing**: Use `caarlos0/env/v11` for parsing env vars (`env.ParseAs[Config]()`; `env:"NAME,required"` / `envDefault` tags).
-- **Fail-Fast**: Validate configuration immediately on startup via `config.Load()`; log through `slog` and `os.Exit(1)` if validation fails.
+## 7. Configuration
+
+- **Environment-first**: `caarlos0/env/v11` parses env vars into a typed `Config` in the `config` package ([config.go](references/config.go)); `config.Load()` validates on startup and exits 1 through `slog` on failure.
+- **Typed environments**: model `development`/`production` as an enum so the literals never appear at call sites.
 
 ## 8. Project Layouts
 
-### CLI + Library Project Layout
+The CLI + library and web + library trees live in [layouts.md](references/layouts.md); every file there maps to a reference in §2.
 
-```text
-<slug>/
-├── cmd/
-│   └── <slug>/
-│       └── main.go         // CLI entry point
-├── config/
-│   └── config.go           // Typed environment configuration
-├── .env
-├── .env.example
-├── .gitignore
-├── .golangci.yml
-├── dprint.json
-├── lefthook.yml
-├── mise.toml
-├── AGENTS.md
-├── LICENSE
-├── <slug>.go               // Library entry point
-├── <slug>_test.go          // Unit tests
-└── README.md
-```
+## 9. Go Idioms
 
-### Web + Library Project Layout
+- **Deterministic concurrency tests**: `testing/synctest` virtualizes clocks for goroutine-heavy code.
+- **Receiver consistency**: pointer receivers for state, sync fields, or large structs; value receivers for small immutable values; never mix on one type.
+- **Zero-value usability**: design structs so the zero value works without a constructor (`sync.Mutex`, `bytes.Buffer`).
+- **Pre-allocate**: `make([]T, 0, n)` / `make(map[K]V, n)` when the size is known (`prealloc` lints it).
 
-```text
-<slug>/
-├── cmd/
-│   └── <slug>/
-│       └── main.go         // Daemon entry point
-├── config/
-│   └── config.go           // Typed environment configuration
-├── .env
-├── .env.example
-├── .gitignore
-├── .golangci.yml
-├── .air.toml
-├── dprint.json
-├── lefthook.yml
-├── mise.toml
-├── AGENTS.md
-├── LICENSE
-├── <slug>.go               // Core business logic / client
-├── <slug>_test.go          // Core business logic tests
-├── server.go               // HTTP handler and asset serving definitions
-├── server_test.go          // HTTP routing and integration tests
-├── middleware.go           // Standard HTTP middlewares
-├── telemetry.go            // OpenTelemetry setup (SetupOTel) + slog trace correlation
-├── README.md
-├── assets/                     // Authored sources — never embedded
-│   ├── css/
-│   │   └── styles.css          // Tailwind entry point
-│   └── js/
-│       ├── app.js              // esbuild entry point
-│       └── components/
-│           └── user-card.js    // One Alpine component per module
-├── scripts/
-│   └── vendor.go
-├── static/                     // Build output + vendor — embedded via go:embed
-│   ├── css/
-│   │   └── dist.css            // tailwindcss --minify
-│   ├── js/
-│   │   └── dist.js             // esbuild --bundle --minify
-│   └── vendor/
-│       ├── htmx.min.js
-│       └── alpine.min.js
-└── templates/
-    ├── home.templ
-    └── layout.templ
-```
+## Gotchas
 
-## 9. Go Coding Standards & Idioms
-
-- **No Hardcoded Values**: Extract magic values (numbers, strings, durations, error messages) into meaningful, typed constants (`const`) or structured configurations (`config.Config`).
-  - Use file- or package-level `const` blocks for internal static values.
-  - Use structured, environment-parsed config structs for operational values.
-- **Conscious Concurrency**: Use goroutines (`go func()`) intentionally to leverage concurrency.
-  - Always manage goroutine lifecycles using `context.Context` for cancellation and timeouts.
-  - Avoid goroutine leaks by ensuring every spawned goroutine has a guaranteed exit condition.
-  - Use safe synchronization primitives: standard channels, `sync.Mutex`, `sync.WaitGroup`, or `golang.org/x/sync/errgroup` (for groups of goroutines returning errors).
-  - Test concurrent logic deterministically using `testing/synctest`.
-- **Explicit Error Wrapping**: Avoid flat, string-only errors. Wrap lower-level errors with context using `fmt.Errorf("doing action: %w", err)`.
-  - Inspect wrapped errors using `errors.Is` or `errors.As`.
-  - Avoid panic-based control flows; handle errors as values.
-- **Context Propagation**: Always pass `ctx context.Context` as the first argument in any function that performs network, database, or filesystem I/O, or long-running computations.
-  - Propagate context down the call stack to respect caller-initiated cancellation and timeouts.
-- **Immediate Resource Cleanup**: Pair resource acquisition (file handles, network connections, HTTP response bodies, database transactions) with a deferred close statement (`defer resource.Close()`) immediately after checking for errors to prevent leaks.
-- **Allocation Optimization**: Pre-allocate slices and maps using `make([]T, 0, capacity)` or `make(map[K]V, capacity)` when the target size or capacity is known in advance to avoid redundant heap allocations and resize overhead.
-- **Consistent Receiver Types**: Maintain consistency in struct receiver types. Use pointer receivers (`*T`) if the struct modifies state, contains synchronization fields (like `sync.Mutex`), or is large. Use value receivers (`T`) for small, immutable data transfer objects. Never mix receiver types on the same struct.
-- **Zero-Value Usability**: Design structs so their zero-state is safe and ready to use immediately without explicit constructors where possible (e.g., standard libraries like `sync.Mutex` or `bytes.Buffer`).
-
-## Gotchas & Guidelines
-
-- **Go Tool Directive**: Go 1.24+ project tools declared in `go.mod` require direct `go tool` invocations. Keep heavyweight standalone tools such as `golangci-lint` and `gotestsum` in `mise.toml`; reserve the `tool` directive for code generators and small Go-native utilities that need module-level reproducibility.
-- **Port Conflicts**: Default address is `:8080`.
-- **Tailwind v4 CLI**: Compiled via the standalone `tailwindcss` CLI executable, provisioned by `mise install` (the `github` backend: `"github:tailwindlabs/tailwindcss"`). Because the reference `mise.toml` sets `run_auto_install = false`, run `mise install` once after `mise trust` — tools are not fetched on demand.
-- **Embedded Asset Updates**: Since assets are embedded via `go:embed`, running `go run` does not hot-reload static assets. Use `mise run watch` (`air` + Tailwind watch + esbuild watch, all mise-provisioned) or rebuild to see updates. `.air.toml` excludes `assets/` on purpose: the two asset watchers own that tree, and their writes into `static/` are what trigger air's rebuild. Watching both directories rebuilds twice per edit, the first time against a stale bundle.
-- **Committed Generated Code**: The reference `.gitignore` does not exclude `*_templ.go`, `static/css/dist.css`, or `static/js/dist.js`, so commit all three — `check`/CI compile `server.go` (which imports `templates` and embeds `static`) without first running the generators (only `test`/`build` regenerate them). `mise run test`'s `build:templ` keeps the Go code fresh and CI's clean-tree check (`git status --porcelain`) catches staleness in any of them. Deterministic output makes this safe: esbuild and Tailwind emit byte-identical bundles for identical sources, so a committed artifact only changes when a source does.
-- **Self-Hosted Assets**: Never reference CDNs at runtime; serve all assets locally. `scripts/vendor.go` fetches HTMX/Alpine once, pinned by version **and** sha256 (fails loudly on a hash mismatch), and commits them under `static/vendor/`; `install:vendor` is idempotent (skips when present), so normal installs never touch the network. Bump a version by editing its URL + hash together.
-- **No Node Toolchain**: The GOTH stack is deliberately Node-free — Tailwind is the standalone `tailwindcss` binary, `esbuild` is built from Go source by the `go` backend, and HTMX/Alpine are vendored as pinned files. Writing plain ES modules under `assets/js/` is expected; introducing `npm`/`npx`/`node`, a `package.json`, or an npm dependency is not. A browser library you actually need goes through `scripts/vendor.go` (pinned URL + sha256), not a package manager.
-- **Alpine Component Registration Order**: `Alpine.data()` registrations run on the `alpine:init` event, which fires when Alpine boots. Deferred scripts execute in document order, so [layout.templ](references/layout.templ) loads `static/js/dist.js` _before_ `static/vendor/alpine.min.js`. Reorder those two tags and every module-defined component silently fails to resolve — Alpine reports an undefined `x-data` expression, not a load-order error.
-- **Container Builds (`ko`)**: `mise run build:image` needs `ko` from the [containerize skill](../containerize/SKILL.md) — pin it per project (`go get -tool github.com/google/ko`) so image builds stay reproducible even where a global toolchain already provides `ko`.
-- **ADK Agents**: Require Go 1.26+ (per the `adk/v2` `go.mod`) and a `GOOGLE_API_KEY` (AI Studio) or Vertex AI ADC. `full.NewLauncher()` parses its own flags (stdlib `flag`, not `urfave/cli/v3`); ADK's separate `adkgo` scaffolding/deploy CLI is cobra-based.
-- **Transitive Vulnerabilities**: `govulncheck` (`check:vuln`) can flag a module you never imported directly — e.g. `google.golang.org/grpc`, pulled in transitively through the OTel/ADK exporters. Fix it by bumping the flagged module directly (`go get -u <module>`; `go mod tidy` afterward), not by adding an explicit `require` pin — a pin only goes stale again and Go's minimal-version-selection already picks it up once bumped.
+- **Tools are not auto-installed**: `run_auto_install = false` means `mise install` must run once after `mise trust`.
+- **Embedded assets do not hot-reload**: use `mise run watch` (air + Tailwind + esbuild watchers); `.air.toml` excludes `assets/` on purpose so only the watchers' writes into `static/` trigger a rebuild.
+- **Commit generated code**: `*_templ.go`, `static/css/dist.css`, and `static/js/dist.js` are committed because `check` compiles `server.go` without running generators; CI's clean-tree check catches staleness.
+- **Vendored libraries**: `scripts/vendor.go` pins HTMX and Alpine by URL and sha256 and `install:vendor` skips when present; bump a version by editing URL and hash together, never through npm.
+- **Alpine load order**: [layout.templ](references/layout.templ) loads `dist.js` before `alpine.min.js` because `Alpine.data()` registrations must exist at `alpine:init`; reversing the tags fails silently.
+- **`ko` is per project**: `build:image` needs `go get -tool github.com/google/ko` per [containerize](../containerize/SKILL.md).
+- **Transitive vulnerabilities**: `govulncheck` flags modules you never imported (e.g. `grpc` via OTel/ADK); fix with `go get -u <module> && go mod tidy`, not a `require` pin — fresh ADK agents hit this on the first `check`.
 
 ## Documentation
 
-- [Go Documentation](https://go.dev/doc/)
-- [Templ Documentation](https://templ.guide)
-- [HTMX Documentation](https://htmx.org)
-- [Alpine.js Documentation](https://alpinejs.dev)
-- [Tailwind CSS v4](https://tailwindcss.com)
-- [esbuild Documentation](https://esbuild.github.io/) — [CLI flags](https://esbuild.github.io/api/#cli-parameters) for the bundling options used in `build:js`.
-- [ADK for Go](https://google.github.io/adk-docs/get-started/go/) — Agent Development Kit (agents).
-- Companion skills:
-  - [hugo](../hugo/SKILL.md) — documentation and static sites (Hugo + Hextra); Go web _apps_ stay on GOTH (§4).
-  - [github-actions](../github-actions/SKILL.md) — CI that runs these same `mise run` gates.
-  - [security-scan](../security-scan/SKILL.md) — audit dependencies, secrets, and licenses.
-  - [containerize](../containerize/SKILL.md) — package the binary into a minimal, signed image.
-  - [readme-agents](../readme-agents/SKILL.md) — keep `README.md` and `AGENTS.md` in sync.
+- [Go](https://go.dev/doc/) · [Templ](https://templ.guide) · [HTMX](https://htmx.org) · [Alpine.js](https://alpinejs.dev) · [Tailwind CSS](https://tailwindcss.com) · [esbuild](https://esbuild.github.io/) · [ADK for Go](https://google.github.io/adk-docs/get-started/go/)
+- Companion skills: [google-adk](../google-adk/SKILL.md) (agent workflow), [cli-contracts](../cli-contracts/SKILL.md), [containerize](../containerize/SKILL.md), [github-actions](../github-actions/SKILL.md), [secure](../secure/SKILL.md), [readme-agents](../readme-agents/SKILL.md).

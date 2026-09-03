@@ -1,37 +1,42 @@
 ---
 name: dot-release
-description: Prepare, tag, and push a versioned fmind/dotfiles release locally to trigger GitHub Actions CD publication.
+description: Run dot release (or mise run release) to gate, bump, tag, and push a fmind/dot release that cd.yml publishes. Use when cutting a release of this repository.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/.agents/skills/dot-release
-  created: 2026-07-08
-  updated: 2026-08-02
+  source: github.com/fmind/dot/tree/main/.agents/skills/dot-release
+  created: "2026-07-08"
+  updated: "2026-09-03"
 ---
 
-# Dotfiles Release
+# Dot Release
 
-Run `dot release` (alias `dot r`) to turn Conventional Commits since the last tag into a release commit and tag. The local command fetches `origin`, requires a clean `main` with `HEAD == origin/main`, computes the next semver via `git-cliff`, updates `dot/version.go` and `CHANGELOG.md`, runs the complete local gate (`format`, `check`, `test`), creates the commit and annotated tag, pushes `main` and `refs/tags/v*` to `origin`, and automatically reapplies the updated local `dot` binary. GitHub Actions (`cd.yml`) triggers on tag push to create the GitHub release.
+`dot release` (alias `dot r`, wrapped as `mise run release`) turns the Conventional Commits since the last tag into a release commit and tag of this repository; the generic process and the post-publication verification live in [release](../../../skills/release/SKILL.md).
 
-## Preconditions
-
-- Clean working tree on `main`; the command fetches and proves equality with `origin/main` before mutation.
-- `gh` authenticated, `git-cliff` and `mise` installed.
-- Commit history follows Conventional Commits.
-
-## Usage
+## Commands
 
 ```bash
-# Agent / non-interactive (skips confirmation prompt)
-mise run release -- -y
+mise run release -- -y   # non-interactive: skips the confirmation prompt
+dot release              # interactive: confirms before mutating
 ```
+
+## Workflow
+
+The command performs every step itself; the agent checks the preconditions and reads the result.
+
+1. **Preconditions**: clean working tree on `main`, `gh` authenticated, `git-cliff` and `mise` installed, Conventional Commits history.
+1. **Fetch and prove**: the command fetches `origin` and requires `HEAD == origin/main` before any mutation.
+1. **Compute and write**: the next semver from `git-cliff`, then `dot/version.go` and `CHANGELOG.md`.
+1. **Gate**: the local gate (`format`, `check`, `test`) runs; a failure aborts and resets the staged release files before any commit or tag exists.
+1. **Commit, tag, push**: the release commit, the annotated tag, the push of `main` and `refs/tags/v*` to `origin`, then the updated local `dot` binary is reapplied.
+1. **Publish**: the tag push triggers `.github/workflows/cd.yml`, which creates the GitHub release; verify it with the release skill's `Verify` steps.
 
 ## Gotchas
 
-- Lint or test failures during local gate abort the release before any commit or tag is created.
-- Pushing a release tag automatically triggers the `.github/workflows/cd.yml` workflow on GitHub Actions to publish the release.
+- **No `mr`**: the fish abbreviation is interactive-only; agents call `mise run release` or `dot release`.
+- **Diverged `main`**: the command refuses a dirty tree or a `HEAD` that differs from `origin/main`; commit or stash, then sync before retrying.
 
-## See Also
+## Documentation
 
-- [release](../../../skills/release/SKILL.md) — Generic release process template.
-- [conventional-commit](../../../skills/conventional-commit/SKILL.md) — Commit grammar for changelog bumping.
+- [git-cliff](https://git-cliff.org) · `.github/workflows/cd.yml`
+- Companion skills: [release](../../../skills/release/SKILL.md) (generic process), [conventional-commit](../../../skills/conventional-commit/SKILL.md) (commit grammar), [dot-cli](../../../skills/dot-cli/SKILL.md) (`dot release`).

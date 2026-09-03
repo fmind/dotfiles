@@ -627,10 +627,12 @@ func defaultVerifyConfig() VerifyConfig {
 		},
 		// Keep in sync with the toolchain `mise run check` needs: gitleaks and
 		// trivy gate every commit, so a missing one fails the hook, not the scan.
+		// Kubernetes tools (kubectl, k3d, helm, ...) are opt-in since Cloud Run
+		// became the default deploy target, so they are deliberately not listed.
 		Tools: []string{
 			"age", "agy", "chezmoi", "clasp", "claude", "codex", "copilot", "docker", "dprint", "gcloud", "gh", "git", "git-cliff", "gitleaks", "go", "grok", "gws",
-			"helm", "helmfile", "jules", "k3d", "k9s", "kubectl", "lefthook", "mise", "nvim",
-			"opencode", "python", "skaffold", "sqlite3", "trivy", "uv",
+			"jules", "lefthook", "mise", "nvim",
+			"opencode", "python", "sqlite3", "trivy", "uv",
 		},
 		Secrets: []SecretConfig{
 			{

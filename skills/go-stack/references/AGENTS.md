@@ -6,7 +6,7 @@ Context and rules for AI agents working in this repository. Humans should start 
 
 - **Name**: <slug>
 - **Description**: <1-2 sentences on what this project does.>
-- **Language**: Go 1.26+ (`go.mod`), module `<import_path>`.
+- **Language**: Go 1.27+ (`go.mod`), module `<import_path>`.
 
 ## Setup & core commands
 

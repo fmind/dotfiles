@@ -142,8 +142,14 @@ func spoolHookFailure(cfg AgentConfig, agent, operation, sessionID string, hookE
 		return errors.Join(hookErr, fmt.Errorf("failed to encode hook failure: %w", err))
 	}
 	name := strings.NewReplacer(":", "", ".", "").Replace(time.Now().UTC().Format("20060102T150405.000000000Z")) + "-" + truncatedDigest(sessionDigest(agent, operation, record.Detail)) + ".json"
-	if err := writeOwnerOnly(filepath.Join(root, name), append(content, '\n')); err != nil {
+	// Write beside the target and rename so a reader never sees a half-written
+	// record: the doctor and the trimmer only pick up `.json` names.
+	target := filepath.Join(root, name)
+	if err := writeOwnerOnly(target+".tmp", append(content, '\n')); err != nil {
 		return errors.Join(hookErr, fmt.Errorf("failed to write hook failure spool: %w", err))
+	}
+	if err := os.Rename(target+".tmp", target); err != nil {
+		return errors.Join(hookErr, fmt.Errorf("failed to publish hook failure spool: %w", err))
 	}
 	if err := trimHookFailureSpool(root, cfg.hookFailureLimit()); err != nil {
 		return errors.Join(hookErr, err)

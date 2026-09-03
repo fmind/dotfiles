@@ -1,7 +1,8 @@
 .agents/prompts/
 .agents/tmp/
 .antigravitycli/
-.claude/
+.claude/*
+!.claude/skills
 .codex/
 .gemini/
 .grok/

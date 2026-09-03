@@ -1,28 +1,15 @@
 # AGENTS.md (Project)
 
-This file provides the context and rules for AI agents.
+Project instructions for Antigravity, Claude Code (through `CLAUDE.md`), Codex, Copilot, Grok, and OpenCode. Global rules and conventions come from `~/.agents/AGENTS.md`; this file adds only what is specific to this repository.
 
-## Project Identity
+## Identity
 
 - **Name**: <Project Name>
-- **Description**: <1-2 sentences on what this project does.>
+- **Description**: <One or two sentences on what this project does.>
+- **Stack**: <language and tooling, for example Go with mise, lefthook, and dprint>
 
-## Tech Stack & Tools
+## Layout
 
-- **Language**: Python (uv, see pyproject.toml) / Go (go.mod)
-- **Task Runner**: `mise` (see `mise.toml`)
-- **Formatting**: `dprint` (config/markup) + `ruff` / `gofumpt`
-- **Linting**: `ruff` / `golangci-lint`
-- **Git Hooks**: `lefthook` (see `lefthook.yml`)
-- **Testing**: `pytest` / `gotestsum`
-
-## Rules & Standards
-
-- **Elegant & Refined**: Write minimalist, correct, and self-documenting code. Avoid complex solutions.
-- **Fail Fast**: Use standard error handling and assertions; do not swallow exceptions.
-- **Git Commits**: Strictly use Conventional Commits (e.g., `feat:`, `fix:`, `chore:`).
-
-## Workspace Layout
-
-- `AGENTS.md` — Shared project instructions for Antigravity, Codex, OpenCode, and Copilot; Claude imports it from `CLAUDE.md`.
-- `.agents/skills/` — Portable project skills discovered by Antigravity, Codex, OpenCode, and Copilot; Claude links `.claude/skills` here.
+- `AGENTS.md` — this file, shared by every host; `CLAUDE.md` links to it.
+- `.agents/skills/` — project skills; `.claude/skills` links here.
+- `<path>` — <one-sentence purpose>.

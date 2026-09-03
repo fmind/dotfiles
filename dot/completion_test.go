@@ -35,7 +35,6 @@ func TestGetCompletionCommand(t *testing.T) {
 		{"rg", "rg", []string{"--generate", "complete-fish"}},
 		{"ruff", "ruff", []string{"generate-shell-completion", "fish"}},
 		{"starship", "starship", []string{"completions", "fish"}},
-		{"stern", "stern", []string{"--completion", "fish"}},
 		{"watchexec", "watchexec", []string{"--completions", "fish"}},
 		{"cosign", "cosign", []string{"completion", "fish"}}, // default command, no custom entry
 		{"xh", "xh", []string{"--generate", "complete-fish"}},

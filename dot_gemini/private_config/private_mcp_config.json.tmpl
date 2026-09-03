@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "fkf": {
+      "args": [
+        "mcp",
+        "serve",
+        "--base",
+        "{{ env "FKF_BASE" | default (joinPath .chezmoi.homeDir "fmind/brain") }}"
+      ],
+      "command": "fkf"
+    }
+  }
+}

@@ -6,6 +6,7 @@ return {
     -- Load it on the filetype instead: lazy.nvim sources the plugin's
     -- ftdetect at startup when `ft` is set, so `.c4` files still trigger it.
     ft = "likec4",
-    -- The `likec4` LSP binary comes from mise (npm:@likec4/lsp), not `build`.
+    -- The LSP is `likec4 lsp --stdio` (see the plugin's own `lsp/likec4.lua`), so it
+    -- comes from the `npm:likec4` CLI in mise, not from a separate LSP package or `build`.
   },
 }

@@ -1,83 +1,78 @@
 ---
 name: dependabot
-description: Automated dependency updates using GitHub Dependabot — configuration, ecosystem mapping, and validation.
+description: "Automate dependency updates with GitHub Dependabot: configuration, ecosystem mapping, grouping, validation. Use when enabling or fixing dependabot.yml."
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
-  source: github.com/fmind/dotfiles/tree/main/skills/dependabot
-  created: 2026-07-14
-  updated: 2026-08-02
+  source: github.com/fmind/dot/tree/main/skills/dependabot
+  created: "2026-07-14"
+  updated: "2026-09-03"
 ---
 
-# Dependabot Dependency Management Standard
+# Dependabot
 
-Canonical setup for **GitHub Dependabot**, an automated dependency update engine designed to keep dependencies and GitHub Actions pinned, secure, and current.
+Keep GitHub Actions and dependencies current with one `.github/dependabot.yml`; [secure](../secure/SKILL.md) enables it during the security pass and [upgrade-tools](../upgrade-tools/SKILL.md) owns the bumps Dependabot cannot make (mise pins, formatter plugins).
 
-## 1. Principles
+## Workflow
 
-1. **Pin-Everything Strategy**: Pin GitHub Actions to a major-version tag (`actions/checkout@v7`) and Go, npm, and Python packages explicitly. Do not pin action SHAs — the tag already tracks security patches within the major, and SHAs turn every upstream patch into review noise.
-1. **Reduce PR Noise**: Group minor, patch, and digest updates into single, consolidated pull requests using the Dependabot `groups` configuration (e.g., grouping GitHub Action updates or Go module updates) while leaving major updates separate.
-1. **Local Validation**: Never merge automated updates blindly. Always run validation pipelines locally (`mise run check` and `mise run test`) before pushing/merging to verify compatibility and catch regressions.
-1. **No Auto-Merge**: Do not configure auto-merge for dependencies. Automated systems cannot anticipate protocol, type-checking, or model drift.
+1. **Map the ecosystems**: one `updates` entry per manifest directory, using the value Dependabot expects:
 
-## 2. Configuration Setup (`.github/dependabot.yml`)
+   | Manifest                         | `package-ecosystem` |
+   | -------------------------------- | ------------------- |
+   | `.github/workflows/*.yml`        | `github-actions`    |
+   | `go.mod`                         | `gomod`             |
+   | `pyproject.toml` + `uv.lock`     | `uv`                |
+   | `package.json` (npm, pnpm, yarn) | `npm`               |
+   | `Dockerfile`                     | `docker`            |
+   | `*.tf` (Terraform)               | `terraform`         |
+   | `*.tf` (OpenTofu)                | `opentofu`          |
 
-Place a `dependabot.yml` at `.github/dependabot.yml` at the root of target repositories to manage updates, commit styling, and dependency groupings.
+1. **Write the config**: weekly schedule, `chore(deps)` commit prefix, and one group per ecosystem for `minor` and `patch` updates so majors arrive alone:
 
-Example configuration for a repository with GitHub Actions and Go modules:
-
-```yaml
-version: 2
-updates:
-  - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: weekly
-      day: monday
-    commit-message:
-      prefix: "chore(deps)"
-    groups:
-      actions:
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
-  - package-ecosystem: gomod
-    directory: /dot
-    schedule:
-      interval: weekly
-      day: monday
-    commit-message:
-      prefix: "chore(deps)"
-    groups:
-      go-modules:
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
-```
-
-## 3. Workflow & Commands
-
-1. **Verify Configuration**: Dependabot validation is handled automatically by GitHub upon receiving pushes to `.github/dependabot.yml`. Any syntax errors will be reported in the repository's "Insights" -> "Dependency graph" -> "Dependabot" tab.
-1. **Trigger Manual Checks**: To force Dependabot to check for updates immediately, go to your repository on GitHub, navigate to **Insights** -> **Dependency graph** -> **Dependabot**, click on the status/last-check details for a package ecosystem, and click **Check for updates**.
-1. **Local Verification**: When a Dependabot PR is opened, fetch the branch locally and run static checkers and tests to verify correctness:
-   ```bash
-   git fetch origin
-   git checkout check-dependabot-branch
-   mise run check
-   mise run test
+   ```yaml
+   version: 2
+   updates:
+     - package-ecosystem: github-actions
+       directory: /
+       schedule:
+         interval: weekly
+         day: monday
+       commit-message:
+         prefix: "chore(deps)"
+       groups:
+         actions:
+           patterns: ["*"]
+           update-types: [minor, patch]
+     - package-ecosystem: gomod
+       directory: /
+       schedule:
+         interval: weekly
+         day: monday
+       commit-message:
+         prefix: "chore(deps)"
+       groups:
+         go-modules:
+           patterns: ["*"]
+           update-types: [minor, patch]
    ```
 
-## 4. Licensing & Requirements
+1. **Validate**: `zizmor --offline --collect dependabot --strict-collection .` checks the schema and audits the file offline (see [zizmor](../zizmor/SKILL.md)); GitHub re-validates on push and shows errors in the Dependabot tab.
+1. **Review each PR locally**: never merge blindly and never enable auto-merge.
 
-1. **100% Free**: Dependabot is natively integrated into GitHub and free for all repositories (both public and private).
-1. **GitHub Native**: No tokens or external marketplace applications need to be configured. Enabling the bot is as simple as placing the `dependabot.yml` configuration file in the `.github` directory.
+   ```bash
+   gh pr list --app dependabot    # open Dependabot PRs
+   gh pr checkout <number>
+   mise run check && mise run test
+   ```
 
-## 5. Documentation
+## Gotchas
 
-- [GitHub Dependabot Documentation](https://docs.github.com/en/code-security/dependabot)
-- [Configuration options for the dependabot.yml file](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
-- [Optimizing the creation of pull requests for Dependabot version updates](https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/optimizing-pr-creation-version-updates)
+- **Pin to major tags, not SHAs**: `actions/checkout@v7` tracks security patches within the major; SHA pins turn every upstream patch into review noise.
+- **Directory is per manifest**: a Go module under `dot/` needs `directory: /dot`; Dependabot does not recurse from `/`.
+- **No tokens needed**: Dependabot is native to GitHub and free for public and private repositories; the config file alone enables it.
+- **No CLI trigger**: forcing an immediate check happens only in the repository's Dependabot tab (Insights, Dependency graph).
+
+## Documentation
+
+- [Dependabot](https://docs.github.com/en/code-security/dependabot) · [dependabot.yml options](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file) · [Grouping updates](https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/optimizing-pr-creation-version-updates)
+- Companion skills: [secure](../secure/SKILL.md) (security pass), [upgrade-tools](../upgrade-tools/SKILL.md) (manual bumps), [zizmor](../zizmor/SKILL.md) (offline validation).

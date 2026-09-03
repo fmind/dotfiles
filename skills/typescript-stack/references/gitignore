@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Test and tooling artifacts
+coverage/
+.vitest/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example

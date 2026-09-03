@@ -31,12 +31,12 @@ command -v chezmoi >/dev/null || {
   mise use --global --yes chezmoi@latest
 }
 
-# Install dotfiles
-echo "=> Installing dotfiles..."
+# Install dot
+echo "=> Installing dot..."
 if [ ! -d "${SOURCE_DIR}" ]; then
-  chezmoi init --force https://github.com/fmind/dotfiles.git --source "${SOURCE_DIR}" "$@"
+  chezmoi init --force https://github.com/fmind/dot.git --source "${SOURCE_DIR}" "$@"
 else
-  echo "=> Updating dotfiles repository..."
+  echo "=> Updating dot repository..."
   if [ "${SKIP_GIT_PULL:-}" = "true" ] || [ "${CI:-}" = "true" ]; then
     echo "=> Skipping git pull as requested by environment variable."
   else

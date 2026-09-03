@@ -1,0 +1,102 @@
+# Fmind diagram theme — the standard palette for technical diagrams.
+#
+# Import it from a diagram source or copy its classes:
+#
+#   ...@path/to/diagram.d2
+#
+# Why a light surface when the brand is dark: the site renders an article in a
+# light and a dark theme the reader toggles, and a PNG cannot follow that. A
+# light figure reads as a panel on the dark theme; a dark figure reads as a hole
+# punched in the light one. So the surface stays light and the brand shows up in
+# the accents — #646CFF on the shapes that carry meaning, #0F172A for ink.
+#
+# Colors come from the Fmind visual theme.
+
+classes: {
+  # A labelled boundary that holds other shapes: a platform, a layer, a zone.
+  # Deliberately the quietest fill in the theme, because it is background for
+  # everything nested inside it.
+  group: {
+    style: {
+      fill: "#f8fafc"
+      stroke: "#cbd5e1"
+      font-color: "#334155"
+      stroke-width: 2
+    }
+  }
+
+  # A major building block the article names and discusses. This is the
+  # workhorse class, so it carries the brand accent as its stroke.
+  container: {
+    style: {
+      fill: "#eef0ff"
+      stroke: "#646cff"
+      font-color: "#1e293b"
+      stroke-width: 2
+    }
+  }
+
+  # A leaf part inside a container. Neutral on purpose: components are numerous,
+  # and coloring them competes with the containers the reader is meant to track.
+  component: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#94a3b8"
+      font-color: "#0f172a"
+    }
+  }
+
+  # A human or a calling system — where the flow enters. The most saturated tint
+  # in the theme, because there are few of them and the reader should find them
+  # first. The text is ink rather than white on a solid fill for one measured
+  # reason: `shape: person` draws its label on the canvas *below* the shape, not
+  # inside it, so light-on-brand text renders invisible on the white surface.
+  # Ink reads both inside the box and outside it.
+  actor: {
+    style: {
+      fill: "#c7cbff"
+      stroke: "#4f46e5"
+      font-color: "#0f172a"
+      stroke-width: 2
+    }
+  }
+
+  # Something outside the boundary being described: a third-party API, a managed
+  # service, another team's system. Dashed is the signal, not the color.
+  external: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#94a3b8"
+      font-color: "#334155"
+      stroke-dash: 4
+    }
+  }
+
+  # One numbered stage of a sequence or workflow.
+  step: {
+    style: {
+      fill: "#e2e8f0"
+      stroke: "#64748b"
+      font-color: "#0f172a"
+    }
+  }
+
+  # Where a flow starts or stops. Brand ink, so an endpoint reads as a full stop.
+  # This is the one class whose label must stay inside its shape: on a shape that
+  # draws its label outside — `person`, `image` — white text lands on the white
+  # canvas and disappears. Keep terminal a plain box.
+  terminal: {
+    style: {
+      fill: "#0f172a"
+      stroke: "#0f172a"
+      font-color: "#f8fafc"
+    }
+  }
+
+}
+
+# Seven classes and no more. Every one of them is distinguishable from the other
+# six at the size the reader gets, which is the whole point of a fixed palette:
+# an eighth shade that only differs from a seventh reads as noise, not meaning.
+# A whole system drawn as one box is a `container`. A rejected alternative is an
+# `external` whose label says it was rejected.

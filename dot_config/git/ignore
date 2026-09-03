@@ -1,8 +1,10 @@
 .agents/prompts/
 .agents/skills/local-*
+.agents/skills/private-*
 .agents/tmp/
 .antigravitycli/
-.claude/
+.claude/*
+!.claude/skills
 .gemini/
 .opencode/
 skills/local-*

@@ -22,8 +22,11 @@ const (
 	lifecycleLexicalDuplicateLimit = 0.78
 	lifecycleMinimumRankOneRate    = 0.80
 	lifecycleBoundaryRankOneFloor  = 0.85
-	lifecycleCatalogDescriptionMax = 11000
-	lifecycleMultiSkillRecallFloor = 0.80
+	// Average description budget per skill: the discovery envelope scales with the
+	// catalog, so adding a skill never buys the others more room, and every
+	// description must stay a compact routing cue rather than a summary.
+	lifecycleCatalogDescriptionAverageMax = 175
+	lifecycleMultiSkillRecallFloor        = 0.80
 )
 
 var (
@@ -210,7 +213,7 @@ func TestLifecycleSkillCatalogAndExplicitRouting(t *testing.T) {
 		want   string
 	}{
 		{name: "plain invocation", prompt: "Please apply product-loop here.", want: "product-loop"},
-		{name: "negated neighbor", prompt: "Do not use threat-model; use security-scan on the repository instead.", want: "security-scan"},
+		{name: "negated neighbor", prompt: "Do not use threat-model; use secure on the repository instead.", want: "secure"},
 		{name: "ordered invocation", prompt: "Apply skill-security-review before agent-skills installs the package.", want: "skill-security-review"},
 	} {
 		t.Run(test.name, func(t *testing.T) {
@@ -228,10 +231,11 @@ func TestLifecycleSkillCatalogDescriptionBudget(t *testing.T) {
 	for _, description := range descriptions {
 		total += utf8.RuneCountInString(description)
 	}
-	if total > lifecycleCatalogDescriptionMax {
-		t.Fatalf("catalog descriptions contain %d characters, exceeding the local %d-character discovery envelope; shorten and front-load routing cues", total, lifecycleCatalogDescriptionMax)
+	budget := lifecycleCatalogDescriptionAverageMax * len(descriptions)
+	if total > budget {
+		t.Fatalf("catalog descriptions contain %d characters, exceeding the local %d-character discovery envelope (%d skills x %d); shorten and front-load routing cues", total, budget, len(descriptions), lifecycleCatalogDescriptionAverageMax)
 	}
-	t.Logf("catalog descriptions contain %d/%d characters", total, lifecycleCatalogDescriptionMax)
+	t.Logf("catalog descriptions contain %d/%d characters", total, budget)
 }
 
 func TestLifecycleExplicitInvocationBoundariesAndNegation(t *testing.T) {
@@ -551,7 +555,7 @@ func TestLifecycleSkillStaticSafetyCopyContracts(t *testing.T) {
 			"A plan alone is not authorization to mutate the repository",
 			"Preserve staged, unstaged, and untracked user work",
 			"Stop rather than weaken an assertion",
-			"normally `mise run all`",
+			"`mise run all`",
 		},
 		"plan-review": {
 			"Review only unless the user explicitly requests revisions or implementation",
@@ -585,7 +589,7 @@ func TestLifecycleSkillStaticSafetyCopyContracts(t *testing.T) {
 			"it does not deploy, migrate, publish, or mutate production",
 			"Never collapse these states",
 			"Failed, stale, unavailable, or differently-scoped evidence remains a gap",
-			"normally `mise run all`",
+			"`mise run all`",
 		},
 		"prompt-design": {
 			"Design is local and read-only by default",
@@ -633,7 +637,7 @@ func TestLifecycleSkillStaticSafetyCopyContracts(t *testing.T) {
 		"test-driven-development": {
 			"honest red-green-refactor cycle",
 			"Never weaken an existing test",
-			"normally `mise run all`",
+			"`mise run all`",
 		},
 		"threat-model": {
 			"Default to read-only analysis",
@@ -671,7 +675,7 @@ func TestLifecycleSkillStaticSafetyCopyContracts(t *testing.T) {
 
 func readLifecycleEvaluations(t *testing.T) lifecycleEvaluationFile {
 	t.Helper()
-	path := filepath.Join(skillRepositoryRoot(t), "skills", "agent-skills", "tests", "lifecycle-evaluations.json")
+	path := filepath.Join(skillRepositoryRoot(t), "dot", "testdata", "skills", "lifecycle-evaluations.json")
 	file, err := os.Open(path)
 	if err != nil {
 		t.Fatal(err)
@@ -696,7 +700,7 @@ func readLifecycleEvaluations(t *testing.T) lifecycleEvaluationFile {
 
 func readLifecycleRoutingBoundaries(t *testing.T) lifecycleRoutingBoundaryFile {
 	t.Helper()
-	path := filepath.Join(skillRepositoryRoot(t), "skills", "agent-skills", "tests", "routing-boundaries.json")
+	path := filepath.Join(skillRepositoryRoot(t), "dot", "testdata", "skills", "routing-boundaries.json")
 	file, err := os.Open(path)
 	if err != nil {
 		t.Fatal(err)
@@ -744,7 +748,14 @@ func readSkillDescriptions(t *testing.T, repo string) map[string]string {
 		if err != nil {
 			t.Fatal(err)
 		}
-		files = append(files, matched...)
+		for _, path := range matched {
+			// Skip skills that a third-party installer symlinked into the catalog
+			// (see isForeignSkillRoot): they are not part of the first-party budget.
+			if info, err := os.Lstat(filepath.Dir(path)); err == nil && info.Mode()&os.ModeSymlink != 0 {
+				continue
+			}
+			files = append(files, path)
+		}
 	}
 	descriptions := make(map[string]string, len(files))
 	for _, path := range files {

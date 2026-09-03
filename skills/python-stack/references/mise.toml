@@ -5,9 +5,9 @@ _.source = ".env"
 run_auto_install = false
 
 [tools]
-uv = "latest"
 dprint = "latest"
 gitleaks = "latest"
+uv = "latest"
 
 [tasks.all]
 alias = "a"
@@ -42,8 +42,8 @@ run = [
 
 [tasks."check:leaks"]
 alias = "cs"
-description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks dir --verbose ."
+description = "Audit recent commits for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
 
 [tasks."check:lint"]
 alias = "cl"
@@ -57,8 +57,8 @@ run = "uv run ty check"
 
 [tasks."check:vuln"]
 alias = "cv"
-description = "Scan dependencies for vulnerabilities (pip-audit)"
-run = "uv run pip-audit --skip-editable --cache-dir .cache/pip-audit"
+description = "Scan dependencies for vulnerabilities (uv audit)"
+run = "uv audit"
 
 [tasks.clean]
 alias = "n"

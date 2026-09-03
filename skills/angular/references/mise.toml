@@ -1,0 +1,72 @@
+[tools]
+dprint = "latest"
+gitleaks = "latest"
+lefthook = "latest"
+node = "lts"
+pnpm = "latest"
+
+[settings.task]
+run_auto_install = false
+
+[tasks.all]
+alias = "a"
+description = "Run the full gate (format, check, test, build)"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
+[tasks.install]
+alias = "i"
+description = "Install dependencies and git hooks"
+run = ["pnpm install --frozen-lockfile", "lefthook install"]
+
+[tasks.format]
+alias = "f"
+description = "Format sources, templates, config, and markup"
+depends = ["format:prettier", "format:dprint"]
+
+[tasks."format:prettier"]
+description = "Format TypeScript, HTML templates, CSS, and JSON (Prettier)"
+run = "pnpm exec prettier --write --log-level warn ."
+
+[tasks."format:dprint"]
+description = "Format Markdown, TOML, YAML (dprint)"
+run = "dprint fmt --allow-no-files"
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = ["check:format", "check:lint", "check:deps", "check:vuln", "check:leaks"]
+
+[tasks."check:format"]
+description = "Check formatting (Prettier + dprint)"
+run = ["pnpm exec prettier --check --log-level warn .", "dprint check"]
+
+[tasks."check:lint"]
+description = "Lint components, templates, and accessibility (angular-eslint)"
+run = "pnpm exec ng lint"
+
+[tasks."check:deps"]
+description = "Find unused files, exports, and dependencies (Knip)"
+run = "pnpm exec knip"
+
+[tasks."check:vuln"]
+description = "Audit dependencies for known vulnerabilities (pnpm)"
+run = "pnpm audit --audit-level high"
+
+[tasks."check:leaks"]
+description = "Audit recent commits for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
+
+[tasks.test]
+alias = "t"
+description = "Run unit tests once with coverage (Vitest through the Angular CLI)"
+run = "pnpm exec ng test --watch=false --coverage"
+
+[tasks.build]
+alias = "b"
+description = "Build the production bundle into dist/"
+run = "pnpm exec ng build"
+
+[tasks.watch]
+alias = "w"
+description = "Serve the app with live reload"
+run = "pnpm exec ng serve"
