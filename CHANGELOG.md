@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.26.0] - 2026-09-04
+
+### 🚀 Features
+
+- _(skills)_ Update global skills and tooling contracts
+- _(dot)_ Add agent usage tracking and expand skills catalog
+
 ## [1.25.1] - 2026-08-30
 
 ### 🐛 Bug Fixes
