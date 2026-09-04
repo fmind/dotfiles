@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"runtime"
 	"slices"
 	"strings"
 	"time"
@@ -570,30 +571,14 @@ func validatePrunePath(path string) error {
 	if err != nil {
 		return fmt.Errorf("failed to resolve home directory %s: %w", home, err)
 	}
-	if prunePathContains(abs, home) || prunePathContains(abs, resolvedHome) {
-		if filepath.Clean(abs) == filepath.Clean(home) || filepath.Clean(abs) == filepath.Clean(resolvedHome) {
+	resolvedAbs, _ := filepath.EvalSymlinks(abs)
+	if prunePathContains(abs, home) || prunePathContains(abs, resolvedHome) ||
+		(resolvedAbs != "" && (prunePathContains(resolvedAbs, home) || prunePathContains(resolvedAbs, resolvedHome))) {
+		if filepath.Clean(abs) == filepath.Clean(home) || filepath.Clean(abs) == filepath.Clean(resolvedHome) ||
+			(resolvedAbs != "" && (filepath.Clean(resolvedAbs) == filepath.Clean(home) || filepath.Clean(resolvedAbs) == filepath.Clean(resolvedHome))) {
 			return fmt.Errorf("refusing to prune home directory %s", path)
 		}
 		return fmt.Errorf("refusing to prune path %s because it contains home directory %s", path, home)
-	}
-
-	parent := filepath.Dir(abs)
-	resolvedParent, resolveErr := filepath.EvalSymlinks(parent)
-	if resolveErr != nil && !errors.Is(resolveErr, os.ErrNotExist) {
-		return fmt.Errorf("failed to resolve prune path parent %s: %w", parent, resolveErr)
-	}
-	if resolveErr == nil {
-		expectedParent := parent
-		if prunePathContains(home, parent) {
-			relative, relErr := filepath.Rel(home, parent)
-			if relErr != nil {
-				return fmt.Errorf("failed to resolve prune path parent %s: %w", parent, relErr)
-			}
-			expectedParent = filepath.Join(resolvedHome, relative)
-		}
-		if filepath.Clean(resolvedParent) != filepath.Clean(expectedParent) {
-			return fmt.Errorf("refusing to prune path with symbolic-link parent: %s", path)
-		}
 	}
 
 	pathInfo, pathErr := os.Stat(abs)
@@ -616,6 +601,34 @@ func validatePrunePath(path string) error {
 			if parent == ancestor {
 				break
 			}
+		}
+	}
+
+	parent := filepath.Dir(abs)
+	resolvedParent, resolveErr := filepath.EvalSymlinks(parent)
+	if resolveErr != nil && !errors.Is(resolveErr, os.ErrNotExist) {
+		return fmt.Errorf("failed to resolve prune path parent %s: %w", parent, resolveErr)
+	}
+	if resolveErr == nil {
+		expectedParent := parent
+		if prunePathContains(home, parent) {
+			relative, relErr := filepath.Rel(home, parent)
+			if relErr != nil {
+				return fmt.Errorf("failed to resolve prune path parent %s: %w", parent, relErr)
+			}
+			expectedParent = filepath.Join(resolvedHome, relative)
+		} else if prunePathContains(resolvedHome, resolvedParent) {
+			expectedParent = resolvedParent
+		} else if runtime.GOOS == "darwin" {
+			for _, prefix := range []string{"/var", "/tmp", "/etc"} {
+				if parent == prefix || strings.HasPrefix(parent, prefix+"/") {
+					expectedParent = "/private" + parent
+					break
+				}
+			}
+		}
+		if filepath.Clean(resolvedParent) != filepath.Clean(expectedParent) {
+			return fmt.Errorf("refusing to prune path with symbolic-link parent: %s", path)
 		}
 	}
 	return nil
