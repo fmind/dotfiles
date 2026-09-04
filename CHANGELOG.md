@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.26.2] - 2026-09-04
+
+### 📚 Documentation
+
+- _(mermaid)_ Require clear human-readable labels in diagram standard
+
 ## [1.26.1] - 2026-09-04
 
 ### 🐛 Bug Fixes
