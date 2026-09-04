@@ -6,7 +6,7 @@ metadata:
   author: Médéric HURIER (Fmind)
   source: github.com/fmind/dot/tree/main/skills/mermaid
   created: "2026-07-16"
-  updated: "2026-09-03"
+  updated: "2026-09-04"
 ---
 
 # Mermaid Diagram Standard
@@ -17,7 +17,7 @@ Mermaid is the default diagram format because the same editable text renders in 
 
 1. **State the thesis**: one visual claim and the reader decision it supports; omit the diagram when prose, code, a list, or a table is more direct.
 1. **Pick a stable type**: prefer `flowchart`, `sequenceDiagram`, `stateDiagram-v2`, `classDiagram`, and `erDiagram`; avoid a newly released type until every target renderer's Mermaid version supports it (GitHub reports its version from a block containing `info`).
-1. **Write portable source**: a fenced `mermaid` block when the diagram belongs to one Markdown document, a `.mmd` file when it is reused or rendered independently; keep labels short, direction intentional, and the node count readable without zooming.
+1. **Write portable source**: a fenced `mermaid` block when the diagram belongs to one Markdown document, a `.mmd` file when it is reused or rendered independently; use clear, human-readable labels instead of cryptic abbreviations or raw IDs, keep direction intentional, and keep the node count readable without zooming.
 1. **Configure in frontmatter**: put configuration in Mermaid frontmatter, never in `%%{init: ...}%%` directives or renderer-specific fence options; apply the Fmind theme from [fmind-theme](../fmind-visuals/references/fmind-theme.md) when the work represents Médéric or `www.fmind.dev`.
 1. **Validate and render**:
 
@@ -32,6 +32,7 @@ Mermaid is the default diagram format because the same editable text renders in 
 
 - **No browser found**: `mmdc` fails with `Could not find chrome-headless-shell` when the Puppeteer download is absent; point it at system Chrome: `PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome mmdc -i diagram.mmd -o diagram.svg`.
 - **Clipped labels**: set one renderer-stable font stack through root-level `config.fontFamily`; late-loading web fonts change label measurements after layout and clip inside fixed bounds.
+- **Cryptic labels**: use clear, self-explanatory labels for nodes, edges, and subgraphs instead of cryptic IDs or abbreviations; diagrams must be effortless for humans to read at a glance in documentation.
 - **Deprecated option**: `flowchart.htmlLabels` is deprecated; do not add it to new diagrams.
 - **Non-portable features**: keep remote images, custom JavaScript, click callbacks, and renderer plugins out of shared source.
 - **Dense diagrams**: split into views instead of shrinking labels; left-to-right for slide-sized processes, top-to-bottom for document hierarchies.
