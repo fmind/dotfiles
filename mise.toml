@@ -338,8 +338,8 @@ description = "Upgrade mise tools to latest versions"
 run = [
   "mise -C \"$HOME\" upgrade",
   "mise upgrade --local",
-  "mise lock --bump --yes",
-  "mise lock --global --bump --yes",
+  "mise lock --yes",
+  "mise lock --global --yes",
   "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
   "nvim --headless '+Lazy! update' +qa",
   "mise run vim:verify",
