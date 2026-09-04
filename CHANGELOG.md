@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.26.1] - 2026-09-04
+
+### 🐛 Bug Fixes
+
+- Upgrade tools and handle darwin symlinks in prune validation (#82)
+
+### 🧹 Miscellaneous
+
+- _(mise)_ Update tool and neovim plugin lockfiles
+
 ## [1.26.0] - 2026-09-04
 
 ### 🚀 Features
