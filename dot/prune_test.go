@@ -1040,6 +1040,7 @@ func TestPruneRefusesBroadOrIndirectPaths(t *testing.T) {
 	if err := validatePrunePath(home); err == nil || !strings.Contains(err.Error(), "home directory") {
 		t.Fatalf("expected the resolved home directory to be rejected, got %v", err)
 	}
+	t.Setenv("HOME", home)
 
 	target := t.TempDir()
 	victim := filepath.Join(target, "keep.txt")
