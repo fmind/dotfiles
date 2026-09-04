@@ -1,0 +1,82 @@
+[tools]
+dprint = "latest"
+gitleaks = "latest"
+lefthook = "latest"
+node = "lts"
+pnpm = "latest"
+
+[settings.task]
+run_auto_install = false
+
+[tasks.all]
+alias = "a"
+description = "Run the full gate (format, check, test, build)"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
+
+[tasks.install]
+alias = "i"
+description = "Install dependencies and git hooks"
+run = ["pnpm install --frozen-lockfile", "lefthook install"]
+
+[tasks.format]
+alias = "f"
+description = "Format sources, components, config, and markup"
+depends = ["format:prettier", "format:dprint"]
+
+[tasks."format:prettier"]
+description = "Format Astro components, TypeScript, CSS, and JSON (Prettier)"
+run = "pnpm exec prettier --write --log-level warn ."
+
+[tasks."format:dprint"]
+description = "Format Markdown, TOML, YAML (dprint)"
+run = "dprint fmt --allow-no-files"
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = ["check:format", "check:types", "check:deps", "check:vuln", "check:leaks"]
+
+[tasks."check:format"]
+description = "Check formatting (Prettier + dprint)"
+run = ["pnpm exec prettier --check --log-level warn .", "dprint check"]
+
+[tasks."check:types"]
+description = "Type-check Astro components and TypeScript sources (astro check)"
+run = "pnpm exec astro check"
+
+[tasks."check:deps"]
+description = "Find unused files, exports, and dependencies (Knip)"
+run = "pnpm exec knip"
+
+[tasks."check:vuln"]
+description = "Audit dependencies for known vulnerabilities (pnpm)"
+run = "pnpm audit --audit-level high"
+
+[tasks."check:leaks"]
+description = "Audit staged changes, the working tree, or recent commits for leaked secrets (gitleaks)"
+run = """
+sh -c '
+if [ "$#" -gt 0 ]; then
+  gitleaks git --verbose "$@"
+elif git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gitleaks git --log-opts="--max-count=100" --verbose
+else
+  gitleaks dir . --verbose
+fi
+' --
+"""
+
+[tasks.test]
+alias = "t"
+description = "Run unit and component tests (Vitest)"
+run = "pnpm exec vitest run --passWithNoTests"
+
+[tasks.build]
+alias = "b"
+description = "Build the production bundle into dist/"
+run = "pnpm exec astro build"
+
+[tasks.watch]
+alias = "w"
+description = "Serve the site with live reload"
+run = "pnpm exec astro dev"

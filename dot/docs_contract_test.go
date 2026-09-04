@@ -267,8 +267,17 @@ func checkLayoutInventory(t *testing.T, repo string) {
 	if err != nil {
 		t.Fatalf("git ls-files: %v", err)
 	}
-	for _, path := range strings.Fields(string(output)) {
-		top := strings.SplitN(path, "/", 2)[0]
+	for path := range strings.FieldsSeq(string(output)) {
+		if _, statErr := os.Lstat(filepath.Join(repo, filepath.FromSlash(path))); os.IsNotExist(statErr) {
+			// A tracked deletion is part of the working-tree candidate under review;
+			// requiring its stale inventory entry would make the contract validate HEAD
+			// instead of the candidate. Present paths remain checked below.
+			continue
+		} else if statErr != nil {
+			t.Errorf("failed to inspect tracked path %q: %v", path, statErr)
+			continue
+		}
+		top, _, _ := strings.Cut(path, "/")
 		if _, ok := documented[top]; !ok {
 			t.Errorf("AGENTS.md: missing tracked top-level path %q from Layout; add it to the inventory", top)
 		}

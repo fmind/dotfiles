@@ -68,6 +68,10 @@ func RunCopilotSessionEndHook(ctx context.Context, state *GlobalState) error {
 		_, _ = fmt.Fprintln(state.Stdout, "{}")
 		return nil
 	}
+	// RunAgentSessionLogCopilot already extracts and writes the usage record on
+	// success, and the sessionEnd hook list runs `dot agent hook usage copilot`
+	// separately for the failure path. A third extraction here only spawned two
+	// more sqlite3 processes to rewrite the same file.
 	syncErr := RunAgentSessionLogCopilot(ctx, state, input.SessionID, input.CWD)
 	if syncErr != nil {
 		recordNonBlockingCopilotHookFailure(state, input.SessionID, syncErr)

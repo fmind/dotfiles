@@ -122,7 +122,7 @@ func TestRunPull_PushFailure(t *testing.T) {
 }
 
 func TestPullRepo_StatusFailurePreventsPush(t *testing.T) {
-	var pushed int32
+	var pushed atomic.Int32
 	runner := &FakeRunner{
 		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
 			if name != "git" {
@@ -134,7 +134,7 @@ func TestPullRepo_StatusFailurePreventsPush(t *testing.T) {
 			case "status":
 				return "", errors.New("status unavailable")
 			case "push":
-				atomic.AddInt32(&pushed, 1)
+				pushed.Add(1)
 			}
 			return "", nil
 		},
@@ -144,7 +144,7 @@ func TestPullRepo_StatusFailurePreventsPush(t *testing.T) {
 	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to check worktree status") {
 		t.Fatalf("expected worktree status error, got %+v", res)
 	}
-	if atomic.LoadInt32(&pushed) != 0 {
+	if pushed.Load() != 0 {
 		t.Fatalf("git push ran despite unknown worktree status")
 	}
 }
@@ -208,7 +208,7 @@ func TestPullRepo_FetchFailureWithoutUpstreamIsSkipped(t *testing.T) {
 }
 
 func TestPullRepo_AheadFailurePreventsPush(t *testing.T) {
-	var pushed int32
+	var pushed atomic.Int32
 	runner := &FakeRunner{
 		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
 			if name != "git" {
@@ -225,7 +225,7 @@ func TestPullRepo_AheadFailurePreventsPush(t *testing.T) {
 				}
 				return "0\n", nil
 			case "push":
-				atomic.AddInt32(&pushed, 1)
+				pushed.Add(1)
 			}
 			return "", nil
 		},
@@ -235,7 +235,7 @@ func TestPullRepo_AheadFailurePreventsPush(t *testing.T) {
 	if res.Err == nil || !strings.Contains(res.Err.Error(), "failed to determine ahead count") {
 		t.Fatalf("expected ahead-count error, got %+v", res)
 	}
-	if atomic.LoadInt32(&pushed) != 0 {
+	if pushed.Load() != 0 {
 		t.Fatalf("git push ran despite unknown ahead count")
 	}
 }

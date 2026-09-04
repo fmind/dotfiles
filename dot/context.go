@@ -347,7 +347,7 @@ func collectDependencies(ctx context.Context, state *GlobalState, root string, o
 		}
 	}
 	var paths []string
-	for _, path := range strings.Split(tracked, "\x00") {
+	for path := range strings.SplitSeq(tracked, "\x00") {
 		if allowed[filepath.Base(path)] || allowed[filepath.ToSlash(path)] {
 			paths = append(paths, path)
 		}
@@ -410,7 +410,7 @@ func skillFrontmatter(content string) string {
 	parts := strings.SplitN(content, "---", 3)
 	if len(parts) == 3 {
 		var lines []string
-		for _, line := range strings.Split(parts[1], "\n") {
+		for line := range strings.SplitSeq(parts[1], "\n") {
 			if strings.HasPrefix(line, "name:") || strings.HasPrefix(line, "description:") {
 				lines = append(lines, strings.TrimSpace(line))
 			}

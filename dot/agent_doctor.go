@@ -142,7 +142,7 @@ func gatherAgentDoctor(ctx context.Context, state *GlobalState, home string, now
 		}
 		probeResults, probesOK := runToolProbes(ctx, state.Runner, probeNames, registry, state.Config.Verify.ProbeConcurrency)
 		tools := summarizeDoctorProbes(probeResults)
-		source, sourceTime, sourcePresent, sourceOK, sourceOmitted := inspectAgentSource(cfg, definition)
+		source, sourceTime, sourcePresent, sourceOK, sourceOmitted := inspectAgentSource(ctx, state, cfg, definition)
 		lineage := inspectAgentLineage(cfg, home, definition.Agent)
 		failure, failureOK := inspectLastHookFailure(cfg, home, definition.Agent)
 		ingestion, lag, lineageOK := summarizeAgentLineage(cfg, now, sourceTime, sourcePresent, lineage)
@@ -301,7 +301,7 @@ func summarizeDoctorProbes(results []CheckResult) string {
 	return strings.Join(failed, ",")
 }
 
-func inspectAgentSource(cfg AgentConfig, definition agentDefinition) (string, time.Time, bool, bool, int) {
+func inspectAgentSource(ctx context.Context, state *GlobalState, cfg AgentConfig, definition agentDefinition) (string, time.Time, bool, bool, int) {
 	sourcePath := ExpandPath(definition.Source)
 	scanLimit := cfg.scanLimit()
 	info, err := os.Lstat(sourcePath)
@@ -315,7 +315,7 @@ func inspectAgentSource(cfg AgentConfig, definition agentDefinition) (string, ti
 		return "linked", time.Time{}, false, false, 0
 	}
 	if !info.IsDir() {
-		return "present", info.ModTime(), true, true, 0
+		return "present", databaseSourceTime(ctx, state, definition, sourcePath, info.ModTime()), true, true, 0
 	}
 	latest := time.Time{}
 	seen := 0
@@ -348,6 +348,37 @@ func inspectAgentSource(cfg AgentConfig, definition agentDefinition) (string, ti
 		return "unreadable", latest, true, false, omitted
 	}
 	return "present", latest, true, true, omitted
+}
+
+// databaseSourceTime reports when a SQLite-backed store last gained a session. The
+// file's mtime answers a different question -- when the agent last wrote anything at
+// all -- and every startup write would otherwise read as un-ingested history. The
+// mtime stays the fallback whenever the query cannot be answered, so a schema change
+// or a missing sqlite3 degrades to the previous behavior instead of claiming freshness.
+func databaseSourceTime(ctx context.Context, state *GlobalState, definition agentDefinition, sourcePath string, modTime time.Time) time.Time {
+	if definition.SourceTimeQuery == "" {
+		return modTime
+	}
+	output, err := runSQLiteJSON(ctx, state, sourcePath, definition.SourceTimeQuery)
+	if err != nil {
+		return modTime
+	}
+	var rows []struct {
+		At string `json:"at"`
+	}
+	if json.Unmarshal([]byte(strings.TrimSpace(output)), &rows) != nil || len(rows) == 0 {
+		return modTime
+	}
+	// MAX() over an empty table yields SQL NULL, which decodes to an empty string:
+	// a store with no session at all is not ahead of any ingestion.
+	if rows[0].At == "" {
+		return time.Time{}
+	}
+	latest, err := time.Parse(time.RFC3339, rows[0].At)
+	if err != nil {
+		return modTime
+	}
+	return latest
 }
 
 func inspectAgentLineage(cfg AgentConfig, home, agent string) agentLineageSummary {

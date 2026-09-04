@@ -790,14 +790,14 @@ func scanLifecycleDescription(reader io.Reader) (string, error) {
 		return "", errors.New("frontmatter must start with ---")
 	}
 	frontmatter := normalized[len("---\n"):]
-	end := strings.Index(frontmatter, "\n---\n")
-	if end < 0 {
+	before, _, ok := strings.Cut(frontmatter, "\n---\n")
+	if !ok {
 		return "", errors.New("frontmatter must end with ---")
 	}
 	var metadata struct {
 		Description string `yaml:"description"`
 	}
-	if err := yaml.Unmarshal([]byte(frontmatter[:end]), &metadata); err != nil {
+	if err := yaml.Unmarshal([]byte(before), &metadata); err != nil {
 		return "", fmt.Errorf("parse frontmatter: %w", err)
 	}
 	if strings.TrimSpace(metadata.Description) == "" {
@@ -1029,10 +1029,7 @@ func lifecycleRoutePosition(routes []lifecycleRoute, name string) int {
 }
 
 func formatLifecycleRoutes(routes []lifecycleRoute) string {
-	limit := 5
-	if limit > len(routes) {
-		limit = len(routes)
-	}
+	limit := min(5, len(routes))
 	formatted := make([]string, 0, limit)
 	for _, route := range routes[:limit] {
 		marker := ""

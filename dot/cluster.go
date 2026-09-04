@@ -124,7 +124,7 @@ func k3dClusterExists(ctx context.Context, state *GlobalState, name string) (boo
 	if err != nil {
 		return false, fmt.Errorf("failed to inspect cluster %q: %w", name, err)
 	}
-	for _, line := range strings.Split(strings.TrimSpace(listOut), "\n") {
+	for line := range strings.SplitSeq(strings.TrimSpace(listOut), "\n") {
 		if fields := strings.Fields(line); len(fields) > 0 && fields[0] == name {
 			return true, nil
 		}
@@ -277,13 +277,9 @@ func RunClusterStatusWithOptions(ctx context.Context, state *GlobalState, option
 	return nil
 }
 
-// RunClusterDelete tears down and removes the local development Kubernetes cluster.
-// Because the cluster is shared across every local project, deletion is guarded by a
-// confirmation prompt unless autoApprove is set.
-func RunClusterDelete(ctx context.Context, state *GlobalState, autoApprove bool) error {
-	return RunClusterDeleteWithOptions(ctx, state, autoApprove, ClusterTargetOptions{})
-}
-
+// RunClusterDeleteWithOptions tears down and removes the local development Kubernetes
+// cluster. Because the cluster is shared across every local project, deletion is guarded
+// by a confirmation prompt unless autoApprove is set.
 func RunClusterDeleteWithOptions(ctx context.Context, state *GlobalState, autoApprove bool, options ClusterTargetOptions) error {
 	name := state.Config.Cluster.Name
 	if err := requireTools(state, "docker", "k3d", "kubectl"); err != nil {
@@ -318,7 +314,7 @@ func NewClusterNamespaceCmd(state *GlobalState) *cli.Command {
 		Name:      "namespace",
 		Aliases:   []string{"n", "ns"},
 		Usage:     "Idempotently create and switch context to a Kubernetes namespace",
-		ArgsUsage: "[NAMESPACE]",
+		ArgsUsage: "<NAMESPACE>",
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			name := cmd.Args().First()
 			return RunClusterNamespaceWithOptions(ctx, state, name, clusterTargetOptions(cmd))

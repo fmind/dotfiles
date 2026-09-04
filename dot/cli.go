@@ -68,22 +68,19 @@ func NewApp() *cli.Command {
 			state.Logger = logger
 
 			configPath := cmd.String("config")
-			resolved, _, perr := ConfigFilePath(configPath)
+			resolved, isDefault, perr := ConfigFilePath(configPath)
 			if perr == nil {
 				state.ConfigPath = resolved
 			}
 			cfg, err := LoadConfig(configPath)
 			if err != nil {
-				// A missing file is never fatal: `config init`/`edit` scaffold it and every
-				// command falls back to defaults. A malformed/unreadable config, however, IS
-				// fatal — strict decoding exists to fail loudly rather than silently revert to
-				// defaults (which would, e.g., make `pull` operate on the wrong directories).
-				// The `config` group is exempt so its edit/init/validate commands stay reachable
-				// to repair the very file that failed to parse.
-				fatal := !errors.Is(err, os.ErrNotExist)
-				// Resolve through the command table so a renamed alias cannot
-				// silently detach the exemption from the config group.
-				if sub := cmd.Command(cmd.Args().First()); sub != nil && sub.Name == "config" {
+				// The implicit default file is optional, but an explicitly requested missing,
+				// malformed, or unreadable file is fatal. Falling back after a --config typo
+				// could otherwise make `pull` operate on the built-in directories instead.
+				// Only commands that locate or repair the config bypass load failures. `show`
+				// and `validate` must fail rather than silently inspect built-in defaults.
+				fatal := !isDefault || !errors.Is(err, os.ErrNotExist)
+				if isConfigRepairCommand(cmd) {
 					fatal = false
 				}
 				if fatal {
@@ -113,5 +110,26 @@ func NewApp() *cli.Command {
 			NewPruneCmd(state),
 			NewContextCmd(state),
 		},
+	}
+}
+
+func isConfigRepairCommand(cmd *cli.Command) bool {
+	args := cmd.Args().Slice()
+	if len(args) < 2 {
+		return false
+	}
+	group := cmd.Command(args[0])
+	if group == nil || group.Name != "config" {
+		return false
+	}
+	subcommand := group.Command(args[1])
+	if subcommand == nil {
+		return false
+	}
+	switch subcommand.Name {
+	case "edit", "init", "path":
+		return true
+	default:
+		return false
 	}
 }

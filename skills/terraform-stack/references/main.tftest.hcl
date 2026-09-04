@@ -1,4 +1,6 @@
-# Plan-only tests: assert on planned attributes, no cloud credentials consumed.
+# Mock the provider so plan-only tests never configure a real cloud client.
+mock_provider "google" {}
+
 variables {
   project = "test-project"
   region  = "europe-west1"

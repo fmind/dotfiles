@@ -37,11 +37,11 @@ func main() {
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			logger.Info("Starting <slug>", "version", cmd.Version)
 
-			libCfg := <slug>.Config{
+			libCfg := <package>.Config{
 				ConfigPath: cmd.String("config"),
 			}
 
-			client := <slug>.NewClient(logger)
+			client := <package>.NewClient(logger)
 			return client.DoSomething(ctx, libCfg)
 		},
 	}

@@ -15,7 +15,7 @@ Use Playwright for browser automation and end-to-end tests. Test strategy belong
 
 ## Workflow
 
-1. **Pin the browser**: `playwright install chromium` (plus `playwright install-deps` on a fresh Linux host); the mise binary is the global CLI, a project pins `@playwright/test` with pnpm per [typescript-stack](../typescript-stack/SKILL.md).
+1. **Pin the browser**: `playwright install chromium`; the mise binary is the global CLI, and a project pins `@playwright/test` with pnpm per [typescript-stack](../typescript-stack/SKILL.md). If Linux system libraries are missing, report the administrator-owned prerequisite instead of invoking the privileged `install-deps` command.
 1. **Explore and record**: `playwright codegen <url>` records actions into a test; `playwright screenshot <url> <file>` and `playwright pdf <url> <file>` produce review evidence.
 1. **Run tests**: `playwright test` in a project with `playwright.config.ts`; add `--trace on` when a failure needs context, then `playwright show-trace <trace.zip>` or `playwright show-report`.
 1. **Expose the browser to agents**: `playwright mcp` serves the browser over MCP per [agent-mcp](../agent-mcp/SKILL.md); `playwright init-agents --loop <claude|codex|copilot|opencode>` seeds planner, generator, and healer agents.
@@ -39,5 +39,5 @@ playwright init-skills --loop agents
 ## Documentation
 
 - [Playwright](https://playwright.dev/docs/intro) · [playwright-cli](https://github.com/microsoft/playwright-cli)
-- Accessibility and performance evidence: `ChromeDevTools/chrome-devtools-mcp` ships skills for its MCP server (`skills add ChromeDevTools/chrome-devtools-mcp --list`); `lighthouse <url> --output json` stays the one-shot audit.
-- Companion skills: [quality-assurance](../quality-assurance/SKILL.md), [product-design-review](../product-design-review/SKILL.md), [angular](../angular/SKILL.md), [benchmark](../benchmark/SKILL.md) (load, not browser, testing).
+- Accessibility and performance evidence: [chrome-devtools](../chrome-devtools/SKILL.md) connects Chrome DevTools via MCP (`skills add ChromeDevTools/chrome-devtools-mcp --list`); `lighthouse <url> --output json` stays the one-shot audit.
+- Companion skills: [quality-assurance](../quality-assurance/SKILL.md), [product-design-review](../product-design-review/SKILL.md), [chrome-devtools](../chrome-devtools/SKILL.md), [angular](../angular/SKILL.md), [benchmark](../benchmark/SKILL.md) (load, not browser, testing).

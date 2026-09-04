@@ -24,7 +24,7 @@ func main() {
 	}
 
 	// Wrap the environment-appropriate handler for OTEL trace correlation.
-	handler := &<slug>.OtelHandler{Handler: cfg.NewHandler(os.Stderr)}
+	handler := &<package>.OtelHandler{Handler: cfg.NewHandler(os.Stderr)}
 	logger := slog.New(handler)
 	slog.SetDefault(logger)
 
@@ -33,7 +33,7 @@ func main() {
 	defer stop()
 
 	// Install OpenTelemetry tracing (no-op unless an OTLP endpoint is configured).
-	shutdownOTel, err := <slug>.SetupOTel(ctx, "<slug>")
+	shutdownOTel, err := <package>.SetupOTel(ctx, "<slug>")
 	if err != nil {
 		logger.Error("setup opentelemetry", "error", err)
 		os.Exit(1)
@@ -47,7 +47,7 @@ func main() {
 	}()
 
 	// Initialize the application handler
-	appHandler := <slug>.NewAppHandler(logger, cfg.Environment)
+	appHandler := <package>.NewAppHandler(logger, cfg.Environment)
 
 	server := &http.Server{
 		Addr:              ":" + strconv.Itoa(cfg.Port),

@@ -8,11 +8,11 @@ type User struct {
 
 templ UserCard(user User) {
 	<!-- Behaviour lives in assets/js/components/user-card.js and reaches the browser -->
-	<!-- through the esbuild bundle; the server passes the Go model into it by name. -->
+	<!-- through the esbuild bundle; templ safely serializes the Go model as an argument. -->
 	<!-- Inline x-data is still right for one-off state (see Home below) — reach for a -->
 	<!-- module once a component has methods, or the same logic appears twice. -->
 	<div
-		x-data={ "userCard(" + templ.JSONString(user) + ")" }
+		x-data={ templ.JSFuncCall("userCard", user) }
 		class="p-6 bg-zinc-900/60 border border-zinc-800 rounded-xl space-y-2"
 	>
 		<h3 class="text-lg font-bold text-zinc-100" x-text="user.name"></h3>

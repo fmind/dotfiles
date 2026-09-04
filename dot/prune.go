@@ -338,7 +338,7 @@ func pruneFlags() []cli.Flag {
 			Name:        "days",
 			Aliases:     []string{"D"},
 			Value:       pruneDaysFromConfig,
-			Usage:       "Override the retention of every agent session store (0 empties them)",
+			Usage:       "Override age retention for every agent session store (0 makes every age eligible; source safety checks still apply)",
 			DefaultText: "each store's keep_days from the config file",
 		},
 		&cli.BoolFlag{
@@ -351,19 +351,17 @@ func pruneFlags() []cli.Flag {
 
 func newPruneLevelFlag(name, alias, usage string, levels []string) *pruneLevelFlag {
 	return &pruneLevelFlag{
-		levels: levels,
-		FlagBase: cli.FlagBase[string, cli.NoConfig, pruneLevelValue]{
-			Name:    name,
-			Aliases: []string{alias},
-			Usage:   usage,
-			// An unselected target has no meaningful default to advertise.
-			HideDefault: true,
-			Validator: func(value string) error {
-				if value == "" || value == pruneLevelBare || slices.Contains(levels, value) {
-					return nil
-				}
-				return fmt.Errorf("invalid level %q for --%s (expected one of: %s)", value, name, strings.Join(levels, ", "))
-			},
+		levels:  levels,
+		Name:    name,
+		Aliases: []string{alias},
+		Usage:   usage,
+		// An unselected target has no meaningful default to advertise.
+		HideDefault: true,
+		Validator: func(value string) error {
+			if value == "" || value == pruneLevelBare || slices.Contains(levels, value) {
+				return nil
+			}
+			return fmt.Errorf("invalid level %q for --%s (expected one of: %s)", value, name, strings.Join(levels, ", "))
 		},
 	}
 }
@@ -507,16 +505,31 @@ func (r *pruneRun) exec(ctx context.Context, target, summary, name string, args 
 
 // removeTree deletes path and everything under it.
 func (r *pruneRun) removeTree(target, path string) error {
+	if err := validatePrunePath(path); err != nil {
+		return err
+	}
 	return r.removePaths(target, path, []string{path})
 }
 
 // removeContents empties path but keeps the directory itself, for tools that expect
 // their cache directory to exist and only recreate the entries inside it.
 func (r *pruneRun) removeContents(target, path string) error {
-	entries, err := os.ReadDir(path)
+	if err := validatePrunePath(path); err != nil {
+		return err
+	}
+	info, err := os.Lstat(path)
 	if errors.Is(err, os.ErrNotExist) {
 		return nil
 	}
+	if err != nil {
+		return fmt.Errorf("failed to inspect %s: %w", path, err)
+	}
+	// ReadDir follows a directory symlink, which would turn a cache cleanup into
+	// deletion outside the configured path. Tree removal itself never follows links.
+	if info.Mode()&os.ModeSymlink != 0 {
+		return fmt.Errorf("refusing to empty symbolic link %s", path)
+	}
+	entries, err := os.ReadDir(path)
 	if err != nil {
 		return fmt.Errorf("failed to read %s: %w", path, err)
 	}
@@ -525,6 +538,92 @@ func (r *pruneRun) removeContents(target, path string) error {
 		paths = append(paths, filepath.Join(path, entry.Name()))
 	}
 	return r.removePaths(target, path, paths)
+}
+
+// validatePrunePath rejects only ambiguous or catastrophic targets. Configured cache
+// paths may live outside $HOME, but must resolve independently of the invocation's CWD;
+// neither a typo nor an empty expansion may erase the filesystem root or entire home.
+func validatePrunePath(path string) error {
+	if path == "" {
+		return errors.New("refusing to prune an empty path")
+	}
+	if !filepath.IsAbs(path) {
+		return fmt.Errorf("refusing to prune non-absolute path %s", path)
+	}
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		return fmt.Errorf("failed to resolve prune path %s: %w", path, err)
+	}
+	root := filepath.VolumeName(abs) + string(os.PathSeparator)
+	if filepath.Clean(abs) == filepath.Clean(root) {
+		return fmt.Errorf("refusing to prune filesystem root %s", path)
+	}
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return fmt.Errorf("failed to resolve home directory: %w", err)
+	}
+	home, err = filepath.Abs(home)
+	if err != nil {
+		return fmt.Errorf("failed to resolve home directory %s: %w", home, err)
+	}
+	resolvedHome, err := filepath.EvalSymlinks(home)
+	if err != nil {
+		return fmt.Errorf("failed to resolve home directory %s: %w", home, err)
+	}
+	if prunePathContains(abs, home) || prunePathContains(abs, resolvedHome) {
+		if filepath.Clean(abs) == filepath.Clean(home) || filepath.Clean(abs) == filepath.Clean(resolvedHome) {
+			return fmt.Errorf("refusing to prune home directory %s", path)
+		}
+		return fmt.Errorf("refusing to prune path %s because it contains home directory %s", path, home)
+	}
+
+	parent := filepath.Dir(abs)
+	resolvedParent, resolveErr := filepath.EvalSymlinks(parent)
+	if resolveErr != nil && !errors.Is(resolveErr, os.ErrNotExist) {
+		return fmt.Errorf("failed to resolve prune path parent %s: %w", parent, resolveErr)
+	}
+	if resolveErr == nil {
+		expectedParent := parent
+		if prunePathContains(home, parent) {
+			relative, relErr := filepath.Rel(home, parent)
+			if relErr != nil {
+				return fmt.Errorf("failed to resolve prune path parent %s: %w", parent, relErr)
+			}
+			expectedParent = filepath.Join(resolvedHome, relative)
+		}
+		if filepath.Clean(resolvedParent) != filepath.Clean(expectedParent) {
+			return fmt.Errorf("refusing to prune path with symbolic-link parent: %s", path)
+		}
+	}
+
+	pathInfo, pathErr := os.Stat(abs)
+	if pathErr != nil && !errors.Is(pathErr, os.ErrNotExist) {
+		return fmt.Errorf("failed to inspect prune path %s: %w", path, pathErr)
+	}
+	if pathErr == nil {
+		for ancestor := filepath.Clean(home); ; ancestor = filepath.Dir(ancestor) {
+			ancestorInfo, ancestorErr := os.Stat(ancestor)
+			if ancestorErr != nil {
+				return fmt.Errorf("failed to inspect home ancestor %s: %w", ancestor, ancestorErr)
+			}
+			if os.SameFile(pathInfo, ancestorInfo) {
+				if ancestor == filepath.Clean(home) {
+					return fmt.Errorf("refusing to prune home directory %s", path)
+				}
+				return fmt.Errorf("refusing to prune path %s because it contains home directory %s", path, home)
+			}
+			parent := filepath.Dir(ancestor)
+			if parent == ancestor {
+				break
+			}
+		}
+	}
+	return nil
+}
+
+func prunePathContains(root, path string) bool {
+	relative, err := filepath.Rel(root, path)
+	return err == nil && relative != ".." && !strings.HasPrefix(relative, ".."+string(filepath.Separator))
 }
 
 // removePaths measures, then deletes, the given paths, reporting them under one label.
@@ -648,6 +747,10 @@ func pruneAgentSessions(_ context.Context, run *pruneRun, _ string) error {
 			continue
 		}
 		path := ExpandPath(dir.Path)
+		if err := validatePrunePath(path); err != nil {
+			errs = append(errs, fmt.Errorf("invalid agent session path %s: %w", dir.Path, err))
+			continue
+		}
 		if _, err := os.Stat(path); err != nil {
 			if !errors.Is(err, os.ErrNotExist) {
 				errs = append(errs, fmt.Errorf("failed to inspect %s: %w", dir.Path, err))
@@ -825,19 +928,19 @@ func dirBytes(path string) (int64, error) {
 // parent left empty by its children goes in the same pass. It expects dirs in the lexical
 // pre-order that filepath.WalkDir produces.
 func removeEmptyDirs(dirs []string) error {
-	for i := len(dirs) - 1; i >= 0; i-- {
-		entries, err := os.ReadDir(dirs[i])
+	for _, dir := range slices.Backward(dirs) {
+		entries, err := os.ReadDir(dir)
 		if errors.Is(err, os.ErrNotExist) {
 			continue
 		}
 		if err != nil {
-			return fmt.Errorf("failed to inspect directory %s: %w", dirs[i], err)
+			return fmt.Errorf("failed to inspect directory %s: %w", dir, err)
 		}
 		if len(entries) > 0 {
 			continue
 		}
-		if err := os.Remove(dirs[i]); err != nil {
-			return fmt.Errorf("failed to remove empty directory %s: %w", dirs[i], err)
+		if err := os.Remove(dir); err != nil {
+			return fmt.Errorf("failed to remove empty directory %s: %w", dir, err)
 		}
 	}
 	return nil

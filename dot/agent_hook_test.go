@@ -171,3 +171,23 @@ func TestAgentHookTemplatesUseObservableBoundary(t *testing.T) {
 		}
 	}
 }
+
+// Deployed hooks pass no session-id operand, so the spool must still redact the
+// identifier that the handler resolved from stdin and embedded in its error.
+func TestBoundedHookFailureDetailRedactsUnpassedSessionIDs(t *testing.T) {
+	err := errors.New("session file not found for codex session 01a0685e-853d-7c12-99a8-4866999e6f55")
+	got := boundedHookFailureDetail(err, "", 512)
+	if strings.Contains(got, "01a0685e-853d-7c12-99a8-4866999e6f55") {
+		t.Errorf("detail leaked the raw session id: %q", got)
+	}
+	if !strings.Contains(got, "<session>") {
+		t.Errorf("detail = %q, want the id replaced with <session>", got)
+	}
+
+	// Every occurrence, including ones embedded in a path.
+	err = errors.New("failed to write /home/u/.agents/usages/claude/9e862d54-358a-4625-8872-adc27812f5d9.json.tmp: exists")
+	got = boundedHookFailureDetail(err, "", 512)
+	if strings.Contains(got, "9e862d54") {
+		t.Errorf("detail leaked an id embedded in a path: %q", got)
+	}
+}

@@ -19,6 +19,11 @@
             "command": "dot agent hook session grok",
             "timeout": 30,
             "type": "command"
+          },
+          {
+            "command": "dot agent hook usage grok",
+            "timeout": 30,
+            "type": "command"
           }
         ]
       }
@@ -28,6 +33,11 @@
         "hooks": [
           {
             "command": "dot agent hook session grok",
+            "timeout": 30,
+            "type": "command"
+          },
+          {
+            "command": "dot agent hook usage grok",
             "timeout": 30,
             "type": "command"
           }
@@ -46,6 +56,11 @@
             "command": "dot agent hook notify grok stop",
             "timeout": 30,
             "type": "command"
+          },
+          {
+            "command": "dot agent hook usage grok",
+            "timeout": 30,
+            "type": "command"
           }
         ]
       }
@@ -55,6 +70,11 @@
         "hooks": [
           {
             "command": "dot agent hook session grok",
+            "timeout": 30,
+            "type": "command"
+          },
+          {
+            "command": "dot agent hook usage grok",
             "timeout": 30,
             "type": "command"
           }

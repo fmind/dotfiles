@@ -1,0 +1,23 @@
+pre-commit:
+  parallel: false
+  commands:
+    format:prettier:
+      glob: "*.{astro,ts,js,mjs,cjs,css,json}"
+      priority: 10
+      run: mise run format:prettier {staged_files}
+      stage_fixed: true
+    format:dprint:
+      glob: "*.{md,toml,yaml,yml}"
+      priority: 10
+      run: mise run format:dprint {staged_files}
+      stage_fixed: true
+    check:leaks:
+      priority: 20
+      run: mise run check:leaks --staged
+    check:
+      priority: 30
+      run: mise run check
+pre-push:
+  commands:
+    test:
+      run: mise run test

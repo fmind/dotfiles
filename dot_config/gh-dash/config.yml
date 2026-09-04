@@ -52,9 +52,9 @@ keybindings:
         nvim "+Octo https://github.com/{{.RepoName}}/issues/{{.IssueNumber}}"
 theme:
   colors:
-    primary: "#7aa2f7"
-    secondary: "#bb9af7"
-    faint: "#565f89"
-    warning: "#e0af68"
-    error: "#f7768e"
-    success: "#9ece6a"
+    primary: "#82aaff"
+    secondary: "#c099ff"
+    faint: "#636da6"
+    warning: "#ffc777"
+    error: "#ff757f"
+    success: "#c3e88d"

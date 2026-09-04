@@ -40,8 +40,8 @@ gitleaks = "latest"
 go = "latest"
 golangci-lint = "latest"
 gotestsum = "latest"
+jq = "latest"
 lefthook = "latest"
-python = "latest"
 ruff = "latest"
 shellcheck = "latest"
 shfmt = "latest"
@@ -85,8 +85,10 @@ depends = [
 
 [tasks."check:actions"]
 alias = "ca"
-description = "Validate GitHub Actions workflows"
-run = ["actionlint", "zizmor --offline .github/workflows/"]
+description = "Validate GitHub Actions workflows and Dependabot config"
+# zizmor audits dependabot.yml too, so point it at .github/ rather than only
+# workflows/ -- the narrower path silently hid every dependabot finding.
+run = ["actionlint", "zizmor --offline .github/"]
 
 [tasks."check:chezmoi"]
 alias = "cc"
@@ -117,8 +119,9 @@ run = ["mise -C dot run check:lint", "mise -C dot run check:vuln"]
 [tasks."check:leaks"]
 alias = "cl"
 description = "Audit recent commits for leaked secrets (gitleaks)"
-# Kept to the last 10 commits so the pre-commit hook and CI stay fast
-run = "gitleaks git --log-opts=\"--max-count=10\" --verbose"
+# 100 commits is the window the gitleaks skill publishes and ci.yml fetches;
+# it costs ~3s, and full history stays in the scheduled security.yml job.
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
 
 [tasks."check:lua"]
 alias = "cu"
@@ -155,7 +158,7 @@ alias = "ck"
 description = "Validate first-party skill publisher compatibility"
 # Scoped to skills/: from the repo root, `gh skill publish` never validates
 # .agents/skills/ anyway — it only warns that the directory looks like an agent's
-# installed-skills cache and should be gitignored. Those two skills are
+# installed-skills cache and should be gitignored. Those skills are
 # first-party and deliberately tracked, so point the publisher at the directory
 # it actually publishes. Repository-owned contract and routing tests live under
 # the canonical test task so `mise run all` executes them exactly once.
@@ -163,12 +166,14 @@ run = "gh skill publish --dry-run skills"
 
 [tasks."check:tools"]
 alias = "cw"
-description = "Fail when an installed tool is declared by no config"
+description = "Validate mise tasks and installed tool ownership"
 # mise.lock proves that what is *declared* installs reproducibly; nothing proved the
 # converse, which is how orphan installs accumulate unnoticed. Only fully untracked
 # tools fail here -- a superseded version of a declared tool is benign upgrade residue
 # that `mise prune` clears on its own, and failing on it would make the gate noisy.
 run = """
+mise tasks validate
+mise -C dot tasks validate
 orphans=$(mise prune --dry-run 2>&1 | grep 'no tracked config or tool stub requires' || true)
 if [ -n "$orphans" ]; then
   printf '%s\n' "$orphans"
@@ -257,7 +262,7 @@ run = "executable_dot completion"
 [tasks.deploy]
 alias = "me"
 description = "Redeploy the dot CLI binary"
-run = ["mise run --force build", "chezmoi apply ~/.local/bin/dot"]
+run = ["mise run --force build", "chezmoi apply --force ~/.local/bin/dot"]
 
 [tasks.diff]
 alias = "md"
@@ -308,11 +313,13 @@ run = "executable_dot release"
 [tasks.tools]
 alias = "mt"
 description = "Install pinned tools for this repo and the global config"
+# Locked installs must not collapse the checked-in cross-platform lock to the
+# current host after `upgrade` has regenerated it.
 run = [
-  "mise install -y",
+  "mise --locked install -y",
   "mise run apply",
   "mise trust -y ~/.config/mise/config.toml",
-  "mise -C \"$HOME\" install -y",
+  "mise -C \"$HOME\" --locked install -y",
   "mise run completions",
 ]
 
@@ -329,12 +336,13 @@ run = [
 alias = "mu"
 description = "Upgrade mise tools to latest versions"
 run = [
-  "mise -C \"$HOME\" upgrade --bump --exclude tree-sitter",
-  "mise upgrade --bump --local",
+  "mise -C \"$HOME\" upgrade",
+  "mise upgrade --local",
   "mise lock --bump --yes",
   "mise lock --global --bump --yes",
   "chezmoi re-add --source \"$PWD\" ~/.config/mise/mise.lock",
   "nvim --headless '+Lazy! update' +qa",
+  "mise run vim:verify",
   "chezmoi re-add --source \"$PWD\" ~/.config/nvim/lazy-lock.json",
   "mise run tools",
 ]
@@ -348,4 +356,8 @@ run = "executable_dot verify"
 [tasks.vim]
 alias = "mv"
 description = "Sync Neovim plugins headlessly (LazyVim)"
-run = "nvim --headless '+Lazy! restore' +qa"
+run = ["nvim --headless '+Lazy! restore' +qa", "mise run vim:verify"]
+
+[tasks."vim:verify"]
+description = "Verify every Lazy plugin checkout against the active lockfile"
+run = "bash verify-lazy-lock.sh"

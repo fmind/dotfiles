@@ -20,8 +20,8 @@ Reference trees for the go-stack scaffolding workflow; every file maps to a refe
 ├── mise.toml
 ├── AGENTS.md
 ├── LICENSE
-├── <slug>.go               // Library entry point
-├── <slug>_test.go          // Unit tests
+├── <package>.go            // Library entry point
+├── <package>_test.go       // Unit tests
 └── README.md
 ```
 
@@ -44,8 +44,8 @@ Reference trees for the go-stack scaffolding workflow; every file maps to a refe
 ├── mise.toml
 ├── AGENTS.md
 ├── LICENSE
-├── <slug>.go               // Core business logic / client
-├── <slug>_test.go          // Core business logic tests
+├── <package>.go            // Core business logic / client
+├── <package>_test.go       // Core business logic tests
 ├── server.go               // HTTP handler and asset serving definitions
 ├── server_test.go          // HTTP routing and integration tests
 ├── middleware.go           // Standard HTTP middlewares
@@ -72,4 +72,3 @@ Reference trees for the go-stack scaffolding workflow; every file maps to a refe
     ├── home.templ
     └── layout.templ
 ```
-

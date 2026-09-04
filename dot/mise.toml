@@ -29,9 +29,10 @@ description = "Check config/markup formatting (dprint)"
 run = "dprint check"
 
 [tasks."check:leaks"]
-alias = "cs"
-description = "Audit codebase for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=10\" --verbose"
+# Deliberately unaliased: this task shadows the repo-root check:leaks when the
+# configs merge inside dot/, and every free c* letter is already spent there.
+description = "Audit recent commits for leaked secrets (gitleaks)"
+run = "gitleaks git --log-opts=\"--max-count=100\" --verbose"
 
 [tasks."check:lint"]
 alias = "cl"
@@ -60,12 +61,14 @@ description = "Format all sources and documents"
 run = ["mise run format:go", "mise run format:dprint"]
 
 [tasks."format:go"]
+alias = "fg"
 description = "Format Go sources and imports (goimports + gofumpt)"
 run = ["go tool goimports -local dot -w .", "go tool gofumpt -extra -w ."]
 
 [tasks."format:dprint"]
+alias = "fd"
 description = "Format JSON, Markdown, TOML, YAML with dprint"
-run = "dprint fmt"
+run = "dprint fmt --allow-no-files"
 
 [tasks.install]
 alias = "i"

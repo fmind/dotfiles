@@ -49,6 +49,13 @@ type agentDefinition struct {
 	// Source is the ~-relative root of the agent's raw transcript store: a directory
 	// for the file-based agents, a database file for the SQLite-backed ones.
 	Source string
+	// SourceTimeQuery reads the newest session timestamp from a SQLite-backed Source
+	// as an RFC3339 UTC string in the single column `at`. A database file's mtime moves
+	// on any write the agent makes -- a startup migration, an event row -- so it cannot
+	// tell "a session dot never ingested" from "the app was merely opened", which is how
+	// a fully ingested store reported a permanent ingestion lag. Empty for directory
+	// sources, whose newest recognized transcript already carries that meaning.
+	SourceTimeQuery string
 	// PersonaPath is where the agent CLI looks for its instructions file.
 	PersonaPath string
 	// SkillsPath is where the agent CLI looks for skills; empty means it reads the
@@ -80,7 +87,7 @@ func agentDefinitions() []agentDefinition {
 			PersonaPath:   "~/.gemini/GEMINI.md",
 			SkillsPath:    "~/.gemini/config/skills",
 			HookPath:      "~/.gemini/config/hooks.json",
-			HookCommands:  []string{"dot agent hook session agy", "dot agent hook notify agy stop"},
+			HookCommands:  []string{"dot agent hook session agy", "dot agent hook notify agy stop", "dot agent hook usage agy"},
 			ProbeNames:    []string{"dot", "agy"},
 			HookJSON:      true,
 			Notifications: true,
@@ -92,7 +99,7 @@ func agentDefinitions() []agentDefinition {
 			PersonaPath:   "~/.claude/CLAUDE.md",
 			SkillsPath:    "~/.claude/skills",
 			HookPath:      "~/.claude/settings.json",
-			HookCommands:  []string{"dot agent hook session claude", "dot agent hook notify claude"},
+			HookCommands:  []string{"dot agent hook session claude", "dot agent hook notify claude", "dot agent hook usage claude"},
 			ProbeNames:    []string{"dot", "claude"},
 			HookJSON:      true,
 			Notifications: true,
@@ -103,7 +110,7 @@ func agentDefinitions() []agentDefinition {
 			Source:        "~/.codex/sessions",
 			PersonaPath:   "~/.codex/AGENTS.md",
 			HookPath:      "~/.codex/config.toml",
-			HookCommands:  []string{"dot agent hook session codex", "dot agent hook notify codex stop"},
+			HookCommands:  []string{"dot agent hook session codex", "dot agent hook notify codex stop", "dot agent hook usage codex"},
 			ProbeNames:    []string{"dot", "codex"},
 			Notifications: true,
 		},
@@ -116,20 +123,22 @@ func agentDefinitions() []agentDefinition {
 			// Grok loads every JSON file under ~/.grok/hooks, so one file carries both
 			// surfaces and `dot agent doctor` can verify the whole wiring in one read.
 			HookPath:      "~/.grok/hooks/hooks.json",
-			HookCommands:  []string{"dot agent hook session grok", "dot agent hook notify grok stop"},
+			HookCommands:  []string{"dot agent hook session grok", "dot agent hook notify grok stop", "dot agent hook usage grok"},
 			ProbeNames:    []string{"dot", "grok"},
 			HookJSON:      true,
 			Notifications: true,
 		},
 		{
-			Agent:         sessionStoreOpenCode,
-			Alias:         "o",
-			Source:        "~/.local/share/opencode/opencode.db",
-			PersonaPath:   "~/.config/opencode/opencode.json",
-			HookPath:      "~/.config/opencode/plugins/session-log.ts",
-			HookCommands:  []string{"dot agent hook session opencode"},
-			ProbeNames:    []string{"dot", "opencode", "sqlite3"},
-			PersonaInFile: true,
+			Agent:        sessionStoreOpenCode,
+			Alias:        "o",
+			Source:       "~/.local/share/opencode/opencode.db",
+			PersonaPath:  "~/.config/opencode/opencode.json",
+			HookPath:     "~/.config/opencode/plugins/session-log.ts",
+			HookCommands: []string{"dot agent hook session opencode", "dot agent hook usage opencode"},
+			ProbeNames:   []string{"dot", "opencode", "sqlite3"},
+			// OpenCode stores session times as epoch milliseconds.
+			SourceTimeQuery: "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MAX(time_updated) / 1000, 'unixepoch') AS at FROM session",
+			PersonaInFile:   true,
 		},
 		{
 			Agent:        sessionStoreCopilot,
@@ -137,9 +146,11 @@ func agentDefinitions() []agentDefinition {
 			Source:       "~/.copilot/session-store.db",
 			PersonaPath:  "~/.copilot/copilot-instructions.md",
 			HookPath:     "~/.copilot/hooks/session-log.json",
-			HookCommands: []string{"dot agent hook copilot-session-end"},
+			HookCommands: []string{"dot agent hook copilot-session-end", "dot agent hook usage copilot"},
 			ProbeNames:   []string{"dot", "copilot", "sqlite3"},
-			HookJSON:     true,
+			// Copilot stores session times as UTC `YYYY-MM-DD HH:MM:SS` text.
+			SourceTimeQuery: "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MAX(updated_at)) AS at FROM sessions",
+			HookJSON:        true,
 		},
 	}
 }

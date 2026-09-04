@@ -41,13 +41,13 @@ Key routines:
 
 > Note: If `mise` fails with `command not found` in an agent shell, call `~/.local/bin/mise` directly.
 
-The unified `dot` CLI (source in `dot/`) is compiled to `~/.local/bin/dot`; every command, alias, and flag is documented once in [`skills/dot-cli/SKILL.md`](skills/dot-cli/SKILL.md); the binary's own help output is the live reference.
+The unified `dot` CLI (source in `dot/`) is compiled to `~/.local/bin/dot`; every command and alias is documented once in [`skills/dot-cli/SKILL.md`](skills/dot-cli/SKILL.md), with the `dot prune` flag matrix in [`references/prune-flags.md`](skills/dot-cli/references/prune-flags.md); `dot <command> --help` remains authoritative for the complete flag list.
 
 ## Agents
 
 Two assets are authored once and consumed by all agent CLIs:
 
-- **Persona** — `dot_agents/AGENTS.md` deploys to `~/.agents/AGENTS.md` (symlinked by Codex, Antigravity, OpenCode, Claude, Copilot, Grok).
+- **Persona** — `dot_agents/AGENTS.md` deploys to `~/.agents/AGENTS.md`, symlinked in by Antigravity, Claude, Codex, Copilot, and Grok; OpenCode alone reads it through the `instructions` array in `opencode.json.tmpl` because it has no per-host instruction filename.
 - **Skills** — `skills/` is symlinked to `~/.agents/skills/` (consumed by all agent CLIs).
 
 **Rule: every global skill lives in `skills/`.**
@@ -88,7 +88,6 @@ Two assets are authored once and consumed by all agent CLIs:
 - `dot_terraformrc` — Terraform CLI configuration deployed to `~/.terraformrc`.
 - `dprint.json` — Layout settings and format plugins for dprint code formatter.
 - `go.work` — Go workspace file targeting the `dot` CLI package.
-- `go.work.sum` — Go workspace dependency checksum file.
 - `install.sh` — Bootstrapping shell script installing mise and chezmoi.
 - `lefthook.yml` — Lefthook Git hooks manager settings (pre-commit, pre-push, post-commit).
 - `LICENSE` — MIT License file.
@@ -102,3 +101,4 @@ Two assets are authored once and consumed by all agent CLIs:
 - `run_once_after_install-grok.sh.tmpl` — Post-install hook for Grok Build CLI.
 - `skills/` — Storage directory holding global agent skills symlinked to `~/.agents/skills/`.
 - `trivy.yaml` — Security scanner policy configuration for Trivy.
+- `verify-lazy-lock.sh` — Fail-closed validation for Lazy plugin checkouts and commits.

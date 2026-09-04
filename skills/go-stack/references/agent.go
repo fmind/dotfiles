@@ -44,7 +44,7 @@ type greetResult struct {
 }
 
 // greet is a self-contained example tool. Real tools call into the library
-// (<slug>.go) instead of embedding business logic in the agent entry point.
+// (<package>.go) instead of embedding business logic in the agent entry point.
 func greet(_ agent.Context, in greetArgs) (greetResult, error) {
 	return greetResult{Message: fmt.Sprintf("Hello, %s!", in.Name)}, nil
 }
@@ -91,7 +91,7 @@ func main() {
 	// Name must be a valid identifier (letters, digits, underscore), unique in the
 	// agent tree. Delegate to SubAgents to build multi-agent trees.
 	root, err := llmagent.New(llmagent.Config{
-		Name:        "<slug>",
+		Name:        "<package>",
 		Model:       model,
 		Description: "A helpful assistant.",
 		Instruction: "You are a helpful assistant. Use the greet tool when asked to greet someone.",

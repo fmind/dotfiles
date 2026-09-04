@@ -77,11 +77,11 @@ func TestClusterCommands(t *testing.T) {
 	})
 
 	t.Run("stop cluster", func(t *testing.T) {
-		var stopCalled int32
+		var stopCalled atomic.Int32
 		runner := &FakeRunner{
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "k3d" && args[0] == "cluster" && args[1] == "stop" {
-					atomic.AddInt32(&stopCalled, 1)
+					stopCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected command: %s %v", name, args)
@@ -100,7 +100,7 @@ func TestClusterCommands(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Expected no error, got %v", err)
 		}
-		if atomic.LoadInt32(&stopCalled) != 1 {
+		if stopCalled.Load() != 1 {
 			t.Error("Expected k3d cluster stop to be called")
 		}
 	})
@@ -232,11 +232,11 @@ func TestClusterCommands(t *testing.T) {
 	})
 
 	t.Run("delete cluster", func(t *testing.T) {
-		var deleteCalled int32
+		var deleteCalled atomic.Int32
 		runner := &FakeRunner{
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "k3d" && args[0] == "cluster" && args[1] == "delete" {
-					atomic.AddInt32(&deleteCalled, 1)
+					deleteCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected command: %s %v", name, args)
@@ -255,17 +255,17 @@ func TestClusterCommands(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Expected no error, got %v", err)
 		}
-		if atomic.LoadInt32(&deleteCalled) != 1 {
+		if deleteCalled.Load() != 1 {
 			t.Error("Expected k3d cluster delete to be called")
 		}
 	})
 
 	t.Run("delete cluster declined at prompt does not delete", func(t *testing.T) {
-		var deleteCalled int32
+		var deleteCalled atomic.Int32
 		runner := &FakeRunner{
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "k3d" && args[0] == "cluster" && args[1] == "delete" {
-					atomic.AddInt32(&deleteCalled, 1)
+					deleteCalled.Add(1)
 				}
 				return nil
 			},
@@ -285,7 +285,7 @@ func TestClusterCommands(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Expected no error when declining, got %v", err)
 		}
-		if atomic.LoadInt32(&deleteCalled) != 0 {
+		if deleteCalled.Load() != 0 {
 			t.Error("Expected k3d cluster delete NOT to be called when the confirmation is declined")
 		}
 		if !strings.Contains(out.String(), "Canceled") {
@@ -447,7 +447,7 @@ func TestAgentSessionCommandDispatch(t *testing.T) {
 
 func TestCommitCommand(t *testing.T) {
 	t.Run("successful commit with cached changes", func(t *testing.T) {
-		var gitCommitCalled int32
+		var gitCommitCalled atomic.Int32
 		var scannedPayload string
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
@@ -481,7 +481,7 @@ func TestCommitCommand(t *testing.T) {
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "git" && args[0] == "commit" && args[3] == "feat(ui): add button" {
-					atomic.AddInt32(&gitCommitCalled, 1)
+					gitCommitCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected RunInteractive: %s %v", name, args)
@@ -500,13 +500,13 @@ func TestCommitCommand(t *testing.T) {
 			t.Fatalf("Expected no error, got %v", err)
 		}
 
-		if atomic.LoadInt32(&gitCommitCalled) != 1 {
+		if gitCommitCalled.Load() != 1 {
 			t.Error("Expected git commit to be called once")
 		}
 	})
 
 	t.Run("successful commit with unstaged changes when no cached changes", func(t *testing.T) {
-		var gitCommitCalled int32
+		var gitCommitCalled atomic.Int32
 		added := false
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
@@ -541,7 +541,7 @@ func TestCommitCommand(t *testing.T) {
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "git" && args[0] == "commit" && args[1] == "-e" && args[3] == "fix(api): handle empty input" {
-					atomic.AddInt32(&gitCommitCalled, 1)
+					gitCommitCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected RunInteractive: %s %v", name, args)
@@ -560,13 +560,13 @@ func TestCommitCommand(t *testing.T) {
 			t.Fatalf("Expected no error, got %v", err)
 		}
 
-		if atomic.LoadInt32(&gitCommitCalled) != 1 {
+		if gitCommitCalled.Load() != 1 {
 			t.Error("Expected staged git commit to be called once")
 		}
 	})
 
 	t.Run("successful commit with both type and scope, verifying prompt", func(t *testing.T) {
-		var gitCommitCalled int32
+		var gitCommitCalled atomic.Int32
 		var promptUsed string
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
@@ -596,7 +596,7 @@ func TestCommitCommand(t *testing.T) {
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "git" && args[0] == "commit" && args[3] == "feat(ui): add button" {
-					atomic.AddInt32(&gitCommitCalled, 1)
+					gitCommitCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected RunInteractive: %s %v", name, args)
@@ -615,7 +615,7 @@ func TestCommitCommand(t *testing.T) {
 			t.Fatalf("Expected no error, got %v", err)
 		}
 
-		if atomic.LoadInt32(&gitCommitCalled) != 1 {
+		if gitCommitCalled.Load() != 1 {
 			t.Error("Expected git commit to be called once")
 		}
 		if !strings.Contains(promptUsed, "Use type 'feat' and scope 'ui'") {
@@ -624,7 +624,7 @@ func TestCommitCommand(t *testing.T) {
 	})
 
 	t.Run("successful commit with scope only, verifying prompt", func(t *testing.T) {
-		var gitCommitCalled int32
+		var gitCommitCalled atomic.Int32
 		var promptUsed string
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
@@ -654,7 +654,7 @@ func TestCommitCommand(t *testing.T) {
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "git" && args[0] == "commit" && args[3] == "feat(ui): add button" {
-					atomic.AddInt32(&gitCommitCalled, 1)
+					gitCommitCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected RunInteractive: %s %v", name, args)
@@ -673,7 +673,7 @@ func TestCommitCommand(t *testing.T) {
 			t.Fatalf("Expected no error, got %v", err)
 		}
 
-		if atomic.LoadInt32(&gitCommitCalled) != 1 {
+		if gitCommitCalled.Load() != 1 {
 			t.Error("Expected git commit to be called once")
 		}
 		if !strings.Contains(promptUsed, "Use scope 'ui' and suggest an appropriate type") {
@@ -894,14 +894,14 @@ func TestSetupCommand(t *testing.T) {
 
 func TestLoginCommand(t *testing.T) {
 	t.Run("login workspace success", func(t *testing.T) {
-		var loginCalled int32
+		var loginCalled atomic.Int32
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
 				return "/bin/" + name, nil
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "gws" && args[0] == "auth" && args[1] == "login" {
-					atomic.AddInt32(&loginCalled, 1)
+					loginCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected RunInteractive: %s %v", name, args)
@@ -920,7 +920,7 @@ func TestLoginCommand(t *testing.T) {
 			t.Fatalf("Expected no error, got %v", err)
 		}
 
-		if atomic.LoadInt32(&loginCalled) != 1 {
+		if loginCalled.Load() != 1 {
 			t.Error("Expected gws auth login to be called")
 		}
 	})
@@ -950,7 +950,7 @@ func TestLoginCommand(t *testing.T) {
 	})
 
 	t.Run("login github not authenticated, success", func(t *testing.T) {
-		var loginCalled int32
+		var loginCalled atomic.Int32
 		runner := &FakeRunner{
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 				if name == "gh" && args[0] == "auth" && args[1] == "status" {
@@ -960,7 +960,7 @@ func TestLoginCommand(t *testing.T) {
 			},
 			RunInteractiveFunc: func(ctx context.Context, dir, name string, args ...string) error {
 				if name == "gh" && args[0] == "auth" && args[1] == "login" {
-					atomic.AddInt32(&loginCalled, 1)
+					loginCalled.Add(1)
 					return nil
 				}
 				return fmt.Errorf("unexpected RunInteractive: %s %v", name, args)
@@ -979,7 +979,7 @@ func TestLoginCommand(t *testing.T) {
 			t.Fatalf("Expected no error, got %v", err)
 		}
 
-		if atomic.LoadInt32(&loginCalled) != 1 {
+		if loginCalled.Load() != 1 {
 			t.Error("Expected gh auth login to be called")
 		}
 	})
@@ -1005,7 +1005,7 @@ func TestLoginCommand(t *testing.T) {
 	})
 
 	t.Run("login gcp success", func(t *testing.T) {
-		var loginCalled int32
+		var loginCalled atomic.Int32
 		runner := &FakeRunner{
 			LookPathFunc: func(name string) (string, error) {
 				return "/bin/" + name, nil
@@ -1014,7 +1014,7 @@ func TestLoginCommand(t *testing.T) {
 				if name == "gcloud" && args[0] == "auth" && args[1] == "login" {
 					// Verify --update-adc is passed
 					if slices.Contains(args, "--update-adc") {
-						atomic.AddInt32(&loginCalled, 1)
+						loginCalled.Add(1)
 						return nil
 					}
 					return fmt.Errorf("expected --update-adc flag, got args: %v", args)
@@ -1034,7 +1034,7 @@ func TestLoginCommand(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Expected no error, got %v", err)
 		}
-		if atomic.LoadInt32(&loginCalled) != 1 {
+		if loginCalled.Load() != 1 {
 			t.Error("Expected gcloud auth login --update-adc to be called")
 		}
 	})
@@ -1074,7 +1074,7 @@ func TestPullCommand(t *testing.T) {
 		repo1 := filepath.Join(tempDir, "repo1")
 		_ = os.MkdirAll(filepath.Join(repo1, ".git"), 0o755)
 
-		var pullCalled int32
+		var pullCalled atomic.Int32
 		runner := &FakeRunner{
 			RunFunc: func(ctx context.Context, dir string, stdin io.Reader, name string, args ...string) (string, error) {
 				if name == "git" {
@@ -1091,7 +1091,7 @@ func TestPullCommand(t *testing.T) {
 						return "0\n", nil
 					}
 					if args[0] == "pull" {
-						atomic.AddInt32(&pullCalled, 1)
+						pullCalled.Add(1)
 						return "Already up to date.", nil
 					}
 				}
@@ -1113,7 +1113,7 @@ func TestPullCommand(t *testing.T) {
 			t.Fatalf("Expected no error, got %v", err)
 		}
 
-		if atomic.LoadInt32(&pullCalled) != 1 {
+		if pullCalled.Load() != 1 {
 			t.Error("Expected git pull to be called once")
 		}
 	})

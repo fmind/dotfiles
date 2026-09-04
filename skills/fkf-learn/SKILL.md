@@ -2,6 +2,11 @@
 name: fkf-learn
 description: Stage verified fkf task and memory findings as reviewable wiki or project diffs. Invoke when a session produced a durable decision, pattern, status change, or dead end.
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dot/tree/main/skills/fkf-learn
+  created: "2026-09-03"
+  updated: "2026-09-03"
 ---
 
 # Learn from a base

@@ -17,15 +17,15 @@ One `mise.toml` per project pins the toolchain and defines the task vocabulary t
 
 Every project exposes the same core tasks with short aliases so agents, hooks, and CI stay portable:
 
-| Task      | Alias | Purpose                                                        |
-| --------- | ----- | -------------------------------------------------------------- |
-| `install` | `i`   | Sync dependencies and install git hooks (`lefthook install`).  |
-| `format`  | `f`   | Format all sources (fans out to `format:*`).                   |
-| `check`   | `c`   | All static checks in parallel (fans out to `check:*`).         |
-| `test`    | `t`   | Run the test suite.                                            |
-| `build`   | `b`   | Compile or package artifacts (fans out to `build:*`).          |
-| `watch`   | `w`   | Run the app with live reload.                                  |
-| `all`     | `a`   | `format`, `check`, `test`, `build` in sequence: the full gate. |
+| Task      | Alias | Purpose                                                                                                                                                                                 |
+| --------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `install` | `i`   | Sync dependencies and install git hooks (`lefthook install`).                                                                                                                           |
+| `format`  | `f`   | Format all sources (fans out to `format:*`).                                                                                                                                            |
+| `check`   | `c`   | All static checks in parallel (fans out to `check:*`).                                                                                                                                  |
+| `test`    | `t`   | Run the test suite.                                                                                                                                                                     |
+| `build`   | `b`   | Compile or package artifacts (fans out to `build:*`).                                                                                                                                   |
+| `watch`   | `w`   | Run the app with live reload, or re-run tests where there is no app to serve; omitted only by a stack with neither, such as [terraform-stack](../terraform-stack/references/mise.toml). |
+| `all`     | `a`   | `format`, `check`, `test`, `build` in sequence: the full gate.                                                                                                                          |
 
 Language stacks ship concrete files: [go-stack](../go-stack/references/mise.toml), [python-stack](../python-stack/references/mise.toml), and [angular](../angular/references/mise.toml) for TypeScript web applications.
 
@@ -34,7 +34,7 @@ Language stacks ship concrete files: [go-stack](../go-stack/references/mise.toml
 Split a task into `<task>:<x>` when one piece must run alone; each family keys `<x>` off a different noun:
 
 - **`format:<input>`**: the source family formatted — `format:go`, `format:python`, `format:templ`; `format:dprint` for JSON, Markdown, TOML, and YAML.
-- **`build:<output>`**: the artifact produced — `build:go` (binary), `build:css`, `build:html` (Templ to Go), `build:image` (OCI image).
+- **`build:<output>`**: the artifact produced — `build:go` (binary), `build:templ` (Templ to Go), `build:css`, `build:js`, `build:docs`, `build:image` (OCI image).
 - **`check:<concern>`**: the property verified, identical across languages so `mise run check:lint` means the same everywhere; the names are fixed:
 
 | Task            | Concern                          | Tool                                                            |
@@ -48,7 +48,7 @@ Split a task into `<task>:<x>` when one piece must run alone; each family keys `
 | `check:actions` | workflow lint and audit          | `actionlint` + [zizmor](../zizmor/SKILL.md)                     |
 | `check:sast`    | insecure code patterns (opt-in)  | [opengrep](../opengrep/SKILL.md), only when a project adopts it |
 
-Never invent another name (`check:audit`, `check:dprint`). In a polyglot repository such as the dot repository root, a concern that repeats per language may split by language (`check:go`, `check:python`, `check:shell`), while a genuinely shared concern keeps its cross-language name (`check:format` for the one dprint check). Aliases are best-effort: a repository that already spends `f`, `t`, or `i` keeps them; the task names are the contract.
+Those names are reserved: never respell one (`check:audit`, `check:dprint`) when the table already covers the concern. A stack adds a name only for a concern the table has none for, and the shipped set is closed: `check:deps` (unused files and dependencies), `check:doc` (document compiles), `check:pkg` (publishable surface), `check:site` (site builds clean), `check:validate` (configuration syntax). In a polyglot repository such as the dot repository root, a concern that repeats per language may split by language (`check:go`, `check:python`, `check:shell`), while a genuinely shared concern keeps its cross-language name (`check:format` for the one dprint check). Aliases are best-effort: a repository that already spends `f`, `t`, or `i` keeps them; the task names are the contract.
 
 ## Conventions
 

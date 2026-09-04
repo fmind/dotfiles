@@ -1,6 +1,6 @@
 if status is-interactive
-    # a:clear
-    abbr -a a clear
+    # a:agy
+    abbr -a a agy
     # b:bat
     abbr -a b bat
     # c:gcloud
@@ -70,12 +70,8 @@ if status is-interactive
     abbr -a mr "mise run"
     # n:npm
     abbr -a n npm
-    # o:code
-    abbr -a oa agy
-    abbr -a oc claude
-    abbr -a og grok
-    abbr -a ot copilot
-    abbr -a ox codex
+    # o:clear
+    abbr -a o clear
     # p:python
     abbr -a p python3
     abbr -a pt ptpython
@@ -96,6 +92,7 @@ if status is-interactive
     abbr -a vi nvim
     # w:zellij
     abbr -a w zellij
+    abbr -a wa "zellij run --close-on-exit -- agy"
     # x:xh
     abbr -a x xh
     # y:yazi

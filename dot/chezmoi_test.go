@@ -108,6 +108,10 @@ func TestRunChezmoiClean(t *testing.T) {
 			t.Error("Expected the orphan to be backed up under ~/.cache/dot/chezmoi-clean, but no backup was found")
 		} else if b, _ := os.ReadFile(matches[0]); string(b) != "orphan content" {
 			t.Errorf("Expected the backup to preserve the original contents, got %q", string(b))
+		} else if info, statErr := os.Stat(filepath.Dir(matches[0])); statErr != nil {
+			t.Fatalf("failed to inspect backup directory: %v", statErr)
+		} else if got := info.Mode().Perm(); got != 0o700 {
+			t.Errorf("backup directory permissions = %o, want 700", got)
 		}
 
 		// Verify cleanup message
@@ -117,7 +121,7 @@ func TestRunChezmoiClean(t *testing.T) {
 		}
 	})
 
-	t.Run("interactive mode with user saying yes deletes orphans", func(t *testing.T) {
+	t.Run("interactive mode with user saying yes backs up orphans", func(t *testing.T) {
 		_, orphanPath, state, stdout := setupEnv(t)
 
 		// Set stdin to say yes
@@ -249,4 +253,18 @@ func TestChezmoiCommand(t *testing.T) {
 			t.Errorf("Expected no orphaned files message, got: %q", stdout.String())
 		}
 	})
+}
+
+func TestChezmoiCleanHelpPromisesRecoverableBackup(t *testing.T) {
+	cmd := NewChezmoiCleanCmd(newTestState(&FakeRunner{}))
+	for _, flag := range cmd.Flags {
+		boolFlag, ok := flag.(*cli.BoolFlag)
+		if !ok {
+			t.Fatalf("clean flag %q has unexpected type %T", flag.Names()[0], flag)
+		}
+		usage := flag.Names()[0] + ": " + boolFlag.Usage
+		if strings.Contains(usage, "delete") || !strings.Contains(usage, "backup") {
+			t.Errorf("clean flag must describe the recoverable backup behavior, got %q", usage)
+		}
+	}
 }

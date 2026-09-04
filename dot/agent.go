@@ -94,6 +94,7 @@ func NewAgentCmd(state *GlobalState) *cli.Command {
 			NewAgentDoctorCmd(state),
 			NewAgentHookCmd(state),
 			NewAgentSessionCmd(state),
+			NewAgentUsageCmd(state),
 		},
 	}
 }
@@ -545,6 +546,9 @@ func RunAgentSessionLogAgy(ctx context.Context, state *GlobalState, sessionID, c
 	if _, err := writeSessionLogs(ctx, state, "agy", sessionID, logs, sessionSource{Type: "antigravity-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)}); err != nil {
 		return err
 	}
+	recordUsageBestEffort(state, "agy", func() (*UsageRecord, error) {
+		return ExtractUsageAgy(state, sessionID, cwd, transcriptPath)
+	})
 	if identity.FromHook() {
 		return writeAntigravityStopDecision(state.Stdout)
 	}
@@ -724,6 +728,11 @@ func RunAgentSessionLogClaude(ctx context.Context, state *GlobalState, sessionID
 	}
 
 	_, err = writeSessionLogs(ctx, state, "claude", sessionID, logs, sessionSource{Type: "claude-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
+	if err == nil {
+		recordUsageBestEffort(state, "claude", func() (*UsageRecord, error) {
+			return ExtractUsageClaude(state.Config.Agent, sessionID, cwd, sessionFile)
+		})
+	}
 	return err
 }
 
@@ -836,6 +845,11 @@ func RunAgentSessionLogCodex(ctx context.Context, state *GlobalState, sessionID,
 	}
 
 	_, err = writeSessionLogs(ctx, state, "codex", sessionID, logs, sessionSource{Type: "codex-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
+	if err == nil {
+		recordUsageBestEffort(state, "codex", func() (*UsageRecord, error) {
+			return ExtractUsageCodex(state.Config.Agent, sessionID, cwd, transcriptPath)
+		})
+	}
 	return err
 }
 
@@ -1005,6 +1019,11 @@ func RunAgentSessionLogGrok(ctx context.Context, state *GlobalState, sessionID, 
 	flush()
 
 	_, err = writeSessionLogs(ctx, state, "grok", sessionID, logs, sessionSource{Type: "grok-jsonl", Fingerprint: fingerprint, Malformed: decodeStats.Malformed, Skipped: decodeStats.Decoded - len(logs)})
+	if err == nil {
+		recordUsageBestEffort(state, "grok", func() (*UsageRecord, error) {
+			return ExtractUsageGrok(state, sessionID, cwd)
+		})
+	}
 	return err
 }
 
@@ -1380,6 +1399,11 @@ func RunAgentSessionLogOpencode(ctx context.Context, state *GlobalState, session
 		return err
 	}
 	_, err = writeSessionLogs(ctx, state, "opencode", sessionID, logs, sessionSource{Type: "opencode-db", Fingerprint: fingerprint})
+	if err == nil {
+		recordUsageBestEffort(state, "opencode", func() (*UsageRecord, error) {
+			return ExtractUsageOpencode(ctx, state, sessionID, cwd)
+		})
+	}
 	return err
 }
 
@@ -1494,6 +1518,11 @@ func RunAgentSessionLogCopilot(ctx context.Context, state *GlobalState, sessionI
 		return err
 	}
 	_, err = writeSessionLogs(ctx, state, "copilot", sessionID, parseCopilotRows(sessionID, cwd, rows), sessionSource{Type: "copilot-db", Fingerprint: fingerprint})
+	if err == nil {
+		recordUsageBestEffort(state, "copilot", func() (*UsageRecord, error) {
+			return ExtractUsageCopilot(ctx, state, sessionID, cwd)
+		})
+	}
 	return err
 }
 

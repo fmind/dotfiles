@@ -52,7 +52,7 @@ echo "=> Trusting mise configs..."
 mise trust -y "${SOURCE_DIR}/mise.toml"
 mise trust -y "${SOURCE_DIR}/dot/mise.toml"
 
-# Complete the ordered bootstrap: apply, trust, tools, hooks, editor, and krew.
+# Complete the ordered bootstrap: apply, trust, tools, hooks, and editor.
 echo "=> Completing environment bootstrap..."
 mise -C "${SOURCE_DIR}" run install
 

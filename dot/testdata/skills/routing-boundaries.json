@@ -2,7 +2,7 @@
   "version": 1,
   "created": "2026-08-08",
   "purpose": "Transparent regression probes for lexical routing boundaries across global and repository-scoped skills.",
-  "construction": "The original corpus was independently authored before the 2026-08-08 router hardening without copying lifecycle-evaluations.json wording. New-skill boundary probes are added when ownership changes. After adoption every case is a development regression, not a blind or behavioral evaluation. The catalog-* cases were added on 2026-09-02 when the catalog gained stack, security-tool, and workflow skills. The catalog-19 to catalog-23 cases were added on 2026-09-02 with the kaggle, hf, playwright, colab, and acli tool skills, when google-workspace-cli and google-cloud-operations were renamed to gws and gcloud. The catalog-24 to catalog-27 cases were added on 2026-09-03 with the google-cloud, google-ads, google-analytics, and google-developer catalog skills. Catalog-46 was added on 2026-09-03 for GitHub Agentic Workflows with the Copilot engine.",
+  "construction": "The original corpus was independently authored before the 2026-08-08 router hardening without copying lifecycle-evaluations.json wording. New-skill boundary probes are added when ownership changes. After adoption every case is a development regression, not a blind or behavioral evaluation. The catalog-* cases were added on 2026-09-02 when the catalog gained stack, security-tool, and workflow skills. The catalog-19 to catalog-23 cases were added on 2026-09-02 with the kaggle, hf, playwright, colab, and acli tool skills, when google-workspace-cli and google-cloud-operations were renamed to gws and gcloud. The catalog-24 to catalog-27 cases were added on 2026-09-03 with the google-cloud, google-ads, google-analytics, and google-developer catalog skills. Catalog-46 was added on 2026-09-03 for GitHub Agentic Workflows with the Copilot engine. Catalog-47 and catalog-48 were added on 2026-09-03 for the fkf read and learning workflows. Catalog-49 was added on 2026-09-03 for agent usage and token tracking. Catalog-50 was added on 2026-09-03 for the Antigravity Python SDK orchestration skill. Catalog-51 and catalog-52 were added on 2026-09-03 for Modern Web Guidance standards and Chrome DevTools MCP browser debugging. Catalog-53 was added on 2026-09-04 for the Astro web framework skill.",
   "proof_boundary": "Routable cases test deterministic ranking against the complete stored names and descriptions. They do not prove that a host includes every skill, preserves full descriptions within its metadata budget, abstains correctly, selects semantically, follows pressure contracts, or uses tools safely; those boundaries require actual-host discovery and separate behavioral evaluation.",
   "cases": [
     {
@@ -2248,6 +2248,104 @@
         "github-agentic-workflow"
       ],
       "primary": "github-agentic-workflow",
+      "top_k": 3
+    },
+    {
+      "id": "catalog-47",
+      "categories": [
+        "agents",
+        "catalog",
+        "knowledge"
+      ],
+      "prompt": "Inspect this fkf base status, retrieve bounded context, resolve the returned URIs, and traverse declared relations without changing authored pages.",
+      "expected": [
+        "fkf-use"
+      ],
+      "primary": "fkf-use",
+      "top_k": 3
+    },
+    {
+      "id": "catalog-48",
+      "categories": [
+        "agents",
+        "catalog",
+        "knowledge"
+      ],
+      "prompt": "This session produced a durable project decision; stage it as a reviewable fkf learn proposal without editing wiki or project pages directly.",
+      "expected": [
+        "fkf-learn"
+      ],
+      "primary": "fkf-learn",
+      "top_k": 3
+    },
+    {
+      "id": "catalog-49",
+      "categories": [
+        "agents",
+        "catalog",
+        "analytics"
+      ],
+      "prompt": "Audit token consumption and analyze LLM token usage across harnesses in ~/.agents/usages using the dot CLI.",
+      "expected": [
+        "agent-usage"
+      ],
+      "primary": "agent-usage",
+      "top_k": 3
+    },
+    {
+      "id": "catalog-50",
+      "categories": [
+        "agents",
+        "catalog",
+        "python"
+      ],
+      "prompt": "Orchestrate subagents with the google-antigravity Python SDK and cap the run with a token budget.",
+      "expected": [
+        "agy-sdk"
+      ],
+      "primary": "agy-sdk",
+      "top_k": 3
+    },
+    {
+      "id": "catalog-51",
+      "categories": [
+        "web",
+        "catalog",
+        "standards"
+      ],
+      "prompt": "Apply modern web platform standards, native HTML dialogs, container queries, and compatibility guidance instead of legacy script polyfills.",
+      "expected": [
+        "modern-web"
+      ],
+      "primary": "modern-web",
+      "top_k": 3
+    },
+    {
+      "id": "catalog-52",
+      "categories": [
+        "devtools",
+        "catalog",
+        "browser"
+      ],
+      "prompt": "Inspect live browser performance, audit accessibility trees, and debug Largest Contentful Paint traces via the Chrome DevTools MCP server.",
+      "expected": [
+        "chrome-devtools"
+      ],
+      "primary": "chrome-devtools",
+      "top_k": 3
+    },
+    {
+      "id": "catalog-53",
+      "categories": [
+        "web",
+        "catalog",
+        "astro"
+      ],
+      "prompt": "Build content-driven websites and web apps with Astro islands, Content Layer collections, and Tailwind CSS v4.",
+      "expected": [
+        "astro"
+      ],
+      "primary": "astro",
       "top_k": 3
     }
   ]

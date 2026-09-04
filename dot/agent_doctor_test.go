@@ -51,13 +51,13 @@ func setupHealthyAgentDoctor(t *testing.T) (*GlobalState, *strings.Builder, stri
 	writeDoctorLink(t, filepath.Join(home, ".grok", "skills"), skills)
 	writeDoctorLink(t, filepath.Join(home, ".copilot", "copilot-instructions.md"), persona)
 
-	writeDoctorFile(t, filepath.Join(home, ".gemini", "config", "hooks.json"), `{"hooks":["dot agent hook session agy","dot agent hook notify agy stop"]}`)
-	writeDoctorFile(t, filepath.Join(home, ".claude", "settings.json"), `{"hooks":["dot agent hook session claude","dot agent hook notify claude stop"]}`)
-	writeDoctorFile(t, filepath.Join(home, ".codex", "config.toml"), "command = \"dot agent hook session codex\"\ncommand = \"dot agent hook notify codex stop\"\n")
-	writeDoctorFile(t, filepath.Join(home, ".grok", "hooks", "hooks.json"), `{"hooks":["dot agent hook session grok","dot agent hook notify grok stop"]}`)
+	writeDoctorFile(t, filepath.Join(home, ".gemini", "config", "hooks.json"), `{"hooks":["dot agent hook session agy","dot agent hook notify agy stop","dot agent hook usage agy"]}`)
+	writeDoctorFile(t, filepath.Join(home, ".claude", "settings.json"), `{"hooks":["dot agent hook session claude","dot agent hook notify claude","dot agent hook usage claude"]}`)
+	writeDoctorFile(t, filepath.Join(home, ".codex", "config.toml"), "command = \"dot agent hook session codex\"\ncommand = \"dot agent hook notify codex stop\"\ncommand = \"dot agent hook usage codex\"\n")
+	writeDoctorFile(t, filepath.Join(home, ".grok", "hooks", "hooks.json"), `{"hooks":["dot agent hook session grok","dot agent hook notify grok stop","dot agent hook usage grok"]}`)
 	writeDoctorFile(t, filepath.Join(home, ".config", "opencode", "opencode.json"), `{"instructions":["~/.agents/AGENTS.md"]}`)
-	writeDoctorFile(t, filepath.Join(home, ".config", "opencode", "plugins", "session-log.ts"), "dot agent hook session opencode")
-	writeDoctorFile(t, filepath.Join(home, ".copilot", "hooks", "session-log.json"), `{"version":1,"hooks":{"sessionEnd":[{"bash":"dot agent hook copilot-session-end"}]}}`)
+	writeDoctorFile(t, filepath.Join(home, ".config", "opencode", "plugins", "session-log.ts"), "dot agent hook session opencode\ndot agent hook usage opencode")
+	writeDoctorFile(t, filepath.Join(home, ".copilot", "hooks", "session-log.json"), `{"version":1,"hooks":{"sessionEnd":[{"bash":"dot agent hook copilot-session-end"},{"bash":"dot agent hook usage copilot"}]}}`)
 	for _, path := range []string{
 		filepath.Join(home, ".gemini", "antigravity-cli", "brain", ".keep"),
 		filepath.Join(home, ".claude", "projects", ".keep"),
@@ -226,4 +226,56 @@ func TestInspectLastHookFailureSkipsEmptySpoolFiles(t *testing.T) {
 	if !ok || status != "none" {
 		t.Fatalf("inspectLastHookFailure for another agent = %q, %v; want none, ok", status, ok)
 	}
+}
+
+// A SQLite-backed store gains an mtime on every write the agent makes, including the
+// ones that create no session. Reading the newest session out of the database is what
+// separates "history dot never ingested" from "the app was opened", and only the first
+// is an ingestion lag.
+func TestAgentDoctorDatabaseSourceTimeComesFromNewestSession(t *testing.T) {
+	newestSession := func(at string) func(context.Context, string, io.Reader, string, ...string) (string, error) {
+		return func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			if name != "/bin/sqlite3" && name != "sqlite3" {
+				return "ok", nil
+			}
+			if !strings.Contains(strings.Join(args, " "), "FROM session") {
+				return "ok", nil
+			}
+			return `[{"at":"` + at + `"}]`, nil
+		}
+	}
+
+	setup := func(t *testing.T, ingestedAt, newest string) []agentDoctorResult {
+		t.Helper()
+		state, _, home := setupHealthyAgentDoctor(t)
+		manifest, err := json.Marshal(sessionManifest{
+			Agent: sessionStoreOpenCode, SessionID: "ses_1", LineageID: "lineage",
+			IngestedAt: ingestedAt, Completeness: sessionComplete,
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		writeDoctorFile(t, filepath.Join(home, ".agents", "sessions", sessionStoreVersion, sessionStoreOpenCode, "lineage", "generation", "manifest.json"), string(manifest))
+		runner, ok := state.Runner.(*FakeRunner)
+		if !ok {
+			t.Fatalf("expected a FakeRunner, got %T", state.Runner)
+		}
+		runner.RunFunc = newestSession(newest)
+		return gatherAgentDoctor(context.Background(), state, home, time.Now())
+	}
+
+	t.Run("a fully ingested store stays healthy after an unrelated database write", func(t *testing.T) {
+		// The database file was just written (mtime now), but its newest session is old.
+		result := doctorResultFor(t, setup(t, "2026-08-08T21:08:29Z", "2026-06-05T16:58:10Z"), sessionStoreOpenCode)
+		if !result.Healthy || result.ArchiveLag != "0s" {
+			t.Fatalf("unexpected result for a caught-up database store: %+v", result)
+		}
+	})
+
+	t.Run("a session newer than the last ingestion is still reported", func(t *testing.T) {
+		result := doctorResultFor(t, setup(t, "2026-06-05T16:58:10Z", "2026-08-08T21:08:29Z"), sessionStoreOpenCode)
+		if result.Healthy || result.ArchiveLag == "0s" {
+			t.Fatalf("unexpected result for an un-ingested session: %+v", result)
+		}
+	})
 }

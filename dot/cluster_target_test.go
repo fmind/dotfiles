@@ -86,6 +86,32 @@ func TestClusterTargetUsesPerClusterOwnerOnlyKubeconfig(t *testing.T) {
 	}
 }
 
+func TestWriteOwnerOnlyFilePreservesExistingParentPermissions(t *testing.T) {
+	parent := t.TempDir()
+	if err := os.Chmod(parent, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	path := filepath.Join(parent, "diagnostic.json")
+
+	if err := writeOwnerOnlyFile(path, []byte("private"), "diagnostic manifest"); err != nil {
+		t.Fatal(err)
+	}
+	parentInfo, err := os.Stat(parent)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := parentInfo.Mode().Perm(); got != 0o755 {
+		t.Fatalf("existing parent permissions = %o, want 755", got)
+	}
+	fileInfo, err := os.Stat(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := fileInfo.Mode().Perm(); got != 0o600 {
+		t.Fatalf("owner-only file permissions = %o, want 600", got)
+	}
+}
+
 func TestResolveClusterTargetContextOverrideAndMismatch(t *testing.T) {
 	const server = clusterTestServer
 

@@ -28,7 +28,7 @@ Bootstrap a repository in a fixed order, one stack skill for the code and then t
    - `trivy.yaml` plus the `check:*` scan tasks: [secure](../secure/SKILL.md)
    - `.github/workflows/ci.yml` and `security.yml`: [github-actions](../github-actions/SKILL.md); `.github/dependabot.yml`: [dependabot](../dependabot/SKILL.md)
    - `AGENTS.md`, `.agents/skills/`, and the `CLAUDE.md` bridge: [agent-project](../agent-project/SKILL.md); `README.md`: [readme-agents](../readme-agents/SKILL.md)
-1. **Validate locally**: `mise run install`, `mise run format`, `mise run check`, `mise run test`; before the first commit `check:leaks` scans zero commits and passes.
+1. **Validate locally**: `mise run install`, `mise run format`, `mise run check`, `mise run test`; before the first commit, `check:leaks` scans the working tree.
 1. **Create the remote** after the first commit (`chore: initial commit`, see [conventional-commit](../conventional-commit/SKILL.md)), then apply [github-repository](../github-repository/SKILL.md):
 
    ```bash

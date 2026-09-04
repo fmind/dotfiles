@@ -16,7 +16,7 @@ Canonical Python development: scaffolding, libraries, CLIs, Litestar web apps, a
 ## 1. Core & Quality Stack
 
 - **Python**: target latest stable; use modern syntax (pattern matching, PEP 695 generics, `typing.Annotated`).
-- **Dependencies**: `uv` exclusively — `uv add`, `uv run`, no manual venvs; commit `uv.lock` in applications (libraries may omit it).
+- **Dependencies**: `uv` exclusively — `uv add`, `uv run`, no manual venvs; commit `uv.lock` in every profile so installs and audits stay reproducible.
 - **Tasks and hooks**: [mise.toml](references/mise.toml) exposes the canonical vocabulary per [mise](../mise/SKILL.md); [lefthook.yml](references/lefthook.yml) wires pre-commit and pre-push per [lefthook](../lefthook/SKILL.md).
 - **Linting and formatting**: Ruff (`ruff check --fix`, `ruff format`) with zero warnings and no `print` (`T201`); dprint for config and markup per [dprint](../dprint/SKILL.md).
 - **Types**: `ty check` strict; `ty` is pre-1.0, so pin a compatible range and keep suppressions narrow and evidenced.
@@ -33,16 +33,16 @@ Canonical Python development: scaffolding, libraries, CLIs, Litestar web apps, a
    uv init --app --package --build-backend uv --vcs none --description "<description>" <slug>
    cd <slug> && uv python pin <major.minor>  # align .python-version with requires-python
    ```
-1. **Manifest**: `pyproject.toml` from [pyproject.toml.template](references/pyproject.toml.template) with one profile — web keeps the Web block; CLI adds `typer` and drops the Web block and `testcontainers`; library also drops `[project.scripts]`.
+1. **Manifest**: `pyproject.toml` from [pyproject.toml.template](references/pyproject.toml.template) with one profile — web keeps the Web block; CLI adds `typer` and drops the Web block and `testcontainers`; library sets `dependencies = []` and drops `[project.scripts]` and `testcontainers`.
 1. **Config files**:
    - [mise.toml](references/mise.toml) (swap `watch` for non-web projects) and [lefthook.yml](references/lefthook.yml).
-   - `dprint.json` per [dprint](../dprint/SKILL.md); `.env.example` from [env.example](references/env.example); `.gitignore` from [gitignore](references/gitignore).
+   - `dprint.json` per [dprint](../dprint/SKILL.md); `.env.example` from [env.example](references/env.example) and, for web projects, copy it to the ignored `.env` before the first import; `.gitignore` from [gitignore](references/gitignore).
    - `AGENTS.md` from [AGENTS.md](references/AGENTS.md); `LICENSE` per [project-license](../project-license/SKILL.md).
 1. **Sources**: `src/<package>/__init__.py` from [init.py](references/init.py) (web), [init-cli.py](references/init-cli.py) (CLI), or [init-library.py](references/init-library.py); web and CLI add `__main__.py` from [main.py](references/main.py).
-1. **Tests**: `tests/__init__.py` plus [test_smoke.py](references/test_smoke.py), then per profile:
+1. **Tests**: `tests/__init__.py`, then per profile:
    - Web: [test_web.py](references/test_web.py), [test_integration.py](references/test_integration.py), and root [conftest.py](references/conftest.py) (only `test:integration` starts Postgres).
-   - CLI: [test_cli.py](references/test_cli.py). Library: [test_library.py](references/test_library.py).
-1. **Validate**: `git init --initial-branch=main`, then `mise run install`, `mise run format`, `mise run check`, `mise run test`; `check:leaks` scans zero commits and passes until the first commit.
+   - CLI: [test_smoke.py](references/test_smoke.py) and [test_cli.py](references/test_cli.py). Library: [test_library.py](references/test_library.py).
+1. **Validate**: `git init --initial-branch=main`, then `mise run install`, `mise run format`, `mise run check`, `mise run test`; before the first commit, `check:leaks` scans the working tree.
 1. **Finish**: `README.md` per [readme-agents](../readme-agents/SKILL.md), then `git add . && git commit -m "chore: initial commit"`.
 
 ## 3. Project Profiles
@@ -76,7 +76,7 @@ The agent workflow, `agents-cli` commands, model-pin rationale, and deployment l
 - **`Slug` vs `Package`**: hyphenated slugs stay for the distribution, directory, image tag, and command; imports, `[project.scripts]` targets, and `python -m` use underscores.
 - **`uv_build` upper bound**: keep `[build-system].requires` at least one minor ahead of the pinned `uv`, or `uv build` warns.
 - **`ty` version key**: `[tool.ty.environment].python-version` takes `major.minor` only.
-- **Mise dotenv**: `_.source = ".env"` in `mise.toml` loads the environment for every task.
+- **Mise dotenv**: `[env]` with `_.file = ".env"` in `mise.toml` loads the environment for every task; `_.source` expects a shell script and silently loads nothing from a plain dotenv.
 
 ## Documentation
 

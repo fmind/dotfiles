@@ -27,7 +27,7 @@ Author, validate, publish, and install Agent Skill packages for Antigravity, Cla
    gh skill publish --dry-run <candidate-root>
    ```
 1. **Catalog gate**: a first-party skill also passes `mise run check:skills` and `mise run test` (contracts, links, routing probes).
-1. **Host discovery**: confirm the skill and its full description survive each host's metadata budget with the read-only listing commands in [host discovery](references/host-discovery.md); a listed skill is not proof it is followed.
+1. **Host discovery**: inspect whether the skill name and full description survive each host's metadata budget with the read-only listing commands in [host discovery](references/host-discovery.md); front-load routing cues and record any truncation, because a listed skill is not proof it is followed.
 
 ## Publish
 

@@ -183,13 +183,50 @@ func TestAppConfigFatality(t *testing.T) {
 		}
 	})
 
-	t.Run("config group stays reachable despite a malformed config", func(t *testing.T) {
+	t.Run("explicitly requested missing config is fatal for a non-config command", func(t *testing.T) {
+		missing := filepath.Join(t.TempDir(), "missing.yaml")
+		app := NewApp()
+		err := app.Run(ctx, []string{"dot", "--config", missing, "version"})
+		if err == nil || !strings.Contains(err.Error(), "failed to read config file") {
+			t.Errorf("expected an explicitly requested missing config to fail, got %v", err)
+		}
+	})
+
+	t.Run("explicitly requested missing config is fatal for config validate", func(t *testing.T) {
+		missing := filepath.Join(t.TempDir(), "missing.yaml")
+		app := NewApp()
+		err := app.Run(ctx, []string{"dot", "--config", missing, "config", "validate"})
+		if err == nil || !strings.Contains(err.Error(), "failed to read config file") {
+			t.Errorf("expected config validate to reject an explicitly requested missing config, got %v", err)
+		}
+	})
+
+	t.Run("config path stays reachable despite a malformed config", func(t *testing.T) {
 		app := NewApp()
 		// `config path` only prints the resolved path; if the Before hook wrongly treated
 		// the malformed config as fatal, this would return the parse error instead of nil.
 		err := app.Run(ctx, []string{"dot", "--config", malformed, "config", "path"})
 		if err != nil {
-			t.Errorf("expected the config group to remain usable to repair a bad file, got %v", err)
+			t.Errorf("expected config path to remain usable for a bad file, got %v", err)
+		}
+	})
+
+	t.Run("config init stays reachable despite a missing config", func(t *testing.T) {
+		missing := filepath.Join(t.TempDir(), "missing.yaml")
+		app := NewApp()
+		if err := app.Run(ctx, []string{"dot", "--config", missing, "config", "init"}); err != nil {
+			t.Fatalf("expected config init to repair a missing explicit config: %v", err)
+		}
+		if _, err := LoadConfig(missing); err != nil {
+			t.Fatalf("config init did not write a valid file: %v", err)
+		}
+	})
+
+	t.Run("config edit stays reachable despite a malformed config", func(t *testing.T) {
+		t.Setenv("EDITOR", "true")
+		app := NewApp()
+		if err := app.Run(ctx, []string{"dot", "--config", malformed, "config", "edit"}); err != nil {
+			t.Fatalf("expected config edit to repair a malformed explicit config: %v", err)
 		}
 	})
 }

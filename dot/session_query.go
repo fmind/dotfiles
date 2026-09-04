@@ -168,45 +168,41 @@ func requireOwnerOnly(path string, entry fs.DirEntry) error {
 	return nil
 }
 
-func loadSessionRecords(path string, includeContent bool) (string, []SessionLogLine, error) {
-	file, err := os.Open(filepath.Join(path, "transcript.jsonl"))
-	if err != nil {
-		return "", nil, err
-	}
-	defer func() { _ = file.Close() }()
-
-	var cwd string
-	var records []SessionLogLine
-	decoder := json.NewDecoder(file)
-	for {
-		var record SessionLogLine
-		if err := decoder.Decode(&record); errors.Is(err, io.EOF) {
-			break
-		} else if err != nil {
-			return "", nil, err
-		}
-		if cwd == "" && record.CWD != "" {
-			cwd = record.CWD
-		}
-		if includeContent {
-			records = append(records, record)
+// sessionRecordsCWD reports the working directory of a generation: the first one
+// any record carries, matching how the transcript was written.
+func sessionRecordsCWD(records []SessionLogLine) string {
+	for _, record := range records {
+		if record.CWD != "" {
+			return record.CWD
 		}
 	}
-	return cwd, records, nil
+	return ""
 }
 
-func discoverSessionSummaries(includeContent bool) ([]SessionSummary, error) {
+// sessionGeneration pairs a stored generation with its manifest. Every field the
+// cheap query predicates need lives in the manifest, so the walk can decide what
+// to keep before anything reads, hashes and decodes a transcript.
+type sessionGeneration struct {
+	path     string
+	manifest sessionManifest
+	summary  SessionSummary
+}
+
+// discoverSessionGenerations walks the store and reads manifests only. This is the
+// cheap half of a query: it touches one small JSON per generation instead of the
+// whole transcript.
+func discoverSessionGenerations() ([]sessionGeneration, error) {
 	root, err := sessionStoreRoot()
 	if err != nil {
 		return nil, err
 	}
 	if _, statErr := os.Stat(root); errors.Is(statErr, os.ErrNotExist) {
-		return []SessionSummary{}, nil
+		return []sessionGeneration{}, nil
 	} else if statErr != nil {
 		return nil, statErr
 	}
 
-	summaries := make([]SessionSummary, 0)
+	generations := make([]sessionGeneration, 0)
 	err = filepath.WalkDir(root, func(path string, entry fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
 			return walkErr
@@ -222,34 +218,128 @@ func discoverSessionSummaries(includeContent bool) ([]SessionSummary, error) {
 		if manifestErr != nil {
 			return fmt.Errorf("failed to read session manifest %s: %w", path, manifestErr)
 		}
-		summary := SessionSummary{
-			Agent: manifest.Agent, SessionID: manifest.SessionID, LineageID: manifest.LineageID,
-			GenerationID: filepath.Base(generationPath), SourceType: manifest.SourceType,
-			IngestedAt: manifest.IngestedAt, HighWaterMark: manifest.HighWaterMark,
-			Completeness: manifest.Completeness, RecordCount: manifest.RecordCount,
-			MalformedRecords: manifest.MalformedRecords, SkippedRecords: manifest.SkippedRecords,
-			sourceFingerprint: manifest.SourceFingerprint,
-		}
-		if manifest.SchemaVersion != sessionSchemaVersion || manifest.ParserVersion != sessionParserVersion {
-			summary.Status = append(summary.Status, "unsupported")
-		} else if validationErr := validateSessionGeneration(generationPath, manifest); validationErr != nil {
-			summary.Status = append(summary.Status, "invalid")
-		} else {
-			summary.CWD, summary.Records, err = loadSessionRecords(generationPath, includeContent)
-			if err != nil {
-				summary.Status = append(summary.Status, "invalid")
-			}
-		}
-		if manifest.Completeness == sessionPartial || manifest.MalformedRecords > 0 || manifest.SkippedRecords > 0 {
-			summary.Status = append(summary.Status, "partial")
-		}
-		summaries = append(summaries, summary)
+		generations = append(generations, sessionGeneration{
+			path:     generationPath,
+			manifest: manifest,
+			summary: SessionSummary{
+				Agent: manifest.Agent, SessionID: manifest.SessionID, LineageID: manifest.LineageID,
+				GenerationID: filepath.Base(generationPath), SourceType: manifest.SourceType,
+				IngestedAt: manifest.IngestedAt, HighWaterMark: manifest.HighWaterMark,
+				Completeness: manifest.Completeness, RecordCount: manifest.RecordCount,
+				MalformedRecords: manifest.MalformedRecords, SkippedRecords: manifest.SkippedRecords,
+				sourceFingerprint: manifest.SourceFingerprint,
+			},
+		})
 		return nil
 	})
 	if err != nil {
 		return nil, err
 	}
-	markSessionGenerationStatus(summaries)
+	return generations, nil
+}
+
+// sessionLineageIndex records which generation is newest in each lineage and which
+// source fingerprints repeat. It is built from every generation in the store, not
+// just the queried subset, so a filter can never promote a stale generation to
+// "current" by hiding its newer sibling.
+type sessionLineageIndex struct {
+	newest       map[string]string
+	fingerprints map[string]int
+}
+
+func newSessionLineageIndex(generations []sessionGeneration) sessionLineageIndex {
+	index := sessionLineageIndex{
+		newest:       make(map[string]string, len(generations)),
+		fingerprints: make(map[string]int, len(generations)),
+	}
+	newestIngestedAt := make(map[string]string, len(generations))
+	for _, generation := range generations {
+		lineage := generation.summary.Agent + "\x00" + generation.summary.LineageID
+		if current, ok := newestIngestedAt[lineage]; !ok || generation.summary.IngestedAt > current {
+			newestIngestedAt[lineage] = generation.summary.IngestedAt
+			index.newest[lineage] = generation.summary.GenerationID
+		}
+		index.fingerprints[lineage+"\x00"+generation.summary.sourceFingerprint]++
+	}
+	return index
+}
+
+// apply adds the lineage-wide status flags to one summary. It runs after the
+// per-generation flags so "current" still means "nothing else to report".
+func (index sessionLineageIndex) apply(summary *SessionSummary) {
+	lineage := summary.Agent + "\x00" + summary.LineageID
+	if index.newest[lineage] != summary.GenerationID {
+		summary.Status = append(summary.Status, "stale")
+	}
+	if index.fingerprints[lineage+"\x00"+summary.sourceFingerprint] > 1 {
+		summary.Status = append(summary.Status, "duplicate")
+	}
+	if len(summary.Status) == 0 {
+		summary.Status = []string{"current"}
+	}
+	slices.Sort(summary.Status)
+}
+
+// matchesManifestQuery applies every predicate that the manifest alone can decide.
+// CWD is deliberately absent: it only exists inside the transcript.
+func matchesManifestQuery(summary SessionSummary, query SessionQuery) bool {
+	if query.Agent != "" && summary.Agent != query.Agent {
+		return false
+	}
+	if query.Identity != "" && summary.SessionID != query.Identity && summary.LineageID != query.Identity && summary.GenerationID != query.Identity {
+		return false
+	}
+	if query.Since.IsZero() && query.Until.IsZero() {
+		return true
+	}
+	ingested, err := time.Parse(time.RFC3339Nano, summary.IngestedAt)
+	if err != nil {
+		return false
+	}
+	if !query.Since.IsZero() && ingested.Before(query.Since) {
+		return false
+	}
+	return query.Until.IsZero() || !ingested.After(query.Until)
+}
+
+func querySessionSummaries(query SessionQuery, includeContent bool) ([]SessionSummary, error) {
+	generations, err := discoverSessionGenerations()
+	if err != nil {
+		return nil, err
+	}
+	// Built over every generation, then applied only to the ones that survive the
+	// filter, so lineage status stays independent of the query.
+	lineage := newSessionLineageIndex(generations)
+
+	summaries := make([]SessionSummary, 0, len(generations))
+	for _, generation := range generations {
+		if !matchesManifestQuery(generation.summary, query) {
+			continue
+		}
+		summary := generation.summary
+		manifest := generation.manifest
+		// Only now, for a generation the query actually wants, is it worth reading,
+		// hashing and decoding the transcript.
+		if manifest.SchemaVersion != sessionSchemaVersion || manifest.ParserVersion != sessionParserVersion {
+			summary.Status = append(summary.Status, "unsupported")
+		} else if records, validationErr := validateSessionGenerationRecords(generation.path, manifest); validationErr != nil {
+			summary.Status = append(summary.Status, "invalid")
+		} else {
+			summary.CWD = sessionRecordsCWD(records)
+			if includeContent {
+				summary.Records = records
+			}
+		}
+		if manifest.Completeness == sessionPartial || manifest.MalformedRecords > 0 || manifest.SkippedRecords > 0 {
+			summary.Status = append(summary.Status, "partial")
+		}
+		lineage.apply(&summary)
+		if query.CWD != "" && summary.CWD != query.CWD {
+			continue
+		}
+		summaries = append(summaries, summary)
+	}
+
 	slices.SortFunc(summaries, func(left, right SessionSummary) int {
 		if result := strings.Compare(right.IngestedAt, left.IngestedAt); result != 0 {
 			return result
@@ -257,60 +347,6 @@ func discoverSessionSummaries(includeContent bool) ([]SessionSummary, error) {
 		return strings.Compare(left.LineageID+left.GenerationID, right.LineageID+right.GenerationID)
 	})
 	return summaries, nil
-}
-
-func markSessionGenerationStatus(summaries []SessionSummary) {
-	latest := make(map[string]int)
-	fingerprints := make(map[string]int)
-	for index := range summaries {
-		lineage := summaries[index].Agent + "\x00" + summaries[index].LineageID
-		if current, ok := latest[lineage]; !ok || summaries[index].IngestedAt > summaries[current].IngestedAt {
-			latest[lineage] = index
-		}
-		fingerprints[lineage+"\x00"+summaries[index].sourceFingerprint]++
-	}
-	for index := range summaries {
-		lineage := summaries[index].Agent + "\x00" + summaries[index].LineageID
-		if latest[lineage] != index {
-			summaries[index].Status = append(summaries[index].Status, "stale")
-		}
-		if fingerprints[lineage+"\x00"+summaries[index].sourceFingerprint] > 1 {
-			summaries[index].Status = append(summaries[index].Status, "duplicate")
-		}
-		if len(summaries[index].Status) == 0 {
-			summaries[index].Status = []string{"current"}
-		}
-		slices.Sort(summaries[index].Status)
-	}
-}
-
-func filterSessionSummaries(summaries []SessionSummary, query SessionQuery) []SessionSummary {
-	filtered := make([]SessionSummary, 0, len(summaries))
-	for _, summary := range summaries {
-		if query.Agent != "" && summary.Agent != query.Agent || query.CWD != "" && summary.CWD != query.CWD {
-			continue
-		}
-		if query.Identity != "" && summary.SessionID != query.Identity && summary.LineageID != query.Identity && summary.GenerationID != query.Identity {
-			continue
-		}
-		ingested, err := time.Parse(time.RFC3339Nano, summary.IngestedAt)
-		if err != nil && (!query.Since.IsZero() || !query.Until.IsZero()) {
-			continue
-		}
-		if !query.Since.IsZero() && ingested.Before(query.Since) || !query.Until.IsZero() && ingested.After(query.Until) {
-			continue
-		}
-		filtered = append(filtered, summary)
-	}
-	return filtered
-}
-
-func querySessionSummaries(query SessionQuery, includeContent bool) ([]SessionSummary, error) {
-	summaries, err := discoverSessionSummaries(includeContent)
-	if err != nil {
-		return nil, err
-	}
-	return filterSessionSummaries(summaries, query), nil
 }
 
 func RunAgentSessionList(_ context.Context, state *GlobalState, query SessionQuery) error {

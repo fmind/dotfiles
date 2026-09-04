@@ -57,8 +57,18 @@ description = "Audit dependencies for known vulnerabilities (pnpm)"
 run = "pnpm audit --audit-level high"
 
 [tasks."check:leaks"]
-description = "Audit recent commits for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
+description = "Audit staged changes, the working tree, or recent commits for leaked secrets (gitleaks)"
+run = """
+sh -c '
+if [ "$#" -gt 0 ]; then
+  gitleaks git --verbose "$@"
+elif git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gitleaks git --log-opts="--max-count=100" --verbose
+else
+  gitleaks dir . --verbose
+fi
+' --
+"""
 
 # Published packages only: validates exports, files, and types against the packed tarball.
 [tasks."check:pkg"]

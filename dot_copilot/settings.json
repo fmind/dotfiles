@@ -1,11 +1,18 @@
 {
   "askUser": false,
   "banner": "never",
+  "contextTier": "long_context",
+  "continueOnAutoMode": true,
+  "defaultMode": "autopilot",
+  "defaultPermissionMode": "allow-all",
   "effortLevel": "xhigh",
   "experimental": true,
   "includeCoAuthoredBy": false,
+  "keepAlive": "busy",
   "model": "auto",
   "mouse": true,
   "remoteExport": false,
+  "respectGitignore": false,
+  "stayInAutopilot": true,
   "theme": "github"
 }

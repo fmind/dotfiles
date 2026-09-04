@@ -22,6 +22,7 @@ const (
 	releaseCIWorkflow      = "ci.yml"
 	releasePollInterval    = 15 * time.Second
 	releaseGateTimeout     = 20 * time.Minute
+	releaseRecoveryTimeout = 10 * time.Second
 	// Repository-root-relative paths, matching the root-relative records that
 	// `git status --porcelain` emits; file operations join them onto the root
 	// resolved by releaseRoot so the command works from any subdirectory.
@@ -239,7 +240,9 @@ func (snapshot releaseFileSnapshot) restore(cause error) error {
 }
 
 func rollbackStagedRelease(ctx context.Context, state *GlobalState, snapshot releaseFileSnapshot, cause error) error {
-	_, resetErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "reset", "--mixed", "HEAD")
+	recoveryCtx, cancel := newReleaseRecoveryContext(ctx)
+	defer cancel()
+	_, resetErr := state.Runner.Run(recoveryCtx, "", nil, "git", "reset", "--mixed", "HEAD")
 	if resetErr != nil {
 		cause = errors.Join(cause, fmt.Errorf("failed to restore release index: %w", resetErr))
 	}
@@ -371,8 +374,10 @@ func pushPreparedCommit(ctx context.Context, state *GlobalState, config ReleaseC
 	if err := state.Runner.RunInteractive(ctx, "", "git", "push", config.Remote, refspec); err == nil {
 		return nil
 	} else {
-		if _, fetchErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "fetch", config.Remote, config.DefaultBranch); fetchErr == nil {
-			remote, resolveErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "rev-parse", config.Remote+"/"+config.DefaultBranch)
+		recoveryCtx, cancel := newReleaseRecoveryContext(ctx)
+		defer cancel()
+		if _, fetchErr := state.Runner.Run(recoveryCtx, "", nil, "git", "fetch", config.Remote, config.DefaultBranch); fetchErr == nil {
+			remote, resolveErr := state.Runner.Run(recoveryCtx, "", nil, "git", "rev-parse", config.Remote+"/"+config.DefaultBranch)
 			if resolveErr == nil && strings.TrimSpace(remote) == commit {
 				return nil
 			}
@@ -381,21 +386,86 @@ func pushPreparedCommit(ctx context.Context, state *GlobalState, config ReleaseC
 	}
 }
 
+func newReleaseRecoveryContext(ctx context.Context) (context.Context, context.CancelFunc) {
+	// Release recovery must outlive caller cancellation, but a blocked local or
+	// remote Git operation must not run indefinitely.
+	return context.WithTimeout(context.WithoutCancel(ctx), releaseRecoveryTimeout)
+}
+
+const releaseRemoteTagOutputLimit = 4 * 1024
+
+// remoteReleaseTagCommit resolves the commit advertised by the remote itself. An
+// annotated tag has both a tag-object ref and a peeled ^{} ref; a lightweight tag has
+// only the direct ref. Exact patterns bound the result to those two records, while the
+// bounded runner protects against a broken or hostile remote emitting excess output.
+func remoteReleaseTagCommit(ctx context.Context, state *GlobalState, remote, refspec string) (string, error) {
+	peeledRef := refspec + "^{}"
+	args := []string{"ls-remote", "--tags", remote, refspec, peeledRef}
+	var (
+		output string
+		err    error
+	)
+	if runner, ok := state.Runner.(boundedRunner); ok {
+		output, err = runner.RunBounded(ctx, "", "git", releaseRemoteTagOutputLimit, args...)
+	} else {
+		output, err = state.Runner.Run(ctx, "", nil, "git", args...)
+		if len(output) > releaseRemoteTagOutputLimit {
+			return "", fmt.Errorf("remote tag query for %s exceeded %d bytes", refspec, releaseRemoteTagOutputLimit)
+		}
+	}
+	if err != nil {
+		return "", fmt.Errorf("failed to inspect remote tag %s on %s: %w", refspec, remote, err)
+	}
+
+	var direct, peeled string
+	for line := range strings.SplitSeq(strings.TrimSpace(output), "\n") {
+		if line == "" {
+			continue
+		}
+		fields := strings.Fields(line)
+		if len(fields) != 2 {
+			return "", fmt.Errorf("invalid ls-remote record for %s: %q", refspec, line)
+		}
+		switch fields[1] {
+		case refspec:
+			if direct != "" && direct != fields[0] {
+				return "", fmt.Errorf("conflicting remote values for %s", refspec)
+			}
+			direct = fields[0]
+		case peeledRef:
+			if peeled != "" && peeled != fields[0] {
+				return "", fmt.Errorf("conflicting remote values for %s", peeledRef)
+			}
+			peeled = fields[0]
+		default:
+			return "", fmt.Errorf("unexpected remote tag ref %q while resolving %s", fields[1], refspec)
+		}
+	}
+	if peeled != "" {
+		return peeled, nil
+	}
+	return direct, nil
+}
+
 func pushReleaseTag(ctx context.Context, state *GlobalState, config ReleaseConfig, tag, commit string) error {
 	refspec := "refs/tags/" + tag
-	if _, err := state.Runner.Run(ctx, "", nil, "git", "rev-parse", refspec); err != nil {
+	peeledRef := refspec + "^{}"
+	localCommit, err := state.Runner.Run(ctx, "", nil, "git", "rev-parse", peeledRef)
+	if err != nil {
 		if _, tagErr := state.Runner.Run(ctx, "", nil, "git", "tag", "-a", tag, "-m", tag, commit); tagErr != nil {
 			return fmt.Errorf("failed to create tag %s: %w", tag, tagErr)
 		}
+	} else if strings.TrimSpace(localCommit) != commit {
+		return fmt.Errorf("local tag %s resolves to %s, expected release commit %s", tag, strings.TrimSpace(localCommit), commit)
 	}
 	if err := state.Runner.RunInteractive(ctx, "", "git", "push", config.Remote, refspec); err == nil {
 		return nil
 	} else {
-		if _, fetchErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "fetch", "--tags", config.Remote); fetchErr == nil {
-			remoteTag, resolveErr := state.Runner.Run(context.WithoutCancel(ctx), "", nil, "git", "rev-parse", refspec)
-			if resolveErr == nil && strings.TrimSpace(remoteTag) == commit {
-				return nil
-			}
+		recoveryCtx, cancel := newReleaseRecoveryContext(ctx)
+		defer cancel()
+		remoteTag, resolveErr := remoteReleaseTagCommit(recoveryCtx, state, config.Remote, refspec)
+		if resolveErr == nil && remoteTag == commit {
+			return nil
 		}
 		return fmt.Errorf("failed to push tag %s to %s: %w", tag, config.Remote, err)
 	}

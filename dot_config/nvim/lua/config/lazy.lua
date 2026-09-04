@@ -26,6 +26,11 @@ require("lazy").setup({
   rocks = {
     enabled = false,
   },
+  git = {
+    -- copilot.lua vendors its cross-platform LSP runtime, so a cold filtered
+    -- checkout can exceed Lazy's two-minute default on ordinary connections.
+    timeout = 600,
+  },
   install = { colorscheme = { "tokyonight-moon" } },
   checker = {
     enabled = true,

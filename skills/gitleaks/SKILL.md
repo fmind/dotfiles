@@ -25,12 +25,22 @@ gitleaks git --redact=100 --report-format sarif --report-path gitleaks.sarif
 
 ## Mise Task
 
-Expose the bounded history scan as `check:leaks` per [mise](../mise/SKILL.md); the pre-commit hook in [lefthook](../lefthook/SKILL.md) appends `--staged` because history mode cannot see a secret that is not committed yet:
+Expose a scope-aware scan as `check:leaks` per [mise](../mise/SKILL.md): scan the working tree before the repository has a commit, retain the bounded history scan afterward, and forward `--staged` from the pre-commit hook in [lefthook](../lefthook/SKILL.md):
 
 ```toml
 [tasks."check:leaks"]
-description = "Audit recent commits for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged
+description = "Audit staged changes, the working tree, or recent commits for leaked secrets (gitleaks)"
+run = """
+sh -c '
+if [ "$#" -gt 0 ]; then
+  gitleaks git --verbose "$@"
+elif git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gitleaks git --log-opts="--max-count=100" --verbose
+else
+  gitleaks dir . --verbose
+fi
+' --
+"""
 ```
 
 ## When a Secret Is Found
@@ -43,7 +53,7 @@ run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:
 ## Gotchas
 
 - **Shallow CI checkouts**: fetch the depth the task scans (`fetch-depth: 100`) and keep the full-history audit in the scheduled `security.yml` job at `fetch-depth: 0` per [github-actions](../github-actions/SKILL.md).
-- **Fresh repository**: `no commits yet` with exit 0 is expected before the first commit.
+- **Fresh repository**: the task uses `gitleaks dir` until `HEAD` exists, avoiding a misleading Git error while still scanning untracked files; `--staged` keeps pre-commit scoped to the index.
 - **`--redact` in shared logs**: never print a found secret in CI output or an uploaded report.
 
 ## Documentation

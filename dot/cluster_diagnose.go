@@ -318,7 +318,7 @@ func targetDiagnosticWindow(probe ClusterDiagnosticProbe) time.Duration {
 func parseDiagnosticLogTargets(output, fallbackNamespace string, maximum int) [][2]string {
 	seen := make(map[string]struct{})
 	targets := make([][2]string, 0, maximum)
-	for _, line := range strings.Split(output, "\n") {
+	for line := range strings.SplitSeq(output, "\n") {
 		fields := strings.Fields(line)
 		if len(fields) == 1 && fallbackNamespace != "" {
 			fields = []string{fallbackNamespace, fields[0]}

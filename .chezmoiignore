@@ -14,6 +14,7 @@ mise.toml
 ruff.toml
 skills
 trivy.yaml
+verify-lazy-lock.sh
 
 {{- if ne .chezmoi.os "linux" }}
 .local/share/applications/com.mitchellh.ghostty.desktop

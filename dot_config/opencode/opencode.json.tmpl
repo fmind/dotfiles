@@ -3,8 +3,8 @@
   "instructions": [
     "~/.agents/AGENTS.md"
   ],
-  "model": "google-vertex/gemini-3.6-flash",
-  "small_model": "google-vertex/gemini-3.6-flash",
+  "model": "google-vertex/gemini-3.8-flash",
+  "small_model": "google-vertex/gemini-3.8-flash",
   "provider": {
     "google-vertex": {
       "options": {
@@ -13,11 +13,21 @@
       }
     }
   },
+  "agent": {
+    "build": {
+      "steps": 100
+    }
+  },
   "autoupdate": "notify",
   "compaction": {
     "auto": true,
     "prune": true,
     "reserved": 300000
+  },
+  "experimental": {
+    "batch_tool": true,
+    "continue_loop_on_deny": true,
+    "mcp_timeout": 60000
   },
   "formatter": true,
   "lsp": true,
@@ -44,5 +54,10 @@
       "node_modules/**"
     ]
   },
-  "permission": "allow"
+  "permission": "allow",
+  "subagent_depth": 2,
+  "tool_output": {
+    "max_bytes": 262144,
+    "max_lines": 5000
+  }
 }

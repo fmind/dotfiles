@@ -52,7 +52,6 @@ chpwd_only = true
 "npm:knip" = "latest" # Find unused TypeScript files, exports, and dependencies
 "npm:lighthouse" = "latest" # Web page audit tool for performance and SEO
 "npm:likec4" = "latest" # CLI for LikeC4 architecture-as-code diagramming tool
-"npm:pnpm" = "latest" # Fast Node.js package manager
 "npm:skills" = "latest" # Agent Skills CLI manager
 "npm:tsx" = "latest" # Run TypeScript files directly with Node
 "npm:typescript" = "latest" # TypeScript language compiler
@@ -61,7 +60,7 @@ chpwd_only = true
 "pipx:google-colab-cli" = { version = "latest", uvx_args = "--with jupyter-kernel-client==0.15.0" } # CLI client for Google Colab
 "pipx:huggingface_hub" = "latest" # Hugging Face Hub CLI client
 "pipx:kaggle" = "latest" # Kaggle dataset and competition CLI
-"pipx:pip-audit" = "latest" # Scans Python dependencies for known vulnerabilities (check:vuln)
+"pipx:pip-audit" = "latest" # Scans requirements-based Python projects for CVEs; uv-managed projects use `uv audit` for check:vuln
 "pipx:ptpython" = "latest" # Interactive Python REPL with autocomplete
 # The dedicated registry entry selects Hugo Extended on every supported platform.
 hugo-extended = "latest" # Static site generator for docs and websites
@@ -138,6 +137,7 @@ opengrep = "latest" # Semantic SAST with cross-function taint analysis (check:sa
 opentofu = "latest" # OpenTofu infrastructure as code CLI (open-source Terraform fork, default)
 playwright = "latest" # Browser automation and e2e test runner CLI (codegen, browser install)
 # pluto = "latest" # Detects deprecated Kubernetes API versions
+pnpm = "latest" # Fast Node.js package manager (core backend, matching every project template)
 python = "latest" # Python programming language interpreter
 ripgrep = "latest" # Blazing-fast grep alternative
 ruff = "latest" # High-performance Python linter and formatter
@@ -170,7 +170,6 @@ vault = "latest" # HashiCorp Vault secrets management CLI
 vhs = "latest" # Records a terminal session to GIF from a .tape script
 watchexec = "latest" # Runs commands in response to file modifications
 xh = "latest" # Fast, friendly tool for sending HTTP requests
-yazi = "latest" # Blazing-fast terminal file manager in Rust
 yq = "latest" # Command-line YAML, XML, and TOML processor
 zellij = "latest" # Terminal multiplexer and workspace built in Rust
 zizmor = "latest" # Security auditor for GitHub Actions workflows
@@ -209,3 +208,14 @@ linux-x64 = { asset_pattern = "tailwindcss-linux-x64-musl" }
 linux-arm64 = { asset_pattern = "tailwindcss-linux-arm64-musl" }
 macos-x64 = { asset_pattern = "tailwindcss-macos-x64" }
 macos-arm64 = { asset_pattern = "tailwindcss-macos-arm64" }
+
+[tools."github:sxyazi/yazi"]
+# Upstream GNU/Linux releases require GLIBC 2.39; select the same-version musl
+# asset so the latest release remains portable to Debian 12.
+version = "latest" # Blazing-fast terminal file manager in Rust
+
+[tools."github:sxyazi/yazi".platforms]
+linux-x64 = { asset_pattern = "*x86_64-unknown-linux-musl.zip" }
+linux-arm64 = { asset_pattern = "*aarch64-unknown-linux-musl.zip" }
+macos-x64 = { asset_pattern = "*x86_64-apple-darwin.zip" }
+macos-arm64 = { asset_pattern = "*aarch64-apple-darwin.zip" }

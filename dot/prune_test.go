@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -31,12 +32,7 @@ func newRecordedRunner(fail map[string]error) *recordedRunner {
 }
 
 func (r *recordedRunner) ran(call string) bool {
-	for _, got := range r.calls {
-		if got == call {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(r.calls, call)
 }
 
 // newPruneTestState wires a state whose output is captured and whose home and cache
@@ -920,12 +916,7 @@ func TestDefaultPruneConfig(t *testing.T) {
 }
 
 func slicesContains(values []string, want string) bool {
-	for _, value := range values {
-		if value == want {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(values, want)
 }
 
 // TestPruneTargetTableIsConsistent guards the table the flags, help, and execution order
@@ -1013,6 +1004,67 @@ func TestPruneRemovePathsReportsUnreadablePaths(t *testing.T) {
 	if err := run.removeContents("tools", filepath.Join(home, "absent")); err != nil {
 		t.Fatalf("a missing directory must not be an error: %v", err)
 	}
+}
+
+func TestPruneRefusesBroadOrIndirectPaths(t *testing.T) {
+	state, _, home := newPruneTestState(t, &FakeRunner{})
+	run := &pruneRun{state: state, days: 7}
+
+	sentinel := filepath.Join(home, "keep.txt")
+	writeAged(t, sentinel, "keep", time.Hour)
+	if err := run.removeTree("tools", home); err == nil || !strings.Contains(err.Error(), "home directory") {
+		t.Fatalf("expected the home directory to be rejected, got %v", err)
+	}
+	requireExists(t, sentinel)
+	state.Config.Prune.Agents.Sessions = []PruneSessionStore{{Path: "~", KeepDays: 0}}
+	if err := pruneAgentSessions(context.Background(), run, levelSessions); err == nil || !strings.Contains(err.Error(), "home directory") {
+		t.Fatalf("expected the agent-session entrypoint to reject home, got %v", err)
+	}
+	requireExists(t, sentinel)
+	if err := validatePrunePath(filepath.Dir(home)); err == nil || !strings.Contains(err.Error(), "contains home directory") {
+		t.Fatalf("expected an ancestor of home to be rejected, got %v", err)
+	}
+
+	root := filepath.VolumeName(home) + string(os.PathSeparator)
+	if err := validatePrunePath(root); err == nil || !strings.Contains(err.Error(), "filesystem root") {
+		t.Fatalf("expected the filesystem root to be rejected, got %v", err)
+	}
+	if err := validatePrunePath("relative-cache"); err == nil || !strings.Contains(err.Error(), "absolute") {
+		t.Fatalf("expected a relative path to be rejected, got %v", err)
+	}
+	homeLink := filepath.Join(t.TempDir(), "home")
+	if err := os.Symlink(home, homeLink); err != nil {
+		t.Fatalf("failed to create home symlink: %v", err)
+	}
+	t.Setenv("HOME", homeLink)
+	if err := validatePrunePath(home); err == nil || !strings.Contains(err.Error(), "home directory") {
+		t.Fatalf("expected the resolved home directory to be rejected, got %v", err)
+	}
+
+	target := t.TempDir()
+	victim := filepath.Join(target, "keep.txt")
+	writeAged(t, victim, "keep", time.Hour)
+	link := filepath.Join(t.TempDir(), "cache")
+	if err := os.Symlink(target, link); err != nil {
+		t.Fatalf("failed to create cache symlink: %v", err)
+	}
+	if err := run.removeContents("mise", link); err == nil || !strings.Contains(err.Error(), "symbolic link") {
+		t.Fatalf("expected a symlinked directory to be rejected, got %v", err)
+	}
+	requireExists(t, victim)
+
+	escapeRoot := t.TempDir()
+	escapedCache := filepath.Join(escapeRoot, "cache")
+	escapedFile := filepath.Join(escapedCache, "keep.txt")
+	writeAged(t, escapedFile, "keep", time.Hour)
+	intermediateLink := filepath.Join(home, "linked-cache")
+	if err := os.Symlink(escapeRoot, intermediateLink); err != nil {
+		t.Fatalf("failed to create intermediate cache symlink: %v", err)
+	}
+	if err := run.removeTree("tools", filepath.Join(intermediateLink, "cache")); err == nil || !strings.Contains(err.Error(), "symbolic-link parent") {
+		t.Fatalf("expected an intermediate symlink to be rejected, got %v", err)
+	}
+	requireExists(t, escapedFile)
 }
 
 func TestPruneSessionsSurfacesWalkErrors(t *testing.T) {

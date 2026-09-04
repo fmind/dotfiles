@@ -33,8 +33,8 @@ var assets = []asset{
 	},
 	{
 		name:   "alpine.min.js",
-		url:    "https://unpkg.com/alpinejs@3.16.2/dist/cdn.min.js",
-		sha256: "c13d85e590cf4c91959aeaaef1ba755344e911d55c5ec56f472ed2894e2b4684",
+		url:    "https://unpkg.com/alpinejs@3.17.1/dist/cdn.min.js",
+		sha256: "b30997fc126d808b1a9b20ab3f504ded88df957818c02d6249bba3ec114eb0ec",
 	},
 }
 

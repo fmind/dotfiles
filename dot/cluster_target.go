@@ -128,9 +128,10 @@ func writeOwnerOnlyFile(path string, content []byte, description string) error {
 	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return fmt.Errorf("failed to create %s directory: %w", description, err)
 	}
-	if err := os.Chmod(dir, 0o700); err != nil {
-		return fmt.Errorf("failed to secure %s directory: %w", description, err)
-	}
+	// MkdirAll applies 0700 to directories it creates. Preserve an existing
+	// caller-selected parent (for example /tmp or ~/.kube): changing its mode is
+	// an unrelated and potentially system-wide side effect. The file itself is
+	// still atomically published with owner-only permissions below.
 	temp, err := os.CreateTemp(dir, ".kubeconfig-*")
 	if err != nil {
 		return fmt.Errorf("failed to create temporary %s: %w", description, err)

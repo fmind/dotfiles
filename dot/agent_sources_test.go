@@ -137,6 +137,7 @@ func TestHookCommandArgumentsStopAtOperands(t *testing.T) {
 	agents := agentNameSet()
 	for command, want := range map[string]string{
 		"dot agent hook session claude":      "agent hook session",
+		"dot agent hook usage claude":        "agent hook usage",
 		"dot agent hook notify agy stop":     "agent hook notify",
 		"dot agent hook copilot-session-end": "agent hook copilot-session-end",
 		"dot agent hook session opencode":    "agent hook session",

@@ -270,3 +270,12 @@ func TestShouldIgnore(t *testing.T) {
 		}
 	}
 }
+
+func TestDefaultChezmoiCleanConfigIgnoresRepositoryOnlyFiles(t *testing.T) {
+	config := defaultChezmoiCleanConfig()
+	for _, path := range []string{"go.work.sum", "verify-lazy-lock.sh"} {
+		if !shouldIgnore(config, path) {
+			t.Errorf("default clean config must ignore repository-only file %q", path)
+		}
+	}
+}

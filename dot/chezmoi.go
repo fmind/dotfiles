@@ -35,12 +35,12 @@ func NewChezmoiCleanCmd(state *GlobalState) *cli.Command {
 			&cli.BoolFlag{
 				Name:    "yes",
 				Aliases: []string{"y"},
-				Usage:   "Automatically answer yes to prompts and delete all orphaned files",
+				Usage:   "Move all orphaned files to a recoverable backup without prompting",
 			},
 			&cli.BoolFlag{
 				Name:    "interactive",
 				Aliases: []string{"i"},
-				Usage:   "Prompt to delete all orphaned files",
+				Usage:   "Prompt before moving all orphaned files to a recoverable backup",
 			},
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {
@@ -207,7 +207,9 @@ func backupOrphans(state *GlobalState, orphans []string) error {
 		return fmt.Errorf("failed to resolve home directory: %w", err)
 	}
 	backupDir := filepath.Join(home, ".cache", "dot", "chezmoi-clean", time.Now().Format("20060102-150405"))
-	if err := os.MkdirAll(backupDir, 0o755); err != nil {
+	// Backups can contain credentials or other private dotfiles. Keep both the
+	// timestamped root and any mirrored parent paths owner-only.
+	if err := os.MkdirAll(backupDir, 0o700); err != nil {
 		return fmt.Errorf("failed to create backup directory: %w", err)
 	}
 
@@ -220,7 +222,7 @@ func backupOrphans(state *GlobalState, orphans []string) error {
 			rel = strings.TrimPrefix(filepath.ToSlash(o), "/")
 		}
 		dest := uniqueBackupPath(filepath.Join(backupDir, rel))
-		if err := os.MkdirAll(filepath.Dir(dest), 0o755); err != nil {
+		if err := os.MkdirAll(filepath.Dir(dest), 0o700); err != nil {
 			_, _ = fmt.Fprintf(state.Stderr, "Error preparing backup for %s: %v\n", o, err)
 			failed++
 			continue
@@ -307,13 +309,14 @@ func defaultChezmoiCleanConfig() ChezmoiCleanConfig {
 			".copilot",
 			".claude",
 			".gemini",
+			// skills/ reaches $HOME as one directory symlink, so a deleted skill
+			// file never leaves a separate orphan; dot/ is Go source that never
+			// deploys. Every dot_* source directory does deploy real files, so
+			// none of them belongs here -- excluding five of them (but not
+			// dot_grok, dot_config or dot_local) made orphans under ~/.agents,
+			// ~/.claude, ~/.codex, ~/.gemini and ~/.copilot undetectable.
 			"skills",
 			"dot",
-			"dot_agents",
-			"dot_claude",
-			"dot_codex",
-			"dot_gemini",
-			"dot_copilot",
 		},
 		IgnoredFiles: []string{
 			"README.md",
@@ -328,6 +331,7 @@ func defaultChezmoiCleanConfig() ChezmoiCleanConfig {
 			"mise.toml",
 			"install.sh",
 			"skill-lock.json",
+			"verify-lazy-lock.sh",
 		},
 	}
 }

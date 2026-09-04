@@ -69,8 +69,18 @@ depends = ["check:lint", "check:vuln", "check:format", "check:leaks"]
 
 [tasks."check:leaks"]
 alias = "cs"
-description = "Audit recent commits for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
+description = "Audit staged changes, the working tree, or recent commits for leaked secrets (gitleaks)"
+run = """
+sh -c '
+if [ "$#" -gt 0 ]; then
+  gitleaks git --verbose "$@"
+elif git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gitleaks git --log-opts="--max-count=100" --verbose
+else
+  gitleaks dir . --verbose
+fi
+' --
+"""
 
 [tasks."check:format"]
 alias = "cf"
@@ -105,7 +115,7 @@ depends = ["format:go", "format:templ", "format:dprint"]
 
 [tasks."format:dprint"]
 description = "Format JSON, Markdown, TOML, YAML with dprint"
-run = "dprint fmt"
+run = "dprint fmt --allow-no-files"
 
 [tasks."format:go"]
 description = "Format Go sources and imports (goimports + gofumpt)"

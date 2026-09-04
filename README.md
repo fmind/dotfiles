@@ -13,7 +13,7 @@ Managed with [chezmoi](https://www.chezmoi.io/) (files) and [mise](https://mise.
 - **Editor** — [Neovim](https://neovim.io/) powered by [LazyVim](https://www.lazyvim.org/).
 - **Terminal** — [Ghostty](https://ghostty.org/) (GPU-accelerated) and [Zellij](https://zellij.dev/) workspace multiplexer.
 - **AI-CLI Integration** — Built-in setups for [OpenAI Codex](https://developers.openai.com/codex/) (`codex`), [Antigravity](https://antigravity.google/) (`agy`), [OpenCode](https://opencode.ai/), [Claude Code](https://claude.com/claude-code), [GitHub Copilot](https://github.com/features/copilot) (`copilot`), and [Grok Build](https://x.ai/build) (`grok`), sharing a unified persona (`AGENTS.md`) and skills.
-- **Agent Skills** — A library of 94 reusable [Agent Skills](https://agentskills.io) in [`skills/`](skills/), shared by every AI CLI above.
+- **Agent Skills** — A library of 99 reusable [Agent Skills](https://agentskills.io) in [`skills/`](skills/), shared by every AI CLI above.
 - **Languages & Stacks** — Go and Python as the core languages, TypeScript with [Angular](https://angular.dev/) and [Firebase](https://firebase.google.com/) for web apps, [Google ADK](https://google.github.io/adk-docs/) for agents, plus OpenTofu/Terraform for infrastructure, [Typst](https://typst.app/) for documents, and [Hugo](https://gohugo.io/) for sites — each with a pinned toolchain, formatter, linter, and test gate.
 - **Custom `dot` CLI** — A custom Go utility to pull workspace repos, manage the optional local Kubernetes cluster, generate commits, and handle logins. Source in [`dot/`](dot/).
 - **User-space toolchain** — `install.sh` bootstraps mise and chezmoi, while a single mise config (`~/.config/mise/config.toml`) pins and manages the development CLI toolchain without system package managers. Every tool past that minimal bootstrap is pinned and lock-verified by mise.
@@ -55,7 +55,7 @@ bash ~/.local/share/chezmoi/install.sh
 
 Set `SKIP_GIT_PULL=true` only when intentionally bootstrapping from the existing local checkout without fetching its upstream branch.
 
-The installer is idempotent: it keeps an already-installed `mise` and `chezmoi`, and otherwise installs mise from its vendor's install script and chezmoi through mise. Every tool after that point is pinned and lock-verified by `mise` itself, so re-running the bootstrap converges to the same state. Linux and macOS are both supported.
+The installer is idempotent: it keeps an already-installed `mise` and `chezmoi`, and otherwise installs mise from its vendor's install script and chezmoi through mise. Every tool after that point is pinned and lock-verified by `mise` itself, so re-running the bootstrap converges to the same state. The supported lock-verified matrix is x86-64 Linux and Apple silicon macOS.
 
 ## Credentials
 

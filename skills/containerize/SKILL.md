@@ -1,6 +1,6 @@
 ---
 name: containerize
-description: Build minimal, non-root OCI images with ko for Go or a distroless multi-stage Dockerfile, then scan, sign, and SBOM them. Use when containerizing an app.
+description: Build minimal, non-root OCI images with ko for Go or a pinned multi-stage Python Dockerfile, then scan, sign, and SBOM them. Use when containerizing an app.
 license: MIT
 metadata:
   author: Médéric HURIER (Fmind)
@@ -22,7 +22,7 @@ Build a small, non-root, reproducible OCI image and verify it before it ships; [
    go tool ko build ./cmd/<slug> --bare --platform=linux/amd64,linux/arm64
    ```
 
-1. **Other languages: multi-stage Dockerfile**: copy [Dockerfile](references/Dockerfile) and [.dockerignore](references/.dockerignore), then set the image digests and the `<slug>` entry point.
+1. **Python: multi-stage Dockerfile**: copy [Dockerfile](references/Dockerfile) and [.dockerignore](references/.dockerignore), then set the image digests and the `<slug>` entry point. Other runtimes need their own lockfile-aware build stage.
 
    ```bash
    docker build -t <registry>/<slug>:<tag> .

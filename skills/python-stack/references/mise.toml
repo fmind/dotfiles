@@ -1,5 +1,5 @@
 [env]
-_.source = ".env"
+_.file = ".env"
 
 [settings.task]
 run_auto_install = false
@@ -42,8 +42,18 @@ run = [
 
 [tasks."check:leaks"]
 alias = "cs"
-description = "Audit recent commits for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
+description = "Audit staged changes, the working tree, or recent commits for leaked secrets (gitleaks)"
+run = """
+sh -c '
+if [ "$#" -gt 0 ]; then
+  gitleaks git --verbose "$@"
+elif git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gitleaks git --log-opts="--max-count=100" --verbose
+else
+  gitleaks dir . --verbose
+fi
+' --
+"""
 
 [tasks."check:lint"]
 alias = "cl"
@@ -58,7 +68,7 @@ run = "uv run ty check"
 [tasks."check:vuln"]
 alias = "cv"
 description = "Scan dependencies for vulnerabilities (uv audit)"
-run = "uv audit"
+run = "uv audit --preview-features audit-command --locked"
 
 [tasks.clean]
 alias = "n"
@@ -87,7 +97,7 @@ depends = ["format:dprint", "format:python"]
 
 [tasks."format:dprint"]
 description = "Format JSON, Markdown, TOML, YAML with dprint"
-run = "dprint fmt"
+run = "dprint fmt --allow-no-files"
 
 [tasks."format:python"]
 description = "Format Python sources and imports (ruff)"
@@ -126,8 +136,8 @@ alias = "u"
 description = "Upgrade dependencies to latest compatible versions"
 run = "uv sync --upgrade"
 
-# Web form (granian). CLI/library projects: replace with `uv run <slug>`;
-# agent projects: `uvx google-agents-cli playground`.
+# Web form (granian). CLI projects: replace with `uv run <slug>`; libraries:
+# `mise run test:watch`; agent projects: `uvx google-agents-cli playground`.
 [tasks.watch]
 alias = "w"
 description = "Run the dev server with live reload"

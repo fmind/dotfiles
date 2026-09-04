@@ -40,8 +40,18 @@ depends = ["check:lint", "check:vuln", "check:format", "check:leaks"]
 
 [tasks."check:leaks"]
 alias = "cs"
-description = "Audit recent commits for leaked secrets (gitleaks)"
-run = "gitleaks git --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
+description = "Audit staged changes, the working tree, or recent commits for leaked secrets (gitleaks)"
+run = """
+sh -c '
+if [ "$#" -gt 0 ]; then
+  gitleaks git --verbose "$@"
+elif git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gitleaks git --log-opts="--max-count=100" --verbose
+else
+  gitleaks dir . --verbose
+fi
+' --
+"""
 
 [tasks."check:format"]
 alias = "cf"
@@ -76,7 +86,7 @@ depends = ["format:go", "format:dprint"]
 
 [tasks."format:dprint"]
 description = "Format JSON, Markdown, TOML, YAML with dprint"
-run = "dprint fmt"
+run = "dprint fmt --allow-no-files"
 
 [tasks."format:go"]
 description = "Format Go sources and imports (goimports + gofumpt)"
@@ -107,3 +117,10 @@ run = "gotestsum --format pkgname -- -race -coverprofile=coverage.out ./..."
 alias = "tw"
 description = "Run the test suite in watch mode"
 run = "gotestsum --watch --format pkgname -- -race -coverprofile=coverage.out ./..."
+
+[tasks.watch]
+alias = "w"
+# A CLI has no server to live-reload, so the canonical `watch` slot re-runs the
+# tests, the same shape the dot repository uses.
+description = "Re-run the test suite on every change"
+run = "mise run test:watch"

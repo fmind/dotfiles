@@ -2,12 +2,16 @@
 default_time_value = "60s"
 default_widget_count = 1
 default_widget_type = "proc"
-hide_table_gap = true
-mem_as_value = true
 rate = "1s"
+# Replaces the removed `hide_table_gap = true`.
+table_gap = "none"
 temperature_type = "celsius"
 
-[flags.processes]
+# Top-level section: bottom silently ignores a `[flags.processes]` table, so the
+# process defaults below were dead until they moved here.
+[processes]
 default_grouped = false
+# Replaces the removed `flags.mem_as_value = true`.
+default_memory_value = true
 default_tree = true
 disable_advanced_kill = true

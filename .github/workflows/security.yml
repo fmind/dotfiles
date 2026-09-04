@@ -26,6 +26,9 @@ jobs:
       - name: Trust repository
         run: mise trust -y mise.toml && mise trust -y dot/mise.toml
       - name: Scan full checkout
-        run: trivy --config trivy.yaml fs .
+        # Delegate to the task so this never drifts from the local gate again; the
+        # hand-written copy had already lost --tf-vars and scanned the Terraform
+        # module with unresolved variables.
+        run: mise run check:scan
       - name: Scan complete Git history
         run: gitleaks git --redact=100 --verbose

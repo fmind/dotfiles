@@ -8,6 +8,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -50,6 +51,15 @@ func NewAgentHookCmd(state *GlobalState) *cli.Command {
 				ArgsUsage: "<agent> [session-id] [cwd]",
 				Action: func(ctx context.Context, cmd *cli.Command) error {
 					return RunAgentHookSession(ctx, state, cmd.Args().Get(0), cmd.Args().Get(1), cmd.Args().Get(2))
+				},
+			},
+			{
+				Name:      "usage",
+				Aliases:   []string{"u"},
+				Usage:     "Run a token usage reporting hook",
+				ArgsUsage: "<agent> [session-id] [cwd]",
+				Action: func(ctx context.Context, cmd *cli.Command) error {
+					return RunAgentHookUsage(ctx, state, cmd.Args().Get(0), cmd.Args().Get(1), cmd.Args().Get(2))
 				},
 			},
 			{
@@ -99,11 +109,18 @@ func hookFailureRoot() (string, error) {
 	return filepath.Join(home, ".agents", "hook-failures", hookFailureStoreVersion), nil
 }
 
+// hookSessionIDPattern matches the UUID shape every harness uses for session
+// identifiers. Deployed hooks pass no session-id operand -- the real id is
+// resolved from stdin inside the handler -- so exact replacement alone left raw
+// ids in the spool, contradicting its metadata-only contract.
+var hookSessionIDPattern = regexp.MustCompile(`\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b`)
+
 func boundedHookFailureDetail(err error, sessionID string, detailLimit int) string {
 	detail := err.Error()
 	if sessionID != "" {
 		detail = strings.ReplaceAll(detail, sessionID, "<session>")
 	}
+	detail = hookSessionIDPattern.ReplaceAllString(detail, "<session>")
 	detail = strings.Join(strings.Fields(detail), " ")
 	for len(detail) > detailLimit {
 		_, size := utf8.DecodeLastRuneInString(detail)
@@ -145,10 +162,7 @@ func spoolHookFailure(cfg AgentConfig, agent, operation, sessionID string, hookE
 	// Write beside the target and rename so a reader never sees a half-written
 	// record: the doctor and the trimmer only pick up `.json` names.
 	target := filepath.Join(root, name)
-	if err := writeOwnerOnly(target+".tmp", append(content, '\n')); err != nil {
-		return errors.Join(hookErr, fmt.Errorf("failed to write hook failure spool: %w", err))
-	}
-	if err := os.Rename(target+".tmp", target); err != nil {
+	if err := publishOwnerOnly(target, append(content, '\n')); err != nil {
 		return errors.Join(hookErr, fmt.Errorf("failed to publish hook failure spool: %w", err))
 	}
 	if err := trimHookFailureSpool(root, cfg.hookFailureLimit()); err != nil {

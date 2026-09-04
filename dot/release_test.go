@@ -9,6 +9,7 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"time"
 )
 
 const (
@@ -84,6 +85,181 @@ func TestRunReleaseResumesLocalPreparedCommitAfterPushFailure(t *testing.T) {
 	}
 	if runner.commits != 0 || !runner.pushed || !runner.tagPushed {
 		t.Fatalf("prepared commit was not resumed safely: %+v", runner)
+	}
+}
+
+func TestPushPreparedCommitRecoveryIsBoundedAfterCancellation(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	runner := &FakeRunner{
+		RunFunc: func(runCtx context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			command := name + " " + strings.Join(args, " ")
+			switch command {
+			case "git fetch origin main":
+				assertReleaseRecoveryContext(t, runCtx)
+				return "", nil
+			case "git rev-parse origin/main":
+				assertReleaseRecoveryContext(t, runCtx)
+				return releaseTestCommit, nil
+			default:
+				return "", errors.New("unexpected command: " + command)
+			}
+		},
+		RunInteractiveFunc: func(_ context.Context, _, name string, args ...string) error {
+			if name+" "+strings.Join(args, " ") == "git push origin HEAD:refs/heads/main" {
+				cancel()
+				return context.Canceled
+			}
+			return errors.New("unexpected interactive command")
+		},
+	}
+
+	if err := pushPreparedCommit(ctx, newTestState(runner), defaultReleaseConfig(), releaseTestCommit); err != nil {
+		t.Fatalf("remote commit at the release commit should recover a canceled push response: %v", err)
+	}
+}
+
+func TestRollbackStagedReleaseIsBoundedAfterCancellation(t *testing.T) {
+	root := releaseFixture(t, "1.1.1")
+	snapshot, err := snapshotReleaseFiles(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	runner := &FakeRunner{RunFunc: func(runCtx context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+		if name+" "+strings.Join(args, " ") != "git reset --mixed HEAD" {
+			return "", errors.New("unexpected command")
+		}
+		assertReleaseRecoveryContext(t, runCtx)
+		return "", nil
+	}}
+
+	cause := errors.New("release preparation failed")
+	if got := rollbackStagedRelease(ctx, newTestState(runner), snapshot, cause); !errors.Is(got, cause) {
+		t.Fatalf("rollback lost its original cause: %v", got)
+	}
+}
+
+func TestPushReleaseTagRecoversAnnotatedTagPushResult(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			command := name + " " + strings.Join(args, " ")
+			switch command {
+			case "git rev-parse refs/tags/v1.2.0^{}":
+				return "", errors.New("not found")
+			case "git tag -a v1.2.0 -m v1.2.0 " + releaseTestCommit:
+				return "", nil
+			case "git ls-remote --tags origin refs/tags/v1.2.0 refs/tags/v1.2.0^{}":
+				return "cccccccccccccccccccccccccccccccccccccccc\trefs/tags/v1.2.0\n" +
+					releaseTestCommit + "\trefs/tags/v1.2.0^{}\n", nil
+			default:
+				return "", errors.New("unexpected command: " + command)
+			}
+		},
+		RunInteractiveFunc: func(_ context.Context, _, name string, args ...string) error {
+			if name+" "+strings.Join(args, " ") == "git push origin refs/tags/v1.2.0" {
+				return errors.New("connection lost after remote accepted tag")
+			}
+			return errors.New("unexpected interactive command")
+		},
+	}
+
+	err := pushReleaseTag(context.Background(), newTestState(runner), defaultReleaseConfig(), "v1.2.0", releaseTestCommit)
+	if err != nil {
+		t.Fatalf("remote annotated tag at the release commit should recover a lost push response: %v", err)
+	}
+}
+
+func TestPushReleaseTagRecoversLightweightTagAfterCancellation(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	runner := &FakeRunner{
+		RunFunc: func(runCtx context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			command := name + " " + strings.Join(args, " ")
+			switch command {
+			case "git rev-parse refs/tags/v1.2.0^{}":
+				return releaseTestCommit, nil
+			case "git ls-remote --tags origin refs/tags/v1.2.0 refs/tags/v1.2.0^{}":
+				assertReleaseRecoveryContext(t, runCtx)
+				return releaseTestCommit + "\trefs/tags/v1.2.0\n", nil
+			default:
+				return "", errors.New("unexpected command: " + command)
+			}
+		},
+		RunInteractiveFunc: func(_ context.Context, _, name string, args ...string) error {
+			if name+" "+strings.Join(args, " ") == "git push origin refs/tags/v1.2.0" {
+				cancel()
+				return context.Canceled
+			}
+			return errors.New("unexpected interactive command")
+		},
+	}
+
+	if err := pushReleaseTag(ctx, newTestState(runner), defaultReleaseConfig(), "v1.2.0", releaseTestCommit); err != nil {
+		t.Fatalf("remote lightweight tag at the release commit should recover a canceled push response: %v", err)
+	}
+}
+
+func assertReleaseRecoveryContext(t *testing.T, ctx context.Context) {
+	t.Helper()
+	if ctx.Err() != nil {
+		t.Fatalf("remote recovery must outlive the canceled push context: %v", ctx.Err())
+	}
+	deadline, ok := ctx.Deadline()
+	if !ok {
+		t.Fatal("remote recovery must have a deadline")
+	}
+	if remaining := time.Until(deadline); remaining <= 0 || remaining > 30*time.Second {
+		t.Fatalf("remote recovery deadline is outside its bound: %s", remaining)
+	}
+}
+
+func TestPushReleaseTagDoesNotMistakeLocalTagForRemoteAcceptance(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			command := name + " " + strings.Join(args, " ")
+			switch command {
+			case "git rev-parse refs/tags/v1.2.0^{}":
+				return releaseTestCommit, nil
+			case "git fetch --tags origin":
+				return "", nil
+			case "git ls-remote --tags origin refs/tags/v1.2.0 refs/tags/v1.2.0^{}":
+				return "", nil
+			default:
+				return "", errors.New("unexpected command: " + command)
+			}
+		},
+		RunInteractiveFunc: func(_ context.Context, _, name string, args ...string) error {
+			if name+" "+strings.Join(args, " ") == "git push origin refs/tags/v1.2.0" {
+				return errors.New("remote rejected tag")
+			}
+			return errors.New("unexpected interactive command")
+		},
+	}
+
+	err := pushReleaseTag(context.Background(), newTestState(runner), defaultReleaseConfig(), "v1.2.0", releaseTestCommit)
+	if err == nil || !strings.Contains(err.Error(), "failed to push tag") {
+		t.Fatalf("a matching local tag must not prove remote acceptance, got %v", err)
+	}
+}
+
+func TestPushReleaseTagRejectsConflictingLocalTag(t *testing.T) {
+	runner := &FakeRunner{
+		RunFunc: func(_ context.Context, _ string, _ io.Reader, name string, args ...string) (string, error) {
+			command := name + " " + strings.Join(args, " ")
+			if command == "git rev-parse refs/tags/v1.2.0^{}" {
+				return "dddddddddddddddddddddddddddddddddddddddd", nil
+			}
+			return "", errors.New("unexpected command: " + command)
+		},
+		RunInteractiveFunc: func(context.Context, string, string, ...string) error {
+			t.Fatal("a conflicting local tag must fail before push")
+			return nil
+		},
+	}
+
+	err := pushReleaseTag(context.Background(), newTestState(runner), defaultReleaseConfig(), "v1.2.0", releaseTestCommit)
+	if err == nil || !strings.Contains(err.Error(), "local tag v1.2.0 resolves to") {
+		t.Fatalf("expected a conflicting local tag error, got %v", err)
 	}
 }
 

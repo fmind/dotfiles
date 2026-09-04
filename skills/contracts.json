@@ -15,7 +15,17 @@
     ],
     "agent-project": [],
     "agent-skills": [
+      "gh",
       "skills"
+    ],
+    "agent-usage": [
+      "dot",
+      "duckdb"
+    ],
+    "agy-sdk": [
+      "gcloud",
+      "skills",
+      "uv"
     ],
     "angular": [
       "knip",
@@ -25,6 +35,11 @@
     ],
     "ast-grep": [
       "ast-grep"
+    ],
+    "astro": [
+      "knip",
+      "pnpm",
+      "skills"
     ],
     "atlas": [
       "atlas",
@@ -36,6 +51,9 @@
     ],
     "chezmoi": [
       "chezmoi"
+    ],
+    "chrome-devtools": [
+      "skills"
     ],
     "cli-contracts": [],
     "cloud-run": [
@@ -202,6 +220,9 @@
     ],
     "mise": [
       "mise"
+    ],
+    "modern-web": [
+      "skills"
     ],
     "new-project": [
       "gh",

@@ -34,7 +34,7 @@ run = "dprint fmt --allow-no-files"
 [tasks.check]
 alias = "c"
 description = "Run all static checks in parallel"
-depends = ["check:format", "check:lint", "check:deps", "check:vuln", "check:leaks"]
+depends = ["check:format", "check:lint", "check:types", "check:deps", "check:vuln", "check:leaks"]
 
 [tasks."check:format"]
 description = "Check formatting (Prettier + dprint)"
@@ -43,6 +43,15 @@ run = ["pnpm exec prettier --check --log-level warn .", "dprint check"]
 [tasks."check:lint"]
 description = "Lint components, templates, and accessibility (angular-eslint)"
 run = "pnpm exec ng lint"
+
+[tasks."check:types"]
+description = "Type-check application and spec sources (tsc)"
+# The Angular CLI layout splits sources across two project tsconfigs; the
+# solution-style root tsconfig.json compiles neither on its own.
+run = [
+  "pnpm exec tsc --noEmit -p tsconfig.app.json",
+  "pnpm exec tsc --noEmit -p tsconfig.spec.json",
+]
 
 [tasks."check:deps"]
 description = "Find unused files, exports, and dependencies (Knip)"
@@ -53,8 +62,18 @@ description = "Audit dependencies for known vulnerabilities (pnpm)"
 run = "pnpm audit --audit-level high"
 
 [tasks."check:leaks"]
-description = "Audit recent commits for leaked secrets (gitleaks)"
-run = "gitleaks git --log-opts=\"--max-count=100\" --verbose" # `mise run check:leaks --staged` appends --staged for pre-commit
+description = "Audit staged changes, the working tree, or recent commits for leaked secrets (gitleaks)"
+run = """
+sh -c '
+if [ "$#" -gt 0 ]; then
+  gitleaks git --verbose "$@"
+elif git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gitleaks git --log-opts="--max-count=100" --verbose
+else
+  gitleaks dir . --verbose
+fi
+' --
+"""
 
 [tasks.test]
 alias = "t"

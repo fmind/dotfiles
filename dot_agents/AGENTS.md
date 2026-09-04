@@ -30,18 +30,18 @@ Skills live in `~/.agents/skills/<name>/SKILL.md`; names below are skills.
 
 - **Go**: `go-stack` for all Go work; `goreleaser` for binary releases, `atlas` for schema migrations.
 - **Python**: `python-stack` for projects, `python-script` for single-file `uv run` scripts.
-- **TypeScript**: `typescript-stack` (pnpm, Biome, Vitest); web apps add `angular`, backends add `firebase`.
-- **AI Agents**: `google-adk` for ADK agents in Go or Python; `genkit` only when a project already adopts Genkit; `mcp-server` to author MCP servers; `prompt-design` and `agent-evaluation` for prompts and evals.
+- **TypeScript**: `typescript-stack` (pnpm, Biome, Vitest); web apps add `angular`, backends add `firebase`, and native platform features go through `modern-web`.
+- **AI Agents**: `google-adk` for ADK agents in Go or Python; `agy-sdk` to orchestrate subagents with the Antigravity Python SDK; `genkit` only when a project already adopts Genkit; `mcp-server` to author MCP servers; `prompt-design` and `agent-evaluation` for prompts and evals.
 - **Infrastructure**: `terraform-stack` for infrastructure as code — OpenTofu (`tofu`) is the default engine.
 - **Formatting**: `dprint` is the formatter for config and markup files (JSON, TOML, YAML, Markdown).
 - **Git Hooks**: `lefthook` runs pre-commit (`format`, `check`) and pre-push (`test`) by delegating to `mise run` tasks.
 - **Task Standard**: `mise` exposes the canonical task vocabulary (`install`, `format`, `check`, `test`, `build`, `watch`, `all`) that agents, hooks, and CI all reuse; security scanning lives inside `check` as `check:leaks`, `check:scan`, `check:vuln` (and `check:sast` once a project adopts `opengrep`).
-- **Observability**: `observability` for structured logs, OpenTelemetry traces, and LLM tracing; `benchmark` for latency and load numbers.
+- **Observability**: `observability` for structured logs, OpenTelemetry traces, and LLM tracing; `benchmark` for latency and load numbers; `agent-usage` for agent token spend.
 - **Visual Communication**: `fmind-visuals` for Fmind theming and tool choice: Slidev for decks, `mermaid` for diagrams by default, LikeC4 for durable architecture models, `d2` for existing D2 sources and Fmind article diagrams.
 - **Documents**: `typst` for standalone documents (papers, reports, CVs) — Typst replaces LaTeX and Word.
-- **Sites & Docs**: `hugo` (Hugo extended + Hextra) for documentation sites and static websites — Go web _applications_ stay on the go-stack GOTH setup.
+- **Sites & Docs**: `hugo` (Hugo extended + Hextra) and `astro` for content-driven websites and docs — Go web _applications_ stay on the go-stack GOTH setup.
 - **Data & ML**: `kaggle` for competitions and datasets, `hf` for Hugging Face Hub assets, `colab` for rented GPU/TPU sessions, `duckdb` for local SQL over files.
-- **Browser Testing**: `playwright` for end-to-end tests, screenshots, and traces; strategy stays in `quality-assurance`.
+- **Browser Testing**: `playwright` for end-to-end tests, screenshots, and traces; `chrome-devtools` for live profiling and accessibility audits; strategy stays in `quality-assurance`.
 
 ## Available CLI Tools
 
@@ -80,7 +80,7 @@ Skills load on every matching task, so they stay small and unambiguous:
 
 - **One purpose per skill**: a tool skill (`trivy`, `mise`) documents one tool; a workflow skill (`secure`, `new-project`) composes tool skills by linking to them instead of repeating their content.
 - **Size**: keep `SKILL.md` under 100 lines (hard limit 500) and bullets under two lines; templates, long examples, and reference configs go into a one-level `references/` directory linked from `SKILL.md`.
-- **Frontmatter**: `name` equals the directory name (lowercase, hyphens); `description` is one sentence of about 200 characters (hard limit 240) stating the capability and the trigger ("Use when ..."); no two descriptions may read alike.
+- **Frontmatter**: `name` equals the directory name (lowercase, hyphens); `description` is one sentence stating the capability and the trigger ("Use when ..."), at most 240 characters and averaging 175 or less across the catalog, which the gate enforces as a shared budget; no two descriptions may read alike.
 - **Shape**: H1, one-line intent, then `Workflow`, `Gotchas`, `Official Skills` (vendor bundles: `--list` first, never hardcode upstream names), `Documentation`; commands in fenced blocks; never restate this file.
 - **Defaults, not dogma**: a stack skill ships a sensible default (coverage, tasks, layout) that the agent adapts to the project.
 - **Placement**: global skills live in `~/.agents/skills` (the `skills/` directory of the dot repo), repository-specific skills in `.agents/skills`; every global skill has an entry in `skills/contracts.json` and passes `mise run check:skills`.

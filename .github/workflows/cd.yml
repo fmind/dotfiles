@@ -5,7 +5,7 @@ on:
     tags:
       - "v*"
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: cd-${{ github.ref }}
   cancel-in-progress: false
@@ -13,6 +13,9 @@ jobs:
   publish:
     name: Publish GitHub release
     runs-on: ubuntu-latest
+    # Only this job creates the release, so the write scope stops here.
+    permissions:
+      contents: write
     timeout-minutes: 15
     steps:
       - name: Checkout tagged commit

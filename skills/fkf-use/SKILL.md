@@ -2,6 +2,11 @@
 name: fkf-use
 description: "Use an fkf base safely: inspect status, retrieve bounded context, resolve URIs, traverse relations, collect sources, or serve read-only MCP. Use for read or collection workflows."
 license: MIT
+metadata:
+  author: Médéric HURIER (Fmind)
+  source: github.com/fmind/dot/tree/main/skills/fkf-use
+  created: "2026-09-03"
+  updated: "2026-09-03"
 ---
 
 # Use a fkf base

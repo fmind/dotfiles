@@ -3,10 +3,9 @@ return {
     "folke/snacks.nvim",
     opts = {
       scroll = { enabled = false },
-      -- Inline images in the buffer. Ghostty speaks the kitty graphics
-      -- protocol, and PNG needs no `magick`, so article diagrams render where
-      -- their ![...](diagrams/*.png) reference sits.
-      image = { enabled = true },
+      -- Zellij 0.45 gained Kitty graphics, but Snacks still marks every Zellij
+      -- session unsupported. Keep normal detection everywhere else.
+      image = { enabled = true, force = vim.env.ZELLIJ ~= nil },
       picker = {
         sources = {
           files = {

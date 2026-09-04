@@ -27,7 +27,7 @@ Canonical Go development: scaffolding, libraries, CLI/TUI tools, GOTH web apps, 
 
 ## 2. Project Scaffolding Workflow
 
-1. **Information**: define `Slug`, `Import Path` (e.g. `github.com/username/slug`), and `Holder/Year`.
+1. **Information**: define `Slug`, `Import Path` (e.g. `github.com/username/slug`), `Package` (a valid Go identifier, usually `Slug` without punctuation), and `Holder/Year`.
 1. **Bootstrap**: `go mod init <import_path>` records the active toolchain version in `go.mod`.
 1. **Tasks and hooks by project type**, saved as `mise.toml` and `lefthook.yml`:
    - Web: [mise.toml](references/mise.toml) + [lefthook.yml](references/lefthook.yml) (templ, Tailwind, vendor, and watch tasks).
@@ -40,11 +40,11 @@ Canonical Go development: scaffolding, libraries, CLI/TUI tools, GOTH web apps, 
 1. **Toolchain**: `mise trust && mise install`, then `go get -tool golang.org/x/tools/cmd/goimports mvdan.cc/gofumpt golang.org/x/vuln/cmd/govulncheck` (web adds `github.com/a-h/templ/cmd/templ`).
 1. **Sources**:
    - `cmd/<slug>/main.go` from [main.go](references/main.go) (web), [cli.go](references/cli.go) (CLI), or [agent.go](references/agent.go) (agent, plus `go get google.golang.org/adk/v2`).
-   - `<slug>.go` from [lib.go](references/lib.go) with [lib_test.go](references/lib_test.go); `config/config.go` from [config.go](references/config.go) (CLI/agent may drop `Port`).
+   - `<package>.go` from [lib.go](references/lib.go) with [lib_test.go](references/lib_test.go); `config/config.go` from [config.go](references/config.go) (CLI/agent may drop `Port`).
    - Web: [server.go](references/server.go), [server_test.go](references/server_test.go), [middleware.go](references/middleware.go), [telemetry.go](references/telemetry.go).
    - Web templates and assets: [layout.templ](references/layout.templ), [home.templ](references/home.templ), [styles.css](references/styles.css), [app.js](references/app.js), [user-card.js](references/user-card.js).
    - Web vendoring: `scripts/vendor.go` from [vendor.go](references/vendor.go), run once by `install:vendor`.
-1. **Validate**: `git init --initial-branch=main`, then `mise run install`, `mise run format`, `mise run check`, `mise run test`; `check:leaks` prints `no commits yet` until the first commit.
+1. **Validate**: `git init --initial-branch=main`, then `mise run install`, `mise run format`, `mise run check`, `mise run test`; before the first commit, `check:leaks` scans the working tree.
 1. **Finish**: keep this stack's `AGENTS.md` when running [agent-project](../agent-project/SKILL.md), write `README.md` per [readme-agents](../readme-agents/SKILL.md), then `git add . && git commit -m "chore: initial commit"`.
 
 ## 3. Database & Persistence
@@ -65,7 +65,7 @@ Canonical Go development: scaffolding, libraries, CLI/TUI tools, GOTH web apps, 
 ## 5. CLI & TUI
 
 - **Framework**: `urfave/cli/v3` ([cli.go](references/cli.go)); flags, streams, exit codes, and completions follow [cli-contracts](../cli-contracts/SKILL.md).
-- **Dual CLI/library**: domain logic and types in the root package, command wiring in `cmd/<slug>/main.go`.
+- **Dual CLI/library**: domain logic and types in the root `Package`, command wiring in `cmd/<slug>/main.go`.
 - **TUI**: Bubble Tea and the Charm layout tools import from `charm.land/{bubbletea,lipgloss,bubbles}/v2`, not `github.com/charmbracelet`.
 
 ## 6. ADK Agents (Go API)

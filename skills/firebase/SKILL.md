@@ -62,5 +62,5 @@ skills add firebase/agent-skills --skill <name> -y
 
 ## Documentation
 
-- [Firebase CLI](https://firebase.google.com/docs/cli) · [Emulator Suite](https://firebase.google.com/docs/emulator-suite) · [firebase/agent-skills](https://github.com/firebase/agent-skills)
+- [Firebase CLI](https://firebase.google.com/docs/cli) · [Emulator Suite](https://firebase.google.com/docs/emulator-suite) · [Firebase agent skills](https://firebase.google.com/docs/ai-assistance/agent-skills) · [firebase/agent-skills](https://github.com/firebase/agent-skills)
 - Companion skills: [angular](../angular/SKILL.md), [typescript-stack](../typescript-stack/SKILL.md), [genkit](../genkit/SKILL.md) (AI features on Firebase), [secure](../secure/SKILL.md).

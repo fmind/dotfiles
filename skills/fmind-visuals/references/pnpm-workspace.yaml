@@ -6,3 +6,6 @@ allowBuilds:
 # until `pnpm audit` is clean without it.
 overrides:
   dompurify: ^3.4.13
+  # PptxGenJS 4.0.1 ships image-size only for a commented-out helper. The exact
+  # parent version makes the next PptxGenJS update re-evaluate this removal.
+  "pptxgenjs@4.0.1>image-size": "-"

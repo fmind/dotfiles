@@ -11,7 +11,7 @@ metadata:
 
 # Reclaim Disk
 
-Free disk space in safety order: the big shared caches first through `dot prune`, project directories last; [dot-cli](../dot-cli/SKILL.md) owns the `dot prune` flag reference.
+Free disk space in safety order: the big shared caches first through `dot prune`, project directories last; [dot-cli](../dot-cli/references/prune-flags.md) owns the `dot prune` flag reference.
 
 ## Workflow
 
@@ -33,4 +33,4 @@ Free disk space in safety order: the big shared caches first through `dot prune`
 ## Documentation
 
 - [dust](https://github.com/bootandy/dust) · [duf](https://github.com/muesli/duf)
-- Companion skills: [dot-cli](../dot-cli/SKILL.md) (every `dot prune` target and depth), [k8s-local](../k8s-local/SKILL.md) (the local cluster `--docker=system` can remove).
+- Companion skills: [dot-cli](../dot-cli/references/prune-flags.md) (every `dot prune` target and depth), [k8s-local](../k8s-local/SKILL.md) (the local cluster `--docker=system` can remove).

@@ -6,11 +6,16 @@
 auto_update = true
 
 [features]
+active_agent_messages = true
+codebase_indexing = true
 # feedback is a separate sink from telemetry, so silencing one leaves the other on.
 # Matches Claude Code (feedbackSurveyRate = 0) and Codex (otel exporters = "none").
 feedback = false
 # lsp_tools exposes the "lsp" tool; ~/.grok/lsp.json declares the servers it drives.
 lsp_tools = true
+mcp_auto_restart = true
+mcp_liveness_watchers = true
+subagent_worktree_snapshot = true
 telemetry = false
 # Opt-in: compaction prefires a second pass, so a long session keeps more context.
 two_pass_compaction = true
@@ -26,9 +31,14 @@ enabled = true
 # persists whatever /model selects into this file, so leaving it would freeze the machine
 # on today's model instead of following Grok's own default as it tracks each new release.
 default_reasoning_effort = "xhigh"
+inference_idle_timeout_secs = 600
+max_retries = 8
+stream_tool_calls = true
+subagent_rate_limit_max_attempts = 8
 
 [ui]
 compact_mode = true
+follow_up_behavior = "steer"
 fork_secondary_model = "grok-4.5"
 max_thoughts_width = 120
 # The config surface for always-approve. The [ui] yolo bool is a second, redundant spelling
@@ -42,7 +52,7 @@ show_timeline = false
 # (dot_inputrc). Grok flags prompt vim editing as experimental: an empty prompt starts in
 # normal mode with focus on the scrollback, so "i" is what begins typing.
 simple_mode = false
-theme = "groknight"
+theme = "tokyonight"
 vim_mode = true
 voice_stt_language = "fr"
 

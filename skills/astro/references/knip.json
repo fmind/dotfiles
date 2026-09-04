@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/knip@5/overview/configuration-schema.json",
+  "ignoreDependencies": [
+    "@astrojs/check",
+    "prettier",
+    "prettier-plugin-astro",
+    "tailwindcss"
+  ]
+}

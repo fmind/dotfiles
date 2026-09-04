@@ -217,20 +217,61 @@ func writeOwnerOnly(path string, content []byte) error {
 	return file.Close()
 }
 
-func validateSessionGeneration(path string, expected sessionManifest) error {
-	manifest, err := readSessionManifest(path)
+// publishOwnerOnly atomically installs content at path with owner-only
+// permissions. The temporary file gets a unique name rather than a fixed
+// "<target>.tmp": writeOwnerOnly opens with O_EXCL, so a fixed name makes two
+// concurrent writers collide, and a crash between create and rename leaves
+// residue that fails every later write for that target forever.
+func publishOwnerOnly(path string, content []byte) error {
+	dir := filepath.Dir(path)
+	temp, err := os.CreateTemp(dir, "."+filepath.Base(path)+".*")
 	if err != nil {
 		return err
 	}
+	tempPath := temp.Name()
+	// Remove is a no-op once the rename below succeeds and the name is gone.
+	defer func() { _ = os.Remove(tempPath) }()
+	if err := temp.Chmod(0o600); err != nil {
+		_ = temp.Close()
+		return err
+	}
+	if _, err := temp.Write(content); err != nil {
+		_ = temp.Close()
+		return err
+	}
+	if err := temp.Sync(); err != nil {
+		_ = temp.Close()
+		return err
+	}
+	if err := temp.Close(); err != nil {
+		return err
+	}
+	return os.Rename(tempPath, path)
+}
+
+func validateSessionGeneration(path string, expected sessionManifest) error {
+	_, err := validateSessionGenerationRecords(path, expected)
+	return err
+}
+
+// validateSessionGenerationRecords validates a stored generation and returns the
+// records it decoded on the way. Validation already reads and decodes the whole
+// transcript, so a caller that also needs the records -- the query path -- would
+// otherwise read and decode the same file a second time.
+func validateSessionGenerationRecords(path string, expected sessionManifest) ([]SessionLogLine, error) {
+	manifest, err := readSessionManifest(path)
+	if err != nil {
+		return nil, err
+	}
 	if manifest != expected {
-		return errors.New("session manifest did not round-trip")
+		return nil, errors.New("session manifest did not round-trip")
 	}
 	transcript, err := os.ReadFile(filepath.Join(path, "transcript.jsonl"))
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if fingerprintBytes(transcript) != manifest.TranscriptSHA256 {
-		return errors.New("session transcript fingerprint mismatch")
+		return nil, errors.New("session transcript fingerprint mismatch")
 	}
 	logs := make([]SessionLogLine, 0, manifest.RecordCount)
 	decoder := json.NewDecoder(bytes.NewReader(transcript))
@@ -241,20 +282,20 @@ func validateSessionGeneration(path string, expected sessionManifest) error {
 			break
 		}
 		if decodeErr != nil {
-			return fmt.Errorf("invalid normalized transcript record: %w", decodeErr)
+			return nil, fmt.Errorf("invalid normalized transcript record: %w", decodeErr)
 		}
 		if log.Agent != manifest.Agent || log.SID != manifest.SessionID {
-			return errors.New("normalized transcript record has mismatched lineage")
+			return nil, errors.New("normalized transcript record has mismatched lineage")
 		}
 		logs = append(logs, log)
 	}
 	if len(logs) != manifest.RecordCount {
-		return fmt.Errorf("normalized transcript contains %d records, expected %d", len(logs), manifest.RecordCount)
+		return nil, fmt.Errorf("normalized transcript contains %d records, expected %d", len(logs), manifest.RecordCount)
 	}
 	if highWater := sessionHighWater(logs); highWater != manifest.HighWaterMark {
-		return fmt.Errorf("normalized transcript high-water mark %q does not match manifest %q", highWater, manifest.HighWaterMark)
+		return nil, fmt.Errorf("normalized transcript high-water mark %q does not match manifest %q", highWater, manifest.HighWaterMark)
 	}
-	return nil
+	return logs, nil
 }
 
 func readSessionManifest(path string) (sessionManifest, error) {

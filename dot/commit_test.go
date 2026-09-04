@@ -27,7 +27,7 @@ func isolateGitEnvironment(t *testing.T) {
 	if err != nil {
 		t.Fatalf("list repository-local Git environment: %v", err)
 	}
-	for _, name := range strings.Fields(string(output)) {
+	for name := range strings.FieldsSeq(string(output)) {
 		value, existed := os.LookupEnv(name)
 		if err := os.Unsetenv(name); err != nil {
 			t.Fatalf("unset %s: %v", name, err)

@@ -1,4 +1,4 @@
-package <slug>
+package <package>
 
 import (
 	"log/slog"
